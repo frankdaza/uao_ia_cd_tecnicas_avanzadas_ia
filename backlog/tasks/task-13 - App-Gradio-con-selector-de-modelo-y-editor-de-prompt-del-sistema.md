@@ -1,13 +1,15 @@
 ---
 id: TASK-13
 title: App Gradio con selector de modelo y editor de prompt del sistema
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:18'
+updated_date: '2026-04-26 21:50'
 labels:
   - ui
 dependencies:
   - TASK-12
+ordinal: 0.48828125
 ---
 
 ## Description
@@ -130,14 +132,14 @@ La sustentación es en vivo (sin diapositivas). El evaluador hará preguntas en 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 src/app/app_gradio.py se ejecuta con 'uv run python -m src.app.app_gradio' y abre la UI en el navegador
-- [ ] #2 La UI tiene un Textbox para la pregunta, un Radio con 'llama3.1:8b' y 'gemma4:e2b', un Accordion con el prompt editable y un botón para restaurar el prompt por defecto
-- [ ] #3 Al presionar 'Preguntar', se muestra la respuesta del LLM y un bloque de trazabilidad con archivo_fuente, source_url, score y latencia
-- [ ] #4 Editar el textbox del prompt afecta la siguiente pregunta sin reiniciar la app
-- [ ] #5 Botón 'Restaurar prompt por defecto' reescribe el textbox al valor de PROMPT_SISTEMA_DEFECTO
-- [ ] #6 Cambiar el modelo en el Radio afecta la siguiente pregunta (verificar en metadatos)
-- [ ] #7 Si Ollama no está accesible o el modelo no existe, la UI muestra el mensaje en español sin crashear
-- [ ] #8 El pipeline se instancia una sola vez al cargar el módulo (no por cada pregunta)
+- [x] #1 src/app/app_gradio.py se ejecuta con 'uv run python -m src.app.app_gradio' y abre la UI en el navegador
+- [x] #2 La UI tiene un Textbox para la pregunta, un Radio con 'llama3.1:8b' y 'gemma4:e2b', un Accordion con el prompt editable y un botón para restaurar el prompt por defecto
+- [x] #3 Al presionar 'Preguntar', se muestra la respuesta del LLM y un bloque de trazabilidad con archivo_fuente, source_url, score y latencia
+- [x] #4 Editar el textbox del prompt afecta la siguiente pregunta sin reiniciar la app
+- [x] #5 Botón 'Restaurar prompt por defecto' reescribe el textbox al valor de PROMPT_SISTEMA_DEFECTO
+- [x] #6 Cambiar el modelo en el Radio afecta la siguiente pregunta (verificar en metadatos)
+- [x] #7 Si Ollama no está accesible o el modelo no existe, la UI muestra el mensaje en español sin crashear
+- [x] #8 El pipeline se instancia una sola vez al cargar el módulo (no por cada pregunta)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -152,9 +154,15 @@ La sustentación es en vivo (sin diapositivas). El evaluador hará preguntas en 
 7) Documentar comando en README
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agregó `gradio` e implementó `src/app/app_gradio.py` con `gr.Blocks`, pipeline único al importar, Radio de modelos, acordeón con prompt editable y restauración, trazabilidad en Markdown, manejo de OllamaNoAccesibleError/ModeloNoDisponibleError, botón opcional Recargar corpus (`pipeline.recuperador.recargar()`), property `recuperador` y reexport de `PROMPT_SISTEMA_DEFECTO` en el pipeline. Pruebas en `tests/app/test_app_gradio.py` y sección App Gradio en README.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv add gradio ejecutado y reflejado en pyproject.toml + uv.lock
-- [ ] #2 Comando documentado en README sección 'App Gradio'
-- [ ] #3 Smoke test manual con 3 preguntas distintas pasa (capturar evidencia en captura)
+- [x] #1 uv add gradio ejecutado y reflejado en pyproject.toml + uv.lock
+- [x] #2 Comando documentado en README sección 'App Gradio'
+- [x] #3 Smoke test manual con 3 preguntas distintas pasa (capturar evidencia en captura)
 <!-- DOD:END -->

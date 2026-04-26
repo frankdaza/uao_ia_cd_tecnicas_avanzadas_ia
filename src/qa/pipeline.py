@@ -43,6 +43,11 @@ class PipelineQa:
         self._cliente = cliente
         self._prompt_sistema = prompt_sistema
 
+    @property
+    def recuperador(self) -> RecuperadorDocumento:
+        """Recuperador BM25; expuesto para tareas p. ej. :meth:`~RecuperadorDocumento.recargar`."""
+        return self._recuperador
+
     def responder(
         self,
         pregunta: str,
@@ -123,6 +128,7 @@ def construir_pipeline_por_defecto(
 
 
 __all__ = [
+    "PROMPT_SISTEMA_DEFECTO",
     "PipelineQa",
     "RespuestaQa",
     "construir_pipeline_por_defecto",

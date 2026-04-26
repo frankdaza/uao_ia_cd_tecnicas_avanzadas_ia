@@ -69,7 +69,15 @@ Si aun no hay HTML en ``data/raw/valledellili-org/``, el comando termina con cod
 
 ## App Gradio
 
-*(Por implementar: interfaz web para probar el flujo de Q&A.)*
+Interfaz web (Gradio) para probar el flujo de Q&A: pregunta, elección de modelo (Ollama), prompt de sistema editable y trazabilidad (archivo fuente, URL, score BM25, latencia).
+
+Requisito: Ollama en marcha y modelos usados en la app instalados localmente. Variables de entorno opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` (ver `.env.example`).
+
+```bash
+uv run python -m src.app.app_gradio
+```
+
+Se abre la URL que imprime la consola (por defecto `http://127.0.0.1:7860/`).
 
 ## Decisiones del MVP
 

@@ -1,9 +1,10 @@
 ---
 id: TASK-14
 title: Suite de evaluación con ≥20 preguntas y script de reportes por modelo
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-04-26 20:18'
+updated_date: '2026-04-26 21:50'
 labels:
   - tests
   - llm
@@ -14,6 +15,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
+ordinal: 1000
 ---
 
 ## Description
