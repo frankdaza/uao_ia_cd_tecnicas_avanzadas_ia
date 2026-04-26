@@ -1,0 +1,36 @@
+---
+description: Idioma espanol latinoamericano y convenciones ASCII para identificadores de codigo
+alwaysApply: true
+---
+
+# Idioma y convenciones de texto
+
+## Documentacion y comentarios
+
+- README, informes, mensajes de commit, PRs, issues, docstrings, comentarios, logs y textos de UI en **espanol latinoamericano** (registro neutro, sin localismos fuertes).
+- Los archivos fuente deben guardarse en **UTF-8**.
+
+## Codigo fuente (identificadores)
+
+- Variables, funciones, clases, modulos, paquetes, nombres de archivo y ramas de git en **espanol** con **solo caracteres ASCII** en el identificador: **no** usar la letra ene del espanol, vocales con tilde, dieresis ni otros diacriticos.
+- Si una palabra llevaria tilde o ene en espanol, sustituir por forma ASCII: `extraccion_html`, `numero_paginas`, `anio_fiscal`, `funcion_principal` (nunca `extracción`, `número`, `año`, `función` como parte del nombre).
+
+```python
+# Bien (identificadores ASCII)
+def extraer_paginas() -> None: ...
+extraccion_html: str = ""
+numero_chunks: int = 0
+
+# Mal (no usar en identificadores)
+# extraccion_html con tilde en la o seria invalido en ASCII; evitar cualquier no-ASCII
+```
+
+- **Cadenas de texto**, **docstrings** y **comentarios** si pueden incluir tildes y ene donde corresponda al espanol.
+
+## Anglicismos tecnicos
+
+- Mantener en ingles cuando sea termino consolidado o nombre propio: `chunk`, `scraping`, `embedding`, `prompt`, `endpoint`, `framework`, APIs y paquetes (`requests`, `streamlit`).
+
+## Skills y rules del proyecto
+
+- Redactar `.cursor/rules`, `.cursor/skills` y `.claude/skills` en espanol latinoamericano alineado con esta rule.

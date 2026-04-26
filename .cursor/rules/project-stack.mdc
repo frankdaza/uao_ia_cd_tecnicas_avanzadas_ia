@@ -1,0 +1,40 @@
+---
+description: Stack permitido para la actividad del modulo 1 (scraping, LLM, UI)
+alwaysApply: true
+---
+
+# Stack del proyecto (Modulo 1)
+
+## Scraping y HTTP
+
+- `requests`, `beautifulsoup4`, `selenium` segun necesidad del sitio.
+
+## Conversion a Markdown (base documental)
+
+- **Formato canonico del corpus textual**: archivos `.md` bajo `data/markdown/` con **front matter YAML** (ver skill `markdown-knowledge-base`).
+- **HTML a Markdown**: `markdownify` por defecto; `html2text` como alternativa documentada.
+- **Front matter**: `pyyaml` (o equivalente) para serializar metadatos en el encabezado de cada `.md`.
+- **JSON / XML**: conversion manual con plantillas (titulos, listas, tablas) hacia Markdown; no obligar una libreria unica.
+- **PDF** (si aplica): `pdfplumber` opcional para extraer texto y volcarlo a Markdown estructurado.
+
+## Orquestacion LLM
+
+- **Uno** de: `langchain` **o** `llama-index` (decision documentada en el repo).
+
+## Modelos
+
+- Open source local: **Ollama** (ej. Llama, Mistral).
+- API cerrada: cliente **OpenAI** (u otro proveedor compatible si el curso lo permite).
+
+## Interfaz de prueba
+
+- **Streamlit** **o** **Gradio**.
+
+## Configuracion y secretos
+
+- Variables sensibles en **`.env`** (no commitear). Plantilla en **`.env.example`** sin valores reales.
+- Opcional: `pydantic-settings` para cargar configuracion.
+
+## Documentacion
+
+- Decisiones de stack y versiones relevantes en README o `docs/` en espanol latinoamericano.

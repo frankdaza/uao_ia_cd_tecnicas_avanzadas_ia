@@ -1,0 +1,26 @@
+---
+description: Estilo Python, tipado, ruff y alineacion con convenciones de idioma
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Estilo Python
+
+## Idioma
+
+- Docstrings y comentarios en **espanol latinoamericano**.
+- Identificadores en espanol **solo ASCII** (ver rule `language-conventions.mdc`): sin ene ni tildes en nombres de simbolos o archivos `.py`.
+
+## Calidad
+
+- **Type hints** en funciones y metodos publicos (parametros y retorno).
+- Formateo y lint con **Ruff** (`ruff format`, `ruff check`) cuando el proyecto los configure vía `uv`.
+- Comentarios breves y utiles; evitar narrar lo obvio.
+
+## Imports
+
+- Orden: stdlib, terceros, locales; una seccion por grupo.
+
+## Encoding
+
+- Archivos **UTF-8**; no hace falta declaracion magic de encoding en Python 3.12.

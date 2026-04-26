@@ -1,0 +1,42 @@
+---
+description: Layout de carpetas sugerido para scraping, conocimiento, Q&A y app
+alwaysApply: true
+---
+
+# Estructura de carpetas sugerida
+
+```
+src/
+  scraping/          # descarga; guardar crudo en data/raw/
+  markdown_export/   # conversion crudo -> Markdown con front matter (data/markdown/)
+  preprocessing/     # limpieza adicional si hace falta antes del chunking
+  knowledge_base/    # scripts de chunking y export del corpus procesado
+  qa/                # prompts, cadena LLM, respuestas
+  app/               # streamlit o gradio
+data/
+  raw/               # HTML, JSON, XML, PDF u otro tal cual se descargo (gitignore)
+  markdown/          # fuente de verdad textual: .md legibles con front matter YAML
+  processed/         # chunks / JSONL derivados de markdown/ (evaluar DVC o git-lfs si pesa)
+tests/
+notebooks/           # opcional, experimentacion
+```
+
+## Flujo de datos
+
+1. **`data/raw/`**: artefacto nativo de la descarga o de la libreria (html, json, xml, etc.).
+2. **`data/markdown/`**: Markdown canonico por recurso o pagina, generado desde `raw/` (ver skill `markdown-knowledge-base`).
+3. **`data/processed/`**: chunks listos para Q&A o RAG futuro, producidos desde los `.md` de `markdown/`.
+
+## Reglas de versionado
+
+- **`data/raw/`**: no versionar contenido masivo; `.gitignore` suele ignorar `data/raw/`.
+- **`data/markdown/`**: texto relativamente liviano; se puede versionar el corpus completo si el volumen es razonable. Si supera limites del repo, usar `.gitignore`, DVC o LFS y documentar donde obtener los `.md`.
+- **`data/processed/`**: versionar solo muestras pequenas o metadatos; artefactos grandes fuera de git o con DVC/LFS.
+
+## Nombres de archivos Markdown
+
+- Ruta sugerida: `data/markdown/<dominio>/<slug-en-ascii>.md` con **slug kebab-case ASCII** (sin tildes ni ene en el nombre del archivo).
+
+## Nombres de modulos
+
+- Carpetas y modulos en **snake_case ASCII** (espanol sin tildes/ene en nombres de path si se elige espanol).
