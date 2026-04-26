@@ -3,15 +3,17 @@ id: TASK-6
 title: >-
   Convertir HTML descargado a Markdown con front matter YAML (1 archivo por
   página)
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:13'
+updated_date: '2026-04-26 22:00'
 labels:
   - markdown
 dependencies:
   - TASK-4
 references:
   - .cursor/skills/markdown-knowledge-base/SKILL.md
+ordinal: 1000
 ---
 
 ## Description
@@ -96,12 +98,12 @@ uv add markdownify pyyaml
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Para una página HTML real del sitio, convertir_html_a_md genera un .md con front matter YAML válido (parseable con yaml.safe_load)
-- [ ] #2 El cuerpo del .md preserva encabezados (con #) y listas (con -)
-- [ ] #3 Etiquetas <script>, <style>, <nav>, <footer> y banners de cookies son removidas antes de convertir
-- [ ] #4 El hash del front matter coincide con el hash_sha256 del sidecar JSON original
-- [ ] #5 El slug del .md coincide con el slug del .html origen
-- [ ] #6 Tests unitarios cubren: HTML mínimo válido, HTML con script/style, HTML sin <title>, HTML con tablas y listas anidadas
+- [x] #1 Para una página HTML real del sitio, convertir_html_a_md genera un .md con front matter YAML válido (parseable con yaml.safe_load)
+- [x] #2 El cuerpo del .md preserva encabezados (con #) y listas (con -)
+- [x] #3 Etiquetas <script>, <style>, <nav>, <footer> y banners de cookies son removidas antes de convertir
+- [x] #4 El hash del front matter coincide con el hash_sha256 del sidecar JSON original
+- [x] #5 El slug del .md coincide con el slug del .html origen
+- [x] #6 Tests unitarios cubren: HTML mínimo válido, HTML con script/style, HTML sin <title>, HTML con tablas y listas anidadas
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -119,7 +121,7 @@ uv add markdownify pyyaml
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv add markdownify pyyaml ejecutado y reflejado en pyproject.toml + uv.lock
-- [ ] #2 Sin uso de chunking ni embeddings en el módulo (verificar que no se importen sklearn, faiss, etc.)
-- [ ] #3 Funciones públicas tienen docstrings en español con descripción y ejemplo
+- [x] #1 uv add markdownify pyyaml ejecutado y reflejado en pyproject.toml + uv.lock
+- [x] #2 Sin uso de chunking ni embeddings en el módulo (verificar que no se importen sklearn, faiss, etc.)
+- [x] #3 Funciones públicas tienen docstrings en español con descripción y ejemplo
 <!-- DOD:END -->

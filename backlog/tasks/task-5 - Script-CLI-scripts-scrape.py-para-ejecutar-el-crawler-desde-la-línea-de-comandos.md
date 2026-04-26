@@ -6,13 +6,13 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-04-26 20:12'
-updated_date: '2026-04-26 22:30'
+updated_date: '2026-04-26 21:08'
 labels:
   - scraping
   - setup
 dependencies:
   - TASK-4
-ordinal: 1000
+ordinal: 125
 ---
 
 ## Description
