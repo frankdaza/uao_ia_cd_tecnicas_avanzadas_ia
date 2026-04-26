@@ -1,9 +1,10 @@
 ---
 id: TASK-15
 title: 'README final, guía de demo y documentación del informe del módulo'
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-04-26 20:19'
+updated_date: '2026-04-26 21:54'
 labels:
   - docs
 dependencies:
@@ -13,6 +14,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
+ordinal: 1000
 ---
 
 ## Description

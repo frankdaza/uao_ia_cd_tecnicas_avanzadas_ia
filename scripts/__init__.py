@@ -1,1 +1,1 @@
-"""Paquete de utilidades de linea de comandos del proyecto (no es el paquete `src/`)."""
+"""Scripts de linea de comandos (scraping, export, evaluacion)."""

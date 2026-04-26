@@ -70,7 +70,12 @@ secrets/
 models/
 checkpoints/
 data/raw/
-data/processed/
+# Salidas en processed (chunks, etc.); se versiona la carpeta de evaluación con .gitkeep.
+data/processed/**
+!data/processed/
+!data/processed/evaluaciones/
+data/processed/evaluaciones/*
+!data/processed/evaluaciones/.gitkeep
 lightning_logs/
 wandb/
 mlruns/

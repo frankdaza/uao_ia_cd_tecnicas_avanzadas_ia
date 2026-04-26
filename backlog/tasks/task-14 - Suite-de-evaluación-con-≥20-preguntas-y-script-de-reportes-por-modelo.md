@@ -1,10 +1,10 @@
 ---
 id: TASK-14
 title: Suite de evaluación con ≥20 preguntas y script de reportes por modelo
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-04-26 20:18'
-updated_date: '2026-04-26 21:50'
+updated_date: '2026-04-26 21:54'
 labels:
   - tests
   - llm
@@ -15,7 +15,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
-ordinal: 1000
+ordinal: 0.244140625
 ---
 
 ## Description
@@ -104,14 +104,14 @@ El informe del módulo exige una sección de **Resultados** con ejemplos de preg
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 tests/qa/preguntas_evaluacion.yml contiene >= 20 preguntas con id, texto, categoria y archivo_esperado opcional
-- [ ] #2 Al menos 1 pregunta del dataset es deliberadamente FUERA DE ALCANCE para validar la respuesta 'No tengo información suficiente'
-- [ ] #3 Las categorías cubren al menos: institucional, servicios, contacto, procesos, fuera-de-alcance
-- [ ] #4 uv run python -m scripts.evaluar_qa --modelos llama3.1:8b gemma4:e2b genera 2 archivos .md en data/processed/evaluaciones/
-- [ ] #5 Cada reporte contiene una entrada por pregunta con archivo recuperado, score, latencia y respuesta del LLM
-- [ ] #6 Cada reporte tiene una tabla resumen con total, aciertos en archivo y conteo de 'No tengo información suficiente'
-- [ ] #7 Si un modelo no está disponible en Ollama, el script reporta el error y continúa con los demás modelos
-- [ ] #8 --solo-pregunta <id> ejecuta solo esa pregunta y genera un reporte parcial
+- [x] #1 tests/qa/preguntas_evaluacion.yml contiene >= 20 preguntas con id, texto, categoria y archivo_esperado opcional
+- [x] #2 Al menos 1 pregunta del dataset es deliberadamente FUERA DE ALCANCE para validar la respuesta 'No tengo información suficiente'
+- [x] #3 Las categorías cubren al menos: institucional, servicios, contacto, procesos, fuera-de-alcance
+- [x] #4 uv run python -m scripts.evaluar_qa --modelos llama3.1:8b gemma4:e2b genera 2 archivos .md en data/processed/evaluaciones/
+- [x] #5 Cada reporte contiene una entrada por pregunta con archivo recuperado, score, latencia y respuesta del LLM
+- [x] #6 Cada reporte tiene una tabla resumen con total, aciertos en archivo y conteo de 'No tengo información suficiente'
+- [x] #7 Si un modelo no está disponible en Ollama, el script reporta el error y continúa con los demás modelos
+- [x] #8 --solo-pregunta <id> ejecuta solo esa pregunta y genera un reporte parcial
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -127,9 +127,15 @@ El informe del módulo exige una sección de **Resultados** con ejemplos de preg
 8) Documentar en README
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Dataset `tests/qa/preguntas_evaluacion.yml` con 23 preguntas (incl. fuera de alcance) y script `scripts/evaluar_qa.py` (argparse, reportes en `data/processed/evaluaciones/`, manejo de `ModeloNoDisponibleError`, `--solo-pregunta`). Pruebas en `tests/qa/test_evaluar_qa.py`. README documenta el flujo. `.gitignore` ajustado para versionar `data/processed/evaluaciones/.gitkeep` mientras se ignoran salidas sueltas bajo `processed/`.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 scripts/evaluar_qa.py es ejecutable con uv run python -m scripts.evaluar_qa
-- [ ] #2 El YAML de preguntas está commiteado y validado contra un esquema mínimo
-- [ ] #3 data/processed/evaluaciones/ existe y está commiteable (los .md de muestra se incluyen en el informe; el directorio puede estar en .gitignore para corridas grandes y agregar ejemplos manuales en docs/)
+- [x] #1 scripts/evaluar_qa.py es ejecutable con uv run python -m scripts.evaluar_qa
+- [x] #2 El YAML de preguntas está commiteado y validado contra un esquema mínimo
+- [x] #3 data/processed/evaluaciones/ existe y está commiteable (los .md de muestra se incluyen en el informe; el directorio puede estar en .gitignore para corridas grandes y agregar ejemplos manuales en docs/)
 <!-- DOD:END -->

@@ -79,6 +79,24 @@ uv run python -m src.app.app_gradio
 
 Se abre la URL que imprime la consola (por defecto `http://127.0.0.1:7860/`).
 
+## Evaluación por modelo (dataset ≥20)
+
+El archivo `tests/qa/preguntas_evaluacion.yml` versiona un conjunto de al menos 20 preguntas (con `id`, `texto`, `categoría` y `archivo_esperado` opcional) alineado al corpus en `data/markdown/valledellili-org/`.
+
+Con Ollama en marcha y los modelos instalados, genera un informe Markdown por modelo bajo `data/processed/evaluaciones/<slug-modelo>__YYYY-MM-DD.md` (el directorio mantiene un `.gitkeep`; los informes de corridas reales suelen quedar ignorados en git salvo excepciones puntuales).
+
+```bash
+uv run python -m scripts.evaluar_qa --modelos llama3.1:8b gemma4:e2b
+```
+
+Para depurar una sola pregunta:
+
+```bash
+uv run python -m scripts.evaluar_qa --modelos llama3.1:8b --solo-pregunta 1
+```
+
+Si un modelo no está instalado, el script notifica el error en consola, escribe un informe mínimo con el detalle y continúa con los demás. Opciones: `--dataset`, `--salida`, `--fecha`.
+
 ## Decisiones del MVP
 
 - Recuperación **BM25 a nivel archivo completo** (sin chunking ni embeddings vectoriales en esta fase).
