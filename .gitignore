@@ -70,6 +70,7 @@ secrets/
 models/
 checkpoints/
 data/raw/
+data/processed/
 lightning_logs/
 wandb/
 mlruns/

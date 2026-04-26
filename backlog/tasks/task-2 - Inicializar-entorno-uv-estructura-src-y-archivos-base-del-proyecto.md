@@ -1,9 +1,10 @@
 ---
 id: TASK-2
 title: 'Inicializar entorno uv, estructura src/ y archivos base del proyecto'
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:11'
+updated_date: '2026-04-26'
 labels:
   - setup
 dependencies:
@@ -11,6 +12,7 @@ dependencies:
 references:
   - AGENTS.md
   - .cursor/rules/python-uv-environment.mdc
+ordinal: 1000
 ---
 
 ## Description
@@ -64,14 +66,14 @@ Tener un entorno reproducible con Python **3.12.12** exacto, gestionado con `uv`
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 uv run python -V imprime exactamente 'Python 3.12.12'
-- [ ] #2 uv.lock existe y está versionado
-- [ ] #3 uv run python -c 'import src' no falla
-- [ ] #4 Existen __init__.py en src/, src/scraping/, src/markdown_export/, src/retrieval/, src/qa/, src/app/, scripts/, tests/
-- [ ] #5 .python-version contiene exactamente '3.12.12'
-- [ ] #6 pyproject.toml restringe Python a ==3.12.12
-- [ ] #7 .env.example existe con las 3 variables (OLLAMA_BASE_URL, MODELO_LLM_DEFECTO, URL_BASE_SITIO) y .env está en .gitignore
-- [ ] #8 README.md existe con las secciones esqueleto definidas
+- [x] #1 uv run python -V imprime exactamente 'Python 3.12.12'
+- [x] #2 uv.lock existe y está versionado
+- [x] #3 uv run python -c 'import src' no falla
+- [x] #4 Existen __init__.py en src/, src/scraping/, src/markdown_export/, src/retrieval/, src/qa/, src/app/, scripts/, tests/
+- [x] #5 .python-version contiene exactamente '3.12.12'
+- [x] #6 pyproject.toml restringe Python a ==3.12.12
+- [x] #7 .env.example existe con las 3 variables (OLLAMA_BASE_URL, MODELO_LLM_DEFECTO, URL_BASE_SITIO) y .env está en .gitignore
+- [x] #8 README.md existe con las secciones esqueleto definidas
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -89,6 +91,6 @@ Tener un entorno reproducible con Python **3.12.12** exacto, gestionado con `uv`
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest -q corre sin errores aunque no haya tests aún
-- [ ] #2 git status limpio luego de commitear
+- [x] #1 uv run pytest -q corre sin errores aunque no haya tests aún
+- [x] #2 git status limpio luego de commitear
 <!-- DOD:END -->
