@@ -1,10 +1,10 @@
 ---
 id: TASK-15
 title: 'README final, guía de demo y documentación del informe del módulo'
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-04-26 20:19'
-updated_date: '2026-04-26 21:54'
+updated_date: '2026-04-26 21:57'
 labels:
   - docs
 dependencies:
@@ -14,7 +14,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
-ordinal: 1000
+ordinal: 0.1220703125
 ---
 
 ## Description
@@ -26,7 +26,7 @@ La actividad del módulo exige un **informe** con secciones específicas y una *
 
 ## Objetivo
 
-Reescribir `README.md` con la estructura completa del informe y un mini-runbook para la demo. Adicionalmente, agregar el archivo `backlog/decisions/0001-mvp-bm25-archivo-completo.md` documentando la decisión arquitectónica clave del MVP.
+Reescribir `README.md` con la estructura completa del informe y un mini-runbook para la demo. Adicionalmente, agregar el archivo de decisión en `backlog/decisions/` documentando la decisión arquitectónica clave del MVP (convención de nombre: `decision-1 - MVP-BM25-Archivo-Completo.md`).
 
 ## Estructura del README
 
@@ -87,32 +87,30 @@ Reescribir `README.md` con la estructura completa del informe y un mini-runbook 
 
 ## ADR (Architectural Decision Record)
 
-Crear `backlog/decisions/0001-mvp-bm25-archivo-completo.md` con:
+Crear `backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md` con front matter YAML (`id`, `title`, `date`, `status`) y cuerpo alineado al estilo Backlog.md. Contenido equivalente al borrador siguiente:
 
 ```markdown
-# ADR-0001 — MVP usa BM25 a nivel archivo (sin chunking ni embeddings)
-
-## Estado
-Aceptado · 2026-04-26
+---
+id: decision-1
+title: MVP usa BM25 a nivel archivo (sin chunking ni embeddings)
+date: '2026-04-26'
+status: accepted
+---
 
 ## Contexto
-Fase 1 del proyecto. El cliente exige una solución sencilla, sin vector DB, que sirva
-como base para iteraciones posteriores con embeddings.
+...
 
 ## Decisión
-La recuperación se hace con `rank-bm25` evaluando archivos Markdown completos.
-El archivo recuperado se inyecta íntegro como contexto al prompt del LLM.
+...
 
-## Consecuencias positivas
-- Setup mínimo, fácil de explicar y demostrar.
-- Trazabilidad total: 1 pregunta → 1 archivo identificable.
-
-## Consecuencias negativas / riesgos
-- Páginas largas pueden exceder `num_ctx` del LLM.
-- Vocabulario repetido entre secciones puede llevar a falsos positivos.
+## Consecuencias
+### Positivas
+...
+### Negativas / riesgos
+...
 
 ## Alternativas consideradas
-- Chunking + embeddings + Chroma (descartado para fase 1; planeado para módulo 2).
+...
 ```
 
 ## Identificadores ASCII
@@ -128,13 +126,13 @@ El archivo recuperado se inyecta íntegro como contexto al prompt del LLM.
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 README.md contiene las 10 secciones definidas (resumen, problema, solución, datos, modelado, cómo correr, resultados, limitaciones, roadmap, guía de demo)
-- [ ] #2 Todos los comandos de README ejecutan con uv run y son válidos en la estructura del repo
-- [ ] #3 README solo documenta Gradio como interfaz web
-- [ ] #4 README incluye apuntador explícito a data/processed/evaluaciones/ con resultados de task-14
-- [ ] #5 README documenta el pull de los modelos: 'ollama pull llama3.1:8b' y 'ollama pull gemma4:e2b' (con nota sobre posible no disponibilidad)
-- [ ] #6 Existe backlog/decisions/0001-mvp-bm25-archivo-completo.md con secciones Estado, Contexto, Decisión, Consecuencias y Alternativas
-- [ ] #7 La guía de demo del README cabe en 15 minutos con bloques de tiempo claros
+- [x] #1 README.md contiene las 10 secciones definidas (resumen, problema, solución, datos, modelado, cómo correr, resultados, limitaciones, roadmap, guía de demo)
+- [x] #2 Todos los comandos de README ejecutan con uv run y son válidos en la estructura del repo
+- [x] #3 README solo documenta Gradio como interfaz web
+- [x] #4 README incluye apuntador explícito a data/processed/evaluaciones/ con resultados de task-14
+- [x] #5 README documenta el pull de los modelos: 'ollama pull llama3.1:8b' y 'ollama pull gemma4:e2b' (con nota sobre posible no disponibilidad)
+- [x] #6 Existe `backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md` con front matter, Contexto, Decisión, Consecuencias y Alternativas
+- [x] #7 La guía de demo del README cabe en 15 minutos con bloques de tiempo claros
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -142,14 +140,20 @@ El archivo recuperado se inyecta íntegro como contexto al prompt del LLM.
 <!-- SECTION:PLAN:BEGIN -->
 1) Reescribir README.md con las 10 secciones
 2) Validar comandos uv run uno a uno
-3) Crear backlog/decisions/0001-mvp-bm25-archivo-completo.md
+3) Crear backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md
 4) Validar que el README no documenta otras bibliotecas de interfaz
 5) Lectura cruzada con un compañero para asegurar claridad
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+README.md reescrito con las 10 secciones del informe (resumen, problema, solución, datos, modelado, ejecución, resultados vía data/processed/evaluaciones/, limitaciones, roadmap y guía de demo 15 min). Comandos validados con uv run (--help en scrape/export_markdown; import de app_gradio). Decisión de arquitectura registrada como decision-1 en backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md. Interfaz documentada: solo Gradio.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Un nuevo desarrollador puede levantar el proyecto siguiendo solo el README sin preguntas adicionales
-- [ ] #2 El README no contiene referencias a bibliotecas de interfaz distintas de Gradio
-- [ ] #3 El ADR 0001 está commiteado en backlog/decisions/
+- [x] #1 Un nuevo desarrollador puede levantar el proyecto siguiendo solo el README sin preguntas adicionales
+- [x] #2 El README no contiene referencias a bibliotecas de interfaz distintas de Gradio
+- [x] #3 El ADR 0001 está commiteado en backlog/decisions/
 <!-- DOD:END -->

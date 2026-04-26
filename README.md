@@ -1,102 +1,115 @@
-# Técnicas avanzadas de IA — Módulo 1
+# Sistema Q&A sobre la Fundación Valle del Lili — MVP fase 1
 
-## Descripción del proyecto
+Asistente de preguntas y respuestas que responde **solo** con texto público ya descargado del sitio `valledellili.org`, usando recuperación BM25 sobre archivos Markdown completos y un modelo local vía Ollama. **No** sustituye canales oficiales ni garantiza vigencia de datos; **no** incluye chunking, embeddings ni base vectorial en esta fase.
 
-Interfaz de preguntas y respuestas sobre un corpus en Markdown derivado de sitios públicos, con recuperación textual y modelo de lenguaje local o por API. Este repositorio es el punto de partida del MVP; los módulos se irán completando en tareas posteriores.
+## Descripción del problema
 
-## Requisitos
+Hay necesidad de un canal de comunicación automatizado y preciso para la Fundación Valle del Lili: responder dudas frecuentes con trazabilidad a la fuente, reduciendo alucinaciones y manteniendo un stack reproducible para el curso.
 
-- Python **3.12.12** (versión exacta).
-- [uv](https://docs.astral.sh/uv/) para dependencias y entornos virtuales.
+## Planteamiento de la solución
 
-## Instalación
+Pipeline local: **scraping** (respetando `robots.txt`) → **Markdown** con front matter en `data/markdown/` → **BM25 a nivel archivo** (`rank-bm25`) → **Ollama** con el documento recuperado inyectado en el prompt.
+
+Decisiones explícitas de esta fase:
+
+- Sin chunking: cada unidad indexada es un `.md` completo.
+- Sin embeddings ni base vectorial.
+- Interfaz de prueba: **Gradio** únicamente (`src/app/app_gradio.py`).
+
+El detalle arquitectónico queda registrado en [ADR-0001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md).
+
+## Preparación de los datos
+
+| Ubicación | Contenido |
+| --- | --- |
+| `data/raw/valledellili-org/` | HTML descargado del dominio `valledellili.org`, con registro en `data/raw/_log.jsonl`. |
+| `data/markdown/valledellili-org/` | Un `.md` por página, con front matter YAML. |
+
+Variables opcionales: `.env` (plantilla en `.env.example`), p. ej. `URL_BASE_SITIO`, `USER_AGENT`.
+
+Comandos típicos (desde la raíz del repositorio):
+
+```bash
+uv run python -m scripts.scrape --max-paginas 200
+uv run python -m scripts.export_markdown
+```
+
+Ayuda y opciones adicionales:
+
+```bash
+uv run python -m scripts.scrape --help
+uv run python -m scripts.export_markdown --help
+```
+
+## Modelado
+
+- **Recuperación:** BM25 sobre el texto completo de cada archivo en `data/markdown/valledellili-org/`.
+- **Generación:** modelos Ollama locales; en la app se ofrecen entre otros `llama3.1:8b` y `gemma4:e2b` (este último puede no existir en el catálogo público de Ollama; ver limitaciones).
+- **Prompt:** instrucciones zero-shot anti-alucinación: uso estricto del contexto, respuesta literal *«No tengo información suficiente»* si no hay datos; tono profesional, cercano y con un toque amable en español colombiano (ver `src/qa/prompt.py`).
+
+## Cómo correr la app
+
+Requisitos: Python **3.12.12** y [uv](https://docs.astral.sh/uv/). Ollama en ejecución con los modelos instalados.
 
 ```bash
 uv python install 3.12.12
 uv sync
+ollama pull llama3.1:8b
+ollama pull gemma4:e2b
 ```
 
-Comprobar intérprete:
+**Nota:** si `gemma4:e2b` no está disponible en tu instalación de Ollama, omite ese `pull` y usa solo `llama3.1:8b` en la interfaz.
 
-```bash
-uv run python -V
-```
-
-## Scraping
-
-Descarga el sitio permitido hacia `data/raw/valledellili-org/` (HTML y metad JSON) respetando `robots.txt`, con registro en `data/raw/_log.jsonl`.
-
-Variables opcionales en `.env` (ver `.env.example`):
-
-- `URL_BASE_SITIO`: URL semilla si no se pasa `--url-inicio`
-- `USER_AGENT`: reemplaza el user-agent del modulo `robots` si no se pasa `--user-agent`
-
-Comando (desde la raiz del repositorio):
-
-```bash
-uv run python -m scripts.scrape \
-  --url-inicio https://valledellili.org/ \
-  --max-paginas 200 \
-  --delay 1.5 \
-  --profundidad-maxima 5
-```
-
-Ayuda:
-
-```bash
-uv run python -m scripts.scrape --help
-```
-
-Una segunda ejecucion sin cambios en el sitio deberia incrementar `omitidas_por_hash` en el resumen (idempotencia). `Ctrl+C` termina con codigo 130 e imprime resumen parcial.
-
-## Export a Markdown
-
-Convierte cada par ``.html`` + ``.json`` de ``data/raw/valledellili-org/`` en un ``.md`` con front matter YAML bajo ``data/markdown/valledellili-org/``. Si el ``hash`` del Markdown ya coincide con ``hash_sha256`` del sidecar, el archivo no se reescribe (idempotencia), salvo que se use ``--forzar``.
-
-```bash
-uv run python -m scripts.export_markdown
-uv run python -m scripts.export_markdown --forzar
-uv run python -m scripts.export_markdown --solo-uno atencion-al-paciente-especialidades
-```
-
-Ayuda:
-
-```bash
-uv run python -m scripts.export_markdown --help
-```
-
-Si aun no hay HTML en ``data/raw/valledellili-org/``, el comando termina con codigo 1 y un mensaje que indica ejecutar el scraping antes.
-
-## App Gradio
-
-Interfaz web (Gradio) para probar el flujo de Q&A: pregunta, elección de modelo (Ollama), prompt de sistema editable y trazabilidad (archivo fuente, URL, score BM25, latencia).
-
-Requisito: Ollama en marcha y modelos usados en la app instalados localmente. Variables de entorno opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` (ver `.env.example`).
+Variables opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` (ver `.env.example`).
 
 ```bash
 uv run python -m src.app.app_gradio
 ```
 
-Se abre la URL que imprime la consola (por defecto `http://127.0.0.1:7860/`).
+La consola muestra la URL local (por defecto `http://127.0.0.1:7860/`).
 
-## Evaluación por modelo (dataset ≥20)
+## Resultados
 
-El archivo `tests/qa/preguntas_evaluacion.yml` versiona un conjunto de al menos 20 preguntas (con `id`, `texto`, `categoría` y `archivo_esperado` opcional) alineado al corpus en `data/markdown/valledellili-org/`.
+Los informes de evaluación automática (tarea de dataset ≥20 preguntas) se generan bajo:
 
-Con Ollama en marcha y los modelos instalados, genera un informe Markdown por modelo bajo `data/processed/evaluaciones/<slug-modelo>__YYYY-MM-DD.md` (el directorio mantiene un `.gitkeep`; los informes de corridas reales suelen quedar ignorados en git salvo excepciones puntuales).
+**`data/processed/evaluaciones/`**
+
+Cada corrida produce un Markdown por modelo, p. ej. `data/processed/evaluaciones/<slug-modelo>__YYYY-MM-DD.md`. El directorio conserva `.gitkeep`; los informes de ejecuciones locales suelen ignorarse en git salvo que se versionen a propósito.
+
+Para regenerarlos (requiere Ollama y modelos instalados):
 
 ```bash
 uv run python -m scripts.evaluar_qa --modelos llama3.1:8b gemma4:e2b
 ```
 
-Para depurar una sola pregunta:
+El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con categoría y, cuando aplica, `archivo_esperado`). Cada informe agrega, entre otros:
 
-```bash
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b --solo-pregunta 1
-```
+| Métrica (por modelo) | Origen en el informe |
+| --- | --- |
+| Número de preguntas ejecutadas | Tabla resumen |
+| Aciertos en archivo recuperado | Comparación con `archivo_esperado` |
+| Respuestas con «No tengo información suficiente» | Conteo en resumen |
+| Latencia promedio | Estadística de ms por pregunta |
 
-Si un modelo no está instalado, el script notifica el error en consola, escribe un informe mínimo con el detalle y continúa con los demás. Opciones: `--dataset`, `--salida`, `--fecha`.
+## Limitaciones conocidas
 
-## Decisiones del MVP
+- Páginas muy largas pueden superar `num_ctx` (p. ej. 8192): Ollama puede **truncar** el contexto y afectar la respuesta.
+- BM25 a nivel archivo puede recuperar la **página equivocada** cuando varias comparten mucho vocabulario.
+- El tag `gemma4:e2b` puede no existir en el registro oficial de Ollama; si falla el `pull` o la inferencia, usar solo `llama3.1:8b` y documentar la limitación en la sustentación.
 
-- Recuperación **BM25 a nivel archivo completo** (sin chunking ni embeddings vectoriales en esta fase).
+## Roadmap (Módulo 2)
+
+- Chunking semántico del Markdown.
+- Embeddings y base vectorial (p. ej. Chroma o FAISS).
+- Re-ranking de candidatos recuperados.
+
+## Guía de demo (15 minutos)
+
+| Tiempo | Contenido |
+| --- | --- |
+| **3 min** | Motivación del problema y recorrido del pipeline (raw → markdown → BM25 → Ollama → Gradio). |
+| **7 min** | Cuatro preguntas en vivo: una institucional, una de servicios, una de contacto y una **fuera de alcance** (comprobar la respuesta prudente / «No tengo información suficiente»). |
+| **3 min** | Editar el prompt del sistema en la UI y mostrar cómo cambia el comportamiento (tono o reglas). |
+| **2 min** | Limitaciones (`num_ctx`, ambigüedad BM25, modelos) y roadmap del módulo 2. |
+
+**Total: 15 minutos** (sin diapositivas; se usa la app y, si aplica, el repositorio o informes en `data/processed/evaluaciones/`).
