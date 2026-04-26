@@ -3,15 +3,17 @@ id: TASK-12
 title: >-
   Pipeline Q&A src/qa/pipeline.py que integra recuperador, prompt y cliente
   Ollama
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-04-26 20:17'
+updated_date: '2026-04-26 21:42'
 labels:
   - llm
 dependencies:
   - TASK-8
   - TASK-10
   - TASK-11
+ordinal: 1000
 ---
 
 ## Description
