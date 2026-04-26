@@ -1,13 +1,15 @@
 ---
 id: TASK-8
 title: Recuperador BM25 a nivel archivo completo (sin chunking ni vectores)
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:14'
+updated_date: '2026-04-26 22:00'
 labels:
   - retrieval
 dependencies:
   - TASK-7
+ordinal: 1000
 ---
 
 ## Description
@@ -110,14 +112,14 @@ Una pregunta del usuario como "¿Cuáles son los servicios de cardiología?" deb
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 RecuperadorBm25.buscar(pregunta) devuelve un único DocumentoRecuperado (no lista)
-- [ ] #2 El módulo NO importa sklearn, faiss, chromadb, qdrant_client, sentence_transformers ni langchain.embeddings (verificable con un test de import-guard)
-- [ ] #3 El módulo NO contiene funciones de chunking ni splitting (verificable por inspección + test)
-- [ ] #4 tokenizar() es determinista, lowercase, sin tildes, y filtra stopwords básicas en español
-- [ ] #5 El front matter YAML de cada .md se parsea correctamente y el cuerpo se indexa sin él
-- [ ] #6 Si todos los scores son 0, buscar() lanza RecuperacionVaciaError
-- [ ] #7 recargar() re-lee el directorio sin necesidad de reinstanciar el recuperador
-- [ ] #8 El contrato RecuperadorDocumento (Protocol) permite intercambiar la implementación en una fase futura
+- [x] #1 RecuperadorBm25.buscar(pregunta) devuelve un único DocumentoRecuperado (no lista)
+- [x] #2 El módulo NO importa sklearn, faiss, chromadb, qdrant_client, sentence_transformers ni langchain.embeddings (verificable con un test de import-guard)
+- [x] #3 El módulo NO contiene funciones de chunking ni splitting (verificable por inspección + test)
+- [x] #4 tokenizar() es determinista, lowercase, sin tildes, y filtra stopwords básicas en español
+- [x] #5 El front matter YAML de cada .md se parsea correctamente y el cuerpo se indexa sin él
+- [x] #6 Si todos los scores son 0, buscar() lanza RecuperacionVaciaError
+- [x] #7 recargar() re-lee el directorio sin necesidad de reinstanciar el recuperador
+- [x] #8 El contrato RecuperadorDocumento (Protocol) permite intercambiar la implementación en una fase futura
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -133,9 +135,21 @@ Una pregunta del usuario como "¿Cuáles son los servicios de cardiología?" deb
 8) Smoke test manual contra data/markdown/
 <!-- SECTION:PLAN:END -->
 
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Smoke manual: `uv run python` con `RecuperadorBm25(data/markdown/valledellili-org)` y pregunta sobre servicios de cardiología → `departamentos-y-servicios-cardiologia.md`.
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se añadieron dependencias rank-bm25 y numpy (pyproject/uv.lock). Nuevo módulo src/retrieval/recuperador.py: DocumentoRecuperado, RecuperacionVaciaError, RecuperadorDocumento (Protocol), RecuperadorBm25 con BM25Okapi, tokenizar (NFKD, stopwords ES), parsear_markdown (front matter con regex + yaml.safe_load), texto_indexable (título + cuerpo) y cargar_corpus. buscar() usa np.argmax y lanza RecuperacionVaciaError si no hay términos o todos los scores son ≤0. recargar() reindexa leyendo de disco. Paquete src/retrieval/__init__.py exporta la API. Smoke: pregunta sobre cardiología devuelve departamentos-y-servicios-cardiologia.md (score ≈ 10,34 en prueba local).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv add rank-bm25 numpy ejecutado y reflejado en pyproject.toml + uv.lock
-- [ ] #2 Comentario explícito en el módulo prohibiendo embeddings/chunking en esta fase
-- [ ] #3 Smoke test contra data/markdown/valledellili-org/ real con al menos 1 pregunta esperando un archivo conocido
+- [x] #1 uv add rank-bm25 numpy ejecutado y reflejado en pyproject.toml + uv.lock
+- [x] #2 Comentario explícito en el módulo prohibiendo embeddings/chunking en esta fase
+- [x] #3 Smoke test contra data/markdown/valledellili-org/ real con al menos 1 pregunta esperando un archivo conocido
 <!-- DOD:END -->

@@ -28,6 +28,8 @@ You MUST read the overview resource to understand the complete workflow. The inf
 
 <!-- BACKLOG.MD MCP GUIDELINES END -->
 
+**Convención (este repositorio):** al finalizar el trabajo de una tarea, el agente debe poner su estado en **Done** (p. ej. con `task_edit` del MCP) y **no** invocar `task_complete` ni archivar. El movimiento a `backlog/completed/` es **siempre manual** y solo con instrucción expresa de la persona. Ver la regla `.cursor/rules/backlog-workflow.mdc` y la skill `backlog-md`.
+
 # Proyecto: técnicas avanzadas de IA (Módulo 1)
 
 Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar o revisar código en el repositorio. Un resumen paralelo para agentes está en **[CLAUDE.md](CLAUDE.md)** (útil cuando el cliente no carga reglas `.mdc` de Cursor).
@@ -68,6 +70,7 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 | `project-structure.mdc` | Carpetas `data/` y `src/` |
 | `python-style.mdc` | Estilo en `**/*.py` |
 | `scraping-ethics.mdc` | Ética de scraping en `src/scraping/**` |
+| `backlog-workflow.mdc` | Cierre con Backlog MCP: `Done` sin archivar; `task_complete` solo si el usuario lo pide |
 
 ## Skills (`.cursor/skills/` y `.claude/skills/`)
 
@@ -82,3 +85,4 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
 | `llm-backend` | Ollama o API + framework LLM |
 | `gradio-qa-ui` | Interfaz de prueba |
+| `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |

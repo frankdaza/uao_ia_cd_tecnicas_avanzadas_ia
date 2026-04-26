@@ -2,7 +2,7 @@
 
 ## Gestión de tareas
 
-Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): cuándo crear, ejecutar y cerrar tareas.
+Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): cuándo crear, ejecutar y cerrar tareas. **No** archivar tareas (no usar `task_complete` del MCP) salvo que el **usuario** lo pida: al terminar, dejar la tarea en `backlog/tasks/` con `status: Done` (ver `.cursor/rules/backlog-workflow.mdc` y la skill `backlog-md`).
 
 ## Entorno
 
