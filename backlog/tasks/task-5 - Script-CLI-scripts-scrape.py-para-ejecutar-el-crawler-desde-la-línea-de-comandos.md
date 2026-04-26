@@ -3,14 +3,16 @@ id: TASK-5
 title: >-
   Script CLI scripts/scrape.py para ejecutar el crawler desde la línea de
   comandos
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:12'
+updated_date: '2026-04-26 22:30'
 labels:
   - scraping
   - setup
 dependencies:
   - TASK-4
+ordinal: 1000
 ---
 
 ## Description
@@ -68,12 +70,12 @@ Cargar `.env` con `python-dotenv` o `os.environ` directo (decisión del equipo).
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 uv run python -m scripts.scrape --help muestra todos los argumentos disponibles
-- [ ] #2 Una ejecución con --max-paginas 5 termina sin errores y produce 5 archivos en data/raw/valledellili-org/
-- [ ] #3 data/raw/_log.jsonl contiene una línea JSON válida por URL procesada
-- [ ] #4 stdout muestra resumen final con conteos de descargadas, omitidas_por_robots, omitidas_por_hash y errores
-- [ ] #5 Ctrl+C produce salida limpia con código 130 y resumen parcial impreso
-- [ ] #6 Segunda ejecución sin cambios reporta omitidas_por_hash > 0 y descargadas == 0 (idempotencia)
+- [x] #1 uv run python -m scripts.scrape --help muestra todos los argumentos disponibles
+- [x] #2 Una ejecución con --max-paginas 5 termina sin errores y produce 5 archivos en data/raw/valledellili-org/
+- [x] #3 data/raw/_log.jsonl contiene una línea JSON válida por URL procesada
+- [x] #4 stdout muestra resumen final con conteos de descargadas, omitidas_por_robots, omitidas_por_hash y errores
+- [x] #5 Ctrl+C produce salida limpia con código 130 y resumen parcial impreso
+- [x] #6 Segunda ejecución sin cambios reporta omitidas_por_hash > 0 y descargadas == 0 (idempotencia)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -91,7 +93,7 @@ Cargar `.env` con `python-dotenv` o `os.environ` directo (decisión del equipo).
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 El comando aparece documentado en el README en la sección 'Scraping'
-- [ ] #2 uv add python-dotenv ejecutado si se decidió cargar .env
-- [ ] #3 scripts/__init__.py existe para que python -m scripts.scrape funcione
+- [x] #1 El comando aparece documentado en el README en la sección 'Scraping'
+- [x] #2 uv add python-dotenv ejecutado si se decidió cargar .env
+- [x] #3 scripts/__init__.py existe para que python -m scripts.scrape funcione
 <!-- DOD:END -->

@@ -24,7 +24,30 @@ uv run python -V
 
 ## Scraping
 
-*(Por implementar: descarga respetando `robots.txt` hacia `data/raw/`.)*
+Descarga el sitio permitido hacia `data/raw/valledellili-org/` (HTML y metad JSON) respetando `robots.txt`, con registro en `data/raw/_log.jsonl`.
+
+Variables opcionales en `.env` (ver `.env.example`):
+
+- `URL_BASE_SITIO`: URL semilla si no se pasa `--url-inicio`
+- `USER_AGENT`: reemplaza el user-agent del modulo `robots` si no se pasa `--user-agent`
+
+Comando (desde la raiz del repositorio):
+
+```bash
+uv run python -m scripts.scrape \
+  --url-inicio https://valledellili.org/ \
+  --max-paginas 200 \
+  --delay 1.5 \
+  --profundidad-maxima 5
+```
+
+Ayuda:
+
+```bash
+uv run python -m scripts.scrape --help
+```
+
+Una segunda ejecucion sin cambios en el sitio deberia incrementar `omitidas_por_hash` en el resumen (idempotencia). `Ctrl+C` termina con codigo 130 e imprime resumen parcial.
 
 ## Export a Markdown
 

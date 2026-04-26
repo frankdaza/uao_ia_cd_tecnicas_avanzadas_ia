@@ -4,7 +4,7 @@ title: Crawler descarga.py con requests + BeautifulSoup para valledellili.org
 status: Done
 assignee: []
 created_date: '2026-04-26 20:12'
-updated_date: '2026-04-26 20:55'
+updated_date: '2026-04-26 21:02'
 labels:
   - scraping
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
 references:
   - .cursor/rules/scraping-ethics.mdc
   - .cursor/skills/web-scraping/SKILL.md
-ordinal: 1000
+ordinal: 250
 ---
 
 ## Description
