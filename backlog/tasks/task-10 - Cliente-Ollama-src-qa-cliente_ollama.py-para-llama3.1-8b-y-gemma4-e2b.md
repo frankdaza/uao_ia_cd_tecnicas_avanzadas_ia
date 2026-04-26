@@ -4,14 +4,14 @@ title: 'Cliente Ollama src/qa/cliente_ollama.py para llama3.1:8b y gemma4:e2b'
 status: Done
 assignee: []
 created_date: '2026-04-26 20:15'
-updated_date: '2026-04-26 21:39'
+updated_date: '2026-04-26 21:40'
 labels:
   - llm
 dependencies:
   - TASK-2
 references:
   - .cursor/skills/llm-backend/SKILL.md
-ordinal: 1000
+ordinal: 3.90625
 ---
 
 ## Description

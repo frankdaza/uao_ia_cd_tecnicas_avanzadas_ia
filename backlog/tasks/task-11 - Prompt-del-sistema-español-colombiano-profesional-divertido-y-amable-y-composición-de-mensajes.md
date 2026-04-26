@@ -3,9 +3,10 @@ id: TASK-11
 title: >-
   Prompt del sistema (español colombiano, profesional, divertido y amable) y
   composición de mensajes
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:16'
+updated_date: '2026-04-26 21:41'
 labels:
   - llm
 dependencies:
@@ -13,6 +14,7 @@ dependencies:
   - TASK-10
 references:
   - .cursor/skills/qa-prompt-engineering/SKILL.md
+ordinal: 1000
 ---
 
 ## Description
@@ -95,13 +97,13 @@ El usuario debe poder leer/editar el prompt en la UI (task-13) y si lo daña, re
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Existe constante PROMPT_SISTEMA_DEFECTO en src/qa/prompt.py
-- [ ] #2 PROMPT_SISTEMA_DEFECTO contiene literalmente la frase 'No tengo información suficiente'
-- [ ] #3 PROMPT_SISTEMA_DEFECTO menciona explícitamente Fundación Valle del Lili y tono español colombiano
-- [ ] #4 componer_mensajes(prompt, contenido_md, pregunta) devuelve lista con 2 dicts: roles 'system' y 'user'
-- [ ] #5 El contenido del .md se inyecta completo en el system (sin chunking, sin truncar)
-- [ ] #6 Test confirma que un .md de 50k caracteres queda intacto dentro del prompt compuesto
-- [ ] #7 Identificadores Python son ASCII puros (sin tildes ni eñes en nombres)
+- [x] #1 Existe constante PROMPT_SISTEMA_DEFECTO en src/qa/prompt.py
+- [x] #2 PROMPT_SISTEMA_DEFECTO contiene literalmente la frase 'No tengo información suficiente'
+- [x] #3 PROMPT_SISTEMA_DEFECTO menciona explícitamente Fundación Valle del Lili y tono español colombiano
+- [x] #4 componer_mensajes(prompt, contenido_md, pregunta) devuelve lista con 2 dicts: roles 'system' y 'user'
+- [x] #5 El contenido del .md se inyecta completo en el system (sin chunking, sin truncar)
+- [x] #6 Test confirma que un .md de 50k caracteres queda intacto dentro del prompt compuesto
+- [x] #7 Identificadores Python son ASCII puros (sin tildes ni eñes en nombres)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -115,9 +117,15 @@ El usuario debe poder leer/editar el prompt en la UI (task-13) y si lo daña, re
 6) Validar que un .md grande no se trunca
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agregó `src/qa/prompt.py` con `PROMPT_SISTEMA_DEFECTO` (Lili, Fundación Valle del Lili, español colombiano, reglas anti-alucinación, frase literal "No tengo información suficiente") y `componer_mensajes()` que concatena el prompt con el bloque CONTEXTO (URL opcional vía `metadata_documento` → `source_url`) y la pregunta en rol user. `tests/qa/test_prompt.py` cubre frase clave, tono, estructura y 50k caracteres sin truncar. `uv run pytest tests/qa/test_prompt.py` pasa.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 tests/qa/test_prompt.py existe y todos los tests pasan
-- [ ] #2 Sin import de chunking, embeddings ni librerías de RAG vectorial
-- [ ] #3 Comentarios en el módulo aclaran: 'fase 1 MVP: contexto = .md completo, sin chunking'
+- [x] #1 tests/qa/test_prompt.py existe y todos los tests pasan
+- [x] #2 Sin import de chunking, embeddings ni librerías de RAG vectorial
+- [x] #3 Comentarios en el módulo aclaran: 'fase 1 MVP: contexto = .md completo, sin chunking'
 <!-- DOD:END -->
