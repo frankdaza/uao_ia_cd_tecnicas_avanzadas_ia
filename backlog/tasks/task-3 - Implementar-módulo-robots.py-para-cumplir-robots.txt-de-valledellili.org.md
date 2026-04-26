@@ -4,7 +4,7 @@ title: Implementar módulo robots.py para cumplir robots.txt de valledellili.org
 status: Done
 assignee: []
 created_date: '2026-04-26 20:11'
-updated_date: '2026-04-26 22:00'
+updated_date: '2026-04-26 20:52'
 labels:
   - scraping
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
 references:
   - .cursor/rules/scraping-ethics.mdc
   - .cursor/skills/web-scraping/SKILL.md
-ordinal: 1000
+ordinal: 500
 ---
 
 ## Description

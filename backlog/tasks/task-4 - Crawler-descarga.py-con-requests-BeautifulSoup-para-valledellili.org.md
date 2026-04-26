@@ -1,9 +1,10 @@
 ---
 id: TASK-4
 title: Crawler descarga.py con requests + BeautifulSoup para valledellili.org
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:12'
+updated_date: '2026-04-26 20:55'
 labels:
   - scraping
 dependencies:
@@ -11,6 +12,7 @@ dependencies:
 references:
   - .cursor/rules/scraping-ethics.mdc
   - .cursor/skills/web-scraping/SKILL.md
+ordinal: 1000
 ---
 
 ## Description
@@ -79,13 +81,13 @@ uv add requests beautifulsoup4
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Una corrida real contra https://valledellili.org/ descarga >= 30 páginas HTML válidas (status 200)
-- [ ] #2 Cero requests a URLs marcadas como Disallow en robots.txt (verificable por el log y por que no haya sidecar para esas URLs)
-- [ ] #3 Cada HTML descargado tiene su sidecar JSON con campos: url, http_status, content_type, fecha_extraccion, hash_sha256, profundidad
-- [ ] #4 Segunda corrida sobre el mismo sitio (sin cambios) reporta 'omitido_por_hash' para los archivos cuyos hashes coinciden y no reescribe el .html
-- [ ] #5 Reintentos exponenciales aplican a errores 5xx y timeouts (3 intentos: 1s, 2s, 4s)
-- [ ] #6 BFS limita el dominio a 'valledellili.org' (no descarga subdominios externos ni dominios de terceros)
-- [ ] #7 Slugs son ASCII kebab-case sin tildes ni eñes
+- [x] #1 Una corrida real contra https://valledellili.org/ descarga >= 30 páginas HTML válidas (status 200)
+- [x] #2 Cero requests a URLs marcadas como Disallow en robots.txt (verificable por el log y por que no haya sidecar para esas URLs)
+- [x] #3 Cada HTML descargado tiene su sidecar JSON con campos: url, http_status, content_type, fecha_extraccion, hash_sha256, profundidad
+- [x] #4 Segunda corrida sobre el mismo sitio (sin cambios) reporta 'omitido_por_hash' para los archivos cuyos hashes coinciden y no reescribe el .html
+- [x] #5 Reintentos exponenciales aplican a errores 5xx y timeouts (3 intentos: 1s, 2s, 4s)
+- [x] #6 BFS limita el dominio a 'valledellili.org' (no descarga subdominios externos ni dominios de terceros)
+- [x] #7 Slugs son ASCII kebab-case sin tildes ni eñes
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -103,8 +105,8 @@ uv add requests beautifulsoup4
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv add requests beautifulsoup4 ejecutado y reflejado en pyproject.toml + uv.lock
-- [ ] #2 Tests unitarios para extraer_enlaces, calcular_slug y normalizar_url pasan
-- [ ] #3 Test de integración (skippable con marker @pytest.mark.network) que valida descarga de la home
-- [ ] #4 Documentación inline (docstring) del módulo describe el flujo BFS y la política de idempotencia
+- [x] #1 uv add requests beautifulsoup4 ejecutado y reflejado en pyproject.toml + uv.lock
+- [x] #2 Tests unitarios para extraer_enlaces, calcular_slug y normalizar_url pasan
+- [x] #3 Test de integración (skippable con marker @pytest.mark.network) que valida descarga de la home
+- [x] #4 Documentación inline (docstring) del módulo describe el flujo BFS y la política de idempotencia
 <!-- DOD:END -->
