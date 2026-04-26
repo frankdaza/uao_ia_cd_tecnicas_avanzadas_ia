@@ -4,12 +4,12 @@ title: Recuperador BM25 a nivel archivo completo (sin chunking ni vectores)
 status: Done
 assignee: []
 created_date: '2026-04-26 20:14'
-updated_date: '2026-04-26 22:00'
+updated_date: '2026-04-26 21:35'
 labels:
   - retrieval
 dependencies:
   - TASK-7
-ordinal: 1000
+ordinal: 15.625
 ---
 
 ## Description

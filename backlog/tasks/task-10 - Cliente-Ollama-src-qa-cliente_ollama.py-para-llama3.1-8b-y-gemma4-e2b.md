@@ -1,15 +1,17 @@
 ---
 id: TASK-10
 title: 'Cliente Ollama src/qa/cliente_ollama.py para llama3.1:8b y gemma4:e2b'
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-04-26 20:15'
+updated_date: '2026-04-26 21:38'
 labels:
   - llm
 dependencies:
   - TASK-2
 references:
   - .cursor/skills/llm-backend/SKILL.md
+ordinal: 1000
 ---
 
 ## Description

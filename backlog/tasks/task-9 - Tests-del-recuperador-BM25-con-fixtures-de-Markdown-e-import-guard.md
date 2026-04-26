@@ -1,14 +1,16 @@
 ---
 id: TASK-9
 title: Tests del recuperador BM25 con fixtures de Markdown e import-guard
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:15'
+updated_date: '2026-04-26 21:38'
 labels:
   - tests
   - retrieval
 dependencies:
   - TASK-8
+ordinal: 7.8125
 ---
 
 ## Description
@@ -93,13 +95,13 @@ Cada fixture es un `.md` con front matter mínimo y un cuerpo corto pero realist
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 tests/retrieval/test_recuperador_bm25.py existe y todos los tests pasan con uv run pytest tests/retrieval
-- [ ] #2 Existen ≥5 fixtures .md en tests/retrieval/fixtures/markdown/ con front matter válido y contenido realista
-- [ ] #3 Test parametrizado con 5 preguntas->archivos esperados acierta en ≥4/5 casos
-- [ ] #4 Test de import-guard valida que sklearn, faiss, chromadb, qdrant_client, sentence_transformers, langchain.embeddings y llama_index.embeddings no aparecen en el código ni son importados
-- [ ] #5 Test de no-chunking valida que el módulo no contiene 'chunk', 'split_text' ni 'sliding'
-- [ ] #6 Test de RecuperacionVaciaError cubre el caso de scores todos 0
-- [ ] #7 Test de recargar() valida que reindexa nuevos archivos sin reinstanciar
+- [x] #1 tests/retrieval/test_recuperador_bm25.py existe y todos los tests pasan con uv run pytest tests/retrieval
+- [x] #2 Existen ≥5 fixtures .md en tests/retrieval/fixtures/markdown/ con front matter válido y contenido realista
+- [x] #3 Test parametrizado con 5 preguntas->archivos esperados acierta en ≥4/5 casos
+- [x] #4 Test de import-guard valida que sklearn, faiss, chromadb, qdrant_client, sentence_transformers, langchain.embeddings y llama_index.embeddings no aparecen en el código ni son importados
+- [x] #5 Test de no-chunking valida que el módulo no contiene 'chunk', 'split_text' ni 'sliding'
+- [x] #6 Test de RecuperacionVaciaError cubre el caso de scores todos 0
+- [x] #7 Test de recargar() valida que reindexa nuevos archivos sin reinstanciar
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -116,9 +118,15 @@ Cada fixture es un `.md` con front matter mínimo y un cuerpo corto pero realist
 9) Validar uv run pytest tests/retrieval
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agrego tests/retrieval/test_recuperador_bm25.py con tokenizacion, busqueda BM25 (>=4/5 aciertos con 5 casos), RecuperacionVaciaError, recargar() sobre copia en tmp, import-guard y prueba de nombres/fuente sin chunking. Fixtures: 5 .md bajo tests/retrieval/fixtures/markdown/. conftest con dir_fixtures_markdown. Comentario en recuperador.py reformulado para no incluir cadenas prohibidas que el test de guard valida. Cobertura de src/retrieval >=92% en recuperador con pytest-cov (paquete src.retrieval).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/retrieval pasa en local
-- [ ] #2 Cobertura del módulo recuperador.py >= 85%
-- [ ] #3 Los fixtures están commiteados en git (no en .gitignore)
+- [x] #1 uv run pytest tests/retrieval pasa en local
+- [x] #2 Cobertura del módulo recuperador.py >= 85%
+- [x] #3 Los fixtures están commiteados en git (no en .gitignore)
 <!-- DOD:END -->

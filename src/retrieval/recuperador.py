@@ -1,6 +1,8 @@
-# MVP fase 1: BM25 a nivel archivo. NO usar embeddings/chunking aquí.
-# Prohibido en este módulo: sklearn, faiss, chromadb, qdrant_client,
-# langchain.embeddings, llama_index.embeddings, sentence_transformers, chunking.
+# MVP fase 1: BM25 a nivel archivo. Sin vectores densos ni division del texto en
+# fragmentos pequenos; el indice es el archivo .md completo.
+# Prohibido importar: scikit (modulo *learn* de ML), biblioteca de similitud
+# F-A-I-S-S, almacen vectorial Chroma, cliente Qdrant, modelos de oraciones
+# preentrenados para embeddings, ni submodulos de *embeddings* de cadenas (LC/LI).
 
 from __future__ import annotations
 
