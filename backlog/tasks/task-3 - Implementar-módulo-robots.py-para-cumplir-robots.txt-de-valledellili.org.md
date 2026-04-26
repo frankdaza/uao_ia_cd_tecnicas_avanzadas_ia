@@ -1,9 +1,10 @@
 ---
 id: TASK-3
 title: Implementar módulo robots.py para cumplir robots.txt de valledellili.org
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:11'
+updated_date: '2026-04-26 22:00'
 labels:
   - scraping
 dependencies:
@@ -11,6 +12,7 @@ dependencies:
 references:
   - .cursor/rules/scraping-ethics.mdc
   - .cursor/skills/web-scraping/SKILL.md
+ordinal: 1000
 ---
 
 ## Description
@@ -57,12 +59,12 @@ Evitar sanciones legales/éticas y respetar la voluntad expresa del sitio públi
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Función puede_descargar(url) retorna False para rutas listadas en Disallow
-- [ ] #2 Función puede_descargar(url) retorna True para rutas permitidas
-- [ ] #3 obtener_crawl_delay() devuelve el valor declarado en robots.txt o 1.0 por defecto
-- [ ] #4 Si la carga del robots.txt falla (timeout, 5xx), GestorRobots queda en modo conservador y puede_descargar retorna False
-- [ ] #5 Test unitario en tests/scraping/test_robots.py con un robots.txt de fixture cubre los 3 casos: permitido, denegado, crawl-delay
-- [ ] #6 El módulo no realiza I/O en import (solo en construcción explícita o primera llamada)
+- [x] #1 Función puede_descargar(url) retorna False para rutas listadas en Disallow
+- [x] #2 Función puede_descargar(url) retorna True para rutas permitidas
+- [x] #3 obtener_crawl_delay() devuelve el valor declarado en robots.txt o 1.0 por defecto
+- [x] #4 Si la carga del robots.txt falla (timeout, 5xx), GestorRobots queda en modo conservador y puede_descargar retorna False
+- [x] #5 Test unitario en tests/scraping/test_robots.py con un robots.txt de fixture cubre los 3 casos: permitido, denegado, crawl-delay
+- [x] #6 El módulo no realiza I/O en import (solo en construcción explícita o primera llamada)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -78,7 +80,7 @@ Evitar sanciones legales/éticas y respetar la voluntad expresa del sitio públi
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/scraping/test_robots.py pasa en local
-- [ ] #2 Cobertura mínima del módulo robots.py >= 90% según pytest --cov (si hay coverage configurado, opcional)
-- [ ] #3 Sin warnings de deprecación al importar
+- [x] #1 uv run pytest tests/scraping/test_robots.py pasa en local
+- [x] #2 Cobertura mínima del módulo robots.py >= 90% según pytest --cov (si hay coverage configurado, opcional)
+- [x] #3 Sin warnings de deprecación al importar
 <!-- DOD:END -->
