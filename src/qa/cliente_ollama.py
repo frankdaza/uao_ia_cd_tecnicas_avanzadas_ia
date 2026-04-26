@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import os
 import time
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any
 
@@ -166,6 +168,70 @@ class ClienteOllama:
         if contenido is None:
             return ""
         return str(contenido)
+
+    def _abrir_stream_chat(
+        self, mensajes: list[dict[str, str]]
+    ) -> requests.Response:
+        cuerpo: dict[str, Any] = {
+            "model": self._config.modelo,
+            "messages": mensajes,
+            "stream": True,
+            "options": {
+                "temperature": self._config.temperatura,
+                "num_ctx": self._config.num_ctx,
+            },
+        }
+        try:
+            resp = self._sesion.post(
+                self._url("/api/chat"),
+                json=cuerpo,
+                stream=True,
+                timeout=self._config.timeout_segundos,
+            )
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            raise OllamaNoAccesibleError(
+                _mensaje_ollama_inaccesible(self._config.base_url)
+            ) from exc
+
+        if resp.status_code >= 400:
+            try:
+                datos = resp.json()
+            except (requests.JSONDecodeError, ValueError):
+                datos = {}
+            if self._error_modelo_en_cuerpo(datos) or resp.status_code == 404:
+                raise ModeloNoDisponibleError(
+                    _mensaje_modelo_no_disponible(self._config.modelo)
+                )
+            resp.raise_for_status()
+        return resp
+
+    def chat_stream(self, mensajes: list[dict[str, str]]) -> Iterator[str]:
+        """Envia ``messages`` a Ollama en modo streaming y hace yield de cada delta de ``message.content``.
+
+        Lee NDJSON (una linea JSON por chunk). Lanza ``OllamaNoAccesibleError`` ante
+        timeout o conexion rechazada y ``ModeloNoDisponibleError`` si Ollama indica
+        que el modelo no esta instalado.
+        """
+        resp = self._abrir_stream_chat(mensajes)
+        try:
+            for linea in resp.iter_lines(decode_unicode=True):
+                if not linea:
+                    continue
+                try:
+                    datos = json.loads(linea)
+                except json.JSONDecodeError:
+                    continue
+                if self._error_modelo_en_cuerpo(datos):
+                    raise ModeloNoDisponibleError(
+                        _mensaje_modelo_no_disponible(self._config.modelo)
+                    )
+                contenido = (datos.get("message") or {}).get("content")
+                if contenido:
+                    yield str(contenido)
+                if datos.get("done"):
+                    break
+        finally:
+            resp.close()
 
     def listar_modelos_locales(self) -> list[str]:
         """Devuelve los tags instalados segun ``GET /api/tags``."""

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -113,6 +114,83 @@ class PipelineQa:
             latencia_ms=_latencia_ms(),
             prompt_sistema_usado=ps,
         )
+
+
+    def responder_stream(
+        self,
+        pregunta: str,
+        *,
+        modelo: str | None = None,
+        prompt_sistema: str | None = None,
+    ) -> Iterator[tuple[str, RespuestaQa | None]]:
+        """Genera tuplas ``(texto_acumulado, RespuestaQa | None)``.
+
+        Mientras llegan tokens, emite el texto acumulado con ``None`` en la
+        segunda posicion. Al finalizar, emite una ultima tupla con el texto
+        completo y la ``RespuestaQa`` con metadatos de trazabilidad.
+        """
+        ps = self._prompt_sistema if prompt_sistema is None else prompt_sistema
+        t_inicio = time.perf_counter()
+
+        def _latencia_ms() -> int:
+            return int((time.perf_counter() - t_inicio) * 1000)
+
+        modelo_efectivo = (
+            self._cliente.configuracion.modelo if modelo is None else modelo
+        )
+
+        try:
+            documento = self._recuperador.buscar(pregunta)
+        except RecuperacionVaciaError:
+            texto_vacio = "No tengo información suficiente"
+            final = RespuestaQa(
+                texto=texto_vacio,
+                archivo_fuente=None,
+                source_url="",
+                titulo="",
+                modelo=self._cliente.configuracion.modelo,
+                score_recuperacion=0.0,
+                latencia_ms=_latencia_ms(),
+                prompt_sistema_usado=ps,
+            )
+            yield texto_vacio, final
+            return
+
+        metadata: dict[str, Any] = {
+            "source_url": documento.source_url,
+            "titulo": documento.titulo,
+        }
+        mensajes = componer_mensajes(
+            ps,
+            documento.contenido,
+            pregunta,
+            metadata_documento=metadata,
+        )
+
+        anterior: str | None = None
+        if modelo is not None:
+            anterior = self._cliente.configuracion.modelo
+            self._cliente.configuracion.modelo = modelo
+        acumulado = ""
+        try:
+            for delta in self._cliente.chat_stream(mensajes):
+                acumulado += delta
+                yield acumulado, None
+        finally:
+            if anterior is not None:
+                self._cliente.configuracion.modelo = anterior
+
+        final = RespuestaQa(
+            texto=acumulado,
+            archivo_fuente=documento.ruta,
+            source_url=documento.source_url,
+            titulo=documento.titulo,
+            modelo=modelo_efectivo,
+            score_recuperacion=documento.score,
+            latencia_ms=_latencia_ms(),
+            prompt_sistema_usado=ps,
+        )
+        yield acumulado, final
 
 
 def construir_pipeline_por_defecto(

@@ -123,6 +123,52 @@ def test_reintento_5xx_luego_exito(configuracion: ConfiguracionLlm) -> None:
     assert len(responses.calls) == 2
 
 
+@responses.activate
+def test_chat_stream_emite_deltas_ndjson(configuracion: ConfiguracionLlm) -> None:
+    cuerpo_ndjson = (
+        '{"message":{"content":"Hola "},"done":false}\n'
+        '{"message":{"content":"mundo"},"done":false}\n'
+        '{"message":{"content":"!"},"done":true}\n'
+    )
+    responses.add(
+        responses.POST,
+        "http://ollama.test/api/chat",
+        body=cuerpo_ndjson,
+        status=200,
+        content_type="application/x-ndjson",
+    )
+    cliente = ClienteOllama(configuracion)
+    deltas = list(cliente.chat_stream([{"role": "user", "content": "Hola"}]))
+    assert deltas == ["Hola ", "mundo", "!"]
+    assert "".join(deltas) == "Hola mundo!"
+
+
+@responses.activate
+def test_chat_stream_modelo_no_disponible_404(
+    configuracion: ConfiguracionLlm,
+) -> None:
+    responses.add(
+        responses.POST,
+        "http://ollama.test/api/chat",
+        json={"error": "model 'x' not found"},
+        status=404,
+    )
+    cliente = ClienteOllama(configuracion)
+    with pytest.raises(ModeloNoDisponibleError):
+        list(cliente.chat_stream([{"role": "user", "content": "Hola"}]))
+
+
+def test_chat_stream_ollama_no_accesible(configuracion: ConfiguracionLlm) -> None:
+    def error_request(*_a: object, **_k: object) -> None:
+        raise requests.ConnectionError("Connection refused")
+
+    with patch.object(requests.Session, "post", side_effect=error_request):
+        cliente = ClienteOllama(configuracion)
+        with pytest.raises(OllamaNoAccesibleError) as ctx:
+            list(cliente.chat_stream([{"role": "user", "content": "Hola"}]))
+    assert "ollama serve" in str(ctx.value)
+
+
 @pytest.mark.integration_ollama
 def test_integracion_chat_si_ollama_disponible() -> None:
     load_dotenv()

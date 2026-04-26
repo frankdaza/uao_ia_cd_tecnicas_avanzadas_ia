@@ -68,6 +68,12 @@ uv run python -m src.app.app_gradio
 
 La consola muestra la URL local (por defecto `http://127.0.0.1:7860/`).
 
+### Experiencia en la UI
+
+- **Streaming token a token**: la respuesta del modelo aparece progresivamente en el bloque de Markdown a medida que Ollama la genera (no hay que esperar a que termine para ver texto).
+- **Indicador de carga**: al presionar **Preguntar**, el botón se deshabilita y cambia su texto a `Pensando...` durante toda la consulta; vuelve a `Preguntar` cuando finaliza, incluso si Ollama no estaba accesible o el modelo no existe.
+- **Formato Markdown enriquecido**: el prompt de sistema instruye al modelo a usar títulos (`##`), listas con viñetas, **negritas**, `código en línea` y enlaces `[texto](URL)` cuando aporte claridad. La columna de respuesta usa CSS mínimo para tipografía y espaciado más legibles.
+
 ## Resultados
 
 Los informes de evaluación automática (tarea de dataset ≥20 preguntas) se generan bajo:

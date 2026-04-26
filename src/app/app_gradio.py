@@ -1,8 +1,13 @@
 """
 Interfaz Q&A con Gradio: pregunta, modelo Ollama, prompt del sistema y trazabilidad.
+
+Soporta streaming token a token, indicador de carga en el botón Preguntar y
+respuestas renderizadas como Markdown enriquecido.
 """
 
 from __future__ import annotations
+
+from collections.abc import Iterator
 
 import gradio as gr
 
@@ -12,10 +17,44 @@ from src.qa.cliente_ollama import (
 )
 from src.qa.pipeline import (
     PROMPT_SISTEMA_DEFECTO,
+    RespuestaQa,
     construir_pipeline_por_defecto,
 )
 
 _pipeline = construir_pipeline_por_defecto()
+
+_CSS_UI = """
+#bloque-respuesta {
+    min-height: 220px;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: var(--block-background-fill);
+    line-height: 1.55;
+}
+#bloque-respuesta h2 { margin-top: 0.6rem; margin-bottom: 0.4rem; }
+#bloque-respuesta ul, #bloque-respuesta ol { margin: 0.4rem 0 0.6rem 1.2rem; }
+#bloque-respuesta p { margin: 0.4rem 0; }
+#bloque-respuesta code { padding: 0.1rem 0.35rem; border-radius: 4px; }
+#bloque-metadatos { font-size: 0.92rem; opacity: 0.92; }
+"""
+
+
+def _formatear_metadatos(resultado: RespuestaQa) -> str:
+    ruta = resultado.archivo_fuente
+    archivo_txt = (
+        f"`{ruta}`" if ruta is not None else "*(sin documento; respuesta mínima)*"
+    )
+    link_url = (
+        f"[{resultado.source_url}]({resultado.source_url})"
+        if (resultado.source_url or "").strip()
+        else "*(ninguna)*"
+    )
+    return (
+        f"**Archivo fuente:** {archivo_txt}  \n"
+        f"**URL origen:** {link_url}  \n"
+        f"**Score BM25:** {resultado.score_recuperacion:.2f}  \n"
+        f"**Modelo:** `{resultado.modelo}` · **Latencia:** {resultado.latencia_ms} ms"
+    )
 
 
 def manejar_pregunta(
@@ -23,6 +62,7 @@ def manejar_pregunta(
     modelo_elegido: str,
     prompt_actual: str,
 ) -> tuple[str, str]:
+    """Versión no-streaming (compatibilidad). Devuelve respuesta y metadatos."""
     if not (texto_pregunta or "").strip():
         return "Por favor escribe una pregunta.", ""
     try:
@@ -33,20 +73,39 @@ def manejar_pregunta(
         )
     except (OllamaNoAccesibleError, ModeloNoDisponibleError) as exc:
         return f"**{exc}**", ""
-    ruta = resultado.archivo_fuente
-    archivo_txt = f"`{ruta}`" if ruta is not None else "*(sin documento; respuesta mínima)*"
-    link_url = (
-        f"[{resultado.source_url}]({resultado.source_url})"
-        if (resultado.source_url or "").strip()
-        else "*(ninguna)*"
-    )
-    meta = (
-        f"**Archivo fuente:** {archivo_txt}  \n"
-        f"**URL origen:** {link_url}  \n"
-        f"**Score BM25:** {resultado.score_recuperacion:.2f}  \n"
-        f"**Modelo:** `{resultado.modelo}` · **Latencia:** {resultado.latencia_ms} ms"
-    )
-    return resultado.texto, meta
+    return resultado.texto, _formatear_metadatos(resultado)
+
+
+def manejar_pregunta_stream(
+    texto_pregunta: str,
+    modelo_elegido: str,
+    prompt_actual: str,
+) -> Iterator[tuple[str, str]]:
+    """Generador para Gradio: yield ``(texto_acumulado, metadatos_md)``.
+
+    Mientras llegan tokens, los metadatos quedan vacíos. Al final se emite el
+    texto completo y el bloque de trazabilidad. Si Ollama no responde o el
+    modelo no existe, muestra el mensaje de error en el área de respuesta y
+    deja los metadatos vacíos sin propagar excepciones a la UI.
+    """
+    if not (texto_pregunta or "").strip():
+        yield "Por favor escribe una pregunta.", ""
+        return
+
+    acumulado = ""
+    try:
+        for parcial, final in _pipeline.responder_stream(
+            pregunta=texto_pregunta,
+            modelo=modelo_elegido,
+            prompt_sistema=prompt_actual,
+        ):
+            acumulado = parcial
+            if final is None:
+                yield acumulado, ""
+            else:
+                yield final.texto, _formatear_metadatos(final)
+    except (OllamaNoAccesibleError, ModeloNoDisponibleError) as exc:
+        yield f"**{exc}**", ""
 
 
 def restaurar_prompt() -> str:
@@ -90,17 +149,29 @@ def construir_demo() -> gr.Blocks:
                     boton_preguntar = gr.Button("Preguntar", variant="primary")
                     boton_recargar = gr.Button("Recargar corpus", variant="secondary")
             with gr.Column(scale=3):
-                respuesta = gr.Markdown(label="Respuesta")
-                metadatos = gr.Markdown(label="Trazabilidad")
+                respuesta = gr.Markdown(
+                    label="Respuesta",
+                    elem_id="bloque-respuesta",
+                )
+                metadatos = gr.Markdown(
+                    label="Trazabilidad",
+                    elem_id="bloque-metadatos",
+                )
                 estado_recarga = gr.Markdown(
                     value="",
                     label="Recarga de corpus",
                 )
 
         boton_preguntar.click(
-            manejar_pregunta,
+            lambda: gr.update(interactive=False, value="Pensando..."),
+            outputs=[boton_preguntar],
+        ).then(
+            manejar_pregunta_stream,
             inputs=[pregunta, modelo, prompt_textbox],
             outputs=[respuesta, metadatos],
+        ).then(
+            lambda: gr.update(interactive=True, value="Preguntar"),
+            outputs=[boton_preguntar],
         )
         boton_restaurar.click(
             restaurar_prompt,
@@ -116,4 +187,4 @@ def construir_demo() -> gr.Blocks:
 demo: gr.Blocks = construir_demo()
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(css=_CSS_UI)

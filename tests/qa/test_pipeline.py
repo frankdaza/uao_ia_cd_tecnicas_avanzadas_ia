@@ -135,6 +135,53 @@ def test_pipeline_modelo_override(dir_fixtures_markdown: Path) -> None:
     assert cfg.modelo == MODELO_LLAMA_3_1_8B, "el cliente debe volver al modelo por defecto"
 
 
+def test_responder_stream_concatena_y_devuelve_metadatos(
+    dir_fixtures_markdown: Path,
+) -> None:
+    recu = RecuperadorBm25(dir_fixtures_markdown)
+    cliente = MagicMock(spec=ClienteOllama)
+    cliente.configuracion = ConfiguracionLlm(
+        base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
+    )
+    cliente.chat_stream.return_value = iter(["Hola ", "parcero", "!"])
+
+    pipe = PipelineQa(recu, cliente)  # type: ignore[arg-type]
+    eventos = list(
+        pipe.responder_stream("¿Cuáles son los servicios de cardiología?")
+    )
+
+    parciales = [texto for texto, final in eventos if final is None]
+    assert parciales == ["Hola ", "Hola parcero", "Hola parcero!"]
+
+    finales = [final for _texto, final in eventos if final is not None]
+    assert len(finales) == 1
+    final = finales[0]
+    assert final.texto == "Hola parcero!"
+    assert final.archivo_fuente is not None
+    assert final.archivo_fuente.name == "servicios-cardiologia.md"
+    assert final.score_recuperacion > 0.0
+    assert final.modelo == MODELO_LLAMA_3_1_8B
+    assert final.latencia_ms >= 0
+
+
+def test_responder_stream_recuperacion_vacia() -> None:
+    recu = MagicMock()
+    recu.buscar.side_effect = RecuperacionVaciaError("vacio")
+    cliente = MagicMock(spec=ClienteOllama)
+    cliente.configuracion = ConfiguracionLlm(
+        base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
+    )
+
+    pipe = PipelineQa(recu, cliente)  # type: ignore[arg-type]
+    eventos = list(pipe.responder_stream("xyz"))
+    assert len(eventos) == 1
+    texto, final = eventos[0]
+    assert texto == "No tengo información suficiente"
+    assert final is not None
+    assert final.archivo_fuente is None
+    cliente.chat_stream.assert_not_called()
+
+
 def test_construir_pipeline_por_defecto_tipo(
     dir_fixtures_markdown: Path,
     monkeypatch: pytest.MonkeyPatch,
