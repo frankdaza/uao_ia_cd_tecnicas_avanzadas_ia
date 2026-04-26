@@ -43,7 +43,7 @@ Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar 
 2. **`data/markdown/`**: corpus textual canónico en **Markdown con front matter YAML** (generado desde `raw/`).
 3. **`data/processed/`**: chunks (p. ej. JSONL) derivados de `markdown/` para Q&A.
 
-Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/app/` (Streamlit o Gradio).
+Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/app/` (Gradio).
 
 ## Stack (Módulo 1)
 
@@ -51,7 +51,7 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 - Markdown: **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para front matter; **`pdfplumber`** opcional para PDF.
 - Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo).
 - Modelo: **Ollama** (local) o **API** (p. ej. OpenAI).
-- Interfaz: **Streamlit** o **Gradio**.
+- Interfaz: **Gradio**.
 
 ## Idioma y código
 
@@ -81,4 +81,4 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
 | `llm-backend` | Ollama o API + framework LLM |
-| `streamlit-qa-ui` | Interfaz de prueba |
+| `gradio-qa-ui` | Interfaz de prueba |

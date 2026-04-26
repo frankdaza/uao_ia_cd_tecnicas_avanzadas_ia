@@ -15,7 +15,7 @@ Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): c
 - Base documental: artefactos crudos en **`data/raw/`**; corpus textual canónico en **`data/markdown/`** (Markdown con front matter YAML). Conversión HTML→Markdown con **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para el front matter; **`pdfplumber`** opcional si hay PDF.
 - Orquestación LLM: **LangChain** *o* **LlamaIndex** (una opción por equipo).
 - Modelo: **Ollama** (local) *o* **API** (p. ej. OpenAI).
-- Interfaz de prueba: **Streamlit** *o* **Gradio**.
+- Interfaz de prueba: **Gradio**.
 
 ## Idioma
 

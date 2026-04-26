@@ -29,7 +29,7 @@ numero_chunks: int = 0
 
 ## Anglicismos tecnicos
 
-- Mantener en ingles cuando sea termino consolidado o nombre propio: `chunk`, `scraping`, `embedding`, `prompt`, `endpoint`, `framework`, APIs y paquetes (`requests`, `streamlit`).
+- Mantener en ingles cuando sea termino consolidado o nombre propio: `chunk`, `scraping`, `embedding`, `prompt`, `endpoint`, `framework`, APIs y paquetes (`requests`, `gradio`).
 
 ## Skills y rules del proyecto
 

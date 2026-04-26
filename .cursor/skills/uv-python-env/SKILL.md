@@ -23,7 +23,7 @@ description: Configura y mantiene el proyecto con Python 3.12.12 exacto y uv. Us
 ## Dependencias por area
 
 - Scraping: `uv add requests beautifulsoup4 selenium`
-- App: `uv add streamlit` o `uv add gradio`
+- App: `uv add gradio`
 - LLM: `uv add langchain` **o** `uv add llama-index` (uno solo, segun decision del equipo).
 - API: `uv add openai` si aplica; Ollama suele ser servicio externo + cliente HTTP segun stack.
 

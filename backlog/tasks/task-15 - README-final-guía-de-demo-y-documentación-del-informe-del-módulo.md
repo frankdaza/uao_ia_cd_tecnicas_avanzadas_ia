@@ -121,14 +121,14 @@ El archivo recuperado se inyecta íntegro como contexto al prompt del LLM.
 
 - El README debe estar en español latinoamericano.
 - Mantener los comandos `uv run` consistentes con el resto de la documentación.
-- No mencionar Streamlit en ninguna parte (validar con `rg -i streamlit`).
+- No mencionar en el README la biblioteca de interfaz que no forma parte del MVP (validar que solo aparece Gradio).
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [ ] #1 README.md contiene las 10 secciones definidas (resumen, problema, solución, datos, modelado, cómo correr, resultados, limitaciones, roadmap, guía de demo)
 - [ ] #2 Todos los comandos de README ejecutan con uv run y son válidos en la estructura del repo
-- [ ] #3 README NO menciona Streamlit en ninguna sección
+- [ ] #3 README solo documenta Gradio como interfaz web
 - [ ] #4 README incluye apuntador explícito a data/processed/evaluaciones/ con resultados de task-14
 - [ ] #5 README documenta el pull de los modelos: 'ollama pull llama3.1:8b' y 'ollama pull gemma4:e2b' (con nota sobre posible no disponibilidad)
 - [ ] #6 Existe backlog/decisions/0001-mvp-bm25-archivo-completo.md con secciones Estado, Contexto, Decisión, Consecuencias y Alternativas
@@ -141,13 +141,13 @@ El archivo recuperado se inyecta íntegro como contexto al prompt del LLM.
 1) Reescribir README.md con las 10 secciones
 2) Validar comandos uv run uno a uno
 3) Crear backlog/decisions/0001-mvp-bm25-archivo-completo.md
-4) Validar rg -i streamlit
+4) Validar que el README no documenta otras bibliotecas de interfaz
 5) Lectura cruzada con un compañero para asegurar claridad
 <!-- SECTION:PLAN:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
 - [ ] #1 Un nuevo desarrollador puede levantar el proyecto siguiendo solo el README sin preguntas adicionales
-- [ ] #2 rg -i streamlit en el README retorna 0
+- [ ] #2 El README no contiene referencias a bibliotecas de interfaz distintas de Gradio
 - [ ] #3 El ADR 0001 está commiteado en backlog/decisions/
 <!-- DOD:END -->

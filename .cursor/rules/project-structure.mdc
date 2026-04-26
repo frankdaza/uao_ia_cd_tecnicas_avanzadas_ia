@@ -12,7 +12,7 @@ src/
   preprocessing/     # limpieza adicional si hace falta antes del chunking
   knowledge_base/    # scripts de chunking y export del corpus procesado
   qa/                # prompts, cadena LLM, respuestas
-  app/               # streamlit o gradio
+  app/               # gradio
 data/
   raw/               # HTML, JSON, XML, PDF u otro tal cual se descargo (gitignore)
   markdown/          # fuente de verdad textual: .md legibles con front matter YAML

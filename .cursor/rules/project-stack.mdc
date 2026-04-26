@@ -28,7 +28,7 @@ alwaysApply: true
 
 ## Interfaz de prueba
 
-- **Streamlit** **o** **Gradio**.
+- **Gradio**.
 
 ## Configuracion y secretos
 
