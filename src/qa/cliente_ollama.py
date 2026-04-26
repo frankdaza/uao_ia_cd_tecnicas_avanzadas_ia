@@ -84,6 +84,11 @@ class ClienteOllama:
         self._config = configuracion
         self._sesion = requests.Session()
 
+    @property
+    def configuracion(self) -> ConfiguracionLlm:
+        """Misma instancia de :class:`ConfiguracionLlm` usada en ``chat`` y peticiones."""
+        return self._config
+
     def _url(self, ruta: str) -> str:
         return f"{self._config.base_url.rstrip('/')}{ruta}"
 
