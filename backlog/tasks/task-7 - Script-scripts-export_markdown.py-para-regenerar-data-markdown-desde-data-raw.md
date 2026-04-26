@@ -3,14 +3,16 @@ id: TASK-7
 title: >-
   Script scripts/export_markdown.py para regenerar data/markdown/ desde
   data/raw/
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-04-26 20:13'
+updated_date: '2026-04-26 21:23'
 labels:
   - markdown
   - setup
 dependencies:
   - TASK-6
+ordinal: 31.25
 ---
 
 ## Description
@@ -61,12 +63,12 @@ uv run python -m scripts.export_markdown --solo-uno <slug>  # debug
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 uv run python -m scripts.export_markdown --help muestra --forzar y --solo-uno
-- [ ] #2 Primera ejecución sobre data/raw/ con N archivos genera N .md en data/markdown/valledellili-org/ y reporta creados=N
-- [ ] #3 Segunda ejecución sin cambios reporta omitidos_por_hash=N y creados=0, actualizados=0
-- [ ] #4 Con --forzar todos los .md son reescritos aunque el hash coincida
-- [ ] #5 Si un .html falla en la conversión, los demás se procesan y el error se reporta en el resumen
-- [ ] #6 Si no hay archivos en data/raw/, el script sale con código 1 y mensaje informativo
+- [x] #1 uv run python -m scripts.export_markdown --help muestra --forzar y --solo-uno
+- [x] #2 Primera ejecución sobre data/raw/ con N archivos genera N .md en data/markdown/valledellili-org/ y reporta creados=N
+- [x] #3 Segunda ejecución sin cambios reporta omitidos_por_hash=N y creados=0, actualizados=0
+- [x] #4 Con --forzar todos los .md son reescritos aunque el hash coincida
+- [x] #5 Si un .html falla en la conversión, los demás se procesan y el error se reporta en el resumen
+- [x] #6 Si no hay archivos en data/raw/, el script sale con código 1 y mensaje informativo
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -81,9 +83,15 @@ uv run python -m scripts.export_markdown --solo-uno <slug>  # debug
 7) Documentar en README
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agrego scripts/export_markdown.py: recorre data/raw/valledellili-org/*.html, compara hash del front matter con hash_sha256 del sidecar, omite si coincide (salvo --forzar), delega en convertir_html_a_md y escribir_markdown. Resumen con creados/actualizados/omitidos_por_hash/errores. Salida 1 si no hay HTML o slug --solo-uno inexistente. README actualizado en seccion Export a Markdown. Verificado: 40 paginas generadas, segunda corrida omitidas 40, --forzar actualiza 40.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Comando documentado en README sección 'Export a Markdown'
-- [ ] #2 scripts/export_markdown.py es ejecutable con 'uv run python -m scripts.export_markdown'
-- [ ] #3 Idempotencia validada manualmente con dos corridas consecutivas
+- [x] #1 Comando documentado en README sección 'Export a Markdown'
+- [x] #2 scripts/export_markdown.py es ejecutable con 'uv run python -m scripts.export_markdown'
+- [x] #3 Idempotencia validada manualmente con dos corridas consecutivas
 <!-- DOD:END -->

@@ -51,7 +51,21 @@ Una segunda ejecucion sin cambios en el sitio deberia incrementar `omitidas_por_
 
 ## Export a Markdown
 
-*(Por implementar: conversión a `data/markdown/` con front matter YAML.)*
+Convierte cada par ``.html`` + ``.json`` de ``data/raw/valledellili-org/`` en un ``.md`` con front matter YAML bajo ``data/markdown/valledellili-org/``. Si el ``hash`` del Markdown ya coincide con ``hash_sha256`` del sidecar, el archivo no se reescribe (idempotencia), salvo que se use ``--forzar``.
+
+```bash
+uv run python -m scripts.export_markdown
+uv run python -m scripts.export_markdown --forzar
+uv run python -m scripts.export_markdown --solo-uno atencion-al-paciente-especialidades
+```
+
+Ayuda:
+
+```bash
+uv run python -m scripts.export_markdown --help
+```
+
+Si aun no hay HTML en ``data/raw/valledellili-org/``, el comando termina con codigo 1 y un mensaje que indica ejecutar el scraping antes.
 
 ## App Gradio
 
