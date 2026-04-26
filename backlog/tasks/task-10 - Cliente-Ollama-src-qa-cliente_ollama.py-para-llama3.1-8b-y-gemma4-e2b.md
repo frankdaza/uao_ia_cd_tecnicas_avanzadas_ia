@@ -1,10 +1,10 @@
 ---
 id: TASK-10
 title: 'Cliente Ollama src/qa/cliente_ollama.py para llama3.1:8b y gemma4:e2b'
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-04-26 20:15'
-updated_date: '2026-04-26 21:38'
+updated_date: '2026-04-26 21:39'
 labels:
   - llm
 dependencies:
@@ -114,13 +114,13 @@ uv add requests python-dotenv
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 ClienteOllama.chat(mensajes) devuelve la respuesta de texto del modelo cuando Ollama está accesible
-- [ ] #2 Si Ollama no responde en base_url, se lanza OllamaNoAccesibleError con mensaje en español indicando 'ollama serve'
-- [ ] #3 Si el modelo no existe, se lanza ModeloNoDisponibleError con mensaje en español indicando 'ollama pull <modelo>'
-- [ ] #4 listar_modelos_locales() devuelve una lista de strings con los tags instalados
-- [ ] #5 Configuración lee OLLAMA_BASE_URL y MODELO_LLM_DEFECTO de variables de entorno con defaults sensatos
-- [ ] #6 Tests unitarios con mocks pasan (sin requerir Ollama corriendo)
-- [ ] #7 Test de integración existe y se skippea limpiamente cuando Ollama no está accesible
+- [x] #1 ClienteOllama.chat(mensajes) devuelve la respuesta de texto del modelo cuando Ollama está accesible
+- [x] #2 Si Ollama no responde en base_url, se lanza OllamaNoAccesibleError con mensaje en español indicando 'ollama serve'
+- [x] #3 Si el modelo no existe, se lanza ModeloNoDisponibleError con mensaje en español indicando 'ollama pull <modelo>'
+- [x] #4 listar_modelos_locales() devuelve una lista de strings con los tags instalados
+- [x] #5 Configuración lee OLLAMA_BASE_URL y MODELO_LLM_DEFECTO de variables de entorno con defaults sensatos
+- [x] #6 Tests unitarios con mocks pasan (sin requerir Ollama corriendo)
+- [x] #7 Test de integración existe y se skippea limpiamente cuando Ollama no está accesible
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -136,9 +136,15 @@ uv add requests python-dotenv
 8) Smoke test manual con llama3.1:8b si está instalado
 <!-- SECTION:PLAN:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se implementó `src/qa/cliente_ollama.py` con `ConfiguracionLlm` (lectura de `OLLAMA_BASE_URL` y `MODELO_LLM_DEFECTO` vía `desde_variables_entorno`), `ClienteOllama.chat` y `listar_modelos_locales`, reintento 5xx con espera 2s, y excepciones con mensajes acordados. Constantes `MODELO_LLAMA_3_1_8B` y `MODELO_GEMMA_4_E2B`. Tests con `responses` y prueba `integration_ollama` registrada en `pyproject.toml`. Dependencia dev: `responses`.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv add requests python-dotenv ejecutado (si no estaban)
-- [ ] #2 El cliente NO menciona temperaturas, system prompts o pipelines de RAG: solo es un transport HTTP
-- [ ] #3 Errores documentados con docstring que muestra el mensaje exacto
+- [x] #1 uv add requests python-dotenv ejecutado (si no estaban)
+- [x] #2 El cliente NO menciona temperaturas, system prompts o pipelines de RAG: solo es un transport HTTP
+- [x] #3 Errores documentados con docstring que muestra el mensaje exacto
 <!-- DOD:END -->
