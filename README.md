@@ -41,6 +41,8 @@ uv run python -m scripts.scrape --help
 uv run python -m scripts.export_markdown --help
 ```
 
+Referencia detallada de flags y orden del pipeline: [scripts/README.md](scripts/README.md).
+
 ## Modelado
 
 - **Recuperación:** BM25 sobre el texto completo de cada archivo en `data/markdown/valledellili-org/`.
