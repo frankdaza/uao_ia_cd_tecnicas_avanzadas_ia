@@ -4,7 +4,7 @@ title: Streaming de respuestas y estado de carga en la UI Gradio
 status: Done
 assignee: []
 created_date: '2026-04-26 22:31'
-updated_date: '2026-04-26 22:38'
+updated_date: '2026-04-28 05:36'
 labels:
   - ui
   - ux
@@ -19,7 +19,7 @@ references:
   - >-
     https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
   - 'https://www.gradio.app/guides/streaming-outputs'
-ordinal: 0.06103515625
+ordinal: 0.00762939453125
 ---
 
 ## Description

@@ -1,12 +1,14 @@
 """
-Interfaz Q&A con Gradio: pregunta, modelo Ollama, prompt del sistema y trazabilidad.
+Interfaz Q&A con Gradio: pregunta, modelos Ollama y OpenAI, respuesta dual opcional.
 
-Soporta streaming token a token, indicador de carga en el botón Preguntar y
-respuestas renderizadas como Markdown enriquecido.
+Streaming token a token: Ollama y OpenAI cuando cada uno corre solo.
+Con ambos motores activos y clave válida: primero se transmite la salida Ollama y después
+la de OpenAI (una sola pasada BM25; dos llamadas al modelo secuencialmente).
 """
 
 from __future__ import annotations
 
+import time
 from collections.abc import Iterator
 
 import gradio as gr
@@ -15,28 +17,51 @@ from src.qa.cliente_ollama import (
     ModeloNoDisponibleError,
     OllamaNoAccesibleError,
 )
+from src.qa.cliente_openai import (
+    MODELOS_OPENAI_SOPORTADOS,
+    ClaveApiOpenAiAusenteError,
+    MODELO_OPENAI_GPT_4O_MINI,
+    OpenAiClienteError,
+)
 from src.qa.pipeline import (
     PROMPT_SISTEMA_DEFECTO,
     RespuestaQa,
     construir_pipeline_por_defecto,
 )
 
-_pipeline = construir_pipeline_por_defecto()
+_PIPELINE = construir_pipeline_por_defecto()
 
 _CSS_UI = """
-#bloque-respuesta {
+#bloque-respuesta-o, #bloque-respuesta-oa {
     min-height: 220px;
     padding: 1rem 1.25rem;
     border-radius: 12px;
     background: var(--block-background-fill);
     line-height: 1.55;
 }
-#bloque-respuesta h2 { margin-top: 0.6rem; margin-bottom: 0.4rem; }
-#bloque-respuesta ul, #bloque-respuesta ol { margin: 0.4rem 0 0.6rem 1.2rem; }
-#bloque-respuesta p { margin: 0.4rem 0; }
-#bloque-respuesta code { padding: 0.1rem 0.35rem; border-radius: 4px; }
-#bloque-metadatos { font-size: 0.92rem; opacity: 0.92; line-height: 1.45; }
+#bloque-respuesta-o h2, #bloque-respuesta-oa h2 { margin-top: 0.6rem; margin-bottom: 0.4rem; }
+#bloque-respuesta-o ul, #bloque-respuesta-oa ul,
+#bloque-respuesta-o ol, #bloque-respuesta-oa ol { margin: 0.4rem 0 0.6rem 1.2rem; }
+#bloque-respuesta-o p, #bloque-respuesta-oa p { margin: 0.4rem 0; }
+#bloque-respuesta-o code, #bloque-respuesta-oa code { padding: 0.1rem 0.35rem; border-radius: 4px; }
+#bloque-metadatos-o, #bloque-metadatos-oa { font-size: 0.92rem; opacity: 0.92; line-height: 1.45; }
+#bloque-aviso-dual { font-size: 0.9rem; opacity: 0.95; }
+#estado-consulta { min-height: 1.5rem; }
 """
+
+
+def _mensaje_configurar_openai() -> str:
+    return (
+        "Configura la variable **OPENAI_API_KEY** en el archivo **`.env`** en la raíz "
+        "del proyecto y vuelve a iniciar la aplicación."
+    )
+
+
+def _tiene_clave_openai() -> bool:
+    c = _PIPELINE.cliente_openai
+    if c is None:
+        return False
+    return c.configuracion.tiene_api_key()
 
 
 def _formatear_metadatos(resultado: RespuestaQa) -> str:
@@ -80,11 +105,11 @@ def manejar_pregunta(
     modelo_elegido: str,
     prompt_actual: str,
 ) -> tuple[str, str]:
-    """Versión no-streaming (compatibilidad). Devuelve respuesta y metadatos."""
+    """Versión no-streaming (compatibilidad): solo Ollama."""
     if not (texto_pregunta or "").strip():
         return "Por favor escribe una pregunta.", ""
     try:
-        resultado = _pipeline.responder(
+        resultado = _PIPELINE.responder(
             pregunta=texto_pregunta,
             modelo=modelo_elegido,
             prompt_sistema=prompt_actual,
@@ -99,20 +124,14 @@ def manejar_pregunta_stream(
     modelo_elegido: str,
     prompt_actual: str,
 ) -> Iterator[tuple[str, str]]:
-    """Generador para Gradio: yield ``(texto_acumulado, metadatos_md)``.
-
-    Mientras llegan tokens, los metadatos quedan vacíos. Al final se emite el
-    texto completo y el bloque de trazabilidad. Si Ollama no responde o el
-    modelo no existe, muestra el mensaje de error en el área de respuesta y
-    deja los metadatos vacíos sin propagar excepciones a la UI.
-    """
+    """Solo Ollama en streaming (compatibilidad con versiones anteriores)."""
     if not (texto_pregunta or "").strip():
         yield "Por favor escribe una pregunta.", ""
         return
 
     acumulado = ""
     try:
-        for parcial, final in _pipeline.responder_stream(
+        for parcial, final in _PIPELINE.responder_stream(
             pregunta=texto_pregunta,
             modelo=modelo_elegido,
             prompt_sistema=prompt_actual,
@@ -126,13 +145,222 @@ def manejar_pregunta_stream(
         yield f"**{exc}**", ""
 
 
+def manejar_consulta_combinada(
+    texto_pregunta: str,
+    prompt_actual: str,
+    usar_ollama: bool,
+    usar_openai: bool,
+    modelo_ollama: str,
+    modelo_openai: str,
+) -> Iterator[tuple[str, str, str, str, str, str]]:
+    """
+    ``(estado_global, resp_o, meta_o, resp_oa, meta_oa, aviso_dual)``.
+
+    Con un solo motor activo, las columnas no usadas quedan en blanco.
+    """
+    vacio = (
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    )
+    if not (texto_pregunta or "").strip():
+        yield "Por favor escribe una pregunta.", *vacio[1:]
+        return
+
+    if not usar_ollama and not usar_openai:
+        yield (
+            "*(Activa al menos un motor de generación: Ollama u OpenAI.)*",
+            "",
+            "",
+            "",
+            "",
+            "",
+        )
+        return
+
+    sin_clave = usar_openai and not _tiene_clave_openai()
+
+    # Solo Ollama con streaming
+    if usar_ollama and not usar_openai:
+        try:
+            for parcial, final in _PIPELINE.responder_stream(
+                pregunta=texto_pregunta,
+                modelo=modelo_ollama,
+                prompt_sistema=prompt_actual,
+            ):
+                if final is None:
+                    yield "", parcial, "", "", "", ""
+                else:
+                    yield (
+                        "",
+                        final.texto,
+                        _formatear_metadatos(final),
+                        "",
+                        "",
+                        "",
+                    )
+        except (OllamaNoAccesibleError, ModeloNoDisponibleError) as exc:
+            yield f"**{exc}**", "", "", "", "", ""
+        return
+
+    # Solo OpenAI con streaming token a token
+    if usar_openai and not usar_ollama:
+        if sin_clave:
+            yield "", "", "", _mensaje_configurar_openai(), "", ""
+            return
+        try:
+            for parcial, final in _PIPELINE.responder_openai_stream(
+                texto_pregunta,
+                modelo_openai=modelo_openai,
+                prompt_sistema=prompt_actual,
+            ):
+                if final is None:
+                    yield "", "", "", parcial, "", ""
+                else:
+                    yield (
+                        "",
+                        "",
+                        "",
+                        final.texto,
+                        _formatear_metadatos(final),
+                        "",
+                    )
+        except (ClaveApiOpenAiAusenteError, OpenAiClienteError) as exc:
+            yield "", "", "", f"**{exc}**", "", ""
+        return
+
+    # Ambos motores con clave: secuencial (Ollama luego OpenAI), streaming en cada uno
+    aviso = (
+        "*Esta consulta ejecuta **dos** llamadas a modelo (Ollama y OpenAI): "
+        "coste y límites de velocidad se aplican por separado a cada una.*"
+    )
+    if sin_clave:
+        try:
+            for parcial, final in _PIPELINE.responder_stream(
+                pregunta=texto_pregunta,
+                modelo=modelo_ollama,
+                prompt_sistema=prompt_actual,
+            ):
+                if final is None:
+                    yield (
+                        "",
+                        parcial,
+                        "",
+                        _mensaje_configurar_openai(),
+                        "",
+                        aviso,
+                    )
+                else:
+                    yield (
+                        "",
+                        final.texto,
+                        _formatear_metadatos(final),
+                        _mensaje_configurar_openai(),
+                        "",
+                        aviso,
+                    )
+        except (OllamaNoAccesibleError, ModeloNoDisponibleError) as exc:
+            yield f"**{exc}**", "", "", _mensaje_configurar_openai(), "", aviso
+        return
+
+    ctx = _PIPELINE.preparar_contexto_inferencia(
+        texto_pregunta,
+        prompt_actual,
+    )
+    if ctx.vacio:
+        t_bm25 = time.perf_counter()
+        ps = ctx.prompt_sistema_usado
+        latencia_ms = int((time.perf_counter() - t_bm25) * 1000)
+        texto_base = "No tengo información suficiente"
+        base_kw = {
+            "texto": texto_base,
+            "archivo_fuente": None,
+            "source_url": "",
+            "titulo": "",
+            "score_recuperacion": 0.0,
+            "latencia_ms": latencia_ms,
+            "prompt_sistema_usado": ps,
+            "fuentes_bm25": (),
+        }
+        r_o = RespuestaQa(modelo=modelo_ollama, **base_kw)
+        r_oa = RespuestaQa(modelo=modelo_openai, **base_kw)
+        yield "", r_o.texto, _formatear_metadatos(r_o), "", "", aviso
+        yield (
+            "",
+            r_o.texto,
+            _formatear_metadatos(r_o),
+            r_oa.texto,
+            _formatear_metadatos(r_oa),
+            aviso,
+        )
+        return
+
+    t_ollama = time.perf_counter()
+    texto_o = ""
+    meta_o = ""
+    try:
+        for parcial, final in _PIPELINE.stream_ollama_desde_contexto(
+            ctx,
+            modelo_ollama,
+            t_ollama,
+        ):
+            if final is None:
+                yield "", parcial, "", "", "", aviso
+            else:
+                texto_o = final.texto
+                meta_o = _formatear_metadatos(final)
+                yield "", texto_o, meta_o, "", "", aviso
+    except (OllamaNoAccesibleError, ModeloNoDisponibleError) as exc:
+        yield f"**{exc}**", "", "", "", "", aviso
+        return
+
+    t_openai = time.perf_counter()
+    try:
+        for parcial, final in _PIPELINE.stream_openai_desde_contexto(
+            ctx,
+            modelo_openai,
+            t_openai,
+        ):
+            if final is None:
+                yield "", texto_o, meta_o, parcial, "", aviso
+            else:
+                yield (
+                    "",
+                    texto_o,
+                    meta_o,
+                    final.texto,
+                    _formatear_metadatos(final),
+                    aviso,
+                )
+    except (ClaveApiOpenAiAusenteError, OpenAiClienteError) as exc:
+        yield "", texto_o, meta_o, f"**{exc}**", "", aviso
+
+
 def restaurar_prompt() -> str:
     return PROMPT_SISTEMA_DEFECTO
 
 
 def al_recargar_corpus() -> str:
-    _pipeline.recuperador.recargar()
+    _PIPELINE.recuperador.recargar()
     return "Listo: índice BM25 recargado desde el directorio de Markdown."
+
+
+def actualizar_columnas_motores(
+    usar_ollama: bool,
+    usar_openai: bool,
+) -> tuple:
+    """Visibilidad de columnas, selectores por motor y aviso de coste dual."""
+    ambos = usar_ollama and usar_openai
+    return (
+        gr.update(visible=usar_ollama),
+        gr.update(visible=usar_openai),
+        gr.update(visible=ambos),
+        gr.update(visible=usar_ollama),
+        gr.update(visible=usar_openai),
+    )
 
 
 def construir_demo() -> gr.Blocks:
@@ -151,11 +379,31 @@ def construir_demo() -> gr.Blocks:
                     placeholder="Ej: ¿Cómo puedo agendar una cita?",
                     lines=3,
                 )
-                modelo = gr.Radio(
-                    choices=["llama3.1:8b", "gemma4:e2b"],
-                    value="llama3.1:8b",
-                    label="Modelo (Ollama)",
+                usar_ollama = gr.Checkbox(
+                    value=True,
+                    label="Usar Ollama (generación local)",
                 )
+                usar_openai = gr.Checkbox(
+                    value=False,
+                    label="Usar OpenAI (API en la nube)",
+                )
+                with gr.Row(visible=True) as fila_modelo_ollama:
+                    modelo = gr.Radio(
+                        choices=["llama3.1:8b", "gemma4:e2b"],
+                        value="llama3.1:8b",
+                        label="Modelo (Ollama)",
+                    )
+                with gr.Row(visible=False) as fila_modelo_openai:
+                    modelo_openai_dd = gr.Dropdown(
+                        choices=list(MODELOS_OPENAI_SOPORTADOS),
+                        value=MODELO_OPENAI_GPT_4O_MINI,
+                        label="Modelo (OpenAI)",
+                        info=(
+                            "Requiere OPENAI_API_KEY en `.env`. "
+                            "Si ves error de límite (429), prueba **`gpt-4o-mini`**, espera unos segundos "
+                            "y revisa el uso del plan en el panel de OpenAI (no es un fallo de esta app)."
+                        ),
+                    )
                 with gr.Accordion("Prompt del sistema (editable)", open=False):
                     prompt_textbox = gr.Textbox(
                         value=PROMPT_SISTEMA_DEFECTO,
@@ -167,26 +415,83 @@ def construir_demo() -> gr.Blocks:
                     boton_preguntar = gr.Button("Preguntar", variant="primary")
                     boton_recargar = gr.Button("Recargar corpus", variant="secondary")
             with gr.Column(scale=3):
-                respuesta = gr.Markdown(
-                    label="Respuesta",
-                    elem_id="bloque-respuesta",
+                estado_consulta = gr.Markdown(
+                    elem_id="estado-consulta",
+                    label="Estado",
                 )
-                metadatos = gr.Markdown(
-                    label="Trazabilidad y fuentes BM25",
-                    elem_id="bloque-metadatos",
+                with gr.Row():
+                    with gr.Column(visible=True) as col_ollama:
+                        gr.Markdown("### Respuesta — Ollama")
+                        respuesta_o = gr.Markdown(
+                            label="Texto",
+                            elem_id="bloque-respuesta-o",
+                        )
+                        metadatos_o = gr.Markdown(
+                            label="Trazabilidad",
+                            elem_id="bloque-metadatos-o",
+                        )
+                    with gr.Column(visible=False) as col_openai:
+                        gr.Markdown("### Respuesta — OpenAI")
+                        respuesta_oa = gr.Markdown(
+                            elem_id="bloque-respuesta-oa",
+                        )
+                        metadatos_oa = gr.Markdown(
+                            elem_id="bloque-metadatos-oa",
+                        )
+                aviso_dual = gr.Markdown(
+                    visible=False,
+                    elem_id="bloque-aviso-dual",
+                    label="Aviso",
                 )
                 estado_recarga = gr.Markdown(
                     value="",
                     label="Recarga de corpus",
                 )
 
+        usar_ollama.change(
+            actualizar_columnas_motores,
+            inputs=[usar_ollama, usar_openai],
+            outputs=[
+                col_ollama,
+                col_openai,
+                aviso_dual,
+                fila_modelo_ollama,
+                fila_modelo_openai,
+            ],
+        )
+        usar_openai.change(
+            actualizar_columnas_motores,
+            inputs=[usar_ollama, usar_openai],
+            outputs=[
+                col_ollama,
+                col_openai,
+                aviso_dual,
+                fila_modelo_ollama,
+                fila_modelo_openai,
+            ],
+        )
+
         boton_preguntar.click(
             lambda: gr.update(interactive=False, value="Pensando..."),
             outputs=[boton_preguntar],
         ).then(
-            manejar_pregunta_stream,
-            inputs=[pregunta, modelo, prompt_textbox],
-            outputs=[respuesta, metadatos],
+            manejar_consulta_combinada,
+            inputs=[
+                pregunta,
+                prompt_textbox,
+                usar_ollama,
+                usar_openai,
+                modelo,
+                modelo_openai_dd,
+            ],
+            outputs=[
+                estado_consulta,
+                respuesta_o,
+                metadatos_o,
+                respuesta_oa,
+                metadatos_oa,
+                aviso_dual,
+            ],
         ).then(
             lambda: gr.update(interactive=True, value="Preguntar"),
             outputs=[boton_preguntar],
