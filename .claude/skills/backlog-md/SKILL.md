@@ -18,6 +18,10 @@ description: Tareas y Backlog.md MCP. Usar al crear, actualizar o cerrar tareas 
 
 Ver detalle en **`.cursor/rules/backlog-workflow.mdc`**.
 
+## Documentacion en `backlog/docs/`
+
+Las guías y referencias en **`backlog/docs/`** (no las tareas de `backlog/tasks/`) siguen naming `doc-<N> - Titulo-Slug.md` y front matter con `id`, `title`, `type`, `created_date`. Ver la skill **`backlog-docs`** y la regla **`.cursor/rules/backlog-docs-format.mdc`**.
+
 ## Referencia
 
 - Resumen alineado en `AGENTS.md` (despues del bloque de Backlog.md MCP) y en `CLAUDE.md` (sección *Gestión de tareas*).

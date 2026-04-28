@@ -71,6 +71,7 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 | `python-style.mdc` | Estilo en `**/*.py` |
 | `scraping-ethics.mdc` | Ética de scraping en `src/scraping/**` |
 | `backlog-workflow.mdc` | Cierre con Backlog MCP: `Done` sin archivar; `task_complete` solo si el usuario lo pide |
+| `backlog-docs-format.mdc` | Naming `doc-<N>` y front matter YAML en `backlog/docs/**/*.md` (estilo Backlog.md upstream) |
 
 ## Skills (`.cursor/skills/` y `.claude/skills/`)
 
@@ -86,3 +87,4 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `llm-backend` | Ollama o API + framework LLM |
 | `gradio-qa-ui` | Interfaz de prueba |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
+| `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |
