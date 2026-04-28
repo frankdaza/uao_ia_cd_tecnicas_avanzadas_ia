@@ -9,7 +9,16 @@ LLM, no en este módulo.
 
 from __future__ import annotations
 
+from pathlib import Path
+
+from src.retrieval.recuperador import DocumentoRecuperado
+
 _SIN_URL_ETIQUETA: str = "sin URL"
+
+_INSTRUCCION_CONTEXTO_MULTI: str = (
+    "Responde la pregunta del usuario usando solo estos CONTEXTOS. "
+    'Si la respuesta no aparece en ninguno, responde: "No tengo información suficiente".'
+)
 
 PROMPT_SISTEMA_DEFECTO: str = """Eres "Lili", la asistente virtual oficial de la Fundación Valle del Lili. Hablas en español colombiano (parcero, con mucho cariño y profesionalismo, sin caer en localismos pesados).
 
@@ -44,6 +53,41 @@ Puedes hacerlo así, parcero:
 """
 
 
+def componer_mensajes_multi(
+    prompt_sistema: str,
+    documentos: list[DocumentoRecuperado],
+    pregunta: str,
+) -> list[dict[str, str]]:
+    """
+    Arma ``messages`` con varios documentos completos como CONTEXTOS numerados.
+
+    ``documentos`` deben estar ordenados por relevancia (p. ej. BM25 descendente).
+    """
+    n = len(documentos)
+    bloques: list[str] = []
+    for idx, doc in enumerate(documentos, start=1):
+        url_txt = doc.source_url.strip() if doc.source_url.strip() else _SIN_URL_ETIQUETA
+        bloques.append(
+            f"[DOCUMENTO {idx}] titulo: {doc.titulo}\n"
+            f"URL: {url_txt}\n\n"
+            f"{doc.contenido}"
+        )
+    sep = "\n\n---\n\n"
+    cuerpo_contexto = sep.join(bloques)
+    if n == 1:
+        cabecera_ctx = "CONTEXTO (1 documento ordenado por relevancia BM25):\n\n"
+    else:
+        cabecera_ctx = (
+            f"CONTEXTO ({n} documentos ordenados por relevancia BM25):\n\n"
+        )
+    contexto = f"{cabecera_ctx}{cuerpo_contexto}\n\n{_INSTRUCCION_CONTEXTO_MULTI}"
+    contenido_sistema = f"{prompt_sistema.rstrip()}\n\n{contexto}"
+    return [
+        {"role": "system", "content": contenido_sistema},
+        {"role": "user", "content": pregunta},
+    ]
+
+
 def componer_mensajes(
     prompt_sistema: str,
     contenido_md: str,
@@ -53,20 +97,16 @@ def componer_mensajes(
     """
     Arma la lista ``messages`` para ``POST /api/chat`` (Ollama u otro API compatible).
 
-    El contexto (Markdown completo) va en el mensaje con rol ``system``, junto con
-    las instrucciones del ``prompt_sistema``, para fijar de una vez conducta y datos.
+    Compatibilidad: un solo documento vía :func:`componer_mensajes_multi`.
     """
-    url = _SIN_URL_ETIQUETA
-    if metadata_documento:
-        url = str(metadata_documento.get("source_url", _SIN_URL_ETIQUETA) or _SIN_URL_ETIQUETA)
-    contexto = (
-        "CONTEXTO (extraído del archivo con URL "
-        f"{url}):\n\n"
-        f"{contenido_md}\n\n"
-        "Responde la pregunta del usuario usando solo este CONTEXTO."
+    meta = metadata_documento or {}
+    titulo = str(meta.get("titulo", "") or "")
+    url = str(meta.get("source_url", "") or "")
+    doc = DocumentoRecuperado(
+        ruta=Path("__componer_mensajes__"),
+        titulo=titulo,
+        source_url=url,
+        contenido=contenido_md,
+        score=0.0,
     )
-    contenido_sistema = f"{prompt_sistema.rstrip()}\n\n{contexto}"
-    return [
-        {"role": "system", "content": contenido_sistema},
-        {"role": "user", "content": pregunta},
-    ]
+    return componer_mensajes_multi(prompt_sistema, [doc], pregunta)

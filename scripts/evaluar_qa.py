@@ -124,12 +124,23 @@ def _bloque_pregunta(reg: RegistroEvaluacion) -> str:
         "",
         f"- **Categoría:** {reg.categoria}",
         f"- **Archivo esperado:** {arch_exp if arch_exp else '—'}",
-        f"- **Archivo recuperado:** {nombre_arch}{nota}",
-        f"- **Score BM25:** {r.score_recuperacion:.2f}",
-        f"- **Latencia:** {r.latencia_ms} ms",
-        "- **Respuesta:**",
-        "",
+        f"- **Archivo recuperado (top-1):** {nombre_arch}{nota}",
     ]
+    if r.fuentes_bm25:
+        lista_ctx = ", ".join(
+            f"`{f.ruta.name}` ({f.score:.2f})" for f in r.fuentes_bm25
+        )
+        lineas.append(
+            f"- **BM25 — archivos en contexto ({len(r.fuentes_bm25)}):** {lista_ctx}"
+        )
+    lineas.extend(
+        [
+            f"- **Score BM25 (top-1):** {r.score_recuperacion:.2f}",
+            f"- **Latencia:** {r.latencia_ms} ms",
+            "- **Respuesta:**",
+            "",
+        ]
+    )
     cuerpo = "\n".join(lineas)
     # Citas en bloque: indentar cuerpo de respuesta
     texto = (r.texto or "").strip()

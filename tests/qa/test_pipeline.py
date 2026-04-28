@@ -39,16 +39,20 @@ def test_pipeline_responde_pregunta_valida(dir_fixtures_markdown: Path) -> None:
     assert r.modelo == MODELO_LLAMA_3_1_8B
     assert r.latencia_ms >= 0
     assert r.prompt_sistema_usado == PROMPT_SISTEMA_DEFECTO
+    assert len(r.fuentes_bm25) >= 1
+    assert r.fuentes_bm25[0].ruta == r.archivo_fuente
     cliente.chat.assert_called_once()
     (mensajes,) = cliente.chat.call_args[0]
     assert len(mensajes) == 2
     assert mensajes[0]["role"] == "system"
+    assert "[DOCUMENTO 1]" in mensajes[0]["content"]
+    assert "CONTEXTO (" in mensajes[0]["content"]
     assert mensajes[1]["content"] == "¿Cuáles son los servicios de cardiología?"
 
 
 def test_pipeline_recuperacion_vacia() -> None:
     recu = MagicMock()
-    recu.buscar.side_effect = RecuperacionVaciaError("vacio de prueba")
+    recu.buscar_top.side_effect = RecuperacionVaciaError("vacio de prueba")
     cliente = MagicMock(spec=ClienteOllama)
     cliente.configuracion = ConfiguracionLlm(
         base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
@@ -59,7 +63,33 @@ def test_pipeline_recuperacion_vacia() -> None:
 
     assert r.texto == "No tengo información suficiente"
     assert r.archivo_fuente is None
+    assert r.fuentes_bm25 == ()
     cliente.chat.assert_not_called()
+
+
+def test_pipeline_mensaje_sistema_incluye_tres_documentos_consulta_amplia(
+    dir_fixtures_markdown: Path,
+) -> None:
+    """Smoke: pregunta amplia activa BM25 > 0 en al menos 3 fixtures -> 3 bloques."""
+    recu = RecuperadorBm25(dir_fixtures_markdown)
+    cliente = MagicMock(spec=ClienteOllama)
+    cliente.configuracion = ConfiguracionLlm(
+        base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
+    )
+    cliente.chat.return_value = "ok"
+
+    pipe = PipelineQa(recu, cliente)  # type: ignore[arg-type]
+    pregunta = (
+        "fundacion servicios cardiologia pediatria contacto historia lineas region"
+    )
+    r = pipe.responder(pregunta)
+    assert len(r.fuentes_bm25) == 3
+
+    (mensajes,) = cliente.chat.call_args[0]
+    sistema = mensajes[0]["content"]
+    assert "[DOCUMENTO 1]" in sistema
+    assert "[DOCUMENTO 2]" in sistema
+    assert "[DOCUMENTO 3]" in sistema
 
 
 def test_pipeline_propaga_errores_ollama(dir_fixtures_markdown: Path) -> None:
@@ -160,13 +190,14 @@ def test_responder_stream_concatena_y_devuelve_metadatos(
     assert final.archivo_fuente is not None
     assert final.archivo_fuente.name == "servicios-cardiologia.md"
     assert final.score_recuperacion > 0.0
+    assert len(final.fuentes_bm25) >= 1
     assert final.modelo == MODELO_LLAMA_3_1_8B
     assert final.latencia_ms >= 0
 
 
 def test_responder_stream_recuperacion_vacia() -> None:
     recu = MagicMock()
-    recu.buscar.side_effect = RecuperacionVaciaError("vacio")
+    recu.buscar_top.side_effect = RecuperacionVaciaError("vacio")
     cliente = MagicMock(spec=ClienteOllama)
     cliente.configuracion = ConfiguracionLlm(
         base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
@@ -179,6 +210,7 @@ def test_responder_stream_recuperacion_vacia() -> None:
     assert texto == "No tengo información suficiente"
     assert final is not None
     assert final.archivo_fuente is None
+    assert final.fuentes_bm25 == ()
     cliente.chat_stream.assert_not_called()
 
 

@@ -9,9 +9,10 @@ from src.qa.cliente_ollama import (
     MODELO_LLAMA_3_1_8B,
     OllamaNoAccesibleError,
 )
-from src.qa.pipeline import PipelineQa, RespuestaQa, construir_pipeline_por_defecto
+from src.qa.pipeline import PipelineQa, RespuestaQa, FuenteBm25, construir_pipeline_por_defecto
 
 __all__ = [
+    "FuenteBm25",
     "ClienteOllama",
     "ConfiguracionLlm",
     "ModeloNoDisponibleError",

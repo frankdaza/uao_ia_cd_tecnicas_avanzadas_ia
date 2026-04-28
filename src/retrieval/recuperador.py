@@ -62,6 +62,8 @@ class RecuperacionVaciaError(Exception):
 class RecuperadorDocumento(Protocol):
     def buscar(self, pregunta: str) -> DocumentoRecuperado: ...
 
+    def buscar_top(self, pregunta: str, k: int = 3) -> list[DocumentoRecuperado]: ...
+
     def recargar(self) -> None: ...
 
 
@@ -174,7 +176,7 @@ class RecuperadorBm25:
             self._token_docs.append(tokens)
         self._bm25 = BM25Okapi(self._token_docs)
 
-    def buscar(self, pregunta: str) -> DocumentoRecuperado:
+    def buscar_top(self, pregunta: str, k: int = 3) -> list[DocumentoRecuperado]:
         if self._bm25 is None or not self._rutas:
             raise RecuperacionVaciaError("Indice BM25 no disponible.")
         toks = tokenizar(pregunta)
@@ -182,18 +184,29 @@ class RecuperadorBm25:
             raise RecuperacionVaciaError("La pregunta no produjo terminos tras tokenizar.")
         scores = self._bm25.get_scores(toks)
         arr = np.asarray(scores, dtype=np.float64)
-        if not np.any(arr > 0):
+        positivos = np.flatnonzero(arr > 0)
+        if positivos.size == 0:
             raise RecuperacionVaciaError(
                 "Ningun documento tuvo score BM25 > 0 para esta pregunta."
             )
-        i = int(np.argmax(arr))
-        return DocumentoRecuperado(
-            ruta=self._rutas[i],
-            titulo=self._titulos[i],
-            source_url=self._urls[i],
-            contenido=self._cuerpos[i],
-            score=float(arr[i]),
-        )
+        ordenados = positivos[np.argsort(-arr[positivos])]
+        limite = min(k, int(ordenados.size))
+        salida: list[DocumentoRecuperado] = []
+        for j in range(limite):
+            i = int(ordenados[j])
+            salida.append(
+                DocumentoRecuperado(
+                    ruta=self._rutas[i],
+                    titulo=self._titulos[i],
+                    source_url=self._urls[i],
+                    contenido=self._cuerpos[i],
+                    score=float(arr[i]),
+                )
+            )
+        return salida
+
+    def buscar(self, pregunta: str) -> DocumentoRecuperado:
+        return self.buscar_top(pregunta, k=1)[0]
 
     def recargar(self) -> None:
         self._reindexar()

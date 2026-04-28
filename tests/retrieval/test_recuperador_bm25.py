@@ -61,6 +61,40 @@ def test_recuperacion_vacia_lanza_excepcion(dir_fixtures_markdown: Path) -> None
         recu.buscar("blockchain quantum NFT")
 
 
+def test_buscar_top_ordena_descendente_y_respeta_k(dir_fixtures_markdown: Path) -> None:
+    recu = RecuperadorBm25(dir_fixtures_markdown)
+    pregunta = (
+        "fundacion servicios cardiologia pediatria contacto historia lineas region"
+    )
+    docs3 = recu.buscar_top(pregunta, k=3)
+    assert 1 <= len(docs3) <= 3
+    scores = [d.score for d in docs3]
+    assert scores == sorted(scores, reverse=True)
+    assert all(d.score > 0.0 for d in docs3)
+    docs2 = recu.buscar_top(pregunta, k=2)
+    assert len(docs2) <= 2
+    assert docs2[0].ruta == docs3[0].ruta
+
+
+def test_buscar_top_un_solo_documento_positivo(dir_fixtures_markdown: Path) -> None:
+    """Consulta muy especifica: solo un archivo deberia sobresalir claramente."""
+    recu = RecuperadorBm25(dir_fixtures_markdown)
+    docs = recu.buscar_top("hemodinamia cateter valvulopatia sincronizacion", k=3)
+    assert len(docs) >= 1
+    assert docs[0].ruta.name == "servicios-cardiologia.md"
+    assert len(docs) == 1
+
+
+def test_buscar_equivale_a_primer_buscar_top(dir_fixtures_markdown: Path) -> None:
+    recu = RecuperadorBm25(dir_fixtures_markdown)
+    pregunta = "Cual es la historia de la fundacion"
+    uno = recu.buscar(pregunta)
+    lista = recu.buscar_top(pregunta, k=1)
+    assert len(lista) == 1
+    assert uno.ruta == lista[0].ruta
+    assert uno.score == lista[0].score
+
+
 def test_recargar_reindexa_nuevo_archivo(
     tmp_path: Path,
     dir_fixtures_markdown: Path,

@@ -5,6 +5,7 @@ type: guide
 created_date: '2026-04-27'
 status: vigente
 modulo: 1
+updated_date: '2026-04-28'
 ---
 
 # Fase 1 del proyecto final: MVP de Q&A con BM25 a nivel archivo
@@ -55,7 +56,7 @@ flowchart LR
     raw --> exporter
     exporter --> md
     md --> bm25
-    bm25 -->|"top-1 .md completo"| qa
+    bm25 -->|"hasta 3 .md completos (BM25 top-k)"| qa
     qa --> ollama
     ollama --> ui
 ```
@@ -199,13 +200,17 @@ Codigo: [src/retrieval/recuperador.py](../../src/retrieval/recuperador.py).
 3. `tokenizar` aplica: normalizacion NFKD para quitar marcas combinantes (tildes), `lower()`, regex `\w+`, descarte de tokens de longitud `< 2` y de stopwords basicas en espanol (`de`, `la`, `el`, `en`, `y`, `que`, ...).
 4. La lista de listas de tokens alimenta `BM25Okapi` de la libreria `rank-bm25`.
 
-### 6.2 Consulta y seleccion top-1
+### 6.2 Consulta: top-k y compatibilidad top-1
 
-`buscar(pregunta)` tokeniza la pregunta con la misma funcion, llama a `BM25Okapi.get_scores` para obtener un puntaje por documento y selecciona el indice con `np.argmax`. Si **ningun** documento tiene puntaje BM25 mayor que cero, lanza `RecuperacionVaciaError` (caso "ninguna palabra significativa se encontro en el corpus"). El resultado es un `DocumentoRecuperado` con `ruta`, `titulo`, `source_url`, `contenido` (cuerpo del `.md`) y `score`.
+`buscar_top(pregunta, k)` tokeniza la pregunta con la misma funcion, llama a `BM25Okapi.get_scores`, ordena los documentos con puntaje **estrictamente mayor que cero** por score descendente y devuelve hasta **k** resultados (en produccion del pipeline, **k = 3**). Si **ningun** documento supera el umbral, lanza `RecuperacionVaciaError`. Cada elemento es un `DocumentoRecuperado` con `ruta`, `titulo`, `source_url`, `contenido` (cuerpo del `.md`) y `score`.
+
+`buscar(pregunta)` se mantiene como alias de conveniencia: equivale a `buscar_top(pregunta, k=1)[0]` para APIs que solo necesitan la mejor fuente.
+
+El **prompt enviado al LLM** concatena hasta **tres archivos Markdown completos** como CONTEXTOS numerados (`[DOCUMENTO 1]` … `[DOCUMENTO N]`); los metadatos de respuesta (`RespuestaQa`) siguen referenciando solo el documento top-1 para trazabilidad en Gradio y en el script de evaluacion.
 
 ### 6.3 Inyeccion en el prompt
 
-El pipeline en `src/qa/` toma el `DocumentoRecuperado.contenido` y lo inyecta **integro** como contexto del prompt zero-shot anti-alucinacion (ver `src/qa/prompt.py`). Reglas clave del prompt:
+El pipeline en `src/qa/` arma el mensaje de sistema con **uno o varios** cuerpos Markdown completos mediante `componer_mensajes_multi` en `src/qa/prompt.py` (bloques separados por `---`, titulo y URL por bloque). Reglas clave del prompt:
 
 - Responder **solo** con la informacion del contexto.
 - Si no hay datos suficientes, devolver literalmente *"No tengo informacion suficiente"*.

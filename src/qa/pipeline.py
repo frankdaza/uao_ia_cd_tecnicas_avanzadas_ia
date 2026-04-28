@@ -4,17 +4,44 @@ from __future__ import annotations
 
 import time
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 from src.qa.cliente_ollama import ClienteOllama, ConfiguracionLlm
-from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes
+from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes_multi
+
 from src.retrieval.recuperador import (
+    DocumentoRecuperado,
     RecuperacionVaciaError,
     RecuperadorBm25,
     RecuperadorDocumento,
 )
+
+K_TOP_DOCUMENTOS: int = 3
+
+
+@dataclass(frozen=True)
+class FuenteBm25:
+    """Metadatos de un documento recuperado (sin el cuerpo Markdown completo)."""
+
+    ruta: Path
+    titulo: str
+    source_url: str
+    score: float
+
+
+def _fuentes_desde_documentos(
+    documentos: list[DocumentoRecuperado],
+) -> tuple[FuenteBm25, ...]:
+    return tuple(
+        FuenteBm25(
+            ruta=d.ruta,
+            titulo=d.titulo,
+            source_url=d.source_url,
+            score=d.score,
+        )
+        for d in documentos
+    )
 
 
 @dataclass(frozen=True)
@@ -29,6 +56,7 @@ class RespuestaQa:
     score_recuperacion: float
     latencia_ms: int
     prompt_sistema_usado: str
+    fuentes_bm25: tuple[FuenteBm25, ...] = field(default_factory=tuple)
 
 
 class PipelineQa:
@@ -70,7 +98,9 @@ class PipelineQa:
             )
 
         try:
-            documento = self._recuperador.buscar(pregunta)
+            documentos = self._recuperador.buscar_top(
+                pregunta, k=K_TOP_DOCUMENTOS
+            )
         except RecuperacionVaciaError:
             return RespuestaQa(
                 texto="No tengo información suficiente",
@@ -83,16 +113,8 @@ class PipelineQa:
                 prompt_sistema_usado=ps,
             )
 
-        metadata: dict[str, Any] = {
-            "source_url": documento.source_url,
-            "titulo": documento.titulo,
-        }
-        mensajes = componer_mensajes(
-            ps,
-            documento.contenido,
-            pregunta,
-            metadata_documento=metadata,
-        )
+        documento = documentos[0]
+        mensajes = componer_mensajes_multi(ps, documentos, pregunta)
         mo = _modelo_elegido()
         anterior: str | None = None
         if modelo is not None:
@@ -113,6 +135,7 @@ class PipelineQa:
             score_recuperacion=documento.score,
             latencia_ms=_latencia_ms(),
             prompt_sistema_usado=ps,
+            fuentes_bm25=_fuentes_desde_documentos(documentos),
         )
 
 
@@ -140,7 +163,9 @@ class PipelineQa:
         )
 
         try:
-            documento = self._recuperador.buscar(pregunta)
+            documentos = self._recuperador.buscar_top(
+                pregunta, k=K_TOP_DOCUMENTOS
+            )
         except RecuperacionVaciaError:
             texto_vacio = "No tengo información suficiente"
             final = RespuestaQa(
@@ -156,16 +181,8 @@ class PipelineQa:
             yield texto_vacio, final
             return
 
-        metadata: dict[str, Any] = {
-            "source_url": documento.source_url,
-            "titulo": documento.titulo,
-        }
-        mensajes = componer_mensajes(
-            ps,
-            documento.contenido,
-            pregunta,
-            metadata_documento=metadata,
-        )
+        documento = documentos[0]
+        mensajes = componer_mensajes_multi(ps, documentos, pregunta)
 
         anterior: str | None = None
         if modelo is not None:
@@ -189,6 +206,7 @@ class PipelineQa:
             score_recuperacion=documento.score,
             latencia_ms=_latencia_ms(),
             prompt_sistema_usado=ps,
+            fuentes_bm25=_fuentes_desde_documentos(documentos),
         )
         yield acumulado, final
 
@@ -206,6 +224,8 @@ def construir_pipeline_por_defecto(
 
 
 __all__ = [
+    "FuenteBm25",
+    "K_TOP_DOCUMENTOS",
     "PROMPT_SISTEMA_DEFECTO",
     "PipelineQa",
     "RespuestaQa",

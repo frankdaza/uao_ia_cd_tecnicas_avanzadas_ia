@@ -35,11 +35,29 @@ _CSS_UI = """
 #bloque-respuesta ul, #bloque-respuesta ol { margin: 0.4rem 0 0.6rem 1.2rem; }
 #bloque-respuesta p { margin: 0.4rem 0; }
 #bloque-respuesta code { padding: 0.1rem 0.35rem; border-radius: 4px; }
-#bloque-metadatos { font-size: 0.92rem; opacity: 0.92; }
+#bloque-metadatos { font-size: 0.92rem; opacity: 0.92; line-height: 1.45; }
 """
 
 
 def _formatear_metadatos(resultado: RespuestaQa) -> str:
+    pie_modelo = (
+        f"**Modelo:** `{resultado.modelo}` · **Latencia:** {resultado.latencia_ms} ms"
+    )
+    if resultado.fuentes_bm25:
+        bloques: list[str] = []
+        for i, fuente in enumerate(resultado.fuentes_bm25, start=1):
+            archivo_txt = f"`{fuente.ruta.name}`"
+            url = (fuente.source_url or "").strip()
+            link_url = f"[{url}]({url})" if url else "*(sin URL)*"
+            titulo_esc = (fuente.titulo or "").strip() or "*(sin título)*"
+            bloques.append(
+                f"{i}. {archivo_txt} · *{titulo_esc}* · "
+                f"BM25 **{fuente.score:.2f}** · {link_url}"
+            )
+        cuerpo = "**Documentos recuperados (orden BM25, enviados al modelo):**\n\n"
+        cuerpo += "\n\n".join(bloques)
+        return f"{cuerpo}\n\n---\n\n{pie_modelo}"
+
     ruta = resultado.archivo_fuente
     archivo_txt = (
         f"`{ruta}`" if ruta is not None else "*(sin documento; respuesta mínima)*"
@@ -53,7 +71,7 @@ def _formatear_metadatos(resultado: RespuestaQa) -> str:
         f"**Archivo fuente:** {archivo_txt}  \n"
         f"**URL origen:** {link_url}  \n"
         f"**Score BM25:** {resultado.score_recuperacion:.2f}  \n"
-        f"**Modelo:** `{resultado.modelo}` · **Latencia:** {resultado.latencia_ms} ms"
+        f"{pie_modelo}"
     )
 
 
@@ -154,7 +172,7 @@ def construir_demo() -> gr.Blocks:
                     elem_id="bloque-respuesta",
                 )
                 metadatos = gr.Markdown(
-                    label="Trazabilidad",
+                    label="Trazabilidad y fuentes BM25",
                     elem_id="bloque-metadatos",
                 )
                 estado_recarga = gr.Markdown(

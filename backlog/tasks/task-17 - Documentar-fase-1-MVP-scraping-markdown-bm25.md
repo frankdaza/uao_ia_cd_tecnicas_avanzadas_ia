@@ -4,7 +4,7 @@ title: Documentar fase 1 MVP scraping markdown bm25
 status: Done
 assignee: []
 created_date: '2026-04-28 02:33'
-updated_date: '2026-04-28 02:44'
+updated_date: '2026-04-28 04:00'
 labels:
   - documentacion
   - fase-1
@@ -22,6 +22,7 @@ references:
   - .env.example
   - backlog/docs/doc-001 - MVP-Fase-1-Proyecto-Final-QA-BM25.md
   - .cursor/rules/backlog-docs-format.mdc
+ordinal: 0.030517578125
 ---
 
 ## Description
