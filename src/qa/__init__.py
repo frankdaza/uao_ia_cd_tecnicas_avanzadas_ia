@@ -6,6 +6,7 @@ from src.qa.cliente_ollama import (
     ModeloNoDisponibleError,
     MODELOS_OLLAMA_SOPORTADOS,
     MODELO_GEMMA_4_E2B,
+    MODELO_GEMMA_4_E4B,
     MODELO_LLAMA_3_1_8B,
     OllamaNoAccesibleError,
 )
@@ -18,6 +19,7 @@ __all__ = [
     "ModeloNoDisponibleError",
     "MODELOS_OLLAMA_SOPORTADOS",
     "MODELO_GEMMA_4_E2B",
+    "MODELO_GEMMA_4_E4B",
     "MODELO_LLAMA_3_1_8B",
     "OllamaNoAccesibleError",
     "PipelineQa",

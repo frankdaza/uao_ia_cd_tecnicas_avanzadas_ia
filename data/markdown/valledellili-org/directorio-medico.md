@@ -1,514 +1,311 @@
 ---
 source_url: https://valledellili.org/directorio-medico/
-titulo: Directorio Médico Especialistas | Fundación Valle de Lili
+titulo: Especialista Archive - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-26'
+fecha_extraccion: '2026-04-28'
 idioma: es
-hash: 59fe431d6b733c20d39a67c46389776ce54a31c9567b4fb2d88e7680a00ce3fb
+hash: 07ab0a08e1d89edd2d7e83b97639d250cb57fe1a26f21af33b828a6bec76598c
 ---
 
-[Comunícate por WhatsApp](https://api.whatsapp.com/send?phone=573217997546)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-[Te llamamos](#)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
 
-[Escríbenos](/contactanos/)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
 
-[Especialidades](https://valledellili.org/atencion-al-paciente/especialidades/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-[Directorio médico](https://valledellili.org/directorio-medico/)
+### Encuentra lo que necesitas en la Fundación Valle del Lili
 
-Síguenos
+¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
+Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
 
-Directorio Médico Especialistas
+![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
-Más de 500 médicos especialistas de tiempo completo te garantizan una atención idónea
+[Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
+[Hospital Padrino](/impacto-social/programa-hospital-padrino/)
+[Biblioteca](/educacion/biblioteca/)
+[FVL al día](/fvl-al-dia/)
+[Buscar especialidad](/servicios/)
+[Agenda tu cita](/solicitar-cita-medica/)
+[Especialistas](/directorio-medico/)
 
-Seleccionar Especialidad
+### Servicios para ti
 
-Restablecer Filtros
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-Resultados:
+[Agendar cita médica
 
-- [Menu](#menu)
-- [Departamentos y Servicios](#units)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
+[Agendar chequeo médico
 
-##### Nuestra Institución
+![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
+[Encontrar un especialista
 
-“Excelencia en salud al servicio de la comunidad”
+![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
+[Ver resultados médicos
 
-[Vista General](https://valledellili.org/nuestra-institucion/)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos
 
-- [Acerca de Nosotros: Misión, Visión, Valores, Historia](https://valledellili.org/nuestra-institucion/acerca-de-nosotros/)
-- [Modelos integrales de atención](https://valledellili.org/nuestra-institucion/modelos-integrales-de-atencion/)
-- [Gestión de calidad en la Fundación Valle del Lili](https://valledellili.org/nuestra-institucion/gestion-de-calidad-en-la-fundacion-valle-del-lili/)
-- [Responsabilidad social y empresarial](https://valledellili.org/nuestra-institucion/responsabilidad-social-y-empresarial/)
-- [Nuestras Sedes](https://valledellili.org/nuestra-institucion/nuestras-sedes/)
-- [Direccionamiento Estratégico](https://valledellili.org/nuestra-institucion/direccionamiento-estrategico/)
-- [Proceso de Referenciación](https://valledellili.org/nuestra-institucion/proceso-de-referenciacion/)
-- [Sistema de Gestión Ambiental](https://valledellili.org/nuestra-institucion/sistema-de-gestion-ambiental/)
-- [Sistema de Gestión de Riesgos](https://valledellili.org/nuestra-institucion/sistema-de-gestion-de-riesgos/)
-- [Certificaciones](https://valledellili.org/nuestra-institucion/certificaciones/)
-- [Sistema de Gestión de Seguridad y Salud en el Trabajo SG-SST](https://valledellili.org/nuestra-institucion/sistema-de-gestion-de-seguridad-y-salud-en-el-trabajo-sg-sst/)
-- [Informes de Sostenibilidad](https://valledellili.org/nuestra-institucion/informes-de-sostenibilidad/)
-- [Marco Legal](https://valledellili.org/nuestra-institucion/marco-legal/)
-- [Política de tratamiento de datos](https://valledellili.org/nuestra-institucion/politica-de-tratamiento-de-datos/)
-- [Información proceso de pagos para proveedores de FVL](https://valledellili.org/nuestra-institucion/informacion-pagos-proveedores/)
-- [Trabaja en la Fundación Valle del Lili](https://valledellili.org/nuestra-institucion/trabaja-en-la-fundacion-valle-del-lili/)
-- [Voluntariado](https://valledellili.org/nuestra-institucion/voluntariado/)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades
 
-##### Atención al paciente
+![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
 
-Más de 500 especialistas de tiempo completo te garantizan una atención idónea
+[Fundación Valle del Lili](https://valledellili.org "Go to Fundación Valle del Lili.")→[Especialista](https://valledellili.org/directorio-medico/ "Go to Especialista.")
 
-[Ver Directorio](https://valledellili.org/directorio-medico/)
+# Encuentra el especialista que necesitas
 
-- [Solicitar Cita Médica](https://valledellili.org/atencion-al-paciente/solicitar-cita/)
-- [Directorio de Especialidades y Servicios](https://valledellili.org/atencion-al-paciente/especialidades/)
-- [Tus resultados médicos a un clic - Portal Mi Fundación](https://mifundacion.fvl.org.co/)
-- [Chequeo Médico Preventivo](https://valledellili.org/atencion-al-paciente/chequeo-medico-preventivo/)
-- [Preadmisiones](https://valledellili.org/atencion-al-paciente/preadmisiones/)
-- [Laboratorio Clínico](https://valledellili.org/atencion-al-paciente/laboratorio-clinico/)
-- [Preparación para exámenes médicos](https://valledellili.org/atencion-al-paciente/preparacion-para-examenes-medicos/)
-- [Data - Preparación para exámenes médicos](https://valledellili.org/atencion-al-paciente/data-preparacion-para-examenes-medicos/)
-- [Consulta virtual](https://valledellili.org/atencion-al-paciente/consulta-virtual/)
-- [Entidades en convenio](https://valledellili.org/atencion-al-paciente/entidades-en-convenio/)
-- [Solicitud de historia clínica](https://valledellili.org/atencion-al-paciente/solicitud-de-historia-clinica/)
-- [Derechos y deberes del paciente](https://valledellili.org/atencion-al-paciente/derechos-y-deberes-del-paciente/)
-- [Durante su visita](https://valledellili.org/atencion-al-paciente/seguridad-del-paciente/)
-- [Educación al paciente](https://valledellili.org/atencion-al-paciente/educacion-al-paciente/)
+##### Servicio o especialidad
 
-##### Educación y Docencia
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cardiología
 
-Proporcionamos una estrategia pedagógica planificada y organizada.
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Alergología
 
-[Vista General](https://valledellili.org/educacion/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Anestesiología
 
-- [Hospital universitario](https://valledellili.org/educacion/acerca-de-nosotros/)
-- [Eventos Académicos](https://valledellili.org/educacion/eventos-academicos/)
-- [Educación y Convenios](https://valledellili.org/educacion/educacion-presencial/)
-- [Centro de Bioética](https://valledellili.org/educacion/centro-de-bioetica/)
-- [Centro de Estudios en Simulación y Educación Continua (CESEC)](https://valledellili.org/educacion/educacion-continua/)
-- [Biblioteca](https://valledellili.org/educacion/biblioteca/)
-- [Bienestar Estudiantil](https://valledellili.org/educacion/bienestar/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Banco de Sangre
 
-##### Oficina Internacional
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía Cardiovascular Adultos
 
-Has clic en vista general para ampliar la información sobre nuestra oficina
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía Cardiovascular Pediátrica
 
-[Vista General](https://valledellili.org/oficina-internacional/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía de Tórax
 
-- [Introducción](https://valledellili.org/oficina-internacional/oficina-internacional-inicio/)
-- [Conozca la Oficina Internacional](https://valledellili.org/oficina-internacional/acerca-de-nosotros/)
-- [Proceso de atención](https://valledellili.org/oficina-internacional/proceso-de-atencion/)
-- [Información](https://valledellili.org/oficina-internacional/informacion-de-interes/)
-- [Alianzas Internacionales](https://valledellili.org/oficina-internacional/alianzas-internacionales-2/)
-- [Sobre Cali, Colombia](https://valledellili.org/oficina-internacional/sobre-cali-colombia/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía de Trauma y Emergencias
 
-[Realizar Pago](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
+##### Condición, tratamiento o procedimiento
 
-[Comité Ética Investigación](https://valledellili.org/comite-de-etica-en-investigacion-biomedica/)
-[Centro de Investigaciones Clínicas](https://centrodeinvestigacionesclinicas.fvl.org.co/)
-[Cartas de la Salud, Revistas, Videos](https://valledellili.org/publicaciones/todas/)
-[Noticias y Eventos](https://valledellili.org/noticias-y-eventos/)
-[Educación al paciente](https://valledellili.org/atencion-al-paciente/educacion-al-paciente/)
-[Resultados exámenes - Portal Mi Fundación](https://mifundacion.fvl.org.co/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+>Trastornos de la fertilidad masculina
 
-![](https://valledellili.org/wp-content/themes/f_valle_del_lili_2024/assets/images/es_ES.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Abdominal y Pélvica
 
-es  
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Abdominoplastia
 
-- [![](https://valledellili.org/wp-content/themes/f_valle_del_lili_2024/assets/images/en_US.svg)
-   en](https://valledellili.org/en/medical-directory/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por catéter
 
-#### Departamentos Médicos
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por catéter con radiofrecuencia
 
-##### Medicina Interna
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por microondas
 
-## C
+##### Especialistas
 
-- [Cardiología](https://valledellili.org/departamentos-y-servicios/cardiologia/)
-- [Cuidados Paliativos Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-adultos/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002021.jpg)
 
-## D
+#### Diana Maria Quimbayo Wilches
 
-- [Dermatología](https://valledellili.org/departamentos-y-servicios/dermatologia/)
+Gastroenterologia pediatrica, Pediatria](https://valledellili.org/directorio-medico/diana-maria-quimbayo-wilches/)
 
-## E
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000330.jpg)
 
-- [Endocrinología](https://valledellili.org/departamentos-y-servicios/endocrinologia/)
+#### Edwin Alberto Silva Yepes
 
-## G
+Ortopedia y traumatologia](https://valledellili.org/directorio-medico/edwin-alberto-silva-yepes/)
 
-- [Gastroenterología](https://valledellili.org/departamentos-y-servicios/gastroenterologia/)
-- [Geriatría](https://valledellili.org/departamentos-y-servicios/geriatria/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001711.jpg)
 
-## H
+#### Fausto Alonso Diazgranados Suarez
 
-- [Hemato-oncología](https://valledellili.org/departamentos-y-servicios/hemato-oncologia/)
-- [Hematología](https://valledellili.org/departamentos-y-servicios/hematologia/)
-- [Hepatología](https://valledellili.org/departamentos-y-servicios/hepatologia/)
+Ortopedia y traumatologia](https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/)
 
-## I
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002271.jpg)
 
-- [Infectología](https://valledellili.org/departamentos-y-servicios/infectologia-adultos/)
+#### Joaquin Olmedo Lemos Toro
 
-## M
+Oftalmologia](https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/)
 
-- [Medicina del Deporte](https://valledellili.org/departamentos-y-servicios/medicina-del-deporte/)
-- [Medicina Familiar](https://valledellili.org/departamentos-y-servicios/medicina-familiar/)
-- [Medicina Física y Rehabilitación - Fisiatría](https://valledellili.org/departamentos-y-servicios/servicio-medicina-fisica-y-rehabilitacion/)
-- [Medicina Interna](https://valledellili.org/departamentos-y-servicios/medicina-interna/)
+![](https://valledellili.org/wp-content/uploads/2026/01/img-buscador-especialista.png)
 
-## N
+## Últimos especialistas que consultaste
 
-- [Nefrología](https://valledellili.org/departamentos-y-servicios/nefrologia/)
-- [Neumología](https://valledellili.org/departamentos-y-servicios/neumologia-2/)
-- [Neurología](https://valledellili.org/departamentos-y-servicios/neurologia-adultos/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000500.jpg)
 
-## O
+#### Adolfo Leon De La Hoz Alban
 
-- [Oncología](https://valledellili.org/departamentos-y-servicios/oncologia/)
+Gastroenterologia, Medicina interna](https://valledellili.org/directorio-medico/adolfo-leon-de-la-hoz-alban/)
 
-## P
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000390.jpg)
 
-- [Psiquiatría](https://valledellili.org/departamentos-y-servicios/psiquiatria/)
+#### Adriana Alvarez Montenegro
 
-## R
+Fonoaudiologia](https://valledellili.org/directorio-medico/adriana-alvarez-montenegro/)
 
-- [Radioterapia](https://valledellili.org/departamentos-y-servicios/radioterapia/)
-- [Reumatología](https://valledellili.org/departamentos-y-servicios/reumatologia/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000029.jpg)
 
-##### Medicina Crítica
+#### Adriana Ballesteros Castro
 
-## C
+Neonatologia](https://valledellili.org/directorio-medico/adriana-ballesteros-castro/)
 
-- [Cuidados Intensivos e Intermedios Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-adultos/)
-- [Cuidados Intensivos e Intermedios Neonatales](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-neonatales/)
-- [Cuidados Intensivos e Intermedios Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-pediatricos/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002994.jpg)
 
-## T
+#### Adriana Cardona Astaiza
 
-- [Teleurgencias](https://valledellili.org/departamentos-y-servicios/teleurgencias/)
+Vascular periferica](https://valledellili.org/directorio-medico/adriana-cardona-astaiza/)
 
-## U
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000204.jpg)
 
-- [Unidad de Alto Riesgo Obstétrico](https://valledellili.org/departamentos-y-servicios/unidad-de-alto-riesgo-obstetrico/)
-- [Urgencias Adultos](https://valledellili.org/departamentos-y-servicios/urgencias/)
-- [Urgencias Pediátricas](https://valledellili.org/departamentos-y-servicios/urgencias-pediatricas/)
+#### Adriana Martinez Peña
 
-##### Imágenes Diagnósticas
+Ginecologia y obstetricia](https://valledellili.org/directorio-medico/adriana-martinez-pena/)
 
-## I
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001452.jpg)
 
-- [Imágenes Diagnósticas](https://valledellili.org/departamentos-y-servicios/imagenes-diagnosticas/)
+#### Adriana Messa Bryon
 
-##### Patología y medicina de laboratorio
+Cuidado intensivo adultos, Ginecologia y obstetricia](https://valledellili.org/directorio-medico/adriana-messa-bryon/)
 
-## B
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002289.jpg)
 
-- [Banco de Sangre](https://valledellili.org/departamentos-y-servicios/banco-de-sangre/)
+#### Adriana Marcela Ordoñez Viafara
 
-## C
+Pediatria](https://valledellili.org/directorio-medico/adriana-marcela-ordonez-viafara/)
 
-- [Cariotipos en sangre periférica y médula ósea](https://valledellili.org/departamentos-y-servicios/cariotipos-sangre-periferica-medula-osea/)
-- [Citogenética](https://valledellili.org/departamentos-y-servicios/citogenetica/)
-- [Citometría de Flujo](https://valledellili.org/departamentos-y-servicios/citometria-de-flujo/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001453.jpg)
 
-## G
+#### Albaro Jose Nieto Calvache
 
-- [Genética molecular](https://valledellili.org/departamentos-y-servicios/genetica-molecular/)
-- [Gestión Pretransfusional](https://valledellili.org/departamentos-y-servicios/gestion-pretransfusional/)
+Cuidado intensivo adultos, Ginecologia y obstetricia](https://valledellili.org/directorio-medico/albaro-jose-nieto-calvache/)
 
-## H
+## Busca según las especialidades más consultadas
 
-- [Hemostasia y Hematología especial](https://valledellili.org/departamentos-y-servicios/hemostasia-y-hematologia-especial/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Clinica-de-Falla-Cardiaca.png)
 
-## I
+### Cardiología
 
-- [Inmunología de trasplantes e Inmunogenética](https://valledellili.org/departamentos-y-servicios/inmunologia-de-trasplantes-e-inmunogenetica/)
-- [Inmunología e Inmunodeficiencias](https://valledellili.org/departamentos-y-servicios/inmunologia-e-inmunodeficiencias/)
+82 especialistas](https://valledellili.org/servicios/cardiologia/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Alergologia-1.png)
 
-## L
+### Alergología
 
-- [Laboratorio Clínico](https://valledellili.org/departamentos-y-servicios/laboratorio-clinico/)
-- [Laboratorio de Hemostasia y Hematología especial](https://valledellili.org/departamentos-y-servicios/laboratorio-de-hemostasia-y-hematologia-especial/)
+40 especialistas](https://valledellili.org/servicios/alergologia/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Anestesiologia.png)
 
-## M
+### Anestesiología
 
-- [Microbiología](https://valledellili.org/departamentos-y-servicios/microbiologia/)
+90 especialistas](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-Cardiovascular-Adultos.png)
 
-## P
+### Cirugía Cardiovascular Adultos
 
-- [Programa de Point of Care Testing (POCT)](https://valledellili.org/departamentos-y-servicios/programa-de-point-of-care-testing-poct-2/)
+1 especialistas](https://valledellili.org/servicios/cirugia-cardiovascular-adultos-fundacion-valle-del-lili/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Endoscopia.png)
 
-## S
+### Endoscopia
 
-- [Secuenciación](https://valledellili.org/departamentos-y-servicios/secuenciacion/)
-- [Servicio de Patología](https://valledellili.org/departamentos-y-servicios/servicio-de-patologia/)
+76 especialistas](https://valledellili.org/servicios/endoscopia-fundacion-valle-del-lili/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Neurologia.png)
 
-##### Materno Infantil
+### Neurología
 
-## C
+50 especialistas](https://valledellili.org/servicios/neurologia/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-genera.png)
 
-- [Cardiología Pediátrica](https://valledellili.org/departamentos-y-servicios/cardiologia-pediatrica/)
-- [Cirugía Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-pediatrica/)
-- [Cirugía Plástica, reconstructiva, estética y oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-plastica/)
-- [Cuidados Intensivos e Intermedios Neonatales](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-neonatales/)
-- [Cuidados Intensivos e Intermedios Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-pediatricos/)
-- [Cuidados Paliativos Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-pediatricos/)
+### Cirugía General
 
-## E
+71 especialistas](https://valledellili.org/servicios/cirugia-general/)
+[![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-plastica.png)
 
-- [Endocrinología Pediátrica](https://valledellili.org/departamentos-y-servicios/endocrinologia-pediatrica/)
+### Cirugía Plástica
 
-## G
+4 especialistas](https://valledellili.org/servicios/cirugia-plastica/)
+[![](https://valledellili.org/wp-content/uploads/2026/02/Gastroenterologia.png)
 
-- [Gastroenterología Pediátrica](https://valledellili.org/departamentos-y-servicios/gastroenterologia-pediatrica/)
-- [Ginecología y Obstetricia](https://valledellili.org/departamentos-y-servicios/ginecologia-y-obstetricia/)
+### Gastroenterología
 
-## H
+45 especialistas](https://valledellili.org/servicios/gastroenterologia/)
+[![](https://valledellili.org/wp-content/uploads/2026/02/Hospitalizacion.png)
 
-- [Hemato-Oncología Pediátrica](https://valledellili.org/departamentos-y-servicios/hemato-oncologia-pediatrica/)
-- [Hospitalización](https://valledellili.org/departamentos-y-servicios/hospitalizacion/)
+### Hospitalización
 
-## I
+36 especialistas](https://valledellili.org/servicios/hospitalizacion/)
 
-- [Infectología Pediátrica](https://valledellili.org/departamentos-y-servicios/infectologia-pediatrica/)
-- [Inmunología clínica pediátrica](https://valledellili.org/departamentos-y-servicios/inmunologia-clinica-pediatrica/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-## N
+[Solicitar cita por Whatsapp
 
-- [Nefrología Pediátrica](https://valledellili.org/departamentos-y-servicios/nefrologia-pediatrica/)
-- [Neumología Pediátrica](https://valledellili.org/departamentos-y-servicios/neumologia-pediatrica/)
-- [Neurología Pediátrica o Neuropediatría](https://valledellili.org/departamentos-y-servicios/neurologia-infantil-o-neuropediatria/)
+![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada
 
-## O
+![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
+[Directorio médico
 
-- [Oftalmología Pediátrica](https://valledellili.org/departamentos-y-servicios/oftalmologia-pediatrica/)
-- [Ortopedia y Traumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia-pediatrica/)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
+[Contáctenos
 
-## P
+![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
 
-- [Pediatría](https://valledellili.org/departamentos-y-servicios/pediatria/)
-- [Psiquiatría Infantil](https://valledellili.org/departamentos-y-servicios/psiquiatria-infantil/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
+Contáctanos
 
-## R
+### Autorización datos personales
 
-- [Reumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/reumatologia-pediatrica/)
+La Fundación Valle del Lili, identificada con NIT 890324177-5, con domicilio en la Cra. 98 #18-49, Cali (Colombia), actúa como Responsable del Tratamiento de Datos Personales, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015.
 
-## U
+En cumplimiento de la normativa vigente, le informamos que los datos personales que usted suministre a través del presente formulario serán recolectados, almacenados y tratados con la finalidad de:
 
-- [Unidad de Alto Riesgo Obstétrico](https://valledellili.org/departamentos-y-servicios/unidad-de-alto-riesgo-obstetrico/)
-- [Unidad de Cuidado Intensivo Cardiovascular Pediátrico](https://valledellili.org/departamentos-y-servicios/unidad-de-cuidado-intensivo-cardiovascular-pediatrico/)
-- [Unidad de Recién Nacidos](https://valledellili.org/departamentos-y-servicios/unidad-de-recien-nacidos/)
-- [Urgencias Pediátricas](https://valledellili.org/departamentos-y-servicios/urgencias-pediatricas/)
-- [Urología Pediátrica](https://valledellili.org/departamentos-y-servicios/urologia-pediatrica/)
+1. Gestionar, registrar y administrar la información suministrada a través del formulario.
 
-## V
+2. Analizar la información para la elaboración, desarrollo y documentación de casos de estudio, investigaciones o análisis académicos y científicos, cuando aplique.
 
-- [Vacunación](https://valledellili.org/departamentos-y-servicios/vacunacion/)
+3. Dar respuesta a solicitudes, consultas o requerimientos realizados por el titular de la información.
 
-##### Cirugía
+4. Contactar al titular para ampliar, validar o complementar la información proporcionada, cuando sea necesario.
 
-## A
+5. Realizar seguimiento a los trámites, procesos o servicios relacionados con la Fundación Valle del Lili.
 
-- [Anestesiología](https://valledellili.org/departamentos-y-servicios/anestesiologia/)
+6. Cumplir con obligaciones legales, contractuales, éticas, administrativas y regulatorias aplicables.
 
-## C
+7. Garantizar la adecuada prestación de los servicios y el mejoramiento continuo de los procesos institucionales.
 
-- [Cirugía Bariátrica y Laparoscópica Avanzada](https://valledellili.org/departamentos-y-servicios/cirugia-bariatrica-y-laparoscop/)
-- [Cirugía Cardiovascular Adultos](https://valledellili.org/departamentos-y-servicios/cirugia-cardiovascular-adultos/)
-- [Cirugía Cardiovascular Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-cardiovascular-pediatrica/)
-- [Cirugía de Cabeza y Cuello](https://valledellili.org/departamentos-y-servicios/cirugia-de-cabeza-y-cuello/)
-- [Cirugía de Colon y Recto](https://valledellili.org/departamentos-y-servicios/cirugia-de-colon-y-recto/)
-- [Cirugía de Tórax](https://valledellili.org/departamentos-y-servicios/cirugia-de-torax/)
-- [Cirugía de Trauma y Emergencias](https://valledellili.org/departamentos-y-servicios/cirugia-de-trauma-y-emergencias/)
-- [Cirugía Gastrointestinal](https://valledellili.org/departamentos-y-servicios/cirugia-gastrointestinal/)
-- [Cirugía General](https://valledellili.org/departamentos-y-servicios/cirugia-general/)
-- [Cirugía Hepatobiliar y Trasplantes](https://valledellili.org/departamentos-y-servicios/cirugia-hepatobiliar-y-trasplantes/)
-- [Cirugía Oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-oncologica/)
-- [Cirugía Oral y Maxilofacial](https://valledellili.org/departamentos-y-servicios/cirugia-maxilofacial/)
-- [Cirugía Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-pediatrica/)
-- [Cirugía Plástica, reconstructiva, estética y oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-plastica/)
-- [Cirugía Vascular Periférica](https://valledellili.org/departamentos-y-servicios/cirugia-vascular-periferica/)
+La información suministrada podrá incluir datos sensibles, como su estado de salud. Usted no está obligado a responder preguntas sensibles y podrá ejercer sus derechos en cualquier momento en su calidad de titular.
 
-## E
+Si usted desea conocer (de manera gratuita), actualizar, rectificar (datos inexactos, incompletos, fraccionados que induzcan al error) o suprimir los datos que nos ha suministrado, envíe un correo electrónico al correo datospersonales@fvl.org.co donde se le dará trámite a su solicitud de conformidad con lo establecido por los artículos 14 y 15 de la Ley 1581 de 2012, 20 a 23 del Decreto 1377 de 2013 y demás normas vigentes.
 
-- [Electrofisiología](https://valledellili.org/departamentos-y-servicios/electrofisiologia/)
+Puede consultar nuestra política de tratamiento de datos personales [**aquí**](/politica-de-tratamiento-de-datos-personales/)
 
-## M
+---
 
-- [Mastología](https://valledellili.org/departamentos-y-servicios/mastologia/)
+Autorizo
 
-## N
+####
 
-- [Neurocirugía](https://valledellili.org/departamentos-y-servicios/neurocirugia/)
-- [Neurointervencionismo](https://valledellili.org/departamentos-y-servicios/neurointervencionismo/)
+![]()
 
-## O
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-- [Oftalmología](https://valledellili.org/departamentos-y-servicios/oftalmologia/)
-- [Ortopedia y Traumatología](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia/)
-- [Otorrinolaringología](https://valledellili.org/departamentos-y-servicios/otorrinolaringologia/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-## T
-
-- [Trasplantes](https://valledellili.org/departamentos-y-servicios/trasplantes/)
-
-## U
-
-- [Unidad de Intervencionismo Vascular](https://valledellili.org/departamentos-y-servicios/unidad-intervencionismo-vascular/)
-- [Urología](https://valledellili.org/departamentos-y-servicios/urologia/)
-
-#### Servicios
-
-##### Hospitalización
-
-## H
-
-- [Hospitalización](https://valledellili.org/departamentos-y-servicios/hospitalizacion/)
-
-##### Consulta Externa
-
-## A
-
-- [Alergología](https://valledellili.org/departamentos-y-servicios/alergologia/)
-
-## C
-
-- [Cardiología](https://valledellili.org/departamentos-y-servicios/cardiologia/)
-- [Cardiología Pediátrica](https://valledellili.org/departamentos-y-servicios/cardiologia-pediatrica/)
-- [Clínica de Heridas y Terapia Enterostomal](https://valledellili.org/departamentos-y-servicios/clinica-de-heridas-y-terapia-enterostomal/)
-- [Cuidados Paliativos Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-adultos/)
-- [Cuidados Paliativos Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-pediatricos/)
-
-## D
-
-- [Dermatología](https://valledellili.org/departamentos-y-servicios/dermatologia/)
-- [Diagnóstico Vascular](https://valledellili.org/departamentos-y-servicios/diagnostico-vascular/)
-
-## E
-
-- [Electrofisiología](https://valledellili.org/departamentos-y-servicios/electrofisiologia/)
-- [Endocrinología](https://valledellili.org/departamentos-y-servicios/endocrinologia/)
-- [Endocrinología Pediátrica](https://valledellili.org/departamentos-y-servicios/endocrinologia-pediatrica/)
-
-## F
-
-- [Fonoaudiología](https://valledellili.org/departamentos-y-servicios/fonoaudiologia/)
-
-## G
-
-- [Gastroenterología](https://valledellili.org/departamentos-y-servicios/gastroenterologia/)
-- [Geriatría](https://valledellili.org/departamentos-y-servicios/geriatria/)
-- [Ginecología y Obstetricia](https://valledellili.org/departamentos-y-servicios/ginecologia-y-obstetricia/)
-
-## H
-
-- [Hemato-oncología](https://valledellili.org/departamentos-y-servicios/hemato-oncologia/)
-- [Hemato-Oncología Pediátrica](https://valledellili.org/departamentos-y-servicios/hemato-oncologia-pediatrica/)
-- [Hematología](https://valledellili.org/departamentos-y-servicios/hematologia/)
-- [Hepatología](https://valledellili.org/departamentos-y-servicios/hepatologia/)
-
-## I
-
-- [Infectología](https://valledellili.org/departamentos-y-servicios/infectologia-adultos/)
-- [Infectología Pediátrica](https://valledellili.org/departamentos-y-servicios/infectologia-pediatrica/)
-- [Inmunología clínica pediátrica](https://valledellili.org/departamentos-y-servicios/inmunologia-clinica-pediatrica/)
-
-## M
-
-- [Medicina Familiar](https://valledellili.org/departamentos-y-servicios/medicina-familiar/)
-
-## N
-
-- [Nefrología](https://valledellili.org/departamentos-y-servicios/nefrologia/)
-- [Nefrología Pediátrica](https://valledellili.org/departamentos-y-servicios/nefrologia-pediatrica/)
-- [Neumología](https://valledellili.org/departamentos-y-servicios/neumologia-2/)
-- [Neumología Pediátrica](https://valledellili.org/departamentos-y-servicios/neumologia-pediatrica/)
-- [Neurointervencionismo](https://valledellili.org/departamentos-y-servicios/neurointervencionismo/)
-- [Neurología](https://valledellili.org/departamentos-y-servicios/neurologia-adultos/)
-- [Neurología Pediátrica o Neuropediatría](https://valledellili.org/departamentos-y-servicios/neurologia-infantil-o-neuropediatria/)
-- [Neuropsicología](https://valledellili.org/departamentos-y-servicios/neuropsicologia/)
-- [Nutrición y Dietética](https://valledellili.org/departamentos-y-servicios/nutricion/)
-
-## O
-
-- [Oftalmología Pediátrica](https://valledellili.org/departamentos-y-servicios/oftalmologia-pediatrica/)
-- [Ortopedia y Traumatología](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia/)
-
-## P
-
-- [Pediatría](https://valledellili.org/departamentos-y-servicios/pediatria/)
-- [Psicología](https://valledellili.org/departamentos-y-servicios/psicologia/)
-- [Psiquiatría](https://valledellili.org/departamentos-y-servicios/psiquiatria/)
-- [Psiquiatría Infantil](https://valledellili.org/departamentos-y-servicios/psiquiatria-infantil/)
-
-## R
-
-- [Reumatología](https://valledellili.org/departamentos-y-servicios/reumatologia/)
-- [Reumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/reumatologia-pediatrica/)
-
-## U
-
-- [Urología](https://valledellili.org/departamentos-y-servicios/urologia/)
-
-##### Endoscopia
-
-## E
-
-- [Endoscopia](https://valledellili.org/departamentos-y-servicios/endoscopia/)
-
-## N
-
-- [Neumología (Broncoscopia Básica y Avanzada)](https://valledellili.org/departamentos-y-servicios/neumologia/)
-
-##### Clínicas y programas especiales
-
-## C
-
-- [Clínica de Acretismo Placentario](https://valledellili.org/departamentos-y-servicios/clinica-de-acretismo-placentario/)
-- [Clínica de Anticoagulación](https://valledellili.org/departamentos-y-servicios/clinica-de-anticoagulacion/)
-- [Clínica de Falla Cardiaca](https://valledellili.org/departamentos-y-servicios/clinica-de-falla-cardiaca/)
-- [Clínica de Gliomas de Alto Grado](https://valledellili.org/departamentos-y-servicios/clinica-de-gliomas-de-alto-grado/)
-- [Clínica de Heridas y Terapia Enterostomal](https://valledellili.org/departamentos-y-servicios/clinica-de-heridas-y-terapia-enterostomal/)
-- [Clínica de Infusiones](https://valledellili.org/departamentos-y-servicios/clinica-de-infusiones/)
-- [Clínica de Menopausia y Climaterio](https://valledellili.org/departamentos-y-servicios/clinica-de-menopausia-y-climaterio/)
-- [Clínica de Tumores del Sistema Nervioso Central](https://valledellili.org/departamentos-y-servicios/clinica-de-tumores-del-sistema-nervioso-central/)
-- [Clínica del Dolor](https://valledellili.org/departamentos-y-servicios/clinica-del-dolor/)
-
-## O
-
-- [Ortopedia y Traumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia-pediatrica/)
-
-## P
-
-- [Programa Soporte Oncológico](https://valledellili.org/departamentos-y-servicios/oncologia/programa-soporte-oncologico/)
-
-## T
-
-- [Telemedicina-LiliConnect](https://valledellili.org/departamentos-y-servicios/telemedicina-liliconnect/)
-
-## U
-
-- [Urología Pediátrica](https://valledellili.org/departamentos-y-servicios/urologia-pediatrica/)
-
-##### Medicina Nuclear
-
-## M
-
-- [Medicina Nuclear Molecular](https://valledellili.org/departamentos-y-servicios/medicina-nuclear-molecular/)
-
-##### Medicina Física y Rehabilitación
-
-## M
-
-- [Medicina Física y Rehabilitación - Fisiatría](https://valledellili.org/departamentos-y-servicios/servicio-medicina-fisica-y-rehabilitacion/)
-
-##### Vacunación
-
-## V
-
-- [Vacunación](https://valledellili.org/departamentos-y-servicios/vacunacion/)
-
-Ingrese la palabra o palabras clave a buscar:
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

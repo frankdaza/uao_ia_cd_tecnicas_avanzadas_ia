@@ -1,804 +1,569 @@
 ---
 source_url: https://valledellili.org/
-titulo: Inicio - Fundación Valle de Lili
+titulo: Home - Fundación Valle del Lili
 seccion: inicio
-fecha_extraccion: '2026-04-26'
+fecha_extraccion: '2026-04-28'
 idioma: es
-hash: 114a37c3974ac84dfb072311e2f5cf46128bfcfee506e8dceaef1d9e1686fefd
+hash: e89e8cf958d89af2d57657f8e12b8c41be818e3503cb1edf1dbe83d050a6eedd
 ---
 
-[Comunícate por WhatsApp](https://api.whatsapp.com/send?phone=573217997546)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-[Te llamamos](#)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
 
-[Escríbenos](/contactanos/)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
+[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
 
-[Especialidades](https://valledellili.org/atencion-al-paciente/especialidades/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-[Directorio médico](https://valledellili.org/directorio-medico/)
+### Encuentra lo que necesitas en la Fundación Valle del Lili
 
-Síguenos
+¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
+Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
 
-![](//valledellili.org/wp-content/uploads/2026/04/Bannner-web-informe-de-sostenibilidad-FVL-2025.png)
+![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
-![](//valledellili.org/wp-content/uploads/2026/03/Banner-web-Newsweek-2026-fondo.jpg)
+[Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
+[Hospital Padrino](/impacto-social/programa-hospital-padrino/)
+[Biblioteca](/educacion/biblioteca/)
+[FVL al día](/fvl-al-dia/)
+[Buscar especialidad](/servicios/)
+[Agenda tu cita](/solicitar-cita-medica/)
+[Especialistas](/directorio-medico/)
 
-![El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar?](//valledellili.org/wp-content/uploads/2025/01/Banner-web-carta-salud-1.jpg "El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar?")
+### Servicios para ti
 
-![fondo centro de contacto FVL](//valledellili.org/wp-content/uploads/2026/01/Fondo-banner-fvl-premium-2.jpg "fondo centro de contacto FVL")
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-![Revista FVL ed 85](//valledellili.org/wp-content/uploads/2025/01/BANNER-FONDO.png "Revista FVL ed 85")
+[Agendar cita médica
 
-![](//valledellili.org/wp-content/uploads/2024/12/banner_fondo-2.png)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
+[Agendar chequeo médico
 
-![](//valledellili.org/wp-content/uploads/2024/12/LanzamientoWebCICf_BANNER-WEB-copia-scaled.jpg)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
+[Encontrar un especialista
 
-![](//valledellili.org/wp-content/uploads/2023/02/Banner-hospital-padrino-1.jpg)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
+[Ver resultados médicos
 
-Informe de sostenibilidad
+![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos
 
-Banner Newsweek - Colombia nos inspira, el mundo nos reconoce 2026
+![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades
 
-![banner - somos el mejor hospital de colombia 2026](//valledellili.org/wp-content/uploads/2026/03/Banner-web-Newsweek-2026-foto.png "Fundación Valle del Lili: mejor hospital de Colombia por quinto año consecutivo")
+![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
 
-Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento
+[
+](https://valledellili.org/wp-content/uploads/2025/10/video-1.webm)
+![](https://valledellili.org/wp-content/uploads/2025/11/banner-home.jpg)
 
-[![Carta de la salud - Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento](//valledellili.org/wp-content/uploads/2026/02/texto-banner-web-carta-salud.png "Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento")](https://valledellili.org/multimedia/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
+# Hospital Universitario: Al servicio de tu bienestar
 
-Promoción plan preferencial FVL
+[Solicita tu cita](/solicitar-cita-medica/)
 
-[![fvl premium 2 call to action](//valledellili.org/wp-content/uploads/2026/01/fvl-premium-2-call-to-action.png "Membresía premium Fundación Valle del Lili")](https://valledellili.org/fvlpremium/?utm_source=plan-preferencial-fvl&utm_medium=banner+web&utm_campaign=Inscripci%C3%B3n-plan-preferencial)
+![](https://valledellili.org/wp-content/uploads/2026/02/bienestar-comunidad-2.jpg)
+![](https://valledellili.org/wp-content/uploads/2026/02/bienestar-comunidad-res-1.jpg)
 
-Urgencias limonar cerrada temporalmente
+## Comprometidos con el bienestar de la comunidad.
 
-![BANNER-FONDO urgencias limonar cierra temporalmente 2026](//valledellili.org/wp-content/uploads/2025/12/web-texto.png "BANNER-FONDO urgencias limonar cierra temporalmente 2026")
+[Conoce nuestros programas sociales](/impacto-social/)
 
-Fundación Valle del Lili obtiene la acreditación de la Joint Commission International
+![](https://valledellili.org/wp-content/uploads/2026/02/humanidad-y-ciencia-1.jpg)
+![](https://valledellili.org/wp-content/uploads/2026/02/humanidad-y-ciencia-res-1.jpg)
 
-[![Fundación Valle del Lili obtiene la acreditación de la Joint Commission International](//valledellili.org/wp-content/uploads/2024/12/Group-8611.png "Hoy, nos llena de orgullo anunciar que hemos sido acreditados por la Joint Commission International (JCI), un reconocimiento que certifica nuestro compromiso con los más altos estándares de calidad en el cuidado de la salud.​")](https://valledellili.org/fundacion-valle-del-lili-obtiene-la-acreditacion-de-la-joint-commission-international/)
+## Humanidad y Ciencia al cuidado de tu salud
 
-Conozca cuáles son los estudios en los que puedes participar
+[Conoce nuestros servicios](/servicios/)
 
-[![Convocatoria Centro de investigaciones Clínicas](//valledellili.org/wp-content/uploads/2024/12/LanzamientoWebCIC_BANNERWEBtext.png "Simpatectomía torácica una intervención quirúrgica para controlar la sudoración excesiva")](https://centrodeinvestigacionesclinicas.fvl.org.co/estudios-reclutamiento/)
+![Diapositiva anterior](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-left.svg) 
 
-Conozca nuestro hospital padrino
+![Diapositiva siguiente](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)
 
-[![Conozca el programa hospital padrino](//valledellili.org/wp-content/uploads/2023/02/Conozca-el-programa-hospital-padrino.png "Simpatectomía torácica una intervención quirúrgica para controlar la sudoración excesiva")](https://valledellili.org/responsabilidad-social-y-empresarial/#hospital-padrino/)
+Scroll
 
-![previous arrow](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xMS40MzMgMTUuOTkyTDIyLjY5IDUuNzEyYy4zOTMtLjM5LjM5My0xLjAzIDAtMS40Mi0uMzkzLS4zOS0xLjAzLS4zOS0xLjQyMyAwbC0xMS45OCAxMC45NGMtLjIxLjIxLS4zLjQ5LS4yODUuNzYtLjAxNS4yOC4wNzUuNTYuMjg0Ljc3bDExLjk4IDEwLjk0Yy4zOTMuMzkgMS4wMy4zOSAxLjQyNCAwIC4zOTMtLjQuMzkzLTEuMDMgMC0xLjQybC0xMS4yNTctMTAuMjkiCiAgICAgICAgICBmaWxsPSIjY2VkM2Q1IiBvcGFjaXR5PSIxIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+)![previous arrow](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xMS40MzMgMTUuOTkyTDIyLjY5IDUuNzEyYy4zOTMtLjM5LjM5My0xLjAzIDAtMS40Mi0uMzkzLS4zOS0xLjAzLS4zOS0xLjQyMyAwbC0xMS45OCAxMC45NGMtLjIxLjIxLS4zLjQ5LS4yODUuNzYtLjAxNS4yOC4wNzUuNTYuMjg0Ljc3bDExLjk4IDEwLjk0Yy4zOTMuMzkgMS4wMy4zOSAxLjQyNCAwIC4zOTMtLjQuMzkzLTEuMDMgMC0xLjQybC0xMS4yNTctMTAuMjkiCiAgICAgICAgICBmaWxsPSIjMjdhZTYwIiBvcGFjaXR5PSIxIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+)
+## ¿En qué tema de salud te podemos orientar hoy?
 
-![next arrow](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xMC43MjIgNC4yOTNjLS4zOTQtLjM5LTEuMDMyLS4zOS0xLjQyNyAwLS4zOTMuMzktLjM5MyAxLjAzIDAgMS40MmwxMS4yODMgMTAuMjgtMTEuMjgzIDEwLjI5Yy0uMzkzLjM5LS4zOTMgMS4wMiAwIDEuNDIuMzk1LjM5IDEuMDMzLjM5IDEuNDI3IDBsMTIuMDA3LTEwLjk0Yy4yMS0uMjEuMy0uNDkuMjg0LS43Ny4wMTQtLjI3LS4wNzYtLjU1LS4yODYtLjc2TDEwLjcyIDQuMjkzeiIKICAgICAgICAgIGZpbGw9IiNjZWQzZDUiIG9wYWNpdHk9IjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgo8L3N2Zz4=)![next arrow](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xMC43MjIgNC4yOTNjLS4zOTQtLjM5LTEuMDMyLS4zOS0xLjQyNyAwLS4zOTMuMzktLjM5MyAxLjAzIDAgMS40MmwxMS4yODMgMTAuMjgtMTEuMjgzIDEwLjI5Yy0uMzkzLjM5LS4zOTMgMS4wMiAwIDEuNDIuMzk1LjM5IDEuMDMzLjM5IDEuNDI3IDBsMTIuMDA3LTEwLjk0Yy4yMS0uMjEuMy0uNDkuMjg0LS43Ny4wMTQtLjI3LS4wNzYtLjU1LS4yODYtLjc2TDEwLjcyIDQuMjkzeiIKICAgICAgICAgIGZpbGw9IiMyN2FlNjAiIG9wYWNpdHk9IjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgo8L3N2Zz4=)
+Explora por enfermedad, especialidad, médico o contenidos educativos.
 
-348
+##### Servicio o especialidad
 
-Consultorios
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cardiología
 
-811
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Alergología
 
-Médicos
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Anestesiología
 
-731
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Banco de Sangre
 
-Camas
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía Cardiovascular Adultos
 
-#1
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía Cardiovascular Pediátrica
 
-en Colombia
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía de Tórax
 
-**La Fundación Valle del Lili**
-está acreditada con estándares internacionales y reconocido como el cuarto mejor hospital de Latinoamérica
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
+Cirugía de Trauma y Emergencias
 
-[Servicios](/atencion-al-paciente/especialidades/) 
-[Directorio médico](/directorio-medico/) 
-[Solicitar Cita](https://valledellili.org/atencion-al-paciente/pide-una-cita/)
+##### Condición, tratamiento o procedimiento
 
-## Conozca nuestras sedes y centros de atención:
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+>Trastornos de la fertilidad masculina
 
-- ![Card image cap](https://valledellili.org/wp-content/uploads/2021/10/sede-principal-fvl.jpg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Abdominal y Pélvica
 
-  ##### Sede Principal
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Abdominoplastia
 
-  [Servicios](https://valledellili.org/nuestra-institucion/nuestras-sedes/sede-principal/)
-- ![Card image cap](https://valledellili.org/wp-content/uploads/2021/10/sede-Limonar-fvl.png)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por catéter
 
-  ##### Sede Limonar
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por catéter con radiofrecuencia
 
-  [Servicios](https://valledellili.org/nuestra-institucion/nuestras-sedes/sede-limonar/)
-- ![Card image cap](https://valledellili.org/wp-content/uploads/2023/03/sede-tequendama-fvl-1.jpg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
+Ablación por microondas
 
-  ##### Sede Tequendama
+##### Especialistas
 
-  [Servicios](https://valledellili.org/nuestra-institucion/nuestras-sedes/sede-tequendama)
-- ![Card image cap](https://valledellili.org/wp-content/uploads/2021/10/av-Estacion-fvl.jpg)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002021.jpg)
 
-  ##### Sede Av Estación
+#### Diana Maria Quimbayo Wilches
 
-  [Servicios](https://valledellili.org/nuestra-institucion/nuestras-sedes/sede-av-estacion/)
-- ![Card image cap](https://valledellili.org/wp-content/uploads/2021/10/alfaguara-fvl.jpg)
+Gastroenterologia pediatrica, Pediatria](https://valledellili.org/directorio-medico/diana-maria-quimbayo-wilches/)
 
-  ##### Sede Alfaguara
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000330.jpg)
 
-  [Servicios](https://valledellili.org/nuestra-institucion/nuestras-sedes/sede-alfaguara/)
+#### Edwin Alberto Silva Yepes
 
-Eventos de la Fundación Valle del Lili
+Ortopedia y traumatologia](https://valledellili.org/directorio-medico/edwin-alberto-silva-yepes/)
 
-[*Eventos*](https://valledellili.org/noticias-y-eventos/eventos/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001711.jpg)
 
-[Educación
+#### Fausto Alonso Diazgranados Suarez
 
-![](https://valledellili.org/wp-content/uploads/2026/04/BannerWeb.jpg)](https://valledellili.org/evento/congresodemedicinainterna/)
+Ortopedia y traumatologia](https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/)
 
-###### [XXIII Congreso de Medicina Interna – Del razonamiento a la decisión clínica](https://valledellili.org/evento/congresodemedicinainterna/)
+[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002271.jpg)
 
-Jun 18, 2026
+#### Joaquin Olmedo Lemos Toro
 
-[Educación
+Oftalmologia](https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/)
 
-![](https://valledellili.org/wp-content/uploads/2026/03/bannerweb.jpg)](https://valledellili.org/evento/1er-encuentro-de-brigadas-hospitalarias/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/foto-buscador.png)
 
-###### [1er. Encuentro de brigadas hospitalarias](https://valledellili.org/evento/1er-encuentro-de-brigadas-hospitalarias/)
+## ¿Por qué elegir la Fundación Valle del Lili?
 
-Jun 6, 2026
+Unimos ciencia, docencia e innovación para brindar una atención integral, que va desde servicios básicos hasta tratamientos de alta complejidad.
 
-[Educación
+### Reconocimiento internacional en calidad y seguridad.
 
-![](https://valledellili.org/wp-content/uploads/2026/04/Banner-web.jpg)](https://valledellili.org/evento/18-o-edicion-referenciacion-institucional-2026/)
+Estamos acreditados por organizaciones como Joint Commission International y Planetree, que certifican nuestro compromiso con los más altos estándares en seguridad y atención centrada en las personas.
 
-###### [18º. Edición Referenciación Institucional 2026](https://valledellili.org/evento/18-o-edicion-referenciacion-institucional-2026/)
+### Atención médica especializada y de alta complejidad.
 
-May 13, 2026
+Nuestros equipos multidisciplinarios abordan enfermedades complejas con un enfoque basado en evidencia científica, investigación clínica y atención humanizada.
 
-[Educación
+### Hospital universitario de referencia en Colombia.
 
-![](https://valledellili.org/wp-content/uploads/2025/06/Bannerweb.jpg)](https://valledellili.org/evento/congreso-de-pediatria-pedialili/)
+Formamos profesionales de excelencia a través de programas académicos rigurosos, investigación aplicada y práctica clínica real.
 
-###### [XVII Congreso de pediatría – Pedialili](https://valledellili.org/evento/congreso-de-pediatria-pedialili/)
+### Investigación clínica e innovación científica.
 
-May 7, 2026
+Lideramos proyectos de investigación que generan conocimiento y aportan soluciones a desafíos de salud pública en Colombia y el mundo.
 
-Al día con la Fundación Valle del Lili
+### Infraestructura moderna y tecnología de vanguardia.
 
-[*Noticias*](https://valledellili.org/noticias-y-eventos/noticias/)
+Contamos con tecnología médica avanzada y espacios diseñados con principios de arquitectura biofílica, que promueven un entorno saludable, seguro y centrado en el bienestar del paciente.
 
-[Noticias
+### Compromiso social
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Cierre-urgencias-temporalmente-1.jpg)](https://valledellili.org/por-que-es-importante-una-evaluacion-medica-antes-de-hacer-ejercicio/)
+Con programas solidarios llevamos atención especializada a las poblaciones más vulnerables del país.
 
-###### [¿Por qué es importante una evaluación médica antes de hacer ejercicio?](https://valledellili.org/por-que-es-importante-una-evaluacion-medica-antes-de-hacer-ejercicio/)
+## Encuentra el servicio de salud que necesitas
 
-enero 7, 2026
+Explora nuestras especialidades médicas, programas y servicios. Te conectamos con el cuidado que tú o tu familia están buscando.
 
-[Noticias
+[Ver todos los servicios y especialidades](/servicios/)
 
-![](https://valledellili.org/wp-content/uploads/2025/12/Cierre-urgencias-temporalmente.jpg)](https://valledellili.org/cierre-temporal-servicio-de-urgencias-sede-limonar/)
+![](https://valledellili.org/wp-content/uploads/2026/01/Clinica-de-Falla-Cardiaca.png)
 
-###### [Cierre temporal servicio de urgencias Sede Limonar](https://valledellili.org/cierre-temporal-servicio-de-urgencias-sede-limonar/)
+### Cardiología
 
-diciembre 22, 2025
+Se enfoca en ofrecer atención integral y de alta complejidad, utilizando tecnología de vanguardia y un enfoque multidisciplinario para abordar desde la prevención y el diagnóstico hasta los tratamientos más avanzados y la rehabilitación cardíaca.
 
-[Artículos
+[Ver especialidad](https://valledellili.org/servicios/cardiologia/)
 
-![](https://valledellili.org/wp-content/uploads/2025/11/Unidad-de-Diagnostico-Rapido-Higado-Graso.jpg)](https://valledellili.org/unidad-de-diagnostico-rapido-higado-graso-un-diagnostico-integral-puede-cambiar-tu-vida-en-el-momento-oportuno/)
+![](https://valledellili.org/wp-content/uploads/2026/01/Banco-de-Sangre-Fundacion.png)
 
-###### [Unidad de Diagnóstico Rápido Hígado Graso: ¡un diagnóstico integral puede cambiar tu vida en el momento oportuno!](https://valledellili.org/unidad-de-diagnostico-rapido-higado-graso-un-diagnostico-integral-puede-cambiar-tu-vida-en-el-momento-oportuno/)
+### Banco de Sangre
 
-noviembre 11, 2025
+Realizamos la recolección, procesamiento, fraccionamiento y conservación de componentes sanguíneos, asegurando su disponibilidad oportuna y segura para pacientes que los requieran.
 
-[Noticias
+[Ver especialidad](https://valledellili.org/servicios/banco-de-sangre-fundacion-valle-del-lili/)
 
-![](https://valledellili.org/wp-content/uploads/2025/09/La-Fundacion-Valle-del-Lili-renueva-su-certificacion-como-Hospital-Universitario.jpg)](https://valledellili.org/la-fundacion-valle-del-lili-renueva-su-certificacion-como-hospital-universitario/)
+![](https://valledellili.org/wp-content/uploads/2026/01/Imagenes-diagnosticas.png)
 
-###### [La Fundación Valle del Lili renueva su certificación como Hospital Universitario](https://valledellili.org/la-fundacion-valle-del-lili-renueva-su-certificacion-como-hospital-universitario/)
+### Imágenes Diagnósticas y Radiología
 
-septiembre 22, 2025
+Realizamos estudios precisos, oportunos y seguros con acompañamiento profesional integral, asegurando equidad, cobertura y calidad durante todo el proceso, desde el diagnóstico hasta el tratamiento.
 
-Publicaciones y multimedia
+[Ver especialidad](https://valledellili.org/servicios/imagenes-diagnosticas-y-radiologia-fundacion-valle-del-lili/)
 
-- [Publicaciones](#pills-publicaciones)
-- [Videos](#pills-videos)
+![](https://valledellili.org/wp-content/uploads/2026/01/Laboratorio-Clinico.png)
 
-![](https://valledellili.org/wp-content/uploads/2026/04/revista-fvl-ed-86-portada.jpg)
+### Laboratorio Clínico
 
-Revistas
+Ofrece un servicio integral de diagnóstico a través del análisis de muestras biológicas para confirmar, descartar, monitorear, estimar riesgos y definir estrategias terapéuticas.
 
-Revista Ed. 86 Diagnósticos oportunos prevención y autocuidado
+[Ver especialidad](https://valledellili.org/servicios/laboratorio-clinico-fundacion-valle-del-lili/)
 
-Edición N.86
+![](https://valledellili.org/wp-content/uploads/2026/01/Neurologia.png)
 
-[Ver Más](https://valledellili.org/multimedia/revista-ed-86-enero-marzo-diagnosticos-oportunos-prevencion-y-autocuidado/)
+### Neurología
 
-[*Ver todas las revistas*](https://valledellili.org/publicaciones/revistas)
+Se enfoca en el diagnóstico y tratamiento integral de enfermedades del cerebro, la médula espinal, los nervios periféricos y los músculos.
 
-![](https://valledellili.org/wp-content/uploads/2026/03/Miniatura-1.png)
+[Ver especialidad](https://valledellili.org/servicios/neurologia/)
 
-Cartas de la Salud
+![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-Pediatrica-–-Fundacion-Valle-del-Lili.png)
 
-¿Qué es el melanoma y por qué es tan importante su detección temprana?
+### Pediatría – Consulta Externa
 
-marzo, 2026
+Atención integral de niños y adolescentes desde el nacimiento hasta los 18 años. Se brinda cuidado continuo enfocado en la prevención, el diagnóstico y el tratamiento de las enfermedades propias de la infancia.
 
-[Ver Más](https://valledellili.org/multimedia/melanoma-cancer-piel-letal/)
+[Ver especialidad](https://valledellili.org/servicios/pediatria-consulta-externa/)
 
-[*Ver todas las cartas a la salud*](https://valledellili.org/publicaciones/cartas-de-la-salud)
+![](https://valledellili.org/wp-content/uploads/2026/01/Endocrinologia-Pediatrica.png)
 
-![](https://valledellili.org/wp-content/uploads/2024/11/Conozco-mi-enfermedad.jpg)
+### Endocrinología Pediátrica
 
-Folletos
+Se encarga del diagnóstico y manejo de trastornos hormonales y metabólicos en niños y adolescentes desde el período neonatal hasta los 18 años.
 
-Conozco mi enfermedad renal
+[Ver especialidad](https://valledellili.org/servicios/endocrinologia-pediatrica/)
 
-noviembre, 2024
+![](https://valledellili.org/wp-content/uploads/2026/01/Ginecologia.png)
 
-[Ver Más](https://valledellili.org/multimedia/conozco-mi-enfermedad-renal/)
+### Ginecología y Obstetricia
 
-[*Ver todos los folletos*](https://valledellili.org/publicaciones/folletos)
+Brinda atención integral y personalizada a la mujer en todas las etapas de la vida, desde la adolescencia hasta la menopausia, así como durante el embarazo, el parto y el posparto.
 
-Institucionales
+[Ver especialidad](https://valledellili.org/servicios/ginecologia-y-obstetricia/)
 
-[![Hospital padrino - Salvar vidas en la Guajira: ¡un compromiso que nos une!](https://valledellili.org/wp-content/uploads/2025/08/Salvar-vidas-en-la-Guajira_-¡un-compromiso-que-nos-une.jpg)](https://valledellili.org/multimedia/salvar-vidas-en-la-guajira-un-compromiso-que-nos-une/)
+![](https://valledellili.org/wp-content/uploads/2026/02/Dermatologia.png)
 
-Hospital padrino - Salvar vidas en la Guajira: ¡un compromiso que nos une!
+### Dermatología
 
-Ago 8, 2025
+Se especializa en el diagnóstico, tratamiento y prevención de las enfermedades que afectan la piel, el pelo y las uñas, tanto en población pediátrica como adulta.
 
-Consejos para su salud
+[Ver especialidad](https://valledellili.org/servicios/dermatologia/)
 
-[![Cuidado de los accesos vasculares](https://valledellili.org/wp-content/uploads/2025/07/Conoce-las-rutas-de-evacuacion-en-el-area-de-UCI-neonatal-en-caso-de-emergencia-1.jpg)](https://valledellili.org/multimedia/cuidado-de-los-accesos-vasculares/)
+![](https://valledellili.org/wp-content/uploads/2026/02/Gastroenterologia.png)
 
-Cuidado de los accesos vasculares
+### Gastroenterología
 
-Jul 18, 2025
+Se enfoca en el manejo de patologías digestivas de alta complejidad en pacientes adultos y población pediátrica, trabajando de manera articulada con otras subespecialidades médico-quirúrgicas.
 
-Consejos para su salud
+[Ver especialidad](https://valledellili.org/servicios/gastroenterologia/)
 
-[![Conoce las rutas de evacuación en el área de UCI neonatal en caso de emergencia](https://valledellili.org/wp-content/uploads/2025/07/Conoce-las-rutas-de-evacuacion-en-el-area-de-UCI-neonatal-en-caso-de-emergencia.jpg)](https://valledellili.org/multimedia/conoce-las-rutas-de-evacuacion-en-el-area-de-uci-neonatal-en-caso-de-emergencia/)
+![](https://valledellili.org/wp-content/uploads/2026/02/Ortopedia-y-Traumatologia.png)
 
-Conoce las rutas de evacuación en el área de UCI neonatal en caso de emergencia
+### Ortopedia y Traumatología
 
-Jul 18, 2025
+Integra tecnología de última generación y un equipo médico altamente especializado para ofrecer tratamientos seguros y personalizados que mejoran la movilidad, alivian el dolor y optimizan la calidad de vida de las personas.
 
-Consejos para su salud
+[Ver especialidad](https://valledellili.org/servicios/ortopedia-y-traumatologia/)
 
-[![Videopodcast 2: Innovación y desafíos en trauma con el Dr. Carlos Ordóñez](https://valledellili.org/wp-content/uploads/2025/05/Videopodcast-2_-Innovacion-y-desafios-en-trauma-con-el-Dr.-Carlos-Ordonez.jpg)](https://valledellili.org/multimedia/videopodcast-2-innovacion-y-desafios-en-trauma-con-el-dr-carlos-ordonez/)
+![](https://valledellili.org/wp-content/uploads/2026/02/Vacunacion.png)
 
-Videopodcast 2: Innovación y desafíos en trauma con el Dr. Carlos Ordóñez
+### Vacunación
 
-May 25, 2025
+Ofrece inmunización segura y oportuna para toda la familia, incluyendo niños, adolescentes, adultos, adultos mayores, gestantes, viajeros, trabajadores en riesgo y poblaciones especiales.
 
-[*Ver todos los videos*](https://valledellili.org/publicaciones/videos)
+[Ver especialidad](https://valledellili.org/servicios/vacunacion/)
 
-Fundación Valle del Lili hospital universitario acreditado por la Comisión Intersectorial para el Talento Humano en la Salud, el Ministerio de Salud y Ministerio de Educación Nacional.
+## ¿Qué deseas consultar sobre tu salud o la de tu familia?
 
-Entidades en Convenio
+Accede a información confiable y fácil de entender sobre síntomas, enfermedades, tratamientos y cuidados. Todo en un solo lugar, pensado para que tomes decisiones informadas.
 
-Conoce nuestras alianzas educativas.
+[Ver más recomendados](/fvl-al-dia/)
 
-[*Ver convenios*](https://valledellili.org/educacion/convenios-educativos/)
+![](https://valledellili.org/wp-content/uploads/2026/01/destacada-limonar.jpg)
 
-Investigación
+Artículo
 
-Promovemos la investigación y damos enfoque a nuestros servicios y departamentos clínicos.
+### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia
 
-[*Qué Investigamos*](https://centrodeinvestigacionesclinicas.fvl.org.co/)
+La Fundación Valle del Lili fortalece su red de atención especializada trasladando sus servicios pediátricos a nuestra Sede Limonar, un…
 
-Educación
+[Descubre aquí](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 
-Integramos la práctica clínica, la educación y la investigación.
+![](https://valledellili.org/wp-content/uploads/2026/04/Esquema-de-vacunacion-pediatrica.jpg)
 
-[*Ir a Educación*](https://valledellili.org/educacion/)
+Artículo
 
-Certificaciones
+### Esquema de vacunación pediátrica
 
-[*Ver Todas*](https://valledellili.org/nuestra-institucion/certificaciones/)
+El cumplimiento del calendario de vacunación es el paso más importante para asegurar un desarrollo saludable y proteger a tu…
 
-![](https://valledellili.org/wp-content/uploads/2018/05/logo-certificacion-fvl-huella-de-carbono.png)
+[Descubre aquí](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 
-##### Certificación Huella de Carbono
+![](https://valledellili.org/wp-content/uploads/2026/03/que-es-el-melanoma-portada-general.webp)
 
-![](https://valledellili.org/wp-content/uploads/2018/05/logo-certificacion-fvl-excelencia.png)
+Artículo
 
-##### Certificación Excelencia
+### ¿Qué es el melanoma y por qué es tan importante su detección temprana?
 
-![](https://valledellili.org/wp-content/uploads/2021/09/ici_Mesa-de-trabajo-1.png)
+Autor: Doctor Juan Felipe Pinilla Hurtado, Dermatólogo Hospital Universitario Fundación Valle del Lili En medio de las actividades y el…
 
-##### Certificación International Childbirth Initiative ICI
+[Descubre aquí](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
 
-![](https://valledellili.org/wp-content/uploads/2022/04/Frame-10.jpg)
+![](https://valledellili.org/wp-content/uploads/2026/03/Carta-de-la-salud-354.webp)
 
-##### Certificación IAMII
+Artículo
 
-![](https://valledellili.org/wp-content/uploads/2023/11/efr-1.jpg)
+### Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento
 
-##### Certificación empresa familiarmente responsable
+Autor: Doctor Erwin Fabian Lasso, Psiquiatra, Fundación Valle del Lili ¿Qué hacer cuando todo parece un caos? En momentos históricos…
 
-![](https://valledellili.org/wp-content/uploads/2024/09/News-week-best-hospitals-2024-FVL.jpg)
+[Descubre aquí](https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
 
-##### News Week World´s Best Hospitals 2024
+![](https://valledellili.org/wp-content/uploads/2026/03/carta-de-la-salud-pie-plano-en-la-infancia-portada-general.webp)
 
-![](https://valledellili.org/wp-content/uploads/2000/12/Fundacion-Valle-del-Lili-obtiene-la-acreditacion-de-la-Joint-Commission-International-logo.png)
+Artículo
 
-##### Joint Commission International
+### El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar?
 
-- [Menu](#menu)
-- [Departamentos y Servicios](#units)
+Autor: Doctor Roiman Leonardo Mejía. Ortopedia y Traumatología Pediátrica, Hospital Universitario Fundación Valle del Lili El pie plano, también conocido…
 
-##### Nuestra Institución
+[Descubre aquí](https://valledellili.org/el-pie-plano-en-la-infancia-cuando-es-normal-y-cuando-consultar/)
 
-“Excelencia en salud al servicio de la comunidad”
+![](https://valledellili.org/wp-content/uploads/2026/03/Programa-paciente-anticoagulado.jpg)
 
-[Vista General](https://valledellili.org/nuestra-institucion/)
+Artículo
 
-- [Acerca de Nosotros: Misión, Visión, Valores, Historia](https://valledellili.org/nuestra-institucion/acerca-de-nosotros/)
-- [Modelos integrales de atención](https://valledellili.org/nuestra-institucion/modelos-integrales-de-atencion/)
-- [Gestión de calidad en la Fundación Valle del Lili](https://valledellili.org/nuestra-institucion/gestion-de-calidad-en-la-fundacion-valle-del-lili/)
-- [Responsabilidad social y empresarial](https://valledellili.org/nuestra-institucion/responsabilidad-social-y-empresarial/)
-- [Nuestras Sedes](https://valledellili.org/nuestra-institucion/nuestras-sedes/)
-- [Direccionamiento Estratégico](https://valledellili.org/nuestra-institucion/direccionamiento-estrategico/)
-- [Proceso de Referenciación](https://valledellili.org/nuestra-institucion/proceso-de-referenciacion/)
-- [Sistema de Gestión Ambiental](https://valledellili.org/nuestra-institucion/sistema-de-gestion-ambiental/)
-- [Sistema de Gestión de Riesgos](https://valledellili.org/nuestra-institucion/sistema-de-gestion-de-riesgos/)
-- [Certificaciones](https://valledellili.org/nuestra-institucion/certificaciones/)
-- [Sistema de Gestión de Seguridad y Salud en el Trabajo SG-SST](https://valledellili.org/nuestra-institucion/sistema-de-gestion-de-seguridad-y-salud-en-el-trabajo-sg-sst/)
-- [Informes de Sostenibilidad](https://valledellili.org/nuestra-institucion/informes-de-sostenibilidad/)
-- [Marco Legal](https://valledellili.org/nuestra-institucion/marco-legal/)
-- [Política de tratamiento de datos](https://valledellili.org/nuestra-institucion/politica-de-tratamiento-de-datos/)
-- [Información proceso de pagos para proveedores de FVL](https://valledellili.org/nuestra-institucion/informacion-pagos-proveedores/)
-- [Trabaja en la Fundación Valle del Lili](https://valledellili.org/nuestra-institucion/trabaja-en-la-fundacion-valle-del-lili/)
-- [Voluntariado](https://valledellili.org/nuestra-institucion/voluntariado/)
+### Programa paciente anticoagulado
 
-##### Atención al paciente
+La coagulación es un mecanismo por el cual se mantiene la fluidez normal de la sangre dentro de las venas…
 
-Más de 500 especialistas de tiempo completo te garantizan una atención idónea
+[Descubre aquí](https://valledellili.org/programa-paciente-anticoagulado/)
 
-[Ver Directorio](https://valledellili.org/directorio-medico/)
+![Diapositiva anterior](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-left.svg) 
 
-- [Solicitar Cita Médica](https://valledellili.org/atencion-al-paciente/solicitar-cita/)
-- [Directorio de Especialidades y Servicios](https://valledellili.org/atencion-al-paciente/especialidades/)
-- [Tus resultados médicos a un clic - Portal Mi Fundación](https://mifundacion.fvl.org.co/)
-- [Chequeo Médico Preventivo](https://valledellili.org/atencion-al-paciente/chequeo-medico-preventivo/)
-- [Preadmisiones](https://valledellili.org/atencion-al-paciente/preadmisiones/)
-- [Laboratorio Clínico](https://valledellili.org/atencion-al-paciente/laboratorio-clinico/)
-- [Preparación para exámenes médicos](https://valledellili.org/atencion-al-paciente/preparacion-para-examenes-medicos/)
-- [Data - Preparación para exámenes médicos](https://valledellili.org/atencion-al-paciente/data-preparacion-para-examenes-medicos/)
-- [Consulta virtual](https://valledellili.org/atencion-al-paciente/consulta-virtual/)
-- [Entidades en convenio](https://valledellili.org/atencion-al-paciente/entidades-en-convenio/)
-- [Solicitud de historia clínica](https://valledellili.org/atencion-al-paciente/solicitud-de-historia-clinica/)
-- [Derechos y deberes del paciente](https://valledellili.org/atencion-al-paciente/derechos-y-deberes-del-paciente/)
-- [Durante su visita](https://valledellili.org/atencion-al-paciente/seguridad-del-paciente/)
-- [Educación al paciente](https://valledellili.org/atencion-al-paciente/educacion-al-paciente/)
+![Diapositiva siguiente](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)
 
-##### Educación y Docencia
+## Próximos eventos y actividades
 
-Proporcionamos una estrategia pedagógica planificada y organizada.
+Participa en nuestras jornadas. Conéctate con el conocimiento, el bienestar y el cuidado de la salud.
 
-[Vista General](https://valledellili.org/educacion/)
+![](https://valledellili.org/wp-content/uploads/2026/04/pestañapequeña.jpg)
 
-- [Hospital universitario](https://valledellili.org/educacion/acerca-de-nosotros/)
-- [Eventos Académicos](https://valledellili.org/educacion/eventos-academicos/)
-- [Educación y Convenios](https://valledellili.org/educacion/educacion-presencial/)
-- [Centro de Bioética](https://valledellili.org/educacion/centro-de-bioetica/)
-- [Centro de Estudios en Simulación y Educación Continua (CESEC)](https://valledellili.org/educacion/educacion-continua/)
-- [Biblioteca](https://valledellili.org/educacion/biblioteca/)
-- [Bienestar Estudiantil](https://valledellili.org/educacion/bienestar/)
+### Carcinoma de nasofaringe: abordaje integral por imagen, estadificación y retos en el seguimiento.
 
-##### Oficina Internacional
+Fecha: 5 May
 
-Has clic en vista general para ampliar la información sobre nuestra oficina
+Hora: 6:00 pm – 7:00 pm
 
-[Vista General](https://valledellili.org/oficina-internacional/)
+Lugar: Microsoft Teams
 
-- [Introducción](https://valledellili.org/oficina-internacional/oficina-internacional-inicio/)
-- [Conozca la Oficina Internacional](https://valledellili.org/oficina-internacional/acerca-de-nosotros/)
-- [Proceso de atención](https://valledellili.org/oficina-internacional/proceso-de-atencion/)
-- [Información](https://valledellili.org/oficina-internacional/informacion-de-interes/)
-- [Alianzas Internacionales](https://valledellili.org/oficina-internacional/alianzas-internacionales-2/)
-- [Sobre Cali, Colombia](https://valledellili.org/oficina-internacional/sobre-cali-colombia/)
+Virtual
 
-[Realizar Pago](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
+[Quiero asistir](https://valledellili.org/eventos/57o-encuentro-academico-de-radiologia-carcinoma-de-nasofaringe-abordaje-integral-por-imagen-estadificacion-y-retos-en-el-seguimiento/)
 
-[Comité Ética Investigación](https://valledellili.org/comite-de-etica-en-investigacion-biomedica/)
-[Centro de Investigaciones Clínicas](https://centrodeinvestigacionesclinicas.fvl.org.co/)
-[Cartas de la Salud, Revistas, Videos](https://valledellili.org/publicaciones/todas/)
-[Noticias y Eventos](https://valledellili.org/noticias-y-eventos/)
-[Educación al paciente](https://valledellili.org/atencion-al-paciente/educacion-al-paciente/)
-[Resultados exámenes - Portal Mi Fundación](https://mifundacion.fvl.org.co/)
+![](https://valledellili.org/wp-content/uploads/2026/04/pestañapagina.jpg)
 
-![](https://valledellili.org/wp-content/themes/f_valle_del_lili_2024/assets/images/es_ES.svg)
+### XVII Congreso de pediatría – Pedialili
 
-es  
+Fecha: 7 May al 8 May
 
-- [![](https://valledellili.org/wp-content/themes/f_valle_del_lili_2024/assets/images/en_US.svg)
-   en](https://valledellili.org/en/)
+Hora: 8:00 am – 5:00 pm
 
-#### Departamentos Médicos
+Lugar: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
-##### Medicina Interna
+Presencial
 
-## C
+[Quiero asistir](https://valledellili.org/eventos/xvii-congreso-de-pediatria-pedialili/)
 
-- [Cardiología](https://valledellili.org/departamentos-y-servicios/cardiologia/)
-- [Cuidados Paliativos Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-adultos/)
+![](https://valledellili.org/wp-content/uploads/2026/04/bannerpestañapequeñaweb-4.png)
 
-## D
+### 18º. Edición Referenciación Institucional
 
-- [Dermatología](https://valledellili.org/departamentos-y-servicios/dermatologia/)
+Fecha: 13 May al 14 May
 
-## E
+Hora: 8:00 am – 4:00 pm
 
-- [Endocrinología](https://valledellili.org/departamentos-y-servicios/endocrinologia/)
+Lugar: Evento Virtual
 
-## G
+Virtual
 
-- [Gastroenterología](https://valledellili.org/departamentos-y-servicios/gastroenterologia/)
-- [Geriatría](https://valledellili.org/departamentos-y-servicios/geriatria/)
+[Quiero asistir](https://valledellili.org/eventos/18o-edicion-referenciacion-institucional/)
 
-## H
+![](https://valledellili.org/wp-content/uploads/2026/03/pestañapequeña-4.png)
 
-- [Hemato-oncología](https://valledellili.org/departamentos-y-servicios/hemato-oncologia/)
-- [Hematología](https://valledellili.org/departamentos-y-servicios/hematologia/)
-- [Hepatología](https://valledellili.org/departamentos-y-servicios/hepatologia/)
+### 1er. Encuentro de brigadas hospitalarias
 
-## I
+Fecha: 6 June
 
-- [Infectología](https://valledellili.org/departamentos-y-servicios/infectologia-adultos/)
+Hora: 7:00 am – 5:00 pm
 
-## M
+Lugar: Calle 50 # 118A – 68, Fundación Valle del Lili – Sede Betania
 
-- [Medicina del Deporte](https://valledellili.org/departamentos-y-servicios/medicina-del-deporte/)
-- [Medicina Familiar](https://valledellili.org/departamentos-y-servicios/medicina-familiar/)
-- [Medicina Física y Rehabilitación - Fisiatría](https://valledellili.org/departamentos-y-servicios/servicio-medicina-fisica-y-rehabilitacion/)
-- [Medicina Interna](https://valledellili.org/departamentos-y-servicios/medicina-interna/)
+Presencial
 
-## N
+[Quiero asistir](https://valledellili.org/eventos/1er-encuentro-de-brigadas-hospitalarias/)
 
-- [Nefrología](https://valledellili.org/departamentos-y-servicios/nefrologia/)
-- [Neumología](https://valledellili.org/departamentos-y-servicios/neumologia-2/)
-- [Neurología](https://valledellili.org/departamentos-y-servicios/neurologia-adultos/)
+![](https://valledellili.org/wp-content/uploads/2026/04/pestañapequeñaweb.jpg)
 
-## O
+### XXIII Congreso de Medicina Interna – Del razonamiento a la decisión clínica
 
-- [Oncología](https://valledellili.org/departamentos-y-servicios/oncologia/)
+Fecha: 18 June al 19 June
 
-## P
+Hora: 7:00 am – 6:00 pm
 
-- [Psiquiatría](https://valledellili.org/departamentos-y-servicios/psiquiatria/)
+Lugar: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
-## R
+Híbrido
 
-- [Radioterapia](https://valledellili.org/departamentos-y-servicios/radioterapia/)
-- [Reumatología](https://valledellili.org/departamentos-y-servicios/reumatologia/)
+[Quiero asistir](https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-del-razonamiento-a-la-decision-clinica/)
 
-##### Medicina Crítica
+![Diapositiva anterior](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-left.svg) 
 
-## C
+![Diapositiva siguiente](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)
 
-- [Cuidados Intensivos e Intermedios Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-adultos/)
-- [Cuidados Intensivos e Intermedios Neonatales](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-neonatales/)
-- [Cuidados Intensivos e Intermedios Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-pediatricos/)
+## ¿Dónde deseas ser atendido?
 
-## T
+Conoce nuestras 5 sedes. Cuidamos de ti donde más lo necesitas.
 
-- [Teleurgencias](https://valledellili.org/departamentos-y-servicios/teleurgencias/)
+#### Sede Principal
 
-## U
+[Conoce más](https://portalv25.fvl.org.co/sede/sede-principal/)
+[¿Cómo llegar?](https://www.google.com/maps/dir//Fundaci%C3%B3n+Valle+del+Lili,+Av.+Sim%C3%B3n+Bol%C3%ADvar,+Cra.+98+%2318-49,+Cali,+Valle+del+Cauca/@3.3727365,-76.5256296,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8e30a1733034ad45:0x8ee3ecc0f2ea0ae7!2m2!1d-76.5256296!2d3.3727365?entry=ttu&g_ep=EgoyMDI2MDIwMy4wIKXMDSoASAFQAw%3D%3D)
 
-- [Unidad de Alto Riesgo Obstétrico](https://valledellili.org/departamentos-y-servicios/unidad-de-alto-riesgo-obstetrico/)
-- [Urgencias Adultos](https://valledellili.org/departamentos-y-servicios/urgencias/)
-- [Urgencias Pediátricas](https://valledellili.org/departamentos-y-servicios/urgencias-pediatricas/)
+#### Sede Limonar
 
-##### Imágenes Diagnósticas
+[Conoce más](https://portalv25.fvl.org.co/sedes/sede-limonar/)
+[¿Cómo llegar?](http://google.com/maps/dir//CLINICA+-+HOSPITAL+Cra.+70+%23+18+-+75+Comuna+17+Cali,+Valle+del+Cauca/@3.3932283,-76.5255659,16z/data=!4m5!4m4!1m0!1m2!1m1!1s0x8e30a1380ac34a81:0x1bd26c08cbafb618)
 
-## I
+#### Sede Tequendama
 
-- [Imágenes Diagnósticas](https://valledellili.org/departamentos-y-servicios/imagenes-diagnosticas/)
+[Conoce más](https://portalv25.fvl.org.co/sedes/sede-tequendama/)
+[¿Cómo llegar?](http://google.com/maps/dir//Cra.+41+%235b-08+Cali,+Valle+del+Cauca/@3.4219556,-76.5453742,16z/data=!4m5!4m4!1m0!1m2!1m1!1s0x8e30a6a1a8de8b35:0x258e6acbba044f5d)
 
-##### Patología y medicina de laboratorio
+#### Sede Av. Estación
 
-## B
+[Conoce más](https://portalv25.fvl.org.co/sedes/sede-av-estacion/)
+[¿Cómo llegar?](https://www.google.com/maps/dir//Fundaci%C3%B3n+Valle+del+Lili+-+Sede+Norte,+Av.+Estaci%C3%B3n+%234N-21,+San+Vicente,+Cali,+Valle+del+Cauca/@3.4656011,-76.5258663,19z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8e30a7506f550a51:0xa874661075bd62de!2m2!1d-76.5258663!2d3.4656011?entry=ttu&g_ep=EgoyMDI2MDIwMy4wIKXMDSoASAFQAw%3D%3D)
 
-- [Banco de Sangre](https://valledellili.org/departamentos-y-servicios/banco-de-sangre/)
+#### Sede Alfaguara
 
-## C
+[Conoce más](https://portalv25.fvl.org.co/sedes/sede-alfaguara/)
+[¿Cómo llegar?](https://www.google.com/maps/dir//Centro+Comercial+Alfaguara+Jamund%C3%AD,+Valle+del+Cauca/@3.259375,-76.5570856,20z/data=!4m5!4m4!1m0!1m2!1m1!1s0x8e3099055e07f5d7:0x387eb3c3b9fca157)
 
-- [Cariotipos en sangre periférica y médula ósea](https://valledellili.org/departamentos-y-servicios/cariotipos-sangre-periferica-medula-osea/)
-- [Citogenética](https://valledellili.org/departamentos-y-servicios/citogenetica/)
-- [Citometría de Flujo](https://valledellili.org/departamentos-y-servicios/citometria-de-flujo/)
+## En la Fundación Valle del Lili, tu tranquilidad también es parte del cuidado.
 
-## G
+¿Tienes dudas? Aquí te ayudamos a resolverlas.
 
-- [Genética molecular](https://valledellili.org/departamentos-y-servicios/genetica-molecular/)
-- [Gestión Pretransfusional](https://valledellili.org/departamentos-y-servicios/gestion-pretransfusional/)
+[Escríbenos para recibir orientación](https://api.whatsapp.com/send?phone=573217997546)
 
-## H
+![](https://valledellili.org/wp-content/uploads/2025/10/img-35.png)
 
-- [Hemostasia y Hematología especial](https://valledellili.org/departamentos-y-servicios/hemostasia-y-hematologia-especial/)
+Lo que más nos preguntan:
 
-## I
+¿Puedo acceder a los servicios si no tengo EPS? ![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
 
-- [Inmunología de trasplantes e Inmunogenética](https://valledellili.org/departamentos-y-servicios/inmunologia-de-trasplantes-e-inmunogenetica/)
-- [Inmunología e Inmunodeficiencias](https://valledellili.org/departamentos-y-servicios/inmunologia-e-inmunodeficiencias/)
+Nuestros servicios como paciente particular. Si necesitas orientación, te invitamos a contactarnos o agendar una cita.
 
-## L
+¿Cuáles son los requisitos para solicitar una consulta particular?![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
 
-- [Laboratorio Clínico](https://valledellili.org/departamentos-y-servicios/laboratorio-clinico/)
-- [Laboratorio de Hemostasia y Hematología especial](https://valledellili.org/departamentos-y-servicios/laboratorio-de-hemostasia-y-hematologia-especial/)
+Necesitas tu documento de identidad. Puedes agendar la cita por nuestros canales de atención.
 
-## M
+¿Atienden pacientes internacionales? ![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
 
-- [Microbiología](https://valledellili.org/departamentos-y-servicios/microbiologia/)
+Sí, contamos con un programa de atención para pacientes internacionales. Contáctanos para recibir asesoría personalizada.
 
-## P
+[Escríbenos para recibir orientación](https://api.whatsapp.com/send?phone=573217997546)
 
-- [Programa de Point of Care Testing (POCT)](https://valledellili.org/departamentos-y-servicios/programa-de-point-of-care-testing-poct-2/)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-35.png)
 
-## S
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-- [Secuenciación](https://valledellili.org/departamentos-y-servicios/secuenciacion/)
-- [Servicio de Patología](https://valledellili.org/departamentos-y-servicios/servicio-de-patologia/)
+[Solicitar cita por Whatsapp
 
-##### Materno Infantil
+![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada
 
-## C
+![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
+[Directorio médico
 
-- [Cardiología Pediátrica](https://valledellili.org/departamentos-y-servicios/cardiologia-pediatrica/)
-- [Cirugía Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-pediatrica/)
-- [Cirugía Plástica, reconstructiva, estética y oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-plastica/)
-- [Cuidados Intensivos e Intermedios Neonatales](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-neonatales/)
-- [Cuidados Intensivos e Intermedios Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-intensivos-e-intermedios-pediatricos/)
-- [Cuidados Paliativos Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-pediatricos/)
+![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
+[Contáctenos
 
-## E
+![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
 
-- [Endocrinología Pediátrica](https://valledellili.org/departamentos-y-servicios/endocrinologia-pediatrica/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
+Contáctanos
 
-## G
+### Autorización datos personales
 
-- [Gastroenterología Pediátrica](https://valledellili.org/departamentos-y-servicios/gastroenterologia-pediatrica/)
-- [Ginecología y Obstetricia](https://valledellili.org/departamentos-y-servicios/ginecologia-y-obstetricia/)
+La Fundación Valle del Lili, identificada con NIT 890324177-5, con domicilio en la Cra. 98 #18-49, Cali (Colombia), actúa como Responsable del Tratamiento de Datos Personales, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015.
 
-## H
+En cumplimiento de la normativa vigente, le informamos que los datos personales que usted suministre a través del presente formulario serán recolectados, almacenados y tratados con la finalidad de:
 
-- [Hemato-Oncología Pediátrica](https://valledellili.org/departamentos-y-servicios/hemato-oncologia-pediatrica/)
-- [Hospitalización](https://valledellili.org/departamentos-y-servicios/hospitalizacion/)
+1. Gestionar, registrar y administrar la información suministrada a través del formulario.
 
-## I
+2. Analizar la información para la elaboración, desarrollo y documentación de casos de estudio, investigaciones o análisis académicos y científicos, cuando aplique.
 
-- [Infectología Pediátrica](https://valledellili.org/departamentos-y-servicios/infectologia-pediatrica/)
-- [Inmunología clínica pediátrica](https://valledellili.org/departamentos-y-servicios/inmunologia-clinica-pediatrica/)
+3. Dar respuesta a solicitudes, consultas o requerimientos realizados por el titular de la información.
 
-## N
+4. Contactar al titular para ampliar, validar o complementar la información proporcionada, cuando sea necesario.
 
-- [Nefrología Pediátrica](https://valledellili.org/departamentos-y-servicios/nefrologia-pediatrica/)
-- [Neumología Pediátrica](https://valledellili.org/departamentos-y-servicios/neumologia-pediatrica/)
-- [Neurología Pediátrica o Neuropediatría](https://valledellili.org/departamentos-y-servicios/neurologia-infantil-o-neuropediatria/)
+5. Realizar seguimiento a los trámites, procesos o servicios relacionados con la Fundación Valle del Lili.
 
-## O
+6. Cumplir con obligaciones legales, contractuales, éticas, administrativas y regulatorias aplicables.
 
-- [Oftalmología Pediátrica](https://valledellili.org/departamentos-y-servicios/oftalmologia-pediatrica/)
-- [Ortopedia y Traumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia-pediatrica/)
+7. Garantizar la adecuada prestación de los servicios y el mejoramiento continuo de los procesos institucionales.
 
-## P
+La información suministrada podrá incluir datos sensibles, como su estado de salud. Usted no está obligado a responder preguntas sensibles y podrá ejercer sus derechos en cualquier momento en su calidad de titular.
 
-- [Pediatría](https://valledellili.org/departamentos-y-servicios/pediatria/)
-- [Psiquiatría Infantil](https://valledellili.org/departamentos-y-servicios/psiquiatria-infantil/)
+Si usted desea conocer (de manera gratuita), actualizar, rectificar (datos inexactos, incompletos, fraccionados que induzcan al error) o suprimir los datos que nos ha suministrado, envíe un correo electrónico al correo datospersonales@fvl.org.co donde se le dará trámite a su solicitud de conformidad con lo establecido por los artículos 14 y 15 de la Ley 1581 de 2012, 20 a 23 del Decreto 1377 de 2013 y demás normas vigentes.
 
-## R
+Puede consultar nuestra política de tratamiento de datos personales [**aquí**](/politica-de-tratamiento-de-datos-personales/)
 
-- [Reumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/reumatologia-pediatrica/)
+---
 
-## U
+Autorizo
 
-- [Unidad de Alto Riesgo Obstétrico](https://valledellili.org/departamentos-y-servicios/unidad-de-alto-riesgo-obstetrico/)
-- [Unidad de Cuidado Intensivo Cardiovascular Pediátrico](https://valledellili.org/departamentos-y-servicios/unidad-de-cuidado-intensivo-cardiovascular-pediatrico/)
-- [Unidad de Recién Nacidos](https://valledellili.org/departamentos-y-servicios/unidad-de-recien-nacidos/)
-- [Urgencias Pediátricas](https://valledellili.org/departamentos-y-servicios/urgencias-pediatricas/)
-- [Urología Pediátrica](https://valledellili.org/departamentos-y-servicios/urologia-pediatrica/)
+####
 
-## V
+![]()
 
-- [Vacunación](https://valledellili.org/departamentos-y-servicios/vacunacion/)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-##### Cirugía
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
 
-## A
-
-- [Anestesiología](https://valledellili.org/departamentos-y-servicios/anestesiologia/)
-
-## C
-
-- [Cirugía Bariátrica y Laparoscópica Avanzada](https://valledellili.org/departamentos-y-servicios/cirugia-bariatrica-y-laparoscop/)
-- [Cirugía Cardiovascular Adultos](https://valledellili.org/departamentos-y-servicios/cirugia-cardiovascular-adultos/)
-- [Cirugía Cardiovascular Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-cardiovascular-pediatrica/)
-- [Cirugía de Cabeza y Cuello](https://valledellili.org/departamentos-y-servicios/cirugia-de-cabeza-y-cuello/)
-- [Cirugía de Colon y Recto](https://valledellili.org/departamentos-y-servicios/cirugia-de-colon-y-recto/)
-- [Cirugía de Tórax](https://valledellili.org/departamentos-y-servicios/cirugia-de-torax/)
-- [Cirugía de Trauma y Emergencias](https://valledellili.org/departamentos-y-servicios/cirugia-de-trauma-y-emergencias/)
-- [Cirugía Gastrointestinal](https://valledellili.org/departamentos-y-servicios/cirugia-gastrointestinal/)
-- [Cirugía General](https://valledellili.org/departamentos-y-servicios/cirugia-general/)
-- [Cirugía Hepatobiliar y Trasplantes](https://valledellili.org/departamentos-y-servicios/cirugia-hepatobiliar-y-trasplantes/)
-- [Cirugía Oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-oncologica/)
-- [Cirugía Oral y Maxilofacial](https://valledellili.org/departamentos-y-servicios/cirugia-maxilofacial/)
-- [Cirugía Pediátrica](https://valledellili.org/departamentos-y-servicios/cirugia-pediatrica/)
-- [Cirugía Plástica, reconstructiva, estética y oncológica](https://valledellili.org/departamentos-y-servicios/cirugia-plastica/)
-- [Cirugía Vascular Periférica](https://valledellili.org/departamentos-y-servicios/cirugia-vascular-periferica/)
-
-## E
-
-- [Electrofisiología](https://valledellili.org/departamentos-y-servicios/electrofisiologia/)
-
-## M
-
-- [Mastología](https://valledellili.org/departamentos-y-servicios/mastologia/)
-
-## N
-
-- [Neurocirugía](https://valledellili.org/departamentos-y-servicios/neurocirugia/)
-- [Neurointervencionismo](https://valledellili.org/departamentos-y-servicios/neurointervencionismo/)
-
-## O
-
-- [Oftalmología](https://valledellili.org/departamentos-y-servicios/oftalmologia/)
-- [Ortopedia y Traumatología](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia/)
-- [Otorrinolaringología](https://valledellili.org/departamentos-y-servicios/otorrinolaringologia/)
-
-## T
-
-- [Trasplantes](https://valledellili.org/departamentos-y-servicios/trasplantes/)
-
-## U
-
-- [Unidad de Intervencionismo Vascular](https://valledellili.org/departamentos-y-servicios/unidad-intervencionismo-vascular/)
-- [Urología](https://valledellili.org/departamentos-y-servicios/urologia/)
-
-#### Servicios
-
-##### Hospitalización
-
-## H
-
-- [Hospitalización](https://valledellili.org/departamentos-y-servicios/hospitalizacion/)
-
-##### Consulta Externa
-
-## A
-
-- [Alergología](https://valledellili.org/departamentos-y-servicios/alergologia/)
-
-## C
-
-- [Cardiología](https://valledellili.org/departamentos-y-servicios/cardiologia/)
-- [Cardiología Pediátrica](https://valledellili.org/departamentos-y-servicios/cardiologia-pediatrica/)
-- [Clínica de Heridas y Terapia Enterostomal](https://valledellili.org/departamentos-y-servicios/clinica-de-heridas-y-terapia-enterostomal/)
-- [Cuidados Paliativos Adultos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-adultos/)
-- [Cuidados Paliativos Pediátricos](https://valledellili.org/departamentos-y-servicios/cuidados-paliativos-pediatricos/)
-
-## D
-
-- [Dermatología](https://valledellili.org/departamentos-y-servicios/dermatologia/)
-- [Diagnóstico Vascular](https://valledellili.org/departamentos-y-servicios/diagnostico-vascular/)
-
-## E
-
-- [Electrofisiología](https://valledellili.org/departamentos-y-servicios/electrofisiologia/)
-- [Endocrinología](https://valledellili.org/departamentos-y-servicios/endocrinologia/)
-- [Endocrinología Pediátrica](https://valledellili.org/departamentos-y-servicios/endocrinologia-pediatrica/)
-
-## F
-
-- [Fonoaudiología](https://valledellili.org/departamentos-y-servicios/fonoaudiologia/)
-
-## G
-
-- [Gastroenterología](https://valledellili.org/departamentos-y-servicios/gastroenterologia/)
-- [Geriatría](https://valledellili.org/departamentos-y-servicios/geriatria/)
-- [Ginecología y Obstetricia](https://valledellili.org/departamentos-y-servicios/ginecologia-y-obstetricia/)
-
-## H
-
-- [Hemato-oncología](https://valledellili.org/departamentos-y-servicios/hemato-oncologia/)
-- [Hemato-Oncología Pediátrica](https://valledellili.org/departamentos-y-servicios/hemato-oncologia-pediatrica/)
-- [Hematología](https://valledellili.org/departamentos-y-servicios/hematologia/)
-- [Hepatología](https://valledellili.org/departamentos-y-servicios/hepatologia/)
-
-## I
-
-- [Infectología](https://valledellili.org/departamentos-y-servicios/infectologia-adultos/)
-- [Infectología Pediátrica](https://valledellili.org/departamentos-y-servicios/infectologia-pediatrica/)
-- [Inmunología clínica pediátrica](https://valledellili.org/departamentos-y-servicios/inmunologia-clinica-pediatrica/)
-
-## M
-
-- [Medicina Familiar](https://valledellili.org/departamentos-y-servicios/medicina-familiar/)
-
-## N
-
-- [Nefrología](https://valledellili.org/departamentos-y-servicios/nefrologia/)
-- [Nefrología Pediátrica](https://valledellili.org/departamentos-y-servicios/nefrologia-pediatrica/)
-- [Neumología](https://valledellili.org/departamentos-y-servicios/neumologia-2/)
-- [Neumología Pediátrica](https://valledellili.org/departamentos-y-servicios/neumologia-pediatrica/)
-- [Neurointervencionismo](https://valledellili.org/departamentos-y-servicios/neurointervencionismo/)
-- [Neurología](https://valledellili.org/departamentos-y-servicios/neurologia-adultos/)
-- [Neurología Pediátrica o Neuropediatría](https://valledellili.org/departamentos-y-servicios/neurologia-infantil-o-neuropediatria/)
-- [Neuropsicología](https://valledellili.org/departamentos-y-servicios/neuropsicologia/)
-- [Nutrición y Dietética](https://valledellili.org/departamentos-y-servicios/nutricion/)
-
-## O
-
-- [Oftalmología Pediátrica](https://valledellili.org/departamentos-y-servicios/oftalmologia-pediatrica/)
-- [Ortopedia y Traumatología](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia/)
-
-## P
-
-- [Pediatría](https://valledellili.org/departamentos-y-servicios/pediatria/)
-- [Psicología](https://valledellili.org/departamentos-y-servicios/psicologia/)
-- [Psiquiatría](https://valledellili.org/departamentos-y-servicios/psiquiatria/)
-- [Psiquiatría Infantil](https://valledellili.org/departamentos-y-servicios/psiquiatria-infantil/)
-
-## R
-
-- [Reumatología](https://valledellili.org/departamentos-y-servicios/reumatologia/)
-- [Reumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/reumatologia-pediatrica/)
-
-## U
-
-- [Urología](https://valledellili.org/departamentos-y-servicios/urologia/)
-
-##### Endoscopia
-
-## E
-
-- [Endoscopia](https://valledellili.org/departamentos-y-servicios/endoscopia/)
-
-## N
-
-- [Neumología (Broncoscopia Básica y Avanzada)](https://valledellili.org/departamentos-y-servicios/neumologia/)
-
-##### Clínicas y programas especiales
-
-## C
-
-- [Clínica de Acretismo Placentario](https://valledellili.org/departamentos-y-servicios/clinica-de-acretismo-placentario/)
-- [Clínica de Anticoagulación](https://valledellili.org/departamentos-y-servicios/clinica-de-anticoagulacion/)
-- [Clínica de Falla Cardiaca](https://valledellili.org/departamentos-y-servicios/clinica-de-falla-cardiaca/)
-- [Clínica de Gliomas de Alto Grado](https://valledellili.org/departamentos-y-servicios/clinica-de-gliomas-de-alto-grado/)
-- [Clínica de Heridas y Terapia Enterostomal](https://valledellili.org/departamentos-y-servicios/clinica-de-heridas-y-terapia-enterostomal/)
-- [Clínica de Infusiones](https://valledellili.org/departamentos-y-servicios/clinica-de-infusiones/)
-- [Clínica de Menopausia y Climaterio](https://valledellili.org/departamentos-y-servicios/clinica-de-menopausia-y-climaterio/)
-- [Clínica de Tumores del Sistema Nervioso Central](https://valledellili.org/departamentos-y-servicios/clinica-de-tumores-del-sistema-nervioso-central/)
-- [Clínica del Dolor](https://valledellili.org/departamentos-y-servicios/clinica-del-dolor/)
-
-## O
-
-- [Ortopedia y Traumatología Pediátrica](https://valledellili.org/departamentos-y-servicios/ortopedia-y-traumatologia-pediatrica/)
-
-## P
-
-- [Programa Soporte Oncológico](https://valledellili.org/departamentos-y-servicios/oncologia/programa-soporte-oncologico/)
-
-## T
-
-- [Telemedicina-LiliConnect](https://valledellili.org/departamentos-y-servicios/telemedicina-liliconnect/)
-
-## U
-
-- [Urología Pediátrica](https://valledellili.org/departamentos-y-servicios/urologia-pediatrica/)
-
-##### Medicina Nuclear
-
-## M
-
-- [Medicina Nuclear Molecular](https://valledellili.org/departamentos-y-servicios/medicina-nuclear-molecular/)
-
-##### Medicina Física y Rehabilitación
-
-## M
-
-- [Medicina Física y Rehabilitación - Fisiatría](https://valledellili.org/departamentos-y-servicios/servicio-medicina-fisica-y-rehabilitacion/)
-
-##### Vacunación
-
-## V
-
-- [Vacunación](https://valledellili.org/departamentos-y-servicios/vacunacion/)
-
-Ingrese la palabra o palabras clave a buscar:
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
+![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

@@ -15,7 +15,12 @@ from dotenv import load_dotenv
 # Tags literales acordados para la interfaz (validacion en capas superiores).
 MODELO_LLAMA_3_1_8B = "llama3.1:8b"
 MODELO_GEMMA_4_E2B = "gemma4:e2b"
-MODELOS_OLLAMA_SOPORTADOS: tuple[str, ...] = (MODELO_LLAMA_3_1_8B, MODELO_GEMMA_4_E2B)
+MODELO_GEMMA_4_E4B = "gemma4:e4b"
+MODELOS_OLLAMA_SOPORTADOS: tuple[str, ...] = (
+    MODELO_LLAMA_3_1_8B,
+    MODELO_GEMMA_4_E2B,
+    MODELO_GEMMA_4_E4B,
+)
 
 
 def _mensaje_ollama_inaccesible(base_url: str) -> str:

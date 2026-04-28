@@ -14,6 +14,8 @@ from collections.abc import Iterator
 import gradio as gr
 
 from src.qa.cliente_ollama import (
+    MODELO_LLAMA_3_1_8B,
+    MODELOS_OLLAMA_SOPORTADOS,
     ModeloNoDisponibleError,
     OllamaNoAccesibleError,
 )
@@ -388,10 +390,14 @@ def construir_demo() -> gr.Blocks:
                     label="Usar OpenAI (API en la nube)",
                 )
                 with gr.Row(visible=True) as fila_modelo_ollama:
-                    modelo = gr.Radio(
-                        choices=["llama3.1:8b", "gemma4:e2b"],
-                        value="llama3.1:8b",
+                    modelo = gr.Dropdown(
+                        choices=list(MODELOS_OLLAMA_SOPORTADOS),
+                        value=MODELO_LLAMA_3_1_8B,
                         label="Modelo (Ollama)",
+                        info=(
+                            "Requiere Ollama en ejecución (`ollama serve`). "
+                            "Si el modelo no está instalado: **`ollama pull`** seguido del nombre elegido."
+                        ),
                     )
                 with gr.Row(visible=False) as fila_modelo_openai:
                     modelo_openai_dd = gr.Dropdown(
