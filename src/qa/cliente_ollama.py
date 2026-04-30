@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -21,6 +22,30 @@ MODELOS_OLLAMA_SOPORTADOS: tuple[str, ...] = (
     MODELO_GEMMA_4_E2B,
     MODELO_GEMMA_4_E4B,
 )
+
+# Limites coherentes para OLLAMA_NUM_CTX (entre 1024 y 16384 inclusives).
+NUM_CTX_MIN: int = 1024
+NUM_CTX_MAX: int = 16384
+
+
+def _num_ctx_desde_entorno(defecto: int) -> int:
+    """Lee ``OLLAMA_NUM_CTX``, normaliza al rango [NUM_CTX_MIN, NUM_CTX_MAX] o ``defecto``."""
+    raw = os.environ.get("OLLAMA_NUM_CTX")
+    if not raw or not str(raw).strip():
+        return defecto
+    try:
+        n = int(str(raw).strip())
+    except (TypeError, ValueError):
+        print(
+            f"OLLAMA_NUM_CTX invalido `{raw!r}`; se usa {defecto}.",
+            file=sys.stderr,
+        )
+        return defecto
+    if n < NUM_CTX_MIN:
+        return NUM_CTX_MIN
+    if n > NUM_CTX_MAX:
+        return NUM_CTX_MAX
+    return n
 
 
 def _mensaje_ollama_inaccesible(base_url: str) -> str:
@@ -59,8 +84,9 @@ class ModeloNoDisponibleError(RuntimeError):
 class ConfiguracionLlm:
     """Parametros de transporte hacia Ollama.
 
-    Para cargar ``OLLAMA_BASE_URL`` y ``MODELO_LLM_DEFECTO`` desde el entorno
-    (y opcionalmente un archivo ``.env``), usar :meth:`desde_variables_entorno`.
+    Para cargar ``OLLAMA_BASE_URL``, ``MODELO_LLM_DEFECTO`` y ``OLLAMA_NUM_CTX``
+    desde el entorno (y opcionalmente un archivo ``.env``), usar
+    :meth:`desde_variables_entorno`.
 
     ``num_ctx`` fija la ventana del modelo; documentacion del MVP: si un documento
     supera ese limite en tokens, el modelo puede truncar el contexto.
@@ -78,9 +104,12 @@ class ConfiguracionLlm:
         load_dotenv()
         base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip()
         modelo = os.environ.get("MODELO_LLM_DEFECTO", MODELO_LLAMA_3_1_8B).strip()
+        defecto_ctx = 8192
+        num_ctx = _num_ctx_desde_entorno(defecto_ctx)
         return cls(
             base_url=base.rstrip("/"),
             modelo=modelo,
+            num_ctx=num_ctx,
         )
 
 

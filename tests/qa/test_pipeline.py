@@ -67,10 +67,10 @@ def test_pipeline_recuperacion_vacia() -> None:
     cliente.chat.assert_not_called()
 
 
-def test_pipeline_mensaje_sistema_incluye_tres_documentos_consulta_amplia(
+def test_pipeline_mensaje_sistema_incluye_cinco_documentos_consulta_amplia(
     dir_fixtures_markdown: Path,
 ) -> None:
-    """Smoke: pregunta amplia activa BM25 > 0 en al menos 3 fixtures -> 3 bloques."""
+    """Smoke: pregunta amplia coincide con todos los Markdown de muestra -> 5 bloques."""
     recu = RecuperadorBm25(dir_fixtures_markdown)
     cliente = MagicMock(spec=ClienteOllama)
     cliente.configuracion = ConfiguracionLlm(
@@ -83,13 +83,12 @@ def test_pipeline_mensaje_sistema_incluye_tres_documentos_consulta_amplia(
         "fundacion servicios cardiologia pediatria contacto historia lineas region"
     )
     r = pipe.responder(pregunta)
-    assert len(r.fuentes_bm25) == 3
+    assert len(r.fuentes_bm25) == 5
 
     (mensajes,) = cliente.chat.call_args[0]
     sistema = mensajes[0]["content"]
     assert "[DOCUMENTO 1]" in sistema
-    assert "[DOCUMENTO 2]" in sistema
-    assert "[DOCUMENTO 3]" in sistema
+    assert "[DOCUMENTO 5]" in sistema
 
 
 def test_pipeline_propaga_errores_ollama(dir_fixtures_markdown: Path) -> None:

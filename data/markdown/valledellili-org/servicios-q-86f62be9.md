@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/?por_servicio=&by_tag=&sede=sede-principal
 titulo: Servicios Archive - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 8146c336c8d85591589b59348d601a35e1ab5e96d475bb25291f76540bdcbf84
+hash: 50fdfc2c4f6b092b3848f020f199104a9128f2440ec2b30e17fb305d3573f3c1
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,27 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 [Fundación Valle del Lili](https://valledellili.org "Go to Fundación Valle del Lili.")→[Servicios](https://valledellili.org/servicios/ "Go to Servicios.")
 
@@ -73,48 +43,34 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ##### Servicio o especialidad
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cardiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Alergología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Anestesiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Banco de Sangre
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Adultos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Pediátrica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Tórax
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Trauma y Emergencias
 
 ##### Condición, tratamiento o procedimiento
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 >Trastornos de la fertilidad masculina
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominal y Pélvica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominoplastia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter con radiofrecuencia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por microondas
 
 Todas las sedes
@@ -129,15 +85,11 @@ Sede Principal
 
 Sede Tequendama
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/search-servicios.png)
-
 ## Especialidades y servicios a tu alcance
 
 [#### Alergología
 
 Se especializa en el diagnóstico y tratamiento de enfermedades alérgicas en pacientes adultos y pediátricos. Su objetivo principal es identificar…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -149,8 +101,6 @@ Alergias alimentarias](https://valledellili.org/servicios/alergologia/)
 
 El servicio de anestesiología de la Fundación Valle del Lili tiene como objetivo garantizar que los pacientes estén protegidos, sin…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Principal
 
 Adultos
@@ -160,8 +110,6 @@ Alta complejidad](https://valledellili.org/servicios/anestesiologia-fundacion-va
 [#### Banco de Sangre
 
 Realizamos la recolección, procesamiento, fraccionamiento y conservación de componentes sanguíneos, asegurando su disponibilidad oportuna y segura para pacientes que los…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Av. Estación, Sede Principal
 
@@ -173,8 +121,6 @@ campañas de donación](https://valledellili.org/servicios/banco-de-sangre-funda
 
 Se enfoca en ofrecer atención integral y de alta complejidad, utilizando tecnología de vanguardia y un enfoque multidisciplinario para abordar…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Ablación por catéter con radiofrecuencia
@@ -184,8 +130,6 @@ Adultos mayores](https://valledellili.org/servicios/cardiologia/)
 [#### Cardiología Intervencionista
 
 Es una subespecialidad dedicada al diagnóstico y tratamiento de enfermedades del corazón y los vasos sanguíneos mediante técnicas mínimamente invasivas.
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -197,8 +141,6 @@ Adultos mayores](https://valledellili.org/servicios/cardiologia-intervencionista
 
 ¿Qué hace esta especialidad? La Cardiología No Invasiva es una subespecialidad de la cardiología clínica enfocada en el diagnóstico, pronóstico…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adultos
@@ -208,8 +150,6 @@ Cardiología](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/
 [#### Cardiología No Invasiva Pediátrica
 
 ¿Qué hace esta especialidad? La Cardiología No Invasiva Pediátrica de la Fundación Valle del Lili está conformada por un equipo…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -221,8 +161,6 @@ atresia pulmonar](https://valledellili.org/servicios/cardiologia-no-invasiva-ped
 
 Qué hace esta especialidad La Cardiología Pediátrica se enfoca en el diagnóstico, tratamiento y seguimiento de cardiopatías congénitas y adquiridas…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Anestesia Cardiovascular
@@ -232,8 +170,6 @@ Cardiología Pediátrica](https://valledellili.org/servicios/cardiologia-pediatr
 [#### Cirugía Cardiovascular Adultos
 
 Qué hace esta especialidad La Cirugía Cardiovascular de Adultos se dedica al diagnóstico, tratamiento y manejo integral de las enfermedades…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -245,8 +181,6 @@ Aneurisma de aorta](https://valledellili.org/servicios/cirugia-cardiovascular-ad
 
 Qué hace esta especialidad El servicio de Cirugía Cardiovascular Pediátrica trata patologías congénitas o adquiridas del corazón y grandes vasos…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adolescentes
@@ -256,8 +190,6 @@ Anestesiología](https://valledellili.org/servicios/cirugia-cardiovascular-pedia
 [#### Cirugía de Cabeza y Cuello
 
 Qué hace esta especialidad El Servicio de Cirugía de Cabeza y Cuello ofrece un enfoque multidisciplinario para el diagnóstico y…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -269,8 +201,6 @@ Adultos](https://valledellili.org/servicios/cirugia-de-cabeza-y-cuello/)
 
 Qué hace esta especialidad El servicio de Cirugía de Tórax aborda patologías del pulmón, pared torácica, esófago y tráquea, ofreciendo…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Principal
 
 Adultos
@@ -280,8 +210,6 @@ Arritmias](https://valledellili.org/servicios/cirugia-de-torax-fundacion-valle-d
 [#### Cirugía de Trauma y Emergencias
 
 Qué hace esta especialidad El servicio de Cirugía de Trauma y Emergencias está orientado a la atención de pacientes con…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Limonar, Sede Principal
 
@@ -293,8 +221,6 @@ Apendicitis perforada](https://valledellili.org/servicios/cirugia-de-trauma-y-em
 
 Qué hace esta especialidad El Servicio de Cirugía Gastrointestinal ofrece tratamiento quirúrgico integral de las enfermedades benignas y malignas del…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Abordaje endoscópico
@@ -305,8 +231,6 @@ Acalasia](https://valledellili.org/servicios/cirugia-gastrointestinal/)
 
 Qué hace esta especialidad El Servicio de Cirugía General brinda atención quirúrgica integral a pacientes mayores de 17 años con…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal
 
 Abordaje del abdomen agudo
@@ -316,8 +240,6 @@ Apendicectomía](https://valledellili.org/servicios/cirugia-general/)
 [#### Cirugía Maxilofacial de Alta Complejidad
 
 ¿Qué hace esta especialidad? El Servicio de Cirugía Maxilofacial de Alta Complejidad está dedicado al diagnóstico, tratamiento quirúrgico y reconstrucción…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Limonar, Sede Principal
 
@@ -337,8 +259,6 @@ Atención 24 horas](https://valledellili.org/servicios/cirugia-pediatrica-fundac
 
 Qué hace esta especialidad La Cirugía Plástica es una especialidad médica orientada a la mejora, restauración y reconstrucción de la…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal
 
 Abdominoplastia
@@ -348,8 +268,6 @@ aumento mamario](https://valledellili.org/servicios/cirugia-plastica/)
 [#### Clínica de Anticoagulación
 
 ¿Cómo funciona la Clínica de Anticoagulación? La Clínica de Anticoagulación de la Fundación Valle del Lili ofrece atención especializada a…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -361,8 +279,6 @@ Ajuste de dosis](https://valledellili.org/servicios/clinica-de-anticoagulacion/)
 
 ¿Cómo funciona la Clínica de Falla Cardíaca? La Clínica de Falla Cardíaca de la Fundación Valle del Lili se especializa…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adultos
@@ -372,8 +288,6 @@ Atención integral](https://valledellili.org/servicios/clinica-de-falla-cardiaca
 [#### Clínica de Heridas y Ostomías
 
 ¿Qué hace esta especialidad? La Clínica de Heridas y Ostomías brinda atención integral y especializada a pacientes con heridas agudas…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -385,8 +299,6 @@ Adultos mayores](https://valledellili.org/servicios/clinica-de-heridas-y-ostomia
 
 ¿Qué hace esta especialidad? El servicio de Coloproctología de la Fundación Valle del Lili se dedica a la prevención, diagnóstico…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal
 
 Abscesos
@@ -396,8 +308,6 @@ Adultos mayores](https://valledellili.org/servicios/coloproctologia-cirugia-de-c
 [#### Cuidado Paliativo Adultos
 
 ¿Qué hace esta especialidad? El servicio de Cuidado Paliativo Adultos brinda atención integral a personas con enfermedades crónicas, progresivas o…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Principal
 
@@ -409,8 +319,6 @@ Adulto mayor](https://valledellili.org/servicios/cuidado-paliativo-adultos/)
 
 ¿Qué hace esta especialidad? El programa de Cuidado Paliativo Pediátrico ofrece una atención integral y multidisciplinaria a niños y adolescentes…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Principal
 
 Acompañamiento espiritual
@@ -420,8 +328,6 @@ Alivio del dolor](https://valledellili.org/servicios/cuidado-paliativo-pediatric
 [#### Densitometría Ósea
 
 ¿Qué hace esta especialidad? La densitometría ósea es un examen diagnóstico que permite medir la densidad mineral ósea (DMO) y…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -433,8 +339,6 @@ Artritis reumatoidea](https://valledellili.org/servicios/densitometria-osea/)
 
 Se especializa en el diagnóstico, tratamiento y prevención de las enfermedades que afectan la piel, el pelo y las uñas,…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Acné
@@ -444,8 +348,6 @@ Atención ambulatoria](https://valledellili.org/servicios/dermatologia/)
 [#### Dermatopatología
 
 ¿Qué hace esta especialidad? La Dermatopatología es la subespecialidad médica encargada del diagnóstico de las enfermedades de la piel a…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -457,8 +359,6 @@ Cáncer de piel](https://valledellili.org/servicios/dermatopatologia/)
 
 Qué hace esta especialidad El electroencefalograma (EEG) es un estudio diagnóstico que permite medir y registrar la actividad eléctrica del…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 cambios de comportamiento de origen neurológico
@@ -468,8 +368,6 @@ control neurológico](https://valledellili.org/servicios/electroencefalograma-ee
 [#### Electrofisiología
 
 Qué hace esta especialidad La electrofisiología es una subespecialidad de la cardiología dedicada al estudio, diagnóstico y tratamiento de los…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -481,8 +379,6 @@ Alta complejidad](https://valledellili.org/servicios/electrofisiologia/)
 
 Qué hace esta especialidad La endocrinología es la especialidad médica encargada del diagnóstico y tratamiento de las enfermedades del sistema…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Acromegalia
@@ -492,8 +388,6 @@ Alteraciones del calcio y fósforo](https://valledellili.org/servicios/endocrino
 [#### Endocrinología Pediátrica
 
 Se encarga del diagnóstico y manejo de trastornos hormonales y metabólicos en niños y adolescentes desde el período neonatal hasta…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -505,8 +399,6 @@ Alteraciones menstruales](https://valledellili.org/servicios/endocrinologia-pedi
 
 Qué hace esta especialidad El Servicio de Endoscopia de la Fundación Valle del Lili ofrece atención médica especializada con altos…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal
 
 Adultos
@@ -516,8 +408,6 @@ Atención ambulatoria](https://valledellili.org/servicios/endoscopia-fundacion-v
 [#### Fonoaudiología – Audiología
 
 Qué hace esta especialidad El servicio de Fonoaudiología brinda atención integral a personas en todas las etapas del ciclo vital,…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -529,8 +419,6 @@ afasias](https://valledellili.org/servicios/fonoaudiologia-audiologia-fundacion-
 
 Se enfoca en el manejo de patologías digestivas de alta complejidad en pacientes adultos y población pediátrica, trabajando de manera…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal
 
 Ablación por radiofrecuencia
@@ -540,8 +428,6 @@ Alta complejidad](https://valledellili.org/servicios/gastroenterologia/)
 [#### Gastroenterología Pediátrica
 
 ¿Qué hace esta especialidad? El servicio de Gastroenterología Pediátrica ofrece un manejo humanizado, integral y de alta complejidad de las…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Alfaguara, Sede Principal
 
@@ -553,8 +439,6 @@ cápsula endoscópica](https://valledellili.org/servicios/gastroenterologia-pedi
 
 ¿Qué hace esta especialidad? La Genética Humana se dedica al estudio de los genes, la herencia y las enfermedades genéticas…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Principal
 
 Adultos
@@ -564,8 +448,6 @@ Cáncer hereditario](https://valledellili.org/servicios/genetica-humana/)
 [#### Geriatría
 
 Qué hace esta especialidad La Geriatría es una subespecialidad de la Medicina Interna enfocada en el cuidado integral de la…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Principal
 
@@ -577,8 +459,6 @@ Alteraciones del afecto y del comportamiento](https://valledellili.org/servicios
 
 Brinda atención integral y personalizada a la mujer en todas las etapas de la vida, desde la adolescencia hasta la…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adolescentes
@@ -588,8 +468,6 @@ Cirugía Ginecológica Mínimamente Invasiva](https://valledellili.org/servicios
 [#### Hemato-Oncología
 
 ¿Qué hace esta especialidad? La Hemato-Oncología es la subespecialidad médica dedicada al estudio, diagnóstico, tratamiento y prevención integral de las…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -601,8 +479,6 @@ Atención integral](https://valledellili.org/servicios/hemato-oncologia/)
 
 ¿Qué hace esta especialidad? El servicio de Hemato-Oncología Pediátrica está conformado por un equipo altamente especializado en el diagnóstico oportuno,…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Alta complejidad
@@ -612,8 +488,6 @@ Anemia por déficit de hierro](https://valledellili.org/servicios/hemato-oncolog
 [#### Hematología
 
 Qué hace esta especialidad La Hematología se dedica a la atención integral de pacientes adultos con enfermedades de la sangre…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -625,8 +499,6 @@ biopsias de médula ósea](https://valledellili.org/servicios/hematologia-fundac
 
 Es una subespecialidad de la cardiología que se encarga del diagnóstico y tratamiento de las enfermedades cardiovasculares mediante técnicas mínimamente…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adultos
@@ -637,15 +509,11 @@ Alta complejidad](https://valledellili.org/servicios/cardiologia-intervencionist
 
 Qué hace esta especialidad La Hepatología es la subespecialidad de la medicina interna y la gastroenterología dedicada al estudio, diagnóstico,…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Principal](https://valledellili.org/servicios/hepatologia/)
 
 [#### Hospitalización
 
 ¿Qué hace el servicio de Hospitalización? El servicio de Hospitalización de la Fundación Valle del Lili brinda atención integral de…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Limonar, Sede Principal
 
@@ -657,8 +525,6 @@ Aislamiento por contacto](https://valledellili.org/servicios/hospitalizacion/)
 
 Realizamos estudios precisos, oportunos y seguros con acompañamiento profesional integral, asegurando equidad, cobertura y calidad durante todo el proceso, desde…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Abdominal y Pélvica
@@ -668,8 +534,6 @@ Adultos](https://valledellili.org/servicios/imagenes-diagnosticas-y-radiologia-f
 [#### Infectología Adultos
 
 ¿Qué hace el servicio de Infectología Adultos? El servicio de Infectología Adultos de la Fundación Valle del Lili se especializa…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Limonar, Sede Av. Estación, Sede Principal
 
@@ -681,8 +545,6 @@ Atención ambulatoria](https://valledellili.org/servicios/infectologia-adultos/)
 
 ¿Qué hace el servicio de Infectología Pediátrica? El servicio de Infectología Pediátrica de la Fundación Valle del Lili se dedica…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Principal
 
 Actualización de esquemas de vacunación
@@ -692,8 +554,6 @@ Administración de antifúngicos](https://valledellili.org/servicios/infectologi
 [#### Laboratorio Clínico
 
 Ofrece un servicio integral de diagnóstico a través del análisis de muestras biológicas para confirmar, descartar, monitorear, estimar riesgos y…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -705,8 +565,6 @@ Anomalías genéticas](https://valledellili.org/servicios/laboratorio-clinico-fu
 
 ¿Qué hace esta especialidad? La Mastología se dedica al estudio, diagnóstico, tratamiento y seguimiento de las enfermedades de la mama,…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adultos
@@ -716,8 +574,6 @@ Alta complejidad](https://valledellili.org/servicios/mastologia/)
 [#### Medicina del Deporte
 
 Qué hace esta especialidad La Medicina del Deporte es una especialidad médica orientada a la valoración integral de personas de…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Principal
 
@@ -729,15 +585,11 @@ Adultos mayores](https://valledellili.org/servicios/medicina-del-deporte/)
 
 Qué hace esta especialidad La Medicina Familiar es la especialidad encargada de brindar atención médica integral y continua a las…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Principal](https://valledellili.org/servicios/medicina-familiar/)
 
 [#### Medicina Física y Rehabilitación – Fisiatría
 
 Qué hace esta especialidad El servicio de Medicina Física y Rehabilitación – Fisiatría ofrece atención especializada con un enfoque integral…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -749,8 +601,6 @@ Afecciones neurológicas](https://valledellili.org/servicios/medicina-fisica-y-r
 
 ¿Qué hace el servicio de Medicina Interna? La Medicina Interna es la especialidad clínica fundamental para el cuidado integral de…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adolescentes
@@ -760,8 +610,6 @@ Adultos mayores](https://valledellili.org/servicios/medicina-interna/)
 [#### Medicina Nuclear e Imagen Molecular
 
 Qué hace esta especialidad La Medicina Nuclear e Imagen Molecular es una especialidad médica que utiliza sustancias radioactivas, solas o…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -773,8 +621,6 @@ Alzheimer](https://valledellili.org/servicios/medicina-nuclear-e-imagen-molecula
 
 ¿Qué hace esta especialidad? El servicio de Nefrología Pediátrica ofrece atención integral a recién nacidos, niños y adolescentes desde el…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Principal
 
 Adolescentes
@@ -784,8 +630,6 @@ Atención integral](https://valledellili.org/servicios/nefrologia-pediatrica/)
 [#### Nefrología y Trasplante Renal
 
 ¿Qué hace esta especialidad? La especialidad de Nefrología y Trasplante Renal se dedica al estudio, diagnóstico y tratamiento integral de…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -797,8 +641,6 @@ Atención ambulatoria](https://valledellili.org/servicios/nefrologia-y-trasplant
 
 ¿Qué hace esta especialidad? El Servicio de Neumología se dedica al diagnóstico, tratamiento y seguimiento de pacientes con enfermedades del…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Principal
 
 Adultos
@@ -808,8 +650,6 @@ Alta complejidad](https://valledellili.org/servicios/neumologia/)
 [#### Neurocirugía
 
 Qué hace esta especialidad El servicio de Neurocirugía de la Fundación Valle del Lili ofrece atención integral en el manejo…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Principal
 
@@ -821,8 +661,6 @@ Aneurismas cerebrales](https://valledellili.org/servicios/neurocirugia-fundacion
 
 Qué hace esta especialidad La Neurofisiología es una subárea de la Neurología dedicada al estudio de la función del sistema…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adultos
@@ -832,8 +670,6 @@ Apnea](https://valledellili.org/servicios/neurofisiologia/)
 [#### Neurología
 
 Se enfoca en el diagnóstico y tratamiento integral de enfermedades del cerebro, la médula espinal, los nervios periféricos y los…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -845,8 +681,6 @@ Apnea del sueño](https://valledellili.org/servicios/neurologia/)
 
 ¿Qué hace esta especialidad? La Neurología Pediátrica se encarga del diagnóstico, tratamiento y seguimiento de las enfermedades del sistema nervioso…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Alta complejidad
@@ -856,8 +690,6 @@ cefaleas y migraña](https://valledellili.org/servicios/neurologia-pediatrica/)
 [#### Nutrición y Dietética
 
 Qué hace esta especialidad El Servicio de Nutrición de la Fundación Valle del Lili está orientado a la evaluación, seguimiento…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -869,8 +701,6 @@ Asesoramiento nutricional](https://valledellili.org/servicios/nutricion-y-dietet
 
 Qué hace esta especialidad La oftalmología se encarga del diagnóstico, tratamiento y prevención de las enfermedades y trastornos de los…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Principal
 
 Adultos
@@ -880,8 +710,6 @@ Angiografía fluoresceínica](https://valledellili.org/servicios/oftalmologia-fu
 [#### Oncología Clínica
 
 Qué hace esta especialidad La Oncología Clínica es la especialidad médica dedicada al diagnóstico, estudio y tratamiento integral del cáncer…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Av. Estación, Sede Principal
 
@@ -893,8 +721,6 @@ Cáncer colorrectal](https://valledellili.org/servicios/oncologia-clinica/)
 
 Qué hace esta especialidad La Oncología Radioterápica es una especialidad médico-quirúrgica que utiliza radiación ionizante de alta energía para el…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adultos
@@ -904,8 +730,6 @@ Alta complejidad](https://valledellili.org/servicios/oncologia-radioterapica/)
 [#### Ortopedia y Traumatología
 
 Integra tecnología de última generación y un equipo médico altamente especializado para ofrecer tratamientos seguros y personalizados que mejoran la…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -917,8 +741,6 @@ Adultos mayores](https://valledellili.org/servicios/ortopedia-y-traumatologia/)
 
 Qué hace esta especialidad La Ortopedia y Traumatología Pediátrica se dedica al diagnóstico, tratamiento y seguimiento integral de las enfermedades…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 cirugía de cadera
@@ -928,8 +750,6 @@ cirugía de rodilla](https://valledellili.org/servicios/ortopedia-y-traumatologi
 [#### Otorrinolaringología
 
 Qué hace esta especialidad La Otorrinolaringología se especializa en el diagnóstico, tratamiento y prevención de enfermedades que afectan el oído,…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -941,8 +761,6 @@ Amigdalitis](https://valledellili.org/servicios/otorrinolaringologia/)
 
 Qué hace esta especialidad El Servicio de Patología se dedica al estudio de las alteraciones anatómicas y fisiológicas producidas por…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Principal
 
 Aspiración con aguja fina
@@ -953,9 +771,7 @@ Ayudas diagnosticas](https://valledellili.org/servicios/patologia-fundacion-vall
 
 Atención integral de niños y adolescentes desde el nacimiento hasta los 18 años. Se brinda cuidado continuo enfocado en la…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
-Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
+Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adolescentes
 Alergias
@@ -964,8 +780,6 @@ Asma](https://valledellili.org/servicios/pediatria-consulta-externa/)
 [#### Programa Contacto Canguro
 
 ¿Qué hace esta especialidad? El Programa Contacto Canguro es un sistema integral de cuidado neonatal basado en el método Madre…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -977,8 +791,6 @@ bajo peso al nacer](https://valledellili.org/servicios/programa-contacto-canguro
 
 Qué hace esta especialidad En la Fundación Valle del Lili comprendemos que la salud mental es parte esencial del bienestar…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Limonar, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adultos
@@ -988,8 +800,6 @@ Atención hospitalaria](https://valledellili.org/servicios/psicologia/)
 [#### Psicología Infanto – Juvenil
 
 ¿Qué hace esta especialidad? El servicio de Psicología Infanto-Juvenil de la Fundación Valle del Lili está conformado por profesionales especializados…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Alfaguara, Sede Principal
 
@@ -1001,8 +811,6 @@ Clínica De Autismo](https://valledellili.org/servicios/psicologia-infanto-juven
 
 Qué hace esta especialidad La Psiquiatría se dedica al estudio, diagnóstico, tratamiento y prevención de los trastornos mentales, emocionales y…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adicciones
@@ -1012,8 +820,6 @@ Anorexia](https://valledellili.org/servicios/psiquiatria/)
 [#### Psiquiatría Infantil y del Adolescente
 
 Qué hace esta especialidad La Psiquiatría Infantil y del Adolescente es la especialidad médica dedicada al diagnóstico, tratamiento y prevención…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Av. Estación, Sede Principal
 
@@ -1025,8 +831,6 @@ Ansiedad generalizada](https://valledellili.org/servicios/psiquiatria-infantil-y
 
 ¿Qué hace esta especialidad? La Radiología Intervencionista es una subespecialidad médica que realiza procedimientos diagnósticos y terapéuticos mínimamente invasivos, guiados…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Ablación por microondas
@@ -1036,8 +840,6 @@ Accesos vasculares](https://valledellili.org/servicios/radiologia-intervencionis
 [#### Rehabilitación
 
 Agendar cita Solicita tu cita con los especialistas en Rehabilitación. Contacto Llámanos: (+57) 602 331 9090
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -1049,8 +851,6 @@ Adultos mayores](https://valledellili.org/servicios/rehabilitacion/)
 
 Qué hace esta especialidad La Reumatología es la especialidad médica dedicada al estudio, diagnóstico y tratamiento de las enfermedades que…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adultos
@@ -1060,8 +860,6 @@ Artritis psoriásica](https://valledellili.org/servicios/reumatologia-fundacion-
 [#### Reumatología Pediátrica
 
 Qué hace esta especialidad La Reumatología Pediátrica se dedica al diagnóstico y tratamiento de enfermedades inflamatorias del sistema musculoesquelético y…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -1073,8 +871,6 @@ Artritis idiopática juvenil](https://valledellili.org/servicios/reumatologia-pe
 
 ¿Qué hace esta especialidad? La Sala de Partos de la Fundación Valle del Lili es un espacio especialmente diseñado para…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adaptación neonatal
@@ -1084,8 +880,6 @@ Analgesia obstétrica](https://valledellili.org/servicios/sala-de-partos/)
 [#### Servicio de Teleconsulta
 
 Atención Médica Virtual: consulta desde la comodidad de tu hogar. ¿Qué hace este servicio? La Fundación Valle del Lili ofrece…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
@@ -1097,8 +891,6 @@ Atención ambulatoria](https://valledellili.org/servicios/servicio-de-teleconsul
 
 ¿Qué hace esta especialidad? El servicio de Trasplante de Médula Ósea Pediátrica de la Fundación Valle del Lili está conformado…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Aféresis
@@ -1108,8 +900,6 @@ Anemia de fanconi](https://valledellili.org/servicios/trasplante-de-medula-osea-
 [#### Unidad de Alta Complejidad Obstétrica (UACO)
 
 ¿Qué hace esta especialidad? La Unidad de Alta Complejidad Obstétrica (UACO) está dedicada al cuidado especializado de mujeres embarazadas que…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -1121,8 +911,6 @@ Artritis reumatoide](https://valledellili.org/servicios/unidad-de-alta-complejid
 
 ¿Qué hace esta especialidad? La Unidad de Cuidado Intensivo Pediátrico (UCIP) de la Fundación Valle del Lili brinda atención integral,…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 Adolescentes
@@ -1132,8 +920,6 @@ Alteraciones metabólicas severas](https://valledellili.org/servicios/unidad-de-
 [#### Unidad de Recién Nacidos
 
 ¿Qué hace esta especialidad? La Unidad de Recién Nacidos ofrece atención especializada a neonatos desde el nacimiento, integrando cuidados intensivos…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Principal
 
@@ -1145,8 +931,6 @@ Atención humanizada](https://valledellili.org/servicios/unidad-de-recien-nacido
 
 ¿Qué hace esta especialidad? La Unidad de Trasplantes se encarga del reemplazo de órganos o tejidos enfermos por otros sanos…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Limonar, Sede Principal
 
 adultos.
@@ -1156,8 +940,6 @@ Cirugía Hepática Biliar](https://valledellili.org/servicios/unidad-de-trasplan
 [#### Urgencias Pediátricas
 
 ¿Qué hace esta especialidad? El servicio de Urgencias Pediátricas brinda atención inmediata a niños, niñas y adolescentes con enfermedades agudas…
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
 
 Sede Limonar
 
@@ -1169,8 +951,6 @@ control del dolor](https://valledellili.org/servicios/urgencias-pediatricas/)
 
 ¿Qué hace esta especialidad? La Urología es la especialidad médica encargada del diagnóstico, tratamiento y prevención de las enfermedades que…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Principal
 
 >Trastornos de la fertilidad masculina
@@ -1181,8 +961,6 @@ Biopsias prostáticas guiadas por ecografía](https://valledellili.org/servicios
 
 Ofrece inmunización segura y oportuna para toda la familia, incluyendo niños, adolescentes, adultos, adultos mayores, gestantes, viajeros, trabajadores en riesgo…
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location-primary.svg)
-
 Sede Tequendama, Sede Av. Estación, Sede Alfaguara, Sede Principal
 
 Adultos
@@ -1191,25 +969,11 @@ Aplicación de vacunas](https://valledellili.org/servicios/vacunacion/)
 
 Ver todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -1243,14 +1007,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

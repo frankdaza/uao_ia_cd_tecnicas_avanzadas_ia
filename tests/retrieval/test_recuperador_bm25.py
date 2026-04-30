@@ -20,18 +20,25 @@ from src.retrieval.recuperador import (
 
 
 def test_tokenizacion_tilde_y_minuscula() -> None:
-    assert tokenizar("Cardiología") == ["cardiologia"]
+    assert tokenizar("Cardiología") == ["cardiologi"]
 
 
 def test_tokenizacion_signos() -> None:
-    assert tokenizar("¿Dónde queda?") == ["donde", "queda"]
+    assert tokenizar("¿Dónde queda?") == ["dond", "qued"]
 
 
-def test_tokenizacion_filtra_stopwords() -> None:
+def test_tokenizacion_filtra_stopwords_por_stopword_y_raiz() -> None:
     toks = tokenizar("la fundación es")
     assert "la" not in toks
     assert "es" not in toks
     assert "fundacion" in toks
+
+
+def test_expandir_query_sinonimo_cita_agrega_terminos() -> None:
+    from src.retrieval.sinonimos import expandir_query
+
+    extendida = expandir_query("Necesito cita medica")
+    assert "agendar" in extendida and "consulta" in extendida
 
 
 PREGUNTA_A_ARCHIVO_ESPERADO: list[tuple[str, str]] = [
@@ -178,3 +185,43 @@ def test_cargar_corpus_ordenado(dir_fixtures_markdown: Path) -> None:
     nombres = [p.name for p, *_ in filas]
     assert nombres == sorted(nombres, key=str.lower)
     assert len(filas) == 5
+
+
+def test_cargar_corpus_omite_buscador_integral_serp(tmp_path: Path) -> None:
+    ruta_ok = tmp_path / "ok.md"
+    ruta_ok.write_text(
+        "---\ntitulo: Página ok\n---\n\nContenido unico zebra.\n",
+        encoding="utf-8",
+    )
+    ruta_serp = tmp_path / "buscador-integral-q-abc123.md"
+    ruta_serp.write_text(
+        "---\ntitulo: Ruido SERP\nseccion: buscador-integral-q-xyz\n---\nsnippet\n",
+        encoding="utf-8",
+    )
+    cargado = cargar_corpus(tmp_path)
+    assert len(cargado) == 1
+    assert cargado[0][0].name == "ok.md"
+
+
+def test_cargar_corpus_dedupe_elige_actual_y_mas_largo(tmp_path: Path) -> None:
+    base = "---\ntitulo: Mismo contenido viejo\nfecha_extraccion: '2026-04-01'\nhash: a\n---\n\nalfa\n"
+    nuevo = "---\ntitulo: Actualizado\nfecha_extraccion: '2026-05-01'\nhash: b\n---\n\nbeta extendido linea\n"
+    (tmp_path / "documento.md").write_text(base, encoding="utf-8")
+    (tmp_path / "documento-2.md").write_text(nuevo, encoding="utf-8")
+    cargado = cargar_corpus(tmp_path)
+    assert len(cargado) == 1
+    assert "beta" in cargado[0][2]
+
+
+def test_limpiar_boilerplate_quita_bloque_facebook_servicios_para_ti() -> None:
+    from src.retrieval.recuperador import limpiar_boilerplate
+
+    mezcla = (
+        "---\ntitulo: X\n---\n\n"
+        "[Facebook](https://x)\n[y](https://y)\n\n"
+        "### Servicios para ti\n\n"
+        "## Contenido real\nsolo esto cuenta."
+    )
+    limpio_local = limpiar_boilerplate(mezcla)
+    assert "[Facebook]" not in limpio_local
+    assert "solo esto cuenta" in limpio_local

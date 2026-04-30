@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/sedes/sede-alfaguara/
 titulo: Sede Alfaguara - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 88c312038a2e2533b7c06309dc1cbcb34354dcb7e8d69524a0725bf85047cc0a
+hash: 43bb1979c29ef73d1884c9c20b6274afd08120c34ab944532dad08d088956e05
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,27 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 [Sede principal](/sedes/sede-principal/)
 [Sede limonar](/sedes/sede-limonar/)
@@ -85,13 +55,9 @@ Scroll
 
 La Fundación Valle del Lili abre sus puertas en el Centro Comercial Alfaguara, en Jamundí, con una sede satélite que ofrece servicios de salud básicos y diagnósticos bajo los más altos estándares de calidad del hospital de referencia nacional e internacional.
 
-![](https://valledellili.org/wp-content/uploads/2026/01/destacada-alfaguara.jpg)
-
 ## Servicios destacados
 
 [Ver todos los servicios y especialidades](/servicios/?por_servicio=&by_tag=&sede=sede-alfaguara)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Alergologia-1.png)
 
 ### Alergología
 
@@ -99,15 +65,11 @@ Se especializa en el diagnóstico y tratamiento de enfermedades alérgicas en pa
 
 [Ver especialidad](https://valledellili.org/servicios/alergologia/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Clinica-de-Falla-Cardiaca.png)
-
 ### Cardiología
 
 Se enfoca en ofrecer atención integral y de alta complejidad, utilizando tecnología de vanguardia y un enfoque multidisciplinario para abordar desde la prevención y el diagnóstico hasta los tratamientos más avanzados y la rehabilitación cardíaca.
 
 [Ver especialidad](https://valledellili.org/servicios/cardiologia/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Cardiologia-No-Invasiva-Adulto.png)
 
 ### Cardiología no Invasiva Adulto
 
@@ -115,23 +77,17 @@ Se enfoca en ofrecer atención integral y de alta complejidad, utilizando tecnol
 
 [Ver especialidad](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Dermatologia.png)
-
 ### Dermatología
 
 Se especializa en el diagnóstico, tratamiento y prevención de las enfermedades que afectan la piel, el pelo y las uñas, tanto en población pediátrica como adulta.
 
 [Ver especialidad](https://valledellili.org/servicios/dermatologia/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Endocrinologi.png)
-
 ### Endocrinología
 
 Qué hace esta especialidad La endocrinología es la especialidad médica encargada del diagnóstico y tratamiento de las enfermedades del sistema endocrino, conformado por glándulas que producen hormonas responsables de regular funciones esenciales como el metabolismo, el crecimiento, la reproducción y el estado de ánimo. En la Fundación Valle del Lili, el enfoque está orientado a […]
 
 [Ver especialidad](https://valledellili.org/servicios/endocrinologia-fundacion-valle-del-lili/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Fonoaudiologia.png)
 
 ### Fonoaudiología – Audiología
 
@@ -141,19 +97,13 @@ Qué hace esta especialidad El servicio de Fonoaudiología brinda atención inte
 
 # ¿Por qué elegir la Sede Alfaguara?
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-59.png)
-
 #### Cercanía y accesibilidad:
 
 Servicios médicos a pocos minutos de tu hogar en Jamundí.
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-58.png)
-
 #### Altos estándares de calidad:
 
 Atención garantizada con el sello de la Fundación Valle del Lili.
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Caliad-eps-icono.png)
 
 #### Atención integral:
 
@@ -161,21 +111,15 @@ Para pacientes de EPS, planes voluntarios, medicina prepagada, particular y plan
 
 ## Horarios de atención
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Icono-medico.png)
-
 ### Consulta externa:
 
 Lunes a viernes: 7:00 a.m. – 6:00 p.m.
 
 Sábados: 7:00 a.m. – 12:00 m.
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-64.png)
-
 ### Laboratorio
 
 Lunes a sábado: 6:00 a.m. – 12:00 m.
-
-![](https://valledellili.org/wp-content/uploads/2025/11/img-63.png)
 
 ### Vacunación
 
@@ -183,29 +127,21 @@ Martes, jueves y viernes: 8:00 a.m. – 12:00 p.m. / 1:00 p.m. – 3:00 p.m.
 
 Sábados: 8:00 a.m. – 11:00 a.m.
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Icono-ecografia-v2.png)
-
 ### Ecografía:
 
 Lunes, martes, jueves y viernes: 7:00 a.m. – 12:00 p.m
 
 [Agenda una cita](/solicitar-cita-medica/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/destacada-alfaguara-2.jpg)
-
 ## Cómo llegar a la Sede Alfaguara
 
 #### Encontrarás
 
-- ![](https://valledellili.org/wp-content/uploads/2025/11/img-47.png)
-
-  Parqueaderos disponibles en el Centro Comercial Alfaguara.
+- Parqueaderos disponibles en el Centro Comercial Alfaguara.
 
 ## Noticias y novedades
 
 [Ver más recomendados](/fvl-al-dia/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/portada-noticia-alfaguara-serviciosn.png)
 
 Artículo
 
@@ -215,8 +151,6 @@ El día miércoles 15 de octubre de 2019, se realizó la apertura de la nueva se
 
 [Descubre aquí](https://valledellili.org/sede-centro-comercial-alfaguara/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/¿En-que-consiste-el-ayuno-intermitente-y-quienes-pueden-realizarlo_-1.jpg)
-
 Video
 
 ### Fundación Valle del Lili Sede Alfaguara en Jamundí #MásCercaDeTodos
@@ -224,10 +158,6 @@ Video
 Video promocional presentando las instalaciones y servicios de la sede Alfaguara en Jamundí.
 
 [Descubre aquí](https://valledellili.org/fundacion-valle-del-lili-sede-alfaguara-en-jamundi-mascercadetodos/)
-
-![Diapositiva anterior](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-left.svg) 
-
-![Diapositiva siguiente](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)
 
 ## Conoce otras sedes
 
@@ -257,95 +187,59 @@ Explora por enfermedad, especialidad, médico o contenidos educativos.
 
 ##### Servicio o especialidad
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cardiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Alergología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Anestesiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Banco de Sangre
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Adultos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Pediátrica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Tórax
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Trauma y Emergencias
 
 ##### Condición, tratamiento o procedimiento
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 >Trastornos de la fertilidad masculina
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominal y Pélvica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominoplastia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter con radiofrecuencia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por microondas
 
 ##### Especialistas
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002021.jpg)
-
-#### Diana Maria Quimbayo Wilches
+[#### Diana Maria Quimbayo Wilches
 
 Gastroenterologia pediatrica, Pediatria](https://valledellili.org/directorio-medico/diana-maria-quimbayo-wilches/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000330.jpg)
-
-#### Edwin Alberto Silva Yepes
+[#### Edwin Alberto Silva Yepes
 
 Ortopedia y traumatologia](https://valledellili.org/directorio-medico/edwin-alberto-silva-yepes/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001711.jpg)
-
-#### Fausto Alonso Diazgranados Suarez
+[#### Fausto Alonso Diazgranados Suarez
 
 Ortopedia y traumatologia](https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002271.jpg)
-
-#### Joaquin Olmedo Lemos Toro
+[#### Joaquin Olmedo Lemos Toro
 
 Oftalmologia](https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/foto-buscador.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -379,14 +273,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

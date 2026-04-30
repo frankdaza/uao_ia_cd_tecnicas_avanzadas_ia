@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/programa-contacto-canguro/
 titulo: Programa contacto Canguro - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 830abdb945ccc393188810b02334659600bdacaeb13b49e4dbacf7e9684c3228
+hash: a1c943558696cb1d15c5c1cc658c34b013e0c2d1e6d5de7b9b1339cb4f15887b
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,39 +29,22 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Programa-contacto-canguro.png)
-![](https://valledellili.org/wp-content/uploads/2026/02/Programa-contacto-canguro.png)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Programa Contacto Canguro
 
 ## ¿Qué hace esta especialidad?
 
 El Programa Contacto Canguro es un sistema integral de cuidado neonatal basado en el método Madre Canguro, orientado al acompañamiento de recién nacidos prematuros o de bajo peso al nacer y a sus familias.  
-   
+
 Como hospital universitario, la Fundación Valle del Lili integra atención clínica especializada, formación académica e investigación, mediante un enfoque centrado en el recién nacido y su familia, sustentado en la mejor evidencia científica disponible.  
-   
+
 El programa se desarrolla en dos fases: **intrahospitalaria** y **ambulatoria**, promoviendo el contacto piel a piel, la lactancia materna exclusiva, el egreso precoz y seguro, y un seguimiento estricto durante al menos el primer año de vida.
 
 ---
@@ -139,7 +106,7 @@ Se desarrolla en dos fases:
 - **Fase 2:** desde las 40 semanas hasta el primer año de edad corregida.
 
 Incluye:  
-   
+
 **Seguimiento médico especializado**
 
 - Controles periódicos por neonatología y pediatría.
@@ -214,123 +181,77 @@ Llámanos: (+57) 602 331 9090
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000029.jpg)
-
-#### Adriana Ballesteros Castro
+[#### Adriana Ballesteros Castro
 
 Neonatologia](https://valledellili.org/directorio-medico/adriana-ballesteros-castro/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001918.jpg)
-
-#### Ana Maria Gomez Vasquez
+[#### Ana Maria Gomez Vasquez
 
 Neonatologia](https://valledellili.org/directorio-medico/ana-maria-gomez-vasquez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001475.jpg)
-
-#### Betsy Marilis Mancera Martinez
+[#### Betsy Marilis Mancera Martinez
 
 Neonatologia](https://valledellili.org/directorio-medico/betsy-marilis-mancera-martinez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002055.jpg)
-
-#### Carmen Lorena Villota Gonzalez
+[#### Carmen Lorena Villota Gonzalez
 
 Neonatologia](https://valledellili.org/directorio-medico/carmen-lorena-villota-gonzalez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Claudia Lorena Guerrero Moreno
+[#### Claudia Lorena Guerrero Moreno
 
 Neonatologia](https://valledellili.org/directorio-medico/claudia-lorena-guerrero-moreno/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000165.jpg)
-
-#### Ivan Enrique Padilla Mejia
+[#### Ivan Enrique Padilla Mejia
 
 Neonatologia](https://valledellili.org/directorio-medico/ivan-enrique-padilla-mejia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000253.jpg)
-
-#### Jaime Orrego Gaviria
+[#### Jaime Orrego Gaviria
 
 Neonatologia](https://valledellili.org/directorio-medico/jaime-orrego-gaviria/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000167.jpg)
-
-#### Martha Lucia Jaramillo Salazar
+[#### Martha Lucia Jaramillo Salazar
 
 Neonatologia](https://valledellili.org/directorio-medico/martha-lucia-jaramillo-salazar/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002895.jpg)
-
-#### Nancy Liliana Llanos Duran
+[#### Nancy Liliana Llanos Duran
 
 Neonatologia](https://valledellili.org/directorio-medico/nancy-liliana-llanos-duran/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Sandra Lorena Moreno Arias
+[#### Sandra Lorena Moreno Arias
 
 Neonatologia](https://valledellili.org/directorio-medico/sandra-lorena-moreno-arias/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002147.jpg)
-
-#### Victoria Eugenia Gutierrez Echeverri
+[#### Victoria Eugenia Gutierrez Echeverri
 
 Neonatologia](https://valledellili.org/directorio-medico/victoria-eugenia-gutierrez-echeverri/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Virginia Vargas Rey
+[#### Virginia Vargas Rey
 
 Neonatologia](https://valledellili.org/directorio-medico/virginia-vargas-rey/)
 
 Mostrar todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
-
 ### Otros servicios y especialidades
 
-[Alergología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/alergologia/)
-[Anestesiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
-[Cardiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia/)
-[Cardiología Intervencionista
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-intervencionista/)
-[Cardiología no Invasiva Adulto
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-[Cardiología No Invasiva Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
+[Alergología](https://valledellili.org/servicios/alergologia/)
+[Anestesiología](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[Cardiología](https://valledellili.org/servicios/cardiologia/)
+[Cardiología Intervencionista](https://valledellili.org/servicios/cardiologia-intervencionista/)
+[Cardiología no Invasiva Adulto](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
+[Cardiología No Invasiva Pediátrica](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/02/abc-de-la-lactancia-materna.jpg)
-
-Video
+[Video
 
 #### ¿Qué es la lactancia materna?](https://valledellili.org/que-es-lactancia-materna/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/¡La-Fundacion-Valle-del-Lili-fortalece-su-alianza-con-las-Antillas-Holandesas-para-la-atencion-en-salud-.jpg)
-
-Artículo
+[Artículo
 
 #### ¡La Fundación Valle del Lili fortalece su alianza con las Antillas Holandesas para la atención en salud!](https://valledellili.org/la-fundacion-valle-del-lili-fortalece-su-alianza-con-las-antillas-holandesas-para-la-atencion-en-salud/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/25_9_2017-1.jpg)
-
-Artículo
+[Artículo
 
 #### Cólico en bebés](https://valledellili.org/colico-del-lactante-2/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/TALLER-DE-LACTANCIA-MATERNA-1.png)
-
-Video
+[Video
 
 #### Taller de Lactancia Materna](https://valledellili.org/taller-de-lactancia-materna-2/)
 
@@ -342,12 +263,8 @@ Solicita tu cita con nuestros especialistas en Programa Contacto Canguro
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -357,25 +274,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -409,14 +312,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

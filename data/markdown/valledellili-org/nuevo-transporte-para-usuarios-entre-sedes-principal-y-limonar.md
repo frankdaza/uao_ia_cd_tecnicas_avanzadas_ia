@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar/
 titulo: Nuevo transporte para usuarios entre sedes Principal y Limonar
 seccion: nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 99214e53968b67976d95d03d096bd56c2d4f3a81dd17ff9092e911d6520c8eca
+hash: af9ae85879b3acb7f665e576b03cb28d8381997a7275bb9f3e7cf33958f56ad8
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,27 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 Artículo
 
@@ -75,18 +45,9 @@ Artículo
 
 Comparte este contenido
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/share.svg)
-
 Escuchar
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/listen.svg)
-
 6 febrero 2026
-
-![]()
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/logo-impresion.png)
 
 Nuevo transporte para usuarios entre sedes Principal y Limonar
 
@@ -98,7 +59,7 @@ Ubica el vehículo en la **bahía de Urgencias de la [sede Principal](/sede/sede
 
 La ruta tiene horarios de **salida cada 45 min**, desde las **6:00 a.m. hasta las 5:35 p.m**:
 
-[![](/wp-content/uploads/legacy/2022/08/Nuevas-rutas-de-trasporte-limonar.jpg)](/wp-content/uploads/legacy/2022/08/Nuevas-rutas-de-trasporte-limonar.jpg)[![](/wp-content/uploads/legacy/2022/09/Nuevas-rutas-de-trasporte-limonar-2.jpg)](/wp-content/uploads/legacy/2022/09/Nuevas-rutas-de-trasporte-limonar-2.jpg)
+[Nuevas rutas de trasporte limonar.jpg](/wp-content/uploads/legacy/2022/08/Nuevas-rutas-de-trasporte-limonar.jpg)[Nuevas rutas de trasporte limonar 2.jpg](/wp-content/uploads/legacy/2022/09/Nuevas-rutas-de-trasporte-limonar-2.jpg)
 
 [Institucional](https://valledellili.org/buscador-integral/?by_tag=institucional) 
 [Sede Limonar](https://valledellili.org/buscador-integral/?by_tag=sede-limonar) 
@@ -108,28 +69,18 @@ La ruta tiene horarios de **salida cada 45 min**, desde las **6:00 a.m. hasta la
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/02/¡La-Fundacion-Valle-del-Lili-fortalece-su-alianza-con-las-Antillas-Holandesas-para-la-atencion-en-salud-.jpg)
+[Artículo
 
-Artículo
+#### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
+[Artículo
 
 #### ¡La Fundación Valle del Lili fortalece su alianza con las Antillas Holandesas para la atención en salud!](https://valledellili.org/la-fundacion-valle-del-lili-fortalece-su-alianza-con-las-antillas-holandesas-para-la-atencion-en-salud/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Unidad-de-Trasplante-de-Medula-Osea_-torre-2-_-Sede-Principal.jpg)
-
-Artículo
+[Artículo
 
 #### Conozca la nueva Unidad de Trasplante de Médula Ósea en la torre 2 de la Sede Principal](https://valledellili.org/conozca-la-nueva-unidad-de-trasplante-de-medula-osea-en-la-torre-2-de-la-sede-principal/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Fotos-portada-Tequendama-13.jpg)
-
-Artículo
+[Artículo
 
 #### La Fundación Valle del Lili abre las puertas de su quinta sede en Tequendama](https://valledellili.org/noticia-nueva-sede-tequendama/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/noticias-fvl-diabetes-sesearch-pequena.jpg)
-
-Artículo
-
-#### Fundación Valle del Lili recibe visita de especialistas de Diabetes Research Institute de la Universidad de Miami](https://valledellili.org/diabetes-research-institute/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/happy-face.png)
 
 **¡Gracias por tu aporte!**
 
@@ -145,21 +96,11 @@ Mostrarlo en otro formato (infografía, video, etc.)
 
 ### ¿Te resultó útil este contenido?
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/thumb-up.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/thumb-down.svg)
-
 Comparte este contenido
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/share.svg)
 
 ## ¿Necesitas una valoración especializada?
 
 [Solicita tu cita](/solicitar-cita-medica/)
-
-![](https://valledellili.org/wp-content/uploads/2026/03/foto-valoracion-especializada-FVL.png)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-68.png)
 
 ## ¡Al día con la Fundación Valle del Lili!
 
@@ -170,33 +111,18 @@ Nombre
 Correo electrónico
 
 Autorizo el tratamiento de mis datos personales (leer política)  
-  
-Debe leer la política de datos personales antes de continuar
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-69.png)
+Debe leer la política de datos personales antes de continuar
 
 #### Compartir
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Whatsapp](https://api.whatsapp.com/send?text=Nuevo%20transporte%20para%20usuarios%20entre%20sedes%20Principal%20y%20Limonar%20https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F "Whatsapp")[Facebook](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F "Facebook")[X](https://twitter.com/intent/tweet?text=Nuevo%20transporte%20para%20usuarios%20entre%20sedes%20Principal%20y%20Limonar&url=https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F "X")[Facebook Messenger](https://www.facebook.com/dialog/send?app_id=1904103319867886&display=popup&link=https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F&redirect_uri=https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F)[Linkedin](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fvalledellili.org%2Fnuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar%2F "Linkedin")[Email](https://valledellili.org/nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar/ "Email")
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -230,14 +156,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

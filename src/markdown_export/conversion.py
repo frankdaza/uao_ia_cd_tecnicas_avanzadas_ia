@@ -102,7 +102,7 @@ def derivar_seccion(url: str) -> str:
 def limpiar_html(soup: BeautifulSoup) -> None:
     """
     Elimina ruido antes de *markdownify*: ``script``/``style``/``nav``/banners, etc.
-    Modifica *soup* en el lugar (no retorna nada).
+    Retira contenido no textual (medios/decorative) pensado para RAG solo con texto.
 
     Example:
         Un ``<nav>...</nav>`` y un div ``#cookie-banner`` se eliminan por completo
@@ -117,6 +117,95 @@ def limpiar_html(soup: BeautifulSoup) -> None:
     for sel in _SELECTORES_COOKIES:
         for tag in soup.select(sel):
             tag.decompose()
+    _quitar_medios_y_graficos(soup)
+    _rellenar_enlaces_sin_texto_visible(soup)
+
+
+def _quitar_medios_y_graficos(soup: BeautifulSoup) -> None:
+    """Elimina imagenes y medios embedding; objetos externos sin texto util."""
+    for nombre in ("img", "svg", "canvas"):
+        for tag in soup.find_all(nombre):
+            tag.decompose()
+    for nombre in ("picture", "video", "audio"):
+        for tag in soup.find_all(nombre):
+            tag.decompose()
+    for tag in soup.find_all("source"):
+        tag.decompose()
+    for nombre in ("object", "embed"):
+        for tag in soup.find_all(nombre):
+            tag.decompose()
+
+
+def _texto_fallback_enlace(href: str) -> str:
+    """Texto corto para un ``<a href>`` vacio cuando se quitaron hijos graficos."""
+    p = urlparse(href)
+    netloc = (p.netloc or "").lower().removeprefix("www.")
+    if netloc:
+        base = netloc.split(".")[0]
+        return base.capitalize() if len(base) > 1 else netloc or "Enlace"
+    ruta = (p.path or "/").strip("/")
+    ultimo = ruta.split("/")[-1] if ruta else ""
+    texto = (
+        unquote(ultimo)
+        .replace("-", " ")
+        .replace("_", " ")
+        .strip(". ")
+    )
+    return texto[:120] if texto else "Enlace"
+
+
+def _rellenar_enlaces_sin_texto_visible(soup: BeautifulSoup) -> None:
+    """
+    Si un anchor quedo sin texto despues de quitar medios, sintetiza una etiqueta
+    leyible (titulo, nombre de recurso); si no puede, elimina el anchor.
+    """
+    for a in list(soup.find_all("a", href=True)):
+        href = str(a.get("href", "")).strip()
+        texto_visible = a.get_text(strip=True)
+        if texto_visible:
+            continue
+        if (
+            not href
+            or href.startswith(("#", "javascript:", "mailto:", "tel:"))
+        ):
+            a.decompose()
+            continue
+        nuevo = (
+            (a.get("title") or a.get("aria-label") or "")
+            .strip()
+        )
+        if not nuevo:
+            nuevo = _texto_fallback_enlace(href)
+        nuevo = re.sub(r"\s+", " ", nuevo).strip() or _texto_fallback_enlace(href)
+        a.clear()
+        a.string = nuevo
+
+
+_RE_MD_SOLO_IMG = re.compile(r"^\s*!\[[^\]]*\]\([^)]*\)\s*$")
+_RE_MD_ANIDA_IMG_LINK = re.compile(
+    r"^\s*\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)\s*$",
+)
+
+
+def _depurar_cuerpo_markdown_kb(markdown_bruto: str) -> str:
+    """
+    Quita restos tipicos de lineas solo-imagen despues del HTML (marcado raro o
+    *markdownify* sobre fragmentos vacios).
+    """
+    salida: list[str] = []
+    for line in markdown_bruto.splitlines():
+        si = line.strip()
+        if not si:
+            salida.append("")
+            continue
+        if (
+            _RE_MD_SOLO_IMG.match(si)
+            or _RE_MD_ANIDA_IMG_LINK.match(si)
+        ):
+            continue
+        salida.append(line)
+    texto = "\n".join(salida)
+    return texto
 
 
 def _normalizar_lineas_en_blanco(texto: str) -> str:
@@ -159,6 +248,7 @@ def convertir_html_a_md(ruta_html: Path, ruta_metadata: Path) -> ContenidoMarkdo
     limpiar_html(soup)
     raiz = soup.body if soup.body is not None else soup
     cuerpo = _html_a_cuerpo_md(str(raiz))
+    cuerpo = _depurar_cuerpo_markdown_kb(cuerpo)
     cuerpo = _normalizar_lineas_en_blanco(cuerpo)
     front = {
         "source_url": url,

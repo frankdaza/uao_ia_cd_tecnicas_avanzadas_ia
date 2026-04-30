@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/fvl-congreso-mundial-gineco-endocrino-florencia/
 titulo: ¡FVL presente en el Congreso Mundial de Gineco-Endocrinología en Florencia!
 seccion: fvl-congreso-mundial-gineco-endocrino-florencia
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: aa5d226aa8e85f9a30aae1f348cc8730df0cef8ef8ddf6246aad20e406e9d5ec
+hash: 7b7ab21a8e0608217e6f7105d8c52c0b29be6377da02b80fbc6f641254d67319
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,27 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 Artículo
 
@@ -75,23 +45,14 @@ Artículo
 
 Comparte este contenido
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/share.svg)
-
 Escuchar
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/listen.svg)
 
 6 febrero 2026
 
-![]()
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/logo-impresion.png)
-
 ¡FVL presente en el Congreso Mundial de Gineco-Endocrinología en Florencia!
 
-[![](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.19-PM-1-819x1024.jpeg)](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.19-PM-1.jpeg)
-[![](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.18-PM-819x1024.jpeg)](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.18-PM.jpeg)
+[WhatsApp Image 2024 06 04 at 4.41.19 PM 1.jpeg](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.19-PM-1.jpeg)
+[WhatsApp Image 2024 06 04 at 4.41.18 PM.jpeg](/wp-content/uploads/legacy/2024/06/WhatsApp-Image-2024-06-04-at-4.41.18-PM.jpeg)
 
 El evento más importante de esta especialidad fue en Florencia, Italia, donde expertos en medicina compartieron conocimientos sobre el diagnóstico, tratamiento y prevención de enfermedades gineco-endocrinas.
 
@@ -115,28 +76,18 @@ También presentó el caso de dos hermanas con síndrome de XY puro, una condici
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/02/Noticia-Dr.-Walter-PORTADA.png)
-
-Artículo
+[Artículo
 
 #### ¡Nuestro grupo de cardiología pediátrica nos representó en el Congreso Mundial de Cardiología Pediátrica y Cirugía Cardiovascular!](https://valledellili.org/nuestro-grupo-de-cardiologia-pediatrica-nos-represento-en-el-congreso-mundial-de-cardiologia-pediatrica-y-cirugia-cardiovascular/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/video-asma-como-identificarla-y-tratarla-1.jpg)
-
-Artículo
+[Artículo
 
 #### ¡Fuimos ponentes y representantes de Colombia en el Congreso Europeo de Cardiología 2023!](https://valledellili.org/fuimos-ponentes-y-representantes-de-colombia-en-el-congreso-europeo-de-cardiologia-2023/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/noticia-half-marathon-with-a-clinical-study-fvl-1-1.jpg)
-
-Artículo
+[Artículo
 
 #### Reconocimiento Académico, Doctor Alfredo Sánchez Vergel.](https://valledellili.org/reconocimiento-academico-doctor-alfredo-sanchez-vergel/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/¡Fundacion-Valle-del-Lili-delegado-de-la-ONU-en-Nairobi-Kenia-6.jpg)
-
-Artículo
+[Artículo
 
 #### ¡Fundación Valle del Lili delegado de la ONU, en Nairobi-Kenia!](https://valledellili.org/fundacion-valle-del-lili-delegado-de-la-onu-en-nairobi-kenia/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/happy-face.png)
 
 **¡Gracias por tu aporte!**
 
@@ -152,21 +103,11 @@ Mostrarlo en otro formato (infografía, video, etc.)
 
 ### ¿Te resultó útil este contenido?
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/thumb-up.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/thumb-down.svg)
-
 Comparte este contenido
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/share.svg)
 
 ## ¿Necesitas una valoración especializada?
 
 [Solicita tu cita](/solicitar-cita-medica/)
-
-![](https://valledellili.org/wp-content/uploads/2026/03/foto-valoracion-especializada-FVL.png)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-68.png)
 
 ## ¡Al día con la Fundación Valle del Lili!
 
@@ -177,33 +118,18 @@ Nombre
 Correo electrónico
 
 Autorizo el tratamiento de mis datos personales (leer política)  
-  
-Debe leer la política de datos personales antes de continuar
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-69.png)
+Debe leer la política de datos personales antes de continuar
 
 #### Compartir
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Whatsapp](https://api.whatsapp.com/send?text=%C2%A1FVL%20presente%20en%20el%20Congreso%20Mundial%20de%20Gineco-Endocrinolog%C3%ADa%20en%20Florencia%21%20https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F "Whatsapp")[Facebook](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F "Facebook")[X](https://twitter.com/intent/tweet?text=%C2%A1FVL%20presente%20en%20el%20Congreso%20Mundial%20de%20Gineco-Endocrinolog%C3%ADa%20en%20Florencia%21&url=https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F "X")[Facebook Messenger](https://www.facebook.com/dialog/send?app_id=1904103319867886&display=popup&link=https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F&redirect_uri=https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F)[Linkedin](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fvalledellili.org%2Ffvl-congreso-mundial-gineco-endocrino-florencia%2F "Linkedin")[Email](https://valledellili.org/fvl-congreso-mundial-gineco-endocrino-florencia/ "Email")
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -237,14 +163,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

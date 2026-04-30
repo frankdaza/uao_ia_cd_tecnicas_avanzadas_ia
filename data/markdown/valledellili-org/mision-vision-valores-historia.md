@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/mision-vision-valores-historia/
 titulo: Sobre la Fundación Valle del Lili
 seccion: mision-vision-valores-historia
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 02c929d227e70a3389423581e08edaee6dbc374255cab18bf19a77e3e15e06a3
+hash: 468d047399e62215d51617d0eadc811e9e1e678e61e4186fb1b697bd9e13fe4d
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,30 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/BANNERCENTROBIOETICA-1.jpg)
-![](https://valledellili.org/wp-content/uploads/2026/02/BANNERCENTROBIOETICA-1.jpg)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Misión, Visión, Valores, Historia
 
@@ -78,13 +45,9 @@ Scroll
 
 #
 
-![](https://valledellili.org/wp-content/uploads/2026/01/icono-patrocinador.png)
-
 ### Nuestra Misión
 
 Satisfacer las necesidades de salud de alta complejidad de nuestros pacientes, integrando la práctica clínica, la educación y la investigación, en una permanente búsqueda de la excelencia para beneficio de la comunidad.
-
-![](https://valledellili.org/wp-content/uploads/2026/01/icono-patrocinador.png)
 
 ### Nuestra Visión
 
@@ -92,37 +55,25 @@ Ser líderes en la prestación de servicios de salud de alta complejidad, en gen
 
 ## Valores que nos identifican
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Trabajo en equipo
 
 El aporte coordinado de todos para lograr un propósito común.
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Servicio Humanizado
 
 Sensibilidad para entender y responder a las necesidades de los usuarios con calidez, amabilidad, consideración y empatía.
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Pensamiento Crítico
 
 Analizar, entender y evaluar para proponer soluciones.
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Respeto
 
 Trato humano, digno y justo
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Seguridad
 
 Garantía de integridad de las personas, bienes y recursos.
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Integridad
 
@@ -130,13 +81,9 @@ Actuar en todo momento bajo un compromiso personal con la honestidad, la franque
 
 #
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2026/02/Mapa-estrategico.png)
-
 ## Nuestros pilares
 
 El símbolo de la cruz representa el sentido de solidaridad, ayuda y humanismo.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2026/02/PILARES.png)
 
 # Nuestra Historia
 
@@ -168,11 +115,7 @@ En agosto de 1993, la Fundación se trasladó a su ubicación actual, consolidan
 
 #
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-46.png)
-
 ##
-
-![](https://valledellili.org/wp-content/uploads/2026/02/El-Inicio-Cali-1983-2.png)
 
 #### El Inicio (Cali, 1983)
 
@@ -181,16 +124,12 @@ Esta visión pionera marcó el punto de partida de lo que hoy es la Fundación V
 
 1983
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Sede-Centenario-19862.png)
-
 #### Sede Centenario (1986)
 
 El 3 de marzo de 1986, la Fundación Valle del Lili abrió sus puertas en la Sede Centenario, ubicada en una propiedad cedida en calidad de préstamo por el Dr. Vicente Borrero.
 Allí comenzaron las primeras prestaciones de servicios ambulatorios, manteniendo siempre la visión de desarrollar una atención médica de alta complejidad que respondiera a las necesidades de la región.
 
 1986
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Inauguracion-de-la-Sede-Principal-1994-2.png)
 
 #### Inauguración de la Sede Principal (1994)
 
@@ -199,16 +138,12 @@ Este hito marcó el inicio de una nueva etapa para la institución, consolidánd
 
 1994
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Inicio-de-la-construccion-de-la-Sede-Principal-2.png)
-
 #### 1996 – Inicio del Programa de Trasplantes
 
 más de 27 años brindando nuevas oportunidades de vida.
 Este hito consolidó a la institución como referente nacional en trasplantes de alta complejidad, destacándose por su enfoque integral, seguridad del paciente y resultados clínicos de excelencia.
 
 1996
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Apertura-de-la-Sede-Betania-2008-1.png)
 
 #### Apertura de la Sede Betania (2008)
 
@@ -217,16 +152,12 @@ Esta sede representa el compromiso de la Fundación con la expansión de servici
 
 2008
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Certificacion-ICONTEC-2.png)
-
 #### Certificación ICONTEC
 
 La Fundación Valle del Lili recibió la Acreditación en Calidad bajo la norma ISO 9000 otorgada por ICONTEC, reconocimiento que certifica la excelencia en sus procesos asistenciales, administrativos y de atención al paciente.
 Esta certificación reafirma el compromiso permanente de la institución con la mejora continua, la seguridad del paciente y la calidad en todos los niveles de servicio.
 
 2008
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Certificacion-America-Economia-2.png)
 
 #### Certificación América Economía
 
@@ -247,8 +178,6 @@ En 2017, la Fundación alcanzó un nuevo hito al ser reconocida como la instituc
 
 2017
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Hospital-Universitario-en-Cali-2.png)
-
 #### Hospital Universitario en Cali
 
 Excelencia académica y compromiso con la formación en salud
@@ -257,16 +186,12 @@ Esta certificación, otorgada por el Ministerio de Salud y Protección Social y 
 
 2018
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Apertura-de-la-Sede-Alfaguara-–-Jamundi-2019-2.png)
-
 #### Apertura de la Sede Alfaguara – Jamundí, 2019
 
 El 15 de octubre de 2019, la Fundación Valle del Lili inauguró la Sede Alfaguara en Jamundí, con el propósito de acercar los servicios de salud a los usuarios del extremo sur de Cali y municipios aledaños.
 Esta sede fue diseñada para ofrecer atención integral, comodidad y accesibilidad, manteniendo los estándares de calidad y humanización que caracterizan a la Institución.
 
 2019
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Nuevas-sedes-Avenida-Estacion-y-Limonar-–-Cali-2020-2.png)
 
 #### Nuevas sedes Avenida Estación y Limonar – Cali, 2020
 
@@ -278,16 +203,12 @@ Conozca más sobre nuestras sedes y los servicios disponibles.
 
 2020
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Fundacion-Valle-del-Lili-entre-los-Mejores-Hospitales-del-Mundo-–-Cali-2022-2.png)
-
 #### Fundación Valle del Lili entre los Mejores Hospitales del Mundo – Cali, 2022
 
 En la actualización 2022 del ranking World’s Best Hospitals, elaborado por la revista Newsweek, la Fundación Valle del Lili fue reconocida como el hospital No. 1 en Colombia y se ubicó en la posición 149 a nivel mundial.
 Este reconocimiento reafirma el compromiso institucional con la excelencia médica, la innovación tecnológica y la atención humanizada que distingue a la Fundación en el ámbito nacional e internacional.
 
 2022
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Apertura-de-la-Sede-Tequendama-–-Cali-2023-2.png)
 
 #### Apertura de la Sede Tequendama – Cali, 2023
 
@@ -344,23 +265,11 @@ Mostrar todos
 
 [Conozca más](/impacto-social)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -394,14 +303,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
