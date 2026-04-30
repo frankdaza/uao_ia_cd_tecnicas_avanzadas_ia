@@ -1,4 +1,19 @@
 """
+DEPRECADO — Este módulo fue la interfaz Gradio del proyecto (fase 1, módulo 1).
+Ha sido reemplazado por el frontend React 19 + Vite 7 + shadcn/ui en `frontend/`
+y el backend FastAPI + SSE en `src/api/`. Se conserva aquí como referencia
+histórica y para eventual uso en scripts de evaluación batch.
+
+Ver:
+- doc-002: backlog/docs/doc-002 - Migracion-Frontend-React-Vite-Backend-FastAPI.md
+- ADR: backlog/decisions/decision-2 - Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md
+
+NO usar este módulo como entrypoint principal. Usar:
+    uv run uvicorn src.api.main:app --reload   (backend)
+    pnpm --dir frontend dev                    (frontend)
+
+---
+
 Interfaz Q&A con Gradio: pregunta, modelos Ollama y OpenAI, respuesta dual opcional.
 
 Streaming token a token: Ollama y OpenAI cuando cada uno corre solo.

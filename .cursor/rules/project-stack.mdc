@@ -1,5 +1,5 @@
 ---
-description: Stack permitido para la actividad del modulo 1 (scraping, LLM, UI)
+description: Stack permitido para la actividad del modulo 1 (scraping, LLM, UI, API)
 alwaysApply: true
 ---
 
@@ -26,14 +26,32 @@ alwaysApply: true
 - Open source local: **Ollama** (ej. Llama, Mistral).
 - API cerrada: cliente **OpenAI** (u otro proveedor compatible si el curso lo permite).
 
-## Interfaz de prueba
+## Backend HTTP (capa de API)
 
-- **Gradio**.
+- **FastAPI** + **Uvicorn** (servidor ASGI) en `src/api/`.
+- **sse-starlette** para endpoints de streaming token a token (Server-Sent Events).
+- **pydantic-settings** para cargar configuracion desde `.env`.
+- Expone REST + SSE al frontend React; reutiliza `PipelineQa` de `src/qa/pipeline.py`.
+- Comandos: `uv add fastapi uvicorn[standard] sse-starlette pydantic-settings`.
+
+## Interfaz de usuario (frontend)
+
+- **React 19** + **Vite 7** + **TypeScript 5** (strict) en `frontend/`.
+- **Tailwind CSS v4** con plugin Vite (`@tailwindcss/vite`).
+- **shadcn/ui** (Radix UI + lucide-react) para componentes de alto impacto visual.
+- **Vercel AI SDK** (`ai`, `@ai-sdk/react`) con custom transport SSE para streaming token a token.
+- **@tanstack/react-query v5** para cache de datos del backend.
+- **next-themes** para modo claro/oscuro persistente.
+- **sonner** para notificaciones toast.
+- **react-markdown** + **remark-gfm** + **shiki** para render de Markdown enriquecido.
+- Node 22 LTS, pnpm 10.x como gestor de paquetes del frontend.
+- Identificadores en `frontend/**/*.{ts,tsx,js,jsx}` en **ingles** (convencion del ecosistema React/TS); textos de UI y comentarios en espanol latinoamericano.
 
 ## Configuracion y secretos
 
 - Variables sensibles en **`.env`** (no commitear). Plantilla en **`.env.example`** sin valores reales.
-- Opcional: `pydantic-settings` para cargar configuracion.
+- `pydantic-settings` en el backend para cargar configuracion.
+- Variable `ALLOWED_ORIGINS` controla CORS entre frontend y backend.
 
 ## Documentacion
 

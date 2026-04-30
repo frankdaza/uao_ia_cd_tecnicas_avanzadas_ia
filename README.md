@@ -14,9 +14,9 @@ Decisiones explícitas de esta fase:
 
 - Sin chunking: cada unidad indexada es un `.md` completo.
 - Sin embeddings ni base vectorial.
-- Interfaz de prueba: **Gradio** únicamente (`src/app/app_gradio.py`).
+- Interfaz: **React 19 + Vite 7 + shadcn/ui** (`frontend/`) con backend **FastAPI + SSE** (`src/api/`). La interfaz Gradio original fue migrada y vive en `src/app/legacy/app_gradio.py` como referencia histórica.
 
-El detalle arquitectónico queda registrado en [ADR-0001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md).
+El detalle arquitectónico queda registrado en [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
 
 ## Preparación de los datos
 
@@ -51,30 +51,49 @@ Referencia detallada de flags y orden del pipeline: [scripts/README.md](scripts/
 
 ## Cómo correr la app
 
-Requisitos: Python **3.12.12** y [uv](https://docs.astral.sh/uv/). Ollama en ejecución con los modelos instalados.
+### Modo desarrollo (2 terminales)
+
+Requisitos: Python **3.12.12**, [uv](https://docs.astral.sh/uv/), Node 22 LTS, pnpm 10.x y Ollama en ejecución.
+
+**Terminal 1 — Backend FastAPI:**
 
 ```bash
 uv python install 3.12.12
 uv sync
 ollama pull llama3.1:8b
-ollama pull gemma4:e2b
+uv run uvicorn src.api.main:app --reload --port 8000
 ```
+
+**Terminal 2 — Frontend React:**
+
+```bash
+pnpm --dir frontend install
+pnpm --dir frontend dev
+```
+
+El frontend queda disponible en `http://localhost:5173/`. El proxy de Vite reenvía `/api/*` al backend en `http://localhost:8000`.
 
 **Nota:** si `gemma4:e2b` no está disponible en tu instalación de Ollama, omite ese `pull` y usa solo `llama3.1:8b` en la interfaz.
 
-Variables opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` (ver `.env.example`).
+Variables opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO`, `OPENAI_API_KEY`, `ALLOWED_ORIGINS` (ver `.env.example`).
+
+### Modo producción (Docker)
 
 ```bash
-uv run python -m src.app.app_gradio
+docker-compose up
 ```
 
-La consola muestra la URL local (por defecto `http://127.0.0.1:7860/`).
+El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Ver `Dockerfile` y `docker-compose.yml`.
 
-### Experiencia en la UI
+### Experiencia en la UI (React + shadcn/ui)
 
-- **Streaming token a token**: la respuesta del modelo aparece progresivamente en el bloque de Markdown a medida que Ollama la genera (no hay que esperar a que termine para ver texto).
-- **Indicador de carga**: al presionar **Preguntar**, el botón se deshabilita y cambia su texto a `Pensando...` durante toda la consulta; vuelve a `Preguntar` cuando finaliza, incluso si Ollama no estaba accesible o el modelo no existe.
-- **Formato Markdown enriquecido**: el prompt de sistema instruye al modelo a usar títulos (`##`), listas con viñetas, **negritas**, `código en línea` y enlaces `[texto](URL)` cuando aporte claridad. La columna de respuesta usa CSS mínimo para tipografía y espaciado más legibles.
+- **Streaming token a token**: la respuesta del modelo aparece progresivamente en el área de chat mientras llega del backend vía Server-Sent Events (SSE).
+- **Modo dual Ollama + OpenAI**: dos columnas side-by-side con una sola pasada BM25 compartida; aviso de coste dual visible.
+- **Fuentes BM25**: panel de cards con archivo, score y URL clickable de los documentos recuperados.
+- **Panel de configuración**: sidebar colapsable con selección de modelo, slider de `num_ctx`, editor del prompt del sistema y botón de recarga del corpus.
+- **Modo oscuro**: toggle persistente entre tema claro y oscuro con paleta institucional Valle del Lili.
+- **Accesibilidad**: ARIA labels en español; atajos `Cmd/Ctrl+Enter` (enviar), `Cmd/Ctrl+K` (foco en el campo de pregunta), `Cmd/Ctrl+B` (abrir/cerrar panel lateral).
+- **Borrador y parámetros**: el borrador del input se recupera en la misma sesión; modelo, `num_ctx` y prompt se guardan en el navegador.
 
 ## Resultados
 
@@ -99,6 +118,15 @@ El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con cat
 | Respuestas con «No tengo información suficiente» | Conteo en resumen |
 | Latencia promedio | Estadística de ms por pregunta |
 
+## Solución de problemas (streaming, CORS, Ollama)
+
+| Síntoma | Qué revisar |
+| --- | --- |
+| El texto aparece **de golpe** en lugar de en streaming | Proxies/CDN pueden bufferizar SSE: en Nginx usar `proxy_buffering off`; con Cloudflare evita transformaciones en la respuesta (`Cache-Control: no-transform`). Verifica que ningún intermediario agrupe líneas SSE. |
+| **CORS bloqueado** en el navegador | Configura `ALLOWED_ORIGINS` en `.env` con el origen exacto del frontend (p. ej. `http://localhost:5173`) y reinicia el backend. |
+| **Ollama no responde** | Ejecuta `ollama serve`, revisa `OLLAMA_BASE_URL` y ejecuta `ollama pull llama3.1:8b` (u otro modelo que uses). Con Docker Compose, el job `ollama-init` ejecuta `ollama pull` cuando el demonio está saludable. |
+| Difícil rastrear un fallo intermitente | Las respuestas incluyen cabecera `X-Request-ID`; búscala en los logs del API (middleware de peticiones). |
+
 ## Limitaciones conocidas
 
 - Páginas muy largas pueden superar `num_ctx` (p. ej. 8192): Ollama puede **truncar** el contexto y afectar la respuesta.
@@ -111,13 +139,32 @@ El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con cat
 - Embeddings y base vectorial (p. ej. Chroma o FAISS).
 - Re-ranking de candidatos recuperados.
 
+## Paridad funcional con Gradio — smoke checklist
+
+Verificar antes de la demo que la nueva UI cubre todas las funcionalidades de la interfaz Gradio original:
+
+| Funcionalidad | Ruta en la nueva UI | Estado |
+| --- | --- | --- |
+| Streaming token a token — Ollama | Chat → enviar pregunta con motor Ollama activo | ✅ |
+| Streaming token a token — OpenAI | Chat → motor OpenAI activo (requiere `OPENAI_API_KEY`) | ✅ |
+| Modo dual secuencial (Ollama → OpenAI) | Settings → activar ambos motores → `DualResponseView` | ✅ |
+| Selección de modelo Ollama | Settings → dropdown «Modelo Ollama» | ✅ |
+| Selección de modelo OpenAI | Settings → dropdown «Modelo OpenAI» (solo visible si API key presente) | ✅ |
+| Edición del prompt del sistema | Settings → accordion «Prompt del sistema» + botón Restaurar | ✅ |
+| Recarga del corpus (índice BM25) | Settings → botón «Recargar corpus» | ✅ |
+| Fuentes BM25 con score y URL | Panel de fuentes debajo de cada respuesta del asistente | ✅ |
+| Respuesta prudente fuera de alcance | El modelo responde «No tengo información suficiente» | ✅ |
+| Accesibilidad mínima | ARIA labels en español, navegación por teclado, modo oscuro | ✅ |
+
 ## Guía de demo (15 minutos)
 
 | Tiempo | Contenido |
 | --- | --- |
-| **3 min** | Motivación del problema y recorrido del pipeline (raw → markdown → BM25 → Ollama → Gradio). |
-| **7 min** | Cuatro preguntas en vivo: una institucional, una de servicios, una de contacto y una **fuera de alcance** (comprobar la respuesta prudente / «No tengo información suficiente»). |
-| **3 min** | Editar el prompt del sistema en la UI y mostrar cómo cambia el comportamiento (tono o reglas). |
-| **2 min** | Limitaciones (`num_ctx`, ambigüedad BM25, modelos) y roadmap del módulo 2. |
+| **3 min** | Motivación del problema y recorrido del pipeline (raw → markdown → BM25 → FastAPI → React). Mostrar brevemente la arquitectura: sidebar de configuración, área de chat, panel de fuentes BM25. |
+| **7 min** | Cuatro preguntas en vivo en la UI React: una institucional, una de servicios, una de contacto y una **fuera de alcance** (comprobar la respuesta prudente / «No tengo información suficiente»). Mostrar el streaming token a token y las cards de fuentes BM25 con scores y URLs. |
+| **3 min** | Activar modo dual Ollama + OpenAI: mostrar las dos columnas con la misma pregunta, el aviso de coste dual y la diferencia de respuestas entre modelos. Editar el prompt del sistema en el accordion y restaurarlo. |
+| **2 min** | Limitaciones (`num_ctx`, ambigüedad BM25, modelos) y roadmap del módulo 2 (chunking, embeddings, base vectorial). |
 
-**Total: 15 minutos** (sin diapositivas; se usa la app y, si aplica, el repositorio o informes en `data/processed/evaluaciones/`).
+**Total: 15 minutos** (sin diapositivas; se usa la app React en `http://localhost:5173/` y, si aplica, el repositorio o informes en `data/processed/evaluaciones/`).
+
+> **Decisión de arquitectura**: la migración de Gradio a React + FastAPI está documentada en [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
