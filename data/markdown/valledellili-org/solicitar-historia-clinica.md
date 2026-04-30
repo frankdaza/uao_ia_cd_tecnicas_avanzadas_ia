@@ -3,38 +3,22 @@ source_url: https://valledellili.org/solicitar-historia-clinica/
 titulo: Solicitud de historia clínica y certificados de hospitalización - Fundación
   Valle del Lili
 seccion: solicitar-historia-clinica
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 6fd9394fa73c21d7b783e23719b1fd019607b1097b824094a3b1635156937ac7
+hash: a19118ea9b49de84d5650dd2a35406b7f29d6936a555d426dbf7f06d7dbd9ca2
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -46,35 +30,19 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/SOLICITARHISTORIABANNER2.png)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 ## Solicitud de historia clínica y certificados de hospitalización
 
 ¿Cómo solicitar su historia clínica?
 
-Caso 1 – Si usted es el paciente![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
+Caso 1 – Si usted es el paciente
 
 Carta de solicitud firmada a mano, especificando:
 ¿Qué parte de la historia clínica requiere?
@@ -82,7 +50,7 @@ Carta de solicitud firmada a mano, especificando:
 ¿A qué correo debe ser enviada la historia clínica?
 Documento de identificación, por ambos lados.
 
-Caso 2 – Si el paciente es menor de edad![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
+Caso 2 – Si el paciente es menor de edad
 
 Carta de solicitud firmada a mano, elaborada por la madre, padre o tutor, indicando:
 ¿Qué parte de la historia clínica requiere?
@@ -93,7 +61,7 @@ Documento que certifique el parentesco:
 Padres: Registro civil de nacimiento.
 Tutor: acreditación de representación legal o custodia del menor.
 
-Caso 3 – Si usted no es el paciente (Tercero autorizado)![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
+Caso 3 – Si usted no es el paciente (Tercero autorizado)
 
 Carta de solicitud firmada a mano, elaborada por el paciente donde autoriza al tercero a reclamar su historia clínica, especificando:
 ¿Qué parte de la historia clínica requiere?
@@ -101,7 +69,7 @@ Carta de solicitud firmada a mano, elaborada por el paciente donde autoriza al t
 ¿A qué correo debe ser enviada la historia clínica?
 Documento de identificación del paciente y del tercero autorizado, por ambos lados.
 
-Caso 4 – Si el paciente es fallecido![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
+Caso 4 – Si el paciente es fallecido
 
 La solicitud solo puede ser realizada por padres, hermanos, hijos, cónyuge o compañer@ permanente.
 Carta de solicitud firmada a mano, elaborada por el solicitante, indicando:
@@ -114,7 +82,7 @@ Padres, hermanos o hijos: Registro civil de nacimiento.
 Cónyuge: Registro civil de matrimonio.
 Compañer@ permanente: declaración de unión marital de hecho con acta de conciliación o escritura pública (realizada en vida), o sentencia judicial que declare la unión marital de hecho con la persona fallecida.
 
-Caso 5 – Si el paciente no está en condiciones de autorizar![Expandir](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/plus.svg)
+Caso 5 – Si el paciente no está en condiciones de autorizar
 
 La solicitud solo puede ser realizada por padres, hermanos, hijos, cónyuge o compañer@ permanente.
 Carta de solicitud firmada a mano, elaborada por el solicitante, especificando:
@@ -128,23 +96,15 @@ Cónyuge: Registro civil de matrimonio.
 Compañer@ permanente: declaración de unión marital de hecho con acta de conciliación, escritura pública o sentencia judicial.
 Certificado médico que evidencie el estado de salud del paciente, en caso de ser tratado en otra institución diferente a la Fundación Valle del Lili.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/SOLICITARHISTORIABANNER2.png)
-
 ## Información adicional
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-location.png)
 
 #### Ubicación
 
 Horarios de atención: lunes a viernes, jornada continua de 8:00 a.m. a 5:00 p.m.
 
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)
-
 #### Teléfono
 
 Correo electrónico: [solicitudhc@fvl.org.co](mailto:solicitudhc@fvl.org.co)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-phone.png)
 
 #### Radicacion de factura electrónica:
 
@@ -158,33 +118,17 @@ En Colombia, la historia clínica es un documento privado, sometido a reserva y 
 - **Ley 23 de 1981, Art. 34**: Ley de ética médica.
 - **Sentencia T-182/09 de la Corte Constitucional**: específica para pacientes fallecidos o que no se encuentran en condiciones de autorizar a sus familiares.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/SOLICITARHISTORIA2.png)
-
 ##
 
 Realice su solicitud de historia clínica de forma fácil y segura enviando un correo a [**solicitudhc@fvl.org.co**](mailto:solicitudhc@fvl.org.co) o comuníquese al teléfono (602) 331 9090 Ext. 4169 en el horario de lunes a viernes de 8:00 a.m. a 5:00 p.m.
 
 [Conoce más](/)
 
-![](https://valledellili.org/wp-content/uploads/2025/10/capa2.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -218,14 +162,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

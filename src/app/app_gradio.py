@@ -17,6 +17,7 @@ from src.qa.cliente_ollama import (
     MODELO_LLAMA_3_1_8B,
     MODELOS_OLLAMA_SOPORTADOS,
     ModeloNoDisponibleError,
+    NUM_CTX_MAX,
     OllamaNoAccesibleError,
 )
 from src.qa.cliente_openai import (
@@ -32,6 +33,19 @@ from src.qa.pipeline import (
 )
 
 _PIPELINE = construir_pipeline_por_defecto()
+
+
+def _valor_inicial_slider_num_ctx() -> float:
+    """Alinea el slider (4096..NUM_CTX_MAX) con la config actual de Ollama."""
+    n = int(_PIPELINE._cliente.configuracion.num_ctx)
+    n = max(4096, min(n, NUM_CTX_MAX))
+    return float(n)
+
+
+def _max_tokens_openai_efectivo(limitar: bool, tokens: float | int) -> int | None:
+    if not limitar:
+        return None
+    return max(1, int(tokens))
 
 _CSS_UI = """
 #bloque-respuesta-o, #bloque-respuesta-oa {
@@ -154,12 +168,20 @@ def manejar_consulta_combinada(
     usar_openai: bool,
     modelo_ollama: str,
     modelo_openai: str,
+    num_ctx_ollama: float,
+    limitar_respuesta_openai: bool,
+    max_tokens_respuesta_openai: float,
 ) -> Iterator[tuple[str, str, str, str, str, str]]:
     """
     ``(estado_global, resp_o, meta_o, resp_oa, meta_oa, aviso_dual)``.
 
     Con un solo motor activo, las columnas no usadas quedan en blanco.
     """
+    max_completion_openai = _max_tokens_openai_efectivo(
+        limitar_respuesta_openai,
+        max_tokens_respuesta_openai,
+    )
+
     vacio = (
         "",
         "",
@@ -184,6 +206,9 @@ def manejar_consulta_combinada(
         return
 
     sin_clave = usar_openai and not _tiene_clave_openai()
+
+    if usar_ollama:
+        _PIPELINE._cliente.configuracion.num_ctx = int(num_ctx_ollama)
 
     # Solo Ollama con streaming
     if usar_ollama and not usar_openai:
@@ -218,6 +243,7 @@ def manejar_consulta_combinada(
                 texto_pregunta,
                 modelo_openai=modelo_openai,
                 prompt_sistema=prompt_actual,
+                max_completion_tokens=max_completion_openai,
             ):
                 if final is None:
                     yield "", "", "", parcial, "", ""
@@ -325,6 +351,7 @@ def manejar_consulta_combinada(
             ctx,
             modelo_openai,
             t_openai,
+            max_completion_tokens=max_completion_openai,
         ):
             if final is None:
                 yield "", texto_o, meta_o, parcial, "", aviso
@@ -356,12 +383,16 @@ def actualizar_columnas_motores(
 ) -> tuple:
     """Visibilidad de columnas, selectores por motor y aviso de coste dual."""
     ambos = usar_ollama and usar_openai
+    ver_o = usar_ollama
+    ver_a = usar_openai
     return (
-        gr.update(visible=usar_ollama),
-        gr.update(visible=usar_openai),
+        gr.update(visible=ver_o),
+        gr.update(visible=ver_a),
         gr.update(visible=ambos),
-        gr.update(visible=usar_ollama),
-        gr.update(visible=usar_openai),
+        gr.update(visible=ver_o),
+        gr.update(visible=ver_a),
+        gr.update(visible=ver_o),
+        gr.update(visible=ver_a),
     )
 
 
@@ -399,6 +430,19 @@ def construir_demo() -> gr.Blocks:
                             "Si el modelo no está instalado: **`ollama pull`** seguido del nombre elegido."
                         ),
                     )
+                with gr.Row(visible=True) as fila_num_ctx_ollama:
+                    slider_num_ctx = gr.Slider(
+                        minimum=4096,
+                        maximum=NUM_CTX_MAX,
+                        step=2048,
+                        value=_valor_inicial_slider_num_ctx(),
+                        label="Ventana num_ctx (Ollama)",
+                        info=(
+                            "Contexto efectivo hasta "
+                            + str(NUM_CTX_MAX)
+                            + " tokens. Mayor valor usa más RAM/VRAM."
+                        ),
+                    )
                 with gr.Row(visible=False) as fila_modelo_openai:
                     modelo_openai_dd = gr.Dropdown(
                         choices=list(MODELOS_OPENAI_SOPORTADOS),
@@ -409,6 +453,18 @@ def construir_demo() -> gr.Blocks:
                             "Si ves error de límite (429), prueba **`gpt-4o-mini`**, espera unos segundos "
                             "y revisa el uso del plan en el panel de OpenAI (no es un fallo de esta app)."
                         ),
+                    )
+                with gr.Row(visible=False) as fila_tokens_openai:
+                    limitar_tokens_openai = gr.Checkbox(
+                        value=False,
+                        label="Limitar largo de respuesta OpenAI (max_completion_tokens)",
+                    )
+                    max_tokens_respuesta_openai = gr.Slider(
+                        minimum=256,
+                        maximum=4096,
+                        step=256,
+                        value=1024,
+                        label="Máx. tokens en la respuesta",
                     )
                 with gr.Accordion("Prompt del sistema (editable)", open=False):
                     prompt_textbox = gr.Textbox(
@@ -463,6 +519,8 @@ def construir_demo() -> gr.Blocks:
                 aviso_dual,
                 fila_modelo_ollama,
                 fila_modelo_openai,
+                fila_num_ctx_ollama,
+                fila_tokens_openai,
             ],
         )
         usar_openai.change(
@@ -474,6 +532,8 @@ def construir_demo() -> gr.Blocks:
                 aviso_dual,
                 fila_modelo_ollama,
                 fila_modelo_openai,
+                fila_num_ctx_ollama,
+                fila_tokens_openai,
             ],
         )
 
@@ -489,6 +549,9 @@ def construir_demo() -> gr.Blocks:
                 usar_openai,
                 modelo,
                 modelo_openai_dd,
+                slider_num_ctx,
+                limitar_tokens_openai,
+                max_tokens_respuesta_openai,
             ],
             outputs=[
                 estado_consulta,

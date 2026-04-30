@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/gestion-de-calidad-en-la-fundacion-valle-del-lili/
 titulo: Gestión de calidad en la Fundación Valle del Lili
 seccion: gestion-de-calidad-en-la-fundacion-valle-del-lili
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 304e2cdfe9ac5c88818ab622b5f28f58d7d8884c2cb2e0c3c5105645ce9d19a9
+hash: 8e67f6f2d022f2a2b1ac2afa5c028bd84906d15f1766578dd1d704358bb64faf
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,32 +29,15 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 [Fundación Valle del Lili](https://valledellili.org "Go to Fundación Valle del Lili.")→[Gestión de calidad en la Fundación Valle del Lili](https://valledellili.org/gestion-de-calidad-en-la-fundacion-valle-del-lili/ "Go to Gestión de calidad en la Fundación Valle del Lili.")
-
-![](https://valledellili.org/wp-content/uploads/2025/11/Intro-home.jpg)
-![](https://valledellili.org/wp-content/uploads/2025/11/intro-home-responsive.jpg)
 
 # Gestión de calidad en la Fundación Valle del Lili
 
@@ -93,13 +60,9 @@ Juntos podemos encontrar una solución oportuna y satisfactoria.
 
 Igualmente podrá elevar su consulta ante la [Superintendencia Nacional de salud](https://www.supersalud.gov.co/) y las Secretarías Departamental y Distrital de salud.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Gestion-de-calidad-en-la-Fundacion-Valle-del-Lili.jpg)
-
 ## 1. Programa de Calidad y Seguridad del Paciente
 
 Este programa se orienta a la prevención y control de riesgos en la atención en salud, mediante seis líneas de trabajo principales:
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Línea de Cultura de la calidad y seguridad del paciente:
 
@@ -117,8 +80,6 @@ Asistencia de Líderes y Colaboradores a entrenamientos año 2025
 
 Competencias validadas post-capacitación año 2025
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Linea Programa de Calidad y Seguridad del Paciente:
 
 Garantizamos que nuestra atención es segura priorizando la adherencia a las buenas prácticas relacionadas con las metas internacionales de seguridad del paciente y por ello nuestros resultados dan cuenta del cumplimiento.
@@ -126,8 +87,6 @@ Garantizamos que nuestra atención es segura priorizando la adherencia a las bue
 ---
 
 Adherencia a buenas prácticas y metas internacionales: [**Ver resultados**](/wp-content/uploads/2026/02/Adherencia-a-buenas-practicas-y-metas-internacionales-2025.pdf)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Línea de Atención centrada en las personas:
 
@@ -145,8 +104,6 @@ Satisfacción de pacientes y familias con la atención – 2025
 
 Net Promotore Score 2025
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/10/checklist.png)
-
 ## Evolución: Quejas vs Agradecimientos (por cada 1000 pacientes)
 
 | Indicador | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
@@ -156,8 +113,6 @@ Net Promotore Score 2025
 
 ##
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Línea de Desempeño clínico:
 
 Evaluamos los resultados clínicos en la institución, sus comportamientos y tendencias para definir como optimizar nuestros resultados y damos relevancia a los resultados que son importantes para los pacientes ( PROMS y PREMS).
@@ -166,8 +121,6 @@ Evaluamos los resultados clínicos en la institución, sus comportamientos y ten
 
 Adherencia a buenas prácticas y metas internacionales: [**Ver resultados**](/wp-content/uploads/2026/02/Desempeno-clinico-2025.pdf)
 
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
-
 #### Línea de Desempeño administrativo:
 
 Realizamos un seguimiento permanente a los indicadores administrativos para garantizar una gestión eficiente de los proyectos y promover la excelencia operacional.
@@ -175,8 +128,6 @@ Realizamos un seguimiento permanente a los indicadores administrativos para gara
 ---
 
 Adherencia a buenas prácticas y metas internacionales: [**Ver resultados**](/wp-content/uploads/2026/02/Resultados-proyectos-excelencia-operacional-2023-a-2025.pdf)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/checklist.png)
 
 #### Línea de Gestión del riesgo:
 
@@ -193,8 +144,6 @@ Cumplimiento de estrategias de Gestión integral del riesgo 2025
 Este sistema constituye la estructura que hace posible la implementación del Programa de Calidad y Seguridad del Paciente. Opera mediante la participación de todos los colaboradores, desde la alta dirección hasta cada Ciudadano Lili (miembro del personal), quienes aportan en el análisis, diseño y gestión de mejoras. Además, evalúa el desempeño a nivel institucional, por sedes, áreas, equipos de trabajo y colaboradores, garantizando una visión integral del progreso y las oportunidades de mejora.
 
 Nuestros procesos de gestión de calidad están certificados por Joint Commission International, si sus inquietudes o dificultades con la atención no han sido resueltas a través de los canales que ofrecemos, puede ponerse en contacto con este organismo de acreditación externo <https://www.jointcommission.org/en/contact-us/report-a-patient-safety-event>.
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Sistema-de-gestion-de-la-calidad-FVL.jpg)
 
 ## 3. Modelo de Mejoramiento Continuo
 
@@ -222,25 +171,11 @@ Enfocado en identificar las necesidades de comparación con otras instituciones 
 
 [Proceso de referenciación institucional](/solicitar-referenciacion/)
 
-![](https://valledellili.org/wp-content/uploads/2025/10/capa2.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -274,14 +209,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/fvl-al-dia/
 titulo: FVL al Día - Fundación Valle del Lili
 seccion: fvl-al-dia
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 12ced7829c9b743a203a0e809fdd16648270c18f568ffb3e89dd63e00eb22119
+hash: a88a00ddd2c932f5a80b41c9659484618b313ada78e3499dbc30ce19d4e6b08e
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,32 +29,15 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 [Fundación Valle del Lili](https://valledellili.org "Go to Fundación Valle del Lili.")→[FVL al Día](https://valledellili.org/fvl-al-dia/ "Go to FVL al Día.")
-
-![](https://valledellili.org/wp-content/uploads/2026/02/boletin-16-banner.jpg)
-![](https://valledellili.org/wp-content/uploads/2026/02/boletin-16-banner-responsive.jpg)
 
 Revista
 
@@ -82,17 +49,21 @@ Revista
 
 ## Actualízate con nuestros contenidos más recientes
 
-![](https://valledellili.org/wp-content/uploads/2026/01/destacada-limonar.jpg)
+Artículo
+
+### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres
+
+La llegada de un bebé trae consigo nuevas responsabilidades y aprendizajes. En la Fundación Valle del Lili, queremos acompañarte en este proceso con recomendaciones prácticas para el cuidado diario de...
+
+[Conoce más](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
 
 Artículo
 
-### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se...
+### Sede Limonar de la Fundación Valle del Lili:...
 
-La Fundación Valle del Lili fortalece su red de atención especializada trasladando sus servicios pediátricos a nuestra Sede Limonar, un espacio diseñado exclusivamente para el bienestar de los niños y...
+La Fundación Valle del Lili fortalece su red de atención especializada trasladando...
 
 [Conoce más](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
-
-![](https://valledellili.org/wp-content/uploads/2026/04/Esquema-de-vacunacion-pediatrica-300x176.jpg)
 
 Artículo
 
@@ -102,8 +73,6 @@ El cumplimiento del calendario de vacunación es el paso más importante para...
 
 [Conoce más](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 
-![](https://valledellili.org/wp-content/uploads/2026/03/que-es-el-melanoma-portada-general-227x300.webp)
-
 Artículo
 
 ### ¿Qué es el melanoma y por qué es...
@@ -112,19 +81,7 @@ Autor: Doctor Juan Felipe Pinilla Hurtado, Dermatólogo Hospital Universitario F
 
 [Conoce más](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
 
-![](https://valledellili.org/wp-content/uploads/2026/03/Carta-de-la-salud-354-227x300.webp)
-
-Artículo
-
-### Cuando todo parece un caos: valores y sentido...
-
-Autor: Doctor Erwin Fabian Lasso, Psiquiatra, Fundación Valle del Lili ¿Qué hacer...
-
-[Conoce más](https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
-
 ## Recomendados para tí
-
-![](https://valledellili.org/wp-content/uploads/2026/02/¡La-Fundacion-Valle-del-Lili-participo-en-el-31o-Foro-de-la-Salud-de-la-ANDI-2.jpg)
 
 Artículo
 
@@ -134,8 +91,6 @@ Artículo
 
 [Descubre aquí](https://valledellili.org/la-fundacion-valle-del-lili-participo-en-el-31o-foro-de-la-salud-de-la-andi/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Salvar-vidas-en-la-Guajira_-¡un-compromiso-que-nos-une.jpg)
-
 Video
 
 ### Hospital padrino – Salvar vidas en la Guajira: ¡un compromiso que nos une!
@@ -143,8 +98,6 @@ Video
 En alianza con Save the Children, la Fundación Valle del Lili, a través de su Estrategia Hospital Padrino, trabaja para…
 
 [Descubre aquí](https://valledellili.org/salvar-vidas-en-la-guajira-un-compromiso-que-nos-une/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/MELANOMA_-investigacion-clinica-_-Caso_-Martha-Mejia-1.jpg)
 
 Video
 
@@ -156,27 +109,21 @@ Compartimos el testimonio de Martha, una paciente diagnosticada con melanoma, qu
 
 ## Mejor valorado
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-74-300x180.jpg)
 [Podcast
 
 ### Polisomnogramas, tecnología médica para diagnosticar la apnea del sueño](https://valledellili.org/polisomnogramas-tecnologia-medica-para-diagnosticar-la-apnea-del-sueno/)
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-75-300x151.jpg)
 [Video
 
 ### Primeros auxilios | ¿Cómo reaccionar ante un paro cardíaco?](https://valledellili.org/primeros-auxilios-como-reaccionar-ante-un-paro-cardiaco/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/vacunacionvideo2-300x159.jpg)
-[Video
+[Artículo
 
-### Esquema de vacunación para los niños desde los 7 hasta los 18 años](https://valledellili.org/esquema-de-vacunacion-para-los-ninos-desde-los-7-hasta-los-18-anos/)
+### “Es un reconocimiento a la Institución, a quienes colaboran conmigo”](https://valledellili.org/es-un-reconocimiento-a-la-institucion-a-quienes-colaboran-conmigo/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/dia-del-rinon-2023-300x176.jpg)
-[Video
+[Artículo
 
-### Historia de vida FVL: Sebastián y María José Cardona](https://valledellili.org/historia-de-vida-fvl-sebastian-y-maria-jose-cardona/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-68.png)
+### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
 
 ## ¡Al día con la Fundación Valle del Lili!
 
@@ -187,28 +134,14 @@ Nombre
 Correo electrónico
 
 Autorizo el tratamiento de mis datos personales (leer política)  
-  
+
 Debe leer la política de datos personales antes de continuar
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/img-69.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -242,14 +175,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

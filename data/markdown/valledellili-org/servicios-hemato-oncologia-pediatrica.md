@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/hemato-oncologia-pediatrica/
 titulo: Hemato-Oncología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 09b674661646e3ec1eb8da2f6f50aea993e43a799a364bedf2e3de9cba7aafd3
+hash: 2877340c233f9f93b17cd9704a1e8790d4fd0d0dbce852a42d93ce3c13e0b537
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,38 +29,20 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Hemato-Oncologia-Pediatrica-1.png)
-![](https://valledellili.org/wp-content/uploads/2026/02/Hemato-Oncologia-Pediatrica-1.png)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Hemato-Oncología Pediátrica
 
 ## ¿Qué hace esta especialidad?
 
 El servicio de Hemato-Oncología Pediátrica está conformado por un equipo altamente especializado en el diagnóstico oportuno, tratamiento avanzado y prevención de complicaciones de enfermedades de la sangre, ganglios, bazo y cáncer infantil en menores de 18 años.  
-  
-  
+
 Ofrece atención humanizada y de alta complejidad mediante un enfoque multidisciplinario que integra cirugía pediátrica, patología, biología molecular, genética, radioterapia, medicina nuclear, psicología, trabajo social, rehabilitación y cuidados paliativos, brindando acompañamiento integral al paciente y su familia.
 
 ---
@@ -200,153 +166,97 @@ Llámanos: (+57) 602 331 9090 ext. 7906
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003218.jpg)
-
-#### Alexis Antonio Franco Moreno
+[#### Alexis Antonio Franco Moreno
 
 Onco-hematologia pediatrica](https://valledellili.org/directorio-medico/alexis-antonio-franco-moreno/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002849.jpg)
-
-#### Alvaro Enrique Osorio Franco
+[#### Alvaro Enrique Osorio Franco
 
 Hemato oncologia](https://valledellili.org/directorio-medico/alvaro-enrique-osorio-franco/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002868.jpg)
-
-#### Ana Maria Garcia Giraldo
+[#### Ana Maria Garcia Giraldo
 
 Hemato oncologia](https://valledellili.org/directorio-medico/ana-maria-garcia-giraldo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000379.jpg)
-
-#### Angela Regina Zambrano Harvey
+[#### Angela Regina Zambrano Harvey
 
 Hemato oncologia](https://valledellili.org/directorio-medico/angela-regina-zambrano-harvey/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000208.jpg)
-
-#### Diego Medina Valencia
+[#### Diego Medina Valencia
 
 Pediatria](https://valledellili.org/directorio-medico/diego-medina-valencia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002897.jpg)
-
-#### Elizabeth Arrieta Lopez
+[#### Elizabeth Arrieta Lopez
 
 Hemato oncologia](https://valledellili.org/directorio-medico/elizabeth-arrieta-lopez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003403.jpg)
-
-#### Fabian Emiliano Ahumada Cordoba
+[#### Fabian Emiliano Ahumada Cordoba
 
 Hemato oncologia](https://valledellili.org/directorio-medico/fabian-emiliano-ahumada-cordoba/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002498.jpg)
-
-#### Juan Camilo Baena Valencia
+[#### Juan Camilo Baena Valencia
 
 Hemato oncologia](https://valledellili.org/directorio-medico/juan-camilo-baena-valencia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009243.jpg)
-
-#### Juan David Ortiz Diaz
+[#### Juan David Ortiz Diaz
 
 Oncologia clinica](https://valledellili.org/directorio-medico/juan-david-ortiz-diaz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000294.jpg)
-
-#### Juan Guillermo Restrepo Molina
+[#### Juan Guillermo Restrepo Molina
 
 Hemato oncologia](https://valledellili.org/directorio-medico/juan-guillermo-restrepo-molina/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009193.jpg)
-
-#### Lina Maria Lopez Bernal
+[#### Lina Maria Lopez Bernal
 
 Oncologia clinica](https://valledellili.org/directorio-medico/lina-maria-lopez-bernal/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002381.jpg)
-
-#### Luz Angela Urcuqui Bustamante
+[#### Luz Angela Urcuqui Bustamante
 
 Hemato oncologia pediatrica](https://valledellili.org/directorio-medico/luz-angela-urcuqui-bustamante/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00016090.jpg)
-
-#### Maria Fernanda Barraza Arredondo
+[#### Maria Fernanda Barraza Arredondo
 
 Hemato oncologia pediatrica](https://valledellili.org/directorio-medico/maria-fernanda-barraza-arredondo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002077.jpg)
-
-#### Maria Ximena Castro Garcia
+[#### Maria Ximena Castro Garcia
 
 Hemato oncologia pediatrica](https://valledellili.org/directorio-medico/maria-ximena-castro-garcia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002811.jpg)
-
-#### Pamela Andrea Rodriguez Riveros
+[#### Pamela Andrea Rodriguez Riveros
 
 Onco-hematologia pediatrica](https://valledellili.org/directorio-medico/pamela-andrea-rodriguez-riveros/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000193.jpg)
-
-#### Viviana Lotero Diaz
+[#### Viviana Lotero Diaz
 
 Hemato oncologia pediatrica](https://valledellili.org/directorio-medico/viviana-lotero-diaz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000629.jpg)
-
-#### William Alberto Franco Climent
+[#### William Alberto Franco Climent
 
 Oncologia clinica](https://valledellili.org/directorio-medico/william-alberto-franco-climent/)
 
 Mostrar todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
-
 ### Otros servicios y especialidades
 
-[Alergología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/alergologia/)
-[Anestesiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
-[Cardiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia/)
-[Cardiología Intervencionista
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-intervencionista/)
-[Cardiología no Invasiva Adulto
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-[Cardiología No Invasiva Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
+[Alergología](https://valledellili.org/servicios/alergologia/)
+[Anestesiología](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[Cardiología](https://valledellili.org/servicios/cardiologia/)
+[Cardiología Intervencionista](https://valledellili.org/servicios/cardiologia-intervencionista/)
+[Cardiología no Invasiva Adulto](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
+[Cardiología No Invasiva Pediátrica](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-oncologia-pediatrica.jpg)
-
-Artículo
+[Artículo
 
 #### Programa oncología pediátrica](https://valledellili.org/programa-oncologia-pediatrica/)
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-cuidados-paliativos-pediatricos.jpg)
-
-Artículo
+[Artículo
 
 #### Programa cuidados paliativos pediátricos](https://valledellili.org/programa-cuidados-paliativos-pediatricos/)
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-cuidados-paliativos-adultos.jpg)
-
-Artículo
+[Artículo
 
 #### Programa cuidados paliativos para adultos](https://valledellili.org/programa-cuidados-paliativos-adultos/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Portada-revista-ed-83.jpg)
-
-Revista
+[Revista
 
 #### Revista ed 83 – Cuidado ambulatorio: transformando la atención médica](https://valledellili.org/revista-ed-83-cuidado-ambulatorio-transformando-la-atencion-medica/)
 
@@ -358,12 +268,8 @@ Solicita tu cita con nuestros especialistas en Hemato-Oncología Pediátrica
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -373,25 +279,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -425,14 +317,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

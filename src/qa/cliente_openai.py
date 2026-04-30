@@ -146,6 +146,20 @@ def _mensaje_conexion() -> str:
     )
 
 
+def _max_completion_tokens_desde_entorno() -> int | None:
+    """Parsea ``OPENAI_MAX_COMPLETION_TOKENS``; valores no positivos o invalidos dan ``None``."""
+    raw = os.environ.get("OPENAI_MAX_COMPLETION_TOKENS")
+    if not raw or not str(raw).strip():
+        return None
+    try:
+        n = int(str(raw).strip())
+    except (TypeError, ValueError):
+        return None
+    if n <= 0:
+        return None
+    return n
+
+
 def _mensaje_error_generico(codigo: str | int | None) -> str:
     suf = f" (código {codigo})" if codigo is not None else ""
     return (
@@ -161,6 +175,7 @@ class ConfiguracionOpenai:
     api_key: str | None = None
     base_url: str | None = None
     timeout_segundos: float = 180.0
+    max_completion_tokens: int | None = None
 
     @classmethod
     def desde_variables_entorno(cls) -> ConfiguracionOpenai:
@@ -176,7 +191,13 @@ class ConfiguracionOpenai:
                 timeout_segundos = float(tiempo.strip())
             except ValueError:
                 timeout_segundos = 180.0
-        return cls(api_key=api_key, base_url=base_url, timeout_segundos=timeout_segundos)
+        max_cap = _max_completion_tokens_desde_entorno()
+        return cls(
+            api_key=api_key,
+            base_url=base_url,
+            timeout_segundos=timeout_segundos,
+            max_completion_tokens=max_cap,
+        )
 
     def tiene_api_key(self) -> bool:
         return bool(self.api_key and self.api_key.strip())
@@ -192,10 +213,22 @@ class ClienteOpenAi:
     def configuracion(self) -> ConfiguracionOpenai:
         return self._config
 
-    def chat(self, mensajes: list[dict[str, str]], *, modelo: str) -> str:
+    def chat(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        modelo: str,
+        max_completion_tokens: int | None = None,
+    ) -> str:
         """Generación no streaming; ``modelo`` debe ser un id soportado por la cuenta."""
         if not self._config.tiene_api_key():
             raise ClaveApiOpenAiAusenteError(_mensaje_clave_invalida())
+
+        efectivo = (
+            max_completion_tokens
+            if max_completion_tokens is not None
+            else self._config.max_completion_tokens
+        )
 
         kwargs: dict = {
             "api_key": self._config.api_key,
@@ -208,10 +241,13 @@ class ClienteOpenAi:
         try:
 
             def crear_completacion_no_stream():
-                return cliente.chat.completions.create(
-                    model=modelo,
-                    messages=mensajes,  # type: ignore[arg-type]
-                )
+                create_kw: dict = {
+                    "model": modelo,
+                    "messages": mensajes,  # type: ignore[arg-type]
+                }
+                if efectivo is not None:
+                    create_kw["max_completion_tokens"] = efectivo
+                return cliente.chat.completions.create(**create_kw)
 
             respuesta = _llamar_con_reintentos_rate_limit(crear_completacion_no_stream)
         except AuthenticationError as exc:
@@ -241,11 +277,21 @@ class ClienteOpenAi:
         return str(eleccion)
 
     def chat_stream(
-        self, mensajes: list[dict[str, str]], *, modelo: str
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        modelo: str,
+        max_completion_tokens: int | None = None,
     ) -> Iterator[str]:
         """Streaming desde ``chat.completions`` con ``stream=True`` (fragmentos de texto)."""
         if not self._config.tiene_api_key():
             raise ClaveApiOpenAiAusenteError(_mensaje_clave_invalida())
+
+        efectivo = (
+            max_completion_tokens
+            if max_completion_tokens is not None
+            else self._config.max_completion_tokens
+        )
 
         kwargs: dict = {
             "api_key": self._config.api_key,
@@ -259,11 +305,14 @@ class ClienteOpenAi:
         try:
 
             def crear_flujo_stream():
-                return cliente.chat.completions.create(
-                    model=modelo,
-                    messages=mensajes,  # type: ignore[arg-type]
-                    stream=True,
-                )
+                create_kw: dict = {
+                    "model": modelo,
+                    "messages": mensajes,  # type: ignore[arg-type]
+                    "stream": True,
+                }
+                if efectivo is not None:
+                    create_kw["max_completion_tokens"] = efectivo
+                return cliente.chat.completions.create(**create_kw)
 
             flujo = _llamar_con_reintentos_rate_limit(crear_flujo_stream)
         except AuthenticationError as exc:
