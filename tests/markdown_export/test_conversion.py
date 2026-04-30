@@ -10,6 +10,7 @@ from pathlib import Path
 import yaml
 
 from src.markdown_export.conversion import (
+    _depurar_cuerpo_markdown_kb,
     convertir_html_a_md,
     derivar_seccion,
     escribir_markdown,
@@ -181,4 +182,33 @@ def test_limpiar_html_destruye_banners() -> None:
     limpiar_html(s)
     assert "X" not in s.get_text()
     assert "OK" in s.get_text()
+
+
+def test_sin_lineas_md_de_imagenes_ni_placeholder_ruidoso() -> None:
+    """Imagenes y enlaces solo graficos no provocan ![](...) en el corpus."""
+    from tempfile import TemporaryDirectory
+
+    h = _DIR_FIXTURES / "con_medios.html"
+    with TemporaryDirectory() as td:
+        p = Path(td) / "con-medios.html"
+        p.write_text(h.read_text(encoding="utf-8"), encoding="utf-8")
+        j = Path(td) / "con-medios.json"
+        _escribir_sidecar(
+            j,
+            url="https://valledellili.org/medios/",
+            hash_sha256="d" * 64,
+        )
+        body = convertir_html_a_md(p, j).cuerpo
+    assert "!(" not in body
+    assert "wp-uploads/x.jpg" not in body.lower()
+    assert "/servicios/" in body or "Servicios" in body
+    assert "Titulo enlance" in body
+
+
+def test_depurar_kb_quita_linea_solo_imagen() -> None:
+    bloque = "Linea buena.\n![](https://ejemplo/z.png)\n  ![alt](u)\n[Mas](http://ok)\n"
+    sal = _depurar_cuerpo_markdown_kb(bloque)
+    assert "!(" not in sal
+    assert "Linea buena" in sal
+    assert "[Mas](http://ok)" in sal
 

@@ -3,38 +3,22 @@ source_url: https://valledellili.org/servicios/cuidado-paliativo-pediatrico-prog
 titulo: Cuidado Paliativo Pediátrico – Programa “Cuidando de ti” - Fundación Valle
   del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: cf7e09c152d84de6403f0dfbe88a25a165324ed1ccacc1188b415ac713605c56
+hash: d183f8b7c2333e3ffc4354d717f537c55afe660ceb7d717367dc7f5ef8c4263d
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -46,30 +30,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Cuidado-Paliativo-Pediatrico-1.png)
-![](https://valledellili.org/wp-content/uploads/2026/01/Cuidado-Paliativo-Pediatrico-1.png)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Cuidado Paliativo Pediátrico – Programa “Cuidando de ti”
 
@@ -133,111 +100,69 @@ Llámanos: (+57) 602 331 9090 Ext. 7906
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00014920.jpg)
-
-#### Ana Karina De Armas Barliza
+[#### Ana Karina De Armas Barliza
 
 Psicologia](https://valledellili.org/directorio-medico/ana-karina-de-armas-barliza/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000776.jpg)
-
-#### Ana Maria Mesa Ochoa
+[#### Ana Maria Mesa Ochoa
 
 Psicologia](https://valledellili.org/directorio-medico/ana-maria-mesa-ochoa/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00014549.jpg)
-
-#### Andrea Del Pilar Estrada Gutierrez
+[#### Andrea Del Pilar Estrada Gutierrez
 
 Psicologia](https://valledellili.org/directorio-medico/andrea-del-pilar-estrada-gutierrez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00013960.jpg)
-
-#### Cindy Tatiana Diaz Sastoque
+[#### Cindy Tatiana Diaz Sastoque
 
 Psicologia](https://valledellili.org/directorio-medico/cindy-tatiana-diaz-sastoque/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00013124.jpg)
-
-#### Clara Lucia Navas Jimenez
+[#### Clara Lucia Navas Jimenez
 
 Psicologia](https://valledellili.org/directorio-medico/clara-lucia-navas-jimenez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002874.jpg)
-
-#### Jenniffer Andrea Tovar Romero
+[#### Jenniffer Andrea Tovar Romero
 
 Psicologia](https://valledellili.org/directorio-medico/jenniffer-andrea-tovar-romero/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002738.jpg)
-
-#### Laura Martinez Santamaria
+[#### Laura Martinez Santamaria
 
 Psicologia](https://valledellili.org/directorio-medico/laura-martinez-santamaria/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002204.jpg)
-
-#### Leidy Johanna Lopez Erazo
+[#### Leidy Johanna Lopez Erazo
 
 Anestesiologia](https://valledellili.org/directorio-medico/leidy-johanna-lopez-erazo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00010656.jpg)
-
-#### Nathalia Parra Ortegon
+[#### Nathalia Parra Ortegon
 
 Psicologia oncologica](https://valledellili.org/directorio-medico/nathalia-parra-ortegon/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00013123.jpg)
-
-#### Sara Gutierrez De Pineres Escobar
+[#### Sara Gutierrez De Pineres Escobar
 
 Psicologia](https://valledellili.org/directorio-medico/sara-gutierrez-de-pineres-escobar/)
 
 Mostrar todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
-
 ### Otros servicios y especialidades
 
-[Alergología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/alergologia/)
-[Anestesiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
-[Cardiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia/)
-[Cardiología Intervencionista
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-intervencionista/)
-[Cardiología no Invasiva Adulto
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-[Cardiología No Invasiva Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
+[Alergología](https://valledellili.org/servicios/alergologia/)
+[Anestesiología](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[Cardiología](https://valledellili.org/servicios/cardiologia/)
+[Cardiología Intervencionista](https://valledellili.org/servicios/cardiologia-intervencionista/)
+[Cardiología no Invasiva Adulto](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
+[Cardiología No Invasiva Pediátrica](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-cuidados-paliativos-adultos.jpg)
-
-Artículo
+[Artículo
 
 #### Programa cuidados paliativos para adultos](https://valledellili.org/programa-cuidados-paliativos-adultos/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Fotos-portada-Tequendama-13.jpg)
-
-Artículo
+[Artículo
 
 #### La Fundación Valle del Lili abre las puertas de su quinta sede en Tequendama](https://valledellili.org/noticia-nueva-sede-tequendama/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/portada-suministrar-medicamentos.png)
-
-Video
+[Video
 
 #### ¿Cómo suministrar medicamentos por el catéter subcutáneo?](https://valledellili.org/como-suministrar-medicamentos-por-el-cateter-subcutaneo/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/lagranesperanza1.jpg)
-
-Video
+[Video
 
 #### Esperanza, la pequeña gran heroína Capítulo 1: Recibiendo mi diagnóstico](https://valledellili.org/esperanza-la-pequena-gran-heroina-capitulo-1-recibiendo-mi-diagnostico/)
 
@@ -249,12 +174,8 @@ Solicita tu cita con nuestros especialistas en Cuidado Paliativo Pediátrico –
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -265,25 +186,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -317,14 +224,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

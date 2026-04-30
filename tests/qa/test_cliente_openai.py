@@ -45,6 +45,7 @@ def test_chat_exito_respuesta_llamando_create() -> None:
     llamada_kw = dummy.chat.completions.create.call_args.kwargs
     assert llamada_kw["model"] == "gpt-4o-mini"
     assert llamada_kw["messages"] == mensajes
+    assert "max_completion_tokens" not in llamada_kw
 
 
 def test_chat_rate_limit_cadena_en_espanol() -> None:
@@ -126,3 +127,69 @@ def test_chat_stream_yield_fragmentos_acumulativos() -> None:
     assert "".join(salida) == "Hello world"
     kwargs = dummy.chat.completions.create.call_args.kwargs
     assert kwargs.get("stream") is True
+
+
+def test_max_completion_tokens_no_se_envia_por_defecto_chat_ni_stream() -> None:
+    cfg = ConfiguracionOpenai(api_key="sk-test")
+    cliente = ClienteOpenAi(cfg)
+    dummy = MagicMock()
+    dummy.chat.completions.create.return_value = MagicMock(
+        choices=[MagicMock(message=MagicMock(content="a"))]
+    )
+    with patch("src.qa.cliente_openai.OpenAI", return_value=dummy):
+        cliente.chat([{"role": "user", "content": "x"}], modelo="gpt-4o-mini")
+    assert "max_completion_tokens" not in dummy.chat.completions.create.call_args.kwargs
+
+    dummy2 = MagicMock()
+    dummy2.chat.completions.create.return_value = iter(())
+    with patch("src.qa.cliente_openai.OpenAI", return_value=dummy2):
+        list(cliente.chat_stream([{"role": "user", "content": "y"}], modelo="gpt-4o-mini"))
+    assert "max_completion_tokens" not in dummy2.chat.completions.create.call_args.kwargs
+
+
+def test_max_completion_tokens_desde_config_se_envia_chat_y_stream() -> None:
+    cfg = ConfiguracionOpenai(api_key="sk-test", max_completion_tokens=777)
+    cliente = ClienteOpenAi(cfg)
+    dummy = MagicMock()
+    dummy.chat.completions.create.return_value = MagicMock(
+        choices=[MagicMock(message=MagicMock(content="ok"))]
+    )
+    with patch("src.qa.cliente_openai.OpenAI", return_value=dummy):
+        cliente.chat([{"role": "user", "content": "."}], modelo="gpt-4o-mini")
+    assert dummy.chat.completions.create.call_args.kwargs["max_completion_tokens"] == 777
+
+    dummy2 = MagicMock()
+    dummy2.chat.completions.create.return_value = iter(())
+    with patch("src.qa.cliente_openai.OpenAI", return_value=dummy2):
+        list(cliente.chat_stream([{"role": "user", "content": "."}], modelo="gpt-4o-mini"))
+    assert dummy2.chat.completions.create.call_args.kwargs["max_completion_tokens"] == 777
+
+
+def test_max_completion_tokens_argumento_tiene_prioridad_sobre_config() -> None:
+    cfg = ConfiguracionOpenai(api_key="sk-test", max_completion_tokens=100)
+    cliente = ClienteOpenAi(cfg)
+    dummy = MagicMock()
+    dummy.chat.completions.create.return_value = MagicMock(
+        choices=[MagicMock(message=MagicMock(content="z"))]
+    )
+    with patch("src.qa.cliente_openai.OpenAI", return_value=dummy):
+        cliente.chat(
+            [{"role": "user", "content": "a"}],
+            modelo="gpt-4o-mini",
+            max_completion_tokens=50,
+        )
+    assert dummy.chat.completions.create.call_args.kwargs["max_completion_tokens"] == 50
+
+
+def test_max_completion_tokens_env_invalido_es_none(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OPENAI_MAX_COMPLETION_TOKENS", "foo")
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    cfg = ConfiguracionOpenai.desde_variables_entorno()
+    assert cfg.max_completion_tokens is None
+
+
+def test_openai_max_completion_tokens_desde_entorno(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OPENAI_MAX_COMPLETION_TOKENS", "2048")
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    cfg = ConfiguracionOpenai.desde_variables_entorno()
+    assert cfg.max_completion_tokens == 2048

@@ -3,38 +3,22 @@ source_url: https://valledellili.org/linea-de-transparencia-sistema-de-gestion-d
 titulo: Línea de transparencia – Sistema de Gestión de Riesgos - Fundación Valle del
   Lili
 seccion: linea-de-transparencia-sistema-de-gestion-de-riesgos
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 7103b6980e4c909e4f11bd5d7ca2dd577a6cdca42dec971f74dbbd3e83cae780
+hash: 741a284068983c0d02e2a09ae6fce72793d474bc71330110b4de72fb78cb1cda
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -46,27 +30,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Política de Gestión de Riesgos Fundación Valle del Lili
 
@@ -81,28 +51,19 @@ Este sistema involucra todas las áreas de la institución e incluye los siguien
 - Adopción de herramientas para seguimiento y comunicación de la gestión de riesgos.
 - Mecanismos de divulgación a todas las partes interesadas.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/LEYTRANSPARENCIABANNER.png)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/flower-green.png)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/mid-circle-green.png)
-
 ## SARLAFT
 
 **Subsistema de Administración del Riesgo de Lavado de Activos, Financiación del Terrorismo y Financiación de la Proliferación de Armas de Destrucción Masiva (SARLAFT/FPADM)**
 
 Basado en la **Circular externa 009 de 2016** y la **20211700000005-5 de 2021** de la Superintendencia Nacional de Salud.  
-   
+
 La Fundación Valle del Lili ha adoptado un sistema con **políticas y procedimientos orientados a la prevención y/o reporte de operaciones** relacionadas con el lavado de activos y la financiación del terrorismo.  
-   
+
 Estos procedimientos son de **obligatorio cumplimiento** para todos los colaboradores y terceros con los cuales existan relaciones comerciales y/o contractuales.  
-   
+
 Con la implementación del SARLAFT, la Fundación busca **prevenir el riesgo de ser utilizada como instrumento para el lavado de activos o la canalización de recursos hacia actividades**  
-   
+
 [**Ver documento completo aquí**](/wp-content/uploads/2022/04/Politica-Sarlaft-para-contrapartes-firmado.pdf)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/SARLAFT-2.png)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/PROGRAMA-DE-TRANSPARENCIA-Y-ETICA-2.png)
 
 ## PROGRAMA DE TRANSPARENCIA Y ÉTICA EMPRESARIAL – PTEE
 
@@ -134,7 +95,6 @@ Ofrece un canal seguro y confidencial para reportar de manera temprana cualquier
 
 **Definiciones**:
 
-   
 El PTEE se articula a través de cuatro componentes principales:
 
 #### Corrupción:
@@ -153,8 +113,6 @@ Ofrecimiento de dinero u objeto de valor para conseguir un beneficio personal.
 
 Actividades ilícitas para robar, manipular o destruir información o activos mediante herramientas tecnológicas.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/SICOF-2.png)
-
 ## Objetivo de la Línea de Transparencia
 
 #### 
@@ -165,8 +123,6 @@ Detectar irregularidades, incumplimientos normativos, violaciones al manual de p
 
 cualquier persona interna o externa de la institución.
 
-![](https://valledellili.org/wp-content/uploads/2026/02/PROGRAMA-DE-TRANSPARENCIA-Y-ETICA-2.png)
-
 #### Investigación:
 
 los reportes se investigan bajo estricta confidencialidad.
@@ -174,8 +130,6 @@ los reportes se investigan bajo estricta confidencialidad.
 #### Derechos del denunciante:
 
 El programa cuenta con estrictas medidas que aseguran la total confidencialidad de la información recibida, permitiendo realizar reportes de forma anónima y garantizando que la identidad de quien informa no será rastreada. De igual manera, la institución garantiza que ninguna persona será objeto de represalias o sufrirá consecuencias negativas por haber realizado un reporte de buena fe.
-
-![](https://valledellili.org/wp-content/uploads/2026/02/NOREPORTAR-2.png)
 
 ## Lo que NO debe reportar en la Línea de Transparencia
 
@@ -191,11 +145,11 @@ El programa cuenta con estrictas medidas que aseguran la total confidencialidad 
 ## Reporta en nuestra Línea de Transparencia
 
 Denuncie cualquier acto de **corrupción, opacidad, fraude o lavado de activos y financiación del terrorismo** relacionado con la institución o sus contrapartes.  
-   
+
 Para consultar posteriormente el estado de la denuncia, guarde el código generado por el sistema y la clave personal asignada.  
-   
+
 Para facilitar el análisis de su reporte, le recomendamos suministrar la mayor cantidad de detalles posibles. Un informe completo y preciso permite una investigación más efectiva.  
-   
+
  **Le sugerimos incluir:**
 
 - Descripción de la situación: Narre de forma clara y detallada los hechos que desea reportar.
@@ -204,28 +158,14 @@ Para facilitar el análisis de su reporte, le recomendamos suministrar la mayor 
 - Información adicional: Aporte cualquier otro dato o evidencia (como documentos o fotografías) que considere relevante para la investigación.
 
 **Realizar reporte**  [Hacer denuncia aquí](https://desqubra.com.co/listas/public/denuncias/responder_denuncias/53)  
-   
+
 **Revisar el estado de su reporte** [Consultar aquí](https://desqubra.com.co/listas/public/consulta_denuncia)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/REPORTAR-2.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -259,14 +199,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

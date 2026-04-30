@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/cirugia-plastica/
 titulo: Cirugía Plástica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: ffafb6fb515ea69ee81a239068ed02cf239d2f7b57e22688451aea5c413a70ee
+hash: 28ebfffcfe97bc54afba412888fff08ed29edb4f6062d5c121ca13e42570c387
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,30 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-Plastica-scaled.jpg)
-![](https://valledellili.org/wp-content/uploads/2026/01/Cirugia-Plastica-scaled.jpg)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Cirugía Plástica
 
@@ -156,73 +123,45 @@ Llámanos: (+57) 602 331 9090 ext. 7428
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00008170.jpg)
-
-#### Audrey Jose Miranda Diaz
+[#### Audrey Jose Miranda Diaz
 
 Cirugia plastica](https://valledellili.org/directorio-medico/audrey-jose-miranda-diaz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000099.jpg)
-
-#### Clara Ines Dorado Olarte
+[#### Clara Ines Dorado Olarte
 
 Cirugia plastica](https://valledellili.org/directorio-medico/clara-ines-dorado-olarte/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001047.jpg)
-
-#### Francisco Javier Lopez Montoya
+[#### Francisco Javier Lopez Montoya
 
 Cirugia dermatologica](https://valledellili.org/directorio-medico/francisco-javier-lopez-montoya/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009784.jpg)
-
-#### Julian Andres Zuñiga Restrepo
+[#### Julian Andres Zuñiga Restrepo
 
 Cirugia plastica](https://valledellili.org/directorio-medico/julian-andres-zuniga-restrepo/)
 
 ### Otros servicios y especialidades
 
-[Alergología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/alergologia/)
-[Anestesiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
-[Cardiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia/)
-[Cardiología Intervencionista
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-intervencionista/)
-[Cardiología no Invasiva Adulto
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-[Cardiología No Invasiva Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
+[Alergología](https://valledellili.org/servicios/alergologia/)
+[Anestesiología](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[Cardiología](https://valledellili.org/servicios/cardiologia/)
+[Cardiología Intervencionista](https://valledellili.org/servicios/cardiologia-intervencionista/)
+[Cardiología no Invasiva Adulto](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
+[Cardiología No Invasiva Pediátrica](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/03/que-es-el-melanoma-portada-general.webp)
+[Artículo
 
-Artículo
+#### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
+[Artículo
 
 #### ¿Qué es el melanoma y por qué es tan importante su detección temprana?](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Sede-Limonar-portada.png)
-
-Artículo
+[Artículo
 
 #### Nueva Sede Limonar Fundación Valle del Lili](https://valledellili.org/nueva-sede-limonar-fundacion-valle-del-lili/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Excelencia-en-el-cuidado-de-pacientes-quemados.jpg)
-
-Artículo
+[Artículo
 
 #### Fundación Valle del Lili: Excelencia en el cuidado de pacientes quemados](https://valledellili.org/fundacion-valle-del-lili-excelencia-en-el-cuidado-de-pacientes-quemados/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/recomendaciones-cirugia-de-mohs.jpg)
-
-Video
-
-#### Cirugía de Mohs – Recomendaciones antes y después](https://valledellili.org/cirugia-de-mohs-recomendaciones-antes-y-despues/)
 
 #### Agendar cita
 
@@ -232,12 +171,8 @@ Solicita tu cita con nuestros especialistas en Cirugía Plástica
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -249,25 +184,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -301,14 +222,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

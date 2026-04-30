@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/cardiologia/
 titulo: Cardiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 25bb25fe9fa9ba13eee6541b3585790f73fafd43eb472c4140a42aa23de04794
+hash: 8aa524aec0de52239b9db58c4be02fafa583a79b3d0e48bd51a7c8b82be6553e
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,30 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2025/11/Cardiologia-no-Invasiva.jpg)
-![](https://valledellili.org/wp-content/uploads/2025/11/Cardiologia-no-Invasiva.jpg)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Cardiología
 
@@ -140,7 +107,6 @@ El equipo de especialistas maneja un amplio espectro de patologías cardiovascul
 
 El servicio ofrece un portafolio integral de procedimientos diagnósticos y terapéuticos de alta tecnología:
 
-   
 **Diagnóstico cardiovascular no invasivo**
 
 - Electrocardiograma en reposo
@@ -198,545 +164,359 @@ Llámanos: (+57) 602 331 9090 ext. 7046, 3212
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000390.jpg)
-
-#### Adriana Alvarez Montenegro
+[#### Adriana Alvarez Montenegro
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/adriana-alvarez-montenegro/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00014339.jpg)
-
-#### Alex David Sotomayor Julio
+[#### Alex David Sotomayor Julio
 
 Cardiologia](https://valledellili.org/directorio-medico/alex-david-sotomayor-julio/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Alex David Sotomayor Julio
+[#### Alex David Sotomayor Julio
 
 Medicina interna](https://valledellili.org/directorio-medico/alex-david-sotomayor-julio-2/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002841.jpg)
-
-#### Ana Maria Aristizabal Bolaños
+[#### Ana Maria Aristizabal Bolaños
 
 Cardiologia pediatrica](https://valledellili.org/directorio-medico/ana-maria-aristizabal-bolanos/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000776.jpg)
-
-#### Ana Maria Mesa Ochoa
+[#### Ana Maria Mesa Ochoa
 
 Psicologia](https://valledellili.org/directorio-medico/ana-maria-mesa-ochoa/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00010901.jpg)
-
-#### Ana Maria Muñoz Bonilla
+[#### Ana Maria Muñoz Bonilla
 
 Audiologia](https://valledellili.org/directorio-medico/ana-maria-munoz-bonilla/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00012427.jpg)
-
-#### Angela Isabel Sarria Muñoz
+[#### Angela Isabel Sarria Muñoz
 
 Audiologia](https://valledellili.org/directorio-medico/angela-isabel-sarria-munoz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002149.jpg)
-
-#### Angelica Maria Murcia Pulido
+[#### Angelica Maria Murcia Pulido
 
 Medicina interna](https://valledellili.org/directorio-medico/angelica-maria-murcia-pulido/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000296.jpg)
-
-#### Angelica Maria Restrepo Rivera
+[#### Angelica Maria Restrepo Rivera
 
 Psicologia](https://valledellili.org/directorio-medico/angelica-maria-restrepo-rivera/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000231.jpg)
-
-#### Beatriz Elena Muñoz Ospina
+[#### Beatriz Elena Muñoz Ospina
 
 Neuropsicologia](https://valledellili.org/directorio-medico/beatriz-elena-munoz-ospina/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003879.jpg)
-
-#### Camilo Andres Calderon Miranda
+[#### Camilo Andres Calderon Miranda
 
 Cardiologia](https://valledellili.org/directorio-medico/camilo-andres-calderon-miranda/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002508.jpg)
-
-#### Camilo Andres Medina
+[#### Camilo Andres Medina
 
 Medicina interna](https://valledellili.org/directorio-medico/camilo-andres-medina/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Camilo Andres Medina
+[#### Camilo Andres Medina
 
 Medicina interna](https://valledellili.org/directorio-medico/camilo-andres-medina-2/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/especialista.jpg)
-
-#### Camilo Andres Torres Londoño
+[#### Camilo Andres Torres Londoño
 
 Medicina interna](https://valledellili.org/directorio-medico/camilo-andres-torres-londono/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00012002.jpg)
-
-#### Carlos Alberto Dorado Ramírez
+[#### Carlos Alberto Dorado Ramírez
 
 Neuropsicologia](https://valledellili.org/directorio-medico/carlos-alberto-dorado-ramirez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003220.jpg)
-
-#### Carlos Alberto Parra Marmolejo
+[#### Carlos Alberto Parra Marmolejo
 
 Geriatria clinica](https://valledellili.org/directorio-medico/carlos-alberto-parra-marmolejo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000980.jpg)
-
-#### Carlos Alberto Velasco Bayuelo
+[#### Carlos Alberto Velasco Bayuelo
 
 Medicina interna](https://valledellili.org/directorio-medico/carlos-alberto-velasco-bayuelo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001499.jpg)
-
-#### Carlos Enrique Vesga Reyes
+[#### Carlos Enrique Vesga Reyes
 
 Cardiologia](https://valledellili.org/directorio-medico/carlos-enrique-vesga-reyes/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009786.jpg)
-
-#### Carlos Mauricio Muriel Hurtado
+[#### Carlos Mauricio Muriel Hurtado
 
 Medicina interna](https://valledellili.org/directorio-medico/carlos-mauricio-muriel-hurtado/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000261.jpg)
-
-#### Carmelo José Otero Berrocal
+[#### Carmelo José Otero Berrocal
 
 Medicina interna](https://valledellili.org/directorio-medico/carmelo-jose-otero-berrocal/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001888.jpg)
-
-#### Cesar Hernando Cely Reyes
+[#### Cesar Hernando Cely Reyes
 
 Cardiologia pediatrica](https://valledellili.org/directorio-medico/cesar-hernando-cely-reyes/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003107.jpg)
-
-#### Christian David Adams Sanchez
+[#### Christian David Adams Sanchez
 
 Electrofisiologia](https://valledellili.org/directorio-medico/christian-david-adams-sanchez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00013960.jpg)
-
-#### Cindy Tatiana Diaz Sastoque
+[#### Cindy Tatiana Diaz Sastoque
 
 Psicologia](https://valledellili.org/directorio-medico/cindy-tatiana-diaz-sastoque/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001297.jpg)
-
-#### Claudia Andrea Guerrero Enriquez
+[#### Claudia Andrea Guerrero Enriquez
 
 Pediatria](https://valledellili.org/directorio-medico/claudia-andrea-guerrero-enriquez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003030.jpg)
-
-#### Claudia Andrea Henao Gonzalez
+[#### Claudia Andrea Henao Gonzalez
 
 Psicologia](https://valledellili.org/directorio-medico/claudia-andrea-henao-gonzalez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00010973.jpg)
-
-#### Claudia Lorena Medina Arbelaez
+[#### Claudia Lorena Medina Arbelaez
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/claudia-lorena-medina-arbelaez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000322.jpg)
-
-#### Claudia Mercedes Sanz Garcia
+[#### Claudia Mercedes Sanz Garcia
 
 Salud ocupacional](https://valledellili.org/directorio-medico/claudia-mercedes-sanz-garcia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001084.jpg)
-
-#### Claudia Natalia Lopez Lesmes
+[#### Claudia Natalia Lopez Lesmes
 
 Psicologia](https://valledellili.org/directorio-medico/claudia-natalia-lopez-lesmes/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000241.jpg)
-
-#### Claudia Ximena Navas Garcia
+[#### Claudia Ximena Navas Garcia
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/claudia-ximena-navas-garcia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002833.jpg)
-
-#### Daniela Espinosa Cardenas
+[#### Daniela Espinosa Cardenas
 
 Medicina interna](https://valledellili.org/directorio-medico/daniela-espinosa-cardenas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002491.jpg)
-
-#### David Andres De Paz Cobo
+[#### David Andres De Paz Cobo
 
 Medicina interna](https://valledellili.org/directorio-medico/david-andres-de-paz-cobo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003045.jpg)
-
-#### Diana Cristina Carrillo Gomez
+[#### Diana Cristina Carrillo Gomez
 
 Cardiologia](https://valledellili.org/directorio-medico/diana-cristina-carrillo-gomez-2/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002644.jpg)
-
-#### Diana Lorena Minayo Vargas
+[#### Diana Lorena Minayo Vargas
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/diana-lorena-minayo-vargas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003869.jpg)
-
-#### Diana Mireya Morales Andrade
+[#### Diana Mireya Morales Andrade
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/diana-mireya-morales-andrade/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009755.jpg)
-
-#### Faisyury Orozco Peralta
+[#### Faisyury Orozco Peralta
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/faisyury-orozco-peralta/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00013409.jpg)
-
-#### Felipe Cañas Orduz
+[#### Felipe Cañas Orduz
 
 Electrofisiologia](https://valledellili.org/directorio-medico/felipe-canas-orduz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001698.jpg)
-
-#### Fernando Andres Guerrero Pinedo
+[#### Fernando Andres Guerrero Pinedo
 
 Cardiologia intervencionista y](https://valledellili.org/directorio-medico/fernando-andres-guerrero-pinedo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000152.jpg)
-
-#### Jaiber Alberto Gutierrez Gil
+[#### Jaiber Alberto Gutierrez Gil
 
 Cardiologia pediatrica](https://valledellili.org/directorio-medico/jaiber-alberto-gutierrez-gil/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000315.jpg)
-
-#### Jairo Sanchez Blanco
+[#### Jairo Sanchez Blanco
 
 Cardiologia](https://valledellili.org/directorio-medico/jairo-sanchez-blanco/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003703.jpg)
-
-#### Jorge Alexander Zambrano Franco
+[#### Jorge Alexander Zambrano Franco
 
 Cardiologia](https://valledellili.org/directorio-medico/jorge-alexander-zambrano-franco/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000367.jpg)
-
-#### Jorge Guillermo Velasquez Norena
+[#### Jorge Guillermo Velasquez Norena
 
 Cardiologia](https://valledellili.org/directorio-medico/jorge-guillermo-velasquez-norena/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002294.jpg)
-
-#### Juan David Lopez Ponce De Leon
+[#### Juan David Lopez Ponce De Leon
 
 Cardiologia](https://valledellili.org/directorio-medico/juan-david-lopez-ponce-de-leon/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000138.jpg)
-
-#### Juan Esteban Gomez Mesa
+[#### Juan Esteban Gomez Mesa
 
 Cardiologia](https://valledellili.org/directorio-medico/juan-esteban-gomez-mesa/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00008525.jpg)
-
-#### Juan Esteban Paz Muñoz
+[#### Juan Esteban Paz Muñoz
 
 Psicologia](https://valledellili.org/directorio-medico/juan-esteban-paz-munoz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002739.jpg)
-
-#### Juan Pablo Niño
+[#### Juan Pablo Niño
 
 Psicologia](https://valledellili.org/directorio-medico/juan-pablo-nino/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003110.jpg)
-
-#### Julian David Yara Muñoz
+[#### Julian David Yara Muñoz
 
 Cardiologia](https://valledellili.org/directorio-medico/julian-david-yara-munoz/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00012458.jpg)
-
-#### Juliana Andrea Mendoza Escobar
+[#### Juliana Andrea Mendoza Escobar
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/juliana-andrea-mendoza-escobar/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002470.jpg)
-
-#### Laura Jimena Zamorano Velasquez
+[#### Laura Jimena Zamorano Velasquez
 
 Medicina interna](https://valledellili.org/directorio-medico/laura-jimena-zamorano-velasquez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00015387.jpg)
-
-#### Leonardo De La Fuente Romero
+[#### Leonardo De La Fuente Romero
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/leonardo-de-la-fuente-romero/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009230.jpg)
-
-#### Lina Marcela Garcia Mafla
+[#### Lina Marcela Garcia Mafla
 
 Medicina interna](https://valledellili.org/directorio-medico/lina-marcela-garcia-mafla/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00014796.jpg)
-
-#### Lorena Allin Gonzalez
+[#### Lorena Allin Gonzalez
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/lorena-allin-gonzalez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009973.jpg)
-
-#### Luisa Fernanda Gutierrez Sanchez
+[#### Luisa Fernanda Gutierrez Sanchez
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/luisa-fernanda-gutierrez-sanchez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001797.jpg)
-
-#### Manuel Alejandro Perez Gomez
+[#### Manuel Alejandro Perez Gomez
 
 Medicina interna](https://valledellili.org/directorio-medico/manuel-alejandro-perez-gomez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002834.jpg)
-
-#### Marcela Polo Trujillo
+[#### Marcela Polo Trujillo
 
 Medicina interna](https://valledellili.org/directorio-medico/marcela-polo-trujillo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003274.jpg)
-
-#### Maria Cecilia Rosales Garcia
+[#### Maria Cecilia Rosales Garcia
 
 Medicina interna](https://valledellili.org/directorio-medico/maria-cecilia-rosales-garcia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009188.jpg)
-
-#### Maria Isabel Jaramillo Villafañe
+[#### Maria Isabel Jaramillo Villafañe
 
 Medicina interna](https://valledellili.org/directorio-medico/maria-isabel-jaramillo-villafane/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002986.jpg)
-
-#### Maria Isabel Prieto Rusca
+[#### Maria Isabel Prieto Rusca
 
 Medicina interna](https://valledellili.org/directorio-medico/maria-isabel-prieto-rusca/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003410.jpg)
-
-#### Maria Paula Osejo Varona
+[#### Maria Paula Osejo Varona
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/maria-paula-osejo-varona/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00012003.jpg)
-
-#### Maria Victoria Benavides Guerrero
+[#### Maria Victoria Benavides Guerrero
 
 Psicologia](https://valledellili.org/directorio-medico/maria-victoria-benavides-guerrero/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000037.jpg)
-
-#### Maribeth Bermeo Cardona
+[#### Maribeth Bermeo Cardona
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/maribeth-bermeo-cardona/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000905.jpg)
-
-#### Martin Bertram Wartenberg Villegas
+[#### Martin Bertram Wartenberg Villegas
 
 Cardiologia](https://valledellili.org/directorio-medico/martin-bertram-wartenberg-villegas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003047.jpg)
-
-#### Monica Raffal Villegas
+[#### Monica Raffal Villegas
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/monica-raffal-villegas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00011517.jpg)
-
-#### Natalia Dominguez Arciniegas
+[#### Natalia Dominguez Arciniegas
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/natalia-dominguez-arciniegas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001819.jpg)
-
-#### Natalia Iles Renteria
+[#### Natalia Iles Renteria
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/natalia-iles-renteria/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00010656.jpg)
-
-#### Nathalia Parra Ortegon
+[#### Nathalia Parra Ortegon
 
 Psicologia oncologica](https://valledellili.org/directorio-medico/nathalia-parra-ortegon/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003830.jpg)
-
-#### Nathalia Salazar Falla
+[#### Nathalia Salazar Falla
 
 Medicina interna](https://valledellili.org/directorio-medico/nathalia-salazar-falla/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00011884.jpg)
-
-#### Nela Melissa Parra Landazury
+[#### Nela Melissa Parra Landazury
 
 Medicina interna](https://valledellili.org/directorio-medico/nela-melissa-parra-landazury/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000117.jpg)
-
-#### Noel Alberto Florez Alarcon
+[#### Noel Alberto Florez Alarcon
 
 Intensivista](https://valledellili.org/directorio-medico/noel-alberto-florez-alarcon/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002831.jpg)
-
-#### Oscar Eduardo Giraldo Victoria
+[#### Oscar Eduardo Giraldo Victoria
 
 Medicina interna](https://valledellili.org/directorio-medico/oscar-eduardo-giraldo-victoria/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000269.jpg)
-
-#### Pablo Eduardo Perafan Bautista
+[#### Pablo Eduardo Perafan Bautista
 
 Cardiologia](https://valledellili.org/directorio-medico/pablo-eduardo-perafan-bautista/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000247.jpg)
-
-#### Pastor Olaya Rojas
+[#### Pastor Olaya Rojas
 
 Cardiologia](https://valledellili.org/directorio-medico/pastor-olaya-rojas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001285.jpg)
-
-#### Rocio Del Pilar Ojeda Yela
+[#### Rocio Del Pilar Ojeda Yela
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/rocio-del-pilar-ojeda-yela/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009913.jpg)
-
-#### Samir Elias Barakat Quevedo
+[#### Samir Elias Barakat Quevedo
 
 Medicina interna](https://valledellili.org/directorio-medico/samir-elias-barakat-quevedo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00010966.jpg)
-
-#### Sandra Patricia Cortes Barbosa
+[#### Sandra Patricia Cortes Barbosa
 
 Audiologia](https://valledellili.org/directorio-medico/sandra-patricia-cortes-barbosa/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000715.jpg)
-
-#### Sandra Patricia Del Carmen Perez Schmalbach
+[#### Sandra Patricia Del Carmen Perez Schmalbach
 
 Audiologia](https://valledellili.org/directorio-medico/sandra-patricia-del-carmen-perez-schmalbach/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001469.jpg)
-
-#### Sergio Morales Sanclemente
+[#### Sergio Morales Sanclemente
 
 Medicina interna](https://valledellili.org/directorio-medico/sergio-morales-sanclemente/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000177.jpg)
-
-#### Uriel Largo Rojas
+[#### Uriel Largo Rojas
 
 Medicina interna](https://valledellili.org/directorio-medico/uriel-largo-rojas/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002632.jpg)
-
-#### Victoria Eugenia Duran Morales
+[#### Victoria Eugenia Duran Morales
 
 Neuropsicologia](https://valledellili.org/directorio-medico/victoria-eugenia-duran-morales/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002220.jpg)
-
-#### Viviana Silva Romero
+[#### Viviana Silva Romero
 
 Fonoaudiologia](https://valledellili.org/directorio-medico/viviana-silva-romero/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000456.jpg)
-
-#### Walter Mosquera Alvarez
+[#### Walter Mosquera Alvarez
 
 Cardiologia pediatrica](https://valledellili.org/directorio-medico/walter-mosquera-alvarez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002967.jpg)
-
-#### Wilson Stheeveng Villamil Guerrero
+[#### Wilson Stheeveng Villamil Guerrero
 
 Medicina interna](https://valledellili.org/directorio-medico/wilson-stheeveng-villamil-guerrero/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000222.jpg)
-
-#### Zamira Montoya Camargo
+[#### Zamira Montoya Camargo
 
 Neuropsicologia](https://valledellili.org/directorio-medico/zamira-montoya-camargo/)
 
 Mostrar todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
-
 ### Otros servicios y especialidades
 
-[Alergología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/alergologia/)
-[Anestesiología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
-[Cardiología Intervencionista
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-intervencionista/)
-[Cardiología no Invasiva Adulto
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-[Cardiología No Invasiva Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
-[Cardiología Pediátrica
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/cardiologia-pediatrica/)
+[Alergología](https://valledellili.org/servicios/alergologia/)
+[Anestesiología](https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/)
+[Cardiología Intervencionista](https://valledellili.org/servicios/cardiologia-intervencionista/)
+[Cardiología no Invasiva Adulto](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
+[Cardiología No Invasiva Pediátrica](https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/)
+[Cardiología Pediátrica](https://valledellili.org/servicios/cardiologia-pediatrica/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-paciente-hipertension-pulmonar.jpg)
+[Artículo
 
-Artículo
+#### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
+[Artículo
 
 #### Programa hipertensión pulmonar](https://valledellili.org/programa-hipertension-pulmonar/)
-[![](https://valledellili.org/wp-content/uploads/2026/03/Programa-paciente-falla-cardiaca.jpg)
-
-Artículo
+[Artículo
 
 #### Programa falla cardíaca](https://valledellili.org/programa-falla-cardiaca/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Portada-web-revista-80-Arritmias-Cardiacas-abril-junio-2024-1.png)
-
-Revista
+[Revista
 
 #### Revista ed 80 – Arritmias Cardíacas, Fundación Valle del Lili a la vanguardia en electrofisiología](https://valledellili.org/revista-ed-80-arritmias-cardiacas-fundacion-valle-del-lili-a-la-vanguardia-en-electrofisiologia/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Revistaportada-revista-ed-71-1.jpg)
-
-Revista
-
-#### Revista Ed 73 – Grupo de corazón y cerebro: un equipo para la atención integral de tu salud](https://valledellili.org/revista-ed-73-grupo-corazon-y-cerebro-equipo-atencion-integral-salud/)
 
 #### Agendar cita
 
@@ -746,12 +526,8 @@ Solicita tu cita con nuestros especialistas en Cardiología
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -765,25 +541,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -817,14 +579,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

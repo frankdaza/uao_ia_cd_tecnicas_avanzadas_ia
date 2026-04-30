@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from unittest.mock import patch
 
@@ -11,6 +12,8 @@ import responses
 from dotenv import load_dotenv
 
 from src.qa.cliente_ollama import (
+    NUM_CTX_MAX,
+    NUM_CTX_MIN,
     ClienteOllama,
     ConfiguracionLlm,
     ModeloNoDisponibleError,
@@ -104,9 +107,62 @@ def test_listar_modelos_locales_devuelve_nombres(
 def test_configuracion_lee_variables_entorno(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("OLLAMA_BASE_URL", "http://custom:11434")
     monkeypatch.setenv("MODELO_LLM_DEFECTO", "gemma4:e2b")
+    monkeypatch.delenv("OLLAMA_NUM_CTX", raising=False)
     cfg = ConfiguracionLlm.desde_variables_entorno()
     assert cfg.base_url == "http://custom:11434"
     assert cfg.modelo == "gemma4:e2b"
+    assert cfg.num_ctx == 8192
+
+
+def test_num_ctx_default_sin_ollama_num_ctx(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("OLLAMA_NUM_CTX", raising=False)
+    cfg = ConfiguracionLlm.desde_variables_entorno()
+    assert cfg.num_ctx == 8192
+
+
+def test_num_ctx_desde_env_ok(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("OLLAMA_NUM_CTX", raising=False)
+    monkeypatch.setenv("OLLAMA_NUM_CTX", "12288")
+    cfg = ConfiguracionLlm.desde_variables_entorno()
+    assert cfg.num_ctx == 12288
+
+
+def test_num_ctx_recortado_a_maximo(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OLLAMA_NUM_CTX", "999999")
+    cfg = ConfiguracionLlm.desde_variables_entorno()
+    assert cfg.num_ctx == NUM_CTX_MAX
+
+
+def test_num_ctx_recortado_a_minimo(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OLLAMA_NUM_CTX", "10")
+    cfg = ConfiguracionLlm.desde_variables_entorno()
+    assert cfg.num_ctx == NUM_CTX_MIN
+
+
+def test_num_ctx_invalido_usa_default(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("OLLAMA_NUM_CTX", "foo")
+    cfg = ConfiguracionLlm.desde_variables_entorno()
+    assert cfg.num_ctx == 8192
+    err = capsys.readouterr().err
+    assert "OLLAMA_NUM_CTX" in err
+
+
+@responses.activate
+def test_chat_envia_num_ctx_en_options(configuracion: ConfiguracionLlm) -> None:
+    configuracion.num_ctx = 12288
+    responses.add(
+        responses.POST,
+        "http://ollama.test/api/chat",
+        json={"message": {"content": "ok"}},
+        status=200,
+    )
+    cliente = ClienteOllama(configuracion)
+    texto = cliente.chat([{"role": "user", "content": "x"}])
+    assert texto == "ok"
+    cuerpo = json.loads(responses.calls[0].request.body)
+    assert cuerpo["options"]["num_ctx"] == 12288
 
 
 @responses.activate

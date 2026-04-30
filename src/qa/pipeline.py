@@ -22,7 +22,7 @@ from src.retrieval.recuperador import (
     RecuperadorDocumento,
 )
 
-K_TOP_DOCUMENTOS: int = 3
+K_TOP_DOCUMENTOS: int = 5
 
 
 @dataclass(frozen=True)
@@ -216,6 +216,7 @@ class PipelineQa:
         *,
         modelo_openai: str,
         prompt_sistema: str | None = None,
+        max_completion_tokens: int | None = None,
     ) -> RespuestaQa:
         """Misma recuperación y mensajes que Ollama; generación vía API OpenAI."""
         if self._cliente_openai is None:
@@ -228,7 +229,9 @@ class PipelineQa:
 
         t_llm = time.perf_counter()
         texto = self._cliente_openai.chat(
-            ctx.mensajes, modelo=modelo_openai
+            ctx.mensajes,
+            modelo=modelo_openai,
+            max_completion_tokens=max_completion_tokens,
         )
         return self._respuesta_qa_desde_contexto(
             ctx, texto, modelo_openai, t_llm
@@ -243,6 +246,7 @@ class PipelineQa:
         modelo_ollama: str | None,
         modelo_openai: str | None,
         prompt_sistema: str | None = None,
+        max_completion_tokens: int | None = None,
     ) -> tuple[RespuestaQa | None, RespuestaQa | None]:
         """
         Una sola pasada BM25 + composición; luego Ollama y/o OpenAI en **serie**
@@ -304,7 +308,9 @@ class PipelineQa:
             assert modelo_openai is not None
             t_oai = time.perf_counter()
             texto_a = self._cliente_openai.chat(
-                ctx.mensajes, modelo=modelo_openai
+                ctx.mensajes,
+                modelo=modelo_openai,
+                max_completion_tokens=max_completion_tokens,
             )
             resultado_openai = self._respuesta_qa_desde_contexto(
                 ctx, texto_a, modelo_openai, t_oai
@@ -354,13 +360,17 @@ class PipelineQa:
         ctx: ContextoInferencia,
         modelo_openai: str,
         t_llm: float,
+        *,
+        max_completion_tokens: int | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """Contexto BM25 ya resuelto; streaming vía cliente OpenAI."""
         if self._cliente_openai is None:
             raise RuntimeError("Cliente OpenAI no configurado en el pipeline")
         acumulado = ""
         for delta in self._cliente_openai.chat_stream(
-            ctx.mensajes, modelo=modelo_openai
+            ctx.mensajes,
+            modelo=modelo_openai,
+            max_completion_tokens=max_completion_tokens,
         ):
             acumulado += delta
             yield acumulado, None
@@ -378,6 +388,7 @@ class PipelineQa:
         *,
         modelo_openai: str,
         prompt_sistema: str | None = None,
+        max_completion_tokens: int | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """Analogo a :meth:`responder_stream` pero con la API de OpenAI."""
         if self._cliente_openai is None:
@@ -406,7 +417,12 @@ class PipelineQa:
             return
 
         t_llm = time.perf_counter()
-        yield from self.stream_openai_desde_contexto(ctx, modelo_openai, t_llm)
+        yield from self.stream_openai_desde_contexto(
+            ctx,
+            modelo_openai,
+            t_llm,
+            max_completion_tokens=max_completion_tokens,
+        )
 
     def responder_stream(
         self,

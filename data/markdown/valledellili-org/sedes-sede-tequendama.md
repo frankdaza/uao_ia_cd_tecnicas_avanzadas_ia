@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/sedes/sede-tequendama/
 titulo: Sede Tequendama - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: 4a45cc046e800e49e9fd17b9aa23abd4e54d139da1f2934b645bf3315fb15ba2
+hash: 8b519a39be7aeb60c1b9ba56eb7bda79b3f79b7528de10d876adb5bce013f8c7
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,27 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 [Sede principal](/sedes/sede-principal/)
 [Sede limonar](/sedes/sede-limonar/)
@@ -89,13 +59,9 @@ Con **49 consultorios, 2 salas de procedimientos ambulatorios y servicios diagn
 
 Importante: en esta sede **no se presta el servicio de urgencias**.
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Sede-tequendama-2.jpg)
-
 ## Servicios destacados
 
 [Ver todos los servicios y especialidades](/servicios/?por_servicio=&by_tag=&sede=sede-tequendama)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Alergologia-1.png)
 
 ### Alergología
 
@@ -103,15 +69,11 @@ Se especializa en el diagnóstico y tratamiento de enfermedades alérgicas en pa
 
 [Ver especialidad](https://valledellili.org/servicios/alergologia/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Cardiologia-No-Invasiva-Adulto.png)
-
 ### Cardiología no Invasiva Adulto
 
 ¿Qué hace esta especialidad? La Cardiología No Invasiva es una subespecialidad de la cardiología clínica enfocada en el diagnóstico, pronóstico y seguimiento de pacientes adultos con enfermedades cardiovasculares. Utiliza tecnología avanzada de imágenes y pruebas funcionales para evaluar la estructura y el funcionamiento del corazón sin emplear procedimientos invasivos. Su objetivo es detectar de manera […]
 
 [Ver especialidad](https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Cuidado-Paliativo-Adultos.png)
 
 ### Cuidado Paliativo Adultos
 
@@ -119,23 +81,17 @@ Se especializa en el diagnóstico y tratamiento de enfermedades alérgicas en pa
 
 [Ver especialidad](https://valledellili.org/servicios/cuidado-paliativo-adultos/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Cuidado-Paliativo-Pediatrico.png)
-
 ### Cuidado Paliativo Pediátrico – Programa “Cuidando de ti”
 
 ¿Qué hace esta especialidad? El programa de Cuidado Paliativo Pediátrico ofrece una atención integral y multidisciplinaria a niños y adolescentes que enfrentan enfermedades crónicas complejas y limitantes. Su objetivo es mejorar la calidad de vida del paciente y su familia mediante el alivio del sufrimiento físico, emocional, social y espiritual, independientemente de si el paciente […]
 
 [Ver especialidad](https://valledellili.org/servicios/cuidado-paliativo-pediatrico-programa-cuidando-de-ti/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Dermatologia.png)
-
 ### Dermatología
 
 Se especializa en el diagnóstico, tratamiento y prevención de las enfermedades que afectan la piel, el pelo y las uñas, tanto en población pediátrica como adulta.
 
 [Ver especialidad](https://valledellili.org/servicios/dermatologia/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Fonoaudiologia.png)
 
 ### Fonoaudiología – Audiología
 
@@ -147,31 +103,21 @@ Qué hace esta especialidad El servicio de Fonoaudiología brinda atención inte
 
 La Sede Tequendama combina **excelencia médica con accesibilidad**, brindando espacios cómodos para pacientes y acompañantes en una ubicación estratégica de Cali.
 
-![](https://valledellili.org/wp-content/uploads/2026/01/cercania-excelencia.png)
-
 #### Liderazgo en alta complejidad:
 
 Medicina especializada con tecnología de vanguardia.
-
-![](https://valledellili.org/wp-content/uploads/2026/01/icono-capacidad.png)
 
 #### Talento humano excepcional:
 
 Especialistas de primer nivel con atención humanizada.
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-57.png)
-
 #### Espacios modernos y accesibles:
 
 Instalaciones diseñadas para tu comodidad.
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Caliad-eps-icono.png)
-
 #### Cercanía familiar:
 
 En el barrio Tequendama, más cerca de ti y tu familia.
-
-![](https://valledellili.org/wp-content/uploads/2025/11/img-58.png)
 
 #### Trayectoria consolidada:
 
@@ -179,13 +125,9 @@ Más de 2 años de experiencia con altos estándares de calidad.
 
 ## Horarios de atención
 
-![](https://valledellili.org/wp-content/uploads/2026/01/Icono-medico.png)
-
 ### Consulta externa:
 
 Lunes a viernes de 7:00 a.m. a 6:00 p.m. | sábados de 7:00 a.m. a 12:00 m.
-
-![](https://valledellili.org/wp-content/uploads/2025/11/img-64.png)
 
 ### Toma de muestras de laboratorio clínico:
 
@@ -193,37 +135,23 @@ Lunes a sábado de 6:00 a.m. a 12:00 m.
 
 [Agenda una cita](/solicitar-cita-medica/)
 
-![](https://valledellili.org/wp-content/uploads/2026/01/destacada-tequendama2.jpg)
-
 ## Cómo llegar a la Sede Tequendama
 
 #### Encontrarás
 
-- ![](https://valledellili.org/wp-content/uploads/2025/11/img-47.png)
-
-  Convenios y parqueaderos cercanos en la zona aledaña
+- Convenios y parqueaderos cercanos en la zona aledaña
 
 #### Rutas
 
-- ![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/route.svg)
-
-  estaciones MIO Tequendama y Lido
+- estaciones MIO Tequendama y Lido
 
 ## Indicadores de confianza
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-58.png)
-
 49 consultorios médicos
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Caliad-cama-icono.png)
 
 2 salas de procedimientos ambulatorios
 
-![](https://valledellili.org/wp-content/uploads/2025/11/img-59.png)
-
 Más de 20 especialidades disponibles
-
-![](https://valledellili.org/wp-content/uploads/2025/11/img-60.png)
 
 Laboratorio clínico con toma de muestras especializada
 
@@ -231,7 +159,13 @@ Laboratorio clínico con toma de muestras especializada
 
 [Ver más recomendados](/fvl-al-dia/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Sede-Limonar-portada.png)
+Artículo
+
+### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia
+
+La Fundación Valle del Lili fortalece su red de atención especializada trasladando sus servicios pediátricos a nuestra Sede Limonar, un…
+
+[Descubre aquí](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 
 Artículo
 
@@ -241,8 +175,6 @@ Con el propósito de aumentar la oferta hospitalaria, la capacidad para la atenc
 
 [Descubre aquí](https://valledellili.org/nueva-sede-limonar-fundacion-valle-del-lili/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Video_-Conozca-el-nuevo-Equipo-de-resonancia-magnetica-_Magnetom-Sola_-Sede-Limonar.jpg)
-
 Video
 
 ### Video: Conozca el nuevo Equipo de resonancia magnética “Magnetom Sola” – Sede Limonar
@@ -250,8 +182,6 @@ Video
 Este nuevo resonador, llega de manera exclusiva al servicio de Imágenes Diagnósticas de la sede Limonar beneficiando la atención de…
 
 [Descubre aquí](https://valledellili.org/video-nuevo-equipo-de-resonancia-magnetica-magnetom-sola-sede-limonar/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/Testimonios-de-pacientes-en-la-Sede-Limonar.png)
 
 Video
 
@@ -261,8 +191,6 @@ Testimonios de pacientes sobre la atención en la Sede Limonar.
 
 [Descubre aquí](https://valledellili.org/testimonios-pacientes-sede-limonar/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/Nuevo-resonador-magnetron-3.jpg)
-
 Artículo
 
 ### Ahora Disponible en la Sede Limonar, el Nuevo resonador MAGNETOM Sola
@@ -271,27 +199,11 @@ Nuestro nuevo resonador en el servicio de Imágenes Diagnósticas de la Sede Lim
 
 [Descubre aquí](https://valledellili.org/ahora-disponible-en-la-sede-limonar-el-nuevo-sistema-magnetom-sola/)
 
-![](https://valledellili.org/wp-content/uploads/2026/02/nuevas-rutas-transporte-2022-banner-noticia.jpg)
-
 Artículo
 
 ### Nuevo transporte para usuarios entre sedes Principal y Limonar
 
 [Descubre aquí](https://valledellili.org/nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar/)
-
-![](https://valledellili.org/wp-content/uploads/2026/02/primer-aniversario-limonar-paciente-intl-1.jpg)
-
-Video
-
-### 1er aniversario Sede Limonar, hablan los pacientes
-
-1er aniversario Sede Limonar: hablan los pacientes sobre su experiencia.
-
-[Descubre aquí](https://valledellili.org/1er-aniversario-sede-limonar-pacientes/)
-
-![Diapositiva anterior](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-left.svg) 
-
-![Diapositiva siguiente](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)
 
 ## Conoce otras sedes
 
@@ -323,95 +235,59 @@ Explora por enfermedad, especialidad, médico o contenidos educativos.
 
 ##### Servicio o especialidad
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cardiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Alergología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Anestesiología
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Banco de Sangre
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Adultos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía Cardiovascular Pediátrica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Tórax
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-servicio-busqueda.png)
 Cirugía de Trauma y Emergencias
 
 ##### Condición, tratamiento o procedimiento
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 >Trastornos de la fertilidad masculina
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominal y Pélvica
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Abdominoplastia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por catéter con radiofrecuencia
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-tratamiento-busqueda.png)
 Ablación por microondas
 
 ##### Especialistas
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002021.jpg)
-
-#### Diana Maria Quimbayo Wilches
+[#### Diana Maria Quimbayo Wilches
 
 Gastroenterologia pediatrica, Pediatria](https://valledellili.org/directorio-medico/diana-maria-quimbayo-wilches/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000330.jpg)
-
-#### Edwin Alberto Silva Yepes
+[#### Edwin Alberto Silva Yepes
 
 Ortopedia y traumatologia](https://valledellili.org/directorio-medico/edwin-alberto-silva-yepes/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60001711.jpg)
-
-#### Fausto Alonso Diazgranados Suarez
+[#### Fausto Alonso Diazgranados Suarez
 
 Ortopedia y traumatologia](https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002271.jpg)
-
-#### Joaquin Olmedo Lemos Toro
+[#### Joaquin Olmedo Lemos Toro
 
 Oftalmologia](https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/foto-buscador.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -445,14 +321,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)

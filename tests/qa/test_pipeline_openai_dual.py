@@ -110,3 +110,21 @@ def test_responder_openai_stream_usa_chat_stream(dir_fixtures_markdown) -> None:
     parciales_sin_final = [t for t, rq in resultados if rq is None]
     assert parciales_sin_final[-1] == "abc"
     cliente_oa.chat_stream.assert_called_once()
+
+
+def test_responder_openai_propaga_max_completion_tokens(dir_fixtures_markdown) -> None:
+    recuperador = RecuperadorBm25(dir_fixtures_markdown)
+    cliente_o = MagicMock(spec=ClienteOllama)
+    cliente_o.configuracion = ConfiguracionLlm(
+        base_url="http://ollama.test", modelo=MODELO_LLAMA_3_1_8B
+    )
+    cliente_oa = MagicMock(spec=ClienteOpenAi)
+    cliente_oa.chat.return_value = "ok"
+
+    pipe = PipelineQa(recuperador, cliente_o, cliente_oa)
+    pipe.responder_openai(
+        "¿Cuáles son los servicios de cardiología?",
+        modelo_openai="gpt-4o-mini",
+        max_completion_tokens=512,
+    )
+    assert cliente_oa.chat.call_args.kwargs["max_completion_tokens"] == 512

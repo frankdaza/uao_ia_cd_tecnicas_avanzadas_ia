@@ -2,38 +2,22 @@
 source_url: https://valledellili.org/servicios/banco-de-sangre-fundacion-valle-del-lili/
 titulo: Banco de Sangre - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-28'
+fecha_extraccion: '2026-04-29'
 idioma: es
-hash: b20b4a5a6968ca95ee39eb044426d1f3260f36664e16168e11d3c187e08833be
+hash: 9e72ff62f6e362918a074674e086a5b4ca69115ad8ba2c584f1a060043f67838
 ---
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-1.png)
-
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-11.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-17.png)](https://www.facebook.com/fundacionvalledelili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-14.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-20.png)](https://www.instagram.com/fundacionvalledelili/)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-16.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-19.png)](https://co.linkedin.com/company/fundacion-valle-del-lili)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-36.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-37.png)](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-12.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-18.png)](https://x.com/fvlcali)
-[![](https://valledellili.org/wp-content/uploads/2025/10/img-13.png)
-![](https://valledellili.org/wp-content/uploads/2025/10/img-21.png)](https://www.youtube.com/user/FVLTV)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
+[Facebook](https://www.facebook.com/fundacionvalledelili)
+[Instagram](https://www.instagram.com/fundacionvalledelili/)
+[Co](https://co.linkedin.com/company/fundacion-valle-del-lili)
+[Open](https://open.spotify.com/show/0Nq1c3JF0uAxUQonFQiwAg?si=OaniUyaYSQSP505apmiPIA&nd=1&dlsi=ed8b3c23d2f74097)
+[x.com](https://x.com/fvlcali)
+[Youtube](https://www.youtube.com/user/FVLTV)
 
 ### Encuentra lo que necesitas en la Fundación Valle del Lili
 
 ¿Buscas un servicio médico, una especialidad, un profesional de la salud o información sobre citas y programas?  
 Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece la Fundación Valle del Lili.
-
-![Buscar](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/search-white.svg)
 
 [Preparación para exámenes y procedimientos](/preparacion-para-examenes-y-procedimientos/)
 [Hospital Padrino](/impacto-social/programa-hospital-padrino/)
@@ -45,30 +29,13 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 ### Servicios para ti
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Agendar cita médica
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-5.png)](/solicitar-cita-medica/)
-[Agendar chequeo médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-7.png)](/cheque-medico-preventivo/)
-[Encontrar un especialista
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](/directorio-medico/)
-[Ver resultados médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-8.png)](https://mifundacion.fvl.org.co/portal-client/)
-[Prepararme para exámenes médicos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-9.png)](/preparacion-para-examenes-y-procedimientos/)
-[Especialidades
-
-![](https://valledellili.org/wp-content/uploads/2026/01/Medicina-familiar.png)](/servicios/)
-
-![](https://valledellili.org/wp-content/uploads/2026/01/banco-de-sangre-scaled.jpg)
-![](https://valledellili.org/wp-content/uploads/2026/01/banco-de-sangre-scaled.jpg)
+[Agendar cita médica](/solicitar-cita-medica/)
+[Agendar chequeo médico](/cheque-medico-preventivo/)
+[Encontrar un especialista](/directorio-medico/)
+[Ver resultados médicos](https://mifundacion.fvl.org.co/portal-client/)
+[Prepararme para exámenes médicos](/preparacion-para-examenes-y-procedimientos/)
+[Especialidades](/servicios/)
+[Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
 # Banco de Sangre
 
@@ -100,47 +67,25 @@ Solo aquellos componentes que cumplen con los estándares reciben un sello de ca
 
 ## Requisitos para donar sangre y plaquetas
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 Presentar su documento de identidad.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
 
 Gozar de buena salud.
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 Haber ingerido alimentos previamente.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
 
 Pesar más de 50 kilos.
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 No estar en embarazo ni estar lactando durante los primeros seis meses del bebé.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
 
 Si ha tomado algún tipo de antibiótico, puede donar 15 días después de haber finalizado el tratamiento.
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 Si ha visitado zonas endémicas de malaria (Costa Pacífica, Sierra Nevada de Santa Marta, Panamá), debe esperar 14 días.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
 
 Si ha tenido tratamiento odontológico, debe esperar de 3 a 15 días, dependiendo del procedimiento.
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 Si se ha hecho cirugías plásticas, debe esperar seis meses.
 
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
-
 Si ha presentado gripa, síntomas respiratorios o ha sido diagnosticado positivo para Covid-19, debe esperar 15 días después de que pasen los síntomas.
-
-![](https://portalv25.fvl.org.co/wp-content/uploads/2025/11/img-79.png)
 
 Si se ha hecho tatuajes, acupuntura, piercing, mesoterapia o terapia neural, debe esperar seis meses.
 
@@ -158,138 +103,88 @@ Si se ha hecho tatuajes, acupuntura, piercing, mesoterapia o terapia neural, deb
 
 ## Especialistas que pueden atenderte
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002849.jpg)
-
-#### Alvaro Enrique Osorio Franco
+[#### Alvaro Enrique Osorio Franco
 
 Hemato oncologia](https://valledellili.org/directorio-medico/alvaro-enrique-osorio-franco/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002868.jpg)
-
-#### Ana Maria Garcia Giraldo
+[#### Ana Maria Garcia Giraldo
 
 Hemato oncologia](https://valledellili.org/directorio-medico/ana-maria-garcia-giraldo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003256.jpg)
-
-#### Andres Dominguez Duran
+[#### Andres Dominguez Duran
 
 Hematologia](https://valledellili.org/directorio-medico/andres-dominguez-duran/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009269.jpg)
-
-#### Andres Felipe Arbelaez Olivar
+[#### Andres Felipe Arbelaez Olivar
 
 Hematologia](https://valledellili.org/directorio-medico/andres-felipe-arbelaez-olivar/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000379.jpg)
-
-#### Angela Regina Zambrano Harvey
+[#### Angela Regina Zambrano Harvey
 
 Hemato oncologia](https://valledellili.org/directorio-medico/angela-regina-zambrano-harvey/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002897.jpg)
-
-#### Elizabeth Arrieta Lopez
+[#### Elizabeth Arrieta Lopez
 
 Hemato oncologia](https://valledellili.org/directorio-medico/elizabeth-arrieta-lopez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60003403.jpg)
-
-#### Fabian Emiliano Ahumada Cordoba
+[#### Fabian Emiliano Ahumada Cordoba
 
 Hemato oncologia](https://valledellili.org/directorio-medico/fabian-emiliano-ahumada-cordoba/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000111.jpg)
-
-#### Francisco Falabella Falabella
+[#### Francisco Falabella Falabella
 
 Medicina interna](https://valledellili.org/directorio-medico/francisco-falabella-falabella/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000777.jpg)
-
-#### Francisco Javier Jaramillo Echeverry
+[#### Francisco Javier Jaramillo Echeverry
 
 Hematologia](https://valledellili.org/directorio-medico/francisco-javier-jaramillo-echeverry/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009187.jpg)
-
-#### Gilbert Francisco Mateus Lopez
+[#### Gilbert Francisco Mateus Lopez
 
 Cirugia oncologica](https://valledellili.org/directorio-medico/gilbert-francisco-mateus-lopez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000305.jpg)
-
-#### Joaquin Donaldo Rosales Martinez
+[#### Joaquin Donaldo Rosales Martinez
 
 Hematologia](https://valledellili.org/directorio-medico/joaquin-donaldo-rosales-martinez/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60002498.jpg)
-
-#### Juan Camilo Baena Valencia
+[#### Juan Camilo Baena Valencia
 
 Hemato oncologia](https://valledellili.org/directorio-medico/juan-camilo-baena-valencia/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000294.jpg)
-
-#### Juan Guillermo Restrepo Molina
+[#### Juan Guillermo Restrepo Molina
 
 Hemato oncologia](https://valledellili.org/directorio-medico/juan-guillermo-restrepo-molina/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/60000549.jpg)
-
-#### Marcela Vallejo Fajardo
+[#### Marcela Vallejo Fajardo
 
 Oncologia clinica](https://valledellili.org/directorio-medico/marcela-vallejo-fajardo/)
 
-[![](https://valledellili.org/wp-content/uploads/fotos-medicos/00009477.jpg)
-
-#### Maria Alexandra Vallejo Diaz
+[#### Maria Alexandra Vallejo Diaz
 
 Oncologia radioterapica](https://valledellili.org/directorio-medico/maria-alexandra-vallejo-diaz/)
 
 Mostrar todos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/angle-down.svg)
-
 ### Otros servicios y especialidades
 
-[Endoscopia
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/endoscopia-fundacion-valle-del-lili/)
-[Hemato-Oncología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/hemato-oncologia/)
-[Hematología
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/hematologia-fundacion-valle-del-lili/)
-[Laboratorio Clínico
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/laboratorio-clinico-fundacion-valle-del-lili/)
-[Unidad de Alta Complejidad Obstétrica (UACO)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/arrow-right.svg)](https://valledellili.org/servicios/unidad-de-alta-complejidad-obstetrica-uaco/)
+[Endoscopia](https://valledellili.org/servicios/endoscopia-fundacion-valle-del-lili/)
+[Hemato-Oncología](https://valledellili.org/servicios/hemato-oncologia/)
+[Hematología](https://valledellili.org/servicios/hematologia-fundacion-valle-del-lili/)
+[Laboratorio Clínico](https://valledellili.org/servicios/laboratorio-clinico-fundacion-valle-del-lili/)
+[Unidad de Alta Complejidad Obstétrica (UACO)](https://valledellili.org/servicios/unidad-de-alta-complejidad-obstetrica-uaco/)
 
 ### Contenidos relacionados
 
-[![](https://valledellili.org/wp-content/uploads/2026/02/Revistaportada-revista-ed-71-2-1.jpg)
-
-Revista
+[Revista
 
 #### Revista Ed 72 – 25 años de Trasplante de Médula Ósea en la Fundación Valle del Lili](https://valledellili.org/revista-ed-72-25-anos-de-trasplante-de-medula-osea-en-la-fundacion-valle-del-lili/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/portada-revista-edicion-61-2019.jpg)
-
-Infografía
+[Infografía
 
 #### Revista Ed 61 – La más avanzada tecnología en radioterapia-nuevo equipo Truebeam Novalis](https://valledellili.org/revista-ed-61-la-mas-avanzada-tecnologia-en-radioterapia-nuevo-equipo-truebeam-novalis/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/Unidad-de-Trasplante-de-Medula-Osea_-torre-2-_-Sede-Principal.jpg)
-
-Artículo
+[Artículo
 
 #### Conozca la nueva Unidad de Trasplante de Médula Ósea en la torre 2 de la Sede Principal](https://valledellili.org/conozca-la-nueva-unidad-de-trasplante-de-medula-osea-en-la-torre-2-de-la-sede-principal/)
-[![](https://valledellili.org/wp-content/uploads/2026/02/25-años-unidad-de-trasplantes.jpg)
-
-Video
+[Video
 
 #### 25 años de nuestra Unidad de Trasplante de Médula Ósea](https://valledellili.org/25-anos-unidad-trasplantes-medula-osea/)
 
@@ -301,12 +196,8 @@ Solicita tu cita con nuestros especialistas en Banco de Sangre
 
 #### Contacto
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-phone.png)
-
 Llámanos
 [(+57) 602 331 9090](tel:(+57)6023319090)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/location.svg)
 
 #### Sedes y Horarios
 
@@ -347,25 +238,11 @@ Llámanos
 
 Contáctanos
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icon-up.png)
+[Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
+[Solicitar una llamada](/te-llamamos/)
+[Directorio médico](https://valledellili.org/directorio-medico/)
+[Contáctenos](https://valledellili.org/contactenos/)
 
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-[Solicitar cita por Whatsapp
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-whatsapp.png)](https://api.whatsapp.com/send?phone=573217997546)
-[Solicitar una llamada
-
-![](https://valledellili.org/wp-content/uploads/2026/02/contacto-telefono.png)](/te-llamamos/)
-[Directorio médico
-
-![](https://valledellili.org/wp-content/uploads/2025/10/img-6.png)](https://valledellili.org/directorio-medico/)
-[Contáctenos
-
-![](https://valledellili.org/wp-content/uploads/2025/10/icon-email.png)](https://valledellili.org/contactenos/)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/icono-contacto.png)
 Contáctanos
 
 ### Autorización datos personales
@@ -399,14 +276,3 @@ Puede consultar nuestra política de tratamiento de datos personales [**aquí**]
 Autorizo
 
 ####
-
-![]()
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
-
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-primary.svg)
-![](https://valledellili.org/wp-content/themes/vstheme/assets/img/icons/close-white.svg)
