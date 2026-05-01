@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/gestion-de-calidad-en-la-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:01:00+00:00",
+  "hash_sha256": "8e67f6f2d022f2a2b1ac2afa5c028bd84906d15f1766578dd1d704358bb64faf",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:00:59 GMT"
+  }
+}

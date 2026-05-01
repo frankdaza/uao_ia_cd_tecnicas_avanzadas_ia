@@ -3,9 +3,9 @@ source_url: https://valledellili.org/revista-ed-72-25-anos-de-trasplante-de-medu
 titulo: Revista Ed 72 - 25 años de Trasplante de Médula Ósea en la Fundación Valle
   del Lili - Fundación Valle del Lili
 seccion: revista-ed-72-25-anos-de-trasplante-de-medula-osea-en-la-fundacion-valle-del-lili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6c136304f542f031210f1d5f3c32e34436ffd7be1e7a1b27929989ed18199fe6
+hash: d4f0709fe7fcebde06739b46ddb453071f2e8c15c3fa7d80eafe5a855f794912
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -58,18 +58,18 @@ Revista Ed 72 – 25 años de Trasplante de Médula Ósea en la Fundación Valle
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
+[Artículo
+
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 [Revista
 
 #### Revista ed 84 – 30 años de trasplantes en la Fundación Valle del Lili](https://valledellili.org/revista-ed-84-30-anos-de-trasplantes-en-la-fundacion-valle-del-lili/)
 [Revista
 
 #### Revista ed 83 – Cuidado ambulatorio: transformando la atención médica](https://valledellili.org/revista-ed-83-cuidado-ambulatorio-transformando-la-atencion-medica/)
-[Revista
-
-#### Revista ed 82 – 20 Años cuidando a las mujeres que aman la vida](https://valledellili.org/revista-ed-82-20-anos-cuidando-a-las-mujeres-que-aman-la-vida/)
-[Revista
-
-#### Revista ed 81 – Mitos y verdades sobre la circuncisión, la visión de una uróloga pediatra](https://valledellili.org/revista-ed-81-mitos-y-verdades-sobre-la-circuncision/)
 
 **¡Gracias por tu aporte!**
 

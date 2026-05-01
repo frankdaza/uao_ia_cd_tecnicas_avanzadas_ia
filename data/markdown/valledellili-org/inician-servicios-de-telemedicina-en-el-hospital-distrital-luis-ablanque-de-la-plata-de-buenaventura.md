@@ -3,9 +3,9 @@ source_url: https://valledellili.org/inician-servicios-de-telemedicina-en-el-hos
 titulo: Inician servicios de telemedicina en el Hospital distrital Luis Ablanque de
   la Plata de Buenaventura - Fundación Valle del Lili
 seccion: inician-servicios-de-telemedicina-en-el-hospital-distrital-luis-ablanque-de-la-plata-de-buenaventura
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 798d804ee5596f55da055aa89c01cf7921920eee125a56575b2ce26907b92043
+hash: 401a797e6e685c72ab61651ac5ecfa12127d5ffe2857edc3cd22eba2f979183e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/solicitar-referenciacion/
 titulo: Solicitar referenciación - Fundación Valle del Lili
 seccion: solicitar-referenciacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a606ab2b2105d3537149b593158c4b2dda3110549829d0095b524cc5e72fa50a
+hash: 56baac67f0c8dab40255390d637cecbe90ca11919fb4950482a27a168cff172e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

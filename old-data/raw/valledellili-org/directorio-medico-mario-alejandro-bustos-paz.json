@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/mario-alejandro-bustos-paz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:13:20+00:00",
+  "hash_sha256": "ac4d6472e609bda83a23f4ea85a3fa17533cf4553017d0cd4799f83dbb62962d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:20 GMT"
+  }
+}

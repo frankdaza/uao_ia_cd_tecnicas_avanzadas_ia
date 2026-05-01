@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:01:12+00:00",
+  "hash_sha256": "6be4ccc88cbec041ccd57f924964cd2e7d6749d04f3cdae00d22a705521544fb",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:01:11 GMT"
+  }
+}

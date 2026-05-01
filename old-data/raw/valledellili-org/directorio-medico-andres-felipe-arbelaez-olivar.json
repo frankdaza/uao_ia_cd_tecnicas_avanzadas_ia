@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-felipe-arbelaez-olivar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:11:15+00:00",
+  "hash_sha256": "eda22a00ba9aa517acdf60053bad2f1a53e46653e0aa514841cd8c9bae388489",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:11:15 GMT"
+  }
+}

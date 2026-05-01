@@ -3,9 +3,9 @@ source_url: https://valledellili.org/educacion-al-paciente/
 titulo: Programas de educaciónProgramas de educación al paciente al paciente - Fundación
   Valle del Lili
 seccion: educacion-al-paciente
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a2f4494a010988c7fa7e24e98e7af12f37e6dee7c30969f38b8af3ac8be4cc20
+hash: 2a9e7caf6cf406dde12b51d3aafcf2d0f72664435a93963dbffc36bd86943f8c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -56,67 +56,67 @@ No se encontraron resultados para tu búsqueda.
 
 [### Buenos hábitos
 
-Ver más](https://portalv25.fvl.org.co/buenos-habitos/)
+Ver más](https://valledellili.org/buenos-habitos/)
 
 [### Cuidados respiratorios
 
-Ver más](https://portalv25.fvl.org.co/cuidados-respiratorios/)
+Ver más](https://valledellili.org/cuidados-respiratorios/)
 
 [### Cuidados paliativos para adultos
 
-Ver más](https://portalv25.fvl.org.co/cuidados-paliativos-adultos/)
+Ver más](https://valledellili.org/cuidados-paliativos-adultos/)
 
 [### Cuidados paliativos pediátricos
 
-Ver más](https://portalv25.fvl.org.co/cuidados-paliativos-pediatricos/)
+Ver más](https://valledellili.org/cuidados-paliativos-pediatricos/)
 
 [### Cuidados del recién nacido
 
-Ver más](https://portalv25.fvl.org.co/cuidados-del-recien-nacido/)
+Ver más](https://valledellili.org/cuidados-del-recien-nacido/)
 
 [### Diabetes pediátrica
 
-Ver más](https://portalv25.fvl.org.co/diabetes-pediatrica/)
+Ver más](https://valledellili.org/diabetes-pediatrica/)
 
 [### Falla cardíaca
 
-Ver más](https://portalv25.fvl.org.co/falla-cardiaca/)
+Ver más](https://valledellili.org/falla-cardiaca/)
 
 [### Hipertensión pulmonar
 
-Ver más](https://portalv25.fvl.org.co/hipertension-pulmonar/)
+Ver más](https://valledellili.org/hipertension-pulmonar/)
 
 [### Lactancia materna
 
-Ver más](https://portalv25.fvl.org.co/lactancia-materna-3/)
+Ver más](https://valledellili.org/lactancia-materna-3/)
 
 [### Manejo del dolor
 
-Ver más](https://portalv25.fvl.org.co/manejo-del-dolor/)
+Ver más](https://valledellili.org/manejo-del-dolor/)
 
 [### Nefrología pediátrica
 
-Ver más](https://portalv25.fvl.org.co/nefrologia-pediatrica/)
+Ver más](https://valledellili.org/nefrologia-pediatrica/)
 
 [### Oncología pediátrica
 
-Ver más](https://portalv25.fvl.org.co/oncologia-pediatrica/)
+Ver más](https://valledellili.org/oncologia-pediatrica/)
 
 [### Paciente oncológico
 
-Ver más](https://portalv25.fvl.org.co/paciente-oncologico/)
+Ver más](https://valledellili.org/paciente-oncologico/)
 
 [### Paciente anticoagulado
 
-Ver más](https://portalv25.fvl.org.co/paciente-anticoagulado/)
+Ver más](https://valledellili.org/paciente-anticoagulado/)
 
 [### Trasplante de corazón
 
-Ver más](https://portalv25.fvl.org.co/trasplante-de-corazon-post/)
+Ver más](https://valledellili.org/trasplante-de-corazon-post/)
 
 ## Noticias y actualizaciones
 
-[Ver más historias](https://portalv25.fvl.org.co/fvl-al-dia/)
+[Ver más historias](https://valledellili.org/fvl-al-dia/)
 
 Artículo
 

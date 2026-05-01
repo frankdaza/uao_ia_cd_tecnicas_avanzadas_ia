@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/reumatologia-pediatrica/
 titulo: Reumatología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8cafd15b54723038f57a7cdb5a2315bd49260f199452e2c9cbc11bdc5ddbae68
+hash: e11fc49839f4d0689b759685473a8e7c686ac2341de909844ad80d70ad507c5e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

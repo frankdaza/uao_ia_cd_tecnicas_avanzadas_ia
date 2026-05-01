@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/educacion/centro-de-bioetica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:03:51+00:00",
+  "hash_sha256": "edbb9b8e43c3fa92c48f2faa7eaddc0ba82b07711841988d28cd8889d01e916d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:03:50 GMT"
+  }
+}

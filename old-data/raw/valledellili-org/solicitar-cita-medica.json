@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/solicitar-cita-medica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:01:03+00:00",
+  "hash_sha256": "d4d0d0ae98e594a9454be4bb4c4d382b60fcd85272d8c9cf4ff8966031ce83b8",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:01:02 GMT"
+  }
+}

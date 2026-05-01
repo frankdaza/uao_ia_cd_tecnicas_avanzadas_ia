@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion/estudio-clinico-de-tulisokiba
 titulo: Estudio clínico de Tulisokibart (MK-7240) para el tratamiento de la artritis
   reumatoide (AR) (MK-7240-014)-07176390 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9692bc50122e08ec4ae0b2b464e20e8df340c67033f5a1adc25a220a6072121e
+hash: aa7c216e58fb4faf49436a2b73a8e00766a1a5fd254eec1392bf5de74fa23438
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

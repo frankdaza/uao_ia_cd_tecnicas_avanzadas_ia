@@ -3,9 +3,9 @@ source_url: https://valledellili.org/hospital-padrino-tumaco-2024/
 titulo: Así fue nuestra visita como "Hospital Padrino" a la población de San Andrés
   de Tumaco en el pacífico Colombiano - Fundación Valle del Lili
 seccion: hospital-padrino-tumaco-2024
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d81e2d07928587c277cdba6dc1e018cdaf72d916eeff77c7a8a620baa64d361c
+hash: 6b2981bd6eb04b0107ccfa424a1fc54df3b6dc655fd42774c8e53e98c67af237
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

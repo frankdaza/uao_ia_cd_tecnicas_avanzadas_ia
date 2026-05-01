@@ -3,9 +3,9 @@ source_url: https://valledellili.org/nuestro-hospital-padrino-llego-a-timbiqui-y
 titulo: ¡Nuestro Hospital Padrino llegó a Timbiquí y López de Micay! - Fundación Valle
   del Lili
 seccion: nuestro-hospital-padrino-llego-a-timbiqui-y-lopez-de-micay
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8d253c1272d2c01d26ed4edd9aee227f4aa977038cffdc9ac48f9ac67cacbbcf
+hash: a78bc462e0ff1a2a5b7b6b91f1550e3027d31fbde2ea4013b84293b473d005f8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -4,9 +4,9 @@ titulo: Un estudio de investigación para evaluar los efectos de un nuevo medica
   oral llamado Cenerimod en adultos con lupus eritematoso sistémico – 05648500 - Fundación
   Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7974d6c459f8c67420688a719b6aa52340d159a516682dc711321b9c1d1f172b
+hash: 05c23ccbc587a857245b5abd8b87ff71f596c2ac57ca07fb812d9c31a78ad2b3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

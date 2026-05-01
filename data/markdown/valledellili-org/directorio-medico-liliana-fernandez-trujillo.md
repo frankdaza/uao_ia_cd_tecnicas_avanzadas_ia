@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/liliana-fernandez-trujillo/
 titulo: Liliana Fernandez Trujillo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 133dda75125d48df3ae27513e3ecb4e295263887536c3d9fcaf906c97f44de79
+hash: 5debf5ed45289c044c6cf0a7d86d42037b741a7cf0a194c6887ef675aded8a14
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

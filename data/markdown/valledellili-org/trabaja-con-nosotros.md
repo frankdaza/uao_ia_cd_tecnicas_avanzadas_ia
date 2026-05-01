@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/trabaja-con-nosotros/
 titulo: Trabaja con nosotros - Fundación Valle del Li
 seccion: trabaja-con-nosotros
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8fd115c935ad41a01b9cb090cb53f3bdfe192b8f44cc19c80757a7e283725042
+hash: 74ba316c112b3ff4cc688993de17610547c8684dda5a7005fcda807d892c1a3b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jaime-andres-valderrama-chaparro/
 titulo: Jaime Andres Valderrama Chaparro - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5de3ae9e96df32ba3e14a8090b77324c535048fe2ae368b31cd2ae1f6bce2cc4
+hash: 135f1f97ebda4f9484b39bab304d5bd2ec949790b600585674efdf6110e798b4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

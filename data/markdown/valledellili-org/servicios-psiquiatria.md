@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/psiquiatria/
 titulo: Psiquiatría - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 042cdd74263ded805cc2dec88836a2b674e982f2e8b1b6eda2425265d7ecd64e
+hash: f3dae7f2163874db379eef0630231c31aefd76eacede1345f28e1aef6e4fc564
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

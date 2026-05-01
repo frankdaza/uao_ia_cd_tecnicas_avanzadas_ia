@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/trasplante-de-medula-osea-pediatrica/
 titulo: Trasplante de Médula Ósea Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 08a8c10eaa63455e31e21003c7d4e79415315bce6bdb65404cdc54a18283984f
+hash: 1be1a8009baadfebcf85d696aa3493fabb4919124d34dae32196438879785f3c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

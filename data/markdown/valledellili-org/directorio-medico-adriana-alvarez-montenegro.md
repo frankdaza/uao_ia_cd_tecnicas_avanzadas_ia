@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-alvarez-montenegro/
 titulo: Adriana Alvarez Montenegro - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c48f37dc43667f4505b8dea283c066b6c814c2a9f964eef31c7f9ead080fd5fd
+hash: 5b2faa39549fc8e003a25aabeb96508a52df6eb40d7d7e503e792a37af5c9383
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

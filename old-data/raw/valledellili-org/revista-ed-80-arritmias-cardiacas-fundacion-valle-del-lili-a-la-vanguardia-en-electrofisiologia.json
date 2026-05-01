@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-80-arritmias-cardiacas-fundacion-valle-del-lili-a-la-vanguardia-en-electrofisiologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:18:58+00:00",
+  "hash_sha256": "4055c8ec01ef6e0fdb48bad82bc9ce736839e72ab09dce5937cdd3b87bf8712c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:18:57 GMT"
+  }
+}

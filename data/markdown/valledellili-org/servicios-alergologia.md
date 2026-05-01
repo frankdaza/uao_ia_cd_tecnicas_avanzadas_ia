@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/alergologia/
 titulo: Alergología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1958d6a3361a28e41046753be2bcd4239c02ed7d73cce23c8d27d613dc0c1231
+hash: 754707fc3e01508f857eb0c268b9d3a84066620028d7be06248da4be01b47453
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

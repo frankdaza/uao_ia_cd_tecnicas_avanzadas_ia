@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/gestion-de-calidad-en-la-fundacion-valle-del-lili/
 titulo: Gestión de calidad en la Fundación Valle del Lili
 seccion: gestion-de-calidad-en-la-fundacion-valle-del-lili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8e67f6f2d022f2a2b1ac2afa5c028bd84906d15f1766578dd1d704358bb64faf
+hash: 27253ec600e5abaf7fd68716cce5b87fb12cc998fb35791f73c21c371b5f4bce
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

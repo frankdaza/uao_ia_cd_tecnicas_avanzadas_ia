@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/unidad-de-alta-complejidad-obstetrica-uaco/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:10:26+00:00",
+  "hash_sha256": "1c22dbd1dfc2ab0f84de7dc09d702cc19506d981fc93f2ca6233bc949f16bd6e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:10:25 GMT"
+  }
+}

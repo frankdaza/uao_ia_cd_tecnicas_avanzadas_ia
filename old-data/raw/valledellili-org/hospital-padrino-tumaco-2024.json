@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/hospital-padrino-tumaco-2024/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:04+00:00",
+  "hash_sha256": "d81e2d07928587c277cdba6dc1e018cdaf72d916eeff77c7a8a620baa64d361c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:03 GMT"
+  }
+}

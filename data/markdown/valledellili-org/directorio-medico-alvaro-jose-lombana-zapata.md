@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alvaro-jose-lombana-zapata/
 titulo: Alvaro José Lombana Zapata - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b6474051417cf49de3d7ff5fb9e12d8dfc9088342a40c1eab8fb313371ac0319
+hash: 1149f1f0f5a1ae0ed54af5fa42aa111d5893b65bdb14915901966fc254f3802b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

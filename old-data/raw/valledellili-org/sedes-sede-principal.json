@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/sedes/sede-principal/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:00:37+00:00",
+  "hash_sha256": "0ab67169072386aab42bbc09599bc1d6ae1f9bb7807d4f7aaeef900114b28c5e",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:00:36 GMT"
+  }
+}

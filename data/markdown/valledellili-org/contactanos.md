@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/contactanos/
 titulo: Contáctenos - Fundación Valle del Lili
 seccion: contactanos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 66bd9fc1e65808aedced68da82c89dfb4727c85bdf9cce6eec07c7dbb9048548
+hash: 8e085da509cbb3aa555ba0d2f16785995bbf074640bf9d361639b0fccee9308d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

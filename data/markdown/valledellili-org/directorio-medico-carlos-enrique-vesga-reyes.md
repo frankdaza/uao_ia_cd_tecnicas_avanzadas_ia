@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carlos-enrique-vesga-reyes/
 titulo: Carlos Enrique Vesga Reyes - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 251e8da2ba4c6e6d6966a90a2ebcd87ccdebd6dbad3baf43cec9629d1e8a3a5f
+hash: 35a33b5a4d1c33e63614491438dd4067bb1c188ac2054b630ec27b3facbacc65
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

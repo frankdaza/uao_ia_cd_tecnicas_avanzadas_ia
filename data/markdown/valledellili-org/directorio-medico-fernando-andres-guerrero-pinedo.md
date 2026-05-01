@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/fernando-andres-guerrero-pinedo/
 titulo: Fernando Andres Guerrero Pinedo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bec56b491f306d7283a4fa723709967709c137eec29f322a5104e83e44880c43
+hash: d417cff06d8d999274a925b42555d55b1eb5b726a5c0733bedccb35fc8e645be
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

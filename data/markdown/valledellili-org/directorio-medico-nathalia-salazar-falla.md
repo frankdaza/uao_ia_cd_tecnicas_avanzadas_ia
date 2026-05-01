@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/nathalia-salazar-falla/
 titulo: Nathalia Salazar Falla - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7936fb3e0d72621193ec764e89f4dd20329034f8f4202fdcd5bdf698a7936020
+hash: 330aaa9c25901c1fe6405a77073154365ed86204ebf12714322f5e8b3608a467
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

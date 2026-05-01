@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-gastrointestinal/
 titulo: Cirugía Gastrointestinal - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2ccacd74aa1804c142c98b52bd80c6cd85f32c68398be2828b7df1812c36812f
+hash: c47ad1f72e0dd6bcc8cd266e751c6be8652c267c7e189d30969492032d147648
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

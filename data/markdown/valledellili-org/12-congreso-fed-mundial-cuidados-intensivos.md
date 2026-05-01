@@ -3,9 +3,9 @@ source_url: https://valledellili.org/12-congreso-fed-mundial-cuidados-intensivos
 titulo: ¡FVL presente en el 12° Congreso de la Federación Mundial de Sociedades de
   Cuidados Intensivos y Críticos Pediátricos!
 seccion: 12-congreso-fed-mundial-cuidados-intensivos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 535754edb246a85eddd00219065e77e7f28294f9ce84ab7cd802b5e797e8cb11
+hash: 81be960a02798d0644d86390bda999b021f977b214e533e9a4416c2d142b6b67
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

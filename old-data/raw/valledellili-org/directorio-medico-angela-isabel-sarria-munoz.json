@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angela-isabel-sarria-munoz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:11+00:00",
+  "hash_sha256": "65f1f943f9552b6507c43d0541c0eaab968fdbb4e057fbe4063a012a8d20de29",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:11 GMT"
+  }
+}

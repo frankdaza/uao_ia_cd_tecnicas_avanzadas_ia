@@ -3,9 +3,9 @@ source_url: https://valledellili.org/servicios/cuidado-paliativo-pediatrico-prog
 titulo: Cuidado Paliativo Pediátrico – Programa “Cuidando de ti” - Fundación Valle
   del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d183f8b7c2333e3ffc4354d717f537c55afe660ceb7d717367dc7f5ef8c4263d
+hash: 1639a58c282af0add0897fb381c26ac0d2e5a99d1bd20112db4fd690d9819040
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

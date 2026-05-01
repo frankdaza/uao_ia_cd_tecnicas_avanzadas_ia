@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/conozca-nuestro-boletin-de-investigacion-edicion-16/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:05:19+00:00",
+  "hash_sha256": "21c8cfce05d26bfa3505e068d123303c6dcdd01b7f6234b8ff14d6cf28904afe",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:05:18 GMT"
+  }
+}

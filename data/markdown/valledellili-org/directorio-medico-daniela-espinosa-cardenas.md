@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/daniela-espinosa-cardenas/
 titulo: Daniela Espinosa Cardenas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fee4e01c7357d9c186df60ff99696d8eb6a6c5ce4d13ea59911e8af3544606ae
+hash: bc561fd219a0192567d5d49a22d2f2aec1b95d8eae71e8af4b0439935993572f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

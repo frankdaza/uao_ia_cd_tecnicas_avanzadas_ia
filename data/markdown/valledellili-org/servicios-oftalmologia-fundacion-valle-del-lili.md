@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/oftalmologia-fundacion-valle-del-lili/
 titulo: Oftalmología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7c224f9957813620fa646f8ab44e9ebcf415de47fd032ad97722d7361db2c140
+hash: 1838e7d9d135498f72bfae8d07f5c83293645592b22aeb857533f91d171e8baf
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

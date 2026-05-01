@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/gastroenterologia/
 titulo: Gastroenterología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 781fd055dbc33630423c0d3bfc21e51266095ac3002dfaaf0a70d2a9c7771062
+hash: 94f39e836ef4fb3d02ceed9b59f31871e40f6ac8f52cf88de9101aa75aef524b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

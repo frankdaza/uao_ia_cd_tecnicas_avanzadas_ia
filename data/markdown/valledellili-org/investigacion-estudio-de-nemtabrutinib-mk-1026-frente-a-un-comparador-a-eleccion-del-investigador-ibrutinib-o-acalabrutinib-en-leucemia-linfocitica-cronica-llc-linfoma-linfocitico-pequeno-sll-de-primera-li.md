@@ -4,9 +4,9 @@ titulo: Estudio de nemtabrutinib (MK-1026) frente a un comparador (a elección d
   investigador, ibrutinib o acalabrutinib) en leucemia linfocítica crónica (LLC)/linfoma
   linfocítico pequeño (SLL) de primera línea – 06136559 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4ff6b4a38ff99d2bc647195c64392dbd8fef43ccdf701658d2878bbe07e6b569
+hash: cf14a092dc85af4098ac148cd8c0c26e63bb675a478ffef772ffbf6ecaac5462
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

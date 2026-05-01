@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/tatiana-isabel-madronero-conde/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:14:00+00:00",
+  "hash_sha256": "6f4ea1229b7a3fdd1428e5d35f9f31a1a8401524455854f0abf9e038c7111ed7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:59 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/no-encontraste-un-estudio-adecuado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:04:53+00:00",
+  "hash_sha256": "42aa87c020c90737f2395b4a8df0228e081b33773e9e5116742a2aba85882d32",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:04:52 GMT"
+  }
+}

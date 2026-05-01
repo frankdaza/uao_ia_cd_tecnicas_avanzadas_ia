@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/nathalia-parra-ortegon/
 titulo: Nathalia Parra Ortegon - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1e4190c2d101bef8333e9365e981e90e0a5de28d343da2a66adfe2dd98e1ed2d
+hash: df3bbebc16580abb2fec3feed7da293085a462bf9b6271adaeb2ca083141a764
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

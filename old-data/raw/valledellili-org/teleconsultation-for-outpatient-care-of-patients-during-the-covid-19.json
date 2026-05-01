@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/teleconsultation-for-outpatient-care-of-patients-during-the-covid-19/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:05:07+00:00",
+  "hash_sha256": "48443bbef0143696476bd741ab894f12772f0be8f765310964a4d4571c099b19",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:05:06 GMT"
+  }
+}

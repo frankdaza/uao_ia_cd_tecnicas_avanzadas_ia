@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/trabaja-con-nosotros/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:00:46+00:00",
+  "hash_sha256": "8fd115c935ad41a01b9cb090cb53f3bdfe192b8f44cc19c80757a7e283725042",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:00:45 GMT"
+  }
+}

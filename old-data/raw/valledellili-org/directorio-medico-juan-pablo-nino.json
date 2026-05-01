@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-pablo-nino/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:56+00:00",
+  "hash_sha256": "0a24715d566f2738e58a5324e8cebb67fe2fba43636b72de72c93f4e9040cf69",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:55 GMT"
+  }
+}

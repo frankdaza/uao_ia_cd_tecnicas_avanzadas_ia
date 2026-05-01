@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/nela-melissa-parra-landazury/
 titulo: Nela Melissa Parra Landazury - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e5dd2a8a1165af91962bb4ddb32f1fe93d41691699ceb06eaad30b9f7ba38687
+hash: 3f542ed5eca2dbdc2e2511eb92633b7507e4c9804a0afc2e938c65e1493e00f3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

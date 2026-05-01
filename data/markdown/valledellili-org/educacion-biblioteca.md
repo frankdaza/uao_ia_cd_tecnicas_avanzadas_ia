@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/educacion/biblioteca/
 titulo: Biblioteca - Fundación Valle del Lili
 seccion: educacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d009f450e1e050a448f8150918f272e4fd36452ed82cb328dd4731811eb85b36
+hash: f3ac73ddecc2ae42ee7acf3ced1e7aa1e497a8541931e0d9101a7704f4d8c3fd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -81,7 +81,7 @@ Radiología
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am – 5:00 pm
 
@@ -100,7 +100,7 @@ Pediatría
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am – 4:00 pm
+Hora: 8:00 am – 2:30 pm
 
 Lugar: Evento Virtual
 
@@ -138,10 +138,10 @@ Hora: 7:00 am – 6:00 pm
 Lugar: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
 Híbrido
-Medicina familiar
+Cardiología
+Endocrinología
 Medicina Interna
-Medicina interna en el adulto mayor
-Medicina interna-geriatria
+Urgencias
 
 [Quiero asistir](https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-del-razonamiento-a-la-decision-clinica/)
 

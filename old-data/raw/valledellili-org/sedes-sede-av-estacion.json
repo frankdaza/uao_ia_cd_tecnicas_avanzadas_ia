@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/sedes/sede-av-estacion/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:06:29+00:00",
+  "hash_sha256": "c576e26e309c581d873e0b68e9f4ab48d4a50f5429b92bc73572b10463f6929e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:06:28 GMT"
+  }
+}

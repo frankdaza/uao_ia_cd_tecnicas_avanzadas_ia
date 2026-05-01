@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-falla-cardiaca/
 titulo: Programa falla cardíaca - Fundación Valle del Lili
 seccion: programa-falla-cardiaca
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: eca001502fe0732cd45611e65d01d58b307ce9014d32486ff3cc90d4aa22c468
+hash: e7ebfea9564967682d69144de15a8cd969778680495a4f7be2919d14ad67f40d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

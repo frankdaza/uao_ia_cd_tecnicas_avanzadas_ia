@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/pablo-felipe-ricardo-amaya-gonzalez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:19:33+00:00",
+  "hash_sha256": "41e5a5be2a22f9222f71c4e58e8dbf9beab5ca44881cbe75bbab9e90970490f3",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:19:32 GMT"
+  }
+}

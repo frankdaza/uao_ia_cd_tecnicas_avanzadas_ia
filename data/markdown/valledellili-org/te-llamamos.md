@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/te-llamamos/
 titulo: Te llamamos - Fundación Valle del Lili
 seccion: te-llamamos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6c22539d91f69a7de99f18f71236972f4c8d16fa96c360698e0579c0a7d7c71e
+hash: 36ccf839849c831dedde54bb7241c71f0a8dd0f970c3b8385551c295b15a60e6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

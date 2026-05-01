@@ -3,9 +3,9 @@ source_url: https://valledellili.org/polisomnogramas-tecnologia-medica-para-diag
 titulo: Polisomnogramas, tecnología médica para diagnosticar la apnea del sueño -
   Fundación Valle del Lili
 seccion: polisomnogramas-tecnologia-medica-para-diagnosticar-la-apnea-del-sueno
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ac3e57bb2185365e8f29677ea28c6b8ed55282ef3c16a1ea4557edf0cbb154c1
+hash: c92d7698d1aefb469c22eae05f3f5bf083778e70fe0645135cbd2becf53fbe4c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

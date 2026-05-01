@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/coloproctologia-cirugia-de-colon-y-recto-fundacion-valle-del-lili/
 titulo: Coloproctología / Cirugía de Colon y Recto - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 57c7e792751e9cb8132db7d54c1bfdddd18d2a6eeac905fc6b1c3518f94f4010
+hash: db505a7d8136fc409a42645440237fefc1ce5299ac8a2502b7c3be2dd483c162
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

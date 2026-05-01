@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-cuidados-del-recien-nacido/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:31+00:00",
+  "hash_sha256": "625ad7707642a32b21e8aa5e9f699db9a67af47451cb0a4fb57b197d47c90e9a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:30 GMT"
+  }
+}

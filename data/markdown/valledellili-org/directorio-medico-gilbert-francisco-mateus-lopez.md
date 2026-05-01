@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/gilbert-francisco-mateus-lopez/
 titulo: Gilbert Francisco Mateus Lopez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 050432de314d89bb8de23e5d8250602308394cfece1a5efe165523e458e21d19
+hash: 70bc563a3109ad982a36483dd93f76ac2551aa9e0ab34ea90e045efae34e4c2f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

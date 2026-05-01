@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/educacion/cesec/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:01:49+00:00",
+  "hash_sha256": "5de8653277da4dbd1023251519ce2a512ad47284a45377f6a6548759d61536c4",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:01:48 GMT"
+  }
+}

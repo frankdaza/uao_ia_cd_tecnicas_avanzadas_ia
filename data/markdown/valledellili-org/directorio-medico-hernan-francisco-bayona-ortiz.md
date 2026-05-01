@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/hernan-francisco-bayona-ortiz/
 titulo: Hernan Francisco Bayona Ortiz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ae2912102a880fc385a810d472692a0b3bad3ed584aa1c2c772d5a35fe88daaf
+hash: 015e5db317815f4ff46e67dc30d66914df9c0c000b877a8c1a709cbacfa55bf7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alexis-antonio-franco-moreno/
 titulo: Alexis Antonio Franco Moreno - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a0f2dc8ea8d19b30aa77ba6c2aa6b14abb38ec04cd37c8ef9e3ab7087d607d04
+hash: 90de16894034eb4cd3a84b4447abc680eb321f105d232287d2518ea5dbd46e8c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

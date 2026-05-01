@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/endocrinologia-fundacion-valle-del-lili/
 titulo: Endocrinología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c0659c5fffb47e1d27cf2bc8bbd1b890b2508b61ab77905d3be6d13afe1108e9
+hash: e589fc931b119d16370b3af53b26e6da8b02062d40ef0ae8be5a383f935ebd80
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

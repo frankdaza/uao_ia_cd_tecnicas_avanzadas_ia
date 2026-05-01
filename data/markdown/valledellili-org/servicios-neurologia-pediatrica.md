@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/neurologia-pediatrica/
 titulo: Neurología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6f3882a796e32434d6c1f3aadefbbce580afb3536dec5a2cb47aa6d96f9c9dcc
+hash: fd67b4f87bd3ac0169fb789361ce6ac8285a97db8522cf3d8151ae579d52f93d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

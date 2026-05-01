@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-alberto-velasco-bayuelo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:17:06+00:00",
+  "hash_sha256": "627c5873ab316dc6587a1863cf1f44be211e12152468ad24f2a1b5fa28a487f5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:17:05 GMT"
+  }
+}

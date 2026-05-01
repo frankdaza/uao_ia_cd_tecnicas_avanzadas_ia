@@ -3,9 +3,9 @@ source_url: https://valledellili.org/conozca-la-nueva-unidad-de-trasplante-de-me
 titulo: Conozca la nueva Unidad de Trasplante de Médula Ósea en la torre 2 de la Sede
   Principal
 seccion: conozca-la-nueva-unidad-de-trasplante-de-medula-osea-en-la-torre-2-de-la-sede-principal
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5971f9f1b16b9442ddf99739594f734227e8c328effb6eebd315725be1a04e66
+hash: 1ac80a1fc94e4a8684e4fab587009a38cdeaa547d8aa665845f3e68b1c28f397
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

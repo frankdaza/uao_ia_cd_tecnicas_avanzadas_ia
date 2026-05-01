@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/eventos/1er-encuentro-de-brigadas-hospitalarias/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:03:21+00:00",
+  "hash_sha256": "dd6c9d7e52db4efe1fb779dc1b399134d1597f590e9391d942c11a6b1abd7ba4",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:03:21 GMT"
+  }
+}

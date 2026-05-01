@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/politica-de-tratamiento-de-datos-personales/
 titulo: Política de tratamiento de datos personales FVL - Fundación Valle del Lili
 seccion: politica-de-tratamiento-de-datos-personales
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 98e619df86488e89de1e75429917c5dcf01e22d15f357331afd56d566eb4b07e
+hash: 69fda374a6e5ab90de37f6e6e61a711ff4995713af01f604f3ea1ffe09f7bdc6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

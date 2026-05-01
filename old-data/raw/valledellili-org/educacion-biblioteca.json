@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/educacion/biblioteca/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:02:02+00:00",
+  "hash_sha256": "d009f450e1e050a448f8150918f272e4fd36452ed82cb328dd4731811eb85b36",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:02:01 GMT"
+  }
+}

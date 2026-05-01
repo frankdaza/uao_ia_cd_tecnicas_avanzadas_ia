@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/programa-contacto-canguro/
 titulo: Programa contacto Canguro - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a1c943558696cb1d15c5c1cc658c34b013e0c2d1e6d5de7b9b1339cb4f15887b
+hash: fca67087faa8b75710cb5cce4317c6b3ec8a4f040a2983ed2c196236ab023df5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

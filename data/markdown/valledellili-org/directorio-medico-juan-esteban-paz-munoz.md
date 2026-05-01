@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-esteban-paz-munoz/
 titulo: Juan Esteban Paz Muñoz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 36c7929428a5f356378b0002d2b1bb3fb8964bdc247d92269759296e014c53e1
+hash: ea903c28be7cd614bc9bd560ca042f13196e3ce863a8f9428488b01742d0de22
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

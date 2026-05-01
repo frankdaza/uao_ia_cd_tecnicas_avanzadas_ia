@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/
 titulo: Cardiología No invasiva adulto - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 92627cf989bc04c2a2244c59774d8a35da97e6de97e9df2c52394b8eda6cb7af
+hash: 02bd43cddc02b833c9453b0374aa75c2e953b89867e29e32ae12ca47b1a4b84c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

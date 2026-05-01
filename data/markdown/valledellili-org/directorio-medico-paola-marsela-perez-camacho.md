@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/paola-marsela-perez-camacho/
 titulo: Paola Marsela Perez Camacho - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 988dd373b6f2c0220e713af24571675e1b05fd20db0dc229d3b0ea280ec316c9
+hash: 6e0aff79531bf615d01a301f499068ccc1ea6c484d54dace6e482fa3d2bbee72
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

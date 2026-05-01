@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/clinica-de-heridas-y-ostomias/
 titulo: Clínica de Heridas y Ostomías - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5d036d330077fac146b6919de1e06577d41c6944aeae0d441418462c590bd478
+hash: c5a384c15cf86f20b06202f971f3c8a447c2a847c75459aa6bfbc51568f49617
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

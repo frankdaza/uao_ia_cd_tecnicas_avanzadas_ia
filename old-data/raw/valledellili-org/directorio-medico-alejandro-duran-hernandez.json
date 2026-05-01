@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alejandro-duran-hernandez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:46+00:00",
+  "hash_sha256": "aa50f57d4e07e6afb5dc05f54abcfc01d35885d67ce864982dbdb78d1ab315e7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:45 GMT"
+  }
+}

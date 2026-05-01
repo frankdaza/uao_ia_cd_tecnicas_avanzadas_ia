@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=enfermedades-articulares
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 393de3eaeb8a720051f61e5908194791d885186a2c4a5c67e0c921c9bf7b55cc
+hash: e55acec56dbe90f81f540adc2f8da8442571f93558c85f2bfc05eee391f1898b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

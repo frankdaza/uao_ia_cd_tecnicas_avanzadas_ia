@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/cuidando-tu-bebe-pediatria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:02:11+00:00",
+  "hash_sha256": "972876c09cd041b1f3fd4f893c21dd6775a7966b47c313f298b588784b198bcf",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:02:10 GMT"
+  }
+}

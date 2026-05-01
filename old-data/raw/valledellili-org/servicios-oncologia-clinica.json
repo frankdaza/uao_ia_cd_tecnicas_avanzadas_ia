@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/oncologia-clinica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:09:37+00:00",
+  "hash_sha256": "72eb1ec6f139e27e26935344bab8c639fb889b59c5e07ade56643fd230355838",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:09:36 GMT"
+  }
+}

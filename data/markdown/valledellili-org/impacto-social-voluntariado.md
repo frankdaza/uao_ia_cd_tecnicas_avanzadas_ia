@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/voluntariado/
 titulo: Voluntariado - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 312bf3d67d441cbb73d48b5fd6e141210b8e91e14ac2c60ad417c5d278c3f845
+hash: ffc36d3aee2c5a24c874eaa0210416b2edf3eb965c8bc9a78fbb45bbad42a1f4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

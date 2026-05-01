@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/otorrinolaringologia/
 titulo: Otorrinolaringología Cali
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0f117163136b302f6ea65243e2136125e96bb61e5b5b58e9e5c77732ed4c163d
+hash: a27d79a649962a23ca92c82fb7155707e435fad7020252050fe08963dda22ccb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

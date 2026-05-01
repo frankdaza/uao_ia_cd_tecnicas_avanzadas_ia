@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/camilo-andres-calderon-miranda/
 titulo: Camilo Andres Calderon Miranda - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fed7361ad0b75384bb5356f40cd20f278da174d85da120440406ff42cdf3619d
+hash: 41ab92837f11381c2e2cbcefbfe6f6cbfdc9b13e8cad6880d0ed13ddcb2ef21b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

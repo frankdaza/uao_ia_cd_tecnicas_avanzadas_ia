@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cuidado-paliativo-adultos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:07:56+00:00",
+  "hash_sha256": "268a9937c94498b2fe6c8fc6caf7d36def3cd40ff40a43ad9a650bcbc0c0ec21",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:07:55 GMT"
+  }
+}

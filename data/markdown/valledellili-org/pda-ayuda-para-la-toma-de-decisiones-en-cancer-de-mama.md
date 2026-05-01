@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/pda/ayuda-para-la-toma-de-decisiones-en-cancer-de-mama/
 titulo: Ayuda para la toma de decisiones en cáncer de mama - Fundación Valle del Lili
 seccion: pda
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4f60cfad6af3ed19c96dbccb09bb0f99d1b31b43b31dffc30fd838f569dec3d7
+hash: 0722cf32fe13ef8c5b09cc8b9853ac35b9b94f47c95f0210f7ce722abf005110
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

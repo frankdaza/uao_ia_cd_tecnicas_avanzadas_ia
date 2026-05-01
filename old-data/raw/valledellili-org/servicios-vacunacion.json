@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/vacunacion/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:02:52+00:00",
+  "hash_sha256": "ba7750cb7d146d4cea84396dcee8bb94791f024aa2d3791fd52af9e041a2e985",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:02:51 GMT"
+  }
+}

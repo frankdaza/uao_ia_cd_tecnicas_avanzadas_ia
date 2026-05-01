@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/coloproctologia-cirugia-de-colon-y-recto-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:07:53+00:00",
+  "hash_sha256": "57c7e792751e9cb8132db7d54c1bfdddd18d2a6eeac905fc6b1c3518f94f4010",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:07:52 GMT"
+  }
+}

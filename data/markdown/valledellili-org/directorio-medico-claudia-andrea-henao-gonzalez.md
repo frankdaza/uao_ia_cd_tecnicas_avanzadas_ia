@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-andrea-henao-gonzalez/
 titulo: Claudia Andrea Henao Gonzalez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5afb44c7dfc2a6a628529bca162fb3f3e48530dc42c1749623a0dd1cac4d6620
+hash: 7912ef89c3aa0873611f2925b25c42ba8d496200886f8d7e826fcdc47db66c8c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

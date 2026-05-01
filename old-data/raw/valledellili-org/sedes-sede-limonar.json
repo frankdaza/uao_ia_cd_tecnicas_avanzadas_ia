@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/sedes/sede-limonar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:06:23+00:00",
+  "hash_sha256": "fcf9817a8fd5005f0e21be351f75325a51bf9b6458914177872e044a5d5cfff4",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:06:22 GMT"
+  }
+}

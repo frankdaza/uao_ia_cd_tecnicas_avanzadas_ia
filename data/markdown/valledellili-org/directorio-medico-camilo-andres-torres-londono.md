@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/camilo-andres-torres-londono/
 titulo: Camilo Andres Torres Londoño - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 330f47fa1b7a49eae694230c0e69f7212613ce2e385f020d86b5da9d23679342
+hash: 070f8b7407563a252d4dc9c1735f46b2705d44741e6044bb4a71e7930af24135
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

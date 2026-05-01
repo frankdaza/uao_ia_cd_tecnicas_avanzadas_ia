@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/marcela-polo-trujillo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:18:08+00:00",
+  "hash_sha256": "e9380bca5d7922a06a0eacb328637c2237ab6f6ef6849023f2bd038aa2518248",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:18:07 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/claudia-mercedes-sanz-garcia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:31+00:00",
+  "hash_sha256": "fdbb4acbef4afccca1c70bb2a86d7da484dc66c8c52ee59e6251ca7514175ab4",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:30 GMT"
+  }
+}

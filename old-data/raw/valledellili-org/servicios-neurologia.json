@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/neurologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:02:32+00:00",
+  "hash_sha256": "0d01f426d8c872975c8a24db74d681262a5364d4b62e44103c85d88114cc2b03",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:02:30 GMT"
+  }
+}

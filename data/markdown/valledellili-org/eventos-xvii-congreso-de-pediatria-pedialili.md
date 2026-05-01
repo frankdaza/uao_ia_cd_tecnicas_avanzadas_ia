@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/eventos/xvii-congreso-de-pediatria-pedialili/
 titulo: XVII Congreso de pediatría – Pedialili - Fundación Valle del Lili
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: cdf7551e36ff467696870fb45357e5ec623289accdd418f2c91ef3dbcb93401e
+hash: 34aa5ecf461ca84396dfd2e7064d03ae12dbf21629d5df3f41f6cc354f81af88
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -62,7 +62,7 @@ Conferencias
 # XVII Congreso de pediatría – Pedialili
 
 Inicia:
-**7 May**
+**6 May**
 
 Finaliza:
 **8 May**
@@ -87,7 +87,7 @@ Se llevarán a cabo talleres que permiten fortalecer conocimientos teóricos, as
 
 ## Horario por día
 
-Día 1. Precongreso
+Día 1. Talleres precongreso
 
 6 de mayo de 2026
 
@@ -107,7 +107,7 @@ Dia 3. Congreso
 
 #
 
-Cupos limitados
+Talleres: cupos limitados.
 
 Costo $125.000 (incluye 3 talleres)
 

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alberto-masaru-shinchi-tanaka/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:19:06+00:00",
+  "hash_sha256": "07f745ded609f6c10244d24dd38e72a165824bea75035fdecfaf404d530aec77",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:19:05 GMT"
+  }
+}

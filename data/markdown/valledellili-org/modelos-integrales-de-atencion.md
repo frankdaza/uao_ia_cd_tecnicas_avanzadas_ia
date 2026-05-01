@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/modelos-integrales-de-atencion/
 titulo: Modelos integrales de atención - Fundación Valle del Lili
 seccion: modelos-integrales-de-atencion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0781df64c5f4d7c39af93b89bf4405d0aa152ed3f40dda102653d08109980757
+hash: 05e1c27ec6b17bb1127e4f9b4027f231fefb3d1d9585c6624632887cd99d42c8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

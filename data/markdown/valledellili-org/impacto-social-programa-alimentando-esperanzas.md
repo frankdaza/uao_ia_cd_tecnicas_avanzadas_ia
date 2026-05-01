@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/programa-alimentando-esperanzas/
 titulo: Programa Alimentando Esperanzas - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f444e1cc08410c4dfcfe4b622a56256c2b00e93b247f2a0dd19dd562b70b0177
+hash: 29434d4b4338c6081a3dfe9c0807d5d2a706d092e06fad533690ce7e3eeba9d6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

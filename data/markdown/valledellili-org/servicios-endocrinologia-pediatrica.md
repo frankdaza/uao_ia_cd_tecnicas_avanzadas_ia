@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/endocrinologia-pediatrica/
 titulo: Endocrinología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 289e419f8a37091a5c477c7d33e27bb4cc7e688d04b28956f47d3a2c0fa0476e
+hash: 66084d754480bf76ad57008059d703db7aa8996a2ccb0d2d1d6e2c5e8e7effb6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/zamira-montoya-camargo/
 titulo: Zamira Montoya Camargo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0b45a2d994807aabdee05bb3aa70827250df91bcc8c337270e8794171c5a32eb
+hash: e01528b3539964b5a78861fc51aae4bebd634e6378dd842f7fa9040ccdaa3f1a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

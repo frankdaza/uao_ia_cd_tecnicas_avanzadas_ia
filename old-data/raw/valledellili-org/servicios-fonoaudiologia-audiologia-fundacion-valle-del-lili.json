@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/fonoaudiologia-audiologia-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:08:20+00:00",
+  "hash_sha256": "2cda63fb7a1da8cc0d1747903d4a4a194394c68ddb32c120c843c49346e179d9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:08:19 GMT"
+  }
+}

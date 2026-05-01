@@ -3,9 +3,9 @@ source_url: https://valledellili.org/revista-ed-83-cuidado-ambulatorio-transform
 titulo: 'Revista ed 83 - Cuidado ambulatorio: transformando la atención médica - Fundación
   Valle del Lili'
 seccion: revista-ed-83-cuidado-ambulatorio-transformando-la-atencion-medica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2f8bc810ca3dbb2b50b36d6bbb7bc5cf169653cedf0820415650bb067447cdef
+hash: 77086496c15b114a4970f82561dfbf847494314da3b50b4d0cca894505013f49
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -58,18 +58,18 @@ Revista ed 83 – Cuidado ambulatorio: transformando la atención médica
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
+[Artículo
+
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 [Revista
 
 #### Revista ed 84 – 30 años de trasplantes en la Fundación Valle del Lili](https://valledellili.org/revista-ed-84-30-anos-de-trasplantes-en-la-fundacion-valle-del-lili/)
 [Revista
 
 #### Revista ed 82 – 20 Años cuidando a las mujeres que aman la vida](https://valledellili.org/revista-ed-82-20-anos-cuidando-a-las-mujeres-que-aman-la-vida/)
-[Revista
-
-#### Revista ed 81 – Mitos y verdades sobre la circuncisión, la visión de una uróloga pediatra](https://valledellili.org/revista-ed-81-mitos-y-verdades-sobre-la-circuncision/)
-[Revista
-
-#### Revista ed 80 – Arritmias Cardíacas, Fundación Valle del Lili a la vanguardia en electrofisiología](https://valledellili.org/revista-ed-80-arritmias-cardiacas-fundacion-valle-del-lili-a-la-vanguardia-en-electrofisiologia/)
 
 **¡Gracias por tu aporte!**
 

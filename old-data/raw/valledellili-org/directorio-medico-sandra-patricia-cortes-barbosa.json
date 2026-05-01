@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sandra-patricia-cortes-barbosa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:13:46+00:00",
+  "hash_sha256": "6eecd9fd7a231f21a2102449716a59e4423dd08ad4cd8e8eb0a8df3e0efcf7ff",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:45 GMT"
+  }
+}

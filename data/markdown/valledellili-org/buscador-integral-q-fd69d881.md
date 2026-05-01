@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=trauma
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 31b8e32b60be392cba791aef32e69ba27415813773104a9b6f1e0f02d37aae60
+hash: 00289fb8017260c9c8dada958dd9cb1ed9451580e02211a314cbad2ebfe62b36
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

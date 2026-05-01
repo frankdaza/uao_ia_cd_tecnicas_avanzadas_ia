@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-cardona-astaiza/
 titulo: Adriana Cardona Astaiza - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5f1a2d27ea81f108e4accddde3ef52c3c170248b5fc4f2f0f8ae390ecd4c6088
+hash: cb2f2c4f8ba9e42b4ae3559b754f8897e8860c8087af2733003f16bd7990e29d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

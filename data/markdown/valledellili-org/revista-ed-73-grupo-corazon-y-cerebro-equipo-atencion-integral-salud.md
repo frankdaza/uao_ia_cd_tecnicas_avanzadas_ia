@@ -3,9 +3,9 @@ source_url: https://valledellili.org/revista-ed-73-grupo-corazon-y-cerebro-equip
 titulo: 'Revista Ed 73 - Grupo de corazón y cerebro: un equipo para la atención integral
   de tu salud - Fundación Valle del Lili'
 seccion: revista-ed-73-grupo-corazon-y-cerebro-equipo-atencion-integral-salud
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: be1585fa4ef77925470a58d8caa790252120c6e337084314d812b527c351a67e
+hash: 26ddc9f8288c19bf862bb60a7a511a1774ed68cf206baedb591f03c24f1a69db
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -58,18 +58,18 @@ Revista Ed 73 – Grupo de corazón y cerebro: un equipo para la atención integ
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
+[Artículo
+
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 [Revista
 
 #### Revista ed 84 – 30 años de trasplantes en la Fundación Valle del Lili](https://valledellili.org/revista-ed-84-30-anos-de-trasplantes-en-la-fundacion-valle-del-lili/)
 [Revista
 
 #### Revista ed 83 – Cuidado ambulatorio: transformando la atención médica](https://valledellili.org/revista-ed-83-cuidado-ambulatorio-transformando-la-atencion-medica/)
-[Revista
-
-#### Revista ed 82 – 20 Años cuidando a las mujeres que aman la vida](https://valledellili.org/revista-ed-82-20-anos-cuidando-a-las-mujeres-que-aman-la-vida/)
-[Revista
-
-#### Revista ed 81 – Mitos y verdades sobre la circuncisión, la visión de una uróloga pediatra](https://valledellili.org/revista-ed-81-mitos-y-verdades-sobre-la-circuncision/)
 
 **¡Gracias por tu aporte!**
 

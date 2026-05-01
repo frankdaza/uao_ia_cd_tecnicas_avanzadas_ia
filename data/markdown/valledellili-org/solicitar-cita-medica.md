@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/solicitar-cita-medica/
 titulo: Solicitar cita médica - Fundación Valle del Lili
 seccion: solicitar-cita-medica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d4d0d0ae98e594a9454be4bb4c4d382b60fcd85272d8c9cf4ff8966031ce83b8
+hash: 8d5e173a8661c563600c4ae63ddc8cd4b6ed2f1e6af8ea3809ad9c7fbfde6d1c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

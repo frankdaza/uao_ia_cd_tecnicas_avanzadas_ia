@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jaime-alberto-patino-nino/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:51+00:00",
+  "hash_sha256": "e2fc3cd02967c1e922beedac6b93fdf64d71dca82cee3c3a76f7f0deee8440bf",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:50 GMT"
+  }
+}

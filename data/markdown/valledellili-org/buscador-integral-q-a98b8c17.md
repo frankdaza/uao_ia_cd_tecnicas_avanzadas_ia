@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=cataratas
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5c4f759863881bbd5a9b43c36b62ad68b0f0518efe574a126ae7a49f7d2a364e
+hash: c2b8ca69d8eeb5bdadaa6fe8b60ec0408a9c04b56084e842433792e10573b536
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

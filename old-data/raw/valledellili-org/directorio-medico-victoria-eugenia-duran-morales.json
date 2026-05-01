@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/victoria-eugenia-duran-morales/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:14:03+00:00",
+  "hash_sha256": "50b0e0bec2eaede013918ecf7294c687246f43c38aa329578cf4adb453bfae6e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:14:02 GMT"
+  }
+}

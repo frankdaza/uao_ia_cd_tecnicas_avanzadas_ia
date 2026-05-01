@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/julian-david-yara-munoz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:17:56+00:00",
+  "hash_sha256": "baf20d2e1aaf73b39245cf46d7b23f8951dea1a47d7a3202aac371370f85d817",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:17:55 GMT"
+  }
+}

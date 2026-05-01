@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/recorrido-virtual",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:06:08+00:00",
+  "hash_sha256": "56bc7ba736c61247d921222f2afc769f001c66ff60633a302b41403b4cabc52c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:06:07 GMT"
+  }
+}

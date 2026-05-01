@@ -3,9 +3,9 @@ source_url: https://valledellili.org/expedicion-genoma-pacifico-en-tumaco-atenci
 titulo: 'Expedición Genoma Pacífico en Tumaco: Atención Integral y Concienciación
   en Enfermedades Genéticas - Fundación Valle del Lili'
 seccion: expedicion-genoma-pacifico-en-tumaco-atencion-integral-y-concienciacion-en-enfermedades-geneticas
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b29c1f783a28af95630347ef76345542e1346ccc294f04b44019930ff27e9797
+hash: 9f4bb5f399e5649ecf570a24fc96a963634c2f7c9fb9eb46e7672aa06074f53f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia-intervencionista/
 titulo: Cardiología Intervencionista - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c24371c4261953d0403da8eb7b37fad701b2b0dff5e056647a24ec0194912a97
+hash: c091acf95a32096de686a3268d6a6f8bc26d7fb6ba78df6a6bb5b74c428175b5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

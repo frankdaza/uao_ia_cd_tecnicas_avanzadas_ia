@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/psicologia-infanto-juvenil/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:09:57+00:00",
+  "hash_sha256": "d625d7ea979d6bb97fa4f58f1eb711dec4020c2fd2fd83132f5be29773029f75",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:09:56 GMT"
+  }
+}

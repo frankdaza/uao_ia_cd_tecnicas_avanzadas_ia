@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/laura-jimena-zamorano-velasquez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:17:59+00:00",
+  "hash_sha256": "63d82b8f7a7e409ea029c42091fb36e5ef36ba3813469df4c46eba93facc46dd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:17:58 GMT"
+  }
+}

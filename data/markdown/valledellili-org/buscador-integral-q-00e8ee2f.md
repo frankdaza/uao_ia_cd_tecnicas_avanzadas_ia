@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=gastrointestinal-infantil
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 41a249184f75aea097151fb8af4b654d0070f7227b300624f3049c9433855c6b
+hash: a8b2e0446ac72966fb5fed28e178f6b27ffed8b33340a3ddbdc9a7cd1b47c5b9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

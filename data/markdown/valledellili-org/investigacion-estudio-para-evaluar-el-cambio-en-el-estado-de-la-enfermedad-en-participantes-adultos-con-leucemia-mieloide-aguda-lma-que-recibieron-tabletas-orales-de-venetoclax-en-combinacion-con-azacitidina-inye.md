@@ -5,9 +5,9 @@ titulo: Estudio para evaluar el cambio en el estado de la enfermedad en particip
   en combinación con azacitidina inyectada por vía subcutánea (SC) o intravenosa (IV)
   en Colombia-05587049 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e0b72f364f6ecbe1d95891015590bf47393ac5f836c31780402da6c9ddbc4d5b
+hash: 1e6938342ecaf579d71ea31fcdaefd6c328800ae4638a2268cdf57a059572185
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

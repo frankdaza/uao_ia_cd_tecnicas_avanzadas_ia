@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-andrea-guerrero-enriquez/
 titulo: Claudia Andrea Guerrero Enriquez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 15ebf40c9aee33421eb5774c221786700502233ad34cb3b6fbd519af8bfc0de2
+hash: 6a634f1499da6967fb0bf89b15e6a05ad3f40a9cb57cb29c239c132744db2ef8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

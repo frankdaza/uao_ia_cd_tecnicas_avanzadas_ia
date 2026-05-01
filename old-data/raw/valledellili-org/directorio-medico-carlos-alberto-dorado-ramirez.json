@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-alberto-dorado-ramirez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:20+00:00",
+  "hash_sha256": "5bd9f20b1043722e851a4f6df1fb111fdb537a670e67c3dcfd6803671c664dbf",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:19 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/impacto-social/semillero-de-nuevos-talentos-lilitalentos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:05:34+00:00",
+  "hash_sha256": "e61fed214749228e867ad8194c663f0f3257f5e80959e20c3ed51228847860f6",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:05:33 GMT"
+  }
+}

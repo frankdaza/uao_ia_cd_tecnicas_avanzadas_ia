@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/david-andres-de-paz-cobo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:17:29+00:00",
+  "hash_sha256": "1c5888d5015e165af843cfeaf72ce9a7a7df7a19e1c1192219b9e3ec130ac6bd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:17:28 GMT"
+  }
+}

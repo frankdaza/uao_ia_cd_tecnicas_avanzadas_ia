@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/psiquiatria-infantil-y-del-adolescente/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:10:03+00:00",
+  "hash_sha256": "1f5749809cc95b56336f1e7cf05718135d977ae947e050509d83b61ff2bbf5c6",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:10:02 GMT"
+  }
+}

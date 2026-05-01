@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/santiago-sergio-cruz-zamorano/
 titulo: Santiago Sergio Cruz Zamorano - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e7474412fd6b8ca562a368f91e552c13f00d945e7b36ea03ff7d20f5de2647d7
+hash: ab6d087201c2efabecc9dc774e4083ba1b6d07a597f047ac2ad4142fead4e71a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

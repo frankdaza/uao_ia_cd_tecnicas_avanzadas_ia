@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/ana-maria-munoz-bonilla/
 titulo: Ana Maria Muñoz Bonilla - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7d92580f10db58033e0965832bf5f2922eb8f46fbc35ca4e5b76398ee7b9e253
+hash: 9fdef9fc7a0de211f129f655ec40d1b4ab51a70dedecae69936b86c642902ad0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

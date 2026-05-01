@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sandra-patricia-del-carmen-perez-schmalbach/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:13:49+00:00",
+  "hash_sha256": "e7e916124d7368b1739bfa64678fb7b9ccae8255fa40042608d1a533316293d3",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:48 GMT"
+  }
+}

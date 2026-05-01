@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=gastroenterologia-pediatrica
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7fba6482a3a59b21e13b09f9005f9ae40f5b81f768fc747f4819998d6da281c6
+hash: 98468c6355264dba2802386dde71b0eb82bb2a7f833f33ea1628e506e630c2ec
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sara-maria-garces-morcillo/
 titulo: Sara Maria Garces Morcillo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c41f3ce5ecb621e0d03f17a6418d5af0027558f27792430889f711fdd341210d
+hash: 91c74961af16f10c7e6a6e09d0ef74d0d4de1f2cc652bbd71a481d41783f3028
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

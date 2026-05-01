@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/banco-de-sangre-fundacion-valle-del-lili/
 titulo: Banco de Sangre - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9e72ff62f6e362918a074674e086a5b4ca69115ad8ba2c584f1a060043f67838
+hash: 83ba28e643de83e288cbbec592befe2f25947b4bff5c22d4e3b6a8c8c0c82670
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

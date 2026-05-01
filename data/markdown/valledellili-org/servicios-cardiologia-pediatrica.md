@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia-pediatrica/
 titulo: Cardiología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1ca2d9ab7e7978c1d331e47bb802129fe71335ac879b9252ea7da59ff99023b5
+hash: f73e42b39b286ebba55253706f92cd61c5a7da56a2d38f112cbffb13c78e97bf
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -271,6 +271,9 @@ Mostrar todos
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento](https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
 [Artículo
 
@@ -278,9 +281,6 @@ Mostrar todos
 [Revista
 
 #### Revista ed 80 – Arritmias Cardíacas, Fundación Valle del Lili a la vanguardia en electrofisiología](https://valledellili.org/revista-ed-80-arritmias-cardiacas-fundacion-valle-del-lili-a-la-vanguardia-en-electrofisiologia/)
-[Artículo
-
-#### Fobias y miedos en niños](https://valledellili.org/fobias-y-miedos-en-ninos/)
 
 #### Agendar cita
 

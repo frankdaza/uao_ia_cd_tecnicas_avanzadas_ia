@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/laura-jimena-zamorano-velasquez/
 titulo: Laura Jimena Zamorano Velasquez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 63d82b8f7a7e409ea029c42091fb36e5ef36ba3813469df4c46eba93facc46dd
+hash: 46d265fc049619cae9c59ef1f317a9b1092e8aa7a663a8e6297097461c9fcff8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

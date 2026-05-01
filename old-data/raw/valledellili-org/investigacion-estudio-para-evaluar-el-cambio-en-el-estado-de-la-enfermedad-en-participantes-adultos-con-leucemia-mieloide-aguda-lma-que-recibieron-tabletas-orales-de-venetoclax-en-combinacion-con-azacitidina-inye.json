@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/estudio-para-evaluar-el-cambio-en-el-estado-de-la-enfermedad-en-participantes-adultos-con-leucemia-mieloide-aguda-lma-que-recibieron-tabletas-orales-de-venetoclax-en-combinacion-con-azacitidina-inye/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:04:29+00:00",
+  "hash_sha256": "e0b72f364f6ecbe1d95891015590bf47393ac5f836c31780402da6c9ddbc4d5b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:04:28 GMT"
+  }
+}

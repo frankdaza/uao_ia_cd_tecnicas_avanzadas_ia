@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-al-dia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:02:05+00:00",
+  "hash_sha256": "a88a00ddd2c932f5a80b41c9659484618b313ada78e3499dbc30ce19d4e6b08e",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:02:04 GMT"
+  }
+}

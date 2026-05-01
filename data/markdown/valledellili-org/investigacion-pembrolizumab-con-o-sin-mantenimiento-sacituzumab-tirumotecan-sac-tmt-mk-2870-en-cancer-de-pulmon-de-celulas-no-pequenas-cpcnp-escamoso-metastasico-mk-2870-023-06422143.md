@@ -4,9 +4,9 @@ titulo: Pembrolizumab con o sin mantenimiento Sacituzumab Tirumotecan (Sac-TMT; 
   en cáncer de pulmón de células no pequeñas (CPCNP) escamoso metastásico [MK-2870-023]-06422143
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 221a045f38a03f6d610598d41d2b0914ce7cf7251fd58c763402a7fa24ed5826
+hash: 805c3a7f3c9072c66a8152304c43bbe3531e90061224c119dc3bc7d74fcb8821
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

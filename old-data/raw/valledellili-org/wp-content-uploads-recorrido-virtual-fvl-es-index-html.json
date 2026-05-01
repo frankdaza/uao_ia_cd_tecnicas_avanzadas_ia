@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/wp-content/uploads/recorrido-virtual-fvl/es/index.html",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:06:53+00:00",
+  "hash_sha256": "4b1c03fd4a8e6fa142eb04077bb02a9c307992552c293840418c259e6ebbf9c9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html",
+    "Date": "Wed, 29 Apr 2026 05:06:53 GMT",
+    "Last-Modified": "Tue, 31 Mar 2026 00:01:28 GMT"
+  }
+}

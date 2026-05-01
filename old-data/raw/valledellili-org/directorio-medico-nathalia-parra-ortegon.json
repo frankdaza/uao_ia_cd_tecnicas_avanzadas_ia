@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/nathalia-parra-ortegon/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:13:34+00:00",
+  "hash_sha256": "1e4190c2d101bef8333e9365e981e90e0a5de28d343da2a66adfe2dd98e1ed2d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:33 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ana-maria-aristizabal-bolanos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:16:46+00:00",
+  "hash_sha256": "96a466d0d24cfba409825351dca8d79e1e95da0135fce61ccf6c75429afd1f12",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:16:45 GMT"
+  }
+}

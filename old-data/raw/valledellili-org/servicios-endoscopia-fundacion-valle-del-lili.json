@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/endoscopia-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:08:17+00:00",
+  "hash_sha256": "5ccf120f1910e2dcb344e5982b96d46a0ce86b1393d7f589f621fe02d05b16ae",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:08:16 GMT"
+  }
+}

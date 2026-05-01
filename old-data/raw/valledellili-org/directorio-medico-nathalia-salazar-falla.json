@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/nathalia-salazar-falla/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:18:24+00:00",
+  "hash_sha256": "7936fb3e0d72621193ec764e89f4dd20329034f8f4202fdcd5bdf698a7936020",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:18:23 GMT"
+  }
+}

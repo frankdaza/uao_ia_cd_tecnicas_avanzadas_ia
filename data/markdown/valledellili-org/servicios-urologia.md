@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/urologia/
 titulo: Urólogos especialistas en Urología
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f9ecdd53215f7b4cd242aa4e3edd6885dcf8875faae318a0ca06de9f776e86f5
+hash: a6d9271d21478612d79bdbd8d7b9b8f324e26ee311565cb1ee8bbda43f825842
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

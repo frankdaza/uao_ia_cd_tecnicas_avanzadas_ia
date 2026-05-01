@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ana-maria-mesa-ochoa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:12:03+00:00",
+  "hash_sha256": "9d8db71a98bb9b5964ed0baa6739e43f8304e15e870576d2cfe3e6afdbcd5e34",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:12:02 GMT"
+  }
+}

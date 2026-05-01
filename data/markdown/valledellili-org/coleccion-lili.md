@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/coleccion-lili/
 titulo: Colección Lili - Fundación Valle del Lili
 seccion: coleccion-lili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 186d395b3d5b7bb75e54df80ef93cf8d9d36b4a911a93e2a766fa4184d599092
+hash: d5363677148d7d5298f231c15956eda3ceb6c07281101a48544e9d83d53139a9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

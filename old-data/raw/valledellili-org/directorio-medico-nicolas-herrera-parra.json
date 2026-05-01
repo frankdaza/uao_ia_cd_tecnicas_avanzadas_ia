@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/nicolas-herrera-parra/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:19:01+00:00",
+  "hash_sha256": "cbbf6dee368bfee79ef852ef1df5b77b48dcf0eb18cf168b2f0c490498a414f7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:19:00 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cirugia-plastica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:07:42+00:00",
+  "hash_sha256": "28ebfffcfe97bc54afba412888fff08ed29edb4f6062d5c121ca13e42570c387",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:07:40 GMT"
+  }
+}

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/video-estrategia-hospital-padrino-2023/
 titulo: Conozca nuestra estrategia Hospital Padrino - Fundación Valle del Lili
 seccion: video-estrategia-hospital-padrino-2023
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f23731fabd138373250ec340cc7bd99b55573a7503d6828c4cb648d8344b9e2e
+hash: 3e3e005de510f7035ae9e36a1bab092bdc8d095ecf43deaf06c6172e1b11ddb3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

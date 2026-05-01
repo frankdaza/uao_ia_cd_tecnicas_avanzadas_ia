@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/gastroenterologia-pediatrica/
 titulo: Gastroenterología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0a9b71a1e169884c4a6c4c203e6742cb5615e2f01e53cf0806090154225d607a
+hash: a1e1e9e4c28996181a1d28189bfe5f7cab9fcdf139b5dc3223337a183053bc20
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -3,9 +3,9 @@ source_url: https://valledellili.org/la-fundacion-valle-del-lili-una-institucion
 titulo: La Fundación Valle del Lili, una institución de salud con vocación social
   y humanitaria - Fundación Valle del Lili
 seccion: la-fundacion-valle-del-lili-una-institucion-de-salud-con-vocacion-social-y-humanitaria
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d8eda223750ad70e6adbed38867c298db2fa24df7579b2b9086694eeefad8711
+hash: ce293fd5bdd8ef429c43f8265e1d86bdaf198b343cc227b930c345d48f1e4883
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

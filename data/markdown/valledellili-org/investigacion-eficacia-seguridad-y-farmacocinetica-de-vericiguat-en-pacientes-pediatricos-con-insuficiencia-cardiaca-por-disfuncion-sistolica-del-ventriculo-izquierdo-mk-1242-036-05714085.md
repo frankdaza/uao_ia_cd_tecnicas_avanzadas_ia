@@ -4,9 +4,9 @@ titulo: Eficacia, seguridad y farmacocinética de vericiguat en pacientes pediá
   con insuficiencia cardíaca por disfunción sistólica del ventrículo izquierdo (MK-1242-036)-05714085
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8e79be618a4a811702efacb78098f631111bc4019e27b1db5364147cd1071049
+hash: 0f170240035508b2bc3187055ef88f5f3cf5f0c0b040b04adb2e74b4459dfa3f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cirugia-gastrointestinal/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:07:30+00:00",
+  "hash_sha256": "2ccacd74aa1804c142c98b52bd80c6cd85f32c68398be2828b7df1812c36812f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:07:28 GMT"
+  }
+}

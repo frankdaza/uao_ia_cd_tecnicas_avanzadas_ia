@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-paula-osejo-varona/
 titulo: Maria Paula Osejo Varona - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 159e7a147ccf987ea84f5b986f52826d7e19be031e6fffd3eb8ea630e03b0b9a
+hash: 803090e11cf4fa804164f11c7b10a4e453ed05321c05c7e71a11c585da144285
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

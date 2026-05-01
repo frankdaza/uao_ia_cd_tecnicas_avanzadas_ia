@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/valeria-valencia-cifuentes/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:19:39+00:00",
+  "hash_sha256": "0ab23f2672278211dc15034fa2d306f50961c5a06bbf10d2bb15fd6708f0ae29",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:19:38 GMT"
+  }
+}

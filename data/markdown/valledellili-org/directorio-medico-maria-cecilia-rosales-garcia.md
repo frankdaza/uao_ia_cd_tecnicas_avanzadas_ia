@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-cecilia-rosales-garcia/
 titulo: Maria Cecilia Rosales Garcia - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b9c9c751650b27297e70195b192f45fba4526b72ef8035b7ccf96fe11b9820ea
+hash: f8d331316887a4f3d752bdb37ea7caaf29e51379fdfaefd7031373039a8d9c70
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

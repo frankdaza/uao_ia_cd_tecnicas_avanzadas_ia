@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-diabetes-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:28+00:00",
+  "hash_sha256": "c789d3196f8c5e2db932187e53a59d6b52a494f7326a3516b47617f7e498efb9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:27 GMT"
+  }
+}

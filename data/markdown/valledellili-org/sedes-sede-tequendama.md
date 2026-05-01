@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/sedes/sede-tequendama/
 titulo: Sede Tequendama - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8b519a39be7aeb60c1b9ba56eb7bda79b3f79b7528de10d876adb5bce013f8c7
+hash: b6d08458dd27846351863f94a79c9e73ac0227908562353bbb208e16aec82d57
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

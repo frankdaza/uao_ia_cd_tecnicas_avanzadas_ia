@@ -6,9 +6,9 @@ titulo: Sacituzumab tirumotecán (MK-2870) frente a terapia combinada de pemetre
   han progresado con inhibidores previos de la tirosina quinasa del EGFR (MK-2870-009)-06305754
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7cef7ecec175bb92c7eaa2e717dfc04f37095c599770ce7698c63fde1594f9df
+hash: ed044cbec688c2656a1380ad539327303df64e3272a90ebd759f80385584a032
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

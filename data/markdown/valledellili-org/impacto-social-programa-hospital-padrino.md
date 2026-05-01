@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/programa-hospital-padrino/
 titulo: Programa Hospital Padrino - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 02a7e52004af49fa67723135273f12faf4c1a9628bc235eaefdbcd872f216137
+hash: 6784b97fa8ec4b182da5190206e07eca069d2a1c2588f6653916b4bcb44b746b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

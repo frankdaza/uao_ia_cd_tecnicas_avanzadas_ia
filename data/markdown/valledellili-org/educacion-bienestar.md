@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/educacion/bienestar/
 titulo: Bienestar - Fundación Valle del Lili
 seccion: educacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a26a46db3fb65694a7625d82b4b53388453bfa83d6b36e9bb2f20dbd740f9b75
+hash: 168cc3bcb7fcb72cf51a7db38826cb912cc67c016b5806459671eee25edd4878
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

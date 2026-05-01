@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/coleccion-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:34+00:00",
+  "hash_sha256": "186d395b3d5b7bb75e54df80ef93cf8d9d36b4a911a93e2a766fa4184d599092",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:33 GMT"
+  }
+}

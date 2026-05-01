@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=cirugia-ocular",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:16:24+00:00",
+  "hash_sha256": "4656a29f16dc9cc5419170f8ab461085bc5ad48c9168d9b433b67c48043a9dd0",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:16:23 GMT"
+  }
+}

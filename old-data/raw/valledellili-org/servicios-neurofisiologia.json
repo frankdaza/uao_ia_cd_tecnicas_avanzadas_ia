@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/neurofisiologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:09:25+00:00",
+  "hash_sha256": "ff164d6096d49ddebfe027ff1d463d68e33a7b53af281fdedfc57ba73a5c8a54",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:09:24 GMT"
+  }
+}

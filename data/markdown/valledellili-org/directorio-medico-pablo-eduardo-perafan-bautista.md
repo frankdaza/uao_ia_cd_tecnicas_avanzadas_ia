@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/pablo-eduardo-perafan-bautista/
 titulo: Pablo Eduardo Perafan Bautista - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ae5ea697d9c71307194e6283f7bb97601a05420ec091c875bd9dab47b56cf11c
+hash: 1e78ca45e9c7c9ee0e154bbaa1712912d77aa0b848f23be39416f8d617573154
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

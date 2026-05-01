@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/medicina-familiar/
 titulo: Medicina familiar - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d3d5fba452e223e16fb545b3ea50ba0227bff37fc2751ab40c8bc5a31f373edc
+hash: f9910146280bcce0e12e4073c4e24c93d10ab9994e1c1233419c70c72d797c4d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-cardiovascular-adultos-fundacion-valle-del-lili/
 titulo: Cirugía Cardiovascular Adultos - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 25e11795cd004919501cd0d3584204e803a8391eddb0c67fa5c409facede0bb0
+hash: 1d77c89265d3d2756ca28acafea4f2901bfc657051434c05b47c563070e948d1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

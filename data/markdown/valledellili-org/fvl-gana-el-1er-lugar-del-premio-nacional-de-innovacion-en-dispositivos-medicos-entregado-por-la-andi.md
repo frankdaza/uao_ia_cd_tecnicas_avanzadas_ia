@@ -3,9 +3,9 @@ source_url: https://valledellili.org/fvl-gana-el-1er-lugar-del-premio-nacional-d
 titulo: FVL gana el 1er lugar del Premio Nacional de Innovación en Dispositivos Médicos
   entregado por la ANDI
 seccion: fvl-gana-el-1er-lugar-del-premio-nacional-de-innovacion-en-dispositivos-medicos-entregado-por-la-andi
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a9e0342040ecc9f368ccb2bfbdc131058d3c6ade65d26d170cee716d76f3f345
+hash: 1a457866a2cd84fa557ae19fbc5a239e25c94ba720fba2faf60b1497d24f5813
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/laboratorio-clinico-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:01:28+00:00",
+  "hash_sha256": "f6876226a4ae8f925f47cb4b0b61d2cd9fc4788e354a43c1fba262bd85781aad",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:01:27 GMT"
+  }
+}

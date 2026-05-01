@@ -3,9 +3,9 @@ source_url: https://valledellili.org/linea-de-transparencia-sistema-de-gestion-d
 titulo: Línea de transparencia – Sistema de Gestión de Riesgos - Fundación Valle del
   Lili
 seccion: linea-de-transparencia-sistema-de-gestion-de-riesgos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 741a284068983c0d02e2a09ae6fce72793d474bc71330110b4de72fb78cb1cda
+hash: bfe51d26c913971f42ce1b3dcb7db272fc6ccf5b170c03645143f9102cf81946
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/fvlpremium/
 titulo: FVL Premium - Fundación Valle del Lili
 seccion: fvlpremium
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8265e4417b287c8483e6be8622fa790f8289be8fe948fabc84ba8522e1bea6ab
+hash: 09d823513b6e3aa4a1913e2d1fcf7aa42f4e44a9e9c594bc99df8f6ee15e41d8
 ---
 
 ## ¿Qué es FVL Premium?

@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion/sacituzumab-tirumotecan/
 titulo: Estudio clínico de sacituzumab tirumotecan (Sac-TMT, MK-2870) en personas
   con cáncer de mama (MK-2870-032)-06966700 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7dac92a90c192bfd99e6ab31a4f0b704ec4a871ce82d3504c9adb1f1c7166b3a
+hash: 8f2e29fc2dc345228614f37ec5b214c015d71c8a566f63b5849ba3204c109703
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

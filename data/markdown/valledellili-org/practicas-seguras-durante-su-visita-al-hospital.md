@@ -3,9 +3,9 @@ source_url: https://valledellili.org/practicas-seguras-durante-su-visita-al-hosp
 titulo: Prácticas seguras durante su visita al hospital FVL - Fundación Valle del
   Lili
 seccion: practicas-seguras-durante-su-visita-al-hospital
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bb4ff32674369b630122f3ca48f46ccfddee4801bdd85a341cf8534c8e8dded2
+hash: 03166b73051e9303dd5e74662b0bf37a22f77174000192d6124be9f650b7652a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/sedes/sede-limonar/
 titulo: Sede Limonar - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fcf9817a8fd5005f0e21be351f75325a51bf9b6458914177872e044a5d5cfff4
+hash: 635416093f44f8e0e22d2bd061a9616706945826d65258a1d9d5afd77dd8b4b4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

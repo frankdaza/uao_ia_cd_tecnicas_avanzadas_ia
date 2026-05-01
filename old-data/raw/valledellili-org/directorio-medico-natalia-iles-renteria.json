@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/natalia-iles-renteria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:13:31+00:00",
+  "hash_sha256": "ad65088fffca063656ac317aa252c4e4a65a1c4c7feab1008f0c8d189f1792da",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:13:31 GMT"
+  }
+}

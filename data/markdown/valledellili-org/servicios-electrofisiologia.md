@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/electrofisiologia/
 titulo: Electrofisiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ed21a78e8cb675fa6c36429849ec9468d7fe61fac663c5ff910e51f87ac32ac1
+hash: 022aaf450f5a012b6fd110b5cd87237e82ae72d15d579bdc06696b2f8fea84e5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

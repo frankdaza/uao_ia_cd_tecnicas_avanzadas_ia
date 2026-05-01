@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/psiquiatria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:10:00+00:00",
+  "hash_sha256": "042cdd74263ded805cc2dec88836a2b674e982f2e8b1b6eda2425265d7ecd64e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:09:59 GMT"
+  }
+}

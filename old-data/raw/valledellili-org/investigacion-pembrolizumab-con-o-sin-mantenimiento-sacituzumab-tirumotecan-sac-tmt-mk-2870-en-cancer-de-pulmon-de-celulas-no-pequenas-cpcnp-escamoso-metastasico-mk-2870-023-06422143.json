@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/pembrolizumab-con-o-sin-mantenimiento-sacituzumab-tirumotecan-sac-tmt-mk-2870-en-cancer-de-pulmon-de-celulas-no-pequenas-cpcnp-escamoso-metastasico-mk-2870-023-06422143/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:04:41+00:00",
+  "hash_sha256": "221a045f38a03f6d610598d41d2b0914ce7cf7251fd58c763402a7fa24ed5826",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:04:40 GMT"
+  }
+}

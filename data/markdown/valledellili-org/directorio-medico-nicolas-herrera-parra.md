@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/nicolas-herrera-parra/
 titulo: Nicolas Herrera Parra - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: cbbf6dee368bfee79ef852ef1df5b77b48dcf0eb18cf168b2f0c490498a414f7
+hash: 1da479866e363408597ba5961ecdd23f398599329e2c59acea16f21f534b1e40
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

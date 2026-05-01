@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/educacion/cesec/
 titulo: Centro de Simulación y Educación Continua – CESEC - Fundación Valle del Lili
 seccion: educacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5de8653277da4dbd1023251519ce2a512ad47284a45377f6a6548759d61536c4
+hash: 1eccc1857961d9f5b0e486b416087a5edcabe22e41e4f5d88167d951fbcc5036
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

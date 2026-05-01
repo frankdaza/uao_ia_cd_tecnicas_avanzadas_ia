@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/neurofisiologia/
 titulo: Neurofisiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ff164d6096d49ddebfe027ff1d463d68e33a7b53af281fdedfc57ba73a5c8a54
+hash: bee28af33150aaa173172cfbc6704122bbfb64822ea9de74a81aa9b639566024
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

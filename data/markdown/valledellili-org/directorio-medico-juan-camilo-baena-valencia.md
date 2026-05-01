@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-camilo-baena-valencia/
 titulo: Juan Camilo Baena Valencia - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 036bfe6e8e2cacd905604227dab3c1a704dbf713a3578fa73de836d1a6ff4333
+hash: 1804925d856b21d19124586fe1d6f63fbf5fa42e8d80fc5ecc036244345b9dc3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-general/
 titulo: Cirugía General - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 716e59303a561c1c2c02b6bd25c936740a17a0f02489088ba576517902da8dff
+hash: bb21c1a0925e673360ae3b2e4b808b756c80a07558017007e38889db112a9060
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/fernando-sanabria-arenas/
 titulo: Fernando Sanabria Arenas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 906280d0ea52b2b321505d1390909c95eeee3d0468599dbab29bf14b61a089d3
+hash: 79306e980ead96e93185ad575635bf87039c16a23d49df8c7d8a9eb1dd69b1fe
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

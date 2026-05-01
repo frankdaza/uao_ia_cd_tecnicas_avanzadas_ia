@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/melanoma-investigacion-clinica-caso-martha-mejia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:05:04+00:00",
+  "hash_sha256": "3275cdbf75773e11be31db2a667ff2116900e5acd8c00129dc15546bf5352cdd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:05:03 GMT"
+  }
+}

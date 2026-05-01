@@ -4,9 +4,9 @@ titulo: Estudio clínico de molnupiravir para la prevención de enfermedades gra
   por coronavirus 2019 (COVID-19) en personas de alto riesgo (MK-4482-023)-06667700
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fc6567c4b30e803e916dafe50169027355aa42a7461560807824a02301e34388
+hash: 3d16caade7d5fd4120ab4ba521907263c56dd382b42fc6cd7a8cbe4d126a4291
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

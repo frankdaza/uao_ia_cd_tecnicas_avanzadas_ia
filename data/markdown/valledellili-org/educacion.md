@@ -1,10 +1,10 @@
 ---
 source_url: https://valledellili.org/educacion/
-titulo: '- Fundación Valle del Lili'
+titulo: Educación - Fundación Valle del Lili
 seccion: educacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: da442cb8da104a399b3ada64168ef300571621bdfd2312db150dd33f045e9ba6
+hash: 0074e578b05d4d752b83386df04d3d0bdaf17c5cccd5aa4a2a92d284bf5aff25
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -188,7 +188,7 @@ Virtual
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am – 5:00 pm
 
@@ -202,7 +202,7 @@ Presencial
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am – 4:00 pm
+Hora: 8:00 am – 2:30 pm
 
 Lugar: Evento Virtual
 

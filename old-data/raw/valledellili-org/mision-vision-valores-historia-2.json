@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/mision-vision-valores-historia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:06:56+00:00",
+  "hash_sha256": "2c587845e29e0448fe995a3b4494cd9bb965e089ac21e0414c74d259a630233e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:06:55 GMT"
+  }
+}

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/consenso-cirugia-control-de-danos/
 titulo: Consenso de cirugía de control de daños - Fundación Valle del Lili
 seccion: consenso-cirugia-control-de-danos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ef3fadf33cf39c84ebbaa470187e8675933c8c2b9a84d697c163e29958e41d88
+hash: e3b4f0be66de25f6b3346691593db0d6e1d550bb8b047b943db078805a45b048
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

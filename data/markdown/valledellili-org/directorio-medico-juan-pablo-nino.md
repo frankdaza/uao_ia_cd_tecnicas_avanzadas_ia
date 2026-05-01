@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-pablo-nino/
 titulo: Juan Pablo Niño - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0a24715d566f2738e58a5324e8cebb67fe2fba43636b72de72c93f4e9040cf69
+hash: 4986e0e80bebbf53a474d680d98cc22055194b44c6e3b545d15835d4960d7f27
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

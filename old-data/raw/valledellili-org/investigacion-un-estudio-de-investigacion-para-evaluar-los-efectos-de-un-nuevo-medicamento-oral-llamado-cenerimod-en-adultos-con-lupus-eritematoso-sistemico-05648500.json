@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/un-estudio-de-investigacion-para-evaluar-los-efectos-de-un-nuevo-medicamento-oral-llamado-cenerimod-en-adultos-con-lupus-eritematoso-sistemico-05648500/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:04:50+00:00",
+  "hash_sha256": "7974d6c459f8c67420688a719b6aa52340d159a516682dc711321b9c1d1f172b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:04:49 GMT"
+  }
+}

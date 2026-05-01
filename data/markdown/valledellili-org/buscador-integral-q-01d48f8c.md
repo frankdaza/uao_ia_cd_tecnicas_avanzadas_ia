@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=enfermedades-oseas
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9db01141c9e9ae3ddbc93dfb612ed0a62d42018015dd613cd38e748d7b6bc14d
+hash: eb1a6f4eb318f656b6a17c4045c192f6bc4b41f028f4774a7fdcd3e72c756dc7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

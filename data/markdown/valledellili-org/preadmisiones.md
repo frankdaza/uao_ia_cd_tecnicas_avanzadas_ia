@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/preadmisiones/
 titulo: Preadmisiones - Fundación Valle del Lili
 seccion: preadmisiones
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d7d8d7cb436b623e7de632d94e7a93d42677de83c4c594e8ff63c15e230932a4
+hash: 30c9988039fabedab04963ea8b45d1f075d92c1b96510ffca219d80e1a9fd8fa
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -77,31 +77,50 @@ Esperar Confirmación Nuestro equipo revisará su información En un plazo de 48
 
 ¿Cuenta con una orden médica y un procedimiento programado que se realizará bajo anestesia?
 
-Si
+SíNo
 
-No
+**Importante:** Este formulario está destinado únicamente para pacientes que posean orden médica vigente y requieran procedimientos que incluyan sedación o anestesia. Si necesita otro tipo de servicio, por favor diríjase a las áreas correspondientes: [Solicitud de citas médicas](/citas-medicas/) o [Formularios de contacto y Servicio al Cliente](/contacto/). Gracias por su comprensión.
 
-Tipo de documento--Cédula (CC)Tarjeta de identidad (TI)Cédula de extranjería (CE)Registro civil (RC)
+Fecha y Hora de registro  
+[text registration-date-time readonly "Fecha: [\_date] - [\_time]"]
 
-Número de documento de identidad
+Tipo de documento  
+—Please choose an option—Cédula de CiudadaníaCédula de ExtranjeríaPasaporteTarjeta de Identidad
 
-Nombres
+Número de documento
 
-Apellidos
+Nombre
 
-Email
-
-Teléfono de contácto
+Apellido
 
 Ciudad de residencia
 
-Ingrese su entidad de salud (EPS)--Medicina prepagadaPólizaEPSSOAT
+Teléfono
 
-Tu mensaje
+Email
 
-Autorizo el tratamiento de mis datos personales (leer política)  
+Entidad de salud  
+—Please choose an option—Medicina prepagadaPólizaEPSSOAT
 
-Debe leer la política de datos personales antes de continuar
+Observaciones
+
+Acepto términos y condiciones
+
+Please leave this field empty.
+
+## Autorización datos personales
+
+✕
+
+La Fundación Valle del Lili, identificada con NIT 890324177-5, con domicilio en la Cra. 98 #18-49, Cali (Colombia), actúa como Responsable del Tratamiento de Datos Personales, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015.
+
+En cumplimiento de la normativa vigente, le informamos que los datos personales que usted suministre a través del presente formulario serán recolectados, almacenados y tratados con la finalidad de:
+
+1. Gestionar, registrar y administrar la información suministrada a través del formulario.
+2. Analizar la información para la elaboración, desarrollo y documentación de casos de estudio, investigaciones o análisis académicos y científicos, cuando aplique.
+3. Dar respuesta a solicitudes, consultas o requerimientos realizados por el titular de la información.
+
+Autorizo
 
 [Solicitar cita por Whatsapp](https://api.whatsapp.com/send?phone=573217997546)
 [Solicitar una llamada](/te-llamamos/)

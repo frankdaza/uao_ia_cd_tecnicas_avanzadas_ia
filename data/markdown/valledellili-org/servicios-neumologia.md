@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/neumologia/
 titulo: Neumología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 283b36e39801cde2a201440fe872b601927efa5b9e38f2b8eba919552dd8455d
+hash: 709624703f06ad399f45553aaadbcfc3f29352bc5b0afbdaf030ba0d9712fb14
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

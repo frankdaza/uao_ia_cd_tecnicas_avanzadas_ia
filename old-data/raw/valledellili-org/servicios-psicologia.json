@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/psicologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:09:54+00:00",
+  "hash_sha256": "d9c64476f22fbed6f30b8b24a890d770f1d1a802f998878fdbd6a5f4a66fc71c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:09:53 GMT"
+  }
+}

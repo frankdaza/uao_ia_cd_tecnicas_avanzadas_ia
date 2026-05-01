@@ -3,9 +3,9 @@ source_url: https://valledellili.org/el-pie-plano-en-la-infancia-cuando-es-norma
 titulo: 'El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar? - Fundación
   Valle del Lili'
 seccion: el-pie-plano-en-la-infancia-cuando-es-normal-y-cuando-consultar
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e3db160fbd299273e4587254b45c92cedd07c4ee3da320821063cc2e741d0f48
+hash: 2a19397f4fb0fce6246763ce5b2a765fc141573f73031b1a4d974e428bc07b2c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -140,6 +140,9 @@ En resumen, el pie plano en la infancia es, en la gran mayoría de los casos, un
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### ¿Qué es el melanoma y por qué es tan importante su detección temprana?](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
 [Artículo
 
@@ -147,9 +150,6 @@ En resumen, el pie plano en la infancia es, en la gran mayoría de los casos, un
 [Artículo
 
 #### La incontinencia fecal: qué es, causas, diagnóstico y tratamiento](https://valledellili.org/la-incontinencia-fecal-que-es-causas-diagnostico-y-tratamiento/)
-[Artículo
-
-#### ¿Sabes cómo regular tus emociones?](https://valledellili.org/sabes-como-regular-tus-emociones/)
 
 **¡Gracias por tu aporte!**
 

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=gastrointestinal-infantil",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-04-29T05:15:40+00:00",
+  "hash_sha256": "41a249184f75aea097151fb8af4b654d0070f7227b300624f3049c9433855c6b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Wed, 29 Apr 2026 05:15:39 GMT"
+  }
+}

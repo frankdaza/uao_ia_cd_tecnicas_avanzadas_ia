@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/hernando-antonio-muneton-abadia/
 titulo: Hernando Antonio Muñeton Abadia - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2879d3813dc529a5aaae98cdccab0ef2393a35c88ee15bc973f2602749861a14
+hash: f21d1071b5600457c3e6581a33ed51cb7918f11958200d3b8adba5cfe623231c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

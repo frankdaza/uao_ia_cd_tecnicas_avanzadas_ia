@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jaime-alberto-patino-nino/
 titulo: Jaime Alberto Patiño Niño - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e2fc3cd02967c1e922beedac6b93fdf64d71dca82cee3c3a76f7f0deee8440bf
+hash: 17cace37de1604a264eeb13325ab3f2f4e1151fcccb465bf9000053c1fe8dbe0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
