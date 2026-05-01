@@ -22,7 +22,7 @@ from src.retrieval.recuperador import (
     RecuperadorDocumento,
 )
 
-K_TOP_DOCUMENTOS: int = 5
+K_TOP_DOCUMENTOS: int = 3
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,1251 @@
+% ============================================================
+%  Informe de actividad - Técnicas Avanzadas de IA
+%  Universidad Autónoma de Occidente
+%  Formato IEEE Conference
+% ============================================================
+
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% --- Codificación y fuentes ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+
+% --- Matemáticas ---
+\usepackage{amsmath,amssymb,amsfonts}
+
+% --- Gráficos y diagramas ---
+\usepackage{graphicx}
+\graphicspath{{figuras/}}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, backgrounds, fit}
+
+% --- Tablas ---
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+% --- Código fuente ---
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- Tipografía y formato ---
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{hyperref}
+
+% ============================================================
+%  Configuración de colores para listings
+% ============================================================
+\definecolor{clrGreen}{rgb}{0,0.55,0}
+\definecolor{clrGray}{rgb}{0.5,0.5,0.5}
+\definecolor{clrPurple}{rgb}{0.50,0,0.70}
+\definecolor{clrBackground}{rgb}{0.97,0.97,0.97}
+\definecolor{clrOrange}{rgb}{0.80,0.40,0}
+
+% Definición de lenguaje YAML para listings
+\lstdefinelanguage{yaml}{
+    keywords={true, false, null, yes, no},
+    keywordstyle=\color{blue}\bfseries,
+    sensitive=false,
+    comment=[l]{\#},
+    commentstyle=\color{clrGreen}\itshape,
+    morestring=[b]',
+    morestring=[b]",
+    stringstyle=\color{clrOrange},
+}
+
+\lstdefinestyle{estiloBase}{
+    backgroundcolor=\color{clrBackground},
+    commentstyle=\color{clrGreen},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{clrGray},
+    stringstyle=\color{clrPurple},
+    basicstyle=\footnotesize\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=4pt,
+    showspaces=false,
+    showstringspaces=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{black!30},
+    extendedchars=true,
+    inputencoding=utf8,
+    literate=%
+      {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+      {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+      {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+      {ü}{{\"u}}1 {Ü}{{\"U}}1
+      {¿}{{?`}}1 {¡}{{!`}}1,
+}
+
+\lstset{style=estiloBase}
+
+% Comando para código inline
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+% ============================================================
+%  Configuración de hyperref
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black,
+}
+
+% ============================================================
+%  DOCUMENTO
+% ============================================================
+\begin{document}
+
+\title{Sistema de Preguntas y Respuestas mediante Web Scraping y Modelos de Lenguaje de Gran Escala: Aplicación a la Fundación Valle del Lili}
+
+\author{
+    \IEEEauthorblockN{%
+        Frank Edward Daza\quad
+        Andrés Fernando López\quad
+        Viviana Valle Fernández\quad
+        Álvaro Julián Barco%
+    }
+    \IEEEauthorblockA{%
+        Técnicas Avanzadas de IA Aplicadas en Modelos de Lenguaje\\
+        Universidad Autónoma de Occidente, Cali, Colombia\\
+        Docente: Jan Polanco Velasco
+    }
+}
+
+\maketitle
+
+% ============================================================
+\begin{abstract}
+% ============================================================
+Este artículo presenta el diseño e implementación de un sistema de
+preguntas y respuestas (\textit{Q\&A}) basado en información obtenida
+mediante \textit{web scraping} aplicado al dominio institucional de la
+Fundación Valle del Lili. En su fase 2, el sistema se organiza en siete
+módulos secuenciales: (1)~extracción automatizada mediante un
+\textit{crawler} de búsqueda en anchura (BFS) que respeta las directivas de
+\code{robots.txt}, con un corpus de 1\,000 páginas HTML descargadas en
+aproximadamente 51 minutos; (2)~conversión a Markdown con \textit{front
+matter} YAML, produciendo 1\,000 documentos en
+\code{data/markdown/valledellili-org/}; (3)~recuperación léxica con el
+algoritmo BM25 Okapi, que selecciona y concatena los tres documentos de
+mayor puntuación como contexto enriquecido; (4)~composición del
+\textit{prompt} con instrucciones anti-alucinación; (5)~generación de
+respuestas con ocho modelos de lenguaje disponibles bajo una interfaz
+uniforme —tres modelos locales en Ollama (\code{llama3.1:8b},
+\code{gemma4:e2b} y \code{gemma4:e4b}) y cinco modelos en la nube por la API
+de OpenAI (\code{gpt-4o}, \code{gpt-4o-mini}, \code{gpt-4-turbo},
+\code{chatgpt-4o-latest} y \code{gpt-3.5-turbo})—; (6)~un backend HTTP
+construido con FastAPI, Uvicorn y \code{sse-starlette} que expone el
+\textit{pipeline} como servicio REST con transmisión \textit{Server-Sent
+Events} (SSE) y un modo dual que consulta Ollama y OpenAI con una sola pasada
+BM25; y (7)~un \textit{frontend} \textit{single page application} (SPA)
+desarrollado en React 19 + Vite 7 + TypeScript, con Tailwind CSS v4 y
+\textit{shadcn/ui}, que renderiza la respuesta en tiempo real y permite
+editar el \textit{prompt} de sistema sin modificar el código fuente. Se
+diseñó un protocolo de evaluación reproducible con 23 preguntas de
+referencia distribuidas en cinco categorías temáticas, con métricas de
+precisión de recuperación, Recall@3, tasa de abstención y latencia media
+por modelo.
+\end{abstract}
+
+\begin{IEEEkeywords}
+recuperación aumentada por generación, BM25, \textit{web scraping}, modelos
+de lenguaje grandes, FastAPI, \textit{Server-Sent Events}, React, Vite,
+Ollama, OpenAI, procesamiento de lenguaje natural, inteligencia artificial
+\end{IEEEkeywords}
+
+% ============================================================
+\section{Introducción}
+% ============================================================
+
+La creciente disponibilidad de modelos de lenguaje de gran escala
+(\textit{Large Language Models}, LLM) ha abierto nuevas posibilidades para
+la construcción de sistemas de preguntas y respuestas capaces de interactuar
+en lenguaje natural sobre dominios específicos. Sin embargo, el uso de LLM
+sin restricción sobre el dominio de conocimiento conlleva el fenómeno de
+alucinación: la generación de información plausible pero factualmente
+incorrecta \cite{lewis2020rag}.
+
+La Fundación Valle del Lili es una institución hospitalaria de referencia en
+Colombia que dispone de un sitio web institucional con información sobre
+servicios médicos, trámites administrativos, especialidades y datos de
+contacto. Un sistema automatizado de Q\&A sobre esta información reduciría
+la carga en canales de atención al cliente y mejoraría la accesibilidad para
+pacientes y público en general.
+
+Este trabajo propone un \textit{pipeline} RAG completo que aborda el
+problema en fases secuenciales bien delimitadas: adquisición de datos,
+procesamiento documental, recuperación de contexto relevante, generación
+de respuestas, exposición del \textit{pipeline} como servicio HTTP y
+consumo desde una interfaz web moderna. La recuperación se implementa
+mediante el algoritmo BM25 Okapi \cite{robertson2009bm25}, que selecciona
+los tres archivos más relevantes ante cada consulta y los concatena como
+contexto único. Estos documentos se presentan al LLM junto con un
+\textit{prompt} de sistema que restringe la respuesta al dominio del corpus.
+
+La contribución principal de este trabajo consiste en demostrar que es
+posible construir un sistema RAG funcional, trazable y libre de alucinaciones
+sin recurrir a bases de datos vectoriales ni a modelos de \textit{embedding},
+lo que simplifica el despliegue y reduce los requisitos computacionales en
+la fase inicial del proyecto. Como contribución adicional de la fase 2, el
+sistema se desacopla en un \textit{backend} HTTP con FastAPI + SSE y un
+\textit{frontend} SPA construido con React 19 + Vite 7 + Tailwind CSS v4 +
+\textit{shadcn/ui}, lo que habilita interfaces de alto impacto visual,
+modo dual de comparación entre modelos locales y en la nube, y reutilización
+del API por scripts de evaluación y por los módulos posteriores del curso.
+
+El artículo se organiza de la siguiente manera: la Sección~\ref{sec:arq}
+describe la arquitectura general; las Secciones~\ref{sec:scraping}
+a~\ref{sec:api_ui} detallan cada módulo; la Sección~\ref{sec:eval} presenta
+el protocolo de evaluación y los resultados; finalmente, las
+Secciones~\ref{sec:disc} y~\ref{sec:conc} ofrecen la discusión y las
+conclusiones.
+
+% ============================================================
+\section{Arquitectura del Sistema}
+\label{sec:arq}
+% ============================================================
+
+El sistema sigue una arquitectura de tubería (\textit{pipeline}) secuencial
+dividida en siete módulos funcionales, tal como se ilustra en la
+Figura~\ref{fig:arq}. Cada módulo produce artefactos persistentes que sirven
+como entrada al módulo siguiente, lo que facilita la rejecución parcial del
+\textit{pipeline} ante cambios en el corpus o en los parámetros del sistema.
+
+\begin{figure*}[ht]
+\centering
+\begin{tikzpicture}[
+    node distance=0.38cm,
+    box/.style={
+        rectangle, rounded corners=4pt,
+        draw=black!60, fill=blue!7,
+        text width=15.5cm, minimum height=0.80cm,
+        font=\small\sffamily, align=center,
+        inner sep=4pt
+    },
+    arrow/.style={-Stealth, thick, draw=black!60}
+]
+    \node[box] (s1)
+        {\textbf{Módulo 1: Adquisición de Datos}\quad
+         \textit{Crawler BFS $\cdot$ respeto a robots.txt $\cdot$
+         idempotencia SHA-256 $\cdot$ salida: data/raw/}};
+
+    \node[box, below=of s1] (s2)
+        {\textbf{Módulo 2: Conversión Documental}\quad
+         \textit{Limpieza HTML $\cdot$ markdownify $\cdot$
+         front matter YAML $\cdot$ salida: data/markdown/}};
+
+    \node[box, below=of s2] (s3)
+        {\textbf{Módulo 3: Recuperación BM25}\quad
+         \textit{Tokenización sin stopwords $\cdot$
+         índice BM25 Okapi $\cdot$ selección top-3 documentos}};
+
+    \node[box, below=of s3] (s4)
+        {\textbf{Módulo 4: Composición del Prompt}\quad
+         \textit{Prompt de sistema (editable) $\cdot$
+         concatenación de los 3 documentos $\cdot$
+         pregunta del usuario}};
+
+    \node[box, below=of s4] (s5)
+        {\textbf{Módulo 5: Modelos de Lenguaje}\quad
+         \textit{Ollama local (llama3.1:8b, gemma4:e2b, gemma4:e4b) $\cdot$
+         OpenAI API (gpt-4o, gpt-4o-mini, gpt-4-turbo, chatgpt-4o-latest,
+         gpt-3.5-turbo)}};
+
+    \node[box, below=of s5] (s6)
+        {\textbf{Módulo 6: Backend HTTP FastAPI + SSE}\quad
+         \textit{FastAPI + Uvicorn + sse-starlette $\cdot$ REST + SSE
+         token a token $\cdot$ modo dual Ollama + OpenAI}};
+
+    \node[box, below=of s6] (s7)
+        {\textbf{Módulo 7: Frontend SPA React 19 + Vite 7}\quad
+         \textit{Tailwind CSS v4 $\cdot$ shadcn/ui $\cdot$
+         prompt editable $\cdot$ trazabilidad BM25 $\cdot$ modo claro/oscuro}};
+
+    \draw[arrow] (s1) -- (s2);
+    \draw[arrow] (s2) -- (s3);
+    \draw[arrow] (s3) -- (s4);
+    \draw[arrow] (s4) -- (s5);
+    \draw[arrow] (s5) -- (s6);
+    \draw[arrow] (s6) -- (s7);
+\end{tikzpicture}
+\caption{Arquitectura general del \textit{pipeline} RAG en la fase 2. El
+\textit{pipeline} de datos (módulos 1--5) se expone como servicio HTTP
+(módulo 6) y se consume desde una \textit{single page application}
+desacoplada (módulo 7).}
+\label{fig:arq}
+\end{figure*}
+
+La Tabla~\ref{tab:stack} resume las tecnologías empleadas en cada módulo y
+los artefactos que produce.
+
+\begin{table}[ht]
+\centering
+\caption{Stack tecnológico por módulo}
+\label{tab:stack}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Módulo} & \textbf{Tecnología} & \textbf{Artefacto de salida} \\
+\midrule
+Adquisición  & requests, BeautifulSoup4      & HTML + JSON sidecar     \\
+Conversión   & markdownify, PyYAML           & Markdown + front matter \\
+Recuperación & rank-bm25                     & Top-3 documentos        \\
+Prompt       & composición propia            & Lista de mensajes       \\
+LLM          & Ollama, OpenAI SDK            & Texto de respuesta      \\
+Backend      & FastAPI, Uvicorn,             & API REST + eventos SSE  \\
+             & sse-starlette, pydantic-settings &                      \\
+Frontend     & React 19, Vite 7, TypeScript, & SPA web con streaming   \\
+             & Tailwind v4, shadcn/ui,       &                         \\
+             & Vercel AI SDK                 &                         \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Nota}: La interfaz Gradio del MVP fase 1 se conserva como código
+legacy en \code{src/app/legacy/app\_gradio.py}
+\cite{abid2019gradio}; la experiencia oficial del usuario es ahora la SPA
+del módulo 7.
+
+% ============================================================
+\section{Módulo de Adquisición de Datos}
+\label{sec:scraping}
+% ============================================================
+
+\subsection{Diseño del \textit{Crawler}}
+
+El módulo de \textit{scraping} implementa un \textit{crawler} BFS sobre el
+dominio \url{https://valledellili.org/}. La clase \code{Crawler} acepta una
+configuración con los parámetros descritos en la Tabla~\ref{tab:crawler}.
+Los valores corresponden a los efectivamente usados en la última ejecución
+del módulo en la fase 2.
+
+\begin{table}[ht]
+\centering
+\caption{Parámetros de configuración del \textit{crawler} (fase 2)}
+\label{tab:crawler}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parámetro} & \textbf{Valor utilizado} & \textbf{Descripción} \\
+\midrule
+\code{url\_inicio}      & valledellili.org & URL semilla               \\
+\code{max\_paginas}     & 1\,000           & Páginas máximas a visitar \\
+\code{profundidad\_max} & 8                & Niveles de enlace         \\
+\code{delay\_segundos}  & 1.5\,s           & Pausa entre peticiones    \\
+\code{timeout}          & 30\,s            & Tiempo máximo HTTP        \\
+\code{reintentos}       & 3                & Reintentos ante error     \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Respeto a \texttt{robots.txt} e Idempotencia}
+
+Antes de visitar cualquier URL, el sistema consulta la clase
+\code{GestorRobots}, que carga y analiza el archivo \code{robots.txt} del
+dominio con carga perezosa (\textit{lazy loading}). Si la directiva prohíbe
+el acceso o la lectura falla, el gestor adopta un modo conservador que
+rechaza todas las rutas. El \textit{Crawl-Delay} declarado en
+\code{robots.txt} se respeta si supera el \code{delay\_segundos} configurado.
+
+Para garantizar idempotencia, cada página descargada se persiste junto a un
+archivo \textit{sidecar} JSON que almacena su hash SHA-256. En ejecuciones
+posteriores, si el contenido no ha cambiado, la página se omite sin realizar
+una nueva petición HTTP.
+
+Ante errores transitorios (códigos 5xx o 429), el sistema aplica retroceso
+exponencial con esperas de 1, 2 y 4 segundos entre intentos sucesivos.
+
+\subsection{Salida del Módulo}
+
+Por cada página exitosa, el \textit{crawler} genera en
+\code{data/raw/valledellili-org/} un par de archivos:
+
+\begin{itemize}
+    \item \textbf{HTML}: contenido bruto de la respuesta HTTP.
+    \item \textbf{JSON sidecar}: URL canónica, código de estado, hash SHA-256,
+          profundidad de rastreo y marca de tiempo.
+\end{itemize}
+
+Las descargas se registran de forma acumulativa en
+\code{data/raw/\_log.jsonl}, lo que permite auditar qué URLs se visitaron,
+cuáles se omitieron por \code{robots.txt} o por hash idéntico, y cuáles
+fallaron en red.
+
+\subsection{Resultados de la ejecución}
+\label{subsec:scraping_resultados}
+
+La última ejecución del módulo se invocó con el comando:
+
+\begin{lstlisting}[language=bash, caption={Comando de ejecución del
+\textit{crawler} en la fase 2}, label={lst:scrape_cmd}]
+uv run python -m scripts.scrape \
+  --max-paginas 1000 \
+  --profundidad-maxima 8
+\end{lstlisting}
+
+La Tabla~\ref{tab:scraping_resultados} resume las métricas observadas y
+la Figura~\ref{fig:scraping} muestra la salida resumida del
+\textit{runner} de ejecución. Los 20 errores corresponden a URLs que
+fallaron en red o devolvieron un código HTTP distinto de 200; no
+impidieron completar el lote solicitado de 1\,000 descargas exitosas.
+
+\begin{table}[ht]
+\centering
+\caption{Resultados del \textit{scraping} (corrida fase 2)}
+\label{tab:scraping_resultados}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Métrica} & \textbf{Valor} \\
+\midrule
+Descargas exitosas               & 1\,000 \\
+Omitidas por \code{robots.txt}   & 0      \\
+Omitidas por hash (idempotencia) & 0      \\
+Errores (red o HTTP $\neq 200$)  & 20     \\
+Duración total                   & $\approx 51$ min \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{scraping_resultado_1000.png}
+\caption{Salida del \textit{runner} \code{scripts.scrape} tras la ejecución
+con \code{--max-paginas 1000 --profundidad-maxima 8}: 1\,000 descargas
+exitosas, 0 omitidas por \code{robots.txt} ni por hash, 20 errores y una
+duración aproximada de 51 min.}
+\label{fig:scraping}
+\end{figure}
+
+% ============================================================
+\section{Módulo de Procesamiento Documental}
+\label{sec:conversion}
+% ============================================================
+
+\subsection{Limpieza del HTML}
+
+Antes de la conversión, se elimina el ruido léxico mediante BeautifulSoup4:
+se suprimen los elementos \code{<script>}, \code{<style>}, \code{<nav>},
+\code{<header>}, \code{<footer>}, \code{<iframe>} y los banners de cookies.
+Esta etapa mejora directamente la calidad de la recuperación BM25 al reducir
+términos irrelevantes en el vocabulario del corpus.
+
+\subsection{Conversión a Markdown}
+
+La conversión HTML $\rightarrow$ Markdown se realiza con la biblioteca
+\code{markdownify}~\cite{markdownify}, configurada con encabezados ATX
+(\code{\#}) y viñetas con guion. El resultado se normaliza para eliminar
+saltos de línea consecutivos excesivos (máximo dos seguidos).
+
+\subsection{Front Matter YAML}
+
+Cada archivo Markdown incorpora un bloque de metadatos YAML al inicio:
+
+\begin{lstlisting}[language=yaml, caption={Ejemplo de front matter generado
+automáticamente}, label={lst:fm}]
+---
+source_url: https://valledellili.org/atencion-al-paciente/
+titulo: "Atención al Paciente"
+seccion: atencion-al-paciente
+fecha_extraccion: '2026-04-27'
+idioma: es
+hash: a3f2c1d9...
+---
+\end{lstlisting}
+
+El campo \code{source\_url} es fundamental para la trazabilidad: se expone
+al usuario junto a cada respuesta generada. El campo \code{hash} permite la
+idempotencia de re-exportaciones.
+
+\subsection{Salida del Módulo}
+
+Los archivos Markdown se almacenan en
+\code{data/markdown/valledellili-org/}. El script \code{export\_markdown.py}
+es idempotente: omite la re-conversión si el hash del HTML coincide con el
+registrado en el Markdown existente, a menos que se invoque con la bandera
+\code{--forzar}.
+
+\subsection{Resultados de la exportación a Markdown}
+\label{subsec:markdown_resultados}
+
+Tras la corrida de \textit{scraping} descrita en la
+Sección~\ref{subsec:scraping_resultados}, el comando:
+
+\begin{lstlisting}[language=bash, caption={Comando de exportación del
+corpus crudo a Markdown}, label={lst:export_cmd}]
+uv run python -m scripts.export_markdown
+\end{lstlisting}
+
+produjo el corpus textual definitivo utilizado por el recuperador BM25.
+La Tabla~\ref{tab:markdown_resultados} resume las métricas observadas y la
+Figura~\ref{fig:markdown} muestra la salida del script. El corpus pasa así
+de los 45 documentos aproximados del MVP fase 1 a 1\,000 documentos
+\code{.md} en \code{data/markdown/valledellili-org/}, cada uno con su
+bloque de \textit{front matter} YAML y su hash SHA-256.
+
+\begin{table}[ht]
+\centering
+\caption{Resultados de la exportación a Markdown (corrida fase 2)}
+\label{tab:markdown_resultados}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Métrica} & \textbf{Valor} \\
+\midrule
+Archivos \code{.md} creados   & 1\,000 \\
+Archivos actualizados         & 0      \\
+Omitidos por hash             & 0      \\
+Errores de conversión         & 0      \\
+Duración total                & $\approx 32$ s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{markdown_export_1000.png}
+\caption{Salida del script \code{scripts.export\_markdown}: 1\,000 archivos
+\code{.md} creados, 0 actualizados, 0 omitidos por hash y 0 errores en una
+duración aproximada de 32 s.}
+\label{fig:markdown}
+\end{figure}
+
+% ============================================================
+\section{Módulo de Recuperación BM25}
+\label{sec:bm25}
+% ============================================================
+
+\subsection{Algoritmo BM25 Okapi}
+
+La recuperación de información se basa en el algoritmo BM25
+Okapi~\cite{robertson2009bm25}, una función de puntuación probabilística que
+pondera la frecuencia de los términos de la consulta en cada documento y
+normaliza por la longitud del documento. La puntuación de un documento $D$
+ante una consulta $Q = \{q_1, q_2, \ldots, q_n\}$ se define como:
+
+\begin{equation}
+\mathrm{BM25}(D,Q)
+= \sum_{i=1}^{n} \mathrm{IDF}(q_i)
+  \cdot \frac{f(q_i,D)\,(k_1+1)}
+             {f(q_i,D) + k_1\!\left(1 - b + b\,\dfrac{|D|}{\overline{dl}}\right)}
+\label{eq:bm25}
+\end{equation}
+
+donde:
+\begin{itemize}
+    \item $f(q_i, D)$: frecuencia del término $q_i$ en el documento $D$.
+    \item $|D|$: longitud del documento en número de tokens.
+    \item $\overline{dl}$: longitud media de los documentos del corpus.
+    \item $k_1 = 1.5$: parámetro de saturación de frecuencia de término.
+    \item $b = 0.75$: parámetro de normalización de longitud.
+    \item $\mathrm{IDF}(q_i)$: frecuencia inversa de documento:
+\end{itemize}
+
+\begin{equation}
+\mathrm{IDF}(q_i)
+= \log \frac{N - \mathrm{df}(q_i) + 0.5}{\mathrm{df}(q_i) + 0.5}
+\label{eq:idf}
+\end{equation}
+
+siendo $N$ el total de documentos del corpus y $\mathrm{df}(q_i)$ el número
+de documentos que contienen el término $q_i$.
+
+\subsection{Tokenización}
+
+Antes de indexar el corpus y de procesar cada consulta, los textos se
+someten al siguiente proceso:
+
+\begin{enumerate}
+    \item \textbf{Normalización Unicode}: descomposición NFD y eliminación de
+          marcas combinantes (tildes, diéresis), de modo que, por ejemplo,
+          \textit{médico} se tokeniza igual que \textit{medico}.
+    \item \textbf{Minúsculas}: conversión completa a minúsculas.
+    \item \textbf{Extracción de tokens}: expresión regular \code{\textbackslash w+}
+          sobre texto Unicode.
+    \item \textbf{Filtrado}: se descartan tokens de longitud $< 2$ y los
+          pertenecientes a la lista de \textit{stopwords} del español
+          (\textit{de, la, el, en, y, que, los, las, del, un, una, por, con,
+          para, se, su, es, al, lo, a, o}, entre otras).
+\end{enumerate}
+
+\subsection{Selección de Top-3 Documentos}
+
+A diferencia de los enfoques que recuperan un único documento, este sistema
+selecciona los \textbf{tres documentos con mayor puntuación BM25}. Formalmente,
+dado el conjunto de puntuaciones $\{s_1, s_2, \ldots, s_M\}$ calculadas para
+los $M$ documentos del corpus, se selecciona el subconjunto:
+
+\begin{equation}
+\mathcal{C}
+= \underset{|\mathcal{C}|=3,\; D \in \mathcal{D}}{\arg\max}\;
+  \mathrm{BM25}(D, Q),
+\quad s_j > 0
+\label{eq:top3}
+\end{equation}
+
+Los documentos en $\mathcal{C}$ se ordenan de mayor a menor puntuación y se
+concatenan para conformar el contexto que se envía al LLM. Esta estrategia
+reduce el riesgo de que un único documento no contenga toda la información
+necesaria para responder preguntas que abarcan varias secciones del sitio.
+
+\subsection{Implementación}
+
+El módulo \code{src/retrieval/recuperador.py} implementa la clase
+\code{RecuperadorBm25} usando la biblioteca \code{rank-bm25}~\cite{rankbm25}.
+El índice se construye en memoria al inicializar la clase, cargando todos los
+archivos \code{*.md} del directorio \code{data/markdown/valledellili-org/}.
+Sobre el corpus actual de 1\,000 documentos Markdown, la indexación
+completa se realiza en el arranque del servidor FastAPI en unos pocos
+segundos, lo que permite reindexar bajo demanda a través del endpoint
+\code{POST /api/recargar-corpus} sin reiniciar el servicio. El método
+\code{buscar(pregunta)} retorna una lista de objetos
+\code{DocumentoRecuperado} con los atributos: \code{ruta}, \code{titulo},
+\code{source\_url}, \code{contenido} y \code{score}.
+
+% ============================================================
+\section{Integración con Modelos de Lenguaje}
+\label{sec:llm}
+% ============================================================
+
+\subsection{Composición del Prompt}
+
+Una vez recuperados los tres documentos $\mathcal{C} = \{D_1, D_2, D_3\}$,
+el módulo \code{src/qa/prompt.py} construye la lista de mensajes que se
+envía al LLM mediante la función \code{componer\_mensajes()}. El mensaje de
+sistema incluye el \textit{prompt} de sistema y el contexto formado por la
+concatenación de los tres documentos, separados por delimitadores explícitos
+con su puntuación BM25:
+
+\begin{lstlisting}[language=Python,
+    caption={Estructura del mensaje enviado al LLM},
+    label={lst:msgs}]
+[
+  {
+    "role": "system",
+    "content": (
+      "<PROMPT_SISTEMA>\n\n"
+      "=== DOCUMENTO 1 (score: 18.4) ===\n"
+      "<contenido D1>\n\n"
+      "=== DOCUMENTO 2 (score: 12.1) ===\n"
+      "<contenido D2>\n\n"
+      "=== DOCUMENTO 3 (score:  8.7) ===\n"
+      "<contenido D3>\n\n"
+      "Responde usando SOLO el contexto anterior."
+    )
+  },
+  {
+    "role": "user",
+    "content": "<PREGUNTA_DEL_USUARIO>"
+  }
+]
+\end{lstlisting}
+
+\subsection{Prompt de Sistema Anti-Alucinación}
+
+El \textit{prompt} de sistema predeterminado instruye al LLM para que actúe
+como \textit{"Lili"}, asistente virtual de la Fundación Valle del Lili. Las
+directivas fundamentales son:
+
+\begin{itemize}
+    \item Responder \textbf{únicamente} con información presente en el
+          contexto entregado.
+    \item Emitir la frase \textit{"No tengo información suficiente"} si la
+          consulta no puede responderse con el contexto disponible.
+    \item No inventar números de teléfono, correos electrónicos, direcciones
+          ni especialidades médicas.
+    \item Mantener un tono profesional y cálido en español colombiano.
+    \item Limitar la respuesta a seis oraciones (salvo listas o pasos) y
+          estructurarla en Markdown.
+\end{itemize}
+
+Estas restricciones constituyen la estrategia primaria de mitigación de
+alucinaciones, complementada por la restricción de dominio que impone el RAG.
+
+\subsection{Modelos Soportados}
+
+La Tabla~\ref{tab:modelos} describe los ocho modelos integrados en el
+sistema, accesibles desde la interfaz sin modificar el código. Las listas
+se mantienen en \code{src/qa/cliente\_ollama.py}
+(\code{MODELOS\_OLLAMA\_SOPORTADOS}) y en \code{src/qa/cliente\_openai.py}
+(\code{MODELOS\_OPENAI\_SOPORTADOS}); el endpoint
+\code{GET /api/modelos} las expone al \textit{frontend} para poblar el
+selector de modelos.
+
+\begin{table}[ht]
+\centering
+\caption{Modelos de lenguaje integrados en el sistema}
+\label{tab:modelos}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Modelo} & \textbf{Backend} & \textbf{Acceso} \\
+\midrule
+\code{llama3.1:8b}        & Ollama & Local       \\
+\code{gemma4:e2b}         & Ollama & Local       \\
+\code{gemma4:e4b}         & Ollama & Local       \\
+\code{gpt-4o}             & OpenAI & API / nube  \\
+\code{gpt-4o-mini}        & OpenAI & API / nube  \\
+\code{gpt-4-turbo}        & OpenAI & API / nube  \\
+\code{chatgpt-4o-latest}  & OpenAI & API / nube  \\
+\code{gpt-3.5-turbo}      & OpenAI & API / nube  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Modelos Locales con Ollama}
+
+\code{llama3.1:8b}~\cite{touvron2023llama} y las variantes
+\code{gemma4:e2b} y \code{gemma4:e4b}~\cite{team2024gemma} se ejecutan
+localmente mediante Ollama~\cite{ollama}, que expone una API REST en
+\code{http://localhost:11434}. El cliente \code{ClienteOllama} realiza
+peticiones \code{POST /api/chat} con \code{temperature = 0.2} y una
+ventana de contexto configurable por la variable \code{OLLAMA\_NUM\_CTX}
+(acotada al rango $[1\,024, 16\,384]$, con valor por defecto de 8\,192
+tokens). Ante errores de conexión (\code{OllamaNoAccesibleError}) o modelo
+no disponible (\code{ModeloNoDisponibleError}), el mensaje se propaga al
+frontend como evento SSE \code{\{"tipo":"error"\}} y se muestra al
+usuario en un \textit{toast} con la causa probable y la acción correctiva.
+
+\subsubsection{Modelos en la Nube con OpenAI}
+
+El cliente \code{src/qa/cliente\_openai.py} acepta cinco identificadores
+válidos para el parámetro \code{model} de \code{chat.completions}:
+\code{gpt-4o}~\cite{openai2024gpt4o}, \code{gpt-4o-mini},
+\code{gpt-4-turbo}, \code{chatgpt-4o-latest} y \code{gpt-3.5-turbo}. La
+selección se hace en tiempo de ejecución desde el \textit{frontend} sin
+modificar el código. La clave de autenticación se configura con la variable
+de entorno \code{OPENAI\_API\_KEY} en el archivo \code{.env}, leída con
+\code{pydantic-settings}. El acceso se realiza mediante la API oficial de
+OpenAI~\cite{openai2024api}.
+
+Ante errores HTTP 429 (\code{RateLimitError}), el cliente aplica hasta tres
+reintentos con \textit{backoff} que respeta el encabezado \code{Retry-After}
+si la respuesta lo expone; en ausencia de dicho encabezado, usa una espera
+exponencial acotada. Otros errores de autorización o facturación
+(\code{AuthenticationError}, \code{PermissionDeniedError}) se traducen a
+mensajes explícitos en español que el frontend renderiza en un
+\textit{toast} de error. El cliente implementa la misma interfaz que
+\code{ClienteOllama}, lo que permite al \code{PipelineQa} orquestar ambos
+\textit{backends} de forma uniforme, incluyendo el modo dual descrito en
+la Sección~\ref{sec:api_ui}.
+
+% ============================================================
+\section{Backend HTTP FastAPI + SSE y Frontend React 19}
+\label{sec:api_ui}
+% ============================================================
+
+En la fase 2 del proyecto, la interfaz monolítica Gradio del MVP se
+reemplazó por una arquitectura cliente-servidor de dos capas: un
+\textit{backend} HTTP en \code{src/api/} que expone el \code{PipelineQa}
+como servicio REST con \textit{streaming} SSE, y un \textit{frontend}
+\textit{single page application} desarrollado en \code{frontend/}. Esta
+separación, discutida con mayor detalle en~\cite{decision_fvl_fase2}, permite
+reutilizar el API desde \textit{scripts} de evaluación, cuadernos de
+experimentación y futuros módulos del curso sin acoplarse a la capa de
+presentación.
+
+\subsection{Backend HTTP FastAPI}
+
+El \textit{backend} se construye con FastAPI~\cite{fastapi},
+Uvicorn~\cite{uvicorn} como servidor ASGI y
+\code{sse-starlette}~\cite{ssestarlette} para los endpoints de
+\textit{streaming}. La configuración se carga desde \code{.env} con
+\code{pydantic-settings}, incluyendo las variables \code{ALLOWED\_ORIGINS}
+(dominios permitidos en \code{CORSMiddleware}) y \code{OPENAI\_API\_KEY}.
+
+Al arrancar la aplicación, un \textit{context manager} de ciclo de vida
+instancia una única vez el \code{PipelineQa}, lo que evita reconstruir el
+índice BM25 en cada petición. Las dependencias HTTP acceden al pipeline
+mediante \code{Depends(obtener\_pipeline)}. Los mensajes de error se
+traducen a códigos HTTP estándar con cuerpos JSON tipados por modelos
+Pydantic v2. La Tabla~\ref{tab:endpoints} resume los endpoints disponibles.
+
+\begin{table}[ht]
+\centering
+\caption{Endpoints HTTP expuestos por \code{src/api/}}
+\label{tab:endpoints}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Método} & \textbf{Ruta} & \textbf{Descripción} \\
+\midrule
+GET  & \code{/api/salud}          & \textit{Health check}              \\
+GET  & \code{/api/modelos}        & Modelos Ollama y OpenAI disponibles \\
+GET  & \code{/api/prompt-defecto} & \textit{Prompt} de sistema por defecto \\
+POST & \code{/api/recargar-corpus}& Reindexa BM25 desde disco          \\
+POST & \code{/api/qa}             & Respuesta sincrónica               \\
+POST & \code{/api/qa/stream}      & \textit{Streaming} SSE (un motor)  \\
+POST & \code{/api/qa/dual/stream} & \textit{Streaming} SSE modo dual   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Streaming SSE Token a Token}
+
+Los endpoints de \textit{streaming} devuelven una secuencia de eventos
+\textit{Server-Sent Events} con el campo \code{data} serializado en JSON.
+Cada evento declara un campo \code{tipo} (\code{token}, \code{final},
+\code{fuentes} o \code{error}) y, en los casos aplicables, un campo
+\code{motor} que identifica si proviene de Ollama o de OpenAI. El servidor
+emite además comentarios SSE \code{: keepalive} cada quince segundos para
+mantener viva la conexión a través de \textit{proxies} intermediarios.
+
+\begin{lstlisting}[caption={Ejemplo simplificado de flujo SSE emitido
+por \code{POST /api/qa/stream}}, label={lst:sse_flow}]
+data: {"tipo": "token", "motor": "ollama", "texto": "La "}
+data: {"tipo": "token", "motor": "ollama", "texto": "Fundacion "}
+...
+data: {"tipo": "final", "motor": "ollama",
+       "texto": "...", "latencia_ms": 1823}
+data: {"tipo": "fuentes", "fuentes": [...]}
+: keepalive
+\end{lstlisting}
+
+En el navegador, el objeto \code{EventSource} nativo no permite enviar
+peticiones \code{POST} con cuerpo JSON; por esta razón, el \textit{frontend}
+implementa un cliente propio basado en \code{fetch} combinado con
+\code{ReadableStream} y \code{TextDecoderStream}. Este patrón mantiene la
+semántica SSE y a la vez soporta cuerpos de petición arbitrarios.
+
+\subsection{Modo Dual Ollama + OpenAI}
+
+El modo dual, gatillado cuando el usuario activa simultáneamente ambos
+\textit{backends}, se resuelve con una única invocación a
+\code{preparar\_contexto\_inferencia(pregunta, prompt)} que construye los
+mensajes una sola vez a partir del top-3 BM25. El endpoint
+\code{POST /api/qa/dual/stream} reutiliza ese contexto y emite primero
+todos los eventos con \code{motor:"ollama"} y, a continuación, todos los
+eventos con \code{motor:"openai"}. Esto evita duplicar el costo de la
+recuperación BM25 y entrega al usuario dos respuestas independientes que
+comparten exactamente las mismas fuentes. El \textit{frontend} renderiza
+ambas en el componente \code{DualResponseView}, con dos columnas
+independientes y una zona de fuentes compartida.
+
+\subsection{Frontend React 19 + Vite 7}
+
+El \textit{frontend} vive en la carpeta \code{frontend/} y se compone de
+React 19~\cite{react19} servido por Vite 7~\cite{vite} con TypeScript en
+modo estricto. La gestión del paquete usa \code{pnpm}. Los estilos se
+implementan con Tailwind CSS v4~\cite{tailwindv4} a través del plugin
+oficial para Vite. Los componentes de interfaz se construyen sobre
+\textit{shadcn/ui}~\cite{shadcnui} (Radix UI + \code{lucide-react}), lo que
+facilita accesibilidad ARIA de forma nativa. La integración con el
+\textit{streaming} SSE se apoya en Vercel AI SDK~\cite{vercelaisdk} con un
+\textit{transport} personalizado que consume nuestro propio endpoint.
+
+El sistema de diseño adopta tokens CSS alineados a la identidad
+institucional de la Fundación Valle del Lili: morado primario
+\code{\#6B21A8}, teal complementario \code{\#0D9488} y un par de fondos
+claro/oscuro gestionados por \code{next-themes} con persistencia en
+\code{localStorage}. La tipografía usa Inter para cuerpo y JetBrains Mono
+para código. El \textit{runtime} de datos emplea
+\code{@tanstack/react-query v5} para cachear \code{GET /api/modelos} y
+\code{GET /api/prompt-defecto}, \code{react-markdown} con
+\code{remark-gfm} y \code{shiki} para render de Markdown enriquecido con
+resaltado de sintaxis, y \code{sonner} para notificaciones tipo
+\textit{toast}. La Tabla~\ref{tab:ui} resume las vistas principales.
+
+\begin{table}[ht]
+\centering
+\caption{Vistas React principales del \textit{frontend}}
+\label{tab:ui}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lp{0.55\columnwidth}@{}}
+\toprule
+\textbf{Vista}           & \textbf{Función} \\
+\midrule
+\code{AppShell}          & Encabezado, barra lateral colapsable, área principal y conmutador de tema \\
+\code{Chat}              & Orquesta llamadas SSE y estado de la conversación \\
+\code{MessageBubble}     & Render Markdown con \code{shiki} y \textit{auto-scroll} \\
+\code{DualResponseView}  & Dos columnas Ollama $\mid$ OpenAI con la misma pregunta \\
+\code{SourcesPanel}      & \textit{Cards} con título, URL y \textit{score} BM25 \\
+\code{SettingsPanel}     & Toggles de motor, selectores de modelo, \textit{sliders} y editor de \textit{prompt} de sistema \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Prompt de Sistema Editable y Trazabilidad}
+
+La SPA conserva las dos funcionalidades diferenciales heredadas del MVP:
+
+\begin{itemize}
+    \item \textbf{Prompt de sistema editable}: el componente
+          \code{SystemPromptEditor} permite modificar en caliente las
+          instrucciones anti-alucinación sin reiniciar el servicio. Un
+          botón restaura el \textit{prompt} de fábrica consumido desde
+          \code{GET /api/prompt-defecto}.
+    \item \textbf{Trazabilidad BM25}: al recibir el evento
+          \code{\{"tipo":"fuentes"\}}, la SPA renderiza en
+          \code{SourcesPanel} los tres documentos recuperados con su
+          título, su \code{source\_url} clicable y su puntuación BM25. El
+          evento \code{\{"tipo":"final"\}} añade la latencia total en
+          milisegundos y el identificador del modelo empleado, lo que
+          permite al usuario auditar de qué fuentes proviene la
+          respuesta.
+\end{itemize}
+
+Mientras la respuesta está en curso, el botón de enviar se deshabilita y
+el área de mensaje muestra un \textit{skeleton loader} que se reemplaza
+por el texto final al recibir el evento \code{\{"tipo":"final"\}} del
+motor correspondiente. En caso de error (por ejemplo, Ollama no
+accesible o cuota de OpenAI agotada) se emite un evento
+\code{\{"tipo":"error"\}} que se traduce en un \textit{toast} explicativo
+con la causa probable y la acción sugerida.
+
+\subsection{Despliegue y Comandos Canónicos}
+
+En desarrollo, el \textit{backend} corre con
+\code{uv run uvicorn src.api.main:app --reload --port 8000} y el
+\textit{frontend} con \code{pnpm --dir frontend dev} en el puerto 5173;
+Vite enruta todas las peticiones \code{/api} al puerto 8000 mediante su
+\textit{proxy} de desarrollo. En producción, \code{pnpm --dir frontend
+build} genera \code{frontend/dist/}, que FastAPI sirve como
+\code{StaticFiles} desde el mismo proceso.
+
+% ============================================================
+\section{Evaluación}
+\label{sec:eval}
+% ============================================================
+
+\subsection{Protocolo de Evaluación}
+
+Se diseñó un banco de 23 preguntas de referencia almacenadas en
+\code{tests/qa/preguntas\_evaluacion.yml}. Cada entrada contiene:
+identificador, texto de la pregunta, categoría temática y, cuando aplica,
+el nombre del archivo Markdown esperado como resultado de la recuperación.
+Las preguntas se distribuyeron en cinco categorías (Tabla~\ref{tab:categorias}).
+
+\begin{table}[ht]
+\centering
+\caption{Distribución del banco de preguntas por categoría}
+\label{tab:categorias}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Categoría} & \textbf{Preguntas} & \textbf{Con archivo esperado} \\
+\midrule
+Institucional    & 8  & 8  \\
+Servicios        & 5  & 5  \\
+Procesos         & 7  & 7  \\
+Contacto         & 2  & 2  \\
+Fuera de alcance & 1  & --- \\
+\midrule
+\textbf{Total}   & \textbf{23} & \textbf{22} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El script \code{scripts/evaluar\_qa.py} se ejecuta contra el corpus
+actualizado de 1\,000 documentos Markdown y sobre los ocho modelos
+descritos en la Tabla~\ref{tab:modelos} (tres modelos Ollama locales y
+cinco modelos OpenAI en la nube). Por cada combinación pregunta-modelo
+genera un informe Markdown en
+\code{data/processed/evaluaciones/<modelo>\_\_<fecha>.md}. Las métricas
+calculadas son:
+
+\begin{itemize}
+    \item \textbf{Precisión de recuperación (P@1)}: proporción de preguntas
+          donde el documento con mayor puntuación BM25 coincide con el archivo
+          esperado.
+    \item \textbf{Recall@3}: proporción de preguntas donde el documento
+          esperado se encuentra entre los tres recuperados.
+    \item \textbf{Tasa de abstención}: proporción de respuestas que contienen
+          la frase \textit{"No tengo información suficiente"}.
+    \item \textbf{Latencia media}: tiempo promedio de generación en
+          milisegundos.
+\end{itemize}
+
+\subsection{Resultados}
+
+La Tabla~\ref{tab:resultados} presenta los resultados obtenidos al ejecutar el
+protocolo de evaluación sobre los tres modelos.
+
+\begin{table}[ht]
+\centering
+\caption{Resultados de evaluación por modelo}
+\label{tab:resultados}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Modelo} & \textbf{P@1} & \textbf{Recall@3}
+                & \textbf{Abstención} & \textbf{Latencia (ms)} \\
+\midrule
+\code{llama3.1:8b}       & --- & --- & --- & --- \\
+\code{gemma4:e2b}        & --- & --- & --- & --- \\
+\code{gemma4:e4b}        & --- & --- & --- & --- \\
+\code{gpt-4o}            & --- & --- & --- & --- \\
+\code{gpt-4o-mini}       & --- & --- & --- & --- \\
+\code{gpt-4-turbo}       & --- & --- & --- & --- \\
+\code{chatgpt-4o-latest} & --- & --- & --- & --- \\
+\code{gpt-3.5-turbo}     & --- & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Nota: Los valores de la Tabla~\ref{tab:resultados} serán completados
+una vez ejecutado el protocolo de evaluación sobre el corpus definitivo.}
+
+\subsection{Análisis Cualitativo}
+
+\textit{[Esta sección presentará ejemplos representativos de respuestas
+generadas por cada modelo, incluyendo: (a)~casos donde los tres modelos
+producen respuestas correctas y trazables, (b)~casos donde el modelo emite
+la respuesta de abstención ante preguntas fuera del corpus, y (c)~casos de
+divergencia entre modelos ante la misma consulta.]}
+
+% ============================================================
+\section{Discusión}
+\label{sec:disc}
+% ============================================================
+
+\subsection{Ventajas del Enfoque BM25 sin Embeddings}
+
+La decisión de emplear BM25 en lugar de \textit{embeddings} densos y bases de
+datos vectoriales responde a criterios de simplicidad, trazabilidad y
+eficiencia. BM25 no requiere un modelo de \textit{embedding} preentrenado, no
+demanda GPU para la indexación y produce puntuaciones directamente
+interpretables en términos de frecuencia de términos. Sobre el corpus
+actual de 1\,000 documentos Markdown el índice se reconstruye en unos pocos
+segundos al arranque del \textit{backend}, y cada búsqueda se resuelve en
+tiempo $O(n \cdot |Q|)$ donde $n$ es el número de documentos.
+
+Además, el sistema de recuperación con top-3 documentos amplía la cobertura
+contextual respecto a la recuperación de documento único, permitiendo que el
+LLM sintetice información distribuida en varias páginas del sitio web.
+
+\subsection{Ventajas de la Separación Backend / Frontend}
+
+La arquitectura FastAPI + SSE desacoplada del consumidor web introduce
+ventajas prácticas frente al monolito Gradio del MVP. El mismo API HTTP
+puede ser invocado por el \textit{frontend} React, por los \textit{scripts}
+de evaluación (\code{scripts/evaluar\_qa.py}) o por futuros clientes
+—incluidos los experimentos del módulo 2 sobre \textit{chunking} semántico
+y recuperación densa— sin duplicar la lógica de orquestación del
+\code{PipelineQa}. El \textit{frontend}, al consumir un contrato JSON/SSE
+estable, evoluciona con ciclos de iteración propios (diseño,
+accesibilidad, branding) sin bloquearse en la capa Python. Finalmente, la
+interfaz uniforme de los clientes de Ollama y OpenAI facilita el modo
+dual: el costo de recuperación BM25 se paga una sola vez y el mismo
+contexto alimenta ambos motores en paralelo, lo que habilita comparativas
+directas entre modelos locales y en la nube.
+
+\subsection{Limitaciones Identificadas}
+
+\begin{enumerate}
+    \item \textbf{Truncamiento de contexto}: si la concatenación de los tres
+          documentos supera los 8\,192 tokens del parámetro \code{num\_ctx}
+          por defecto, Ollama trunca el contexto de forma silenciosa, lo
+          que puede degradar la calidad de la respuesta. El corpus ampliado
+          a 1\,000 documentos incrementa la probabilidad de que los
+          archivos recuperados sean largos y exijan elevar
+          \code{OLLAMA\_NUM\_CTX} o considerar \textit{chunking}.
+    \item \textbf{Ambigüedad léxica}: BM25 no captura similitud semántica;
+          términos sinónimos o expresiones parafrasadas pueden no coincidir
+          léxicamente con el vocabulario del corpus, produciendo recuperaciones
+          incorrectas.
+    \item \textbf{Dependencia del servicio Ollama}: los modelos locales
+          requieren que el proceso Ollama esté en ejecución y que los modelos
+          hayan sido descargados previamente.
+    \item \textbf{Costo de la API}: el uso de los modelos OpenAI
+          —especialmente \code{gpt-4o} y \code{gpt-4-turbo}— genera consumo
+          de tokens facturables; el cliente
+          \code{src/qa/cliente\_openai.py} implementa manejo de
+          \code{RateLimitError} con \textit{backoff}, pero el equipo debe
+          vigilar los límites de cuota del plan contratado.
+    \item \textbf{Doble \textit{runtime} de desarrollo}: la separación
+          \textit{backend} Python (\code{uv}) y \textit{frontend} Node
+          (\code{pnpm}) requiere instalar ambos entornos para desarrollar,
+          lo que incrementa el costo de \textit{onboarding} respecto al
+          monolito Gradio.
+\end{enumerate}
+
+\subsection{Trabajo Futuro}
+
+Para la siguiente fase del proyecto se contempla migrar a una arquitectura
+basada en \textit{chunking} semántico, modelos de \textit{embedding} y una
+base de datos vectorial (Chroma o FAISS), lo que permitirá superar las
+limitaciones léxicas de BM25 y manejar documentos de mayor longitud sin
+riesgo de truncamiento.
+
+% ============================================================
+\section{Conclusiones}
+\label{sec:conc}
+% ============================================================
+
+Este trabajo presentó un sistema RAG completo para la Fundación Valle del
+Lili, construido con herramientas de código abierto y ejecutable en hardware
+de consumo sin necesidad de GPU. Los aportes principales son:
+
+\begin{enumerate}
+    \item Un \textit{pipeline} de adquisición y procesamiento documental
+          robusto que respeta \code{robots.txt} y garantiza idempotencia
+          mediante hashes SHA-256, con un corpus escalado en la fase 2 a
+          1\,000 páginas HTML y 1\,000 documentos Markdown con
+          \textit{front matter} YAML.
+    \item Un mecanismo de recuperación BM25 que selecciona y concatena los
+          tres documentos más relevantes, ampliando la cobertura contextual
+          respecto a la recuperación de documento único.
+    \item La integración de ocho modelos de lenguaje heterogéneos —tres
+          locales con Ollama (\code{llama3.1:8b}, \code{gemma4:e2b},
+          \code{gemma4:e4b}) y cinco en la nube con la API de OpenAI
+          (\code{gpt-4o}, \code{gpt-4o-mini}, \code{gpt-4-turbo},
+          \code{chatgpt-4o-latest} y \code{gpt-3.5-turbo})— bajo una
+          interfaz uniforme que permite comparación directa sin modificar
+          el código.
+    \item Una separación clara en dos capas: un \textit{backend} HTTP
+          FastAPI + \code{sse-starlette} que expone el \code{PipelineQa}
+          como servicio REST con \textit{streaming} SSE token a token y
+          con modo dual Ollama + OpenAI sobre una sola pasada BM25.
+    \item Un \textit{frontend} \textit{single page application} construido
+          con React 19 + Vite 7 + TypeScript + Tailwind CSS v4 +
+          \textit{shadcn/ui}, que encapsula una experiencia de usuario de
+          alto impacto visual con identidad institucional, modo claro y
+          oscuro, \textit{prompt} de sistema editable en caliente y panel
+          de trazabilidad BM25.
+    \item Un protocolo de evaluación reproducible con 23 preguntas de
+          referencia y cuatro métricas de calidad de recuperación y
+          generación, ejecutable contra cualquier subconjunto de los ocho
+          modelos integrados.
+\end{enumerate}
+
+Los resultados de la evaluación (Tabla~\ref{tab:resultados}) permitirán
+comparar objetivamente el comportamiento de los ocho modelos y confirmar la
+hipótesis de que BM25 constituye una base sólida para un sistema RAG de
+primera fase antes de incorporar técnicas de recuperación densa. La
+separación \textit{backend}/\textit{frontend} introducida en la fase 2
+deja lista la infraestructura para reutilizar el API desde los experimentos
+del módulo 2 sobre \textit{chunking} semántico, \textit{embeddings} y
+bases de datos vectoriales.
+
+% ============================================================
+\begin{thebibliography}{00}
+% ============================================================
+
+\bibitem{lewis2020rag}
+P.~Lewis, E.~Perez, A.~Piktus \textit{et al.},
+``Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,''
+en \textit{Advances in Neural Information Processing Systems (NeurIPS)},
+vol.~33, pp.~9459--9474, 2020.
+
+\bibitem{robertson2009bm25}
+S.~Robertson y H.~Zaragoza,
+``The Probabilistic Relevance Framework: BM25 and Beyond,''
+\textit{Foundations and Trends in Information Retrieval},
+vol.~3, n.º~4, pp.~333--389, 2009.
+
+\bibitem{rankbm25}
+D.~Dohan,
+``rank-bm25: A Python implementation of the BM25 ranking algorithm,''
+\textit{GitHub repository}, 2021.
+[En línea]. Disponible en: \url{https://github.com/dorianbrown/rank_bm25}
+
+\bibitem{ollama}
+Ollama,
+``Run large language models locally,''
+2024.
+[En línea]. Disponible en: \url{https://ollama.com}
+
+\bibitem{abid2019gradio}
+A.~Abid, A.~Abdalla, A.~Abid \textit{et al.},
+``Gradio: Hassle-Free Sharing and Testing of ML Models in the Wild,''
+\textit{arXiv preprint arXiv:1906.02569}, 2019.
+
+\bibitem{markdownify}
+M.~Neumann,
+``markdownify: A Python library to convert HTML to Markdown,''
+\textit{GitHub repository}, 2020.
+[En línea]. Disponible en: \url{https://github.com/matthewwithanm/python-markdownify}
+
+\bibitem{touvron2023llama}
+H.~Touvron, L.~Martin, K.~Stone \textit{et al.},
+``Llama 2: Open Foundation and Fine-Tuned Chat Models,''
+\textit{arXiv preprint arXiv:2307.09288}, 2023.
+
+\bibitem{team2024gemma}
+Gemma Team, Google DeepMind,
+``Gemma: Open Models Based on Gemini Research and Technology,''
+\textit{arXiv preprint arXiv:2403.08295}, 2024.
+
+\bibitem{openai2024gpt4o}
+OpenAI,
+``GPT-4o System Card,''
+2024.
+[En línea]. Disponible en: \url{https://openai.com/index/gpt-4o-system-card}
+
+\bibitem{openai2024api}
+OpenAI,
+``OpenAI API Documentation,''
+2024.
+[En línea]. Disponible en: \url{https://platform.openai.com/docs}
+
+\bibitem{fastapi}
+S.~Ramirez,
+``FastAPI: Modern, fast (high-performance), web framework for building
+APIs with Python,''
+2024.
+[En línea]. Disponible en: \url{https://fastapi.tiangolo.com/}
+
+\bibitem{uvicorn}
+T.~Christie,
+``Uvicorn: The lightning-fast ASGI server,''
+2024.
+[En línea]. Disponible en: \url{https://www.uvicorn.org/}
+
+\bibitem{ssestarlette}
+S.~Nakamura,
+``sse-starlette: Server-Sent Events for Starlette and FastAPI,''
+\textit{GitHub repository}, 2024.
+[En línea]. Disponible en:
+\url{https://github.com/sysid/sse-starlette}
+
+\bibitem{react19}
+Meta React Team,
+``React 19 --- The library for web and native user interfaces,''
+2024.
+[En línea]. Disponible en: \url{https://react.dev/}
+
+\bibitem{vite}
+E.~You \textit{et al.},
+``Vite: Next Generation Frontend Tooling,''
+2024.
+[En línea]. Disponible en: \url{https://vitejs.dev/}
+
+\bibitem{tailwindv4}
+Tailwind Labs,
+``Tailwind CSS v4,''
+2024.
+[En línea]. Disponible en: \url{https://tailwindcss.com/}
+
+\bibitem{shadcnui}
+shadcn,
+``shadcn/ui: Beautifully designed components built with Radix UI and
+Tailwind CSS,''
+\textit{GitHub repository}, 2024.
+[En línea]. Disponible en: \url{https://ui.shadcn.com/}
+
+\bibitem{vercelaisdk}
+Vercel,
+``Vercel AI SDK,''
+\textit{GitHub repository}, 2024.
+[En línea]. Disponible en: \url{https://sdk.vercel.ai/docs}
+
+\bibitem{decision_fvl_fase2}
+F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
+``ADR decision-2: Migración del frontend de Gradio a React 19 + Vite 7 y
+adición de backend FastAPI + SSE,''
+Proyecto interno UAO, 2026.
+
+\end{thebibliography}
+
+\end{document}
