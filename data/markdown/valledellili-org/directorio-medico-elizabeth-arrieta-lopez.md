@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/elizabeth-arrieta-lopez/
 titulo: Elizabeth Arrieta Lopez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0bdc81a7a22fe91a21101bd836a7da1b8ef98e5c392c541ea65d14fc194d6766
+hash: e3a1aa23e5a964f9375c965b1f8b99d0f568e1f7354426d5b26164786813d1b0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

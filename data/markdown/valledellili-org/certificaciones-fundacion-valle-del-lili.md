@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/certificaciones-fundacion-valle-del-lili/
 titulo: Certificaciones – Fundación Valle del Lili - Fundación Valle del Lili
 seccion: certificaciones-fundacion-valle-del-lili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 534ab1766c7f6474b212a9600c3b29ccfc4b3d756e7e95692a6469d0712c5d96
+hash: 9438028a034197483994f00142846f007e387210d0389cfcdbee2202386960d4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

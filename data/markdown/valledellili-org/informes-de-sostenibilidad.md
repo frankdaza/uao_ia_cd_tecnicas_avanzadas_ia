@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/informes-de-sostenibilidad/
 titulo: Informes de Sostenibilidad - Fundación Valle del Lili
 seccion: informes-de-sostenibilidad
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 406294ee5605d881d75ebf91cdf2a8304f67e500abae47b4b0ce144a89da92f6
+hash: 9a07d3baf438c92d834add9bb79790f554a188fafe7925433c3dcc583226b65d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

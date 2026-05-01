@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/nutricion-y-dietetica/
 titulo: Nutrición y Dietética - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d62b1cb255e6a637a4b1a8f074283f48568460077497f2389ec062df246b7cc8
+hash: 7161aa2b362219dd9a47cbc27bf233ccb08dcd7c5ad35d6fa3062e4e8a5b41fc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

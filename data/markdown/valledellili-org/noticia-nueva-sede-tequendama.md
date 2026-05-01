@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/noticia-nueva-sede-tequendama/
 titulo: La Fundación Valle del Lili abre las puertas de su quinta sede en Tequendama
 seccion: noticia-nueva-sede-tequendama
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0ebe6fc8034c9139aaa08340ac7ddb8404905675dcf4f9f98006506123fd2d12
+hash: 7c037ae392e77fe027eed0dbcbd016f29d807616ddfba342b9fba35865c2d474
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

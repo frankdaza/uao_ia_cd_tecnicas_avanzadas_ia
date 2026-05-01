@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/eliana-isabel-morales-sanchez/
 titulo: Eliana Isabel Morales Sanchez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7b6c5e9230d315b328355eef579f4ab48501eba62f38515cd7ea1f6b43e3ed26
+hash: 2ae00dee188e20ffab3a1cda91cfcb3b246f264932204c7ae550467fc4d40ce5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

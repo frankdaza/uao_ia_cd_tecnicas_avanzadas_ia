@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/ahora-disponible-en-la-sede-limonar-el-nuevo-sistema-magnetom-sola/
 titulo: Ahora Disponible en la Sede Limonar, el Nuevo resonador MAGNETOM Sola
 seccion: ahora-disponible-en-la-sede-limonar-el-nuevo-sistema-magnetom-sola
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f425998886f1d1775267c1aa3e1e4ab1756db4fac0605e9b47cf4799e1e4b27a
+hash: b0671feb6dbe2b081f846802c7b6dd19debbe656645585cf49e4aea26c675399
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

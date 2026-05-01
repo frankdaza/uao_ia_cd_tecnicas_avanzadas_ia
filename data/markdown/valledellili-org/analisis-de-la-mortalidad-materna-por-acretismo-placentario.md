@@ -3,9 +3,9 @@ source_url: https://valledellili.org/analisis-de-la-mortalidad-materna-por-acret
 titulo: Análisis de la mortalidad materna por acretismo placentario - Fundación Valle
   del Lili
 seccion: analisis-de-la-mortalidad-materna-por-acretismo-placentario
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 69b59671b5ef061892d178086a45236d53f1d0a4aa7cd4d67f58dadc8b25efb7
+hash: c3bd1156515ae999b97252ff5337c3083010b50c3c91162fc67d7a65ce0f1859
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

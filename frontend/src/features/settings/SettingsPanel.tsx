@@ -37,7 +37,10 @@ export function SettingsPanel() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 text-sm overflow-y-auto h-full">
+    <div className="flex flex-col gap-4 p-4 text-sm overflow-y-auto h-full border-l border-transparent bg-[color-mix(in_srgb,var(--color-surface)_40%,transparent)]">
+      <p className="font-display text-sm font-semibold tracking-tight text-[var(--color-primary)] dark:text-[var(--color-text)]">
+        Configuración del asistente
+      </p>
       {/* Estado de la API */}
       <div className="flex items-center justify-between">
         <span className="font-semibold text-[var(--color-text-muted)]">Estado de la API</span>

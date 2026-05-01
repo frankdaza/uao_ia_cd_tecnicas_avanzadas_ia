@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/francisco-jose-arias-mora/
 titulo: Francisco Jose Arias Mora - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 48f6d3a3fc0fcb2bdcf4bf4dfd281275c2deec6a6478c5b62589161946026479
+hash: 36424071f69e580099bc2130bd6f9bec1de0b1f7ebec64e8758b0c58d5f7b4b2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

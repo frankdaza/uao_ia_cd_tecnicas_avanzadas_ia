@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-oncologia-pediatrica/
 titulo: Programa oncología pediátrica - Fundación Valle del Lili
 seccion: programa-oncologia-pediatrica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9b57efddce38cf278f448b638a19658260cec3fd1e3fa85b76ea9bbe850e1b69
+hash: 92a29b5d665f169828eebe3a31574067460f182570bf52d92b77ab0c88bd8f61
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

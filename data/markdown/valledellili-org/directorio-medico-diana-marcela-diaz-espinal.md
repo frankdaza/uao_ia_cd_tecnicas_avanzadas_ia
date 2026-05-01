@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/diana-marcela-diaz-espinal/
 titulo: Diana Marcela Diaz Espinal - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: dd04abaaf68c4277ae28eb3a1241c03b70694e3b90d5aafa687b667ffde75424
+hash: c5d5fa8d883a9ec0642754b4f007f5710d1f7e56ca6564b2ce5aa230495b916b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

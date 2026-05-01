@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/geriatria/
 titulo: Geriatría - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d3f2d1e00f3ff77f9540967ee4c062d7d7542b153c3fb05d261ba7d18d349328
+hash: f81ae89a1a10e7d04a7cb5f7f05eeb974dba6e00e35d5c3322701400e42b3c2b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

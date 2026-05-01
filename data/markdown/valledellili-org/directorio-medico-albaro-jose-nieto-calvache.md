@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/albaro-jose-nieto-calvache/
 titulo: Albaro Jose Nieto Calvache - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 647495ebce519919bd2de44e80f5ec37479370325938cd48cd04ffe78ab4e1bd
+hash: 1fd18843ad25aafe36d3313171eb7fe505ac4f15416e88d9806172cd43c58550
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

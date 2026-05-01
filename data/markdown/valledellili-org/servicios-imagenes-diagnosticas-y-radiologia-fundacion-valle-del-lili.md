@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/imagenes-diagnosticas-y-radiologia-fundacion-valle-del-lili/
 titulo: Imágenes Diagnósticas y Radiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0b02cef35b8798787cc5c1d56e8f2ab9af891549de0ece774eabd04bd07b7423
+hash: 1d7790061b15a1854576dd549dddf38e34fb5855b8abd83f64b1d4f4a37bb09b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -292,6 +292,9 @@ Mostrar todos
 
 [Artículo
 
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
+[Artículo
+
 #### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 [Revista
 
@@ -299,9 +302,6 @@ Mostrar todos
 [Infografía
 
 #### Revista Ed 62 – Técnicas y tratamientos de alta complejidad al alcance de la comunidad](https://valledellili.org/revista-ed-62-tecnicas-y-tratamientos-de-alta-complejidad-al-alcance-de-la-comunidad/)
-[Infografía
-
-#### Revista Ed 58 – El Servicio de Pediatría al Cuidado Integral de los Niños](https://valledellili.org/revista-ed-58-el-servicio-de-pediatria-al-cuidado-integral-de-los-ninos/)
 
 #### Agendar cita
 

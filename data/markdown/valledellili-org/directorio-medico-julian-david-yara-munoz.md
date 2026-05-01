@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/julian-david-yara-munoz/
 titulo: Julian David Yara Muñoz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: baf20d2e1aaf73b39245cf46d7b23f8951dea1a47d7a3202aac371370f85d817
+hash: 10277ac830f6335588ca6f2796ca1a95400a9e499319d6ef9ae11f753545cc1c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

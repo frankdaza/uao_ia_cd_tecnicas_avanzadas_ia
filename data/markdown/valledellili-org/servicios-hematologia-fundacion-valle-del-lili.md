@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/hematologia-fundacion-valle-del-lili/
 titulo: Hematología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7ba452f61a902a70fda6d4fff01e7e1d99f7161ac5b6815656f8e797d964dca3
+hash: a110298aed428adeb71dcf8d6e6ad844287cbb9cff7c3badb8baec922ef721a9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

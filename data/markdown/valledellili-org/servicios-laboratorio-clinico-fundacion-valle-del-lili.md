@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/laboratorio-clinico-fundacion-valle-del-lili/
 titulo: Laboratorio Clínico - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f6876226a4ae8f925f47cb4b0b61d2cd9fc4788e354a43c1fba262bd85781aad
+hash: db0ae875ea74633359349f8c040cfaea41df827c6c20d84cc4846aabae358fc5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

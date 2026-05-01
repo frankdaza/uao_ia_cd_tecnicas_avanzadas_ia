@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/faisyury-orozco-peralta/
 titulo: Faisyury Orozco Peralta - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 67ae387551f05259fa482782819963054b54baa3399ffb6614c0f0690d242a6c
+hash: 6e61fede35d02cf3f40a87587835d21d1e6e9abc0f88f491f5562675192bdf25
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

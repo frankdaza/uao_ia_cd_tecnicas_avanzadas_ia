@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/infectologia-adultos/
 titulo: Infectología Adultos - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8babede6bf4e88e1e126f96684e6888f8b4605e293e75289d1b424fa07e7f7b9
+hash: 289a37cb7b79e498ed5f4d03aa46dd2065aad5931f6d8a2c204cc966d398449f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-04-30 05:45'
-updated_date: '2026-04-30 06:11'
+updated_date: '2026-05-01 01:19'
 labels:
   - frontend
   - settings
@@ -14,6 +14,7 @@ labels:
 dependencies:
   - TASK-32
 priority: high
+ordinal: 7
 ---
 
 ## Description

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jorge-alexander-zambrano-franco/
 titulo: Jorge Alexander Zambrano Franco - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e5b4ffc47bbd5dde6da2eb15fd8dd3ad50b65a4663a43eb9ad4cf33959495c52
+hash: 475c298bd1317b11f5af87e117e73ed47ce1df3c691c17541cfc2df1b9970d2c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

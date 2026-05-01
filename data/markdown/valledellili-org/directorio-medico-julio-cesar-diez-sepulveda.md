@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/julio-cesar-diez-sepulveda/
 titulo: Julio Cesar Diez Sepulveda - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 514362d9aa5d0b2943b70ff4421e5ba45e4204717cc565d47dd71022421f1359
+hash: b85f4d2c104377401d04b9d9dc6082c83459b3592cb1a5ffa058fa51d12f5bff
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

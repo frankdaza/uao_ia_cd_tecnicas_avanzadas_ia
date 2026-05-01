@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/marcela-polo-trujillo/
 titulo: Marcela Polo Trujillo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e9380bca5d7922a06a0eacb328637c2237ab6f6ef6849023f2bd038aa2518248
+hash: b6ba0646b3054d90fcd05e497236c98676dff4ef6f68b4b30c4ec7f94e4c02e1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

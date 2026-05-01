@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion/estudio-de-belzutifan-mk-6482
 titulo: Estudio de Belzutifan (MK-6482) más fulvestrant para el cáncer de mama metastásico
   ER+/HER2- (MK-6482-029/LITESPARK-029)-06428396 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 30976dc53aaff3e9f4d6dcb07767844263a7694f0f98aa23214fb94bb5102b46
+hash: 116cbc0c940c2c56f2d0fc31ca0ede4cb942027a4a7f3785eac7ae176321e82a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

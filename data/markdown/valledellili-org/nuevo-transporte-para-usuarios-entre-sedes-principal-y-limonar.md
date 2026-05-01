@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar/
 titulo: Nuevo transporte para usuarios entre sedes Principal y Limonar
 seccion: nuevo-transporte-para-usuarios-entre-sedes-principal-y-limonar
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: af9ae85879b3acb7f665e576b03cb28d8381997a7275bb9f3e7cf33958f56ad8
+hash: 93e926113f695bcd9b5df701cbf0034a5c8296ce3eacaf05dc87e6d45d5ec294
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

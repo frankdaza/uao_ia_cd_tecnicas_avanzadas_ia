@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/sinfonia-de-sonrisas/
 titulo: Sinfonía de Sonrisas - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: dbc391253caebfa81b5d93eaa1a10bf529af035a8ec8e28fc4dc95609378d500
+hash: 07ca7b89d59d511831e1fcb60e71230e60593bd87aefe5e721af848c9d961ddc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/electroencefalograma-eeg/
 titulo: Electroencefalograma (EEG) - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7c137203f166afa3e7be256923028056b9be9be4d57c725037591dec25fbb396
+hash: c3888eae3157171f6a14ea3bce589725a3daf895f1a41e4fd0c2614bc21b7fd1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -306,6 +306,9 @@ Mostrar todos
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
 [Revista
 
 #### Revista Ed 76 – Aproximación a la Tomografía de Coherencia Óptica Coronaria](https://valledellili.org/revista-ed-76-aproximacion-tomografia-optica-coronaria-copy/)
@@ -315,9 +318,6 @@ Mostrar todos
 [Artículo
 
 #### Fobias y miedos en niños](https://valledellili.org/fobias-y-miedos-en-ninos/)
-[Video
-
-#### Infecciones urinarias en niños](https://valledellili.org/infecciones-urinarias-en-ninos/)
 
 #### Agendar cita
 

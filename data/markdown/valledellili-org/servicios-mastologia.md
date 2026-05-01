@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/mastologia/
 titulo: Mastología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a63877ab06ae51e1b336e506609db40e96fe224bddf1795b49c380b63434170b
+hash: 32e6e202f406bd1e7d32e63a2499e014d5b36d064b52b76f52e9e51336bf3417
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -301,6 +301,9 @@ Mostrar todos
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 [Revista
 
 #### Revista ed 82 – 20 Años cuidando a las mujeres que aman la vida](https://valledellili.org/revista-ed-82-20-anos-cuidando-a-las-mujeres-que-aman-la-vida/)
@@ -310,9 +313,6 @@ Mostrar todos
 [Revista
 
 #### Revista Ed 74 – Octubre mes de la sensibilización sobre el cáncer de mama](https://valledellili.org/revista-ed-74-octubre-mes-sensibilizacion-cancer-de-mama/)
-[Revista
-
-#### Revista Ed 70 – Prevenir es luchar juntos contra el cáncer de mama](https://valledellili.org/revista-ed-70-prevenir-es-luchar-juntos-contra-el-cancer-de-mama/)
 
 #### Agendar cita
 

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-alexandra-vallejo-diaz/
 titulo: Maria Alexandra Vallejo Diaz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2ce4d08b7713b1e6a16f666a32aa081064dcb802651ee9405fe6ce5d4bcf0de0
+hash: 96f90a6f6bda915c6dd3332ca0181ffced1c64a21dc456a36d6452d1f6316797
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

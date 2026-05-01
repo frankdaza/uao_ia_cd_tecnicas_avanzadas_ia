@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-martinez-pena/
 titulo: Adriana Martinez Peña - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 154d99ee2e1393d68091a26e5627799e7fd99ef95a1bca7ceb1a58097d0b8c7b
+hash: e50901f5e5e889bc2f3cacae2affcb433b4698ef2b1debe1a399031542edf585
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

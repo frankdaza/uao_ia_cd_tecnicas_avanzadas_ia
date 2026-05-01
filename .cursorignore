@@ -1,0 +1,20 @@
+# Cursor: exclusion fuerte (agente, @, busqueda semantica). Ver:
+# https://cursor.com/docs/reference/ignore-file
+# Coherente con .gitignore donde aplica; comentarios en espanol latinoamericano.
+
+# Secretos y variables de entorno (no commitear valores reales)
+**/.env
+**/.env.*
+secrets/
+**/credentials.json
+**/secrets.json
+**/.aws/credentials
+**/id_rsa
+**/*.pem
+**/*.key
+
+# Descargas crudas: alto volumen; el corpus de trabajo esta en data/markdown/
+data/raw/
+
+# Lockfile Python versionado: la lista por defecto de Cursor incluye *.lock
+!uv.lock

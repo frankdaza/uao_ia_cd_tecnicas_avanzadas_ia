@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/cindy-tatiana-diaz-sastoque/
 titulo: Cindy Tatiana Diaz Sastoque - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9c6e7c520351579a3b6316bb5b350fafed1a4222a4d964b6845e9b67051b95b9
+hash: 4883506d356c3490611c300582ab2eb889f6f91b21c05b976ca3b071458c814f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

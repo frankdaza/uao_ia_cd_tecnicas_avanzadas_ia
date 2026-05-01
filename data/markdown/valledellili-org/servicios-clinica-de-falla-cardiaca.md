@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/clinica-de-falla-cardiaca/
 titulo: Clínica de Falla Cardíaca - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4a044fa8dd04f32408a0e0cfb721ff78b75af5fd23aafa0a589f16413f64a368
+hash: 146e080ca1283e378cf3b1722621bc94a0da9cac94cc6ea54fcef7c806152304
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/recorrido-virtual/
 titulo: Recorrido virtual - Fundación Valle del Lili
 seccion: recorrido-virtual
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f693b3ff4709a4512a29a87c98779699e8751da76cd1e54ff108eff877d36511
+hash: bf5343b96143bc281426ac0528f0d4d694b91e1a7f67de651c230dd444ab88cd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -37,7 +37,9 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 [Especialidades](/servicios/)
 [Realizar pagos](https://www.zonapagos.net/formulariosNV/?cod=BTK3a53qAPJK5dFzuUb9xgf5oDlKS6R%2BbOyaySUdx7DrxB136MBId2d%2FfoqjHS5Am9X%2F45SfWNH8ASzbSsCBpcD9kbG6K15Wy93MM1427Q%2BNTNKv7OcCeJFbV9pIE4Tx3eTTvtoFyvjWtuA7Cf4WuXyFuS1pvNlhyTY02Wndewz63AxvE5eGYpZSLO4aSdcsz6JuN24Nag3M5%2BY%2BgJ4rGXZnEzsqyCP9R83QehwlxBOBjkHQpBJVfo44HwV5WXzrG35BFxbicWanECIwuffk9w%3D%3D)
 
-# Fundación Valle del Lili , conózcanos desde adentro
+[Fundación Valle del Lili](https://valledellili.org "Go to Fundación Valle del Lili.")→[Recorrido virtual](https://valledellili.org/recorrido-virtual/ "Go to Recorrido virtual.")
+
+# Fundación Valle del Lili conózcanos desde adentro
 
 [Ver recorrido virtual](/wp-content/uploads/recorrido-virtual-fvl/es/index.html)
 

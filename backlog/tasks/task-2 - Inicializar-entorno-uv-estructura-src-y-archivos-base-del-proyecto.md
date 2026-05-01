@@ -4,7 +4,7 @@ title: 'Inicializar entorno uv, estructura src/ y archivos base del proyecto'
 status: Done
 assignee: []
 created_date: '2026-04-26 20:11'
-updated_date: '2026-04-26 20:52'
+updated_date: '2026-05-01 01:22'
 labels:
   - setup
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
 references:
   - AGENTS.md
   - .cursor/rules/python-uv-environment.mdc
-ordinal: 750
+ordinal: 39
 ---
 
 ## Description

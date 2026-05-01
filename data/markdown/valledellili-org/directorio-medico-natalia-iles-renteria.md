@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/natalia-iles-renteria/
 titulo: Natalia Iles Renteria - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ad65088fffca063656ac317aa252c4e4a65a1c4c7feab1008f0c8d189f1792da
+hash: ef40e1d83fba7a2c398212ecddbad5df0a2ac5dfc25ff5e72993e9578b9461eb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

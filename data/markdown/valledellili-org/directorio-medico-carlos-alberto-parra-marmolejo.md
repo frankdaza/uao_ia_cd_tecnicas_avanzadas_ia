@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carlos-alberto-parra-marmolejo/
 titulo: Carlos Alberto Parra Marmolejo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 305984dbdd6e422fcc45677519693e74d155331684d4b960fc19ef59ee03aaf5
+hash: 027990c8a3fd748206cf7c78d3f1a1dd143c9b0a5dfa1b7447a628b63d575dc1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

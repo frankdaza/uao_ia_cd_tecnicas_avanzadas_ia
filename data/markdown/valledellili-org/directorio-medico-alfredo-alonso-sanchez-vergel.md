@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alfredo-alonso-sanchez-vergel/
 titulo: Alfredo Alonso Sanchez Vergel - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 602c680d01af8907208762066802d5bb9c6d861eb3c88bdc85b60d4149f56460
+hash: 78bda49163054ba58a8454b6b7c3c6946cdd74e6ee228dfb974ba8df26258d7d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

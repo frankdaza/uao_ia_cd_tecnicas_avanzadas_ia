@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/joaquin-donaldo-rosales-martinez/
 titulo: Joaquin Donaldo Rosales Martinez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0496053a3fcd611f3a553695989b7f320a57de701af079a59eeb8ae325a919b0
+hash: 3ab9be6dd24775282e616a08a3ab809c92eb500b371189d4961fb7524ec06c10
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

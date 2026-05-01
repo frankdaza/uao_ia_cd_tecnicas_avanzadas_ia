@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/leonardo-de-la-fuente-romero/
 titulo: Leonardo De La Fuente Romero - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a7a8d6a358b5372709439fd7ef177c36266f0367c46538256e1cb88d58aef982
+hash: 05d7c533139dd5c32256f6a8075b2f488c78f01778ab26f97c100a96e3726f2e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adolfo-leon-de-la-hoz-alban/
 titulo: Adolfo Leon De La Hoz Alban - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f69b07ea2061bcf0fc3616fe8ad39196e3fa310da734f0f0ac105ea5dcd3df9a
+hash: 82d6f39bf0096653fe3d0deef253c2f7af85edcf58c1a77e6ca08c4b20df69bc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

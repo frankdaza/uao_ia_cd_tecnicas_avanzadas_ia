@@ -3,9 +3,9 @@ source_url: https://valledellili.org/fvl-se-une-a-la-campana-impulsada-por-la-w-
 titulo: FVL se une a la campaña impulsada por la W y Universidad de los Andes 'Vamos
   Pa' lante' - Fundación Valle del Lili
 seccion: fvl-se-une-a-la-campana-impulsada-por-la-w-y-universidad-de-los-andes-vamos-pa-lante
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c1b7652ef1266d0ee56e64d7f89a7d91b58375ecb248ef44a5c7aa0121b8c6a0
+hash: 23a864ddcbc4f0eafd5b2c282c4102105b038ac983ef1138ab169b3adcabb020
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/diana-lorena-minayo-vargas/
 titulo: Diana Lorena Minayo Vargas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f7d0f5876b4136355b69649430cc15fc74d0d076049f977d6f0aa419e768fac2
+hash: a35d362a5aff207e6220bcfa19cdf8b90f5900b6db999ab4f56fb3f39a8bde2c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

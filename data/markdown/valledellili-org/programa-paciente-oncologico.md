@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-paciente-oncologico/
 titulo: Programa paciente oncológico - Fundación Valle del Lili
 seccion: programa-paciente-oncologico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5e6328fd67ca21a054f371316cb16a302dfaaef39eaeadf92f30f1675e35f936
+hash: 54a4af7826e3f0e36ae803727f3093c694d18a6a91a33f1d78e12f1ea7c1afc8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

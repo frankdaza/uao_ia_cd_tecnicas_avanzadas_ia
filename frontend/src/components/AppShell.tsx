@@ -66,7 +66,7 @@ export function AppShell({ sidebar, children }: AppShellProps) {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-[var(--color-background)]">
-      <header className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] bg-[var(--color-background)] z-10 shrink-0">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--color-surface)_65%,var(--color-background))] shadow-[inset_0_-3px_0_0_var(--color-accent)] z-10 shrink-0 backdrop-blur-[2px]">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -86,7 +86,7 @@ export function AppShell({ sidebar, children }: AppShellProps) {
           </Button>
           <div className="flex flex-col leading-tight">
             <span
-              className="font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent"
+              className="font-display font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-primary-light)] bg-clip-text text-transparent"
               style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
               Q&A — Fundación Valle del Lili

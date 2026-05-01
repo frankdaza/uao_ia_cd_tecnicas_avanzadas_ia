@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jorge-guillermo-velasquez-norena/
 titulo: Jorge Guillermo Velasquez Norena - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c489665062f816855ee9dc97159ec8df0b6fbce922913ab6536a3e325b195b4a
+hash: 625304d4cdf3af86468f29ff0164c46b197eaf76c260121da05fbd172b9ed43a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

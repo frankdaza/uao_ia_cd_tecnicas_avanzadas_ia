@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/conozca-nuestro-boletin-de-investigacion-edicion-16/
 titulo: 'Conozca nuestro Boletín de Investigación, edición # 16'
 seccion: conozca-nuestro-boletin-de-investigacion-edicion-16
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 21c8cfce05d26bfa3505e068d123303c6dcdd01b7f6234b8ff14d6cf28904afe
+hash: 1dea5e4c6a8d367b72cd33c9b52af5d72133b9a7f9694105212c256807a880ae
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -3,9 +3,9 @@ source_url: https://valledellili.org/servicios/radiologia-intervencionista-inter
 titulo: Radiología intervencionista - Intervención vascular - Fundación Valle del
   Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 87d7e8cd698f25024743044d30784dc6ee0075cf0219f2d8661a48026beef3fe
+hash: 9dc1fa08302e62a51392b2e5bebc689113c0d0ddff039dc977e0b23e5cf77efc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

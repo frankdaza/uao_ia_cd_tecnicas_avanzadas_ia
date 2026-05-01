@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alfredo-martinez-rondanelli/
 titulo: Alfredo Martinez Rondanelli - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2ab8518f744a98c5c6b2c07158dcc39560f3d9b71eb0405ee86078b0435aa4b8
+hash: 85933d1bcd03efd9b2dc9a18931c8c0249f517d8542068edf1bf5b199a01f950
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -19,7 +19,7 @@ references:
   - >-
     https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
   - 'https://www.gradio.app/guides/streaming-outputs'
-ordinal: 0.0762939453125
+ordinal: 25
 ---
 
 ## Description

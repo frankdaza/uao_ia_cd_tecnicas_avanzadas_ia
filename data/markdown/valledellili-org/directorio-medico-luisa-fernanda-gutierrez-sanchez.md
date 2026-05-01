@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/luisa-fernanda-gutierrez-sanchez/
 titulo: Luisa Fernanda Gutierrez Sanchez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c320e0d2ac93ea7466eb81432423fdb757a30c5d516da36074bea57859afe65b
+hash: 940e21ff5edfc86089b16f13f6788f77246832ffe934db527fc0e307c8241c3c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

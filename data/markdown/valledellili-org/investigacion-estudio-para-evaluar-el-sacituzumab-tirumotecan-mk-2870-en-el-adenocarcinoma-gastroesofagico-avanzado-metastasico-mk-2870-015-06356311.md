@@ -4,9 +4,9 @@ titulo: Estudio para evaluar el sacituzumab tirumotecan (MK-2870) en el adenocar
   gastroesofágico avanzado/metastásico (MK-2870-015)-06356311 - Fundación Valle del
   Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f66fdc9c2388aead5bbd52fae50ef4193ad156f2c1200e7aad7a9aef1d7a99a4
+hash: 2f97ad7f2f89508d13d00a46ebd71f354dcb65381235bc08f5388809ddbadc03
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/angelica-maria-murcia-pulido/
 titulo: Angelica Maria Murcia Pulido - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d728d54f483c0c1a27c9ba63018a12af02273cc26fe04d4555d6f260c59a5e59
+hash: ad23dcb1e1934524cd791e344e7a2f86e3f05348eac4ca6648a219a05935a4e1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

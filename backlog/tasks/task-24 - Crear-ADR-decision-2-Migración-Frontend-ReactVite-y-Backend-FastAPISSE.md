@@ -4,7 +4,7 @@ title: 'Crear ADR decision-2: Migración Frontend React+Vite y Backend FastAPI+S
 status: Done
 assignee: []
 created_date: '2026-04-30 05:43'
-updated_date: '2026-04-30 05:56'
+updated_date: '2026-05-01 01:21'
 labels:
   - adr
   - docs
@@ -13,6 +13,7 @@ labels:
 dependencies:
   - TASK-21
 priority: high
+ordinal: 17
 ---
 
 ## Description

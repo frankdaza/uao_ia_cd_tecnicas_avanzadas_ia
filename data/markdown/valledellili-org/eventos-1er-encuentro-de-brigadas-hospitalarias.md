@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/eventos/1er-encuentro-de-brigadas-hospitalarias/
 titulo: 1er. Encuentro de brigadas hospitalarias - Fundación Valle del Lili
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: dd6c9d7e52db4efe1fb779dc1b399134d1597f590e9391d942c11a6b1abd7ba4
+hash: efd5176449fc8747fa299ea10741bf3c7392a818ecf7473bcf041bb4f5d40eb7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -99,7 +99,7 @@ Día 1
 Inscripciones
 $170.000
 
-[¡Inscríbete aquí!](https://forms.office.com/pages/responsepage.aspx?id=6ZGLjVLomkuAvCRrPu33b7Fk7fkx_A5Pji_wFRFYshRUMzNXMUlZWjVCN0g5MTJXQkFIQVVIVjFNQS4u&route=shorturl)
+[¡Inscríbete aquí!](https://events.peewah.co/1er-encuentro-brigada-en-entornos-criticos  )
 
 [Descarga el programa](/wp-content/uploads/2026/04/ProgramaBrigadas.pdf)
 

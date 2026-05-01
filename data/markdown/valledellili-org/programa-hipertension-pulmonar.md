@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-hipertension-pulmonar/
 titulo: Programa hipertensión pulmonar - Fundación Valle del Lili
 seccion: programa-hipertension-pulmonar
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b41ec58571b909c4cfe2d3b771471a6466fda18c5c1fa82d74f58e6888551cdd
+hash: 6b89631bcb9c9302f5aa4eb6b53531301e569a654ec97011cd620969edd9bf97
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

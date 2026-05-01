@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/mario-alejandro-bustos-paz/
 titulo: Mario Alejandro Bustos Paz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ac4d6472e609bda83a23f4ea85a3fa17533cf4553017d0cd4799f83dbb62962d
+hash: c83c3779b2faed127df43f4e9dbaeb9873c6c880fcf95b4bf9b6e6409d9be2c8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

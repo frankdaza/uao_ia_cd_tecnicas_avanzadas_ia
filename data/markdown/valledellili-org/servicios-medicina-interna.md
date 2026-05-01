@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/medicina-interna/
 titulo: Medicina Interna - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 360c5b1a2fec05a2890b62247d2f709515353fa4cc4cdc01dbbad60bcb20414d
+hash: a9bc3e58e454286b7d995a76958866a78e43c345e28dd22a4f440aa9135527cc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

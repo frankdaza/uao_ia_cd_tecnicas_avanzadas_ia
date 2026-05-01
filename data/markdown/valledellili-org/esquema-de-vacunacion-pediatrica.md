@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/esquema-de-vacunacion-pediatrica/
 titulo: Esquema de vacunación pediátrica - Fundación Valle del Lili
 seccion: esquema-de-vacunacion-pediatrica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 08b70d2b33f48c9b5b9f4dd9f9280a734624239dabd3baa64874f29c0a0a60e3
+hash: 7b68dc8b40a2e8d63b230d308a0023938af1094bbd6786179ae71235e5a1c8d1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

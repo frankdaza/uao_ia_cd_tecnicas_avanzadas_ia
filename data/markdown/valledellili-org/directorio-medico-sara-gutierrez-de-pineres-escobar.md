@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sara-gutierrez-de-pineres-escobar/
 titulo: Sara Gutierrez De Pineres Escobar - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 73422b31c6a6f569a64037e0fa8ff22bf99235e4fb1286146c348576987f666f
+hash: 55f98e3184b8b937c4500d6a4ad9a1e02b862051913514e69f490bbf686accc3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/edwin-alberto-silva-yepes/
 titulo: Edwin Alberto Silva Yepes - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b2ff21ccc7277abff7e0f761fec5ce26b2bee8b3610ff54f8681f815a814d766
+hash: c1f4c747a07a131e8b1bc4df38dffc944ff2788dff03ba61182ba139c3e5744f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

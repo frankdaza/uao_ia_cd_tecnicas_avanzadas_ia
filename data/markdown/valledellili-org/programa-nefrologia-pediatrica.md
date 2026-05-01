@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-nefrologia-pediatrica/
 titulo: Programa nefrología pediátrica - Fundación Valle del Lili
 seccion: programa-nefrologia-pediatrica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6b69003f414afbfc3d7c8d9e69ee4921d6f384bcd4ecb6a9ceb3d01e1ad1804e
+hash: 44207cf691db1235af43f7259a7f1aae5f538bc9eda4e88a7cbed56fe0ec4cc4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

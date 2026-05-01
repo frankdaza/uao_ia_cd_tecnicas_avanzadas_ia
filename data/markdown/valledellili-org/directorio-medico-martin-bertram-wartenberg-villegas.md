@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/martin-bertram-wartenberg-villegas/
 titulo: Martin Bertram Wartenberg Villegas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: cc964c020be52b6d04345ecf68492fc8ff99899609b94eca8cdb80d83a8b0342
+hash: 002f86f884e773506f07ee59fc9a0aa06341bab49cd0c0412f097252e80b37bb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

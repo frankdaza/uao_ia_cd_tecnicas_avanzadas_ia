@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alejandro-jaimes-morales/
 titulo: Alejandro Jaimes Morales - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d99ab5c1225ee77c84bfe4386c25b8573fca4ee9f341611716b5217469e40d56
+hash: 5d2c8f4f67d3a7bfdbe4fb09197309fcdb8a126cc30056673b9401ef0f1231e7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

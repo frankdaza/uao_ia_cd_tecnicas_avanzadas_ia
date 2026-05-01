@@ -4,7 +4,7 @@ title: 'Accesibilidad ARIA, atajos de teclado y animaciones de alta calidad UX'
 status: Done
 assignee: []
 created_date: '2026-04-30 05:46'
-updated_date: '2026-04-30 06:11'
+updated_date: '2026-05-01 01:18'
 labels:
   - frontend
   - a11y
@@ -13,6 +13,7 @@ labels:
 dependencies:
   - TASK-35
 priority: medium
+ordinal: 5
 ---
 
 ## Description

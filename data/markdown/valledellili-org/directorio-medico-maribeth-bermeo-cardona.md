@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maribeth-bermeo-cardona/
 titulo: Maribeth Bermeo Cardona - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c338bd7c5d84c5c1abd80a85756e8b83bf9b4dbdffb95fd696548e4b8fba9d88
+hash: bdc0f74ef2dd961e4a48c5d5ef8a928e773247fa5249acf00e506fd80d962347
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

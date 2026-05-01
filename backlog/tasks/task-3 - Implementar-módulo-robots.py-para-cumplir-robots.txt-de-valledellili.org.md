@@ -12,7 +12,7 @@ dependencies:
 references:
   - .cursor/rules/scraping-ethics.mdc
   - .cursor/skills/web-scraping/SKILL.md
-ordinal: 500
+ordinal: 38
 ---
 
 ## Description

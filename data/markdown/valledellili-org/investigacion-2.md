@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/investigacion
 titulo: Investigación Archive - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: feba6adfa0fb0e03dd2aaa91bb6a4981a088e4934a647bd257e7efdc780f75a8
+hash: 54e6521d05802f7d441cdeab6ca7638ab58e551091c000e489da22bbc4bdd783
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -15,7 +15,7 @@ export function ApiStatusFooter() {
     <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] text-[var(--color-text-subtle)]">
       <span className="inline-flex items-center gap-1.5">
         <span
-          className={`inline-block h-2 w-2 rounded-full ${online ? 'bg-emerald-500' : 'bg-red-500'}`}
+          className={`inline-block h-2 w-2 rounded-full ${online ? 'bg-[var(--color-accent)]' : 'bg-red-500'}`}
           aria-hidden="true"
         />
         API {online ? 'en línea' : 'desconectada'}

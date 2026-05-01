@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alex-david-sotomayor-julio-2/
 titulo: Alex David Sotomayor Julio - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ddf1d400c6b6d464c1bfed6d07021818d1d183793fa72a5e93849bc3dc604f62
+hash: 45d0bbeaa83c1204f560110688387d5e825ab3108da2ec2baa3045badb13fd0f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/educacion/centro-de-bioetica/
 titulo: Centro de Bioética - Fundación Valle del Lili
 seccion: educacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: edbb9b8e43c3fa92c48f2faa7eaddc0ba82b07711841988d28cd8889d01e916d
+hash: 5852d9e77c9b5843e568c0b8caa6ba08ae684576a4ab6f8e446f041a15afc9ac
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -73,7 +73,7 @@ Radiología
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am – 5:00 pm
 
@@ -92,7 +92,7 @@ Pediatría
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am – 4:00 pm
+Hora: 8:00 am – 2:30 pm
 
 Lugar: Evento Virtual
 
@@ -130,10 +130,10 @@ Hora: 7:00 am – 6:00 pm
 Lugar: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
 Híbrido
-Medicina familiar
+Cardiología
+Endocrinología
 Medicina Interna
-Medicina interna en el adulto mayor
-Medicina interna-geriatria
+Urgencias
 
 [Quiero asistir](https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-del-razonamiento-a-la-decision-clinica/)
 

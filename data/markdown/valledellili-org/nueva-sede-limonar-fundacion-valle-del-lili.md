@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/nueva-sede-limonar-fundacion-valle-del-lili/
 titulo: Nueva Sede Limonar Fundación Valle del Lili
 seccion: nueva-sede-limonar-fundacion-valle-del-lili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4bca8f0277c6f34b9745820e9d9479a247b830cd3d6e069a756da7a2655bfaf9
+hash: 755c392916da69166ca16aeed953adce117ed1075811d35c83b7d552bdc60aa5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/wilson-stheeveng-villamil-guerrero/
 titulo: Wilson Stheeveng Villamil Guerrero - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7bc5f788648f9ae06974c9f1c50d27912ee5f994576dd5a0809e33048a5abc61
+hash: d14aa08dd8577f794f351b9f0ac52358610e3fc6705d219e7f245e5873c27bb0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-de-cabeza-y-cuello/
 titulo: Cirugía de Cabeza y Cuello - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 708cbf9587b9a85d1bb1d3909aa8c7c04d9508f8c5856ccaa3fd9b191c5226e5
+hash: 0b6bced512bc2a78d01ec5debe1b730aa2e907fed60a5658576d73896507265d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

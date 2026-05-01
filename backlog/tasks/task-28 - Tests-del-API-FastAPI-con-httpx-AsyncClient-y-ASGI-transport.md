@@ -4,7 +4,7 @@ title: Tests del API FastAPI con httpx AsyncClient y ASGI transport
 status: Done
 assignee: []
 created_date: '2026-04-30 05:44'
-updated_date: '2026-04-30 06:01'
+updated_date: '2026-05-01 01:21'
 labels:
   - tests
   - backend
@@ -12,6 +12,7 @@ labels:
 dependencies:
   - TASK-27
 priority: medium
+ordinal: 13
 ---
 
 ## Description

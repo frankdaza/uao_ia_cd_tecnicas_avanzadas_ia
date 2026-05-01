@@ -3,9 +3,9 @@ source_url: https://valledellili.org/fvl-presente-en-el-1er-encuentro-nacional-d
 titulo: FVL presente en el 1er encuentro Nacional de Bosques Urbanos - Fundación Valle
   del Lili
 seccion: fvl-presente-en-el-1er-encuentro-nacional-de-bosques-urbanos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0b157ca059313d736d44e8d7d666feffd3a7abfc3654434d634555e8d467c97c
+hash: 2b4d0b5f6dd613b57ac80c192fc28f24b13b526de869da16361c556e616d5abe
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

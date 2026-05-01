@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=ceguera
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bc34d37c18403a7ae12fdb5377dabd745fbe7e78269c18d06050e26dd5810ca5
+hash: 5d17e15e7e6df00ff7fdbe9b39e8ce43ce009c3ed4c6b37d3fd86986ce1345df
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/hepatologia/
 titulo: Hepatología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c18846b9445c8a7b61a38a44ed6126c13a29513d063ff690d2d7539c2c63d826
+hash: 0df73f23defa396d038fe72f1432fe72f1c14ca3fe57dbe2a5eae3516e9294fc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-de-trauma-y-emergencias-fundacion-valle-del-lili/
 titulo: Cirugía de Trauma y Emergencias - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0d8652dfd811eaced7fc59b615e0f847aa7ef17c3d1addb5fa6853bf7f761037
+hash: 00407b90fb8afbfaa45beff97249123b68d336e9cbb19ece36bc39df23c874a7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

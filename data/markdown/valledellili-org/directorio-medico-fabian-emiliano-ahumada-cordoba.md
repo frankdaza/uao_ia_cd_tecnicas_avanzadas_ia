@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/fabian-emiliano-ahumada-cordoba/
 titulo: Fabian Emiliano Ahumada Cordoba - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4fbe9eb5bc1c658bdd6e57bd67a07b39caf6da5136e2bf0c7f4f1e2c7f605e37
+hash: 893e55dccdc9d68980a321d8c57fe5fae687b991b5be9f9efbb5389acf28dbbc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

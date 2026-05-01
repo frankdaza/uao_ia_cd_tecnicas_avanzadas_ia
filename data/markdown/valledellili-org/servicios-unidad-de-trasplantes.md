@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/unidad-de-trasplantes/
 titulo: Unidad de Trasplantes - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7f7d92813dc5bceeb1ae438c900749daa7ebc625e01ef85213fc7c386d17bcf0
+hash: 4e84bb3f2fa3c4a91b2c9fa3bce9c2b016d146598a8ff58a75756362e9c2f05e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

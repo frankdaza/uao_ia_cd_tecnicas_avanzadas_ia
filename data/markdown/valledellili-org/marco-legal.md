@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/marco-legal/
 titulo: Marco Legal - Fundación Valle del Lili
 seccion: marco-legal
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 532a61f5f21d9afd19480e31e283ddf80308442c7dc437859b12b1b8b9fba31e
+hash: 7e0778ece1595a8df30a7b66c89f7e2d6d5405dd4c46a84ba4d6483e409d2808
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

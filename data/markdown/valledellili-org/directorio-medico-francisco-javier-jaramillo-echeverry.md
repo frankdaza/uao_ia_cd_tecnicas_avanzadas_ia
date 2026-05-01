@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/francisco-javier-jaramillo-echeverry/
 titulo: Francisco Javier Jaramillo Echeverry - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f3232c122bcb5e8f1b15cd8fb77cdfa49510e81b20eefcad73a8c7da7e32a00f
+hash: e8ecbd940c66301c2e02ab9401d44af88611f91727ac9c0dcfa1988b76e7b2b0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

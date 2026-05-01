@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-ximena-navas-garcia/
 titulo: Claudia Ximena Navas Garcia - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 571c4f6dbb8c027d55b0d92411a8a1d5733a5216763737de12a214366f435172
+hash: 9939f97303e1058fb18c3b00e537435b8abe93a05ce1ac8542c7ac856765c854
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

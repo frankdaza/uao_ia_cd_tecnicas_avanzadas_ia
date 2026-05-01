@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/pablo-felipe-ricardo-amaya-gonzalez/
 titulo: Pablo Felipe Ricardo Amaya Gonzalez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 41e5a5be2a22f9222f71c4e58e8dbf9beab5ca44881cbe75bbab9e90970490f3
+hash: a4d6b360f13661733c345b9753252f6401053af0b31a5088bf27d43ed141bab8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

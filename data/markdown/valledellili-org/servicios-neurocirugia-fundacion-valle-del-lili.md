@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/neurocirugia-fundacion-valle-del-lili/
 titulo: Neurocirugía - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 93f73a375919414e99106b12805513153062c24833d3624875cb6688e29e9617
+hash: 159ac2548a89049039ba88267b93ba8163a60de1f2ca4ef9679dedff9dd2f59d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

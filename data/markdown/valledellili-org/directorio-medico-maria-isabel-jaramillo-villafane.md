@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-isabel-jaramillo-villafane/
 titulo: Maria Isabel Jaramillo Villafañe - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 96a2eff90786f2760bc049a91eb4f63b3157bcb8cb6e5efadb3f5e593a082531
+hash: 72b3bde37bf435fb898423757174680bddf3c9e06d654b23adfad0460166f813
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

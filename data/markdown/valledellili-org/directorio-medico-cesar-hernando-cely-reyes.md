@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/cesar-hernando-cely-reyes/
 titulo: Cesar Hernando Cely Reyes - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ab5c8a820e0693bc63aede821858327f400eac6da641874129a6ad0333036a21
+hash: 3c6c2198056a1810f7cabb6e273ae976bd62a90204406806a04e0805783633fd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

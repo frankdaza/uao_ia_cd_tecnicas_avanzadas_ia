@@ -4,7 +4,7 @@ title: Cliente HTTP + zod schemas + React Query hooks + transport SSE para strea
 status: Done
 assignee: []
 created_date: '2026-04-30 05:45'
-updated_date: '2026-04-30 06:10'
+updated_date: '2026-05-01 01:19'
 labels:
   - frontend
   - api-client
@@ -14,6 +14,7 @@ dependencies:
   - TASK-27
   - TASK-31
 priority: high
+ordinal: 9
 ---
 
 ## Description

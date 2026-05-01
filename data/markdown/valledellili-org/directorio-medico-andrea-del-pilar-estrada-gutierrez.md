@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/andrea-del-pilar-estrada-gutierrez/
 titulo: Andrea Del Pilar Estrada Gutierrez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7baf201edce2503841287d020cb5ceb885f8017d656db1d4e5e242d3fd1e0427
+hash: 234aba6a9f5668d2a279837d71122abc08c31656329e322e83af58f9bec2117c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

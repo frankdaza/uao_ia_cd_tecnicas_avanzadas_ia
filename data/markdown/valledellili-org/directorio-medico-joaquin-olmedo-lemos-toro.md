@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/
 titulo: Joaquin Olmedo Lemos Toro - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 73f33e38b491a69673049efea1dab95ad920730b4232f6622bc1ada654d7bba0
+hash: 29bade61d6dd35163e2ac848e6eb405db14217f737d662c759656617ed55fd9f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

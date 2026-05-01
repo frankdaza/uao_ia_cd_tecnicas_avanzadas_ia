@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/ana-maria-garcia-giraldo/
 titulo: Ana Maria Garcia Giraldo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e9e3dd762c5096acf515090a020e1a7578d27fdd0073ddad72d17e50b0a6c34a
+hash: a3f942963e68ae791bb990caf282142ebc97d553b04ef34fb2d7f87f4802c09b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/diana-mireya-morales-andrade/
 titulo: Diana Mireya Morales Andrade - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6e302f525b38d1306cc2a107eae9fe5078013fea95a11bbf5c82c952ee78c89c
+hash: 8fe6acea376ce0b1901d3913107c381bb0dcf374687cc5bdd4a941ebbff11716
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

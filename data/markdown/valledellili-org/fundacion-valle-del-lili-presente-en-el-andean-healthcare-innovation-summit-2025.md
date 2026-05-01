@@ -3,9 +3,9 @@ source_url: https://valledellili.org/fundacion-valle-del-lili-presente-en-el-and
 titulo: ¡Fundación Valle del Lili, presente en el Andean Healthcare Innovation Summit
   2025!
 seccion: fundacion-valle-del-lili-presente-en-el-andean-healthcare-innovation-summit-2025
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6a3e3f264d4d0bcc588418e09efff8dcf6c84c6a7877c1eff0d33d757216fcf9
+hash: 9dd882d120fbf04202b9cef83cb038a9163c4c2f3f4e82cce547eb451e14f03d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

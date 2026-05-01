@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alejandro-duran-hernandez/
 titulo: Alejandro Duran Hernandez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: aa50f57d4e07e6afb5dc05f54abcfc01d35885d67ce864982dbdb78d1ab315e7
+hash: 5feaf9f94813933882494d885fd28658ce5d0f64ae3fb84277078ff456306afc
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

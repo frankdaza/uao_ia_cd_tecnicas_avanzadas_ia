@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/manuel-alejandro-perez-gomez/
 titulo: Manuel Alejandro Perez Gomez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c5354a29db1e0e22428211a7ff2bff4a84ba1721a10c394dd67ba7a5ca772dab
+hash: 12119e800d6c07f3a3dba77032b1cc92fb87fee74074a5178545eb84c44fd748
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

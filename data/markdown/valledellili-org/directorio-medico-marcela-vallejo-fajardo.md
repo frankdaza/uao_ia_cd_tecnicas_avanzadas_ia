@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/marcela-vallejo-fajardo/
 titulo: Marcela Vallejo Fajardo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 51e5a555f433b74973c07f51c49b4f3483c79e6803136d837f859f19cfeaf87f
+hash: f724d62fbfb93e7e135244854b5583b5ed734885468ddf6df7c09b504b6348a5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

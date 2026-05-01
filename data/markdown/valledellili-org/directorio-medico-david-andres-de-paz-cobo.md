@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/david-andres-de-paz-cobo/
 titulo: David Andres De Paz Cobo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1c5888d5015e165af843cfeaf72ce9a7a7df7a19e1c1192219b9e3ec130ac6bd
+hash: 6cd0eb2005e20c8aeaaab62680e6e8956792f9198ed5ffac0d66c9ace0411f34
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

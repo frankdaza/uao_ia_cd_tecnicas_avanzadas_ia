@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/medicina-del-deporte/
 titulo: Medicina del Deporte - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d2a554882ba98ec5602a9007eb5f1b73341cdfa4f657864bf1ace0c3c6f00f1f
+hash: ba2d95aaf0d09905a645bc2d2fa4348503dc42b4b371c6831bf53cfb4a377491
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

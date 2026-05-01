@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carmelo-jose-otero-berrocal/
 titulo: Carmelo José Otero Berrocal - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9ff6ec6c9862fa037524dfc793c7d46386e966141e71d345078bb8b555cd4a47
+hash: f3f293cca639002e272d7420bd78d21393598a1ab810620ff9d89d6d30b57c5f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

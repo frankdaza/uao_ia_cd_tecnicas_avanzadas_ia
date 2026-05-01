@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/infectologia-pediatrica/
 titulo: Infectología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 361a9bd964d5d49b6d9bf3637e8a1669f2b73fb1afbbbd744825acf2863c490b
+hash: 1e42da70f186be01fdcc151964ad4b9eacf13e19f378c6527d6b92eb6d703e51
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

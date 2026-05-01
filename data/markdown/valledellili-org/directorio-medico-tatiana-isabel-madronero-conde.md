@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/tatiana-isabel-madronero-conde/
 titulo: Tatiana Isabel Madroñero Conde - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6f4ea1229b7a3fdd1428e5d35f9f31a1a8401524455854f0abf9e038c7111ed7
+hash: 31e50040abc60829a0ad573bd888374fdf1e3415a7acb337bd912a7772daec7f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

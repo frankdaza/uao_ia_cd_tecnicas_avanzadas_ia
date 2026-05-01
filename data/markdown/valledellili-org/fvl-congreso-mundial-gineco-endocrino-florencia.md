@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/fvl-congreso-mundial-gineco-endocrino-florencia/
 titulo: ¡FVL presente en el Congreso Mundial de Gineco-Endocrinología en Florencia!
 seccion: fvl-congreso-mundial-gineco-endocrino-florencia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7b7ab21a8e0608217e6f7105d8c52c0b29be6377da02b80fbc6f641254d67319
+hash: f252ff4e57d9d585092c114909bd588ace206ea2f2486faac0c665b7c3faee83
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

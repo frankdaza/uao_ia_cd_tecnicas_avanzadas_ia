@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/la-fundacion-valle-del-lili-participo-en-el-31o-foro-de-la-salud-de-la-andi/
 titulo: ¡La Fundación Valle del Lili participó en el 31º Foro de la Salud de la ANDI!
 seccion: la-fundacion-valle-del-lili-participo-en-el-31o-foro-de-la-salud-de-la-andi
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 3ccfe7895274096ce298b034e252cf3c11b5378c9a3cbe706a4596ce4c55bf04
+hash: 22a4a705875a3770dddf381b9c1f9997c15985ca4143dc0393b7f9c3b4184279
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

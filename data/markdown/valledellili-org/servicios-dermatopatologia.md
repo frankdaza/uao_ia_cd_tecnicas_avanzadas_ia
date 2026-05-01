@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/dermatopatologia/
 titulo: Dermatopatología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2c00e9f8c7b1dd27202db0a5308a099430e00cdbf4cf0d9e7ca270b413bb831c
+hash: 422e0e9a38b91db30aefb319b76c70b81cd149766cc0b0d3090ce6274bd6a60e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

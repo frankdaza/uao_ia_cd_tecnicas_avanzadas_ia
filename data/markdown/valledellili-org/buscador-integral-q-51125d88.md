@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=pediatria
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 201363b73a9b166e1e4b9372a5a9b52d1be021f61d051bb5b3a5f6524f927c57
+hash: 1eafc8d98023bf9ac48a6aebecb01e7429b7ccd84713374ad62b801196c80960
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -562,6 +562,9 @@ control del dolor](https://valledellili.org/servicios/urgencias-pediatricas/)
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Esquema de vacunación pediátrica](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 [Artículo
 
@@ -569,9 +572,6 @@ control del dolor](https://valledellili.org/servicios/urgencias-pediatricas/)
 [Artículo
 
 #### Programa nefrología pediátrica](https://valledellili.org/programa-nefrologia-pediatrica/)
-[Artículo
-
-#### Programa lactancia materna](https://valledellili.org/programa-lactancia-materna/)
 [Descubre más contenidos de salud](https://valledellili.org/fvl-al-dia/)
 
 ## ¡Al día con la Fundación Valle del Lili!

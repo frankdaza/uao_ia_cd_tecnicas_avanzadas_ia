@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jairo-alonso-quinones-bautista/
 titulo: Jairo Alonso Quiñones Bautista - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e374ff877f48f868b48ed3fccee22243af8d7a6435d47e4e2e302000629cbabb
+hash: 2c976f70d0971dd1b8776223a0d38b529e7f9a0a10590e1a7c26e135b4c8847c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

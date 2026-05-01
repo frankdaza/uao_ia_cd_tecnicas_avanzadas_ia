@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/oscar-eduardo-giraldo-victoria/
 titulo: Oscar Eduardo Giraldo Victoria - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c0025685e0831c613f78bb641c29cf7103d25afc76c0f62c40e2e98b813563af
+hash: b6256383511b81c3942d10285817de881b91c84f3683d39a0d31151aadf5e289
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

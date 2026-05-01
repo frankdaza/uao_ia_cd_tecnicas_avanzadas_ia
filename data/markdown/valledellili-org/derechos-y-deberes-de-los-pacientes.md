@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/derechos-y-deberes-de-los-pacientes/
 titulo: Derechos y deberes de los pacientes - Fundación Valle del Lili
 seccion: derechos-y-deberes-de-los-pacientes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f152b3ac418f1a416100794e8f9e1f9459c8950b7cac91012934a1475e4c7359
+hash: b27e52520389360921b32ee4f15fb5b945ed13fc4df5fc6fbe59f474a73c9f95
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

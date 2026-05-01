@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/uriel-largo-rojas/
 titulo: Uriel Largo Rojas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 82b60758bc39c65b03d7023f579717d7d69c7f528ab1d23040f64663a43c0bde
+hash: 88e37974a54f17b63ae8fb433a13286a96510fa84bb396f46e6f00b2ea6f204d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

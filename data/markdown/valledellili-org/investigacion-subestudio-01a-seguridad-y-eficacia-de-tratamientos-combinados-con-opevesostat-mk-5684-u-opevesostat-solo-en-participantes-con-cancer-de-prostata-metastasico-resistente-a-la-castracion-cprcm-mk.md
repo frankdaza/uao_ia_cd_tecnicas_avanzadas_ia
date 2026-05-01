@@ -5,9 +5,9 @@ titulo: 'Subestudio 01A: Seguridad y eficacia de tratamientos combinados con ope
   resistente a la castración (CPRCm) (MK-5684-01A)-06353386 - Fundación Valle del
   Lili'
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 103a9f9ac2f8644a092a1921dde884db35710388cf03500491b444fe76e42c80
+hash: c3b5dfdffd5737076f7d827992d1b6e53285748b95ea169d1e9f5691b49982a3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/anestesiologia-fundacion-valle-del-lili/
 titulo: Anestesiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ec32a2c50e33767562f04cf302a6f234225abb224401fcc1ea91b0abfbd29945
+hash: e3ed6b5e1deffac8a524da1751d1521101f8e15592253b58196ff6db9bc9cab9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

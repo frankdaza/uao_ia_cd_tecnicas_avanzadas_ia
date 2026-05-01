@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/medicina-nuclear-e-imagen-molecular-fundacion-valle-del-lili/
 titulo: Medicina Nuclear e Imagen Molecular - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1da3fa0c4f1ac66fabb694876d5bb596772f329768ef0f4b348cbcff4d28d8e2
+hash: 5fb02f5ed5d419b13750a80f4c3f5591501d91daa89514ace71dd206f1b45b52
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -321,6 +321,9 @@ Mostrar todos
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
 [Revista
 
 #### Revista Ed 76 – Aproximación a la Tomografía de Coherencia Óptica Coronaria](https://valledellili.org/revista-ed-76-aproximacion-tomografia-optica-coronaria-copy/)
@@ -330,9 +333,6 @@ Mostrar todos
 [Video
 
 #### Infecciones urinarias en niños](https://valledellili.org/infecciones-urinarias-en-ninos-2/)
-[Artículo
-
-#### Doctor a mi niña le arde al orinar](https://valledellili.org/doctor-a-mi-nina-le-arde-al-orinar/)
 
 #### Agendar cita
 

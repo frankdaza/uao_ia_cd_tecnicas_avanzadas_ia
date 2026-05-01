@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sara-viviana-villaquiran-londono/
 titulo: Sara Viviana Villaquiran Londoño - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ff69921de1c8ecd165ae655b0dc28a4a5292003d244b05d84bf4b9418e84ffc1
+hash: 2f6d0a4168f3c0aa46f79246bc93314a70b4756f0ef160f4d031dcdf9719c654
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

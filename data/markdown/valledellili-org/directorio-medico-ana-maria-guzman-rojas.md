@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/ana-maria-guzman-rojas/
 titulo: Ana Maria Guzman Rojas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 72c66f037c7ff813e2633f5250ca63df52ed944f2758906289d896c51c4f1fc3
+hash: 4ce313031061861204d231a1e9bec82d13f59d67d7027dd13beea4fdfe2f55ca
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

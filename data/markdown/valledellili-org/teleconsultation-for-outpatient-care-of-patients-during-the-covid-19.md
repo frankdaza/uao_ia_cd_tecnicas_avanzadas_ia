@@ -3,9 +3,9 @@ source_url: https://valledellili.org/teleconsultation-for-outpatient-care-of-pat
 titulo: Teleconsultation for outpatient care of patients during the COVID-19 - Fundación
   Valle del Lili
 seccion: teleconsultation-for-outpatient-care-of-patients-during-the-covid-19
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 48443bbef0143696476bd741ab894f12772f0be8f765310964a4d4571c099b19
+hash: ebbd34e46bcca75a3729373ddfe3b849bd60a2efac22e50af4ab04f1ebcfb9dd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

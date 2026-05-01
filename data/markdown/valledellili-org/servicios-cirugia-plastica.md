@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-plastica/
 titulo: Cirugía Plástica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 28ebfffcfe97bc54afba412888fff08ed29edb4f6062d5c121ca13e42570c387
+hash: cc8de6014d22b6ff3e670fb37e0d53d65dd7961da9c828ba5905b75b8e03541d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

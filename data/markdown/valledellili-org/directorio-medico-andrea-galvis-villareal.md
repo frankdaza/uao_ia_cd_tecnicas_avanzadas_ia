@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/andrea-galvis-villareal/
 titulo: Andrea Galvis Villareal - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ac75818f98ac4ac44d471e8d18b04fdda242b3810b23a671bb53d4ff1671acf0
+hash: 08493b33ef803f4b9cce5f42761c7aa57b762c940e23b5d0bda24674e38d4e41
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/auxilios-para-poblacion-vulnerable/
 titulo: Auxilios para población vulnerable - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2ce7e9b9219eb3c97cef7673b2685da4dba4f259f1bcd95bac2538c0a5dccdf4
+hash: 5401e8447756eea19c773f9718802d2644398a34ebb6f56e4a0a13f81c7402d0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

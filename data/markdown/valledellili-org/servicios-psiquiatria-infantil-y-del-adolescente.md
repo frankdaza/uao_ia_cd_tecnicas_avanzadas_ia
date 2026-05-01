@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/psiquiatria-infantil-y-del-adolescente/
 titulo: Psiquiatría Infantil y del Adolescente - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1f5749809cc95b56336f1e7cf05718135d977ae947e050509d83b61ff2bbf5c6
+hash: 37d351784201717e748ac8560d296fa315b3b62f85ab8ec2a9df0c3234039d7a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -243,6 +243,9 @@ Mostrar todos
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
 [Infografía
 
 #### Revista Ed 58 – El Servicio de Pediatría al Cuidado Integral de los Niños](https://valledellili.org/revista-ed-58-el-servicio-de-pediatria-al-cuidado-integral-de-los-ninos/)
@@ -252,9 +255,6 @@ Mostrar todos
 [Video
 
 #### Infecciones urinarias en niños](https://valledellili.org/infecciones-urinarias-en-ninos/)
-[Artículo
-
-#### Tiña del cuero cabelludo en pediatría](https://valledellili.org/tina-del-cuero-cabelludo-en-pediatria/)
 
 #### Agendar cita
 

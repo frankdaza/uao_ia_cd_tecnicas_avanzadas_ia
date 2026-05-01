@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/
 titulo: Fausto Alonso Diazgranados Suarez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 944f729e8db18e5fa62105e1dc39e91abf63aa942b6239277bf95c6d83cae9ce
+hash: b482e15851eb7f8b7999b3dd5d901f43a12b5e82e08b985f22a1530554977163
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

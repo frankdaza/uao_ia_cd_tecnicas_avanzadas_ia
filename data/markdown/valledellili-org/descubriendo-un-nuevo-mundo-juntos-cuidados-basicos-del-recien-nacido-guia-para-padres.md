@@ -3,9 +3,9 @@ source_url: https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados
 titulo: 'Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía
   para padres - Fundación Valle del Lili'
 seccion: descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 67d53a5f0ccb5611ad2a2bd86ecbabe02efe1dc23547771c9f99d12a83efe28f
+hash: 061ff81d773354a423b5cf6de2a1689e7cd383d65ae64a2bfa1d61c9ca18cfc7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/miryam-yolanda-idarraga-hincapie/
 titulo: Miryam Yolanda Idarraga Hincapie - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: af1fe30c9717be19ab11077d3ebb7c53bdb6cd7562a6d147c83cf64471688293
+hash: 96ea2fd457e175b3400470d3d6e916316f99ea69702e21783d63dec77b3739b7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

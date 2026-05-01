@@ -4,9 +4,9 @@ titulo: Estudio para evaluar la eficacia y seguridad de Tulisokibart (MK-7240) e
   participantes con enfermedad de Crohn de moderada a grave (MK-7240-008)-06430801
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7df8732536c530807c203fdfbe7552ab4e578d7fa638671cfa286101561c8ebd
+hash: 146721bdaa1fada22eadb02971d2e15248659f8af78d8cabb6ddd04ac7b7e680
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

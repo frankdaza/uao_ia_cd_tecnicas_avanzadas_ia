@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/unidad-de-alta-complejidad-obstetrica-uaco/
 titulo: Unidad de Alta Complejidad Obstétrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 1c22dbd1dfc2ab0f84de7dc09d702cc19506d981fc93f2ca6233bc949f16bd6e
+hash: d1df796ad64c3611c87ea5caca88435df892cec5c4108e74e91dc97f15dcb5be
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

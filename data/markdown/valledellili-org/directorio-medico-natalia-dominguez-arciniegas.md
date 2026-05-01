@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/natalia-dominguez-arciniegas/
 titulo: Natalia Dominguez Arciniegas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 57d28e555f9a97a6cc6ad9e74a60878cba0e10c9797ff412a55c464cf060235f
+hash: 4747d19d2ab93411ba7dc71ed7965e168d4f8bc9dadcd3f0035ca1b20a4edd85
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/fvl-al-dia/
 titulo: FVL al Día - Fundación Valle del Lili
 seccion: fvl-al-dia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a88a00ddd2c932f5a80b41c9659484618b313ada78e3499dbc30ce19d4e6b08e
+hash: 864fad6e25b841409282d5f838bf66fffe8fc7bc12ec632cd0906b8540090a73
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -51,11 +51,15 @@ Revista
 
 Artículo
 
-### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres
+### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026
 
-La llegada de un bebé trae consigo nuevas responsabilidades y aprendizajes. En la Fundación Valle del Lili, queremos acompañarte en este proceso con recomendaciones prácticas para el cuidado diario de...
+[Conoce más](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
 
-[Conoce más](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
+Artículo
+
+### Revista ed 85 – Mes contra el cáncer...
+
+[Conoce más](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 
 Artículo
 
@@ -67,19 +71,11 @@ La Fundación Valle del Lili fortalece su red de atención especializada traslad
 
 Artículo
 
-### Esquema de vacunación pediátrica
+### Menos pantallas, Mas juguetes para los niños
 
-El cumplimiento del calendario de vacunación es el paso más importante para...
+Importancia del juego y la interacción social en el desarrollo integral infantil,...
 
-[Conoce más](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
-
-Artículo
-
-### ¿Qué es el melanoma y por qué es...
-
-Autor: Doctor Juan Felipe Pinilla Hurtado, Dermatólogo Hospital Universitario Fundación Valle del...
-
-[Conoce más](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
+[Conoce más](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
 
 ## Recomendados para tí
 
@@ -115,15 +111,15 @@ Compartimos el testimonio de Martha, una paciente diagnosticada con melanoma, qu
 
 [Video
 
-### Primeros auxilios | ¿Cómo reaccionar ante un paro cardíaco?](https://valledellili.org/primeros-auxilios-como-reaccionar-ante-un-paro-cardiaco/)
+### Esquema de vacunación para los niños desde los 7 hasta los 18 años](https://valledellili.org/esquema-de-vacunacion-para-los-ninos-desde-los-7-hasta-los-18-anos/)
+
+[Infografía
+
+### La importancia del juego en el contexto hospitalario](https://valledellili.org/carta-de-la-salud-la-importancia-del-juego-en-el-contexto-hospitalario/)
 
 [Artículo
 
-### “Es un reconocimiento a la Institución, a quienes colaboran conmigo”](https://valledellili.org/es-un-reconocimiento-a-la-institucion-a-quienes-colaboran-conmigo/)
-
-[Artículo
-
-### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
+### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 
 ## ¡Al día con la Fundación Valle del Lili!
 

@@ -14,7 +14,7 @@ dependencies:
   - TASK-10
 references:
   - .cursor/skills/qa-prompt-engineering/SKILL.md
-ordinal: 1.953125
+ordinal: 30
 ---
 
 ## Description

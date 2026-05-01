@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/lorena-allin-gonzalez/
 titulo: Lorena Allin Gonzalez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 188b1d6f3c08b1adf8f026f3b9b3f7abd5d7dc10fe25bd8ceff33c310bc6b469
+hash: 90e5d6cd1bbe4b6e9d54a22c91e2aca3299dabbba7df7f8abd53d802fc13a3d3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

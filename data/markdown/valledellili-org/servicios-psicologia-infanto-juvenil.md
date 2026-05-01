@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/psicologia-infanto-juvenil/
 titulo: Psicología Infanto Juvenil - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d625d7ea979d6bb97fa4f58f1eb711dec4020c2fd2fd83132f5be29773029f75
+hash: e371567c219b0cb46d4d579b61f273102cc232bc0131b0563ec06caa33eccb9d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

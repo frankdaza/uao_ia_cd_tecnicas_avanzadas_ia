@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/monica-raffal-villegas/
 titulo: Monica Raffal Villegas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5b9e249c914f4a360459ab31682aaaa8526878c9ceae6375a4972f3b4fc3fc26
+hash: be513ebd171dda05f0944dba198eeb7b1f8f9bd04059d78a23c283bae5665415
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

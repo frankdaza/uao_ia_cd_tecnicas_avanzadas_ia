@@ -15,7 +15,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
-ordinal: 0.244140625
+ordinal: 27
 ---
 
 ## Description

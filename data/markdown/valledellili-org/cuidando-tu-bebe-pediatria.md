@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/cuidando-tu-bebe-pediatria/
 titulo: Cuidando tu bebé - Fundación Valle del Lili
 seccion: cuidando-tu-bebe-pediatria
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 972876c09cd041b1f3fd4f893c21dd6775a7966b47c313f298b588784b198bcf
+hash: 2b2a275c46e8b8415376a54d6bcc45aaed6c080682f29ebc3c0121b669e4156c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -117,6 +117,14 @@ Conozca todo el contenido sobre la salud y el cuidado de tus hijos y familia
 
 Artículo
 
+### Menos pantallas, Mas juguetes para los niños
+
+Importancia del juego y la interacción social en el desarrollo integral infantil, frente al uso creciente de pantallas.
+
+[Descubre aquí](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+
+Artículo
+
 ### Esquema de vacunación pediátrica
 
 El cumplimiento del calendario de vacunación es el paso más importante para asegurar un desarrollo saludable y proteger a tu…
@@ -154,14 +162,6 @@ Artículo
 La diabetes en la infancia y la adolescencia es una condición crónica que afecta la forma en que el cuerpo…
 
 [Descubre aquí](https://valledellili.org/programa-diabetes-pediatrica/)
-
-Artículo
-
-### Programa cuidados del recién nacido
-
-Para el cuidado del recién nacido, el enfoque principal es garantizar una transición segura y saludable a la vida fuera…
-
-[Descubre aquí](https://valledellili.org/programa-cuidados-del-recien-nacido/)
 
 ## La ruta de las vacunas
 
@@ -215,7 +215,7 @@ En esta sección encontrarás más de **40 contenidos educativos** de nuestra Co
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am – 5:00 pm
 

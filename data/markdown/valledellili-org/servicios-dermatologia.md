@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/dermatologia/
 titulo: Dermatología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5afc2f9770f6bf87769615fda9f1cdbd8aac2246fa8462f55c92fac9970420eb
+hash: 1a98387a4045162a6e166a916d11b60074ba511c541218f4060d9aac2575769f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-paola-aux-cadena/
 titulo: Claudia Paola Aux Cadena - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a202a89ad0305ea06d81c7c5a146151f3a9fccea3b255d4c1c1a5bbaff43326d
+hash: f8208eaa7aaaf7aeeac73b0546aaa99259e7bf20e76c09d0338ca17e5a8225e2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

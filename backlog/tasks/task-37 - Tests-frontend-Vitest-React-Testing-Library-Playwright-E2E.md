@@ -4,7 +4,7 @@ title: 'Tests frontend: Vitest + React Testing Library + Playwright E2E'
 status: Done
 assignee: []
 created_date: '2026-04-30 05:46'
-updated_date: '2026-04-30 06:11'
+updated_date: '2026-05-01 01:18'
 labels:
   - frontend
   - tests
@@ -13,6 +13,7 @@ labels:
 dependencies:
   - TASK-36
 priority: medium
+ordinal: 4
 ---
 
 ## Description

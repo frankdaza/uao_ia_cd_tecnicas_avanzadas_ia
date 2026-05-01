@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-marcela-ordonez-viafara/
 titulo: Adriana Marcela Ordoñez Viafara - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 58e2c77003a28b7098781571d252062c29a3e85d57614ebae4cff64bc10f672e
+hash: b5af8f7f9d1f404cfbaa90300aa07786848a97f31dce35b5a2c5f6bf8b2ba04f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

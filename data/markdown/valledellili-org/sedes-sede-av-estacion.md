@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/sedes/sede-av-estacion/
 titulo: Sede Av. Estación - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c576e26e309c581d873e0b68e9f4ab48d4a50f5429b92bc73572b10463f6929e
+hash: 44e54c95359c51002ef9320d23b34468cfbaac8ab2befed795e864e55a037dd1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

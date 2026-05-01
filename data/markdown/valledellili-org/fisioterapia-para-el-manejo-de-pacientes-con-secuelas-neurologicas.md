@@ -3,9 +3,9 @@ source_url: https://valledellili.org/fisioterapia-para-el-manejo-de-pacientes-co
 titulo: Fisioterapia para el manejo de pacientes con secuelas neurológicas - Fundación
   Valle del Lili
 seccion: fisioterapia-para-el-manejo-de-pacientes-con-secuelas-neurologicas
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 26147ffdf3bceebff0cbf4d776eedf7b1a86fd14a44984a92975a32c17943097
+hash: 5904753485f4c148bd1fe8d428fb4260a4e1ac2e4b4324a347f42d5fa45ddd2b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

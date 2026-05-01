@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/semillero-de-nuevos-talentos-lilitalentos/
 titulo: Semillero de Nuevos Talentos – Lilitalentos - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e61fed214749228e867ad8194c663f0f3257f5e80959e20c3ed51228847860f6
+hash: defc2166063dd8f6e3f39242f86275115e75319fdb6c76e5829488497f972019
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

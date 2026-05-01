@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/rehabilitacion/
 titulo: Rehabilitación - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0f948f65b99f8bb8c4e382c37b418f884511bf846bc5372c1dc47d3769a4f324
+hash: f5b5e76a740a523b0acaaefd465854c85bda4d709929db65ebd51614071d7f6e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

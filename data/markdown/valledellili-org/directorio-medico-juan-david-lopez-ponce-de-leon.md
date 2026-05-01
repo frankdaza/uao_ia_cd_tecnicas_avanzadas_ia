@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-david-lopez-ponce-de-leon/
 titulo: Juan David Lopez Ponce De Leon - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6d248c17f29c074028b3d09ac819aef35cc867393de81bf85bacbebbb8f6d54a
+hash: e292d5c044a8b1bcaeab8e546b501cf9c026e4cc78fcb07650c999f49b50d5cb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

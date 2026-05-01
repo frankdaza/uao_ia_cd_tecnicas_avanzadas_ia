@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion/estudio-clinico-de-tulisokiba
 titulo: Estudio clínico de Tulisokibart (MK-7240) para el tratamiento de la espondiloartritis
   axial radiográfica (MK-7240-013)-07133633 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c420f9ae4ea57be02766012ab88ef273f7089467690a8fee6507561adb75e737
+hash: bf3077cff16b80b1566a7be0ee5befc53947d078cfc120d3d942f608a5d4aba7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

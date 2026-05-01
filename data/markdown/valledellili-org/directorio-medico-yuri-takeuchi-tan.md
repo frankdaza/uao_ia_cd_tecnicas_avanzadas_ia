@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/yuri-takeuchi-tan/
 titulo: Yuri Takeuchi Tan - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6f214742006496b6f5721a82b25571d65a04eee11807857ad327a0dc208c7602
+hash: d7169d64405bac03c0cf253486169b51039f8ce82835d23cd6c634b6e4cd9620
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

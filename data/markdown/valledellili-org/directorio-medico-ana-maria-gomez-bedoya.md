@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/ana-maria-gomez-bedoya/
 titulo: Ana Maria Gomez Bedoya - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 91745fd1f7c9aa3fa11f2b1587af9f0323e03078b1cef595dab90f0fb2f4ff3c
+hash: 8f18d0fcdde841f82bb35a2536937a44e1d80784b6bebdac0e66d2d4df4812ff
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

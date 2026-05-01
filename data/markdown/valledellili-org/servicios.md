@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/
 titulo: Servicios Archive - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9e1aa7fb8ca6512cc01e7914fd55654ecfacb19caf7cef4dcac80a344e9b51b1
+hash: e1e37ca4f3b72511b303e144decd09ec6e64cb1b85212f01ba0a892de3bbf871
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
