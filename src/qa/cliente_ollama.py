@@ -174,15 +174,24 @@ class ClienteOllama:
         if resp.status_code == 404:
             raise ModeloNoDisponibleError(_mensaje_modelo_no_disponible(modelo))
 
-    def chat(self, mensajes: list[dict[str, str]]) -> str:
-        """Envia ``messages`` a Ollama y devuelve el texto de ``message.content``."""
+    def chat(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
+    ) -> str:
+        """Envia ``messages`` a Ollama y devuelve el texto de ``message.content``.
+
+        Si ``num_ctx`` no es None, se usa en la petición (sin persistir ``ConfiguracionLlm.num_ctx``).
+        """
+        nctx = self._config.num_ctx if num_ctx is None else num_ctx
         cuerpo: dict[str, Any] = {
             "model": self._config.modelo,
             "messages": mensajes,
             "stream": False,
             "options": {
                 "temperature": self._config.temperatura,
-                "num_ctx": self._config.num_ctx,
+                "num_ctx": nctx,
             },
         }
         resp = self._peticion("POST", "/api/chat", json_cuerpo=cuerpo)
@@ -204,15 +213,19 @@ class ClienteOllama:
         return str(contenido)
 
     def _abrir_stream_chat(
-        self, mensajes: list[dict[str, str]]
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
     ) -> requests.Response:
+        nctx = self._config.num_ctx if num_ctx is None else num_ctx
         cuerpo: dict[str, Any] = {
             "model": self._config.modelo,
             "messages": mensajes,
             "stream": True,
             "options": {
                 "temperature": self._config.temperatura,
-                "num_ctx": self._config.num_ctx,
+                "num_ctx": nctx,
             },
         }
         try:
@@ -239,14 +252,21 @@ class ClienteOllama:
             resp.raise_for_status()
         return resp
 
-    def chat_stream(self, mensajes: list[dict[str, str]]) -> Iterator[str]:
+    def chat_stream(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
+    ) -> Iterator[str]:
         """Envia ``messages`` a Ollama en modo streaming y hace yield de cada delta de ``message.content``.
 
         Lee NDJSON (una linea JSON por chunk). Lanza ``OllamaNoAccesibleError`` ante
         timeout o conexion rechazada y ``ModeloNoDisponibleError`` si Ollama indica
         que el modelo no esta instalado.
+
+        Si ``num_ctx`` no es None, se usa en cada chunk (override por llamada).
         """
-        resp = self._abrir_stream_chat(mensajes)
+        resp = self._abrir_stream_chat(mensajes, num_ctx=num_ctx)
         try:
             for linea in resp.iter_lines(decode_unicode=True):
                 if not linea:

@@ -269,6 +269,12 @@ Para opciones adicionales: `uv run python -m scripts.scrape --help` y `uv run py
 - **Recuperacion hibrida**: combinar BM25 con embeddings (`reciprocal rank fusion` o ponderacion) y aplicar **re-ranking** sobre top-K para reducir falsos positivos.
 - **Evaluacion ampliada**: extender el dataset de `tests/qa/preguntas_evaluacion.yml` (>= 20 preguntas) y comparar metricas entre el MVP fase 1 y la version con vectores.
 
+## 11. Evolución del frontend (nota de actualización)
+
+> **Actualización (2026-04-30):** la interfaz de usuario de esta fase evolucionó de Gradio a **React 19 + Vite 7 + shadcn/ui** con un backend **FastAPI + SSE** en `src/api/`. La descripción de esa migración, la nueva arquitectura y los contratos de los endpoints están en **[doc-002 — Migración Frontend React + Vite + Backend FastAPI](doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md)**. El ADR correspondiente es [decision-2](../decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
+
+El pipeline BM25 + Ollama documentado en este archivo **no cambia**: `src/qa/pipeline.py` y `src/retrieval/recuperador.py` son reutilizados íntegramente por el nuevo backend HTTP.
+
 ## 10. Referencias internas
 
 - Naming y YAML de este archivo: regla [.cursor/rules/backlog-docs-format.mdc](../../.cursor/rules/backlog-docs-format.mdc); skill [.claude/skills/backlog-docs/SKILL.md](../../.claude/skills/backlog-docs/SKILL.md) (referencia upstream [Testing Style Guide](https://github.com/MrLesk/Backlog.md/blob/main/backlog/docs/doc-001%20-%20Testing-Style-Guide.md?plain=1)).
