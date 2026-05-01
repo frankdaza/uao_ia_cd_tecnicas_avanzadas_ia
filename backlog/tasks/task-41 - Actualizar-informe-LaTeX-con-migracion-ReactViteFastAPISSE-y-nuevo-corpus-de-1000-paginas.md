@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-01 04:19'
-updated_date: '2026-05-01 04:26'
+updated_date: '2026-05-01 16:20'
 labels:
   - docs
   - informe
@@ -33,6 +33,7 @@ documentation:
     Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md
   - backlog/docs/doc-002 - Migracion-Frontend-React-Vite-Backend-FastAPI.md
 priority: high
+ordinal: 0.5
 ---
 
 ## Description
