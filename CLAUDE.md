@@ -40,7 +40,14 @@ Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/
 | `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentación en `backlog/docs/` |
+| `cursor-ignore-files` | Ignores, secretos, índice vs runtime (`data/markdown/`), alinear con `.claude/settings.json` |
 
 ## Reglas de Cursor
 
-Convenciones adicionales en **`.cursor/rules/`** (archivos `.mdc`). Claude Code no las carga automáticamente; este archivo resume lo esencial. La regla **`backlog-docs-format.mdc`** aplica cuando se editan **`backlog/docs/**/*.md`** (naming y YAML de documentación del proyecto).
+Convenciones adicionales en **`.cursor/rules/`** (archivos `.mdc`). Claude Code no las carga automáticamente; este archivo resume lo esencial. La regla **`backlog-docs-format.mdc`** aplica cuando se editan **`backlog/docs/**/*.md`** (naming y YAML de documentación del proyecto). La regla **`cursor-ignore-files.mdc`** describe `.cursorignore`, `.cursorindexingignore` y el alcance frente a Claude Code.
+
+## Indexación, ignores y Claude Code
+
+- En Cursor, [`.cursorignore`](.cursorignore) y [`.cursorindexingignore`](.cursorindexingignore) (ver [Ignore file](https://cursor.com/docs/reference/ignore-file)): secretos ampliados, `data/raw/`, `data/markdown/` solo fuera del **índice** del IDE (el backend sigue leyendo el corpus en disco), `!uv.lock` cuando aplica la lista por defecto.
+- **Importante**: la terminal y MCP **no** respetan `.cursorignore`; no volcar claves en `backlog/` ni en el código.
+- En **Claude Code**, [`.claude/settings.json`](.claude/settings.json) define `permissions.deny` con `Read(/...)` en sintaxis de proyecto (ver [permisos](https://code.claude.com/docs/en/permissions#permission-rule-syntax)). No sustituye buenas prácticas: variables locales y sin secretos en tareas. Documentación general: [Claude Code — configuración](https://code.claude.com/docs/en/configuration).
