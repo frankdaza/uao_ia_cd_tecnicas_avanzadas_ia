@@ -52,8 +52,8 @@ export function MessageBubble({
         className={cn(
           'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold',
           esUsuario
-            ? 'bg-[var(--color-secondary)] text-white'
-            : 'bg-[var(--color-primary)] text-white',
+            ? 'bg-[var(--color-secondary)] text-[var(--color-primary)]'
+            : 'bg-[var(--color-accent)] text-white',
         )}
         aria-hidden="true"
       >
@@ -84,7 +84,7 @@ export function MessageBubble({
           className={cn(
             'rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-full',
             esUsuario
-              ? 'bg-[var(--color-primary)] text-white rounded-tr-sm'
+              ? 'bg-[var(--color-message-user-bg)] text-[var(--color-message-user-fg)] rounded-tr-sm shadow-sm'
               : 'bg-[var(--color-surface)] border border-[var(--border)] rounded-tl-sm',
           )}
         >
@@ -122,7 +122,7 @@ export function MessageBubble({
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[var(--color-secondary)] hover:underline"
+                        className="text-[var(--color-accent)] underline-offset-2 hover:underline"
                         {...props}
                       >
                         {children}
@@ -135,7 +135,7 @@ export function MessageBubble({
               </ReactMarkdown>
               {message.isStreaming && (
                 <span
-                  className="inline-block w-1.5 h-4 bg-[var(--color-primary)] animate-pulse ml-0.5 token-fade-in"
+                  className="inline-block w-1.5 h-4 bg-[var(--color-accent)] animate-pulse ml-0.5 token-fade-in"
                   aria-hidden
                 />
               )}

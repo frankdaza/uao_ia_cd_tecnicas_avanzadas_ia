@@ -12,7 +12,7 @@ labels:
   - setup
 dependencies:
   - TASK-6
-ordinal: 31.25
+ordinal: 34
 ---
 
 ## Description

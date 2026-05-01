@@ -4,7 +4,7 @@ title: Tailwind v4 + shadcn/ui + tokens de diseño institucional + temas claro/o
 status: Done
 assignee: []
 created_date: '2026-04-30 05:44'
-updated_date: '2026-04-30 06:10'
+updated_date: '2026-05-01 01:21'
 labels:
   - frontend
   - design-system
@@ -13,6 +13,7 @@ labels:
 dependencies:
   - TASK-29
 priority: high
+ordinal: 11
 ---
 
 ## Description

@@ -13,7 +13,7 @@ dependencies:
   - TASK-4
 references:
   - .cursor/skills/markdown-knowledge-base/SKILL.md
-ordinal: 62.5
+ordinal: 35
 ---
 
 ## Description
