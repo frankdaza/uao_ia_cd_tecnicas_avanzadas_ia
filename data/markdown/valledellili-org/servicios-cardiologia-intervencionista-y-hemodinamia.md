@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia-intervencionista-y-hemodinamia/
 titulo: Cardiología Intervencionista y Hemodinamia - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 66df02228dae1b2efcf4efb4cc35f738dce28a2f36c7c23767b0df20bee06003
+hash: 31b3bf3ec9bf5835242f9ab30c82023d564ea45a50e873b17c3e451fa023e86c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

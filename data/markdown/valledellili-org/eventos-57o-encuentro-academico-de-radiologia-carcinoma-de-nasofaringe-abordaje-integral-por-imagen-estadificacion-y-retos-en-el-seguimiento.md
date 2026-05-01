@@ -3,9 +3,9 @@ source_url: https://valledellili.org/eventos/57o-encuentro-academico-de-radiolog
 titulo: 'Carcinoma de nasofaringe: abordaje integral por imagen, estadificación y
   retos en el seguimiento. - Fundación Valle del Lili'
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 60c9732fafb22e7977dd1f65b963768f5b054b67603c85dd78b614d607b6ea88
+hash: 4e92b794762b8d83ff53d8941696a0ab168879b1ec1821eef53d43ffd858fe20
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -81,18 +81,6 @@ Inversión:
 ## Objetivo del evento:
 
 En nuestro **57° Encuentro Académico de Radiología** que se realizan de manera mensual, a través de la Plataforma de Teams, no tienen costo, sin embargo requieren de inscripción, adicionalmente otorgamos certificado de participación, es importante que diligencie los datos verídicos y de manera correcta para evitar errores en el certificado o el no envío del mismo.
-
-#
-
-#### 
-
----
-
-##### Facilitador
-
-[#### Francisco José Medina Valencia
-
-Radiologia e imagenes diagnost](https://valledellili.org/directorio-medico/francisco-jose-medina-valencia/)
 
 ## Horario por día
 

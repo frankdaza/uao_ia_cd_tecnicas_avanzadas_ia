@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alvaro-enrique-osorio-franco/
 titulo: Alvaro Enrique Osorio Franco - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a8391632e34ce0dd6a98a65ef5265507fdd258236f6f9ce16e2109da84adb2ee
+hash: 248ab35a431a52d599ba4922c68574643affa64bdcfc7fc84316217df2810d9d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

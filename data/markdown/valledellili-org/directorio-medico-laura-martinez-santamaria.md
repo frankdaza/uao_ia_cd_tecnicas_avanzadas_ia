@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/laura-martinez-santamaria/
 titulo: Laura Martinez Santamaria - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 38539990c10c942b5f0c49ba7e468acacbe7a954d3dcaf2da985411118207316
+hash: 247c4b642cc0b774ab50908ab76f4e901aef12ab52ec4f0dbfa25631a032fc18
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

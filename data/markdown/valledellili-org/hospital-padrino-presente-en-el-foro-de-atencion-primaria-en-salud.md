@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/hospital-padrino-presente-en-el-foro-de-atencion-primaria-en-salud/
 titulo: ¡Hospital Padrino, presente en el Foro de Atención Primaria en Salud!
 seccion: hospital-padrino-presente-en-el-foro-de-atencion-primaria-en-salud
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ed04fe042793cfa00f9683317e0a18b34d16aebce8e3dd7a9ef2ec2345111c31
+hash: 533cfadb83ff8b074474428c0d0fe3da3334d6e7fb4f2795e674e56b15508771
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

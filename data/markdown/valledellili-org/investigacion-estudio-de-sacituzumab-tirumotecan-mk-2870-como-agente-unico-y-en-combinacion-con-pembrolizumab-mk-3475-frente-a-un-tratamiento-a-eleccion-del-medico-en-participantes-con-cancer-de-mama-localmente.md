@@ -5,9 +5,9 @@ titulo: Estudio de Sacituzumab Tirumotecan (MK-2870) como agente único y en com
   con cáncer de mama localmente avanzado o metastásico irresecable HR+/HER2- (MK-2870-010)-06312176
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 41c1c252bc9ceaedfd1134b13afe6aad77547bef05af4126113e01f70d69fcdd
+hash: 66e46e99dcef6f28ccd4ed3077b17341868a11b95e5caf1642e48b7f45764188
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

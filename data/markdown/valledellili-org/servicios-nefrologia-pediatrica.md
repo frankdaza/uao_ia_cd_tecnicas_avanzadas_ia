@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/nefrologia-pediatrica/
 titulo: Nefrología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 700097e9473b40c90bd69fdf7c8fa9275e53352c6b4411fc86785a553e3fcf39
+hash: 3083a7415fd44555d275567bac317bc1769f288200682707cc4497cf9f96d08e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

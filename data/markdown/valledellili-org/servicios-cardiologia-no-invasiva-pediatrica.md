@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia-no-invasiva-pediatrica/
 titulo: Cardiología No Invasiva Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8c4c836ef81369ba8040db2345befd34b759b2c344ceab3290dd1da7032f84c0
+hash: 2278e127e8d6b02ea7fa34cc58b219f9cc2b52e5d7cf5b9fe6f63324a33111d2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

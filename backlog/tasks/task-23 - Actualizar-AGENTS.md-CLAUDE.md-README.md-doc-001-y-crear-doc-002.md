@@ -4,7 +4,7 @@ title: 'Actualizar AGENTS.md, CLAUDE.md, README.md, doc-001 y crear doc-002'
 status: Done
 assignee: []
 created_date: '2026-04-30 05:43'
-updated_date: '2026-04-30 05:55'
+updated_date: '2026-05-01 01:20'
 labels:
   - docs
   - frontend
@@ -13,6 +13,7 @@ dependencies:
   - TASK-21
   - TASK-22
 priority: high
+ordinal: 18
 ---
 
 ## Description

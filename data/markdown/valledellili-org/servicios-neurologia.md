@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/neurologia/
 titulo: Neurología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0d01f426d8c872975c8a24db74d681262a5364d4b62e44103c85d88114cc2b03
+hash: 21c22c4096dea67eb729a58265e64c59730166f925873db32c68359838ca1fb1
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

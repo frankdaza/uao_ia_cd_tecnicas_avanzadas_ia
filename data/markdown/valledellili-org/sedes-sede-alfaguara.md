@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/sedes/sede-alfaguara/
 titulo: Sede Alfaguara - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 43bb1979c29ef73d1884c9c20b6274afd08120c34ab944532dad08d088956e05
+hash: 61db4043a04f77237824cafa5ef1d09d5044e0ac35dd5d02f256c80d46f89a27
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

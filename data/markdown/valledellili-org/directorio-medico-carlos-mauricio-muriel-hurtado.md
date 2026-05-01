@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carlos-mauricio-muriel-hurtado/
 titulo: Carlos Mauricio Muriel Hurtado - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7ff658dd6a641fe8862ac156807c32e1a360cbe6ed85edd36809b78191fe45c8
+hash: 5285c06c8dd47ac3a012006f0b6e5f3eefde6f046f02d3069c0f0dd4c57ac170
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

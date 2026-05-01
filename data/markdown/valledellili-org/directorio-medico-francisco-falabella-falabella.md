@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/francisco-falabella-falabella/
 titulo: Francisco Falabella Falabella - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c4e73dca48124d849f32a96bfe5aefc8b55f980845f5491211d1a4275e084a16
+hash: 3c8a1e1264e699e4e934411058149550a2e806ca7b2b19e92dc592f20519e9df
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

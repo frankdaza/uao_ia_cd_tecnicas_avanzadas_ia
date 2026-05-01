@@ -3,9 +3,9 @@ source_url: https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-
 titulo: XXIII Congreso de Medicina Interna – Del razonamiento a la decisión clínica
   - Fundación Valle del Lili
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e9a079b5bd725b4fea118fdafb84a27f050580ae8502f8dac34361a91b666d90
+hash: e41e413414ae815a05ff423f8424f85b8c12d3a239a69925f51f09acfcd1494b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -96,17 +96,17 @@ Dia 1.
 
 18 de junio de 2026
 
-8:00 a.m. – 5:00 p.m
+7:00 a.m. – 6:00 p.m
 
 Dia 2.
 
 19 de junio de 2026
 
-8:00 a.m. – 5:00 p.m
+7:00 a.m. – 6:00 p.m
 
 #
 
-Cupos limitadosrnrnCosto $125.000 (incluye 3 talleres)rnrnu0026nbsp;
+**Talleres en modalidad presencial**
 
 #### Taller: Imágenes diagnosticas en medicina interna
 
@@ -120,10 +120,10 @@ Cupos limitadosrnrnCosto $125.000 (incluye 3 talleres)rnrnu0026nbsp;
 
 ---
 
-[Medicina familiar](medicina-familiar)
+[Cardiología](cardiologia)
+[Endocrinología](endocrinologia)
 [Medicina Interna](medicina-interna)
-[Medicina interna en el adulto mayor](medicina-interna-en-el-adulto-mayor)
-[Medicina interna-geriatria](medicina-interna-geriatria)
+[Urgencias](urgencias)
 
 Inscripciones
 Sin costo

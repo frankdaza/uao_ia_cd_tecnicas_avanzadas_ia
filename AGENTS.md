@@ -75,6 +75,13 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 | `api-fastapi.mdc` | Patrones FastAPI+SSE en `src/api/**` |
 | `backlog-workflow.mdc` | Cierre con Backlog MCP: `Done` sin archivar; `task_complete` solo si el usuario lo pide |
 | `backlog-docs-format.mdc` | Naming `doc-<N>` y front matter YAML en `backlog/docs/**/*.md` (estilo Backlog.md upstream) |
+| `cursor-ignore-files.mdc` | Ignores: secretos ampliados, `data/raw/`; corpus `data/markdown/` solo en indice; limites agente/MCP/terminal y backlog sin claves |
+
+### Indexación e ignores (Cursor y Claude Code)
+
+- **Cursor**: en la raíz del repo, [`.cursorignore`](.cursorignore) (exclusión fuerte para el agente, `@` y búsqueda semántica) y [`.cursorindexingignore`](.cursorindexingignore) (solo índice). Documentación: [Ignore file](https://cursor.com/docs/reference/ignore-file). La terminal y las herramientas MCP **no** quedan bloqueadas por `.cursorignore`.
+- **Corpus**: el índice del IDE **no** es el mismo contexto que el runtime del backend: `data/markdown/` puede figurar en `.cursorindexingignore` para aligerar búsquedas en el editor; la app sigue leyendo el corpus en disco para RAG.
+- **Claude Code**: no hay `.claudeignore` estándar en la raíz; lecturas sensibles compartidas vía [`.claude/settings.json`](.claude/settings.json) con `permissions.deny` y patrones `Read(/...)` (ver [sintaxis de permisos](https://code.claude.com/docs/en/permissions#permission-rule-syntax)). **No** incluir secretos en `backlog/tasks/` ni en comentarios. Referencia general: [Claude Code — configuración](https://code.claude.com/docs/en/configuration).
 
 ## Skills (`.cursor/skills/` y `.claude/skills/`)
 
@@ -93,3 +100,4 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; código legacy en `src/app/legacy/` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |
+| `cursor-ignore-files` | Ignores, secretos, indice vs runtime (`data/markdown/`), alinear con `.claude/settings.json` |

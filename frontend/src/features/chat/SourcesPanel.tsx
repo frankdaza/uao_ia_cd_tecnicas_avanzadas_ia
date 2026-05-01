@@ -36,7 +36,7 @@ export function SourcesPanel({ fuentes }: SourcesPanelProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Abrir fuente: ${f.titulo || f.archivo}`}
-                  className="text-[var(--color-secondary)] hover:text-[var(--color-secondary-dark)] transition-colors"
+                  className="text-[var(--color-accent)] hover:text-[var(--color-accent-dark)] transition-colors"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>

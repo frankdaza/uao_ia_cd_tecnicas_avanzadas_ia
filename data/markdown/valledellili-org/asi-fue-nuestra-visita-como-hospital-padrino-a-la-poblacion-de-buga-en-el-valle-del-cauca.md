@@ -3,9 +3,9 @@ source_url: https://valledellili.org/asi-fue-nuestra-visita-como-hospital-padrin
 titulo: Así fue nuestra visita como Hospital Padrino a la población de Buga en el
   Valle del Cauca - Fundación Valle del Lili
 seccion: asi-fue-nuestra-visita-como-hospital-padrino-a-la-poblacion-de-buga-en-el-valle-del-cauca
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6e2ad399b29be40b6121885b2047dec61e40ce0c2304f45cf215fe6a0b019dec
+hash: ac701aea472462aff61cac9bdd0e0f3d0781010bc46137c44e23c9c440d063a9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

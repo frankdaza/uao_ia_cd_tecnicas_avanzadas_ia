@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/jornada-de-columna-y-escoliosis/
 titulo: Jornada de Columna y Escoliosis - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 63cd47d0471a0b4263813e9a35e28da85aa6920cde69557fc5d50010b26daf36
+hash: 7bf64ea6318d50f1df60114f9ed8795729547ac749f6331e721e6db66405a549
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

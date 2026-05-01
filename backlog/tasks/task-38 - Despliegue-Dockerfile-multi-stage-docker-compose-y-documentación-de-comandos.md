@@ -4,7 +4,7 @@ title: 'Despliegue: Dockerfile multi-stage, docker-compose y documentación de c
 status: Done
 assignee: []
 created_date: '2026-04-30 05:46'
-updated_date: '2026-04-30 06:11'
+updated_date: '2026-05-01 01:18'
 labels:
   - devops
   - docker
@@ -12,6 +12,7 @@ labels:
 dependencies:
   - TASK-37
 priority: medium
+ordinal: 3
 ---
 
 ## Description

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/
 titulo: Impacto Social - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 338a1c0f4f979ab50909d6f02dcb963d41c03e2f339efcdd8019cbe84e06fbb1
+hash: 63ddc5fcb50a6c34abef5544b7c71f6c9726459281185c1c475ed96b96d9b336
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -4,9 +4,9 @@ titulo: Estudio para comparar la eficacia y la seguridad de remibrutinib frente 
   teriflunomida en participantes con esclerosis múltiple – 05147220 - Fundación Valle
   del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a384336bc2e638779c19ce16ac55f6f0a4401e1bf059f5868f7ee78bc06288a1
+hash: 839637b9c59ec8ad36e55fa8d5b319fee52f80632a4571bd9f5c484bff5ec368
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

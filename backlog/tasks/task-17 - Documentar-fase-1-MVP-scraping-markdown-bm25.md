@@ -22,7 +22,7 @@ references:
   - .env.example
   - backlog/docs/doc-001 - MVP-Fase-1-Proyecto-Final-QA-BM25.md
   - .cursor/rules/backlog-docs-format.mdc
-ordinal: 0.030517578125
+ordinal: 24
 ---
 
 ## Description

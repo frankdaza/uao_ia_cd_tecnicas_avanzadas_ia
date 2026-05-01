@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cardiologia/
 titulo: Cardiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8aa524aec0de52239b9db58c4be02fafa583a79b3d0e48bd51a7c8b82be6553e
+hash: 1080794a992fbfb54eb063361a64189b689030579f5d37e6cd48d4bd5685b92a
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

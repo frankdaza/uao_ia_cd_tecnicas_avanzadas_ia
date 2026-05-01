@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/vacunacion/
 titulo: Vacunación - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ba7750cb7d146d4cea84396dcee8bb94791f024aa2d3791fd52af9e041a2e985
+hash: 06af5f226bc6529f936e438f562497cdbc80a8126947f3722582b9f4e4edc6b5
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

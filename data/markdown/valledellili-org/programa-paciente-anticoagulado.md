@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-paciente-anticoagulado/
 titulo: Programa paciente anticoagulado - Fundación Valle del Lili
 seccion: programa-paciente-anticoagulado
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2be8db8f1d82866f023260485a19ba404b47e5a7e94f76af51d51188f637080c
+hash: 830e54bc8a6a7f290d2a59b6c2376d364177f9f0be4f9035ab55602787593fda
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/hemato-oncologia-pediatrica/
 titulo: Hemato-Oncología Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2877340c233f9f93b17cd9704a1e8790d4fd0d0dbce852a42d93ce3c13e0b537
+hash: c9e61c097ac3d6486ae3c8c18d2ff200ddab216ff5232f8e267b32bad548f39e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

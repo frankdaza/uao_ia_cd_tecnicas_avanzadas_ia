@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juliana-andrea-mendoza-escobar/
 titulo: Juliana Andrea Mendoza Escobar - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 35157c05a11ab58d53acfabd82983ffffdb196cb15fea8869cad32360c16fb60
+hash: 856128afb0b1facaf13d92f7cad6e5e0575a9a64e46e033e3d5cf66f6e6472ac
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -3,9 +3,9 @@ source_url: https://valledellili.org/hospital-padrino-narino-el-acv-es-la-segund
 titulo: 'Hospital Padrino Nariño: el ACV es la segunda causa de muerte, ¡prevenirlo
   es posible! - Fundación Valle del Lili'
 seccion: hospital-padrino-narino-el-acv-es-la-segunda-causa-de-muerte-prevenirlo-es-posible
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 52584b9e1f5737070b0b3ccd2c037b92a4a1051f6d0ad01494f3507a5f01145b
+hash: 3e566d4e6e9a63ee8b131ff430062a777c8217c6be6c86f4a1244dc2f6eb1b62
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/ortopedia-y-traumatologia-pediatrica/
 titulo: Ortopedia Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4b41f9567e3edf029139ad7732e99095d1a56e6821824179adbfef62df72f601
+hash: b56f4009e617f70e7135ca9b6f478d5c827ef4f86d8502a9fe46e465aff6b79b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

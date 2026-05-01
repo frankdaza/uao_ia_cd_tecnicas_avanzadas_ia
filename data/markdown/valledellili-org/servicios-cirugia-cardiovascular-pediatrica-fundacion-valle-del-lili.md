@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-cardiovascular-pediatrica-fundacion-valle-del-lili/
 titulo: Cirugía Cardiovascular Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 048dfaada13031cb839ce15f4f8089edb88cb28998a06387a5f6c66d3cca74d1
+hash: 7ba5abfe7ce82c47308448618355424851ac7ec9131da6bbd34a30f218a13590
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -1060,6 +1060,9 @@ Mostrar todos
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Esquema de vacunación pediátrica](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 [Artículo
 
@@ -1067,9 +1070,6 @@ Mostrar todos
 [Artículo
 
 #### Programa nefrología pediátrica](https://valledellili.org/programa-nefrologia-pediatrica/)
-[Artículo
-
-#### Programa lactancia materna](https://valledellili.org/programa-lactancia-materna/)
 
 #### Agendar cita
 

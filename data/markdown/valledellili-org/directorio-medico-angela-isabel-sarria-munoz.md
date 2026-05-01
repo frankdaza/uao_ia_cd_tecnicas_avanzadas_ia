@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/angela-isabel-sarria-munoz/
 titulo: Angela Isabel Sarria Muñoz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 65f1f943f9552b6507c43d0541c0eaab968fdbb4e057fbe4063a012a8d20de29
+hash: 3b3290f6ffcdb1939a56aca6ad71cd416b8924b800cbc8b81bad5c20badac945
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

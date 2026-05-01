@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alejandro-sandoval-daza/
 titulo: Alejandro Sandoval Daza - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9ac81debe83b5ff058217fa4632d9f8b633c285faabd9312cbb87f7b7b2e1fb0
+hash: 613cb6757cbbc07a200dda394879c18c77bc2e51645810f8e8e76b31a08873ea
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

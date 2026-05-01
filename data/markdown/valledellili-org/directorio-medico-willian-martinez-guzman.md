@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/willian-martinez-guzman/
 titulo: Willian Martinez Guzman - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c249699762696725c0f83f44bfc0ae910b8f9ccd2b12cc4349b6ab3a5b21f8c6
+hash: 7ddcd9c40f2d3a852af1d88ea8bbb00fdec0700e4a63834b97eeee14b6d06a4b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

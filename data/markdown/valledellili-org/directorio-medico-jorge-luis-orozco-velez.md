@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jorge-luis-orozco-velez/
 titulo: Jorge Luis Orozco Velez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 9fcee10bd4910ae3cf22c13b31e0f983698d21665e5be3f7e0e089f3f8067a14
+hash: 8a51eb90234890bedd5789ef6d55f8531db383ef6e2ecd2bdd34c03196820a8f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

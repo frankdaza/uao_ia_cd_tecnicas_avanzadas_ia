@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cuidado-paliativo-adultos/
 titulo: Cuidado paliativo adultos - - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 268a9937c94498b2fe6c8fc6caf7d36def3cd40ff40a43ad9a650bcbc0c0ec21
+hash: c56d40e8521df453c1fc88df3ae6c19289b9c2cf3d68e7f45e132d0efd8e075e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sandra-patricia-del-carmen-perez-schmalbach/
 titulo: Sandra Patricia Del Carmen Perez Schmalbach - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e7e916124d7368b1739bfa64678fb7b9ccae8255fa40042608d1a533316293d3
+hash: dedf5595f1cb5c41c386af5f71a153acf001b41ff73b54e7c3008dad0938a36e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

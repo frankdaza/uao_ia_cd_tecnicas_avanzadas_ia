@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/walter-mosquera-alvarez/
 titulo: Walter Mosquera Alvarez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bcb1fb9ce8d237c1ae87f16d52ce567e17d4d7e691e76a498b2bb83c69d1b5b8
+hash: f93c1e46328db4aac5895cd01bf9b11496d09c4451ee4045a89dc42c67d3f87d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

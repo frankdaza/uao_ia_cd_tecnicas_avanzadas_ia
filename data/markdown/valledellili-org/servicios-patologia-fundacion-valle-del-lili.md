@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/patologia-fundacion-valle-del-lili/
 titulo: Patología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d7b8e1ebf8e6e89ce0e4409067a99543f0346992e652e00a6eb9a60334ce4817
+hash: befe373463d139b52089a11c959e48c132e224e927a0fdad72fb9ffa2315394f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -136,6 +136,9 @@ Patologia](https://valledellili.org/directorio-medico/marcela-botero-munoz/)
 
 [Artículo
 
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
+[Artículo
+
 #### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 [Artículo
 
@@ -143,9 +146,6 @@ Patologia](https://valledellili.org/directorio-medico/marcela-botero-munoz/)
 [Revista
 
 #### Revista Ed 76 – Aproximación a la Tomografía de Coherencia Óptica Coronaria](https://valledellili.org/revista-ed-76-aproximacion-tomografia-optica-coronaria-copy/)
-[Video
-
-#### Infecciones urinarias en niños](https://valledellili.org/infecciones-urinarias-en-ninos/)
 
 #### Agendar cita
 

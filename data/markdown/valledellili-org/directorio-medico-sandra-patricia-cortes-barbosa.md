@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sandra-patricia-cortes-barbosa/
 titulo: Sandra Patricia Cortes Barbosa - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6eecd9fd7a231f21a2102449716a59e4423dd08ad4cd8e8eb0a8df3e0efcf7ff
+hash: 952ad2b9d1696d1a8619d7342101025493713734473d219281e5bd5a5b19d417
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

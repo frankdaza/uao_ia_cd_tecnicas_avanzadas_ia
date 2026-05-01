@@ -4,9 +4,9 @@ titulo: Estudio para evaluar la eficacia y seguridad de Tulisokibart (MK-7240) e
   participantes con colitis ulcerosa activa de moderada a grave (MK-7240-001)-06052059
   - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 90f2710460f212c7176e5f9fa736d4d0c07db793e7bec44f64dfbdd352c0a0a2
+hash: c7fb792f2a4040778ea7492561964be8ec127aa6b3971727b345aae03fdd6921
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

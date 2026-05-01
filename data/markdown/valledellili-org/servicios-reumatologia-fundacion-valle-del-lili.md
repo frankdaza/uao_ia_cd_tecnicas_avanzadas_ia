@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/reumatologia-fundacion-valle-del-lili/
 titulo: Reumatología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: da50a48bf4b084d7f19be0f83c535fc87782b1231ad4599606577e4760a29d6a
+hash: 05dc0aca3b33bbc294f22a742947d9ae7131e5d442b732075d28b120846ade23
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

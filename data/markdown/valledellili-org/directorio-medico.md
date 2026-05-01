@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/
 titulo: Especialista Archive - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6be4ccc88cbec041ccd57f924964cd2e7d6749d04f3cdae00d22a705521544fb
+hash: 69886f1b98c6f3d3c07d6ae4c52a2cc660dee8aaaa2d56939c5a07e93dc9e140
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

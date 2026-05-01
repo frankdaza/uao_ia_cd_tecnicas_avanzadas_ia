@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/valeria-valencia-cifuentes/
 titulo: Valeria Valencia Cifuentes - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0ab23f2672278211dc15034fa2d306f50961c5a06bbf10d2bb15fd6708f0ae29
+hash: f986d4e15acd3a2b23d47c87a451512c5cb2676ed9e2c3283cd29b9d73eb103c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

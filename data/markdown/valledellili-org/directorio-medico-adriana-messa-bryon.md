@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-messa-bryon/
 titulo: Adriana Messa Bryon - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 068275eb4b7fc392ead6c653ed86bbe917344e8378f6c917e5dd80260694be77
+hash: 8fe003956c4a30d4682168a4be5899966b1cec4e68e8375269ebf9743e34515c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

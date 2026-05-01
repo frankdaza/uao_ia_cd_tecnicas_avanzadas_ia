@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/fonoaudiologia-audiologia-fundacion-valle-del-lili/
 titulo: Fonoaudiología - Audiología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2cda63fb7a1da8cc0d1747903d4a4a194394c68ddb32c120c843c49346e179d9
+hash: adc201b83e38b903cd1f2e2157a6aba033dc9be014ed57e5dc7b9f5c881543ac
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

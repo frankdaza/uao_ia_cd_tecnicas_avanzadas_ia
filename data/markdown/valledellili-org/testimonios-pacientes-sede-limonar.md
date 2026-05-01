@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/testimonios-pacientes-sede-limonar/
 titulo: Testimonios pacientes Sede Limonar - Fundación Valle del Lili
 seccion: testimonios-pacientes-sede-limonar
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a1e9b7e913f2ebc0cb0b6cdd24cf232d931b93e3cad5689ae1577ea351d6afff
+hash: 8e1fb3d0826d3ff517436e6d355068c3dd7c168ba2b4bbff11526274dbfad0f8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

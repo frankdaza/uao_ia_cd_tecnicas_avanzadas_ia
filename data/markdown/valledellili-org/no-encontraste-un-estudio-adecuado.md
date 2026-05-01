@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/no-encontraste-un-estudio-adecuado/
 titulo: ¿No encontráste un estudio adecuado? - Fundación Valle del Lili
 seccion: no-encontraste-un-estudio-adecuado
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 42aa87c020c90737f2395b4a8df0228e081b33773e9e5116742a2aba85882d32
+hash: b3debf6038da8e8080f618ba8b50fe29abc629f908ab3e0b199ff859c4c7301c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

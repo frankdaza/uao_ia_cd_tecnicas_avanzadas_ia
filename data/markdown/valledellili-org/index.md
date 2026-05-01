@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/
 titulo: Home - Fundación Valle del Lili
 seccion: inicio
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: eb5d0630f800aaf8127a30d40f32efcebed24f66355349505d5259a1e34be061
+hash: 5e46e3fbedc28aa7880c196b7b69bce2d1ca31254bbff5a4737dc31fe8a1b772
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -41,6 +41,12 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 
 [Solicita tu cita](/solicitar-cita-medica/)
 
+## Sede Limonar de la Fundación Valle del Lili
+
+**Un lugar donde el cuidado infantil se vive con amor y experiencia**
+
+[Conozca más](https://valledellili.org/cuidando-tu-bebe-pediatria/)
+
 ## Comprometidos con el bienestar de la comunidad.
 
 [Conoce nuestros programas sociales](/impacto-social/)
@@ -48,12 +54,6 @@ Usa nuestro buscador inteligente para acceder fácilmente a todo lo que ofrece l
 ## Humanidad y Ciencia al cuidado de tu salud
 
 [Conoce nuestros servicios](/servicios/)
-
-## Sede Limonar de la Fundación Valle del Lili
-
-**Un lugar donde el cuidado infantil se vive con amor y experiencia**
-
-[Conozca más](https://valledellili.org/cuidando-tu-bebe-pediatria/)
 
 Scroll
 
@@ -225,11 +225,15 @@ Accede a información confiable y fácil de entender sobre síntomas, enfermedad
 
 Artículo
 
-### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres
+### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026
 
-La llegada de un bebé trae consigo nuevas responsabilidades y aprendizajes. En la Fundación Valle del Lili, queremos acompañarte en…
+[Descubre aquí](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
 
-[Descubre aquí](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
+Artículo
+
+### Revista ed 85 – Mes contra el cáncer de mama
+
+[Descubre aquí](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 
 Artículo
 
@@ -241,35 +245,27 @@ La Fundación Valle del Lili fortalece su red de atención especializada traslad
 
 Artículo
 
+### Menos pantallas, Mas juguetes para los niños
+
+Importancia del juego y la interacción social en el desarrollo integral infantil, frente al uso creciente de pantallas.
+
+[Descubre aquí](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+
+Artículo
+
+### Descubriendo un nuevo mundo juntos: Cuidados básicos del recién nacido, guía para padres
+
+La llegada de un bebé trae consigo nuevas responsabilidades y aprendizajes. En la Fundación Valle del Lili, queremos acompañarte en…
+
+[Descubre aquí](https://valledellili.org/descubriendo-un-nuevo-mundo-juntos-cuidados-basicos-del-recien-nacido-guia-para-padres/)
+
+Artículo
+
 ### Esquema de vacunación pediátrica
 
 El cumplimiento del calendario de vacunación es el paso más importante para asegurar un desarrollo saludable y proteger a tu…
 
 [Descubre aquí](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
-
-Artículo
-
-### ¿Qué es el melanoma y por qué es tan importante su detección temprana?
-
-Autor: Doctor Juan Felipe Pinilla Hurtado, Dermatólogo Hospital Universitario Fundación Valle del Lili En medio de las actividades y el…
-
-[Descubre aquí](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
-
-Artículo
-
-### Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento
-
-Autor: Doctor Erwin Fabian Lasso, Psiquiatra, Fundación Valle del Lili ¿Qué hacer cuando todo parece un caos? En momentos históricos…
-
-[Descubre aquí](https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
-
-Artículo
-
-### El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar?
-
-Autor: Doctor Roiman Leonardo Mejía. Ortopedia y Traumatología Pediátrica, Hospital Universitario Fundación Valle del Lili El pie plano, también conocido…
-
-[Descubre aquí](https://valledellili.org/el-pie-plano-en-la-infancia-cuando-es-normal-y-cuando-consultar/)
 
 ## Próximos eventos y actividades
 
@@ -289,7 +285,7 @@ Virtual
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am – 5:00 pm
 
@@ -303,7 +299,7 @@ Presencial
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am – 4:00 pm
+Hora: 8:00 am – 2:30 pm
 
 Lugar: Evento Virtual
 

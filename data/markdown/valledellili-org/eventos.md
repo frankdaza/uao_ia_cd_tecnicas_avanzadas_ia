@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/eventos/
 titulo: Eventos Archive - Fundación Valle del Lili
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f3e84da0f7cf56d69b151e9e12a0a693b8b2174f46dab2be3d8d9a3269a77ec5
+hash: c828c31f3a0cdd7813510d5634d68f3bac81b69d6c57c6cc7630347de7388c4d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -59,23 +59,23 @@ Sin costo
 
 Sin costo
 
-# 
+# XVII Congreso de pediatría – Pedialili
 
-Fecha: 1 January  
-Hora: 12:00 am  
-Ubicación:
+Fecha: 6 May  
+Hora: 8:00 am  
+Ubicación: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
-Conoce más
+[Conoce más](https://valledellili.org/eventos/xvii-congreso-de-pediatria-pedialili/)
 
-$350.000
+$170.000
 
-## Evento externo
+## 1er. Encuentro de brigadas hospitalarias
 
-Fecha: 1 February  
-Hora: 10:00 am  
-Ubicación:
+Fecha: 6 June  
+Hora: 7:00 am  
+Ubicación: Calle 50 # 118A - 68, Fundación Valle del Lili - Sede Betania
 
-[Conoce más](https://valledellili.org/eventos/congreso-de-medicina-interna-2025-fundamentosy-perspectivas-actuales/)
+[Conoce más](https://valledellili.org/eventos/1er-encuentro-de-brigadas-hospitalarias/)
 
 ## Eventos destacados
 
@@ -97,7 +97,7 @@ Radiología
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am - 5:00 pm
 
@@ -115,7 +115,7 @@ Radiología
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am - 4:00 pm
+Hora: 8:00 am - 2:30 pm
 
 Lugar: Evento Virtual
 
@@ -179,7 +179,7 @@ Radiología
 
 ### XVII Congreso de pediatría – Pedialili
 
-Fecha: 7 May al 8 May
+Fecha: 6 May al 8 May
 
 Hora: 8:00 am - 5:00 pm
 
@@ -198,7 +198,7 @@ Pediatría
 
 Fecha: 13 May al 14 May
 
-Hora: 8:00 am - 4:00 pm
+Hora: 8:00 am - 2:30 pm
 
 Lugar: Evento Virtual
 
@@ -236,10 +236,10 @@ Hora: 7:00 am - 6:00 pm
 Lugar: Auditorio Principal Carlos Ardila Lulle. Carrera 98 # 18-49
 
 Híbrido
-Medicina familiar
+Cardiología
+Endocrinología
 Medicina Interna
-Medicina interna en el adulto mayor
-Medicina interna-geriatria
+Urgencias
 
 [Quiero asistir](https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-del-razonamiento-a-la-decision-clinica/)
 

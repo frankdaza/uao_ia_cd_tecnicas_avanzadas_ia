@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/alberto-masaru-shinchi-tanaka/
 titulo: Alberto Masaru Shinchi Tanaka - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 07f745ded609f6c10244d24dd38e72a165824bea75035fdecfaf404d530aec77
+hash: 6e6ce11e3ad78ef9dc7138fca567f45c98d918a4237f34abed1ddef012a63419
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

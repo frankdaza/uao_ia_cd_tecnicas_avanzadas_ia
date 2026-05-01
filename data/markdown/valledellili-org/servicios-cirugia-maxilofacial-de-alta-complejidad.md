@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-maxilofacial-de-alta-complejidad/
 titulo: Cirugía Maxilofacial de Alta Complejidad - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bfa8de8b2b0978217bed1fe0a5652ae5c86ab41ba676c38f231512e5c2bfd90f
+hash: 18b18bf61202599051338cad776f3c925ed914030e08efc71605992c6a4d326b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

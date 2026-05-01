@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/pastor-olaya-rojas/
 titulo: Pastor Olaya Rojas - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 021d9bed4745775e8eb2690a4d0856054b5cf68b1fdb76436e0b332328d42acd
+hash: 3bad6745e822f128e9a9d5ab2264e68f17d2f44ebed4e2e78875ed268abdb704
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/victoria-eugenia-duran-morales/
 titulo: Victoria Eugenia Duran Morales - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 50b0e0bec2eaede013918ecf7294c687246f43c38aa329578cf4adb453bfae6e
+hash: 4cdbdb89a01da6ceefe2bbcca4bd15a52be168662542a9276597f87681a7fa2c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

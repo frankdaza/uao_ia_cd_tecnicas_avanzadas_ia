@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/mision-vision-valores-historia
 titulo: Sobre la Fundación Valle del Lili
 seccion: mision-vision-valores-historia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2c587845e29e0448fe995a3b4494cd9bb965e089ac21e0414c74d259a630233e
+hash: c7d1b14fb4d097e3f77af10cd953aa15c621fcc1d9fc2788319f0c05e929ae7c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

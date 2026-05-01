@@ -3,9 +3,9 @@ source_url: https://valledellili.org/25-anos-unidad-trasplantes-medula-osea/
 titulo: 25 años de nuestra Unidad de Trasplante de Médula Ósea - Fundación Valle del
   Lili
 seccion: 25-anos-unidad-trasplantes-medula-osea
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b184544ff8a895937ad78f20404366d5e66ac18f0b6b78619cb7406ffbbf1477
+hash: 82b6f70e9d981635d4cc67174dfc6fb998826d4295a6e0fd40a4eea850dee345
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

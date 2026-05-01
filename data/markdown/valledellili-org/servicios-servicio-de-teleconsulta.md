@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/servicio-de-teleconsulta/
 titulo: Servicio de Teleconsulta - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2009c629e4be9c15307fc31bf677fc64406fa0dfc07249cadb53ee2888d25039
+hash: 153759f61870b099e236fc1a36ffa1798c37047533212f90fa7e355cdbfaf633
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

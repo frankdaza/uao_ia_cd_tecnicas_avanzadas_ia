@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/diana-cristina-carrillo-gomez-2/
 titulo: Diana Cristina Carrillo Gomez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 789ab3c8a12f12fe033b9e13e8e356eb20399cc3cb9e2b2598dc6b8df954d47c
+hash: 455341e66b0a7e54b7afc77ee4e490ccc5d32d5af711a6f59e0ccc0794e74572
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

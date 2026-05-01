@@ -3,9 +3,9 @@ source_url: https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili
 titulo: 'Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil
   se vive con amor y experiencia'
 seccion: sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4bea7a2c59910ecb4bf81fdafa42252896e3014c2ffe4d63eab4fb9f0441c742
+hash: f9779b2078540648cd6fd3d850bac5939a29a4b99598d2072f65fe0b83ba3a09
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -48,7 +48,7 @@ Comparte este contenido
 
 Escuchar
 
-27 abril 2026
+30 abril 2026
 
 Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia
 
@@ -144,7 +144,8 @@ Fortalecemos nuestra capacidad tecnológica y humana para garantizar una atenci�
 **Dirección: Carrera 70 #18-75, Barrio Limonar, Cali.**  
 **Tu tranquilidad es nuestro propósito. Bienvenidos a nuestro hospital especializado en atención pediátrica FVL.**
 
-[Sede Limonar](https://valledellili.org/buscador-integral/?by_tag=sede-limonar)
+[Sede Limonar](https://valledellili.org/buscador-integral/?by_tag=sede-limonar) 
+[Urgencias Pediátricas](https://valledellili.org/buscador-integral/?by_tag=urgencias-pediatricas)
 
 ### Contenidos relacionados
 

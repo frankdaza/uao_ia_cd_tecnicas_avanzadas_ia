@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/preparacion-para-examenes-y-procedimientos/
 titulo: Preparación para exámenes y procedimientos. - Fundación Valle del Lili
 seccion: preparacion-para-examenes-y-procedimientos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b230381aea0ec9a119fcf7d4878af228090e8e4bbcdd32a686b47dae93174826
+hash: b1a309e30dd13ab256a7dd2fbf19bc0f7f08e77ec97bfe6bbf8dcccd7ad91c82
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -331,104 +331,7 @@ Categoría
 
 ### Medicina Nuclear
 
-- Gammagrafía de tiroides  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-TIROIDES.pdf)
-
-- Gammagrafía de vaciamiento gástrico para líquidos  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-VACIAMIENTO-GASTRICO-PARA-LIQUIDOS.pdf)
-
-- Gammagrafía de vaciamiento gástrico para sólidos  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-VACIAMIENTO-GASTRICO-PARA-SOLIDOS.pdf)
-
-- Gammagrafía de ventilación y perfusión pulmonar  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-VENTILACION-Y-PERFUSION-PULMONAR.pdf)
-
-- Gammagrafía divertículo de Meckel  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DIVERTICULO-DE-MECKEL.pdf)
-
-- Gammagrafía filtración glomerular  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-FILTRACION-GLOMERULAR.pdf)
-
-- Gammagrafía hepatobiliar JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-HEPATOBILIAR-JMVS.pdf)
-
-- Gammagrafía para linfedema JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-PARA-LINFOEDEMA-JMVS.pdf)
-
-- Gammagrafía renograma basal JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-RENOGRAMA-BASAL-JMVS.pdf)
-
-- Gammagrafía SPECT de perfusión cerebral JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-SPECT-DE-PERFUSION-CEREBRAL-JMVS.pdf)
-
-- Barrido diagnóstico con yodo I131  
-  [Descargar](/wp-content/uploads/legacy/2022/01/BARRIDO-DIAGNOSTICO-CON-YODO-I31.pdf)
-
-- Cisternogammagrafía JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/CISTERNOGAMMAGRAFIA-JMVS.pdf)
-
-- Cistogammagrafía  
-  [Descargar](/wp-content/uploads/legacy/2022/01/CISTOGAMAGRAFIA.pdf)
-
-- Estudio de predicho JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/ESTUDIO-DE-PREDICHO-JMVS-1.pdf)
-
-- Flujo plasmático renal efectivo – renograma diurético  
-  [Descargar](/wp-content/uploads/legacy/2022/01/FLUJO-PLASMATICO-RENAL-EFECTIVO-RENOGRAMA-DIURETICO.pdf)
-
-- Gamagrafía evaluación de trasplante renal JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-EVALUACION-DE-TRASPLANTE-RENAL-JMVS.pdf)
-
-- Gamagrafía ósea  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-OSEA-JTORRES-DMERA.pdf)
-
-- Gamagrafía perfusión miocárdica  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-PERFUSION-MIOCARDICA.pdf)
-
-- Gamagrafía renal basal y post captopril  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-RENAL-BASAL-Y-POST-CAPTOPRIL.pdf)
-
-- Gamagrafía renal DMSA  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-RENAL-DMSA.pdf)
-
-- Gamagrafía técnica de Roll JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-TECNICA-DE-ROLL-JMVS.pdf)
-
-- Gamagrafía ventriculografía  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMAGRAFIA-VENTRICULOGRAFIA.pdf)
-
-- Gammagrafía con galio 67  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-CON-GALIO-67.pdf)
-
-- Gammagrafía de captación I131  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-CAPTACION-I131.pdf)
-
-- Gammagrafía de ganglio centinela o linfogammagrafía JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-GANGLIO-CENTINELA-O-LINFOGAMMAGRAFIA-JMVS.pdf)
-
-- Gammagrafía de glándulas lagrimales o dacriocistogammagrafía  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-GLANDULAS-LAGRIMALES-O-DACRIOCISTOGAMMAGRAFIA.pdf)
-
-- Gammagrafía de glándulas salivales  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-GLANDULAS-SALIVARES.pdf)
-
-- Gammagrafía de octreoscan JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-OCTREOSCAN-JMVS.pdf)
-
-- Gammagrafía de paratiroides  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-PARATIROIDES.pdf)
-
-- Gammagrafía de perfusión testicular JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-PERFUSION-TESTICULAR-JMVS.pdf)
-
-- Gammagrafía de reflujo gastroesofágico  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-REFLUJO-GASTROESOFAGICO.pdf)
-
-- Gammagrafía de sangrado oculto JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-SANGRADO-OCULTO-JMVS.pdf)
-
-- Gammagrafía de shunt pulmonar JMVS  
-  [Descargar](/wp-content/uploads/legacy/2022/01/GAMMAGRAFIA-DE-SHUNT-PULMONAR-JMVS.pdf)
+En construcción
 
 ### Nutrición
 

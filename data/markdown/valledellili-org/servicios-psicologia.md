@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/psicologia/
 titulo: Psicología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d9c64476f22fbed6f30b8b24a890d770f1d1a802f998878fdbd6a5f4a66fc71c
+hash: 3d7ee69372e0c1c959c7f4ea60594bcc7b08a993ff3664e36f797915761b5d20
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -327,13 +327,13 @@ Mostrar todos
 #### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Cuando todo parece un caos: valores y sentido de vida como herramientas de afrontamiento](https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento/)
 [Infografía
 
 #### Revista Ed 58 – El Servicio de Pediatría al Cuidado Integral de los Niños](https://valledellili.org/revista-ed-58-el-servicio-de-pediatria-al-cuidado-integral-de-los-ninos/)
-[Artículo
-
-#### Fobias y miedos en niños](https://valledellili.org/fobias-y-miedos-en-ninos/)
 
 #### Agendar cita
 

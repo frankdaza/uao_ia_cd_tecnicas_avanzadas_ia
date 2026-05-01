@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-guillermo-restrepo-molina/
 titulo: Juan Guillermo Restrepo Molina - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 80303336b58f02aa06a6faebd7b52d0325e5586e884c96e3c740ee18215bb013
+hash: 80c777f7a60e72276facc3df781d8144d32f409f1eb65ad75f5fdf5a17fc7bb9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

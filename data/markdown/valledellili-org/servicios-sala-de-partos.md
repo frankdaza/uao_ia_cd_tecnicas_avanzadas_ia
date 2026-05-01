@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/sala-de-partos/
 titulo: Sala de Partos - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f6db1d21a0e8d9d94dbd8915a3dab8a80dea7079dd2c1d30c1e0c3ba89331671
+hash: 46c6584b9363bcf8768ac74824549121557ef38fc38cd528330609632a79ab93
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-mercedes-sanz-garcia/
 titulo: Claudia Mercedes Sanz Garcia - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fdbb4acbef4afccca1c70bb2a86d7da484dc66c8c52ee59e6251ca7514175ab4
+hash: 24cac922b60e63ca96cd74a81378847c76c13f6cf9113c0f46d50977f89a32b7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

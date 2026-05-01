@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carlos-alberto-dorado-ramirez/
 titulo: Carlos Alberto Dorado Ramírez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5bd9f20b1043722e851a4f6df1fb111fdb537a670e67c3dcfd6803671c664dbf
+hash: 29efb206abcda2243f95580933571585d8659e61b757a4bff601926e1a1c0b3f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

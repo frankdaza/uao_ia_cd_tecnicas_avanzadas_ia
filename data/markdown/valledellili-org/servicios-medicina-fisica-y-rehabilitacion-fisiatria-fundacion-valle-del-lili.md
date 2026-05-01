@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/medicina-fisica-y-rehabilitacion-fisiatria-fundacion-valle-del-lili/
 titulo: Medicina Física y Rehabilitación – Fisiatría - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b740e5e1e10fcd84c94c3159ec73f9fcf781b8bee5123e8bf587370944dc51e7
+hash: 375ae7398bd087d17e91b924bbd2a4ed7a8f1ab22cec54e3d07f1090c385f433
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

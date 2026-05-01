@@ -3,9 +3,9 @@ source_url: https://valledellili.org/solicitar-historia-clinica/
 titulo: Solicitud de historia clínica y certificados de hospitalización - Fundación
   Valle del Lili
 seccion: solicitar-historia-clinica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a19118ea9b49de84d5650dd2a35406b7f29d6936a555d426dbf7f06d7dbd9ca2
+hash: bfb680092d1a85559d66cb9f2d445c54d7f1e0936157e66073fffd41c8badc55
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

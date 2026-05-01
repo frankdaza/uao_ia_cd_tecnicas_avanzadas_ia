@@ -4,7 +4,7 @@ title: Reescribir skill gradio-qa-ui a react-vite-qa-ui y crear fastapi-sse-api
 status: Done
 assignee: []
 created_date: '2026-04-30 05:42'
-updated_date: '2026-04-30 05:52'
+updated_date: '2026-05-01 01:20'
 labels:
   - skills
   - frontend
@@ -12,6 +12,7 @@ labels:
 dependencies:
   - TASK-21
 priority: high
+ordinal: 19
 ---
 
 ## Description

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=ortopedia-y-traumatologia
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4c263ba59612c3c39cd364a0d23ba910961df763fbfdf97201c4a1332aa4766e
+hash: 80eb665c3afb02973e7adba063d1fa1fc8b3fe81c0bf3ca1ae54d3acf666677f
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

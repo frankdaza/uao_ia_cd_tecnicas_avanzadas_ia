@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/urgencias-pediatricas/
 titulo: Urgencias Pediátricas - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 664188a9efe29574ff7effd81c66529119dc44a6b1fd7329ea077de6c1aac660
+hash: 102749cc3422fb025746e83a0896e176363343c1427759b17c80d01a6374e391
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -857,16 +857,16 @@ Mostrar todos
 
 [Artículo
 
+#### Sede Limonar de la Fundación Valle del Lili: un lugar donde el cuidado infantil se vive con amor y experiencia](https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/)
+[Artículo
+
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Esquema de vacunación pediátrica](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 [Artículo
 
 #### El Pie Plano en la Infancia: ¿Cuándo es normal y cuándo consultar?](https://valledellili.org/el-pie-plano-en-la-infancia-cuando-es-normal-y-cuando-consultar/)
-[Artículo
-
-#### Programa nefrología pediátrica](https://valledellili.org/programa-nefrologia-pediatrica/)
-[Artículo
-
-#### Programa lactancia materna](https://valledellili.org/programa-lactancia-materna/)
 
 #### Agendar cita
 

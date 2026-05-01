@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/oncologia-clinica/
 titulo: Oncología Clínica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 72eb1ec6f139e27e26935344bab8c639fb889b59c5e07ade56643fd230355838
+hash: 99ecdc85d37cf37ba0935bd2e40e3587bd5653f4a3219bf04db3817ede0397e4
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

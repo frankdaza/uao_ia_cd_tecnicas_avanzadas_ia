@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/cheque-medico-preventivo/
 titulo: Cheque Médico Preventivo - Fundación Valle del Lili
 seccion: cheque-medico-preventivo
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a54571860966ac947d11f1d0639b8ea70f5414ffb43ccdbea4ebde1a59855a6a
+hash: de5a88a143d128dfaed3609b6778ca20a5fee651a431660a446d43037eefd8c2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

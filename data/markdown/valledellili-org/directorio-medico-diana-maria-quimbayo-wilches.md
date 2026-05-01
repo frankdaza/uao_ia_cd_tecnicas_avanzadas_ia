@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/diana-maria-quimbayo-wilches/
 titulo: Diana Maria Quimbayo Wilches - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 470c7ee839f68422704ecc4b2dc48bc06953279b45c8120db00fa49efa03f8fa
+hash: 505e3c6f5cb18ce331053d27cfc11fd589a57a59f8f09cc4b741ba10264a8a59
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

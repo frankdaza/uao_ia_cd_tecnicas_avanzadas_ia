@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/hospitalizacion/
 titulo: Servicio de hospitalización - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8e9fb2282e28d4cd4ad08d2e92af1f445a3538c9119c54d2878e3b6607f4e415
+hash: 4816af34d43d8c372593fa0b2f890630574ecf9167a53349862b9a52d5b0d443
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

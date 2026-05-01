@@ -3,9 +3,9 @@ source_url: https://valledellili.org/salvar-vidas-en-la-guajira-un-compromiso-qu
 titulo: 'Hospital padrino - Salvar vidas en la Guajira: ¡un compromiso que nos une!
   - Fundación Valle del Lili'
 seccion: salvar-vidas-en-la-guajira-un-compromiso-que-nos-une
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f3f8defe325efe785aebf9c7cfcc3243320607ab07747e7e4763297707281895
+hash: 05d0a90c04524970c9134f6577dfef2efb7c37359c582bb0e31b4d63fdbcf071
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

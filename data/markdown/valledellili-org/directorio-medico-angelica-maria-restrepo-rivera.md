@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/angelica-maria-restrepo-rivera/
 titulo: Angelica Maria Restrepo Rivera - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7cf51e720651f4f6fecd6af5514e799c1c26cdd319d2457043dc5a87e60890d3
+hash: ece873e10e6886358ee6b36fd2edb567a20934551d7267ac9ac187d645649d97
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

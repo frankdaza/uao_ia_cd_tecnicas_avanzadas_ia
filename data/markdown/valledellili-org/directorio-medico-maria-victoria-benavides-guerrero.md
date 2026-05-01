@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-victoria-benavides-guerrero/
 titulo: Maria Victoria Benavides Guerrero - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 79025c691a9e371895cffc1dd2b23d2e1ddeaadd97c93ecc562a6dcb5f0fbeb6
+hash: 9761b2a9602f32e8f3e491de749918d317918f89947e67190a1ebd1427fae7d9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-esteban-gomez-mesa/
 titulo: Juan Esteban Gomez Mesa - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4439c28d3999ce6eb3b2f9fa5dbdea5101cb24fed726bd37fee046727dae297c
+hash: c971d01b6b1004852b076e97be2111e02fa7837c5b41adc1ce57596215cfcd24
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

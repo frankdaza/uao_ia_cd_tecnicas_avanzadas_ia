@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jairo-sanchez-blanco/
 titulo: Jairo Sanchez Blanco - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7c7f94aa73b8e8f94ef0ed1ea5ca29a88960c630103665524c8369f069b8c94b
+hash: 039bec853078e45e1bb3ec13bdee45abe6574d07b35ce5e1784792bfaab9c891
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

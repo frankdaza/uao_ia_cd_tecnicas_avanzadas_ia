@@ -3,9 +3,9 @@ source_url: https://valledellili.org/cuando-todo-parece-un-caos-valores-y-sentid
 titulo: 'Cuando todo parece un caos: valores y sentido de vida como herramientas de
   afrontamiento - Fundación Valle del Lili'
 seccion: cuando-todo-parece-un-caos-valores-y-sentido-de-vida-como-herramientas-de-afrontamiento
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0f79eebe593521aa406360966ff6277cb0e8736580134521d7e18a10ec0cb368
+hash: 5f6b122fbefbf7b485553600fa6f8ec88c926c5395917a516e32f6f2505bead0
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -132,7 +132,7 @@ Porque al final, más que controlar el mundo, lo que realmente fortalece nuestra
 
 ---
 
-#### **En caso de requerir una consulta con un**[Psiquiatría o Psicología](https://portalv25.fvl.org.co/servicios/ortopedia-y-traumatologia-pediatrica/)**, podrá solicitarla en la Fundación Valle del Lili al PBX (602) 331 9090.**
+#### **En caso de requerir una consulta con un**[Psiquiatría o Psicología](https://valledellili.org/servicios/ortopedia-y-traumatologia-pediatrica/)**, podrá solicitarla en la Fundación Valle del Lili al PBX (602) 331 9090.**
 
 [Psicología](https://valledellili.org/buscador-integral/?by_tag=psicologia) 
 [Psiquiatría](https://valledellili.org/buscador-integral/?by_tag=psiquiatria) 
@@ -142,6 +142,9 @@ Porque al final, más que controlar el mundo, lo que realmente fortalece nuestra
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### ¿Qué es el melanoma y por qué es tan importante su detección temprana?](https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/)
 [Artículo
 
@@ -149,9 +152,6 @@ Porque al final, más que controlar el mundo, lo que realmente fortalece nuestra
 [Artículo
 
 #### La incontinencia fecal: qué es, causas, diagnóstico y tratamiento](https://valledellili.org/la-incontinencia-fecal-que-es-causas-diagnostico-y-tratamiento/)
-[Artículo
-
-#### ¿Sabes cómo regular tus emociones?](https://valledellili.org/sabes-como-regular-tus-emociones/)
 
 **¡Gracias por tu aporte!**
 

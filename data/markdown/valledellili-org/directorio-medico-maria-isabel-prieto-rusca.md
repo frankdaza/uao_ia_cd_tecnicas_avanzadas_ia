@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/maria-isabel-prieto-rusca/
 titulo: Maria Isabel Prieto Rusca - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 2e50f61ed63c82d419bf74026fe55be71fc3d971d18625168fb0983fb42e427c
+hash: 213534f6570e5d917eb668061c07f7d1289d58d6071e98d0c69a4da190e3907e
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion/estudio-de-fase-2-para-evalua
 titulo: Estudio de fase 2 para evaluar MORF-057 en adultos con enfermedad de Crohn
   activa de moderada a grave - 06226883 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 70767cf7b2cf9ff53640f405f0be30720d3c90eca87ccf3e94c17a4394ca32ed
+hash: 66b2d0828a87121150e3d5ed7c728fabf6a1e9c0053c9fc62e37b6c960eebd48
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

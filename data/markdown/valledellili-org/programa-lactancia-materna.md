@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-lactancia-materna/
 titulo: Programa lactancia materna - Fundación Valle del Lili
 seccion: programa-lactancia-materna
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8b65df1b43e4e55aabad8d428c338f52e93a87b08c1588def83bcdab09c4078a
+hash: e8d7d97015d63f46b1a76b1df431a22f9c7473c5d0a0c6540fb4af5691e8f2e9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

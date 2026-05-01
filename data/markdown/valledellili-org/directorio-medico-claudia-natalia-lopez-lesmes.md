@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-natalia-lopez-lesmes/
 titulo: Claudia Natalia Lopez Lesmes - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5ea576275b1555a0446781486a59598ae4540f22bae919140b028fa4447e97ff
+hash: ab85d5f37dcf9e2dd45ecf7d0e5ca29f59af7a40236a3efe63abc22bcde9a352
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

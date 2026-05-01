@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/beatriz-elena-munoz-ospina/
 titulo: Beatriz Elena Muñoz Ospina - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fc5f10ba62df2d2e01bbc803a496970ce168156d43bbe0a89a1c6de0c14c8b25
+hash: 6e186e74dedca2b94dbfe0ac75e6f46e887e196bd93087837b319dd7c480115d
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

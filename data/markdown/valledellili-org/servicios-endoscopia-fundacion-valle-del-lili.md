@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/endoscopia-fundacion-valle-del-lili/
 titulo: Endoscopia - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 5ccf120f1910e2dcb344e5982b96d46a0ce86b1393d7f589f621fe02d05b16ae
+hash: 137e36f577b007188f1d97db33ab6ead17cabb249cd0b7e440bc7743e8e0ef9c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

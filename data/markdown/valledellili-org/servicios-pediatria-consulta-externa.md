@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/pediatria-consulta-externa/
 titulo: Pediatría - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 913d5d563fb4ce762eb2e481d9999e14cbd3af5800427f0a0d74bfe8f95fe0d5
+hash: 9f4e0a37ed72b92187d8e3cae7bd8f0c32e4c93ead69ae6e9d59e64813568241
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -743,6 +743,9 @@ Mostrar todos
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Esquema de vacunación pediátrica](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 [Artículo
 
@@ -750,9 +753,6 @@ Mostrar todos
 [Artículo
 
 #### Programa nefrología pediátrica](https://valledellili.org/programa-nefrologia-pediatrica/)
-[Artículo
-
-#### Programa lactancia materna](https://valledellili.org/programa-lactancia-materna/)
 
 #### Agendar cita
 

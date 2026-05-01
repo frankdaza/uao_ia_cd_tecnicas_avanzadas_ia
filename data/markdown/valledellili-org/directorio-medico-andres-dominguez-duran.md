@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/andres-dominguez-duran/
 titulo: Andres Dominguez Duran - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: fd4f6ce5c6fbcec33de71182ff8aec7438501f6f5a400c26d5a5adc5cb00010c
+hash: 1159dc599a35cf2a18dac03d0beee200cd9e0cf0b630aa08d46a64699f177ba2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

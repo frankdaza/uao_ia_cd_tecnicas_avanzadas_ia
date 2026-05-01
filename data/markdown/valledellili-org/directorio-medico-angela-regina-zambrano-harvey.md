@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/angela-regina-zambrano-harvey/
 titulo: Angela Regina Zambrano Harvey - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: b9b2f70ed1fb4fdf043dbd373b54936ab981b3b356125ccc4ec55fe54ebd5190
+hash: 7eed596979fcb742eea2ea88463fc2c09943ea9cb6c23111da148cfbccc667da
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

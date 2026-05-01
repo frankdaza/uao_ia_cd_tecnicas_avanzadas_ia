@@ -3,9 +3,9 @@ source_url: https://valledellili.org/revista-ed-80-arritmias-cardiacas-fundacion
 titulo: Revista ed 80 - Arritmias Cardíacas, Fundación Valle del Lili a la vanguardia
   en electrofisiología - Fundación Valle del Lili
 seccion: revista-ed-80-arritmias-cardiacas-fundacion-valle-del-lili-a-la-vanguardia-en-electrofisiologia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4055c8ec01ef6e0fdb48bad82bc9ce736839e72ab09dce5937cdd3b87bf8712c
+hash: 90fd523a9ea210ac212d64a453ed41bc4db6776ee80267fb69f8b5e0b5ab72ac
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -58,18 +58,18 @@ Revista ed 80 – Arritmias Cardíacas, Fundación Valle del Lili a la vanguardi
 
 ### Contenidos relacionados
 
+[Artículo
+
+#### Revista ed 86 – Diagnósticos oportunos prevención y autocuidado tus propósitos para 2026](https://valledellili.org/revista-ed-86-diagnosticos-oportunos-prevencion-y-autocuidado/)
+[Artículo
+
+#### Revista ed 85 – Mes contra el cáncer de mama](https://valledellili.org/revista-ed-85-mes-contra-el-cancer-de-mama-2/)
 [Revista
 
 #### Revista ed 84 – 30 años de trasplantes en la Fundación Valle del Lili](https://valledellili.org/revista-ed-84-30-anos-de-trasplantes-en-la-fundacion-valle-del-lili/)
 [Revista
 
 #### Revista ed 83 – Cuidado ambulatorio: transformando la atención médica](https://valledellili.org/revista-ed-83-cuidado-ambulatorio-transformando-la-atencion-medica/)
-[Revista
-
-#### Revista ed 82 – 20 Años cuidando a las mujeres que aman la vida](https://valledellili.org/revista-ed-82-20-anos-cuidando-a-las-mujeres-que-aman-la-vida/)
-[Revista
-
-#### Revista ed 81 – Mitos y verdades sobre la circuncisión, la visión de una uróloga pediatra](https://valledellili.org/revista-ed-81-mitos-y-verdades-sobre-la-circuncision/)
 
 **¡Gracias por tu aporte!**
 

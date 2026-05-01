@@ -4,9 +4,9 @@ titulo: Estudio de fase 2/3, adaptativo, doble ciego, controlado con placebo, pa
   evaluar la eficacia y la seguridad de VX-147 en sujetos adultos y pediátricos con
   enfermedad renal proteinúrica – 05312879 - Fundación Valle del Lili
 seccion: investigacion
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e8752dfa222fb5981a9ceb0e462340a08317e06773412b3b0ec9fd44cbfe6371
+hash: 00b2fb0362a55beaa02fb595b79c9aaa36ef0b5af8315a6886efdb22bbd60225
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

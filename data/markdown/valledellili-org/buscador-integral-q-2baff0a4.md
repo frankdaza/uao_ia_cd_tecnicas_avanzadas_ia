@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=oftalmologia
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a172f4b04d3dbe1c925f5563633437a644f93ffa38fbbfaed1b136617dff2967
+hash: 0103b73ab3835f7c29742f95c21fdc510072f7d9df4bb15cb25ae849b60bf2ec
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

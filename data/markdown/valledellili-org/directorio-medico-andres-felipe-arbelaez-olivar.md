@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/andres-felipe-arbelaez-olivar/
 titulo: Andres Felipe Arbelaez Olivar - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: eda22a00ba9aa517acdf60053bad2f1a53e46653e0aa514841cd8c9bae388489
+hash: c75687ccf971091484524845f2217f9f3db31ecfd6e456f9a072ade2c5338a9b
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

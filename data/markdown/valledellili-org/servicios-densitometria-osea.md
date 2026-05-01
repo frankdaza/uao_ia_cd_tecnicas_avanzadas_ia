@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/densitometria-osea/
 titulo: Densitometría ósea - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: be0ec02eddcc7e3c20d0e4610407f95ddd2e98b6b9f035b0692e876fa940a8f3
+hash: bbea3f3ba942303ee05e434868928902deb56812ed2daf16741e036ff3a036d8
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

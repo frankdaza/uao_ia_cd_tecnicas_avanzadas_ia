@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/christian-david-adams-sanchez/
 titulo: Christian David Adams Sanchez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 7d9e192f27a335ece46e0cbc11787e4746a7b90c72ff8c066f1b10337b29a52c
+hash: a137313177e4906b2427e06953f8c4e2774d5553365344c344456a20b1ca8dcf
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

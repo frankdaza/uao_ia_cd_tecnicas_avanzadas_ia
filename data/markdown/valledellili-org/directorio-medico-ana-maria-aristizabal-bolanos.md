@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/ana-maria-aristizabal-bolanos/
 titulo: Ana Maria Aristizabal Bolaños - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 96a466d0d24cfba409825351dca8d79e1e95da0135fce61ccf6c75429afd1f12
+hash: 9700f7ac9e79ec3b2fc30ec7652a5e86785401812437ec67496b77813ec091fa
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

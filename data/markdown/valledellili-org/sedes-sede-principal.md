@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/sedes/sede-principal/
 titulo: Sede Principal - Fundación Valle del Lili
 seccion: sedes
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0ab67169072386aab42bbc09599bc1d6ae1f9bb7807d4f7aaeef900114b28c5e
+hash: 89ebb814e1296a617db56647783338f703b6eb67e614fe55a11d457575a336ed
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

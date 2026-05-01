@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/unidad-de-recien-nacidos/
 titulo: Unidad de Recién Nacidos - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: de7490bf96502b5e419630ed4df6b37ae3bd8949a24af1972d3d0cdf83120143
+hash: 4e4aa6aed3716486e966c8284b797a296533f361e9a199d30f40522f34f3c9b2
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -585,6 +585,9 @@ Mostrar todos
 
 [Artículo
 
+#### Menos pantallas, Mas juguetes para los niños](https://valledellili.org/menos-pantallas-mas-juguetes-para-los-ninos/)
+[Artículo
+
 #### Esquema de vacunación pediátrica](https://valledellili.org/esquema-de-vacunacion-pediatrica/)
 [Artículo
 
@@ -592,9 +595,6 @@ Mostrar todos
 [Artículo
 
 #### Programa nefrología pediátrica](https://valledellili.org/programa-nefrologia-pediatrica/)
-[Artículo
-
-#### Programa lactancia materna](https://valledellili.org/programa-lactancia-materna/)
 
 #### Agendar cita
 

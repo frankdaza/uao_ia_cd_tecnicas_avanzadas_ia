@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/ortopedia-y-traumatologia/
 titulo: Ortopedia y Traumatología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 04efa7f475d76dcc2085f58a6135aca782f26a79ccbcfe4c73e1dc60183477db
+hash: 3d08b699b28b9a93c42a213ffc872ddbe4c2f363de904c9ea980a77a753ff6e3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

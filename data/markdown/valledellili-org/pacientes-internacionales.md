@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/pacientes-internacionales/
 titulo: Pacientes internacionales - Fundación Valle del Lili
 seccion: pacientes-internacionales
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0df1aa584cf9b9a4aaa63c7a415bd0c3823f95ec881812d1d04c31851ac345f2
+hash: 67ab6660f522b161f7d2228923b2f53e219e62f67c030c31f9c088d9077977ab
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

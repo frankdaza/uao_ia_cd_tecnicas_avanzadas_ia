@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/jaiber-alberto-gutierrez-gil/
 titulo: Jaiber Alberto Gutierrez Gil - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 336d338fba7f643a3b91a1d55757bf9288b2fee62bbd179034877a3eff21d115
+hash: 28380de1294cabf67cfae49ebe3f01544ca9811bf05a6f841856aea41698c716
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

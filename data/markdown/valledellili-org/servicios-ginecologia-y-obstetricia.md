@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/ginecologia-y-obstetricia/
 titulo: Ginecología y Obstetricia - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8dd0979fc874a4dce6559574ce6a63bbdf23ea23f6223efdb1a97152d4f893c0
+hash: c57f9e5085be068cf51212126729a28eb14bf82066ad96e4828b5e4b804ad133
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/nefrologia-y-trasplante-renal/
 titulo: Nefrología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 70f673731183e9e5b40d76f7e71d0353622501062079234995005547c108e475
+hash: f601babea79d60833282d3cb71094bde0ca4e517dd30fd9e3f714ca86fbcd589
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

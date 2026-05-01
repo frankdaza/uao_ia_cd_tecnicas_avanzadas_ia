@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/fobias-y-miedos-en-ninos/
 titulo: Fobias y miedos en niños - Fundación Valle del Lili
 seccion: fobias-y-miedos-en-ninos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: abf30c514d215296f4a1b19378e4a363cd796f258a172176c0b1181587782aec
+hash: bf6d58c73e10e756ac978b139d7c586cfe856263bc17f46c644ce06978b61e74
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

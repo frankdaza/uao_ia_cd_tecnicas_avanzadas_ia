@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-de-torax-fundacion-valle-del-lili/
 titulo: Cirugía de Tórax - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 35d7bd3257cd8be8d299e083c97c0c4b88354ea4796029b7836c564cdef657e2
+hash: 37be88fa96a1db355a03e0d5ce06a00bcb5b7d239a54da2557339a8951302599
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

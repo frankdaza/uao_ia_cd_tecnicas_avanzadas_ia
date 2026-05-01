@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/cirugia-pediatrica-fundacion-valle-del-lili/
 titulo: Cirugía Pediátrica - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 6aaf79c67aef2f472eeb91058bd1313fa28fc8296fd42e1551e9f16728f0f1e5
+hash: 97026793d72004561386a51d19754bd2f7ce155d5849e4b74047eeefc0ecd78c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

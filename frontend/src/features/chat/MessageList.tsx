@@ -55,11 +55,13 @@ export function MessageList({ turns, onSelectSuggested, onRegenerateLast }: Mess
       <div className="flex-1 overflow-y-auto flex flex-col bg-[var(--color-background)]">
         <div className="flex-1 flex items-center justify-center text-center px-4 py-8">
           <div className="flex flex-col items-center gap-6 max-w-lg w-full">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center shadow-lg rotate-[-3deg]">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-lime)] flex items-center justify-center shadow-lg shadow-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] rotate-[-3deg]">
               <Sparkles className="h-10 w-10 text-white" aria-hidden />
             </div>
             <div>
-              <h2 className="text-xl font-semibold tracking-tight">¿En qué puedo ayudarte hoy?</h2>
+              <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--color-primary)] dark:text-[var(--color-text)]">
+                ¿En qué puedo ayudarte hoy?
+              </h2>
               <p className="text-sm text-[var(--color-text-muted)] mt-2 leading-relaxed">
                 Haz una pregunta sobre la Fundación Valle del Lili. Las respuestas se fundamentan en el
                 corpus indexado desde el sitio web oficial — no sustituyen asesoría médica ni trámites
@@ -73,7 +75,7 @@ export function MessageList({ turns, onSelectSuggested, onRegenerateLast }: Mess
                     key={p}
                     type="button"
                     onClick={() => onSelectSuggested(p)}
-                    className="text-left rounded-xl border border-[var(--border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] hover:border-[var(--color-primary-light)] px-4 py-3 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2"
+                    className="text-left rounded-xl border border-[var(--border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] hover:border-[var(--color-accent)] px-4 py-3 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2"
                   >
                     {p}
                   </button>

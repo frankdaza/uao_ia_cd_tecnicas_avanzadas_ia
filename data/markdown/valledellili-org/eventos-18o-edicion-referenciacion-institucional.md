@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/eventos/18o-edicion-referenciacion-institucional/
 titulo: 18º. Edición Referenciación Institucional - Fundación Valle del Lili
 seccion: eventos
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a270ec6a9d55ba8bab456c5eb43bb4abb9757b45d1800a8ba26075100665efed
+hash: da67d72ed8e9a3ce9494dcd9cbfb7b8bf7bfb97f55913279b41517ea0aca57de
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
@@ -68,7 +68,7 @@ Finaliza:
 **14 May**
 
 Horario:
-**8:00 am - 4:00 pm**
+**8:00 am - 2:30 pm**
 Colombia
 
 Modalidad:
@@ -89,13 +89,13 @@ Día 1
 
 13 de mayo de 2026
 
-8:00 a.m. – 5:00 p.m.
+8:00 a.m. – 4:00 p.m.
 
 Día 2
 
 14 de mayo de 2026
 
-8:00 a.m. – 4:00 p.m.
+8:00 a.m. – 2:30 p.m.
 
 [Acreditación](acreditacion)
 [Estrategia institucional](estrategia-institucional)

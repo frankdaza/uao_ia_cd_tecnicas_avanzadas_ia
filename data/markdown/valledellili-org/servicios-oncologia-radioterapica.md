@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/oncologia-radioterapica/
 titulo: Radioterapia - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ce972f2bee655fd283d65a66bf5f776fd6c6f8b9e77038233a646dc9acf1e3ff
+hash: ca7075a3a3b779c42d35b38709ed6354e018e05de8390420647ab43a2f828404
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

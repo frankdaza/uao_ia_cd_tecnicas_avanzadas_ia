@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/rocio-del-pilar-ojeda-yela/
 titulo: Rocio Del Pilar Ojeda Yela - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 40901d0ada2177057747f2f4e7ed9065ee147f3d754551d5adba9a2e83ce1158
+hash: 45133b42d62ef804a6a9ba27233a0b2e243edf34b4cef654ba6815f8c7f4d501
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/adriana-ballesteros-castro/
 titulo: Adriana Ballesteros Castro - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ad8600f9deecd8c23388b43843849ac05746822520678e1393dcb4d0adbfe162
+hash: 472fef2c11904cdf36ab24dc0d4f338abddb2cdcfd0fa3277cefab373ec7c213
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

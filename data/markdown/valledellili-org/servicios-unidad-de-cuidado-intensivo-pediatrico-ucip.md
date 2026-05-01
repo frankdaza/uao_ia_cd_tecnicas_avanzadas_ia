@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/unidad-de-cuidado-intensivo-pediatrico-ucip/
 titulo: Unidad de Cuidado Intensivo Pediátrico (UCIP) - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: ea66703cfc762f52fe3a0597a61ea910005dcca11c0108d31c75f74314929501
+hash: f73d5c340270d907c4cae466ee1cf11946420b91e343417714810890851d6c76
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

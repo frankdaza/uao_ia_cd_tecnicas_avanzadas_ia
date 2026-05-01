@@ -4,7 +4,7 @@ title: Migrar documentación y skills de la interfaz web previa a Gradio
 status: Done
 assignee: []
 created_date: '2026-04-26 20:10'
-updated_date: '2026-04-28 04:00'
+updated_date: '2026-05-01 01:21'
 labels:
   - docs
   - setup
@@ -13,7 +13,7 @@ references:
   - >-
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 1.pdf
-ordinal: 2000
+ordinal: 40
 ---
 
 ## Description

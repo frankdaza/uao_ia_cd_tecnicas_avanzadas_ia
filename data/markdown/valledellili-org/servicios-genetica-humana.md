@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/genetica-humana/
 titulo: Genética Humana - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4cbccb61cd4cbce9c575e76bf9e7eef1e392dd5b8865500ef589ab6b5658a870
+hash: 70eb2dc03cd4344557f2e2c87b7c4f09059617e6fe515c29aaae3dffef8f22c7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

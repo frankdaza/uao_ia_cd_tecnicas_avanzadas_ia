@@ -3,9 +3,9 @@ source_url: https://valledellili.org/video-nuevo-equipo-de-resonancia-magnetica-
 titulo: 'Video: Conozca el nuevo Equipo de resonancia magnética "Magnetom Sola" -
   Sede Limonar - Fundación Valle del Lili'
 seccion: video-nuevo-equipo-de-resonancia-magnetica-magnetom-sola-sede-limonar
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a97705165ee3cafaeb63a134bdc22fbd01d0a9b0281754124f99f483cd2522e4
+hash: a11da5f6ada7a1de89bec55f73653615e14a1efc9315c5f7242ee85fc639559c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

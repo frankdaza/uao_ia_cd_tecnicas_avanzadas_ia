@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/juan-fernando-gomez-castro/
 titulo: Juan Fernando Gomez Castro - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f3ad09f4f3fa52e31b9660eaafeef487888ad3ab29ebb4e737db14efb8acddf9
+hash: 95bf356e5a0fe3b356b118e097d1395982002b4c046e870effba41fb0b31f79c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

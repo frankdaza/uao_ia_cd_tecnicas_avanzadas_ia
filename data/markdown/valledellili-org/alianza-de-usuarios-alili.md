@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/alianza-de-usuarios-alili/
 titulo: Alianza de usuarios Alili - Fundación Valle del Lili
 seccion: alianza-de-usuarios-alili
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: bc063ae0a590fde483f2954bda50385443b9089c3dee66f287c63f5f1102686d
+hash: cb03fafab664106211fe19d5e323a6f49bcb8590a94bf6091ac7e413be2d1edd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

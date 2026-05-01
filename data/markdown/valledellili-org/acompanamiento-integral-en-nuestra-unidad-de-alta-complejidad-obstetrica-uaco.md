@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/acompanamiento-integral-en-nuestra-unidad-de-alta-complejidad-obstetrica-uaco/
 titulo: Acompañamiento integral en nuestra Unidad de Alta Complejidad Obstétrica (UACO)
 seccion: acompanamiento-integral-en-nuestra-unidad-de-alta-complejidad-obstetrica-uaco
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 3072c1f3e158f9d7ed3f0c9f05835516b9975b6ad328b71b02e48a5a2877bab5
+hash: c81427536e4f6110f17dc5cf8e9bb83fb883ba9175d9ae6e51e134f54d6da3cb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/lina-marcela-garcia-mafla/
 titulo: Lina Marcela Garcia Mafla - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 18bc54f0a90f5182bf7cd0502eb93442fd3ff35092726af527c64ef4df95ab9c
+hash: 3fd65adb1b599756ab761befc1487524daf4d2bbc5e784fd57bdf4b81a09c969
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

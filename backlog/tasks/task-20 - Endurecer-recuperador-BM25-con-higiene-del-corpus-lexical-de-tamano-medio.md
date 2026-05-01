@@ -17,7 +17,7 @@ references:
   - src/retrieval/_stopwords_nltk_es.py
   - src/qa/pipeline.py
   - tests/retrieval/test_recuperador_bm25.py
-ordinal: 0.0019073486328125
+ordinal: 21
 ---
 
 ## Description

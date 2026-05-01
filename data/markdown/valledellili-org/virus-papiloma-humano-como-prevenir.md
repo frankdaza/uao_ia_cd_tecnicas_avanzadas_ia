@@ -3,9 +3,9 @@ source_url: https://valledellili.org/virus-papiloma-humano-como-prevenir/
 titulo: 'Virus del papiloma humano: un enemigo que podemos prevenir, si lo conocemos
   - Fundación Valle del Lili'
 seccion: virus-papiloma-humano-como-prevenir
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0a4302e20cf8808766952aad1f81c0cd788bb9492db3457238d7ceb5bd030cff
+hash: 897fad7074b794b7aea9679ba904d8539141ad308e399ea44433a63e395ce123
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -20,7 +20,7 @@ references:
   - scripts/evaluar_qa.py
   - tests/retrieval/test_recuperador_bm25.py
   - backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md
-ordinal: 0.0152587890625
+ordinal: 23
 ---
 
 ## Description

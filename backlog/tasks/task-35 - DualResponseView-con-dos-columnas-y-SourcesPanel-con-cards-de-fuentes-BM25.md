@@ -4,7 +4,7 @@ title: DualResponseView con dos columnas y SourcesPanel con cards de fuentes BM2
 status: Done
 assignee: []
 created_date: '2026-04-30 05:45'
-updated_date: '2026-04-30 06:11'
+updated_date: '2026-05-01 01:19'
 labels:
   - frontend
   - chat
@@ -14,6 +14,7 @@ dependencies:
   - TASK-33
   - TASK-34
 priority: high
+ordinal: 6
 ---
 
 ## Description

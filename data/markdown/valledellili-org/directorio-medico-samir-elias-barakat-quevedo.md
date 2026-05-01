@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/samir-elias-barakat-quevedo/
 titulo: Samir Elias Barakat Quevedo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 84b084556bd0bd033df8aa6f23e6d6dd577416ce7b642f3f92b1e4768e4acc79
+hash: 4b3900edfd34d14a8bed27c75e69a8925cacd7c222a353e6bbc06c2a119fe3bd
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

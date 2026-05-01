@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/clinica-de-anticoagulacion/
 titulo: Clínica de Anticoagulación - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: e94174faa79d3e0d3d75ba717431f42dbfb6e71b0e7ab879c911f72d83d14fc1
+hash: 5786842a9491bef1cfc686a3f12ca7ca8adcf5cbd7dfbd78f71b87df8384eb00
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

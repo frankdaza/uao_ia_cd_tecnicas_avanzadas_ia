@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/sergio-morales-sanclemente/
 titulo: Sergio Morales Sanclemente - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 30973f963d6e02227b934d80001b87f50ed8a6353e79c596dcc512b94c21acfb
+hash: 9f7b2b7050f6075834ebf0ff1edafe745bb568315b75f0795d64a4e776f7cccf
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

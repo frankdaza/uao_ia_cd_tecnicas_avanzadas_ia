@@ -25,7 +25,7 @@ references:
   - src/qa/prompt.py
   - src/app/app_gradio.py
   - scripts/evaluar_qa.py
-ordinal: 0.003814697265625
+ordinal: 22
 ---
 
 ## Description

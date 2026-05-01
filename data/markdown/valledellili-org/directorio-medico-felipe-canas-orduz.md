@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/felipe-canas-orduz/
 titulo: Felipe Cañas Orduz - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 8b66c06af24c6dd3c786e48736e15c4fbb2fce3a3493a7f72803febb33a6783a
+hash: 1313b332bb5c516d921f09b7b0c339dbde2cbb6fe39c234369fd9c22b8097770
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

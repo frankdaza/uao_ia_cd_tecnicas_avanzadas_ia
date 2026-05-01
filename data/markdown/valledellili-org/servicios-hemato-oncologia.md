@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/servicios/hemato-oncologia/
 titulo: Hemato-Oncología - Fundación Valle del Lili
 seccion: servicios
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 0a4e054507aad233fd8dc7145ea26b1236e2e12d6e7472962fa84358611b28ef
+hash: 30370344422c463ba63f892c593cf60c5dd82804779cc8b4040813e37cd1ff0c
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

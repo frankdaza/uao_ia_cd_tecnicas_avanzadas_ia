@@ -3,9 +3,9 @@ source_url: https://valledellili.org/investigacion-haploidentical-stemcell-trans
 titulo: Haploidentical stemcell transplant with post-transplant cyclophosphamide -
   Fundación Valle del Lili
 seccion: investigacion-haploidentical-stemcell-transplant-with-post-transplant-cyclophosphamide
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: a942d1295f49298917106166b75a3ecd58358e3344e144cca2fe7ea6bfb82fb1
+hash: 14a84a47b785dba816c9f22512499035709724f58bc93a236a423e69428542a7
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

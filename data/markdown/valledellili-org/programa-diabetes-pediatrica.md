@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/programa-diabetes-pediatrica/
 titulo: Programa diabetes pediátrica - Fundación Valle del Lili
 seccion: programa-diabetes-pediatrica
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: c789d3196f8c5e2db932187e53a59d6b52a494f7326a3516b47617f7e498efb9
+hash: ef1d9a4a62e8fc9ba41ffee12353a8fad991bb2bcda9911133010cdf5ffcb6c9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

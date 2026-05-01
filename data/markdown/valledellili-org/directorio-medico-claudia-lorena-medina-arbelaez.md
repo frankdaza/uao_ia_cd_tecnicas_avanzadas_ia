@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/claudia-lorena-medina-arbelaez/
 titulo: Claudia Lorena Medina Arbelaez - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: f0e41304690b7e2d369f245a363ee2b83955ba2f8414e87d2a0f9437da5912a0
+hash: 9c9b19eda9705eb97aab9f8599c391cb347e7a42d38bf6c4f02f7b94c91debe3
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

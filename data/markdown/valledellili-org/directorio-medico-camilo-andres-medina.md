@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/camilo-andres-medina/
 titulo: Camilo Andres Medina - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d8a2115a01e650595c371063351714f951b5513ce3db919075c1ae63c2c8a784
+hash: 003a74e1a2f460f2cd2216938be7f39aaf2705c0b16761e2ca68afd0b2b11129
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

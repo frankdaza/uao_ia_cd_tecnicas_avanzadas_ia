@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/buscador-integral/?by_tag=cirugia-ocular
 titulo: Buscador integral de contenidos - Fundación Valle del Lili
 seccion: buscador-integral
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 4656a29f16dc9cc5419170f8ab461085bc5ad48c9168d9b433b67c48043a9dd0
+hash: e7aca061363ecb42cbf444e4ef76451b5def67b2294a2230bfcb8b504743faf6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/carlos-alberto-velasco-bayuelo/
 titulo: Carlos Alberto Velasco Bayuelo - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 627c5873ab316dc6587a1863cf1f44be211e12152468ad24f2a1b5fa28a487f5
+hash: 0e14a292fe896f33f2f23589e21a3bad9bbc5dc8eef89562fbf1dce4ccee4568
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

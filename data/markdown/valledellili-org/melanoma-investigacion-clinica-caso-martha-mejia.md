@@ -3,9 +3,9 @@ source_url: https://valledellili.org/melanoma-investigacion-clinica-caso-martha-
 titulo: 'MELANOMA: investigación clínica | Caso: Martha Mejía - Fundación Valle del
   Lili'
 seccion: melanoma-investigacion-clinica-caso-martha-mejia
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 3275cdbf75773e11be31db2a667ff2116900e5acd8c00129dc15546bf5352cdd
+hash: 97a6a5a76ca9c44c881f63b0472d2b0ff573ad1f36fd253696aa432d0c8af7eb
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

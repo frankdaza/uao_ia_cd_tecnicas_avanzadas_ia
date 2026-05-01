@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/impacto-social/aula-lili/
 titulo: Aula Lili - Fundación Valle del Lili
 seccion: impacto-social
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: 09ab421e2b4a2fe522ec85a1403e400b88592ff7b7956c13182f3719f348cdf8
+hash: c73855c9fd6bc55fd4b1cdd1eb050efa90d2d4dd4faf3211cceff13bce124ea6
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)

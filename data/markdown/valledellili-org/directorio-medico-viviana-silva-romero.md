@@ -2,9 +2,9 @@
 source_url: https://valledellili.org/directorio-medico/viviana-silva-romero/
 titulo: Viviana Silva Romero - Fundación Valle del Lili
 seccion: directorio-medico
-fecha_extraccion: '2026-04-29'
+fecha_extraccion: '2026-05-01'
 idioma: es
-hash: d8a1cbed20d86009313382a0a65565a7f7ece503fcea9112d27280c8f743b994
+hash: eeddf0c0d11b84ce7799610a25e0c711d71288c5e30211d95fce7273eac93ca9
 ---
 
 [Facebook](https://www.facebook.com/fundacionvalledelili)
