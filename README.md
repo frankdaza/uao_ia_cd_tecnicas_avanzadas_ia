@@ -1,6 +1,6 @@
 # Sistema Q&A sobre la Fundación Valle del Lili — MVP fase 1
 
-Asistente de preguntas y respuestas que responde **solo** con texto público ya descargado del sitio `valledellili.org`, usando recuperación BM25 sobre archivos Markdown completos y un modelo local vía Ollama. **No** sustituye canales oficiales ni garantiza vigencia de datos; **no** incluye chunking, embeddings ni base vectorial en esta fase.
+Asistente de preguntas y respuestas que responde **solo** con texto público ya descargado del sitio `valledellili.org`, usando recuperación BM25 sobre archivos Markdown completos (cada `.md` es una unidad de índice), selección **top-k** de documentos para armar el contexto enviado al modelo (por defecto hasta **3**; constante `K_TOP_DOCUMENTOS` en `src/qa/pipeline.py`) y generación principalmente con **Ollama** local. De forma opcional se puede usar la **API de OpenAI** (por ejemplo en el modo dual de la interfaz) configurando `OPENAI_API_KEY`. **No** sustituye canales oficiales ni garantiza vigencia de datos; **no** incluye chunking interno dentro de cada archivo, embeddings ni base vectorial en esta fase.
 
 ## Descripción del problema
 
@@ -8,15 +8,26 @@ Hay necesidad de un canal de comunicación automatizado y preciso para la Fundac
 
 ## Planteamiento de la solución
 
-Pipeline local: **scraping** (respetando `robots.txt`) → **Markdown** con front matter en `data/markdown/` → **BM25 a nivel archivo** (`rank-bm25`) → **Ollama** con el documento recuperado inyectado en el prompt.
+Pipeline local: **scraping** (respetando `robots.txt`) → **Markdown** con front matter en `data/markdown/` → **BM25 a nivel archivo** (`rank-bm25`) → **top-k** de documentos completos (sin trocear el contenido de cada `.md`) → composición multi-contexto en el prompt → **Ollama** y, opcionalmente, **OpenAI**.
 
 Decisiones explícitas de esta fase:
 
-- Sin chunking: cada unidad indexada es un `.md` completo.
+- Sin chunking interno: cada unidad indexada es un `.md` completo.
+- Recuperación **top-k** (por defecto tres documentos) con filtro por umbral relativo en el recuperador; el modelo puede recibir varios archivos completos en un solo turno; en la UI, las fuentes BM25 listan los documentos recuperados cuando aplica.
 - Sin embeddings ni base vectorial.
-- Interfaz: **React 19 + Vite 7 + shadcn/ui** (`frontend/`) con backend **FastAPI + SSE** (`src/api/`). La interfaz Gradio original fue migrada y vive en `src/app/legacy/app_gradio.py` como referencia histórica.
+- Interfaz: **React 19 + Vite 8 + TypeScript 6 + shadcn/ui** (`frontend/`); streaming vía **SSE** con cliente propio (no Vercel AI SDK). Backend **FastAPI + SSE** (`src/api/`). La interfaz Gradio original fue migrada y vive en `src/app/legacy/app_gradio.py` como referencia histórica.
 
-El detalle arquitectónico queda registrado en [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
+El detalle arquitectónico queda registrado en [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md). **Nota:** ADR-001 describe el MVP con un solo archivo en contexto; la implementación vigente usa **top-k** de archivos completos. Este README y el código reflejan el comportamiento actual hasta que el ADR se actualice.
+
+```mermaid
+flowchart LR
+  scrape[scrape_raw]
+  md[data_markdown]
+  bm25[BM25_por_archivo]
+  topk[top_k_docs]
+  llm[Ollama_o_OpenAI]
+  scrape --> md --> bm25 --> topk --> llm
+```
 
 ## Preparación de los datos
 
@@ -45,15 +56,15 @@ Referencia detallada de flags y orden del pipeline: [scripts/README.md](scripts/
 
 ## Modelado
 
-- **Recuperación:** BM25 sobre el texto completo de cada archivo en `data/markdown/valledellili-org/`.
-- **Generación:** modelos Ollama locales; en la app se ofrecen entre otros `llama3.1:8b` y `gemma4:e2b` (este último puede no existir en el catálogo público de Ollama; ver limitaciones).
-- **Prompt:** instrucciones zero-shot anti-alucinación: uso estricto del contexto, respuesta literal *«No tengo información suficiente»* si no hay datos; tono profesional, cercano y con un toque amable en español colombiano (ver `src/qa/prompt.py`).
+- **Recuperación:** BM25 sobre el texto completo de cada archivo en `data/markdown/valledellili-org/`; cada archivo completo recibe un score y se seleccionan los **k** mejores (por defecto 3), descartando candidatos por debajo de un umbral relativo al mejor score (ver `src/retrieval/recuperador.py`).
+- **Generación:** principalmente modelos **Ollama** locales; la API y la UI permiten además **OpenAI** si hay clave (`OPENAI_API_KEY`), incluido modo dual con una sola pasada BM25 compartida. En la app se ofrecen entre otros `llama3.1:8b` y `gemma4:e2b` (este último puede no existir en el catálogo público de Ollama; ver limitaciones).
+- **Prompt:** instrucciones zero-shot anti-alucinación en `src/qa/prompt.py`: la asistente institucional «Lili» usa solo la información de los contextos aportados; tono formal, cordial e institucional; respuesta literal *«No tengo información suficiente»* cuando la información no está en esos contextos.
 
 ## Cómo correr la app
 
 ### Modo desarrollo (2 terminales)
 
-Requisitos: Python **3.12.12**, [uv](https://docs.astral.sh/uv/), Node 22 LTS, pnpm 10.x y Ollama en ejecución.
+Requisitos: Python **3.12.12**, [uv](https://docs.astral.sh/uv/), Node 22 LTS, pnpm 10.x, **React 19**, **Vite 8**, **TypeScript 6** y Ollama en ejecución (API de OpenAI opcional con `OPENAI_API_KEY`).
 
 **Terminal 1 — Backend FastAPI:**
 
@@ -72,6 +83,13 @@ pnpm --dir frontend dev
 ```
 
 El frontend queda disponible en `http://localhost:5173/`. El proxy de Vite reenvía `/api/*` al backend en `http://localhost:8000`.
+
+Pruebas del frontend (opcional):
+
+```bash
+pnpm --dir frontend test
+pnpm --dir frontend test:e2e
+```
 
 **Nota:** si `gemma4:e2b` no está disponible en tu instalación de Ollama, omite ese `pull` y usa solo `llama3.1:8b` en la interfaz.
 
@@ -129,42 +147,7 @@ El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con cat
 
 ## Limitaciones conocidas
 
-- Páginas muy largas pueden superar `num_ctx` (p. ej. 8192): Ollama puede **truncar** el contexto y afectar la respuesta.
+- Combinar **varios** `.md` completos en el prompt (top-k) puede acercar o superar `num_ctx` (p. ej. 8192): el motor puede **truncar** el contexto y afectar la respuesta más que con un solo documento corto.
+- Páginas muy largas aisladas también pueden superar `num_ctx`: Ollama puede **truncar** el contexto y afectar la respuesta.
 - BM25 a nivel archivo puede recuperar la **página equivocada** cuando varias comparten mucho vocabulario.
 - El tag `gemma4:e2b` puede no existir en el registro oficial de Ollama; si falla el `pull` o la inferencia, usar solo `llama3.1:8b` y documentar la limitación en la sustentación.
-
-## Roadmap (Módulo 2)
-
-- Chunking semántico del Markdown.
-- Embeddings y base vectorial (p. ej. Chroma o FAISS).
-- Re-ranking de candidatos recuperados.
-
-## Paridad funcional con Gradio — smoke checklist
-
-Verificar antes de la demo que la nueva UI cubre todas las funcionalidades de la interfaz Gradio original:
-
-| Funcionalidad | Ruta en la nueva UI | Estado |
-| --- | --- | --- |
-| Streaming token a token — Ollama | Chat → enviar pregunta con motor Ollama activo | ✅ |
-| Streaming token a token — OpenAI | Chat → motor OpenAI activo (requiere `OPENAI_API_KEY`) | ✅ |
-| Modo dual secuencial (Ollama → OpenAI) | Settings → activar ambos motores → `DualResponseView` | ✅ |
-| Selección de modelo Ollama | Settings → dropdown «Modelo Ollama» | ✅ |
-| Selección de modelo OpenAI | Settings → dropdown «Modelo OpenAI» (solo visible si API key presente) | ✅ |
-| Edición del prompt del sistema | Settings → accordion «Prompt del sistema» + botón Restaurar | ✅ |
-| Recarga del corpus (índice BM25) | Settings → botón «Recargar corpus» | ✅ |
-| Fuentes BM25 con score y URL | Panel de fuentes debajo de cada respuesta del asistente | ✅ |
-| Respuesta prudente fuera de alcance | El modelo responde «No tengo información suficiente» | ✅ |
-| Accesibilidad mínima | ARIA labels en español, navegación por teclado, modo oscuro | ✅ |
-
-## Guía de demo (15 minutos)
-
-| Tiempo | Contenido |
-| --- | --- |
-| **3 min** | Motivación del problema y recorrido del pipeline (raw → markdown → BM25 → FastAPI → React). Mostrar brevemente la arquitectura: sidebar de configuración, área de chat, panel de fuentes BM25. |
-| **7 min** | Cuatro preguntas en vivo en la UI React: una institucional, una de servicios, una de contacto y una **fuera de alcance** (comprobar la respuesta prudente / «No tengo información suficiente»). Mostrar el streaming token a token y las cards de fuentes BM25 con scores y URLs. |
-| **3 min** | Activar modo dual Ollama + OpenAI: mostrar las dos columnas con la misma pregunta, el aviso de coste dual y la diferencia de respuestas entre modelos. Editar el prompt del sistema en el accordion y restaurarlo. |
-| **2 min** | Limitaciones (`num_ctx`, ambigüedad BM25, modelos) y roadmap del módulo 2 (chunking, embeddings, base vectorial). |
-
-**Total: 15 minutos** (sin diapositivas; se usa la app React en `http://localhost:5173/` y, si aplica, el repositorio o informes en `data/processed/evaluaciones/`).
-
-> **Decisión de arquitectura**: la migración de Gradio a React + FastAPI está documentada en [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
