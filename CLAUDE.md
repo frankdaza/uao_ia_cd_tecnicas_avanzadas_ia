@@ -15,7 +15,8 @@ Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): c
 - Base documental: artefactos crudos en **`data/raw/`**; corpus textual canónico en **`data/markdown/`** (Markdown con front matter YAML). Conversión HTML→Markdown con **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para el front matter; **`pdfplumber`** opcional si hay PDF.
 - Orquestación LLM: **LangChain** *o* **LlamaIndex** (una opción por equipo).
 - Modelo: **Ollama** (local) *o* **API** (p. ej. OpenAI).
-- Interfaz de prueba: **Gradio**.
+- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (expone `PipelineQa` vía REST + SSE).
+- Interfaz: **React 19** + **Vite 7** + **TypeScript** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Idioma
 
@@ -25,6 +26,20 @@ Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): c
 ## Skills del repositorio
 
 Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/`). Mantén ambas carpetas alineadas al editar una skill. Para crear guías bajo **`backlog/docs/`**, usar la skill **`backlog-docs`** (`doc-<N>` y front matter al estilo [Backlog.md upstream](https://github.com/MrLesk/Backlog.md/blob/main/backlog/docs/doc-001%20-%20Testing-Style-Guide.md?plain=1)).
+
+| Skill | Uso |
+| --- | --- |
+| `uv-python-env` | Entorno `uv` y Python 3.12.12 |
+| `web-scraping` | Descarga a `data/raw/` |
+| `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
+| `text-chunking` | `data/markdown/` → `data/processed/` |
+| `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
+| `llm-backend` | Ollama o API + framework LLM + exposición vía SSE |
+| `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
+| `react-vite-qa-ui` | Interfaz React 19 + Vite 7 + shadcn/ui en `frontend/` |
+| `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui` |
+| `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
+| `backlog-docs` | Documentación en `backlog/docs/` |
 
 ## Reglas de Cursor
 

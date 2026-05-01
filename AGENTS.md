@@ -45,7 +45,7 @@ Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar 
 2. **`data/markdown/`**: corpus textual canónico en **Markdown con front matter YAML** (generado desde `raw/`).
 3. **`data/processed/`**: chunks (p. ej. JSONL) derivados de `markdown/` para Q&A.
 
-Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/app/` (Gradio).
+Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
 
 ## Stack (Módulo 1)
 
@@ -53,7 +53,8 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 - Markdown: **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para front matter; **`pdfplumber`** opcional para PDF.
 - Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo).
 - Modelo: **Ollama** (local) o **API** (p. ej. OpenAI).
-- Interfaz: **Gradio**.
+- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (expone `PipelineQa` vía REST + SSE).
+- Interfaz: **React 19** + **Vite 7** + **TypeScript** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Idioma y código
 
@@ -64,12 +65,14 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 
 | Archivo | Propósito |
 | --- | --- |
-| `language-conventions.mdc` | Idioma; identificadores ASCII en español |
+| `language-conventions.mdc` | Idioma; identificadores ASCII en español (Python) / inglés (TS/JS) |
 | `python-uv-environment.mdc` | Python 3.12.12 y `uv` |
-| `project-stack.mdc` | Dependencias y conversión a Markdown |
-| `project-structure.mdc` | Carpetas `data/` y `src/` |
+| `project-stack.mdc` | Stack completo: scraping, LLM, FastAPI, React+Vite+shadcn |
+| `project-structure.mdc` | Carpetas `data/`, `src/`, `frontend/` y flujo de petición |
 | `python-style.mdc` | Estilo en `**/*.py` |
 | `scraping-ethics.mdc` | Ética de scraping en `src/scraping/**` |
+| `frontend-style.mdc` | Estilo React+TS+Tailwind en `frontend/**` |
+| `api-fastapi.mdc` | Patrones FastAPI+SSE en `src/api/**` |
 | `backlog-workflow.mdc` | Cierre con Backlog MCP: `Done` sin archivar; `task_complete` solo si el usuario lo pide |
 | `backlog-docs-format.mdc` | Naming `doc-<N>` y front matter YAML en `backlog/docs/**/*.md` (estilo Backlog.md upstream) |
 
@@ -84,7 +87,9 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | Ollama o API + framework LLM |
-| `gradio-qa-ui` | Interfaz de prueba |
+| `llm-backend` | Ollama o API + framework LLM + exposición vía SSE |
+| `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
+| `react-vite-qa-ui` | Interfaz React 19 + Vite 7 + shadcn/ui en `frontend/` |
+| `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; código legacy en `src/app/legacy/` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |

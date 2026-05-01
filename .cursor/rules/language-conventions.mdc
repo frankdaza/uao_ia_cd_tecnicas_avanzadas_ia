@@ -10,9 +10,9 @@ alwaysApply: true
 - README, informes, mensajes de commit, PRs, issues, docstrings, comentarios, logs y textos de UI en **espanol latinoamericano** (registro neutro, sin localismos fuertes).
 - Los archivos fuente deben guardarse en **UTF-8**.
 
-## Codigo fuente (identificadores)
+## Codigo fuente Python (identificadores)
 
-- Variables, funciones, clases, modulos, paquetes, nombres de archivo y ramas de git en **espanol** con **solo caracteres ASCII** en el identificador: **no** usar la letra ene del espanol, vocales con tilde, dieresis ni otros diacriticos.
+- Variables, funciones, clases, modulos, paquetes, nombres de archivo `.py` y ramas de git en **espanol** con **solo caracteres ASCII** en el identificador: **no** usar la letra ene del espanol, vocales con tilde, dieresis ni otros diacriticos.
 - Si una palabra llevaria tilde o ene en espanol, sustituir por forma ASCII: `extraccion_html`, `numero_paginas`, `anio_fiscal`, `funcion_principal` (nunca `extracción`, `número`, `año`, `función` como parte del nombre).
 
 ```python
@@ -26,6 +26,32 @@ numero_chunks: int = 0
 ```
 
 - **Cadenas de texto**, **docstrings** y **comentarios** si pueden incluir tildes y ene donde corresponda al espanol.
+
+## Excepcion: Codigo fuente TypeScript/JavaScript (frontend)
+
+En archivos `frontend/**/*.{ts,tsx,js,jsx}` los **identificadores** siguen la **convencion del ecosistema React/TypeScript**: se usan en **ingles** y en **camelCase** o **PascalCase** segun el tipo de simbolo.
+
+- Componentes React: `PascalCase` en ingles (`AppShell`, `ChatInput`, `MessageBubble`).
+- Hooks: `camelCase` con prefijo `use` en ingles (`useModels`, `useReloadCorpus`).
+- Funciones y variables: `camelCase` en ingles (`streamQa`, `apiClient`, `isLoading`).
+- Tipos e interfaces: `PascalCase` en ingles (`ModelosRespuesta`, `FuenteBm25`, `QaPeticion`).
+
+```typescript
+// Bien (convencion React/TS en ingles)
+const useModels = () => { ... }
+interface FuenteBm25 { fileName: string; score: number; sourceUrl: string }
+
+// Mal (no usar espanol con tildes en identificadores TS)
+// const usarModelos = () => { ... }  // incorrecto
+```
+
+**Textos visibles en la UI, comentarios JSDoc y strings de mensajes** deben estar en **espanol latinoamericano** (pueden llevar tildes y ene):
+
+```typescript
+// Correcto: comentario y texto de UI en español
+/** Muestra el panel de configuración de modelos */
+const placeholder = '¿Cuál es tu pregunta sobre la Fundación Valle del Lili?'
+```
 
 ## Anglicismos tecnicos
 

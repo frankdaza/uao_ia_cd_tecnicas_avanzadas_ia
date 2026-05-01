@@ -1,0 +1,141 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+/* ============================================================
+   Tokens de diseño institucional — Fundación Valle del Lili
+   ============================================================ */
+
+:root {
+  /* Colores institucionales */
+  --color-primary: #6b21a8;
+  --color-primary-light: #9333ea;
+  --color-primary-dark: #4c1d95;
+  --color-secondary: #0d9488;
+  --color-secondary-light: #14b8a6;
+  --color-secondary-dark: #0f766e;
+
+  /* Superficies (modo claro) */
+  --color-background: #ffffff;
+  --color-surface: #f8f7ff;
+  --color-surface-2: #f0ebff;
+  --color-border: #e2d9f3;
+
+  /* Texto (modo claro) */
+  --color-text: #1f1235;
+  --color-text-muted: #6b5c8e;
+  --color-text-subtle: #9c8bba;
+
+  /* shadcn/ui variables (mapeadas a la paleta institucional) */
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-surface-2);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-surface-2);
+  --accent-foreground: var(--color-text);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: var(--color-border);
+  --input: var(--color-border);
+  --ring: var(--color-primary-light);
+  --radius: 0.75rem;
+
+  /* Tipografía */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.dark {
+  /* Superficies (modo oscuro) */
+  --color-background: #0f0a1a;
+  --color-surface: #1a1030;
+  --color-surface-2: #231545;
+  --color-border: #3d2a6e;
+
+  /* Texto (modo oscuro) */
+  --color-text: #f0eaf8;
+  --color-text-muted: #c4aee3;
+  --color-text-subtle: #9775cc;
+
+  /* shadcn/ui variables modo oscuro */
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-text);
+  --secondary: var(--color-surface-2);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-surface-2);
+  --accent-foreground: var(--color-text);
+  --border: var(--color-border);
+  --input: var(--color-border);
+}
+
+/* ============================================================
+   Reset y base
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-color: var(--color-border);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-subtle);
+}
+
+/* Animaciones de tokens en el chat */
+@keyframes fadeInToken {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.token-fade-in {
+  animation: fadeInToken 0.15s ease-out;
+}
+
+/* Gradiente sutil del fondo del área de chat */
+.chat-gradient {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    color-mix(in srgb, var(--color-primary) 8%, transparent),
+    transparent
+  );
+}

@@ -178,6 +178,7 @@ class PipelineQa:
         *,
         modelo: str | None = None,
         prompt_sistema: str | None = None,
+        num_ctx: int | None = None,
     ) -> RespuestaQa:
         ps = self._prompt_sistema if prompt_sistema is None else prompt_sistema
         t_inicio = time.perf_counter()
@@ -203,7 +204,7 @@ class PipelineQa:
             anterior = self._cliente.configuracion.modelo
             self._cliente.configuracion.modelo = modelo
         try:
-            texto = self._cliente.chat(ctx.mensajes)
+            texto = self._cliente.chat(ctx.mensajes, num_ctx=num_ctx)
         finally:
             if anterior is not None:
                 self._cliente.configuracion.modelo = anterior
@@ -247,6 +248,7 @@ class PipelineQa:
         modelo_openai: str | None,
         prompt_sistema: str | None = None,
         max_completion_tokens: int | None = None,
+        num_ctx: int | None = None,
     ) -> tuple[RespuestaQa | None, RespuestaQa | None]:
         """
         Una sola pasada BM25 + composición; luego Ollama y/o OpenAI en **serie**
@@ -294,7 +296,7 @@ class PipelineQa:
                 anterior = self._cliente.configuracion.modelo
                 self._cliente.configuracion.modelo = modelo_ollama
             try:
-                texto_o = self._cliente.chat(ctx.mensajes)
+                texto_o = self._cliente.chat(ctx.mensajes, num_ctx=num_ctx)
             finally:
                 if anterior is not None:
                     self._cliente.configuracion.modelo = anterior
@@ -323,6 +325,8 @@ class PipelineQa:
         ctx: ContextoInferencia,
         modelo_efectivo: str,
         t_llm: float,
+        *,
+        num_ctx: int | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """
         Una pasada BM25 ya resuelta en ``ctx``. Emite deltas y al final una
@@ -334,7 +338,7 @@ class PipelineQa:
             self._cliente.configuracion.modelo = modelo_efectivo
         acumulado = ""
         try:
-            for delta in self._cliente.chat_stream(ctx.mensajes):
+            for delta in self._cliente.chat_stream(ctx.mensajes, num_ctx=num_ctx):
                 acumulado += delta
                 yield acumulado, None
         finally:
@@ -430,6 +434,7 @@ class PipelineQa:
         *,
         modelo: str | None = None,
         prompt_sistema: str | None = None,
+        num_ctx: int | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """Genera tuplas ``(texto_acumulado, RespuestaQa | None)``.
 
@@ -464,7 +469,12 @@ class PipelineQa:
             return
 
         t_llm = time.perf_counter()
-        yield from self.stream_ollama_desde_contexto(ctx, modelo_efectivo, t_llm)
+        yield from self.stream_ollama_desde_contexto(
+            ctx,
+            modelo_efectivo,
+            t_llm,
+            num_ctx=num_ctx,
+        )
 
 
 def construir_pipeline_por_defecto(
