@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=servicios",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:22+00:00",
+  "hash_sha256": "f24b4531170c52d39d3e2f2e311b10a10534f42d78780afb118bb165602912ec",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:21 GMT"
+  }
+}

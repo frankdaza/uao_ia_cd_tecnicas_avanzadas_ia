@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/unidad-de-cuidado-intensivo-pediatrico-ucip/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:30+00:00",
+  "hash_sha256": "f73d5c340270d907c4cae466ee1cf11946420b91e343417714810890851d6c76",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:29 GMT"
+  }
+}

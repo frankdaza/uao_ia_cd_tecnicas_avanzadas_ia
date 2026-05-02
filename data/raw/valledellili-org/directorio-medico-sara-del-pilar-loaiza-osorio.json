@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sara-del-pilar-loaiza-osorio/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:16+00:00",
+  "hash_sha256": "b8eebf996f8b7897e14eaf88b656258be4f64b7b48d086cb01636e345ead483e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:15 GMT"
+  }
+}

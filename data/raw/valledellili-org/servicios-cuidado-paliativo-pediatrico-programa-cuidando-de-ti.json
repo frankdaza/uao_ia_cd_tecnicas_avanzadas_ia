@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cuidado-paliativo-pediatrico-programa-cuidando-de-ti/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:49:55+00:00",
+  "hash_sha256": "1639a58c282af0add0897fb381c26ac0d2e5a99d1bd20112db4fd690d9819040",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:49:54 GMT"
+  }
+}

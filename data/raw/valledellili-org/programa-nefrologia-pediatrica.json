@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-nefrologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:58+00:00",
+  "hash_sha256": "44207cf691db1235af43f7259a7f1aae5f538bc9eda4e88a7cbed56fe0ec4cc4",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:57 GMT"
+  }
+}

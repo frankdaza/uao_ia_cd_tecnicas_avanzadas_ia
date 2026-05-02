@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/susan-marcela-guerrero-ramirez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:47+00:00",
+  "hash_sha256": "70899df625908ead6dabbefdad85595b840d52fabe082f0b857c151308f6f985",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:46 GMT"
+  }
+}

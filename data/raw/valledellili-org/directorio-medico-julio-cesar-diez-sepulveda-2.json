@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/julio-cesar-diez-sepulveda-2/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:29+00:00",
+  "hash_sha256": "d7c68a8413e397c30a9899538116c90b626e67a0f89cbc967b75baef70981362",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:28 GMT"
+  }
+}

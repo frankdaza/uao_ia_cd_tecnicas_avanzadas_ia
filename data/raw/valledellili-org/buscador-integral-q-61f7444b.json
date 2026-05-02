@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=premio",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:37+00:00",
+  "hash_sha256": "4f4649ae1bc72969726b66ba19bd81dbe203d2ebbf58bb9d31212daf6d4f3868",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:36 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=hematoncologia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:17:41+00:00",
+  "hash_sha256": "6e7d47d9fd70df1c9678264630633dc2cba057964def9417c9754356850dd11f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:17:40 GMT"
+  }
+}

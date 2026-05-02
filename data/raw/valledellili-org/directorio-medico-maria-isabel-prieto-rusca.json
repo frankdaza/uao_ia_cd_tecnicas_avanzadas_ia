@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-isabel-prieto-rusca/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:34+00:00",
+  "hash_sha256": "213534f6570e5d917eb668061c07f7d1289d58d6071e98d0c69a4da190e3907e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:33 GMT"
+  }
+}

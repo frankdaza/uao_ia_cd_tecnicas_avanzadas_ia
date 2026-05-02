@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/gastroenterologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:19+00:00",
+  "hash_sha256": "a1e1e9e4c28996181a1d28189bfe5f7cab9fcdf139b5dc3223337a183053bc20",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:18 GMT"
+  }
+}

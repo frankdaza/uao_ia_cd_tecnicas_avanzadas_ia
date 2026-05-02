@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-58-el-servicio-de-pediatria-al-cuidado-integral-de-los-ninos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:17+00:00",
+  "hash_sha256": "cac3e80337fbb68652bed17f605a344b28f6aebf4714218f9ce4b378f672473d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:16 GMT"
+  }
+}

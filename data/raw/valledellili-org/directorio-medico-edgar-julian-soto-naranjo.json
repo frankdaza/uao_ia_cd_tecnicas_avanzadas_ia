@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/edgar-julian-soto-naranjo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:50+00:00",
+  "hash_sha256": "f5fe2872c85f78c1f4094e2a49f96a0d3998aeaf81e587cba883fbcd09841d47",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:49 GMT"
+  }
+}

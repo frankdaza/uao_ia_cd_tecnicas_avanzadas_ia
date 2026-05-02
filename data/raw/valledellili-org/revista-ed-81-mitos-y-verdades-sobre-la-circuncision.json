@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-81-mitos-y-verdades-sobre-la-circuncision/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:05+00:00",
+  "hash_sha256": "7b97303acd08e03a82d05a9d0057140213d3895a45d619f006f6f9ef523b2db3",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:03 GMT"
+  }
+}

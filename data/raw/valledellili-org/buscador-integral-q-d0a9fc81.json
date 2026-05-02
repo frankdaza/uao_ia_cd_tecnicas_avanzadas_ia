@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=mastologia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:08+00:00",
+  "hash_sha256": "b349a34f9730ef005edb8744238f1814b22f5473ccb0366686d9d9650705f0cc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:06 GMT"
+  }
+}

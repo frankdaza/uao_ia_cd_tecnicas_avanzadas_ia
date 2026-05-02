@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-esteban-paz-munoz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:56+00:00",
+  "hash_sha256": "ea903c28be7cd614bc9bd560ca042f13196e3ce863a8f9428488b01742d0de22",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:55 GMT"
+  }
+}

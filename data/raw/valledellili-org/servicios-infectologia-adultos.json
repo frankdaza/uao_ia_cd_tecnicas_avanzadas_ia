@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/infectologia-adultos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:47+00:00",
+  "hash_sha256": "289a37cb7b79e498ed5f4d03aa46dd2065aad5931f6d8a2c204cc966d398449f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:46 GMT"
+  }
+}

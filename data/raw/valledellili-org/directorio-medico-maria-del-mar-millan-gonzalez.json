@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-del-mar-millan-gonzalez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:57+00:00",
+  "hash_sha256": "4b07dc1db48041a5588750319ef67c0421bad3031b54d688851b08102ace4f31",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:56 GMT"
+  }
+}

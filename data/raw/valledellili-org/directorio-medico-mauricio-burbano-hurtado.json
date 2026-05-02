@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/mauricio-burbano-hurtado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:06+00:00",
+  "hash_sha256": "e1a013a564a10b6d9fc39bec52fe1685c6799522e3dd4e0b6843d05a84524283",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:05 GMT"
+  }
+}

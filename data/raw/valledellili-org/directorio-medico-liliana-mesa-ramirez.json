@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/liliana-mesa-ramirez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:23+00:00",
+  "hash_sha256": "994a2841bd7a9b6449856e887271804b9b1387030a1aa97828451502e086caae",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:22 GMT"
+  }
+}

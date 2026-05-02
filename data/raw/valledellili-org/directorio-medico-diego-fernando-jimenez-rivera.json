@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diego-fernando-jimenez-rivera/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:20+00:00",
+  "hash_sha256": "30a2d504941f44666b27cfbf013af6836d41ea5855a412ce42d2af4bcf397253",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:19 GMT"
+  }
+}

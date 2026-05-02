@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/subestudio-01a-seguridad-y-eficacia-de-tratamientos-combinados-con-opevesostat-mk-5684-u-opevesostat-solo-en-participantes-con-cancer-de-prostata-metastasico-resistente-a-la-castracion-cprcm-mk/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:46:43+00:00",
+  "hash_sha256": "c3b5dfdffd5737076f7d827992d1b6e53285748b95ea169d1e9f5691b49982a3",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:46:42 GMT"
+  }
+}

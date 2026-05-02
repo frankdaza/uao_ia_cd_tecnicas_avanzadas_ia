@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/myriam-lili-ceballos-posada/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:59+00:00",
+  "hash_sha256": "c8b22cd1abbc6f80cbe01eb50975fa781a6097aebf130e58fb1cfe2194cec437",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:58 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=ortopedia-y-traumatologia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:59:13+00:00",
+  "hash_sha256": "80eb665c3afb02973e7adba063d1fa1fc8b3fe81c0bf3ca1ae54d3acf666677f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:59:12 GMT"
+  }
+}

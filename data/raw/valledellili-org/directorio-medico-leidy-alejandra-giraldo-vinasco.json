@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/leidy-alejandra-giraldo-vinasco/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:45+00:00",
+  "hash_sha256": "c1a3950d5194d72928936c560ef19a5a8a97bf2fa7a9b50f52ee5dd5a3241f88",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:44 GMT"
+  }
+}

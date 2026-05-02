@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/aula-lili-fvl-testimonio-lina-fernanda-mendez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:02+00:00",
+  "hash_sha256": "7304f805284f8ded653973c89a836219f771548fd6c95a1bcb3760ff22268b1e",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:01 GMT"
+  }
+}

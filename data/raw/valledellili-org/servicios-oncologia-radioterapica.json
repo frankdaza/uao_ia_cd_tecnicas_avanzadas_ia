@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/oncologia-radioterapica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:39+00:00",
+  "hash_sha256": "ca7075a3a3b779c42d35b38709ed6354e018e05de8390420647ab43a2f828404",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:38 GMT"
+  }
+}

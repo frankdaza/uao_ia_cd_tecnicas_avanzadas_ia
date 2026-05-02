@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/clara-ines-dorado-olarte/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:05+00:00",
+  "hash_sha256": "a619c49e69888fe83141d2f8c1046e679795e5688af47d9f05e4c44f4e679d63",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:04 GMT"
+  }
+}

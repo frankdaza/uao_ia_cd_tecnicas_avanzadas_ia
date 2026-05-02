@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/ortopedia-y-traumatologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:42+00:00",
+  "hash_sha256": "b56f4009e617f70e7135ca9b6f478d5c827ef4f86d8502a9fe46e465aff6b79b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:41 GMT"
+  }
+}

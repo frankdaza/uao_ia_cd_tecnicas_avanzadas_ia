@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/uriel-largo-rojas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:03+00:00",
+  "hash_sha256": "88e37974a54f17b63ae8fb433a13286a96510fa84bb396f46e6f00b2ea6f204d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:02 GMT"
+  }
+}

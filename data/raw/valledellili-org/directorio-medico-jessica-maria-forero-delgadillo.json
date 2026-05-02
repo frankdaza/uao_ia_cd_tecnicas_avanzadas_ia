@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jessica-maria-forero-delgadillo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:05:07+00:00",
+  "hash_sha256": "add29420b26ec1565a1edf7c3b2e95ff9d630b119ca9b3ab2b564fa00f0090cb",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:05:06 GMT"
+  }
+}

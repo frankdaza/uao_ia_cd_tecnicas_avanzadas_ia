@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/eventos/18o-edicion-referenciacion-institucional/jornada",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:12:45+00:00",
+  "hash_sha256": "2599aab28c88cf8fc6c2e0f3438b2923b10ac76351e83b2fb150e8c089f702f6",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:12:44 GMT"
+  }
+}

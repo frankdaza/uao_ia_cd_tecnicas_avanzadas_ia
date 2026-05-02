@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=prevencion",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:53+00:00",
+  "hash_sha256": "1733d0311d4f8752db31d0140348079c780caff2ecba1302d41123962c951094",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:52 GMT"
+  }
+}

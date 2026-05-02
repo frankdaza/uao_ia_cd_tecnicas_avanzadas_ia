@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/mallerly-natalia-ledezma-cifuentes/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:05:57+00:00",
+  "hash_sha256": "e1e352608bed0384879eca1cbc317896654454a20a2c15e08410e40455d094da",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:05:56 GMT"
+  }
+}

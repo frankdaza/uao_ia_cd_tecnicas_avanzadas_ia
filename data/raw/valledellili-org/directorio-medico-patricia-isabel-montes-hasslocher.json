@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/patricia-isabel-montes-hasslocher/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:43+00:00",
+  "hash_sha256": "b41604e574522ff0d1e8f83b2e461ace1a0d912b9d8fc162029236fc6e3ec966",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:42 GMT"
+  }
+}

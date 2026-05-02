@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/linea-de-transparencia-sistema-de-gestion-de-riesgos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:42:44+00:00",
+  "hash_sha256": "bfe51d26c913971f42ce1b3dcb7db272fc6ccf5b170c03645143f9102cf81946",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:42:43 GMT"
+  }
+}

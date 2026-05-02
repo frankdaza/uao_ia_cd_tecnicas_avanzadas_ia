@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/cuidados-respiratorios/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:48+00:00",
+  "hash_sha256": "6c5919833c87f54af4966a95b8194bd3fcd1bbacb5e4d28cff55ecc1e74bbc15",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:47 GMT"
+  }
+}

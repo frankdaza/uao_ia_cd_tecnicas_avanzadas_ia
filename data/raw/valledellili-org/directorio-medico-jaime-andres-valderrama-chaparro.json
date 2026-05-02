@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jaime-andres-valderrama-chaparro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:35+00:00",
+  "hash_sha256": "135f1f97ebda4f9484b39bab304d5bd2ec949790b600585674efdf6110e798b4",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:34 GMT"
+  }
+}

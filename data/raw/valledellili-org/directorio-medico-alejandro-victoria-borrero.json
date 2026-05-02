@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alejandro-victoria-borrero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:52+00:00",
+  "hash_sha256": "cd73a41a024b308b0c723060318c89135484116c12aee004485c615f6823a42d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:52 GMT"
+  }
+}

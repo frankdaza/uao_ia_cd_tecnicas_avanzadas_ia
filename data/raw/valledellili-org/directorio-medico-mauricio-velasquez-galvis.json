@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/mauricio-velasquez-galvis/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:14+00:00",
+  "hash_sha256": "25096fd454f2a439883ce67f14c93c04379de57542e0c482e7ca1be171a74131",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:14 GMT"
+  }
+}

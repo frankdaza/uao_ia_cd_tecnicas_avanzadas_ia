@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/sacituzumab-tirumotecan-mk-2870-frente-a-terapia-combinada-de-pemetrexed-y-carboplatino-en-participantes-con-cancer-de-pulmon-de-celulas-no-pequenas-cpcnp-no-escamoso-avanzado-con-mutacion-del-fac/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:46:40+00:00",
+  "hash_sha256": "ed044cbec688c2656a1380ad539327303df64e3272a90ebd759f80385584a032",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:46:39 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fernando-montealegre-castillo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:09+00:00",
+  "hash_sha256": "51cd1e2257a774092373456c7681ed82d3e19fc9d39e75cdc5de15ba44bfd744",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:08 GMT"
+  }
+}

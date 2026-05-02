@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/la-fundacion-valle-del-lili-una-institucion-de-salud-con-vocacion-social-y-humanitaria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:45+00:00",
+  "hash_sha256": "ce293fd5bdd8ef429c43f8265e1d86bdaf198b343cc227b930c345d48f1e4883",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:44 GMT",
+    "Server": "Apache"
+  }
+}

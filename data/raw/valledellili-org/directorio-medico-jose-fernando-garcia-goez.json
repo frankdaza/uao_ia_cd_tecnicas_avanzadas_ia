@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jose-fernando-garcia-goez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:00+00:00",
+  "hash_sha256": "7c7d831ae1a0096d1cfb8beb12f9039a9269a10b34538e8bf5e1a3bd6228c23f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:28:59 GMT"
+  }
+}

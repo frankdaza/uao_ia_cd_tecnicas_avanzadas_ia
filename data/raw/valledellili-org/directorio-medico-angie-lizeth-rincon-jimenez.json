@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angie-lizeth-rincon-jimenez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:32+00:00",
+  "hash_sha256": "0b2b11bf205ffc1fd01746cdfe0f554499c8661e071e434e490baf90550abc09",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:31 GMT"
+  }
+}

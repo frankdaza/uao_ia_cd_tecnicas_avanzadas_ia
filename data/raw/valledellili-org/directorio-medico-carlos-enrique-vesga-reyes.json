@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-enrique-vesga-reyes/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:00:24+00:00",
+  "hash_sha256": "35a33b5a4d1c33e63614491438dd4067bb1c188ac2054b630ec27b3facbacc65",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:00:23 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/javier-andres-carvajal-valencia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:21+00:00",
+  "hash_sha256": "59ba81646b8d0b1976df8adb329ae792260a020f78c3de48e0263736db26ce73",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:20 GMT"
+  }
+}

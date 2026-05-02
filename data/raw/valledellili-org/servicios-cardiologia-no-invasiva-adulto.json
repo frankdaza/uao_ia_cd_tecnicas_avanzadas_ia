@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cardiologia-no-invasiva-adulto/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:40+00:00",
+  "hash_sha256": "02bd43cddc02b833c9453b0374aa75c2e953b89867e29e32ae12ca47b1a4b84c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:39 GMT"
+  }
+}

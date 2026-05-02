@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/eventos/18o-edicion-referenciacion-institucional/acreditacion",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:12:38+00:00",
+  "hash_sha256": "2dc7e5f31013c60b0d524fc429508ce15191b29ee363aa64b9683b3a83a20fce",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:12:37 GMT"
+  }
+}

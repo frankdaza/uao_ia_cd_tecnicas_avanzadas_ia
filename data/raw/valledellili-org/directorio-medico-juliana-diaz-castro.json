@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juliana-diaz-castro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:17+00:00",
+  "hash_sha256": "5456bc46fbe91994488b684b3fdc39e2c906a229513bf183236e956ed105dba1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:16 GMT"
+  }
+}

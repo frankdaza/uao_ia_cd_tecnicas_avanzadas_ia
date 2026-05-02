@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ruben-eduardo-lasso-palomino/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:01+00:00",
+  "hash_sha256": "d321e0a7821f4884684eb92aecc4e1ae5418fa685515fcf43adb7f904dcc3e9b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:00 GMT"
+  }
+}

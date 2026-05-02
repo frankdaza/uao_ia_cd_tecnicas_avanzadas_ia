@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/hepatologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:41+00:00",
+  "hash_sha256": "0df73f23defa396d038fe72f1432fe72f1c14ca3fe57dbe2a5eae3516e9294fc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:40 GMT"
+  }
+}

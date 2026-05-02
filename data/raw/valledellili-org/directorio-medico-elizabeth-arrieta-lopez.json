@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/elizabeth-arrieta-lopez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:20+00:00",
+  "hash_sha256": "e3a1aa23e5a964f9375c965b1f8b99d0f568e1f7354426d5b26164786813d1b0",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:20 GMT"
+  }
+}

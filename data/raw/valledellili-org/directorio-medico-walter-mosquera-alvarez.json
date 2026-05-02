@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/walter-mosquera-alvarez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:06+00:00",
+  "hash_sha256": "f93c1e46328db4aac5895cd01bf9b11496d09c4451ee4045a89dc42c67d3f87d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:05 GMT"
+  }
+}

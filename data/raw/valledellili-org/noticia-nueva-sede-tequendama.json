@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/noticia-nueva-sede-tequendama/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:35+00:00",
+  "hash_sha256": "7c037ae392e77fe027eed0dbcbd016f29d807616ddfba342b9fba35865c2d474",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:34 GMT"
+  }
+}

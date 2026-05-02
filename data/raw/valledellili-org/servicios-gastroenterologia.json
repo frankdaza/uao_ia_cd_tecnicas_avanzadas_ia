@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/gastroenterologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:44:40+00:00",
+  "hash_sha256": "94f39e836ef4fb3d02ceed9b59f31871e40f6ac8f52cf88de9101aa75aef524b",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:44:39 GMT"
+  }
+}

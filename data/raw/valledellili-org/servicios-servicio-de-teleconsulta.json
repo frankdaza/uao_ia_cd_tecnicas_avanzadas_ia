@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/servicio-de-teleconsulta/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:21+00:00",
+  "hash_sha256": "153759f61870b099e236fc1a36ffa1798c37047533212f90fa7e355cdbfaf633",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:20 GMT"
+  }
+}

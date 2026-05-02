@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juliana-andrea-mendoza-escobar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:55:02+00:00",
+  "hash_sha256": "856128afb0b1facaf13d92f7cad6e5e0575a9a64e46e033e3d5cf66f6e6472ac",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:55:01 GMT"
+  }
+}

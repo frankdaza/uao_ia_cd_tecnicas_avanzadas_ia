@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angelica-maria-restrepo-rivera/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:15+00:00",
+  "hash_sha256": "ece873e10e6886358ee6b36fd2edb567a20934551d7267ac9ac187d645649d97",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:14 GMT"
+  }
+}

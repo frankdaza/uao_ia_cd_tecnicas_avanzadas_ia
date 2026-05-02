@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/cuidados-paliativos-pediatricos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:56+00:00",
+  "hash_sha256": "0325a384401d4e7c48cd713331c90263c5fb98db4cc2a1df57bc48abfa7b4811",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:55 GMT"
+  }
+}

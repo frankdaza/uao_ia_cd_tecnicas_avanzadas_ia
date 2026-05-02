@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-mauricio-mendoza-brinez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:42+00:00",
+  "hash_sha256": "0a501252560d9278c5b8e6affac9040342b3cb0836af8be1035cdf52f7db77d4",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:41 GMT"
+  }
+}

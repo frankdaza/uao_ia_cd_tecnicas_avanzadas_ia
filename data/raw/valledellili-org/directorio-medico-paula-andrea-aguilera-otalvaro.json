@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/paula-andrea-aguilera-otalvaro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:49+00:00",
+  "hash_sha256": "51357719b1651efbd1ab3d715f705af99bcb5cd39304e476ab1c81e85309d2f1",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:48 GMT"
+  }
+}

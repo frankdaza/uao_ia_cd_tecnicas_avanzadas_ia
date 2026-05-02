@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fausto-alonso-diazgranados-suarez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:44:12+00:00",
+  "hash_sha256": "b482e15851eb7f8b7999b3dd5d901f43a12b5e82e08b985f22a1530554977163",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:44:11 GMT"
+  }
+}

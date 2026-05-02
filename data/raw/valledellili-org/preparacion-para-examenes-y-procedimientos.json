@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/preparacion-para-examenes-y-procedimientos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:43:27+00:00",
+  "hash_sha256": "b1a309e30dd13ab256a7dd2fbf19bc0f7f08e77ec97bfe6bbf8dcccd7ad91c82",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:43:26 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/daniela-moritz-jaramillo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:08+00:00",
+  "hash_sha256": "a7b41eeef352dc78c2324b2baf810e21cb60b7b22dbf19eba23c96510c954d01",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:07 GMT"
+  }
+}

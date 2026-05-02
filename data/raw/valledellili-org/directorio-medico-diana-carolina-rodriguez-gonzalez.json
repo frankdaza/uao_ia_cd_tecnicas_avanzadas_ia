@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diana-carolina-rodriguez-gonzalez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:58+00:00",
+  "hash_sha256": "64fb22703ea08c82aab19ceb2540280e9eebd1500c1ba0b11606bcf2f3d4ae47",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:57 GMT"
+  }
+}

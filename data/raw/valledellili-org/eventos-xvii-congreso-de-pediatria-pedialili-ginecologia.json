@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/eventos/xvii-congreso-de-pediatria-pedialili/ginecologia",
+  "http_status": 200,
+  "content_type": "image/png",
+  "fecha_extraccion": "2026-05-01T02:12:28+00:00",
+  "hash_sha256": "b8d43cfd96e4ec9eb1d82b47671a13bf31cd22d3276f2af88b82676e0b8d6a54",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "image/png",
+    "Date": "Fri, 01 May 2026 02:12:28 GMT",
+    "Last-Modified": "Thu, 15 Jan 2026 22:28:39 GMT"
+  }
+}

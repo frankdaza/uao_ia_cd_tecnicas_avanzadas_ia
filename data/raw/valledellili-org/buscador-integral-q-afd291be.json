@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=cuidados-intensivos",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:37+00:00",
+  "hash_sha256": "b6074b0468e397d9d7107e46be371c629af7f5f417ed0e2a852cf87c4df81562",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:36 GMT"
+  }
+}

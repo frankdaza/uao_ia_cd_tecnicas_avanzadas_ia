@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/estudio-de-fase-2-3-adaptativo-doble-ciego-controlado-con-placebo-para-evaluar-la-eficacia-y-la-seguridad-de-vx-147-en-sujetos-adultos-y-pediatricos-con-enfermedad-renal-proteinurica-053/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:46:13+00:00",
+  "hash_sha256": "00b2fb0362a55beaa02fb595b79c9aaa36ef0b5af8315a6886efdb22bbd60225",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:46:12 GMT"
+  }
+}

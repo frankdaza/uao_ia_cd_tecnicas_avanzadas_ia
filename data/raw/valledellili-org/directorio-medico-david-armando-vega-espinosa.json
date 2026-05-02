@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/david-armando-vega-espinosa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:12+00:00",
+  "hash_sha256": "50b0435e1b9b0c87c9bd0a2348476ce49b3577c0e7e6a3bb0702ce6b6865d116",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:12 GMT"
+  }
+}

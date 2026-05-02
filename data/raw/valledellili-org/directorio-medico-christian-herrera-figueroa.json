@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/christian-herrera-figueroa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:15+00:00",
+  "hash_sha256": "746593c2271e459f7e7e91cc7a05f98f9886ab047dc209b22b8dde1ecf02171c",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:14 GMT"
+  }
+}

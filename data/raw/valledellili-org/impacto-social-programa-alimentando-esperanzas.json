@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/impacto-social/programa-alimentando-esperanzas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:24+00:00",
+  "hash_sha256": "29434d4b4338c6081a3dfe9c0807d5d2a706d092e06fad533690ce7e3eeba9d6",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:23 GMT"
+  }
+}

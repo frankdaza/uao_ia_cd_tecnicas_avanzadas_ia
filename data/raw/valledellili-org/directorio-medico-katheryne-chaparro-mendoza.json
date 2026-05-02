@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/katheryne-chaparro-mendoza/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:32+00:00",
+  "hash_sha256": "7ddf6f409d5a045b2aae4cb2e824d93b46ecd834daaf21c3bd5b3a2ded6426bb",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:31 GMT"
+  }
+}

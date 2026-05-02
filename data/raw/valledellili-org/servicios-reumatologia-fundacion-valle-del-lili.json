@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/servicios/reumatologia-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:12+00:00",
+  "hash_sha256": "05dc0aca3b33bbc294f22a742947d9ae7131e5d442b732075d28b120846ade23",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:11 GMT",
+    "Server": "Apache"
+  }
+}

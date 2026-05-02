@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/atencion-al-paciente/solicitar-cita/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:22:34+00:00",
+  "hash_sha256": "5512dc3f74b77157f93c9116a233a55051729e5c62b901ab62f7e58ce2c7b3b6",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:22:33 GMT"
+  }
+}

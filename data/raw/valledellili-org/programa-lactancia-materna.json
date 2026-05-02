@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-lactancia-materna/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:41+00:00",
+  "hash_sha256": "e8d7d97015d63f46b1a76b1df431a22f9c7473c5d0a0c6540fb4af5691e8f2e9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:58:39 GMT"
+  }
+}

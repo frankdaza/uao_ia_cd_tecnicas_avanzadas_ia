@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jorge-guillermo-velasquez-norena/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:04+00:00",
+  "hash_sha256": "625304d4cdf3af86468f29ff0164c46b197eaf76c260121da05fbd172b9ed43a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:03 GMT"
+  }
+}

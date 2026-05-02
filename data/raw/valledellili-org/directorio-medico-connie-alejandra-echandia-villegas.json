@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/connie-alejandra-echandia-villegas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:42+00:00",
+  "hash_sha256": "31c02927d36eb510e1fa9237a67013e9456de39e83fcba5b109242d448ff3afb",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:41 GMT"
+  }
+}

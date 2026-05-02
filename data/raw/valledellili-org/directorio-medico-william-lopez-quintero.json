@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/william-lopez-quintero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:57+00:00",
+  "hash_sha256": "87dfc2a52fdc0681de109eb57c3a6165288b524904e0eccda7a18ea370949e45",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:56 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jairo-alberto-garcia-abadia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:25+00:00",
+  "hash_sha256": "d3220d47707d89d3611609d2329783d89b1e300f455baede01d7989ee88a196f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:24 GMT"
+  }
+}

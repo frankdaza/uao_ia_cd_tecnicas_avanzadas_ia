@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/joaquin-olmedo-lemos-toro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:44:15+00:00",
+  "hash_sha256": "29bade61d6dd35163e2ac848e6eb405db14217f737d662c759656617ed55fd9f",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:44:14 GMT"
+  }
+}

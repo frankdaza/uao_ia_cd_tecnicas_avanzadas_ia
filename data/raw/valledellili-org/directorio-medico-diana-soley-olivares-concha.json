@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diana-soley-olivares-concha/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:07+00:00",
+  "hash_sha256": "7f746ae0185aed05fe96c3dab87abf23194f14d7ff75615aa6cd87921d90b081",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:06 GMT"
+  }
+}

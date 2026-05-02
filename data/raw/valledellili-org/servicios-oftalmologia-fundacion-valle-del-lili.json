@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/servicios/oftalmologia-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:33+00:00",
+  "hash_sha256": "1838e7d9d135498f72bfae8d07f5c83293645592b22aeb857533f91d171e8baf",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:32 GMT",
+    "Server": "Apache"
+  }
+}

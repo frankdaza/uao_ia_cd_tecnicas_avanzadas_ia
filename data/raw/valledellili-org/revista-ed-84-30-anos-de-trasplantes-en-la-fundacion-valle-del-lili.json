@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/revista-ed-84-30-anos-de-trasplantes-en-la-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:55+00:00",
+  "hash_sha256": "e65d2dc8342e3f175205cc7fb439f6bdf8672ab466e3c0b7facc74ed89a97ce1",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:54 GMT",
+    "Server": "Apache"
+  }
+}

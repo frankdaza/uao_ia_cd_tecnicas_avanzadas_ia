@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/rodrigo-alfredo-lemus-zepeda/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:58+00:00",
+  "hash_sha256": "401dbc792b0e9a7b800d495e8987b0124c3e83cb13799b74835b5b363257e779",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:57 GMT"
+  }
+}

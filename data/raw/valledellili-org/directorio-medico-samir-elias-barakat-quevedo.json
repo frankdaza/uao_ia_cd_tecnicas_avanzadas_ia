@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/samir-elias-barakat-quevedo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:57+00:00",
+  "hash_sha256": "4b3900edfd34d14a8bed27c75e69a8925cacd7c222a353e6bbc06c2a119fe3bd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:56 GMT"
+  }
+}

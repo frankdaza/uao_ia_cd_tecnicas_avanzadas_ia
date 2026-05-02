@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maudy-suset-aguilar-franco/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:24+00:00",
+  "hash_sha256": "297b9a1fca300113567a3485fff48c1ddd0651b6fcb23e88eb35825883e69325",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:23 GMT"
+  }
+}

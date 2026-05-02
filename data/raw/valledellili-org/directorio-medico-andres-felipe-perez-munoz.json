@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-felipe-perez-munoz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:26+00:00",
+  "hash_sha256": "60f730dd1442dfaf6ba3bb695d68d479b57441baa4aaa4ff9c357ab94feb2f14",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:24 GMT"
+  }
+}

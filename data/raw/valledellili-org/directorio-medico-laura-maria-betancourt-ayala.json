@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/laura-maria-betancourt-ayala/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:50+00:00",
+  "hash_sha256": "2d27bf3a491c4b8260cb21541ad94853105e5a236de83be437ffeb2998892578",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:49 GMT"
+  }
+}

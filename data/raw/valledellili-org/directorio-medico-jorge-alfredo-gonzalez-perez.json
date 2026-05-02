@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jorge-alfredo-gonzalez-perez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:05:19+00:00",
+  "hash_sha256": "1574b67f920cc4bfa375d9c9f50f100fe925b9ab1764e0b6eb5e86de34d84fcd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:05:18 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-diego-velez-londono/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:11+00:00",
+  "hash_sha256": "b816b499a9054d61d2038f87ff8d1f07c655376af3711996c52611793ddc0950",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:10 GMT"
+  }
+}

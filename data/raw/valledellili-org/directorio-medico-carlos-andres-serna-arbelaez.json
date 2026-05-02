@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-andres-serna-arbelaez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:32+00:00",
+  "hash_sha256": "d7063b2c0f6cf1689eec36b95bcad073497ae954c7f1dfb006a2018b1befe78d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:31 GMT"
+  }
+}

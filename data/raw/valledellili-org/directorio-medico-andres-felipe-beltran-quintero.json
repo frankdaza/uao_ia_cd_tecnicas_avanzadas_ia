@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-felipe-beltran-quintero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:13:52+00:00",
+  "hash_sha256": "e45318f2fbc0d6106a3d88a44161015d9ba9fdb0a5ca43221a7d1fa07a546bfb",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:13:51 GMT"
+  }
+}

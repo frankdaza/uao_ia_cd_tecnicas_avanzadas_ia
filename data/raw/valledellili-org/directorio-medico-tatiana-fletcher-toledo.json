@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/tatiana-fletcher-toledo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:18+00:00",
+  "hash_sha256": "12e1d9d13993a61d734d235b1d1321823fab01ecfbfa875003aa8679d1740b5f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:17 GMT"
+  }
+}

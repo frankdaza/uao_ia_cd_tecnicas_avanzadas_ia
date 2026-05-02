@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-al-dia/cat/educacion-al-paciente/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:45+00:00",
+  "hash_sha256": "8f81f2e9831a1c17b082281ace26cbb234e168d60382455764807d036ad43bc1",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:44 GMT"
+  }
+}

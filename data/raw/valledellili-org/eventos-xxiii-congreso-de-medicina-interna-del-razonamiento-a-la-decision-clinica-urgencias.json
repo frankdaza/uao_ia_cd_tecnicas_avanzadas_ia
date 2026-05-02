@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/eventos/xxiii-congreso-de-medicina-interna-del-razonamiento-a-la-decision-clinica/urgencias",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:13:19+00:00",
+  "hash_sha256": "705c2a45b421e3d5447d7531a9d6703b28fe1335e4ba74217f23d4f00ac19c11",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:13:18 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/pablo-andres-moncada-vallejo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:54+00:00",
+  "hash_sha256": "96444b0e6aa5dc2bb903b56f3eca2e3852fb5cabf1442d08a3bce204844ba3c8",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:53 GMT"
+  }
+}

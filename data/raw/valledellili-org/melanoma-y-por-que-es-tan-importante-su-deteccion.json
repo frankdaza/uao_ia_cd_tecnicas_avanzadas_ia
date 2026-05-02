@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/melanoma-y-por-que-es-tan-importante-su-deteccion/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:03+00:00",
+  "hash_sha256": "40895a710b7e87ff1bb4b87d4b396417f4e0f1bddaf258c412725511b0010e9f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:02 GMT"
+  }
+}

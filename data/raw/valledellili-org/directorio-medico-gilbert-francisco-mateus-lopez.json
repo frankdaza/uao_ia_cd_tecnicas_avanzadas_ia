@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/gilbert-francisco-mateus-lopez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:31+00:00",
+  "hash_sha256": "70bc563a3109ad982a36483dd93f76ac2551aa9e0ab34ea90e045efae34e4c2f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:30 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=educacion-medica",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:40+00:00",
+  "hash_sha256": "21d94c266ab17c44c51c16abc15fe18c78e982bdb55cdd967cb4541f74f7006e",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:39 GMT"
+  }
+}

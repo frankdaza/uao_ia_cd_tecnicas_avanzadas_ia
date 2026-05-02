@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sonia-constanza-bersh-toro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:41+00:00",
+  "hash_sha256": "68f9f921a437ed5e48757fca44fa1272880289c11d265d1c776bcd07c00adb2d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:40 GMT"
+  }
+}

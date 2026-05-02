@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/monica-patricia-torres-delgado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:32+00:00",
+  "hash_sha256": "d9b0f4c7a94e253abb746962c8af4490aab8dd7c7644f25a8e542be4ac9a1cb8",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:32 GMT"
+  }
+}

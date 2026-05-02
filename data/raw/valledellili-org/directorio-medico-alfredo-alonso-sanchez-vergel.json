@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alfredo-alonso-sanchez-vergel/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:59:24+00:00",
+  "hash_sha256": "78bda49163054ba58a8454b6b7c3c6946cdd74e6ee228dfb974ba8df26258d7d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:59:23 GMT"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/servicios/cirugia-de-trauma-y-emergencias-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:49:21+00:00",
+  "hash_sha256": "00407b90fb8afbfaa45beff97249123b68d336e9cbb19ece36bc39df23c874a7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:49:20 GMT",
+    "Server": "Apache"
+  }
+}

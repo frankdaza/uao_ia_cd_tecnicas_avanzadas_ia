@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/isabel-cristina-garcia-moreno/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:46+00:00",
+  "hash_sha256": "a52ad7cf1034a1a4b48a0f9e839253081749dd64a5cf3edc6aa137ef708a4ca5",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:45 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alvaro-diaz-diaz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:16+00:00",
+  "hash_sha256": "8e175379c484fe174d9bd19160ac4def49cab5392c9a27e92cc9414dfc28da26",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:15 GMT"
+  }
+}

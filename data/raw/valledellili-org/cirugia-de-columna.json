@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/cirugia-de-columna/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:11+00:00",
+  "hash_sha256": "35aec4b4cc092eb8f7540d378d755ea6d20028a50176d655764fd6ccfce6e47d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:10 GMT"
+  }
+}

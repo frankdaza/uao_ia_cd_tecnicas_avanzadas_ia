@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-edith-giraldo-calderon/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:25+00:00",
+  "hash_sha256": "285514e3786213c7cac4f1888b7c5ec6bb259eecf1f9b6bcd1e5a30b6869cc73",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:24 GMT"
+  }
+}

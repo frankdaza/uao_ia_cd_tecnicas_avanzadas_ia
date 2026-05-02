@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jairo-alonso-quinones-bautista/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:38+00:00",
+  "hash_sha256": "2c976f70d0971dd1b8776223a0d38b529e7f9a0a10590e1a7c26e135b4c8847c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:37 GMT"
+  }
+}

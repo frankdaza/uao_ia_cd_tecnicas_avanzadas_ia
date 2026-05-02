@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=medicina-critica",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:43+00:00",
+  "hash_sha256": "32f2714e6afb72603beb2b16b18915e57d130bf39356447e45b3644692edacdd",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:42 GMT"
+  }
+}

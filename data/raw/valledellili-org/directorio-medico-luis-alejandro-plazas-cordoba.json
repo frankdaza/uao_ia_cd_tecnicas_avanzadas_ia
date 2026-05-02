@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/luis-alejandro-plazas-cordoba/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:46+00:00",
+  "hash_sha256": "aad7fd07cd729b1397d78f63e5be41cbbe95ead8136a0a93a031c367fe6aba9d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:45 GMT"
+  }
+}

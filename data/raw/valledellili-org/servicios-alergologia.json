@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/alergologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:31+00:00",
+  "hash_sha256": "754707fc3e01508f857eb0c268b9d3a84066620028d7be06248da4be01b47453",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:30 GMT"
+  }
+}

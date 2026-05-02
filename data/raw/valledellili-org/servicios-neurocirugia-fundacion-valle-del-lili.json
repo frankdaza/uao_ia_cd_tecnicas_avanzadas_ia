@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/servicios/neurocirugia-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:20+00:00",
+  "hash_sha256": "159ac2548a89049039ba88267b93ba8163a60de1f2ca4ef9679dedff9dd2f59d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:19 GMT",
+    "Server": "Apache"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ivan-dario-hernandez-pacheco/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:52+00:00",
+  "hash_sha256": "6cd3ae6f9b64dd62601404f29cf22d9e2b7219f9ac7e7283362a42a71caed843",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:52 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/neurologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:26+00:00",
+  "hash_sha256": "fd67b4f87bd3ac0169fb789361ce6ac8285a97db8522cf3d8151ae579d52f93d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:25 GMT"
+  }
+}

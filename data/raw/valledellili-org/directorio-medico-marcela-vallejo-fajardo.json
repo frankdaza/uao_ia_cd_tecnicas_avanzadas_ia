@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/marcela-vallejo-fajardo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:43+00:00",
+  "hash_sha256": "f724d62fbfb93e7e135244854b5583b5ed734885468ddf6df7c09b504b6348a5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:42 GMT"
+  }
+}

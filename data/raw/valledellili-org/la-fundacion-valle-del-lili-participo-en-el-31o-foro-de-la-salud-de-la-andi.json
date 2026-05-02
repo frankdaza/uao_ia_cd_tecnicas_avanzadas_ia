@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/la-fundacion-valle-del-lili-participo-en-el-31o-foro-de-la-salud-de-la-andi/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:22+00:00",
+  "hash_sha256": "22a4a705875a3770dddf381b9c1f9997c15985ca4143dc0393b7f9c3b4184279",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:58:21 GMT",
+    "Server": "Apache"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/oncologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:27+00:00",
+  "hash_sha256": "f1ff48f412ec79f417d0aad2412b338ffb1746b69c20b6009f11aa1e8899de48",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:26 GMT"
+  }
+}

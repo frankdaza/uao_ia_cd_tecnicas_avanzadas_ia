@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-agualimpia-janning/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:03+00:00",
+  "hash_sha256": "d93bbb32e2335bd726b66167d61d794285224ae49f4fdbdcfdb21125f82b8e23",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:02 GMT"
+  }
+}

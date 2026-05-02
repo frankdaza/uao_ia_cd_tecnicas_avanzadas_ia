@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/las-axilas-de-los-ninos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:09+00:00",
+  "hash_sha256": "a0aaa2f52d3bc2d0b707a0a566d56bf3d890b5f376f81096528f050fe8d67f5a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:08 GMT"
+  }
+}

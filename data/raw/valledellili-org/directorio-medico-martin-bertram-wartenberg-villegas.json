@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/martin-bertram-wartenberg-villegas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:37+00:00",
+  "hash_sha256": "002f86f884e773506f07ee59fc9a0aa06341bab49cd0c0412f097252e80b37bb",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:35 GMT"
+  }
+}

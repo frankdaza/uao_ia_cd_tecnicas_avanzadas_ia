@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/adriana-cardona-astaiza/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:53+00:00",
+  "hash_sha256": "cb2f2c4f8ba9e42b4ae3559b754f8897e8860c8087af2733003f16bd7990e29d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:52 GMT"
+  }
+}

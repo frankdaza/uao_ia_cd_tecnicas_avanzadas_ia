@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/nuestro-hospital-padrino-llego-a-timbiqui-y-lopez-de-micay/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:51+00:00",
+  "hash_sha256": "a78bc462e0ff1a2a5b7b6b91f1550e3027d31fbde2ea4013b84293b473d005f8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:50 GMT"
+  }
+}

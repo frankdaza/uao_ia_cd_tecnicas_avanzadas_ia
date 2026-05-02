@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/gustavo-adolfo-cruz-suarez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:44+00:00",
+  "hash_sha256": "5fef62788aa6f9cebc1f1d6d87d9e1332c673349a991619734539e488f00ff24",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:43 GMT"
+  }
+}

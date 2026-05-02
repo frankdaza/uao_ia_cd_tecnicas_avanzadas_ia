@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/martha-lucia-gonzalez-tenorio/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:46+00:00",
+  "hash_sha256": "1103e976a01fd8970b9744620f486c1f29247f548f0d53e7c5ef445e8b88a201",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:45 GMT"
+  }
+}

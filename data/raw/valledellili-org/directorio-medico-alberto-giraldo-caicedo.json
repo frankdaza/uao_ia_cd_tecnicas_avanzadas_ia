@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alberto-giraldo-caicedo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:13:46+00:00",
+  "hash_sha256": "cefcc46ed49bb33823e6fef9b164d1f4697fd1e7cf68a00eb900bec5429809e7",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:13:45 GMT"
+  }
+}

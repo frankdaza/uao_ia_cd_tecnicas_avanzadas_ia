@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-al-dia/cat/enciclopedia-de-la-salud/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:50+00:00",
+  "hash_sha256": "8168d83bf0a5dd591d40a6c5d60ba3c9d125575ba2e387cdf020623106188682",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:47 GMT"
+  }
+}

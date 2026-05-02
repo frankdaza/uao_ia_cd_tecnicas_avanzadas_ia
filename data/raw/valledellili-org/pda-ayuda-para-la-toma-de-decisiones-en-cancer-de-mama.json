@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/pda/ayuda-para-la-toma-de-decisiones-en-cancer-de-mama/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:03+00:00",
+  "hash_sha256": "0722cf32fe13ef8c5b09cc8b9853ac35b9b94f47c95f0210f7ce722abf005110",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:58:02 GMT"
+  }
+}

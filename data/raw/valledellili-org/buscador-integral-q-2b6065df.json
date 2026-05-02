@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=hospital-padrino",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:47+00:00",
+  "hash_sha256": "6bbb6f77917847d60280e86dc74d1bd1d07670f0ede2038a7febdcd8f5ce1a70",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:46 GMT"
+  }
+}

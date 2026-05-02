@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carmen-lorena-villota-gonzalez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:55+00:00",
+  "hash_sha256": "ee640fa7bf95ffb08b8524cabe6f117cf5fd115558f93c94a5769c1996ce87fe",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:54 GMT"
+  }
+}

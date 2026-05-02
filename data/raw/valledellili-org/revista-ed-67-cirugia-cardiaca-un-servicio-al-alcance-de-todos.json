@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-67-cirugia-cardiaca-un-servicio-al-alcance-de-todos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:56+00:00",
+  "hash_sha256": "7180e452dde97afe8a41dd78106880a906bf30c4ae97ddb72ffd17bca67d1163",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:55 GMT"
+  }
+}

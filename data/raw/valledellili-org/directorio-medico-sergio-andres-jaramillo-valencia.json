@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sergio-andres-jaramillo-valencia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:26+00:00",
+  "hash_sha256": "666f1802419d3a24a5efe82e2f3a81e6414ef57668aa4b62f49dfb94b57f6c54",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:25 GMT"
+  }
+}

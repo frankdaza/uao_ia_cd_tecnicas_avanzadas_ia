@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diana-carolina-munoz-vidal/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:35+00:00",
+  "hash_sha256": "f2e28ef78fce70eaf7db3e002472cba2dc975dec46b0005681fa6241cddba8db",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:34 GMT"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/servicios/cirugia-cardiovascular-adultos-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:49:09+00:00",
+  "hash_sha256": "1d77c89265d3d2756ca28acafea4f2901bfc657051434c05b47c563070e948d1",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:49:08 GMT",
+    "Server": "Apache"
+  }
+}

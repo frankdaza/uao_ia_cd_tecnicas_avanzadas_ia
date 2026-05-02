@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-78-octubre-mes-de-la-sensibilizacion-sobre-el-cancer-de-mama/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:10+00:00",
+  "hash_sha256": "218ce210de5e28af52c27750180379ed5c482ccd1510fac1b8d0c4457f2cd0b3",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:09 GMT"
+  }
+}

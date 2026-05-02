@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ana-maria-guerra-lozano/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:28:11+00:00",
+  "hash_sha256": "2a6b6f0f5c794a735ffb1772ca9d3c614f59774d783e1b02a467f40380d17ed3",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:28:10 GMT"
+  }
+}

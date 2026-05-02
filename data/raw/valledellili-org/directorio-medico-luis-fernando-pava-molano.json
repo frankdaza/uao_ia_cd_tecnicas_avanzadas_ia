@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/luis-fernando-pava-molano/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:53+00:00",
+  "hash_sha256": "6c3289d5ba86916f5887a175b728a72db1d33207a992acae60b58a5f7093b8c0",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:53 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ivonne-aldana-vallejo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:58+00:00",
+  "hash_sha256": "d4bd4b9beb1ec5438f86c72a0bdb6852883d3aee57060a12a57ed1574e4bb3c8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:57 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diego-medina-valencia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:35+00:00",
+  "hash_sha256": "bb150050ed522ab3b9723b5a12ecb97e9170dd2e0c9ca57d66fefb8de085311c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:34 GMT"
+  }
+}

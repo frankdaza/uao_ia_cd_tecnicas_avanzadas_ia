@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/manuela-olaya-hernandez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:00+00:00",
+  "hash_sha256": "9194e9f59a1e0487f10f875d0939a84ba604f1699d275779e5d6043ccae031a7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:05:59 GMT"
+  }
+}

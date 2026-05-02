@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angela-maria-herrera-pena/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:35+00:00",
+  "hash_sha256": "5140952f046848079f6c8a9aee4bd45e6db5a22820e3ec6d3c93d68142a96245",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:34 GMT"
+  }
+}

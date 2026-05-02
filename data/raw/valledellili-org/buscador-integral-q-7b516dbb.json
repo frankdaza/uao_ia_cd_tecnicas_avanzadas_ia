@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=diagnostico",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:52+00:00",
+  "hash_sha256": "a7370fab58f1ac41c85e4909389c13ef9ded4ef5639809f1a113306664598b18",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:51 GMT"
+  }
+}

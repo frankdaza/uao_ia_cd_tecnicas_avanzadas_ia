@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/francisca-romano-de-perez-canto/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:41+00:00",
+  "hash_sha256": "66be398d430220b97ee3d34433aff5a8df70233e9c7361bf7cb1551864b2fd26",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:40 GMT"
+  }
+}

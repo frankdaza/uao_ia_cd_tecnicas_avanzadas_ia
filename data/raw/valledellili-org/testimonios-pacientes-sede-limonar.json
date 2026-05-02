@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/testimonios-pacientes-sede-limonar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:48:39+00:00",
+  "hash_sha256": "8e1fb3d0826d3ff517436e6d355068c3dd7c168ba2b4bbff11526274dbfad0f8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:48:38 GMT"
+  }
+}

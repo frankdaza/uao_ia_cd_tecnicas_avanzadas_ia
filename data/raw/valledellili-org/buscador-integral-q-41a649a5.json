@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=brigada-de-salud",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:21:23+00:00",
+  "hash_sha256": "dd6dc94400c945c8a765fb5c036496046a035aeee847948f89703b39d59ee67d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:21:22 GMT"
+  }
+}

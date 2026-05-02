@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-teresa-agudelo-constante/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:25+00:00",
+  "hash_sha256": "082ecccf160423170a637e89138694ceab6062e9737a463fc2f680eed46020cf",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:24 GMT"
+  }
+}

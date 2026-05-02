@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/sedes/sede-tequendama/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:48:19+00:00",
+  "hash_sha256": "b6d08458dd27846351863f94a79c9e73ac0227908562353bbb208e16aec82d57",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:48:18 GMT"
+  }
+}

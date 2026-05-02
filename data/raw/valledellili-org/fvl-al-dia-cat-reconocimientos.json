@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-al-dia/cat/reconocimientos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:56+00:00",
+  "hash_sha256": "2b40cc55308aad3c494906e9ad480a199c28bdd08834c05a67ea7cb95a03d314",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:54 GMT"
+  }
+}

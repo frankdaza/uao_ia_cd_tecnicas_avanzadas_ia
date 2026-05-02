@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/adolfo-leon-de-la-hoz-alban/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:45+00:00",
+  "hash_sha256": "82d6f39bf0096653fe3d0deef253c2f7af85edcf58c1a77e6ca08c4b20df69bc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:44 GMT"
+  }
+}

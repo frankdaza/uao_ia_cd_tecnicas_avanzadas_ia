@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/laura-catalina-ibarra-mosquera/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:15+00:00",
+  "hash_sha256": "42a5c75c951a0e3d141651c84c99c26e257db9875cdf86aa4d2e7ac41cacce0e",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:15 GMT"
+  }
+}

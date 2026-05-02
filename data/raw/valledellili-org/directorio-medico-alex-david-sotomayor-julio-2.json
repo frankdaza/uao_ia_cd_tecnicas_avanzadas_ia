@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alex-david-sotomayor-julio-2/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:59:57+00:00",
+  "hash_sha256": "45d0bbeaa83c1204f560110688387d5e825ab3108da2ec2baa3045badb13fd0f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:59:56 GMT"
+  }
+}

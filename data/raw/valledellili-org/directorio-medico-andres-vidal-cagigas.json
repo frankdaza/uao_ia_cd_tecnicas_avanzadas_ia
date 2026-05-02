@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-vidal-cagigas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:28+00:00",
+  "hash_sha256": "92efc89a4a42f4c11369c1528fe06be552cec10892714082a2e3462f88c074bb",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:27 GMT"
+  }
+}

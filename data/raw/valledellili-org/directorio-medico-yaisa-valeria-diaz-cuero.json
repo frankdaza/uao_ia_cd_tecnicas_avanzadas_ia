@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/yaisa-valeria-diaz-cuero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:00+00:00",
+  "hash_sha256": "c2185ed80872b58a760b61e7253237a7c3460a2e1c5eccf328bf021a57018e2d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:59 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/ortopedia-y-traumatologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:44:43+00:00",
+  "hash_sha256": "3d08b699b28b9a93c42a213ffc872ddbe4c2f363de904c9ea980a77a753ff6e3",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:44:42 GMT"
+  }
+}

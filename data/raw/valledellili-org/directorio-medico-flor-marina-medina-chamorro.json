@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/flor-marina-medina-chamorro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:33:04+00:00",
+  "hash_sha256": "4ac0e4599e1cfa3ec4aca9ae6ba70472d3ca55fdd9d7336449ffb969383b6dca",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:33:03 GMT"
+  }
+}

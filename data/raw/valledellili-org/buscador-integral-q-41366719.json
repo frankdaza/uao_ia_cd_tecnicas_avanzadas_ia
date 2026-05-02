@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=hormonas",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:08+00:00",
+  "hash_sha256": "9b1e5b983f4a87152e252a7d9409449791a12ee8319a79065f5e4928c07e84a1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:07 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carolina-giraldo-escobar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:13+00:00",
+  "hash_sha256": "7545ecf6a243ab86d9fc0aec8ab92df1c89c1a41973b9bd8b1d08d5a9cfa8f18",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:12 GMT"
+  }
+}

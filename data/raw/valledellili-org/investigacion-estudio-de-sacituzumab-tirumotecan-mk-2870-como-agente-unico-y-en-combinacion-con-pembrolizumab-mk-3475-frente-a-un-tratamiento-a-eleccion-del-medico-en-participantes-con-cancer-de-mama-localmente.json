@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/estudio-de-sacituzumab-tirumotecan-mk-2870-como-agente-unico-y-en-combinacion-con-pembrolizumab-mk-3475-frente-a-un-tratamiento-a-eleccion-del-medico-en-participantes-con-cancer-de-mama-localmente/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:46:19+00:00",
+  "hash_sha256": "66e46e99dcef6f28ccd4ed3077b17341868a11b95e5caf1642e48b7f45764188",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:46:18 GMT"
+  }
+}

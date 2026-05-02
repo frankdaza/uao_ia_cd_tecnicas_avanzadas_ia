@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=trauma",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:59:16+00:00",
+  "hash_sha256": "00289fb8017260c9c8dada958dd9cb1ed9451580e02211a314cbad2ebfe62b36",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:59:15 GMT"
+  }
+}

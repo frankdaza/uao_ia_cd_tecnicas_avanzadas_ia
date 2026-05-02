@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/felipe-mejia-herrera-2/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:22+00:00",
+  "hash_sha256": "75e518363c36f36793f40da88f643f4bf01bba01866464fb6325e3bce17a16e5",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:21 GMT"
+  }
+}

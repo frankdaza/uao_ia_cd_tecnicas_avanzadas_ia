@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/helmer-emilio-palacios-rodriguez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:43+00:00",
+  "hash_sha256": "000b44a679204389e20354002290cba37c8f157f19c4b0d5b8462616b71e0d4d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:43 GMT"
+  }
+}

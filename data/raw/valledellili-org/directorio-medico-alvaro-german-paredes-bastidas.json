@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alvaro-german-paredes-bastidas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:14+00:00",
+  "hash_sha256": "602b8e95b737a136c4d06ab6a7d492d81a757ba7f9d60af3337fe313a05a82cd",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:13 GMT"
+  }
+}

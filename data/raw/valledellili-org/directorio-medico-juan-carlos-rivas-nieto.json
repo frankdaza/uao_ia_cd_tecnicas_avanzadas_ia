@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-carlos-rivas-nieto/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:09+00:00",
+  "hash_sha256": "a71e7135549e8e1580b4447ea91ac7b10f01124d3ec63f958e1406e48971b1ed",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:08 GMT"
+  }
+}

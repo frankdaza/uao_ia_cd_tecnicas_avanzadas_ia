@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-paciente-anticoagulado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:42+00:00",
+  "hash_sha256": "830e54bc8a6a7f290d2a59b6c2376d364177f9f0be4f9035ab55602787593fda",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:41 GMT"
+  }
+}

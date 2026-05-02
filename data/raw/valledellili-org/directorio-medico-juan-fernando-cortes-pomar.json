@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-fernando-cortes-pomar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:01+00:00",
+  "hash_sha256": "ddfbadda0dcf13d0b3b3159ed6eb4a5effe6de2463370a3e7b8fdd38857a1d09",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:00 GMT"
+  }
+}

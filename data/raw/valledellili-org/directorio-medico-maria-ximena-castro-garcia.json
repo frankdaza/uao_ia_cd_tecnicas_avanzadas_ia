@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-ximena-castro-garcia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:31+00:00",
+  "hash_sha256": "3621203bf9cc2ff843caac3b9d1508a13ab179c5a470747efb2d5cd3f0dc0cab",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:30 GMT"
+  }
+}

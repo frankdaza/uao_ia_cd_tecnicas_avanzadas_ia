@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/yuri-takeuchi-tan/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:02+00:00",
+  "hash_sha256": "d7169d64405bac03c0cf253486169b51039f8ce82835d23cd6c634b6e4cd9620",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:01 GMT"
+  }
+}

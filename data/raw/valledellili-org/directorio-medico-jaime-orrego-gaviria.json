@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jaime-orrego-gaviria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:33:18+00:00",
+  "hash_sha256": "3ef52ba7377d7cc557d076bb58b535918d74965d05a94e6e1c60dcc520751c36",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:33:17 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/estudio-clinico-de-molnupiravir-para-la-prevencion-de-enfermedades-graves-por-coronavirus-2019-covid-19-en-personas-de-alto-riesgo-mk-4482-023-06667700/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:56+00:00",
+  "hash_sha256": "3d16caade7d5fd4120ab4ba521907263c56dd382b42fc6cd7a8cbe4d126a4291",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:55 GMT"
+  }
+}

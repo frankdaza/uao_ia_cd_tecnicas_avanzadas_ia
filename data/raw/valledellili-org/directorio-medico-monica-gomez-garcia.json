@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/monica-gomez-garcia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:54+00:00",
+  "hash_sha256": "ba030b48f317797555586670861098e5adfec7d1ea88ea871a3a48ffd2fdce95",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:53 GMT"
+  }
+}

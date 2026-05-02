@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/erwin-fabian-lasso-chavez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:28:46+00:00",
+  "hash_sha256": "3294b564d09c2b339de19299bc56665bb342ed782ba8ff492cf5ca7c1c0cdbe5",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:28:45 GMT"
+  }
+}

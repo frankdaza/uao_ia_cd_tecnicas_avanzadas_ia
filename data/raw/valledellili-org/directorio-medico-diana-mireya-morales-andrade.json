@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diana-mireya-morales-andrade/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:47+00:00",
+  "hash_sha256": "8fe6acea376ce0b1901d3913107c381bb0dcf374687cc5bdd4a941ebbff11716",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:46 GMT"
+  }
+}

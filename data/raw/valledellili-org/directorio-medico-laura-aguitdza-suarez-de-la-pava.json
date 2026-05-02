@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/laura-aguitdza-suarez-de-la-pava/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:35+00:00",
+  "hash_sha256": "684ce62c91ed8359db977ed1110c1dcb0c6c5c56e3fdb8990b7f953ea7c1d142",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:34 GMT"
+  }
+}
