@@ -19,8 +19,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -69,7 +69,9 @@ secrets/
 # ML / LLM: checkpoints and large artifacts (un-ignore a path with !path/to/file if needed)
 models/
 checkpoints/
-data/raw/
+# Crudo: ignorar hijos directos de data/raw salvo valledellili-org (versionado curado).
+data/raw/*
+!data/raw/valledellili-org/
 # Salidas en processed (chunks, etc.); se versiona la carpeta de evaluación con .gitkeep.
 data/processed/**
 !data/processed/
