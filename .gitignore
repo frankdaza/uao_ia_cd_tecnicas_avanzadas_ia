@@ -102,7 +102,7 @@ Thumbs.db
 
 # IDEs
 .idea/
-.vscode/
+
 
 # Frontend (Node / Vite)
 frontend/node_modules/
