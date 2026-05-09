@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=neurologia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:50+00:00",
+  "hash_sha256": "4732617b5c14b7845ffc1d3ab10700facd5e1c5b2fd8f4bed51139d1bbff8e6c",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:49 GMT"
+  }
+}

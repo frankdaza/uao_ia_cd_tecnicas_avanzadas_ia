@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/marcela-granados-sanchez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:43+00:00",
+  "hash_sha256": "5257efd1caa5d55e904bf05b3fc09d88d51b0a17a2e2fb6e68cc233f9cbef56d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:42 GMT"
+  }
+}

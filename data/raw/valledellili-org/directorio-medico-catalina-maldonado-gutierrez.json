@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/catalina-maldonado-gutierrez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:10:14+00:00",
+  "hash_sha256": "03742d650b513d1d6b947270c1b7aef988fc96ddd754812cdfd63eddd0413f7b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:10:13 GMT"
+  }
+}

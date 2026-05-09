@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/dermatitis-del-panal/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:23+00:00",
+  "hash_sha256": "1a6890a476b30dbce233cf07fe938a7a8708276e3496390e7f1f0272a84eb8c2",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:22 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/preadmisiones/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:43:21+00:00",
+  "hash_sha256": "30c9988039fabedab04963ea8b45d1f075d92c1b96510ffca219d80e1a9fd8fa",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:43:20 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/luis-felipe-laverde-martinez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:46+00:00",
+  "hash_sha256": "76b627fc3ab11fef772ead7f837aac8136944718baf8fe2cc2066789882a6d4f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:45 GMT"
+  }
+}

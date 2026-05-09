@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/clinica-de-heridas-y-ostomias/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:49:46+00:00",
+  "hash_sha256": "c5a384c15cf86f20b06202f971f3c8a447c2a847c75459aa6bfbc51568f49617",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:49:45 GMT"
+  }
+}

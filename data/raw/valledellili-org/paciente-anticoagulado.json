@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/paciente-anticoagulado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:35+00:00",
+  "hash_sha256": "889e6d165c3b48aa59d18eeaba210093c52b400015122db2e1f502eae51cb1aa",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:34 GMT"
+  }
+}

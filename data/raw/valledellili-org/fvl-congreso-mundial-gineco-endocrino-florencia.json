@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-congreso-mundial-gineco-endocrino-florencia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:12+00:00",
+  "hash_sha256": "f252ff4e57d9d585092c114909bd588ace206ea2f2486faac0c665b7c3faee83",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:11 GMT"
+  }
+}

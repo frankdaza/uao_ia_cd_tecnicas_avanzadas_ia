@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alex-echeverri-garcia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:13+00:00",
+  "hash_sha256": "4a33524b923a98ad0a0131fb65a27b47529250d8cdf571b839233f6f172840f4",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:12 GMT"
+  }
+}

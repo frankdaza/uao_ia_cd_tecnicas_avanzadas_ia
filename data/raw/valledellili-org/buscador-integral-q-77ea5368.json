@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=experiencia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:22:50+00:00",
+  "hash_sha256": "28830b9c14f281ab16707e5beb21bd604939ada8db611f8294d9d8c96b98d421",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:22:49 GMT"
+  }
+}

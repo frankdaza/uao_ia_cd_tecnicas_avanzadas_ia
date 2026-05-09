@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/claudia-natalia-lopez-lesmes/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:35+00:00",
+  "hash_sha256": "ab85d5f37dcf9e2dd45ecf7d0e5ca29f59af7a40236a3efe63abc22bcde9a352",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:34 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-guillermo-restrepo-molina/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:40+00:00",
+  "hash_sha256": "80c777f7a60e72276facc3df781d8144d32f409f1eb65ad75f5fdf5a17fc7bb9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:39 GMT"
+  }
+}

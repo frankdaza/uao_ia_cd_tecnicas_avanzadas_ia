@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fabio-bonilla-abadia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:30+00:00",
+  "hash_sha256": "b0be49caa2a4c10482c4c1fe3332b9aef11b0b0070620eb2f518a7ca69731e5b",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:30 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/oscar-eduardo-giraldo-victoria/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:48+00:00",
+  "hash_sha256": "b6256383511b81c3942d10285817de881b91c84f3683d39a0d31151aadf5e289",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:47 GMT"
+  }
+}

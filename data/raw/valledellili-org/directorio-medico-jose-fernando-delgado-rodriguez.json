@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jose-fernando-delgado-rodriguez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:05:31+00:00",
+  "hash_sha256": "8cc9f6adb2633e37091d6e21ad446c4efe1b5c32646386b77b90c35007b180df",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:05:30 GMT"
+  }
+}

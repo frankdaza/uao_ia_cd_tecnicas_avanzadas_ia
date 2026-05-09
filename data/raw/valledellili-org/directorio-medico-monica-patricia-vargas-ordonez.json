@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/monica-patricia-vargas-ordonez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:57+00:00",
+  "hash_sha256": "c7939273ef50973bf128c0f290ef2c7dd146f3e5ac1ccc072ed622dfc625f0cf",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:56 GMT"
+  }
+}

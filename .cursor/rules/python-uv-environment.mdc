@@ -1,0 +1,33 @@
+---
+description: Python 3.12.12 exacto y uv como unico manejador de dependencias
+alwaysApply: true
+---
+
+# Entorno Python y uv
+
+## Version
+
+- **Solo** Python **3.12.12** (exacto).
+- `pyproject.toml`: restriccion `python = "==3.12.12"` (o equivalente que fije esa version).
+- Archivo **`.python-version`** en la raiz con una linea: `3.12.12`.
+
+## Comandos canonicos
+
+```bash
+uv python install 3.12.12
+uv sync
+uv add <paquete>
+uv lock
+uv run pytest
+uv run python -m src.app.app_gradio
+```
+
+- Instalar dependencias y ejecutar scripts, tests y apps **siempre** con `uv run` (o `uv sync` + `uv run`).
+
+## Prohibido como fuente de verdad
+
+- `pip install` suelto fuera de `uv`, **Poetry**, **Conda**, `requirements.txt` como unico manifiesto (si existe, debe ser generado o secundario y documentado).
+
+## Lockfile
+
+- Versionar **`uv.lock`** junto con `pyproject.toml`.

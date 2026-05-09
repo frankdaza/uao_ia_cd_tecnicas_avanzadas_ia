@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-alberto-ordonez-delgado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:02+00:00",
+  "hash_sha256": "dd271449a53c9b6181949d361b80b63bc826ddda807786a14b43fb90b2e1563f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:01 GMT"
+  }
+}

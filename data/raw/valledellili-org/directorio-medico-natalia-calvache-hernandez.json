@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/natalia-calvache-hernandez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:48+00:00",
+  "hash_sha256": "b5a38315e57582e5070b002c06dac9e6091c1112282978d7a3d3666fa70fb4d0",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:48 GMT"
+  }
+}

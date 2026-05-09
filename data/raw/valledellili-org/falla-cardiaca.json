@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/falla-cardiaca/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:08+00:00",
+  "hash_sha256": "5e38801ba4cad40f5e1f0013e4b96c744353897d75a1b9619be713171a33d4cc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:07 GMT"
+  }
+}

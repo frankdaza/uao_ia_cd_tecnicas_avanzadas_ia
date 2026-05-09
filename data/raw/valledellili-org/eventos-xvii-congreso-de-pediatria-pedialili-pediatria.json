@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/eventos/xvii-congreso-de-pediatria-pedialili/pediatria",
+  "http_status": 200,
+  "content_type": "image/jpeg",
+  "fecha_extraccion": "2026-05-01T02:12:35+00:00",
+  "hash_sha256": "ce8edb54aa7a2a2ada8db18352ad11f577dc0a834140bd802a27beb48885dd97",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "image/jpeg",
+    "Date": "Fri, 01 May 2026 02:12:34 GMT",
+    "Last-Modified": "Mon, 26 Jan 2026 23:05:32 GMT"
+  }
+}

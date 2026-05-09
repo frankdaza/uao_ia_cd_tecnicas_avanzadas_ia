@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/mario-hernan-villegas-pineda/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:03+00:00",
+  "hash_sha256": "131804ca5bae0a0137534e12a998a4f87350eff4fc4089fa1387c6fdc537a5d9",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:02 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sebastian-moreno-agudelo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:12+00:00",
+  "hash_sha256": "7a874c712f43198ac04d5e224e550414e78d3b7f00a91160dda415403cf9167c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:11 GMT"
+  }
+}

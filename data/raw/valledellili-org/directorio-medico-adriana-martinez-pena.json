@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/adriana-martinez-pena/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:56+00:00",
+  "hash_sha256": "e50901f5e5e889bc2f3cacae2affcb433b4698ef2b1debe1a399031542edf585",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:55 GMT"
+  }
+}

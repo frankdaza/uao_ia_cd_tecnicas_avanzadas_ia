@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=psicologia",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:30+00:00",
+  "hash_sha256": "961ef868bdfe7f2566922972e33fcd2979dc8f2232930dc7b4b432e286208697",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:29 GMT"
+  }
+}

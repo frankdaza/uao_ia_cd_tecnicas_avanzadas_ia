@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/claudia-milena-gomez-giraldo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:11+00:00",
+  "hash_sha256": "e7166feebf05c9437938e655d1c2460560e6aa602ebea651bdd5aec248bc0a08",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:10 GMT"
+  }
+}

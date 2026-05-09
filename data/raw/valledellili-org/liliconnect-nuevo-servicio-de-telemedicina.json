@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/liliconnect-nuevo-servicio-de-telemedicina/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:09+00:00",
+  "hash_sha256": "72e4fcf630bb7f1fc0a20b8857c01d0d5b07c1af1a9a3f646a972da036fb9ed1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:08 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/eliana-isabel-morales-sanchez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:23+00:00",
+  "hash_sha256": "2ae00dee188e20ffab3a1cda91cfcb3b246f264932204c7ae550467fc4d40ce5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:22 GMT"
+  }
+}

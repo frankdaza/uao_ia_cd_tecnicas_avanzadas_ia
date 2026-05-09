@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=acretismo-placentario",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:17:27+00:00",
+  "hash_sha256": "3937712384468dfd0616e1b226e2e17693dbe052649354d0559d09a45e15fe47",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:17:26 GMT"
+  }
+}

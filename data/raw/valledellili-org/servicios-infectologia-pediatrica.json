@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/infectologia-pediatrica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:50+00:00",
+  "hash_sha256": "1e42da70f186be01fdcc151964ad4b9eacf13e19f378c6527d6b92eb6d703e51",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:49 GMT"
+  }
+}

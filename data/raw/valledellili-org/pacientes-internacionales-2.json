@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/pacientes-internacionales",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:48:10+00:00",
+  "hash_sha256": "a90778f2cd314728353c63f8de8f8491cf0c6e7da2a7421b9ef4120e076662b8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:48:08 GMT"
+  }
+}

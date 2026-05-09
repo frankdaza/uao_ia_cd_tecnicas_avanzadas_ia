@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jose-luis-aldana-diaz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:24:34+00:00",
+  "hash_sha256": "cb2743506bc616473c8ca46cb9d4d4bf42ef85433a8f5b12065cd7e4a312a162",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:24:33 GMT"
+  }
+}

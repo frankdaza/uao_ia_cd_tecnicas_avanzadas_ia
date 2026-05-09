@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/clara-lucia-navas-jimenez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:40+00:00",
+  "hash_sha256": "b2a2cb97a23358275625480a8ce73867ae07d96c570b7cf291f5d567f1a318db",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:39 GMT"
+  }
+}

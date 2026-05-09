@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=tumaco",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:21+00:00",
+  "hash_sha256": "da1d1c7f6446f057cab795db561b5987661668be7e17462e558940321bef4e9d",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:20 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-57-avances-en-el-manejo-de-enfermedades-articulares/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:14+00:00",
+  "hash_sha256": "6874c77e6a0c08b80458c1033f5d8b67a658326303c9f29794e3b78ca6266ca5",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:13 GMT"
+  }
+}

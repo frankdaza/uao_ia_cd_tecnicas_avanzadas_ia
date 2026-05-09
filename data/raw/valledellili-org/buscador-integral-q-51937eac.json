@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=enfermedad-genetica",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:12+00:00",
+  "hash_sha256": "8784b2f0874a4f1d171e03ff9a4fe94a734d5f89444783e0c90e4d7e3b42a959",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:11 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/miryam-yolanda-idarraga-hincapie/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:55:28+00:00",
+  "hash_sha256": "96ea2fd457e175b3400470d3d6e916316f99ea69702e21783d63dec77b3739b7",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:55:27 GMT"
+  }
+}

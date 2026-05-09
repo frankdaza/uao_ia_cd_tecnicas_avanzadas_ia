@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/reflexion-sobre-la-esperanza/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:46+00:00",
+  "hash_sha256": "88aedf9a9cb7d21d745b046420911129c4959dc5cee875c6a9dbe2b386c1e526",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:45 GMT"
+  }
+}

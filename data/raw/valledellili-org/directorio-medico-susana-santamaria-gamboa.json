@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/susana-santamaria-gamboa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:15+00:00",
+  "hash_sha256": "775ecb7cb03d9094c6f7629f2fcde431683805c5e7001ba70503311feb3658ef",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:14 GMT"
+  }
+}

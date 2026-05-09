@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/diana-lucia-silva-espinosa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:18+00:00",
+  "hash_sha256": "e3f37f3f7f7fa1c83939ec370889bcd8eab104c478bb260f704b447b78106442",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:17 GMT"
+  }
+}

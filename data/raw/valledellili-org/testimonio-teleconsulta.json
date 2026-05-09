@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/testimonio-teleconsulta/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:13:40+00:00",
+  "hash_sha256": "3c5f7e970157df0ac5391a7e8c7ea9d977519b6397e18ea0c544ac1a7a2e87e8",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:13:39 GMT"
+  }
+}

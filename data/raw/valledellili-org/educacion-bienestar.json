@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/educacion/bienestar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:43+00:00",
+  "hash_sha256": "168cc3bcb7fcb72cf51a7db38826cb912cc67c016b5806459671eee25edd4878",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:42 GMT"
+  }
+}

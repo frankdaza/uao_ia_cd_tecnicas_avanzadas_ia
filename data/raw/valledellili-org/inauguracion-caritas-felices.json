@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/inauguracion-caritas-felices/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:17+00:00",
+  "hash_sha256": "9b1c3818d09d7360735606ab84447ff9a74979121761908dcaebca5ecf0714a8",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:16 GMT"
+  }
+}

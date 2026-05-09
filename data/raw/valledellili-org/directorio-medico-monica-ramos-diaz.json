@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/monica-ramos-diaz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:23:53+00:00",
+  "hash_sha256": "a50ebc7b2e868c26d8550920d1e38bedae1cc3c1bcc81847d23c3b340ec756a3",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:23:52 GMT"
+  }
+}

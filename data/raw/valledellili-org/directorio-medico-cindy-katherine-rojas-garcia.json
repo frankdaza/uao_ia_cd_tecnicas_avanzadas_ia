@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/cindy-katherine-rojas-garcia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:58+00:00",
+  "hash_sha256": "b51c2c6d28ae3d7e47f5ac178b41abfcb6823d55ba342999a7fa081f14c55511",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:57 GMT"
+  }
+}

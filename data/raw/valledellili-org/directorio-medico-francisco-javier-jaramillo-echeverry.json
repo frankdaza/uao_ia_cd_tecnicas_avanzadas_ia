@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/francisco-javier-jaramillo-echeverry/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:29+00:00",
+  "hash_sha256": "e8ecbd940c66301c2e02ab9401d44af88611f91727ac9c0dcfa1988b76e7b2b0",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:28 GMT"
+  }
+}

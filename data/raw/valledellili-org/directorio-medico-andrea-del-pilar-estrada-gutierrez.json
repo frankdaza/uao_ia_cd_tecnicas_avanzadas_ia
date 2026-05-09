@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andrea-del-pilar-estrada-gutierrez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:09+00:00",
+  "hash_sha256": "234aba6a9f5668d2a279837d71122abc08c31656329e322e83af58f9bec2117c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:09 GMT"
+  }
+}

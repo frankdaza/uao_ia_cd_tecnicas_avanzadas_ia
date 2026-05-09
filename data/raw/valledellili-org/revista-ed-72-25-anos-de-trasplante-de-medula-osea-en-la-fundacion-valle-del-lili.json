@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/revista-ed-72-25-anos-de-trasplante-de-medula-osea-en-la-fundacion-valle-del-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:49+00:00",
+  "hash_sha256": "d4f0709fe7fcebde06739b46ddb453071f2e8c15c3fa7d80eafe5a855f794912",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:48 GMT",
+    "Server": "Apache"
+  }
+}

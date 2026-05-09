@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/urologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:42+00:00",
+  "hash_sha256": "a6d9271d21478612d79bdbd8d7b9b8f324e26ee311565cb1ee8bbda43f825842",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:41 GMT"
+  }
+}

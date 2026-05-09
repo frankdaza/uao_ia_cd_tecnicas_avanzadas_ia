@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-isabel-jaramillo-villafane/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:31+00:00",
+  "hash_sha256": "72b3bde37bf435fb898423757174680bddf3c9e06d654b23adfad0460166f813",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:30 GMT"
+  }
+}

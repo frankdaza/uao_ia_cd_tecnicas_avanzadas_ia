@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/lactancia-materna-3/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:57:16+00:00",
+  "hash_sha256": "e463b53d0da999a546fe155477531b7d8b8008557125772aa55dab3965f7f41e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:14 GMT"
+  }
+}

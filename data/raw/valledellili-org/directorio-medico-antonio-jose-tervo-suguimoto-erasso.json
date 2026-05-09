@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/antonio-jose-tervo-suguimoto-erasso/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:13:58+00:00",
+  "hash_sha256": "94b9516e02741c2a87ad7df4287f924d1aa5b82ddb5665e9f58c3ae3d9b613c4",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:13:57 GMT"
+  }
+}

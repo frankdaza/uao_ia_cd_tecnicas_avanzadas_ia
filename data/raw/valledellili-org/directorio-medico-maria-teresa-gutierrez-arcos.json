@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-teresa-gutierrez-arcos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:28+00:00",
+  "hash_sha256": "fb08d6242d75830463c40dfb7672b87668a6826b73dc7c5bcfc4c1fd4c30f02c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:27 GMT"
+  }
+}

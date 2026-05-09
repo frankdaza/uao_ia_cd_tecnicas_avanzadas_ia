@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/vanesa-amparo-ochoa-jimenez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:30+00:00",
+  "hash_sha256": "c4e755b07130180c6f3e2540c6b11ee7b63c212b1051ba096b91be56a506735a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:29 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/camilo-augusto-canas-giraldo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:35+00:00",
+  "hash_sha256": "ad8e1dc8a87d26bf836bc75d7c1e3bcfb95185a76c58fcd2448737b59c9f4aad",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:34 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/atencion-al-paciente/preparacion-para-examenes-medicos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:32+00:00",
+  "hash_sha256": "88864d3914e466a06c85095e3f23ef807dff797895d5b7f52baca595944b3698",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:31 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-pablo-benavides-calvache/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:41+00:00",
+  "hash_sha256": "fcc74cc91e1382dff5641d34dba7fe121cc0073cbacaa2d03325641fcdb5a30e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:40 GMT"
+  }
+}

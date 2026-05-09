@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/programa-de-responsabilidad-social-alimentando-esperanzas/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:56+00:00",
+  "hash_sha256": "9f1d0259a28fcf3b95a5dcc912d7d91b23d24bfd841735ad88ec9a5bc27045dd",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:55 GMT"
+  }
+}

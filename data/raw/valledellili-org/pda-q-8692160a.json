@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/pda/?orderby=title",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:00+00:00",
+  "hash_sha256": "0552bd9a37693ce06fed40b3577f9c37057b7b6fe15c4fb550eef8d7cac69577",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:57:59 GMT"
+  }
+}

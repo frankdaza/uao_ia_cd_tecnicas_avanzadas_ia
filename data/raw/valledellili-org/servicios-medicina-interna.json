@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/medicina-interna/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:51:05+00:00",
+  "hash_sha256": "a9bc3e58e454286b7d995a76958866a78e43c345e28dd22a4f440aa9135527cc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:51:04 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ginna-marcela-ocampo-florez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:40+00:00",
+  "hash_sha256": "c5a4c7db8c918afd05c08fc034582289efae0ca8b4f0c301b5aa25b56f2b66c7",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:39 GMT"
+  }
+}

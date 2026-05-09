@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-camila-garzon-portilla/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:43+00:00",
+  "hash_sha256": "52720a70a66480939951aca7f1809f966e1983717a5349638b16b27e2cf51043",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:42 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fernando-rosso-suarez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:33+00:00",
+  "hash_sha256": "6c42788fa19b7721ffbcec30ded3a25aa9f445286beb6a2059f673301825fbfa",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:32 GMT"
+  }
+}

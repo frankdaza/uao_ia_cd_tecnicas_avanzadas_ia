@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angela-maria-olarte-castillo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:29+00:00",
+  "hash_sha256": "4f84477f0936c743c6a40a363bff586b5d8e4f576aa8da21821abfc2b7a80d23",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:28 GMT"
+  }
+}

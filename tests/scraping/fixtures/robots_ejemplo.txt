@@ -1,0 +1,4 @@
+# Robots de ejemplo (sintetico) alineado con un origen de pruebas
+User-agent: *
+Disallow: /admin/
+Crawl-delay: 3

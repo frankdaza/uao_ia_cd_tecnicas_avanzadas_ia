@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/paula-andrea-fernandez-perez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:13+00:00",
+  "hash_sha256": "b620d0f88e17c9d9a53b86c9427faa066e394d5db53f514559ffbecc1da5dccf",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:12 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/rehabilitacion/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:09+00:00",
+  "hash_sha256": "f5b5e76a740a523b0acaaefd465854c85bda4d709929db65ebd51614071d7f6e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:08 GMT"
+  }
+}

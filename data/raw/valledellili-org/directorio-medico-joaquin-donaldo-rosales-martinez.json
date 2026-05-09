@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/joaquin-donaldo-rosales-martinez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:34+00:00",
+  "hash_sha256": "3ab9be6dd24775282e616a08a3ab809c92eb500b371189d4961fb7524ec06c10",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:33 GMT"
+  }
+}

@@ -1,0 +1,301 @@
+"""Cliente HTTP minimo para la API de chat de Ollama (sin pipeline RAG ni UI)."""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import time
+from collections.abc import Iterator
+from dataclasses import dataclass
+from typing import Any
+
+import requests
+from dotenv import load_dotenv
+
+# Tags literales acordados para la interfaz (validacion en capas superiores).
+MODELO_LLAMA_3_1_8B = "llama3.1:8b"
+MODELO_GEMMA_4_E2B = "gemma4:e2b"
+MODELO_GEMMA_4_E4B = "gemma4:e4b"
+MODELOS_OLLAMA_SOPORTADOS: tuple[str, ...] = (
+    MODELO_LLAMA_3_1_8B,
+    MODELO_GEMMA_4_E2B,
+    MODELO_GEMMA_4_E4B,
+)
+
+# Limites coherentes para OLLAMA_NUM_CTX (entre 1024 y 16384 inclusives).
+NUM_CTX_MIN: int = 1024
+NUM_CTX_MAX: int = 16384
+
+
+def _num_ctx_desde_entorno(defecto: int) -> int:
+    """Lee ``OLLAMA_NUM_CTX``, normaliza al rango [NUM_CTX_MIN, NUM_CTX_MAX] o ``defecto``."""
+    raw = os.environ.get("OLLAMA_NUM_CTX")
+    if not raw or not str(raw).strip():
+        return defecto
+    try:
+        n = int(str(raw).strip())
+    except (TypeError, ValueError):
+        print(
+            f"OLLAMA_NUM_CTX invalido `{raw!r}`; se usa {defecto}.",
+            file=sys.stderr,
+        )
+        return defecto
+    if n < NUM_CTX_MIN:
+        return NUM_CTX_MIN
+    if n > NUM_CTX_MAX:
+        return NUM_CTX_MAX
+    return n
+
+
+def _mensaje_ollama_inaccesible(base_url: str) -> str:
+    return (
+        f"No se puede conectar a Ollama en `{base_url}`. "
+        "Verifica que `ollama serve` esté corriendo."
+    )
+
+
+def _mensaje_modelo_no_disponible(modelo: str) -> str:
+    return (
+        f"El modelo `{modelo}` no está instalado en Ollama. "
+        f"Ejecuta: `ollama pull {modelo}`"
+    )
+
+
+class OllamaNoAccesibleError(RuntimeError):
+    """Se lanza ante timeout o rechazo de conexion hacia ``base_url``.
+
+    Mensaje tipico (sustituye ``{base_url}`` por la URL configurada)::
+
+        No se puede conectar a Ollama en `{base_url}`. Verifica que `ollama serve` esté corriendo.
+    """
+
+
+class ModeloNoDisponibleError(RuntimeError):
+    """Se lanza cuando Ollama indica que el modelo no esta instalado.
+
+    Mensaje tipico (sustituye ``{modelo}`` por el nombre del modelo)::
+
+        El modelo `{modelo}` no está instalado en Ollama. Ejecuta: `ollama pull {modelo}`
+    """
+
+
+@dataclass
+class ConfiguracionLlm:
+    """Parametros de transporte hacia Ollama.
+
+    Para cargar ``OLLAMA_BASE_URL``, ``MODELO_LLM_DEFECTO`` y ``OLLAMA_NUM_CTX``
+    desde el entorno (y opcionalmente un archivo ``.env``), usar
+    :meth:`desde_variables_entorno`.
+
+    ``num_ctx`` fija la ventana del modelo; documentacion del MVP: si un documento
+    supera ese limite en tokens, el modelo puede truncar el contexto.
+    """
+
+    base_url: str = "http://localhost:11434"
+    modelo: str = MODELO_LLAMA_3_1_8B
+    temperatura: float = 0.2
+    num_ctx: int = 8192
+    timeout_segundos: int = 180
+
+    @classmethod
+    def desde_variables_entorno(cls) -> ConfiguracionLlm:
+        """Lee variables de entorno tras ``load_dotenv()`` (si existe ``.env``)."""
+        load_dotenv()
+        base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip()
+        modelo = os.environ.get("MODELO_LLM_DEFECTO", MODELO_LLAMA_3_1_8B).strip()
+        defecto_ctx = 8192
+        num_ctx = _num_ctx_desde_entorno(defecto_ctx)
+        return cls(
+            base_url=base.rstrip("/"),
+            modelo=modelo,
+            num_ctx=num_ctx,
+        )
+
+
+class ClienteOllama:
+    """Envia mensajes a ``POST /api/chat`` y lista modelos con ``GET /api/tags``."""
+
+    def __init__(self, configuracion: ConfiguracionLlm) -> None:
+        self._config = configuracion
+        self._sesion = requests.Session()
+
+    @property
+    def configuracion(self) -> ConfiguracionLlm:
+        """Misma instancia de :class:`ConfiguracionLlm` usada en ``chat`` y peticiones."""
+        return self._config
+
+    def _url(self, ruta: str) -> str:
+        return f"{self._config.base_url.rstrip('/')}{ruta}"
+
+    def _peticion(
+        self,
+        metodo: str,
+        ruta: str,
+        *,
+        json_cuerpo: dict[str, Any] | None = None,
+    ) -> requests.Response:
+        ultima: requests.Response | None = None
+        for intento in range(2):
+            try:
+                resp = self._sesion.request(
+                    metodo,
+                    self._url(ruta),
+                    json=json_cuerpo,
+                    timeout=self._config.timeout_segundos,
+                )
+            except (requests.ConnectionError, requests.Timeout) as exc:
+                raise OllamaNoAccesibleError(
+                    _mensaje_ollama_inaccesible(self._config.base_url)
+                ) from exc
+
+            if resp.status_code >= 500 and intento == 0:
+                time.sleep(2)
+                ultima = resp
+                continue
+            return resp
+
+        assert ultima is not None
+        ultima.raise_for_status()
+        return ultima
+
+    def _error_modelo_en_cuerpo(self, datos: dict[str, Any]) -> bool:
+        err = str(datos.get("error", "")).lower()
+        return "not found" in err and "model" in err
+
+    def _interpretar_fallo_modelo(self, resp: requests.Response) -> None:
+        modelo = self._config.modelo
+        try:
+            datos = resp.json()
+        except requests.JSONDecodeError:
+            datos = {}
+        if self._error_modelo_en_cuerpo(datos):
+            raise ModeloNoDisponibleError(_mensaje_modelo_no_disponible(modelo))
+        if resp.status_code == 404:
+            raise ModeloNoDisponibleError(_mensaje_modelo_no_disponible(modelo))
+
+    def chat(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
+    ) -> str:
+        """Envia ``messages`` a Ollama y devuelve el texto de ``message.content``.
+
+        Si ``num_ctx`` no es None, se usa en la petición (sin persistir ``ConfiguracionLlm.num_ctx``).
+        """
+        nctx = self._config.num_ctx if num_ctx is None else num_ctx
+        cuerpo: dict[str, Any] = {
+            "model": self._config.modelo,
+            "messages": mensajes,
+            "stream": False,
+            "options": {
+                "temperature": self._config.temperatura,
+                "num_ctx": nctx,
+            },
+        }
+        resp = self._peticion("POST", "/api/chat", json_cuerpo=cuerpo)
+
+        if resp.status_code >= 400:
+            self._interpretar_fallo_modelo(resp)
+            resp.raise_for_status()
+
+        datos = resp.json()
+        if self._error_modelo_en_cuerpo(datos):
+            raise ModeloNoDisponibleError(
+                _mensaje_modelo_no_disponible(self._config.modelo)
+            )
+
+        mensaje = datos.get("message") or {}
+        contenido = mensaje.get("content")
+        if contenido is None:
+            return ""
+        return str(contenido)
+
+    def _abrir_stream_chat(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
+    ) -> requests.Response:
+        nctx = self._config.num_ctx if num_ctx is None else num_ctx
+        cuerpo: dict[str, Any] = {
+            "model": self._config.modelo,
+            "messages": mensajes,
+            "stream": True,
+            "options": {
+                "temperature": self._config.temperatura,
+                "num_ctx": nctx,
+            },
+        }
+        try:
+            resp = self._sesion.post(
+                self._url("/api/chat"),
+                json=cuerpo,
+                stream=True,
+                timeout=self._config.timeout_segundos,
+            )
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            raise OllamaNoAccesibleError(
+                _mensaje_ollama_inaccesible(self._config.base_url)
+            ) from exc
+
+        if resp.status_code >= 400:
+            try:
+                datos = resp.json()
+            except (requests.JSONDecodeError, ValueError):
+                datos = {}
+            if self._error_modelo_en_cuerpo(datos) or resp.status_code == 404:
+                raise ModeloNoDisponibleError(
+                    _mensaje_modelo_no_disponible(self._config.modelo)
+                )
+            resp.raise_for_status()
+        return resp
+
+    def chat_stream(
+        self,
+        mensajes: list[dict[str, str]],
+        *,
+        num_ctx: int | None = None,
+    ) -> Iterator[str]:
+        """Envia ``messages`` a Ollama en modo streaming y hace yield de cada delta de ``message.content``.
+
+        Lee NDJSON (una linea JSON por chunk). Lanza ``OllamaNoAccesibleError`` ante
+        timeout o conexion rechazada y ``ModeloNoDisponibleError`` si Ollama indica
+        que el modelo no esta instalado.
+
+        Si ``num_ctx`` no es None, se usa en cada chunk (override por llamada).
+        """
+        resp = self._abrir_stream_chat(mensajes, num_ctx=num_ctx)
+        try:
+            for linea in resp.iter_lines(decode_unicode=True):
+                if not linea:
+                    continue
+                try:
+                    datos = json.loads(linea)
+                except json.JSONDecodeError:
+                    continue
+                if self._error_modelo_en_cuerpo(datos):
+                    raise ModeloNoDisponibleError(
+                        _mensaje_modelo_no_disponible(self._config.modelo)
+                    )
+                contenido = (datos.get("message") or {}).get("content")
+                if contenido:
+                    yield str(contenido)
+                if datos.get("done"):
+                    break
+        finally:
+            resp.close()
+
+    def listar_modelos_locales(self) -> list[str]:
+        """Devuelve los tags instalados segun ``GET /api/tags``."""
+        resp = self._peticion("GET", "/api/tags")
+        resp.raise_for_status()
+        datos = resp.json()
+        modelos = datos.get("models") or []
+        nombres: list[str] = []
+        for item in modelos:
+            nombre = item.get("name") if isinstance(item, dict) else None
+            if nombre:
+                nombres.append(str(nombre))
+        return nombres

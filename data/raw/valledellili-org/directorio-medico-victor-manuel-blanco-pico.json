@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/victor-manuel-blanco-pico/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:28:02+00:00",
+  "hash_sha256": "d1246a13b43fb5e27c792d4e859e45af39369c2c368168cdad859888b4f8b9fa",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:28:01 GMT"
+  }
+}

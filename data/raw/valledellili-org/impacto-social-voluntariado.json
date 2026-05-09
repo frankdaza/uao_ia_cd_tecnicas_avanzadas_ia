@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/impacto-social/voluntariado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:42+00:00",
+  "hash_sha256": "ffc36d3aee2c5a24c874eaa0210416b2edf3eb965c8bc9a78fbb45bbad42a1f4",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:41 GMT"
+  }
+}

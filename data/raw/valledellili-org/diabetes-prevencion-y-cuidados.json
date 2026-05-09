@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/diabetes-prevencion-y-cuidados/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:30:17+00:00",
+  "hash_sha256": "9850df5fa35a84f5e085e8f8b3f66908ef07aa93dbfcd3fbcf4311349ac5c7f4",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:30:16 GMT"
+  }
+}

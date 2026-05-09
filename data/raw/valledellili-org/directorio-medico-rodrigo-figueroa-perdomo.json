@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/rodrigo-figueroa-perdomo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:16:20+00:00",
+  "hash_sha256": "7231e803586bcd9e1542504c9409b8cb83d2f80aa884ea65ae1f0463981156e9",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:16:19 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/william-victoria-morales/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:09+00:00",
+  "hash_sha256": "4c66fcf8db44381c78770016e94e5a3ae146711dc6f41e71e9513ab39ce75a51",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:08 GMT"
+  }
+}

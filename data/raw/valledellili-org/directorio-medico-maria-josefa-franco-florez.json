@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-josefa-franco-florez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:18+00:00",
+  "hash_sha256": "0b9e5c0fd9eca1a06634e9b0656e9ab379b67f3f5b1e6ed4bd0946b36a21c805",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:17 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/viviana-lotero-diaz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:44+00:00",
+  "hash_sha256": "3d50de234d5ef9d2e5ced1d54cba828d9fd82684c6934f0f3c7934230704bfab",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:43 GMT"
+  }
+}

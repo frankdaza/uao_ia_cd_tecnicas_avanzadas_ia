@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fernando-rodriguez-holguin/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:25:40+00:00",
+  "hash_sha256": "d4b33e6bede47ab6717e83f0ab7cc968e088ccc7bc089d19394a15c0d9b20fc1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:25:40 GMT"
+  }
+}

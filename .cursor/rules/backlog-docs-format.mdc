@@ -1,0 +1,74 @@
+---
+description: Formato YAML, nombre de archivo y convenciones para documentacion en backlog/docs (documentos tipo Backlog.md upstream).
+globs: backlog/docs/**/*.md
+alwaysApply: false
+---
+
+# Documentos en `backlog/docs/`
+
+Al **crear** o **reescribir** archivos Markdown bajo `backlog/docs/` que sean documentacion de proceso, guias o referencias del proyecto —no actividades externas aisladas (p. ej. PDF oficial en una subcarpeta propia)—, el formato debe seguir el estilo **Backlog.md** upstream: **front matter YAML obligatorio** y patron de nombre con prefijo `doc-<N>` ([ejemplo oficial: doc-001 - Testing Style Guide](https://github.com/MrLesk/Backlog.md/blob/main/backlog/docs/doc-001%20-%20Testing-Style-Guide.md?plain=1)).
+
+## Front matter (obligatorio, primeras lineas del archivo)
+
+- Bloque **`---`** en la primera linea y segundo `---` inmediatamente despues de los campos.
+- Campos requeridos (orden recomendado; nombres en ingles como en upstream):
+
+| Campo | Descripcion |
+| --- | --- |
+| `id` | Debe coincidir con el prefijo del nombre del archivo: `doc-<N>` (ej. `doc-001` como en el [ejemplo upstream](https://github.com/MrLesk/Backlog.md/blob/main/backlog/docs/doc-001%20-%20Testing-Style-Guide.md?plain=1)). Sin espacios; minusculas; padding con ceros a la izquierda si el equipo ya usa serie `001`, `002`, ... |
+| `title` | Titulo legible (puede incluir texto en español en el contenido visible). |
+| `type` | Categoria corta del documento. Ejemplos locales: `guide`, `reference`, `architecture`, `tutorial`, `policy`. |
+| `created_date` | Fecha ISO `YYYY-MM-DD` entre comillas simples (ej. `'2026-04-27'`). |
+
+### Plantilla minima (alinear con upstream)
+
+```yaml
+---
+id: doc-001
+title: Titulo visible del documento
+type: guide
+created_date: '2026-04-27'
+---
+```
+
+Opcionalmente se pueden agregar mas claves YAML del equipo (ej. `status`, `modulo`) sin romper compatibilidad, siempre en ASCII en **nombres** de campo.
+
+### `updated_date` (opcional)
+
+Si el documento se actualiza de forma relevante, añadir o actualizar `updated_date` con formato ISO entre comillas simples, igual que `created_date`.
+
+- Tras el cierre del front matter, una linea en blanco y luego el cuerpo en Markdown.
+
+## Nombre del archivo (convencion Backlog.md)
+
+Formato canonico ([referencia upstream](https://github.com/MrLesk/Backlog.md/blob/main/backlog/docs/doc-001%20-%20Testing-Style-Guide.md?plain=1)):
+
+```text
+doc-<N> - <Titulo-Slug-En-Palabras-Separadas-Por-Guiones>.md
+```
+
+- **`<N>`**: entero alineado con `id` en el front matter (`id: doc-003` → archivo `doc-003 - ...`).
+- **Separador**: espacio, guion, espacio (` - `) entre `doc-<N>` y el slug.
+- **`<Titulo-Slug>`**: **ASCII**, sin tilde ni ene en el **nombre de archivo**. Palabras en **Title-Case** separadas por guion (como `Testing-Style-Guide` en el proyecto upstream). Para titulos en español en el mismo estilo ASCII (ej. `MVP-Fase-1-Proyecto-Final-QA-BM25`).
+- **Extension**: `.md` minuscula.
+
+Ejemplo valido en este repo:
+
+`backlog/docs/doc-001 - MVP-Fase-1-Proyecto-Final-QA-BM25.md`
+
+## Numeracion siguiente `doc-<N>`
+
+Antes de crear un archivo nuevo:
+
+1. Listar `backlog/docs/**/*.md` que sigan este patron (omitir artefactos de otras convenciones o carpetas neutras como `actividades/` si no aplican esta regla).
+2. Tomar **N** igual al siguiente entero disponible (evitar colision de `id`/nombre).
+
+Los agentes deben usar la skill **`.cursor/skills/backlog-docs/`** (espejo en `.claude/skills/backlog-docs/`) al crear estos documentos.
+
+## Subcarpetas
+
+- **`backlog/docs/actividades/`** u otras carpetas para material oficial del curso pueden conservar otros nombres; no es obligatorio renomarlos si no son «documentacion de proyecto» al estilo `doc-<N>`.
+
+## Migrar documentos legacy
+
+Si un archivo en `backlog/docs/` no cumple esta convencion (sin `id doc-*`, sin `created_date`, nombre libre tipo `titulo-descriptivo.md`), al trabajar ese archivo renombrar y completar front matter según los pasos arriba, y actualizar enlaces desde `README.md`, `backlog/tasks/` o notas MCP que lo referencien.

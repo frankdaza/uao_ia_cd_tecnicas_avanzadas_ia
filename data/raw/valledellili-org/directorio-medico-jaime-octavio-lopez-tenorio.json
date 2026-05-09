@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jaime-octavio-lopez-tenorio/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:18+00:00",
+  "hash_sha256": "f99651dda1e10479d0b4bca29c5d780b4bd5f8b3e579e0e54fb6d1c403b506f3",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:17 GMT"
+  }
+}

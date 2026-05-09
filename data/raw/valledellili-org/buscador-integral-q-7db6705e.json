@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=diagnostico-por-imagen",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:22:41+00:00",
+  "hash_sha256": "454ee83ce8e7f1e1ac3e501a28002844869f825d692c309c634ee8ddf7680626",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:22:40 GMT"
+  }
+}

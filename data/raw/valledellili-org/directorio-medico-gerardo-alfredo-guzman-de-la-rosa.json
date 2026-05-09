@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/gerardo-alfredo-guzman-de-la-rosa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:44+00:00",
+  "hash_sha256": "317c749b9a6e2fa9b7193b99544649fd010de275736ea29eef30e8e02bdae85f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:43 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-manuel-burgos-luna/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:38+00:00",
+  "hash_sha256": "2b41c3b151c0c7bd28b8e4ca1b34823c75e0b515ca37d8e0aaa0c96a6a1b8e13",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:37 GMT"
+  }
+}

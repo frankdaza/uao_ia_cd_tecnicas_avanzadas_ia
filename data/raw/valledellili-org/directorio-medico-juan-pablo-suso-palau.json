@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-pablo-suso-palau/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:44+00:00",
+  "hash_sha256": "dfb4b27804cf2b00369874cd2010a95ba305d996d8b412ab2676e09ece0b82d8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:43 GMT"
+  }
+}

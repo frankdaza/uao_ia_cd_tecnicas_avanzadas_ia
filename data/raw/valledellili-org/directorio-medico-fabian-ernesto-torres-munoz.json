@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fabian-ernesto-torres-munoz/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:33+00:00",
+  "hash_sha256": "82c5e6123353ff7d4d53e85c4c0f60f327fd82e516b7ad3cba0f0c333bc5630f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:32 GMT"
+  }
+}

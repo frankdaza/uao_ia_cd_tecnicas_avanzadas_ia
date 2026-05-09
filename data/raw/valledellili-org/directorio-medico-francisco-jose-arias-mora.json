@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/francisco-jose-arias-mora/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:29+00:00",
+  "hash_sha256": "36424071f69e580099bc2130bd6f9bec1de0b1f7ebec64e8758b0c58d5f7b4b2",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:28 GMT"
+  }
+}

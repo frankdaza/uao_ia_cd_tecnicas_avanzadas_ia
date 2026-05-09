@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-fernanda-barraza-arredondo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:16+00:00",
+  "hash_sha256": "f071f803d9b70466ced38763a5c9d3d26702d587563d7d0c8a05dde125c9df17",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:15 GMT"
+  }
+}

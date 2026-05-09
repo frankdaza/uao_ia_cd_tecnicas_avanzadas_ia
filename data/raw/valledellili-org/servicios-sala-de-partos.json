@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/sala-de-partos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:18+00:00",
+  "hash_sha256": "46c6584b9363bcf8768ac74824549121557ef38fc38cd528330609632a79ab93",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:17 GMT"
+  }
+}

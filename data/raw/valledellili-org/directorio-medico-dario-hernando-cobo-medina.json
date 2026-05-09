@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/dario-hernando-cobo-medina/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:10+00:00",
+  "hash_sha256": "5b1cccdbd6c99f26c7ff60bc1526c97d9d8fad425e69063ded7f14722aa2c18b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:09 GMT"
+  }
+}

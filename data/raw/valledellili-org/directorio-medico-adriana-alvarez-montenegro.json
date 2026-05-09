@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/adriana-alvarez-montenegro/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:52:47+00:00",
+  "hash_sha256": "5b2faa39549fc8e003a25aabeb96508a52df6eb40d7d7e503e792a37af5c9383",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:52:46 GMT"
+  }
+}

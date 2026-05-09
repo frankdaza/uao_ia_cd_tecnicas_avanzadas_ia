@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jorge-luis-orozco-velez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:41+00:00",
+  "hash_sha256": "8a51eb90234890bedd5789ef6d55f8531db383ef6e2ecd2bdd34c03196820a8f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:40 GMT"
+  }
+}

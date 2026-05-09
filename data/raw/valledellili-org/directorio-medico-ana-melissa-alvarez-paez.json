@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ana-melissa-alvarez-paez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:18+00:00",
+  "hash_sha256": "67597fbefc000dae946c0d3d32ced12241adbfa7818ac9b269044a6bd280db98",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:17 GMT"
+  }
+}

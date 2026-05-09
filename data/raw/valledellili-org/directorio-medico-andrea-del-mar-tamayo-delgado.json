@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andrea-del-mar-tamayo-delgado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:37+00:00",
+  "hash_sha256": "8002272d542ac426bcdee74cd1f2ed533d221484e0b4715e77f5c43fe18f6aad",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:36 GMT"
+  }
+}

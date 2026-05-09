@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carolina-jaramillo-alvarez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:52+00:00",
+  "hash_sha256": "2daee5332517d528bcebe63759863819ff678ad371ed63d8c6ef059c19751329",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:51 GMT"
+  }
+}

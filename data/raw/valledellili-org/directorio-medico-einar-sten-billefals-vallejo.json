@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/einar-sten-billefals-vallejo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:30+00:00",
+  "hash_sha256": "d2a111b12d228ce93852afcf69cf920dd1ab93917477a2a6cd1df2510aa1c1e4",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:29 GMT"
+  }
+}

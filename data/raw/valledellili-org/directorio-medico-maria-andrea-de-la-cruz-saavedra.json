@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-andrea-de-la-cruz-saavedra/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:06:08+00:00",
+  "hash_sha256": "38616fc067c39a51f06669140c4cc241d5c736933e62fe8a5e8c269f1e0483e8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:06:07 GMT"
+  }
+}

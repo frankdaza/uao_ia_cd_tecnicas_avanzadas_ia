@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/revista-ed-79-magnetom-sola-la-nueva-era-de-la-resonancia-magnetica/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:02:18+00:00",
+  "hash_sha256": "339050259c967dc47461da32a3d952ea15cc681b2e52f291bff97839e101b15c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:02:17 GMT"
+  }
+}

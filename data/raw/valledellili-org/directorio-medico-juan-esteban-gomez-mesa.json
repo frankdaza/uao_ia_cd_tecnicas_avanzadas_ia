@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-esteban-gomez-mesa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:10+00:00",
+  "hash_sha256": "c971d01b6b1004852b076e97be2111e02fa7837c5b41adc1ce57596215cfcd24",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:09 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/aula-lili/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:59+00:00",
+  "hash_sha256": "a1212f83aec9bbd2340f2ad12f76c61eae6e0a39dca742548d9198c6147bc74e",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:58 GMT"
+  }
+}

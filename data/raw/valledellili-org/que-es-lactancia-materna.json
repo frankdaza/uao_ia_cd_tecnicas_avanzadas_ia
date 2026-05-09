@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/que-es-lactancia-materna/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:17:21+00:00",
+  "hash_sha256": "e818a0d2e5821b3861fc706ad454c34f9faa98d1f5d0700edb9f1b4296e63f70",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:17:20 GMT"
+  }
+}

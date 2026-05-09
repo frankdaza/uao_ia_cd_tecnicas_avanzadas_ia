@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/mastologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:53+00:00",
+  "hash_sha256": "32e6e202f406bd1e7d32e63a2499e014d5b36d064b52b76f52e9e51336bf3417",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:52 GMT"
+  }
+}

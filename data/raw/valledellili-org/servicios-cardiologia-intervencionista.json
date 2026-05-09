@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/cardiologia-intervencionista/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:37+00:00",
+  "hash_sha256": "c091acf95a32096de686a3268d6a6f8bc26d7fb6ba78df6a6bb5b74c428175b5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:36 GMT"
+  }
+}

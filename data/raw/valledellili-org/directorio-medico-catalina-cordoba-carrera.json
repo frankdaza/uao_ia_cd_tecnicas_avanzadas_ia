@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/catalina-cordoba-carrera/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:19+00:00",
+  "hash_sha256": "dbe3f1d634e87d85982a5b379a8d8d81dde3983df27b808de28aed116af4a817",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:18 GMT"
+  }
+}

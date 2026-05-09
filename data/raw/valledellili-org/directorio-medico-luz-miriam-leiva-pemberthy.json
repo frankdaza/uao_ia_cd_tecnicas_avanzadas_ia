@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/luz-miriam-leiva-pemberthy/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:33+00:00",
+  "hash_sha256": "6926b3a80fcd26431759b8090b0761b752055ae2b20a2165490490bc5caa32ad",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:31 GMT"
+  }
+}

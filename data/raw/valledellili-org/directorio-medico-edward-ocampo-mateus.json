@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/edward-ocampo-mateus/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:27+00:00",
+  "hash_sha256": "3db7b10f6552c38386159703684186b449871999ae2d4a9ccf6f2cacc36b8985",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:26 GMT"
+  }
+}

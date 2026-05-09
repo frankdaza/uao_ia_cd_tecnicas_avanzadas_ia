@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-victoria-benavides-guerrero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:55:19+00:00",
+  "hash_sha256": "9761b2a9602f32e8f3e491de749918d317918f89947e67190a1ebd1427fae7d9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:55:18 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/zamira-montoya-camargo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:14+00:00",
+  "hash_sha256": "e01528b3539964b5a78861fc51aae4bebd634e6378dd842f7fa9040ccdaa3f1a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:13 GMT"
+  }
+}

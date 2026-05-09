@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvl-al-dia/cat/cartas-de-la-salud/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:27+00:00",
+  "hash_sha256": "fdc2abb881f3b4d7a61295133609dee850e00a079a7d3a0742a76e027a64c01f",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:25 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/lina-maria-congote-arango/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:50+00:00",
+  "hash_sha256": "639a5778160d0931b7bc34a9cda61ff46bcbd0b9261acb0f2a5551fa00f422bc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:49 GMT"
+  }
+}

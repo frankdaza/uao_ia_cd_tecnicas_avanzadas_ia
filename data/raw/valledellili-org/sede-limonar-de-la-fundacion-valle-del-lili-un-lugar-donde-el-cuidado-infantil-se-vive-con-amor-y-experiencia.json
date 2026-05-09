@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/sede-limonar-de-la-fundacion-valle-del-lili-un-lugar-donde-el-cuidado-infantil-se-vive-con-amor-y-experiencia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:44:55+00:00",
+  "hash_sha256": "f9779b2078540648cd6fd3d850bac5939a29a4b99598d2072f65fe0b83ba3a09",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:44:54 GMT",
+    "Server": "Apache"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/viviana-silva-romero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:56:11+00:00",
+  "hash_sha256": "eeddf0c0d11b84ce7799610a25e0c711d71288c5e30211d95fce7273eac93ca9",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:56:10 GMT"
+  }
+}

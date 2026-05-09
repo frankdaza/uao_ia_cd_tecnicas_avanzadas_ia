@@ -1,0 +1,13 @@
+{
+  "url": "https://valledellili.org/la-fundacion-valle-del-lili-gana-premio-nacional-a-la-innovacion-en-dispositivos-medicos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:18:52+00:00",
+  "hash_sha256": "919684c7410682a0d788b87ecc4374c50e61448675d327af3fc514ea40ea85e0",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:18:51 GMT",
+    "Server": "Apache"
+  }
+}

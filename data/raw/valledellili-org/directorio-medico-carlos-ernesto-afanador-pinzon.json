@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-ernesto-afanador-pinzon/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:14:10+00:00",
+  "hash_sha256": "cc27045eacf165d8ff8bdb05b6e0c5bbcc6c720f100592b95eb8362025fb9d51",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:14:09 GMT"
+  }
+}

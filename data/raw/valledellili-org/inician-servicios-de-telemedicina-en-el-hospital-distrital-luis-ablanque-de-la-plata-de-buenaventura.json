@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/inician-servicios-de-telemedicina-en-el-hospital-distrital-luis-ablanque-de-la-plata-de-buenaventura/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:47:54+00:00",
+  "hash_sha256": "401a797e6e685c72ab61651ac5ecfa12127d5ffe2857edc3cd22eba2f979183e",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:47:53 GMT"
+  }
+}

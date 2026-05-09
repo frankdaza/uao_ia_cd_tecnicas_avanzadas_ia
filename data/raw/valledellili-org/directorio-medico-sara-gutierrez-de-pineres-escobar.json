@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sara-gutierrez-de-pineres-escobar/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:55:56+00:00",
+  "hash_sha256": "55f98e3184b8b937c4500d6a4ad9a1e02b862051913514e69f490bbf686accc3",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:55:55 GMT"
+  }
+}

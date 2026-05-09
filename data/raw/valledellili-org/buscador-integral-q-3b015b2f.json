@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=psiquiatria-infantil",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:11:36+00:00",
+  "hash_sha256": "90e8329082e8326280334227f6a77127d6b383234b028db98cd5122ab8dca3dc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:11:35 GMT"
+  }
+}

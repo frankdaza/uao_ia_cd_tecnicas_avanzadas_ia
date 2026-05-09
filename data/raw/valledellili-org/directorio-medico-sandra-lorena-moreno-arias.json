@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/sandra-lorena-moreno-arias/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:07:04+00:00",
+  "hash_sha256": "84bd17a7a3edf62f519bdac7c5e894f0913aebb9228ef63f3a415dc8116c0b26",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:07:03 GMT"
+  }
+}

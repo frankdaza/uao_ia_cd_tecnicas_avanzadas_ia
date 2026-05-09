@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/luis-fernando-paz-lozada/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:53+00:00",
+  "hash_sha256": "49d993830dd0b35dffbc697c0597e7bf04a80b70249cf5b457b4a47aef0dcf56",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:52 GMT"
+  }
+}

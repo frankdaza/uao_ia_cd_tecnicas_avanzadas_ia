@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/electrofisiologia/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:50:07+00:00",
+  "hash_sha256": "022aaf450f5a012b6fd110b5cd87237e82ae72d15d579bdc06696b2f8fea84e5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:50:06 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/ana-maria-garcia-giraldo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:10+00:00",
+  "hash_sha256": "a3f942963e68ae791bb990caf282142ebc97d553b04ef34fb2d7f87f4802c09b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:09 GMT"
+  }
+}

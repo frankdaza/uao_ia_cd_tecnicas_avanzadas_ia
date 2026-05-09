@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/somos-hospital-verde-buscamos-traer-la-sostenibilidad-ambiental-a-cada-rincon-de-nuestro-hospital/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:21:38+00:00",
+  "hash_sha256": "e0b377f544d3219d449de7e0ef651c5e7e6ab8f56c2aa1ce79e130b30b3da6e3",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:21:37 GMT"
+  }
+}

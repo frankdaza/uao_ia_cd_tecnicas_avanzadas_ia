@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/sedes/sede-alfaguara/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:48:26+00:00",
+  "hash_sha256": "61db4043a04f77237824cafa5ef1d09d5044e0ac35dd5d02f256c80d46f89a27",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:48:24 GMT"
+  }
+}

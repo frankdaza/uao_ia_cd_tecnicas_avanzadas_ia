@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/joaquin-humberto-idrobo-piquero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:24+00:00",
+  "hash_sha256": "b9994383149622376b75d423cd6adce7123491f0d5b8bd3a76ec4de17cbc722b",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:23 GMT"
+  }
+}

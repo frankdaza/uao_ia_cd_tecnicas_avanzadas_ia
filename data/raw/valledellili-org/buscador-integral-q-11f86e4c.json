@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=piel",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:17:57+00:00",
+  "hash_sha256": "db2f344a9aae57f7aa6649eec93850cb7fbfd3f58349cce7af97116bb3e2af47",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:17:55 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carlos-alberto-moriones-robayo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:43+00:00",
+  "hash_sha256": "2f0d898a3451b434ff15fb0a3128e68cbb8a1b88e65f5b0a4e13ae9a8c320d4a",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:42 GMT"
+  }
+}

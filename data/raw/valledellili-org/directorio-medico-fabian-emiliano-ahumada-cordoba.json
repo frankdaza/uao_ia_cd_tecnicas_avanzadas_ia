@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/fabian-emiliano-ahumada-cordoba/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:53:23+00:00",
+  "hash_sha256": "893e55dccdc9d68980a321d8c57fe5fae687b991b5be9f9efbb5389acf28dbbc",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:53:22 GMT"
+  }
+}

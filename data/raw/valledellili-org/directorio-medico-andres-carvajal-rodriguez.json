@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/andres-carvajal-rodriguez/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:22+00:00",
+  "hash_sha256": "4ab142a62f64c9a0479f1f8ef0909b9e68023878bba569421fc75626a63589fb",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:22 GMT"
+  }
+}

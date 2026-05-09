@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/investigacion/sacituzumab-tirumotecan/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:45:58+00:00",
+  "hash_sha256": "8f2e29fc2dc345228614f37ec5b214c015d71c8a566f63b5849ba3204c109703",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:45:57 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jossman-javier-carvajal-roa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:15+00:00",
+  "hash_sha256": "2cb1392ffe6d89ba4a89185349de82d5113fde7dadf0bd5294efa00c2295f411",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:14 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/carmen-helena-vargas-moran/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:03:49+00:00",
+  "hash_sha256": "a3d3961cf5e021c4226ff6568807c61a888bc57c7c3a1c93bbb58d6f3ed33a01",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:03:48 GMT"
+  }
+}

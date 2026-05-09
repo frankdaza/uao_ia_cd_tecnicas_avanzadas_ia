@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/claudia-lorena-guerrero-moreno/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:04:01+00:00",
+  "hash_sha256": "11123b30ceb7ab63d0c19570b87c893d4a3ff10dbae8ebd45a02cd26c0a74e46",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:04:00 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=salud-digital",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:34+00:00",
+  "hash_sha256": "b3756867f0e9417d5ace2d7004cef695ff6795a63d54d9110c9e15228de049f1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:32 GMT"
+  }
+}

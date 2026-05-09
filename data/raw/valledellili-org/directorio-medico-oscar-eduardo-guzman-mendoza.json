@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/oscar-eduardo-guzman-mendoza/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:09:51+00:00",
+  "hash_sha256": "84fbcd34e6cf9352fbd42cb33659a75bea2d36c8a1a5679089bafbd2a59a06c8",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:09:50 GMT"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/beatriz-elena-munoz-ospina/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:54:18+00:00",
+  "hash_sha256": "6e186e74dedca2b94dbfe0ac75e6f46e887e196bd93087837b319dd7c480115d",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:54:17 GMT"
+  }
+}

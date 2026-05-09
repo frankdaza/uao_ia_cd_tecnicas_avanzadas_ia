@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=avances-cientificos",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:19:27+00:00",
+  "hash_sha256": "9e5172adaa3f265d63994e9fe28f96d8738c6a6a8c0cc6795d8f2ed068a5bde6",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:19:26 GMT"
+  }
+}

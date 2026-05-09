@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/fvlpremium/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:43:09+00:00",
+  "hash_sha256": "09d823513b6e3aa4a1913e2d1fcf7aa42f4e44a9e9c594bc99df8f6ee15e41d8",
+  "profundidad": 1,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:43:08 GMT"
+  }
+}

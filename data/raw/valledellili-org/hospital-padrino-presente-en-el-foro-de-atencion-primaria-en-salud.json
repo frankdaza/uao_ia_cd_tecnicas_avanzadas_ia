@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/hospital-padrino-presente-en-el-foro-de-atencion-primaria-en-salud/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:13+00:00",
+  "hash_sha256": "533cfadb83ff8b074474428c0d0fe3da3334d6e7fb4f2795e674e56b15508771",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:58:11 GMT"
+  }
+}

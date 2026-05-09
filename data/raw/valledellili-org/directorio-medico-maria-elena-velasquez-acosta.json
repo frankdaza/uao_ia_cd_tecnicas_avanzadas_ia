@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/maria-elena-velasquez-acosta/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:15+00:00",
+  "hash_sha256": "a44db172997ddb8454a65279f61dcd08b401d8b2cab028c7afa562f1af763482",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:15 GMT"
+  }
+}

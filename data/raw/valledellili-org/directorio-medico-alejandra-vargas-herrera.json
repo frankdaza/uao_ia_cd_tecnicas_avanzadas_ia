@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/alejandra-vargas-herrera/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:14+00:00",
+  "hash_sha256": "4b7a873f1bc6d86cd6382e7b9fde63bbf57720b004db4615b5cc14ab4e4a1dca",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:13 GMT"
+  }
+}

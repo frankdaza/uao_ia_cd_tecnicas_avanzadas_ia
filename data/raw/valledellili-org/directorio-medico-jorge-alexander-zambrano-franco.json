@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/jorge-alexander-zambrano-franco/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:01:01+00:00",
+  "hash_sha256": "475c298bd1317b11f5af87e117e73ed47ce1df3c691c17541cfc2df1b9970d2c",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:01:00 GMT"
+  }
+}

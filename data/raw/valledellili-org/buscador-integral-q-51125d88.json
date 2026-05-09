@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=pediatria",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:58:56+00:00",
+  "hash_sha256": "1eafc8d98023bf9ac48a6aebecb01e7429b7ccd84713374ad62b801196c80960",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:58:55 GMT"
+  }
+}

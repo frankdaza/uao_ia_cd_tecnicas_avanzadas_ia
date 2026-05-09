@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-sebastian-solarte-forero/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:15:29+00:00",
+  "hash_sha256": "a2c659b8746159b703b8a93d829642e8d2dc0c0476bc053e106cf5d5ae483af1",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:15:28 GMT"
+  }
+}

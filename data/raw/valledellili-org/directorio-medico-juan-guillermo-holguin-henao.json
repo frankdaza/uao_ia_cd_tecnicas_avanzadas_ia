@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/juan-guillermo-holguin-henao/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:26:04+00:00",
+  "hash_sha256": "c4ae896df8075d4dc7755320f8f4072a6d9821ab432ee236336de5674cdd6ac7",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:26:03 GMT"
+  }
+}

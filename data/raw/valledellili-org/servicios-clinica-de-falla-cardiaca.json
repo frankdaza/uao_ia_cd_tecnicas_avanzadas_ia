@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/servicios/clinica-de-falla-cardiaca/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:49:43+00:00",
+  "hash_sha256": "146e080ca1283e378cf3b1722621bc94a0da9cac94cc6ea54fcef7c806152304",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:49:42 GMT"
+  }
+}

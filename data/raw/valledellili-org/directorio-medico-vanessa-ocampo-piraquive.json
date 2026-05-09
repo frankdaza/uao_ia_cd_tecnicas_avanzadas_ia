@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/vanessa-ocampo-piraquive/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:27:57+00:00",
+  "hash_sha256": "d73053bd40a225a555b6f6d488ea2750beb978682259d51bfe534d3997ef469a",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:27:56 GMT"
+  }
+}

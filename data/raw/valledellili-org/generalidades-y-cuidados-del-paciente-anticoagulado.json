@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/generalidades-y-cuidados-del-paciente-anticoagulado/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:32:04+00:00",
+  "hash_sha256": "01764fa061f75eafbe9f52fd5928391448fcfd40e5540a5f604f07e6b89e8e3c",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:32:03 GMT"
+  }
+}

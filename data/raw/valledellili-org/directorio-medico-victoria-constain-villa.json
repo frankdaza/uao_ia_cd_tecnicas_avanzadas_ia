@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/victoria-constain-villa/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:34+00:00",
+  "hash_sha256": "93b84c2c9fcfbf21d5182b14b5a21eb5d8938300bfd6bbf394aad10faabe6e1c",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:33 GMT"
+  }
+}

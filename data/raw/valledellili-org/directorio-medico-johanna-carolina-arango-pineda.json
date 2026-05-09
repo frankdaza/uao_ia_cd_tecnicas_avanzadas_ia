@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/johanna-carolina-arango-pineda/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:08:27+00:00",
+  "hash_sha256": "bc623ba47d92e48e6b0c2afbb1b478b6fdba5394f09ee37ac4a64b1872cbc2d5",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:08:26 GMT"
+  }
+}

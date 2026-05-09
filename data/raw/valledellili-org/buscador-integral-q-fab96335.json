@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=valores",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:20:33+00:00",
+  "hash_sha256": "f803ef31049a53aa6f69d635e67f0f43b68137093f4d0c7d4533270462b25e27",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:20:32 GMT"
+  }
+}

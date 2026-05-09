@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/guillermo-potdevin-stein/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:31:52+00:00",
+  "hash_sha256": "bcc275647f8b3ce3d8c9b4bd8717babe82c05a4f42487708db59c4adcf0cd7ad",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:31:51 GMT"
+  }
+}

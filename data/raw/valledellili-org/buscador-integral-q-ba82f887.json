@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/buscador-integral/?by_tag=ceguera",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T01:59:33+00:00",
+  "hash_sha256": "5d17e15e7e6df00ff7fdbe9b39e8ce43ce009c3ed4c6b37d3fd86986ce1345df",
+  "profundidad": 2,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 01:59:32 GMT"
+  }
+}

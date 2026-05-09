@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/hospital-padrino-2/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:21:08+00:00",
+  "hash_sha256": "5c5a834c974c45ffbda5c5ff479162d86d0da930b2df40062f2ec93d89999f35",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:21:07 GMT"
+  }
+}

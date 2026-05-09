@@ -1,0 +1,26 @@
+---
+description: Etica y buenas practicas para scraping en src/scraping
+globs: "src/scraping/**/*.py"
+alwaysApply: false
+---
+
+# Scraping responsable
+
+## robots.txt y politicas
+
+- Respetar **`robots.txt`** y terminos del sitio cuando apliquen legal y academicamente.
+- **User-Agent** identificable (proyecto curso + contacto ficticio o nombre del equipo si se permite).
+
+## Ritmo y robustez
+
+- **Timeouts** en todas las peticiones HTTP.
+- **Reintentos** con backoff exponencial ante 429/5xx.
+- **Throttling**: pausa entre peticiones o limitador de tasa para no saturar el servidor.
+
+## Persistencia
+
+- Guardar HTML o respuesta cruda en **`data/raw/`** antes de parsear cuando sea posible, para reproducibilidad y depuracion.
+
+## Contenido
+
+- Priorizar **informacion publica** alineada con la actividad; no intentar evadir login ni CAPTCHA de forma abusiva.

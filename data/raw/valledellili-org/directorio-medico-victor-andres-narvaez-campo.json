@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/victor-andres-narvaez-campo/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:29:45+00:00",
+  "hash_sha256": "02e5525ef458109400f066fc1d4f602306adc1db6536cb8645f0e49f6f24a94f",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:29:43 GMT"
+  }
+}

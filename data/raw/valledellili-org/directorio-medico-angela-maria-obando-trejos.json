@@ -1,0 +1,12 @@
+{
+  "url": "https://valledellili.org/directorio-medico/angela-maria-obando-trejos/",
+  "http_status": 200,
+  "content_type": "text/html",
+  "fecha_extraccion": "2026-05-01T02:28:14+00:00",
+  "hash_sha256": "fffe75aa032b2d172232244c3123cce6b6a1fa6e5be8d9407f5da79c1377b8d7",
+  "profundidad": 3,
+  "headers_relevantes": {
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Fri, 01 May 2026 02:28:13 GMT"
+  }
+}
