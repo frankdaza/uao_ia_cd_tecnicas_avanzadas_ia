@@ -1,10 +1,12 @@
 ---
 id: TASK-44
-title: Dependencias Python y .env.example para stack agéntico (LangGraph, Postgres, Qdrant, LlamaIndex)
-status: To Do
+title: >-
+  Dependencias Python y .env.example para stack agéntico (LangGraph, Postgres,
+  Qdrant, LlamaIndex)
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 05:53'
 labels:
   - uv
   - backend
@@ -21,7 +23,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - .claude/skills/uv-python-env/SKILL.md
 priority: high
-ordinal: 2000
+ordinal: 0.0625
 ---
 
 ## Description
@@ -53,13 +55,13 @@ La arquitectura M2 añade orquestación con **LangGraph**, memoria con **langcha
 ## Acceptance Criteria
 
 <!-- AC:BEGIN -->
-- [ ] #1 `uv add` ejecutado; `pyproject.toml` y `uv.lock` versionados con todas las dependencias agénticas listadas
-- [ ] #2 `rank-bm25`, `nltk` y `numpy` eliminados **o** justificados en notas si aún queda código legacy hasta task-57 (documentar estado intermedio)
-- [ ] #3 `.env.example` incluye todos los bloques de variables con comentarios en español latinoamericano
-- [ ] #4 `DATABASE_URL` documentado para SQLAlchemy async (postgresql+asyncpg://…)
-- [ ] #5 `uv sync` + `uv run python -c "import langgraph, llama_index"` smoke sin error
-- [ ] #6 Ningún secreto ni API key en `.env.example`
-- [ ] #7 Lista de paquetes alineada con decision-3 (sin dependencias BM25 en estado final del M2)
+- [x] #1 `uv add` ejecutado; `pyproject.toml` y `uv.lock` versionados con todas las dependencias agénticas listadas
+- [x] #2 `rank-bm25`, `nltk` y `numpy` eliminados **o** justificados en notas si aún queda código legacy hasta task-57 (documentar estado intermedio)
+- [x] #3 `.env.example` incluye todos los bloques de variables con comentarios en español latinoamericano
+- [x] #4 `DATABASE_URL` documentado para SQLAlchemy async (postgresql+asyncpg://…)
+- [x] #5 `uv sync` + `uv run python -c "import langgraph, llama_index"` smoke sin error
+- [x] #6 Ningún secreto ni API key en `.env.example`
+- [x] #7 Lista de paquetes alineada con decision-3 (sin dependencias BM25 en estado final del M2)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -77,13 +79,22 @@ La arquitectura M2 añade orquestación con **LangGraph**, memoria con **langcha
 <!-- SECTION:NOTES:BEGIN -->
 - HuggingFace: si se usa `llama-index-embeddings-huggingface`, añadirlo explícitamente y documentar tamaño de descarga en README (task-63).
 - Mantener compatibilidad con variables existentes del Módulo 1 (OpenAI, CORS) sin romper arranque local.
+- **BM25 (estado intermedio):** `rank-bm25`, `nltk` y `numpy` siguen en `pyproject.toml` porque `src/retrieval/recuperador.py` los importa para el camino M1; retirarlos queda coordinado con task-57 cuando el legacy BM25 salga del árbol productivo.
+
+BM25: rank-bm25, nltk y numpy permanecen mientras src/retrieval/recuperador.py sea el camino M1; retiro alineado a task-57.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se anadieron dependencias agénticas con uv (langgraph, langchain-*, llama-index-*, qdrant-client, sqlalchemy[asyncio], asyncpg, psycopg[binary], alembic). Se amplio src/api/configuracion.py con variables M2 y metodo url_base_datos_async(). Se actualizo .env.example con bloques PostgreSQL, Qdrant, embeddings, chunking, RAG, memoria, FAQ y router. rank-bm25/nltk/numpy se conservan por codigo BM25 activo hasta task-57. pytest 125 ok, ruff ok, smoke import langgraph+llama_index ok.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest` pasa en el estado del repo tras cambios (o skips documentados si aún hay BM25 hasta task-57)
-- [ ] #2 `ruff check` sin errores nuevos en archivos Python modificados
-- [ ] #3 `uv.lock` actualizado y commiteado
-- [ ] #4 Revisión: ninguna clave real en `.env.example`
+- [x] #1 `uv run pytest` pasa en el estado del repo tras cambios (o skips documentados si aún hay BM25 hasta task-57)
+- [x] #2 `ruff check` sin errores nuevos en archivos Python modificados
+- [x] #3 `uv.lock` actualizado y commiteado
+- [x] #4 Revisión: ninguna clave real en `.env.example`
 <!-- DOD:END -->
