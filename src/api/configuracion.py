@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Literal
+from typing import Literal, Self
 from urllib.parse import quote_plus
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+TipoDistanciaQdrant = Literal["Cosine", "Dot", "Euclid", "Manhattan"]
 
 
 class Configuracion(BaseSettings):
@@ -39,16 +41,51 @@ class Configuracion(BaseSettings):
     # Si se define, tiene prioridad sobre el ensamble con POSTGRES_* (debe usar esquema asyncpg).
     database_url: str | None = None
 
-    # --- Modulo 2: Qdrant ---
-    qdrant_url: str = "http://localhost:6333"
-    qdrant_api_key: str | None = None
-    qdrant_collection: str = "corpus_fvl"
-    qdrant_distance: str = "Cosine"
+    # --- Modulo 2: Qdrant (vectores densos; ver TASK-52) ---
+    qdrant_url: str = Field(
+        default="http://localhost:6333",
+        description=(
+            "URL base del servidor Qdrant (HTTP). Para pruebas unitarias puede "
+            "usarse el literal :memory: para un cliente en memoria del proceso."
+        ),
+    )
+    qdrant_api_key: str | None = Field(
+        default=None,
+        description="Clave API de Qdrant Cloud; opcional en despliegue local.",
+    )
+    qdrant_collection: str = Field(
+        default="corpus_fvl",
+        description="Nombre de la coleccion de vectores del corpus indexado.",
+    )
+    qdrant_distance: TipoDistanciaQdrant = Field(
+        default="Cosine",
+        description=(
+            "Metrica de similitud en Qdrant. Debe coincidir con los valores del "
+            "cliente (Cosine, Dot, Euclid, Manhattan)."
+        ),
+    )
 
     # --- Modulo 2: embeddings (ingesta + RAG) ---
-    embedding_provider: Literal["openai", "huggingface"] = "openai"
-    embedding_model: str = "text-embedding-3-small"
-    embedding_dims: int = Field(default=1536, ge=8, le=8192)
+    embedding_provider: Literal["openai", "huggingface"] = Field(
+        default="openai",
+        description="Proveedor de embeddings: API OpenAI o modelos locales HuggingFace.",
+    )
+    embedding_model: str = Field(
+        default="text-embedding-3-small",
+        description=(
+            "Nombre del modelo en el proveedor (p. ej. text-embedding-3-small o "
+            "un id de sentence-transformers)."
+        ),
+    )
+    embedding_dims: int = Field(
+        default=1536,
+        ge=8,
+        le=8192,
+        description=(
+            "Dimension del vector denso; debe coincidir con la coleccion Qdrant y "
+            "con el modelo (p. ej. 1536 para text-embedding-3-small por defecto)."
+        ),
+    )
 
     # --- Modulo 2: chunking (ingesta) ---
     chunk_size: int = Field(default=512, ge=64, le=8192)
@@ -71,6 +108,18 @@ class Configuracion(BaseSettings):
     # --- Modulo 2: router LangGraph ---
     router_meta_prompt_path: str = "config/router_meta_prompt.json"
     router_llm_model: str = "gpt-4o-mini"
+
+    @model_validator(mode="after")
+    def validar_dims_embedding_modelos_openai_fijos(self) -> Self:
+        """Modelos OpenAI con dimension de salida fija en la API clasica."""
+        if self.embedding_provider != "openai":
+            return self
+        if self.embedding_model == "text-embedding-ada-002" and self.embedding_dims != 1536:
+            raise ValueError(
+                "Para text-embedding-ada-002 la dimension de salida es 1536; "
+                "ajusta EMBEDDING_DIMS o el modelo."
+            )
+        return self
 
     def url_base_datos_async(self) -> str:
         """URL `postgresql+asyncpg://...` lista para `create_async_engine`."""

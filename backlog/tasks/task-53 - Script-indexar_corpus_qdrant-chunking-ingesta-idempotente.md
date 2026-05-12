@@ -1,10 +1,12 @@
 ---
 id: TASK-53
-title: Script scripts/indexar_corpus_qdrant.py (chunking LlamaIndex + ingesta idempotente a Qdrant)
-status: To Do
+title: >-
+  Script scripts/indexar_corpus_qdrant.py (chunking LlamaIndex + ingesta
+  idempotente a Qdrant)
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:57'
 labels:
   - rag
   - qdrant
@@ -20,7 +22,7 @@ references:
 documentation:
   - .claude/skills/text-chunking/SKILL.md
 priority: high
-ordinal: 11000
+ordinal: 1000
 ---
 
 ## Description

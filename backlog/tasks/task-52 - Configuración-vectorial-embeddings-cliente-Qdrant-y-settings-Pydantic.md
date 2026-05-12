@@ -1,10 +1,10 @@
 ---
 id: TASK-52
 title: 'Configuración vectorial: embeddings, cliente Qdrant y settings Pydantic'
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 06:47'
+updated_date: '2026-05-12 06:57'
 labels:
   - qdrant
   - embeddings
@@ -20,7 +20,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 1000
+ordinal: 0.000244140625
 ---
 
 ## Description
@@ -49,15 +49,14 @@ Logs de inicio: proveedor de embeddings, nombre de colección, **sin** API keys.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 `obtener_embeddings()` selecciona proveedor según env sin errores de import circular
-- [ ] #2 Cliente Qdrant reusable; tests pueden inyectar `location=":memory:"` vía env o fixture
-- [ ] #3 `asegurar_coleccion` no falla si la colección ya existe con mismos parámetros; falla explícito si dims mismatch
-- [ ] #4 Settings validan enums (`Cosine`, `Dot`, etc.) contra valores soportados por Qdrant
-- [ ] #5 Documentación inline de variables en español latinoamericano
-- [ ] #6 Smoke: instanciar embeddings con API key falsa debe fallar solo al embed real (no al import)
-- [ ] #7 Tests unitarios mínimos de factory con mocks
+- [x] #1 `obtener_embeddings()` selecciona proveedor según env sin errores de import circular
+- [x] #2 Cliente Qdrant reusable; tests pueden inyectar `location=":memory:"` vía env o fixture
+- [x] #3 `asegurar_coleccion` no falla si la colección ya existe con mismos parámetros; falla explícito si dims mismatch
+- [x] #4 Settings validan enums (`Cosine`, `Dot`, etc.) contra valores soportados por Qdrant
+- [x] #5 Documentación inline de variables en español latinoamericano
+- [x] #6 Smoke: instanciar embeddings con API key falsa debe fallar solo al embed real (no al import)
+- [x] #7 Tests unitarios mínimos de factory con mocks
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -76,10 +75,15 @@ Logs de inicio: proveedor de embeddings, nombre de colección, **sin** API keys.
 - Para HuggingFace, documentar RAM/GPU requerida en doc-003.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se anadieron `src/rag/embeddings.py` (OpenAI con `dimensions` solo en modelos text-embedding-3*, HuggingFace con import diferido), `src/rag/qdrant_store.py` (cliente singleton thread-safe, `QDRANT_URL=:memory:`, `asegurar_coleccion`, `obtener_vector_store`), extension de `Configuracion` con `TipoDistanciaQdrant`, `Field` documentados y validacion de dims para `text-embedding-ada-002`, y log de modulo vectorial en `lifespan`. Tests en `tests/rag/`. Dependencia `llama-index-embeddings-huggingface` en `pyproject.toml` (torch como transitorio).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest` verde para tests nuevos bajo `tests/rag/`
-- [ ] #2 `ruff check` sin errores nuevos
-- [ ] #3 `uv.lock` ya incluye dependencias de task-44
+- [x] #1 `uv run pytest` verde para tests nuevos bajo `tests/rag/`
+- [x] #2 `ruff check` sin errores nuevos
+- [x] #3 `uv.lock` ya incluye dependencias de task-44
 <!-- DOD:END -->

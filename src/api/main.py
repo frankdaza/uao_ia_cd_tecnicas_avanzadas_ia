@@ -43,6 +43,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     motor; no se comparten pools entre procesos.
     """
     cfg = obtener_configuracion()
+    logger.info(
+        "Modulo vectorial: embeddings=%s modelo=%s coleccion_qdrant=%s "
+        "distancia=%s dims=%s",
+        cfg.embedding_provider,
+        cfg.embedding_model,
+        cfg.qdrant_collection,
+        cfg.qdrant_distance,
+        cfg.embedding_dims,
+    )
     app.state.pipeline = construir_pipeline_por_defecto()
 
     motor_db = crear_motor_async(cfg.url_base_datos_async())
