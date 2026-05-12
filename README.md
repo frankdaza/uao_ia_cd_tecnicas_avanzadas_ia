@@ -35,6 +35,9 @@ flowchart LR
 | --- | --- |
 | `data/raw/valledellili-org/` | HTML descargado del dominio `valledellili.org`, con registro en `data/raw/_log.jsonl`. |
 | `data/markdown/valledellili-org/` | Un `.md` por página, con front matter YAML. |
+| `data/structured/faqs.json` | FAQs institucionales fijas (Módulo 2), validadas con `data/structured/faqs.schema.json`. |
+
+**Actualizar FAQs estructuradas:** edite `data/structured/faqs.json` (campo raíz `faqs`: lista de objetos con `id`, `intent`, `keywords`, `pregunta_canonica`, `respuesta`, `actualizado_el` y opcionalmente `source_url`). Ejecute `uv run pytest tests/structured/test_faqs_json_schema.py` para comprobar el esquema antes de confirmar cambios.
 
 Variables opcionales: `.env` (plantilla en `.env.example`), p. ej. `URL_BASE_SITIO`, `USER_AGENT`.
 

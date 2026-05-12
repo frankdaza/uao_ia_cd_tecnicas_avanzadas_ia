@@ -1,10 +1,10 @@
 ---
 id: TASK-51
 title: FaqStructuredTool determinista (LangChain StructuredTool) sin Qdrant ni LLM
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:39'
 labels:
   - langchain
   - herramientas
@@ -18,7 +18,7 @@ references:
 documentation:
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 9000
+ordinal: 1000
 ---
 
 ## Description

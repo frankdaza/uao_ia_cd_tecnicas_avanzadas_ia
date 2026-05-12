@@ -1,10 +1,10 @@
 ---
 id: TASK-50
 title: data/structured/faqs.json (5–10 FAQs) y JSON Schema de validación
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:39'
 labels:
   - datos
   - faq
@@ -14,9 +14,11 @@ references:
   - data/structured/faqs.json
   - data/structured/faqs.schema.json
 documentation:
-  - backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje - Actividad del Módulo 2.pdf
+  - >-
+    backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
+    Actividad del Módulo 2.pdf
 priority: high
-ordinal: 8000
+ordinal: 0.0009765625
 ---
 
 ## Description
@@ -55,15 +57,14 @@ Puede ejecutarse en paralelo con fases de infraestructura; **task-51** depende d
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Archivo `faqs.json` versionado con ≥5 FAQs coherentes con dominio FVL
-- [ ] #2 Cada FAQ incluye los campos obligatorios listados; `keywords` no vacío
-- [ ] #3 `faqs.schema.json` valida el JSON (test o script `check-jsonschema`)
-- [ ] #4 Contenido revisado para evitar datos personales o clínicos; solo información institucional pública
-- [ ] #5 README o doc-003 referenciará cómo actualizar FAQs (nota breve puede ir en Implementation Notes aquí)
-- [ ] #6 Sin secretos ni tokens en URLs
-- [ ] #7 Ejemplos de intents cubren al menos contacto, horario y ubicación
+- [x] #1 Archivo `faqs.json` versionado con ≥5 FAQs coherentes con dominio FVL
+- [x] #2 Cada FAQ incluye los campos obligatorios listados; `keywords` no vacío
+- [x] #3 `faqs.schema.json` valida el JSON (test o script `check-jsonschema`)
+- [x] #4 Contenido revisado para evitar datos personales o clínicos; solo información institucional pública
+- [x] #5 README o doc-003 referenciará cómo actualizar FAQs (nota breve puede ir en Implementation Notes aquí)
+- [x] #6 Sin secretos ni tokens en URLs
+- [x] #7 Ejemplos de intents cubren al menos contacto, horario y ubicación
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -82,10 +83,15 @@ Puede ejecutarse en paralelo con fases de infraestructura; **task-51** depende d
 - Mantener `id` estables para no romper analytics futuros.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se añadieron data/structured/faqs.json (8 FAQs FVL con campos id, intent, keywords, pregunta_canonica, respuesta, source_url y actualizado_el), data/structured/faqs.schema.json (JSON Schema draft 2020-12), dependencia dev jsonschema y tests/structured/test_faqs_json_schema.py (validación con FormatChecker + cobertura de intents). README: tabla de datos y nota breve para actualizar FAQs y ejecutar pytest.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Test o script de validación schema pasa en CI local (`uv run pytest` o comando documentado)
-- [ ] #2 Archivos UTF-8
-- [ ] #3 `docker compose` monta `data/structured` ro en API según task-45
+- [x] #1 Test o script de validación schema pasa en CI local (`uv run pytest` o comando documentado)
+- [x] #2 Archivos UTF-8
+- [x] #3 `docker compose` monta `data/structured` ro en API según task-45
 <!-- DOD:END -->
