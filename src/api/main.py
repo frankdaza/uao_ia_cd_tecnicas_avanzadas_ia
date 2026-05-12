@@ -18,6 +18,12 @@ from fastapi.staticfiles import StaticFiles
 from src.api.configuracion import obtener_configuracion
 from src.api.middleware_request_id import registrar_request_response
 from src.api.routers import corpus, qa, salud
+from src.persistencia.motor import (
+    cerrar_motor_async,
+    crear_motor_async,
+    crear_session_factory,
+    verificar_conexion_inicial,
+)
 from src.qa.pipeline import construir_pipeline_por_defecto
 
 _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
@@ -25,10 +31,23 @@ _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Inicializa el PipelineQa una sola vez al arrancar el servidor."""
+    """
+    Inicializa el PipelineQa (M1) y el motor async de PostgreSQL (M2).
+
+    En recarga de Uvicorn (--reload) cada proceso hijo crea y dispone su propio
+    motor; no se comparten pools entre procesos.
+    """
+    cfg = obtener_configuracion()
     app.state.pipeline = construir_pipeline_por_defecto()
+
+    motor_db = crear_motor_async(cfg.url_base_datos_async())
+    app.state.engine_db = motor_db
+    app.state.session_factory = crear_session_factory(motor_db)
+    await verificar_conexion_inicial(motor_db)
+
     yield
-    # Limpieza al apagar (espacio para cerrar recursos si se agregan en el futuro)
+
+    await cerrar_motor_async(motor_db)
 
 
 def crear_app() -> FastAPI:
