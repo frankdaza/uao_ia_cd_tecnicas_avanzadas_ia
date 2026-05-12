@@ -1,4 +1,4 @@
-"""Tests de los endpoints SSE: POST /api/qa/stream y /api/qa/dual/stream."""
+"""Tests del endpoint SSE POST /api/qa/stream."""
 
 from __future__ import annotations
 
@@ -21,12 +21,12 @@ def _parsear_eventos_sse(texto: str) -> list[dict]:
 
 
 @pytest.mark.asyncio
-async def test_stream_ollama_emite_eventos(async_client: AsyncClient) -> None:
-    """POST /api/qa/stream emite eventos SSE parseables para Ollama."""
+async def test_stream_openai_emite_eventos(async_client: AsyncClient) -> None:
+    """POST /api/qa/stream emite eventos SSE parseables para OpenAI."""
     async with async_client.stream(
         "POST",
         "/api/qa/stream",
-        json={"pregunta": "¿Qué hace la FVL?", "usar_ollama": True, "usar_openai": False},
+        json={"pregunta": "¿Qué hace la FVL?"},
     ) as response:
         assert response.status_code == 200
         assert "text/event-stream" in response.headers.get("content-type", "")
@@ -48,32 +48,28 @@ async def test_stream_ollama_emite_eventos(async_client: AsyncClient) -> None:
 
 
 @pytest.mark.asyncio
-async def test_stream_requiere_al_menos_un_motor(async_client: AsyncClient) -> None:
-    """Sin motores activos retorna 400."""
+async def test_stream_requiere_openai_key(async_client: AsyncClient) -> None:
+    """Sin OPENAI_API_KEY el streaming responde 402."""
+    async_client._pipeline_mock.cliente_openai.configuracion.tiene_api_key.return_value = (  # type: ignore[attr-defined]
+        False
+    )
     response = await async_client.post(
         "/api/qa/stream",
-        json={"pregunta": "¿Qué es la FVL?", "usar_ollama": False, "usar_openai": False},
+        json={"pregunta": "¿Qué es la FVL?"},
     )
-    assert response.status_code == 400
+    assert response.status_code == 402
+    async_client._pipeline_mock.cliente_openai.configuracion.tiene_api_key.return_value = (  # type: ignore[attr-defined]
+        True
+    )
 
 
 @pytest.mark.asyncio
-async def test_stream_dual_requiere_ambos_motores(async_client: AsyncClient) -> None:
-    """El endpoint dual requiere usar_ollama=true y usar_openai=true."""
-    response = await async_client.post(
-        "/api/qa/dual/stream",
-        json={"pregunta": "¿Qué es la FVL?", "usar_ollama": True, "usar_openai": False},
-    )
-    assert response.status_code == 400
-
-
-@pytest.mark.asyncio
-async def test_stream_dual_emite_eventos_con_motor(async_client: AsyncClient) -> None:
-    """POST /api/qa/dual/stream emite eventos con campo motor."""
+async def test_stream_eventos_usan_motor_openai(async_client: AsyncClient) -> None:
+    """Los eventos con campo motor usan openai."""
     async with async_client.stream(
         "POST",
-        "/api/qa/dual/stream",
-        json={"pregunta": "¿Qué hace la FVL?", "usar_ollama": True, "usar_openai": True},
+        "/api/qa/stream",
+        json={"pregunta": "¿Qué hace la FVL?"},
     ) as response:
         assert response.status_code == 200
         cuerpo = await response.aread()
@@ -81,4 +77,4 @@ async def test_stream_dual_emite_eventos_con_motor(async_client: AsyncClient) ->
     texto = cuerpo.decode("utf-8")
     eventos = _parsear_eventos_sse(texto)
     motores = {e.get("motor") for e in eventos if "motor" in e}
-    assert motores  # Al menos un motor emitió eventos
+    assert motores == {"openai"}

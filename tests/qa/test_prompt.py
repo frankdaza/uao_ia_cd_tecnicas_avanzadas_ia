@@ -12,11 +12,10 @@ def test_prompt_contiene_frase_clave() -> None:
     assert "No tengo información suficiente" in PROMPT_SISTEMA_DEFECTO
 
 
-def test_prompt_es_espanol_colombiano() -> None:
+def test_prompt_es_espanol_institucional() -> None:
     p = PROMPT_SISTEMA_DEFECTO
     assert "Fundación Valle del Lili" in p
-    assert "español colombiano" in p
-    assert "parcero" in p.lower()
+    assert "español formal" in p
     # Evita marcas típicas de otros dialectos (p. ej. peninsular "vosotros")
     assert "vosotros" not in p.lower()
 

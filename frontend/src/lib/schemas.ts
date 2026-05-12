@@ -30,12 +30,10 @@ export type FuenteBm25 = z.infer<typeof FuenteBm25Schema>
 export const QaPeticionSchema = z.object({
   pregunta: z.string().min(1),
   prompt_sistema: z.string().nullable().optional(),
-  usar_ollama: z.boolean().default(true),
-  usar_openai: z.boolean().default(false),
-  modelo_ollama: z.string().default('llama3.1:8b'),
   modelo_openai: z.string().default('gpt-4o-mini'),
-  num_ctx: z.number().int().min(1024).max(131072).default(8192),
   max_tokens_openai: z.number().int().positive().nullable().optional(),
+  temperatura: z.number().min(0).max(2).default(0.2),
+  top_p: z.number().min(0).max(1).default(1),
 })
 export type QaPeticion = z.infer<typeof QaPeticionSchema>
 

@@ -13,10 +13,10 @@ describe('streamQa', () => {
           body: new ReadableStream({
             start(controller) {
               const enc = new TextEncoder()
-              controller.enqueue(enc.encode(`data: ${JSON.stringify({ tipo: 'token', motor: 'ollama', texto: 'Ho' })}\n\n`))
+              controller.enqueue(enc.encode(`data: ${JSON.stringify({ tipo: 'token', motor: 'openai', texto: 'Ho' })}\n\n`))
               controller.enqueue(
                 enc.encode(
-                  `data: ${JSON.stringify({ tipo: 'final', motor: 'ollama', texto: 'Hola', latencia_ms: 10, modelo: 'x' })}\n\n`,
+                  `data: ${JSON.stringify({ tipo: 'final', motor: 'openai', texto: 'Hola', latencia_ms: 10, modelo: 'x' })}\n\n`,
                 ),
               )
               controller.close()
@@ -38,11 +38,9 @@ describe('streamQa', () => {
       '/api/qa/stream',
       {
         pregunta: 't',
-        usar_ollama: true,
-        usar_openai: false,
-        modelo_ollama: 'm',
-        modelo_openai: 'o',
-        num_ctx: 4096,
+        modelo_openai: 'gpt-4o-mini',
+        temperatura: 0.2,
+        top_p: 1,
       },
       {
         onToken,
@@ -52,7 +50,7 @@ describe('streamQa', () => {
       },
     )
     await waitFor(() => {
-      expect(onToken).toHaveBeenCalledWith('ollama', 'Ho')
+      expect(onToken).toHaveBeenCalledWith('openai', 'Ho')
       expect(onFinal).toHaveBeenCalled()
     })
   })
@@ -72,11 +70,9 @@ describe('streamQa', () => {
       '/api/qa/stream',
       {
         pregunta: 't',
-        usar_ollama: true,
-        usar_openai: false,
-        modelo_ollama: 'm',
-        modelo_openai: 'o',
-        num_ctx: 4096,
+        modelo_openai: 'gpt-4o-mini',
+        temperatura: 0.2,
+        top_p: 1,
       },
       {
         onToken: vi.fn(),

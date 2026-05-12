@@ -10,7 +10,7 @@ import type { Message } from './MessageBubble'
 
 let turnoCounter = 0
 
-/** Contenedor principal del chat: gestiona el estado y el streaming SSE. */
+/** Contenedor principal del chat: gestiona el estado y el streaming SSE (OpenAI). */
 export function Chat() {
   const [turns, setTurns] = useState<ChatTurn[]>([])
   const [isBusy, setIsBusy] = useState(false)
@@ -23,22 +23,12 @@ export function Chat() {
       if (!preguntaLimpia) return
 
       const idTurno = `turno-${++turnoCounter}`
-      const idRespOllama = `${idTurno}-ollama`
       const idRespOpenai = `${idTurno}-openai`
-      const modoDual = settings.usarOllama && settings.usarOpenai
 
       const mensajePregunta: Message = {
         id: `${idTurno}-pregunta`,
         role: 'user',
         content: preguntaLimpia,
-      }
-
-      const respOllamaInicial: Message = {
-        id: idRespOllama,
-        role: 'assistant',
-        motor: 'ollama',
-        content: '',
-        isStreaming: true,
       }
 
       const respOpenaiInicial: Message = {
@@ -52,35 +42,26 @@ export function Chat() {
       const nuevoTurno: ChatTurn = {
         id: idTurno,
         pregunta: mensajePregunta,
-        respuestaOllama: settings.usarOllama ? respOllamaInicial : undefined,
-        respuestaOpenai: settings.usarOpenai ? respOpenaiInicial : undefined,
+        respuestaOpenai: respOpenaiInicial,
         fuentes: [],
-        modoDual,
+        modoDual: false,
       }
 
       setTurns((prev) => [...prev, nuevoTurno])
       setIsBusy(true)
 
       const peticion = toQaPeticion(preguntaLimpia)
-      const endpoint = modoDual ? '/api/qa/dual/stream' : '/api/qa/stream'
 
-      const { abort } = streamQa(endpoint, peticion, {
+      const { abort } = streamQa('/api/qa/stream', peticion, {
         onToken: (motor, texto) => {
           setTurns((prev) =>
             prev.map((t) => {
               if (t.id !== idTurno) return t
-              if (motor === 'openai') {
-                return {
-                  ...t,
-                  respuestaOpenai: t.respuestaOpenai
-                    ? { ...t.respuestaOpenai, content: t.respuestaOpenai.content + texto }
-                    : undefined,
-                }
-              }
+              if (motor !== 'openai') return t
               return {
                 ...t,
-                respuestaOllama: t.respuestaOllama
-                  ? { ...t.respuestaOllama, content: t.respuestaOllama.content + texto }
+                respuestaOpenai: t.respuestaOpenai
+                  ? { ...t.respuestaOpenai, content: t.respuestaOpenai.content + texto }
                   : undefined,
               }
             }),
@@ -95,24 +76,12 @@ export function Chat() {
           setTurns((prev) =>
             prev.map((t) => {
               if (t.id !== idTurno) return t
-              if (motor === 'openai') {
-                return {
-                  ...t,
-                  respuestaOpenai: t.respuestaOpenai
-                    ? {
-                        ...t.respuestaOpenai,
-                        isStreaming: false,
-                        latencia_ms: meta.latencia_ms,
-                        modelo: meta.modelo,
-                      }
-                    : undefined,
-                }
-              }
+              if (motor !== 'openai') return t
               return {
                 ...t,
-                respuestaOllama: t.respuestaOllama
+                respuestaOpenai: t.respuestaOpenai
                   ? {
-                      ...t.respuestaOllama,
+                      ...t.respuestaOpenai,
                       isStreaming: false,
                       latencia_ms: meta.latencia_ms,
                       modelo: meta.modelo,
@@ -121,7 +90,7 @@ export function Chat() {
               }
             }),
           )
-          if (!modoDual || motor === 'openai') setIsBusy(false)
+          setIsBusy(false)
         },
         onError: (motor, mensaje) => {
           toast.error(`Error (${motor}): ${mensaje}`)
@@ -131,9 +100,6 @@ export function Chat() {
               if (t.id !== idTurno) return t
               return {
                 ...t,
-                respuestaOllama: t.respuestaOllama
-                  ? { ...t.respuestaOllama, isStreaming: false }
-                  : undefined,
                 respuestaOpenai: t.respuestaOpenai
                   ? { ...t.respuestaOpenai, isStreaming: false }
                   : undefined,
@@ -163,9 +129,6 @@ export function Chat() {
     setTurns((prev) =>
       prev.map((t) => ({
         ...t,
-        respuestaOllama: t.respuestaOllama
-          ? { ...t.respuestaOllama, isStreaming: false }
-          : undefined,
         respuestaOpenai: t.respuestaOpenai
           ? { ...t.respuestaOpenai, isStreaming: false }
           : undefined,

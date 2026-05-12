@@ -10,26 +10,22 @@ import {
 } from 'react'
 import type { QaPeticion } from '@/lib/schemas'
 
-/** Configuración editable por el usuario en el sidebar. */
+/** Configuración editable por el usuario en el sidebar (solo OpenAI). */
 export interface Settings {
-  usarOllama: boolean
-  usarOpenai: boolean
-  modeloOllama: string
   modeloOpenai: string
-  numCtx: number
   maxTokensOpenai: number | null
+  temperatura: number
+  topP: number
   promptSistema: string | null
 }
 
-const STORAGE_KEY = 'fvl-settings-v1'
+const STORAGE_KEY = 'fvl-settings-v2'
 
 export const SETTINGS_DEFAULTS: Settings = {
-  usarOllama: true,
-  usarOpenai: false,
-  modeloOllama: 'llama3.1:8b',
   modeloOpenai: 'gpt-4o-mini',
-  numCtx: 8192,
   maxTokensOpenai: null,
+  temperatura: 0.2,
+  topP: 1,
   promptSistema: null,
 }
 
@@ -37,25 +33,20 @@ function fusionarPersistido(parsed: Partial<unknown>): Settings {
   if (parsed == null || typeof parsed !== 'object') return { ...SETTINGS_DEFAULTS }
   const o = parsed as Record<string, unknown>
   const r = {
-    usarOllama: typeof o.usarOllama === 'boolean' ? o.usarOllama : SETTINGS_DEFAULTS.usarOllama,
-    usarOpenai:
-      typeof o.usarOpenai === 'boolean' ? o.usarOpenai : SETTINGS_DEFAULTS.usarOpenai,
-    modeloOllama:
-      typeof o.modeloOllama === 'string' ? o.modeloOllama : SETTINGS_DEFAULTS.modeloOllama,
     modeloOpenai:
-      typeof o.modeloOpenai === 'string'
-        ? o.modeloOpenai
-        : SETTINGS_DEFAULTS.modeloOpenai,
-    numCtx:
-      typeof o.numCtx === 'number' && Number.isFinite(o.numCtx)
-        ? o.numCtx
-        : SETTINGS_DEFAULTS.numCtx,
+      typeof o.modeloOpenai === 'string' ? o.modeloOpenai : SETTINGS_DEFAULTS.modeloOpenai,
     maxTokensOpenai:
       typeof o.maxTokensOpenai === 'number' && Number.isFinite(o.maxTokensOpenai)
         ? o.maxTokensOpenai
         : o.maxTokensOpenai === null
           ? null
           : SETTINGS_DEFAULTS.maxTokensOpenai,
+    temperatura:
+      typeof o.temperatura === 'number' && Number.isFinite(o.temperatura)
+        ? o.temperatura
+        : SETTINGS_DEFAULTS.temperatura,
+    topP:
+      typeof o.topP === 'number' && Number.isFinite(o.topP) ? o.topP : SETTINGS_DEFAULTS.topP,
     promptSistema:
       typeof o.promptSistema === 'string'
         ? o.promptSistema
@@ -109,22 +100,18 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const toQaPeticion = useCallback(
     (pregunta: string): QaPeticion => ({
       pregunta,
-      usar_ollama: settings.usarOllama,
-      usar_openai: settings.usarOpenai,
-      modelo_ollama: settings.modeloOllama,
       modelo_openai: settings.modeloOpenai,
-      num_ctx: settings.numCtx,
       max_tokens_openai: settings.maxTokensOpenai ?? undefined,
+      temperatura: settings.temperatura,
+      top_p: settings.topP,
       prompt_sistema: settings.promptSistema ?? undefined,
     }),
     [
-      settings.modeloOllama,
       settings.modeloOpenai,
-      settings.numCtx,
-      settings.promptSistema,
       settings.maxTokensOpenai,
-      settings.usarOllama,
-      settings.usarOpenai,
+      settings.temperatura,
+      settings.topP,
+      settings.promptSistema,
     ],
   )
 

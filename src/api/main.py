@@ -39,7 +39,7 @@ def crear_app() -> FastAPI:
         title="Q&A Fundación Valle del Lili — API",
         description=(
             "Backend HTTP con FastAPI + SSE que expone el PipelineQa "
-            "(BM25 + Ollama + OpenAI) al frontend React."
+            "(BM25 + OpenAI) al frontend React."
         ),
         version="1.0.0",
         lifespan=lifespan,

@@ -30,9 +30,9 @@ describe('Schemas Zod', () => {
   it('valida QaPeticion con valores por defecto', () => {
     const data = { pregunta: '¿Cuál es la misión?' }
     const parsed = QaPeticionSchema.parse(data)
-    expect(parsed.usar_ollama).toBe(true)
-    expect(parsed.usar_openai).toBe(false)
-    expect(parsed.num_ctx).toBe(8192)
+    expect(parsed.modelo_openai).toBe('gpt-4o-mini')
+    expect(parsed.temperatura).toBe(0.2)
+    expect(parsed.top_p).toBe(1)
   })
 
   it('rechaza QaPeticion con pregunta vacía', () => {

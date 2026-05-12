@@ -9,46 +9,46 @@ describe('SettingsContext persistencia', () => {
     localStorage.clear()
   })
 
-  function MuestraNumCtx() {
+  function MuestraTemperatura() {
     const { settings } = useSettings()
-    return <span data-testid="num-ctx">{settings.numCtx}</span>
+    return <span data-testid="temperatura">{settings.temperatura}</span>
   }
 
-  function BotonPersistirAlto() {
+  function BotonCambiarTemperatura() {
     const { updateSettings } = useSettings()
     return (
-      <button type="button" onClick={() => updateSettings({ numCtx: 12345 })}>
-        subir-num-ctx
+      <button type="button" onClick={() => updateSettings({ temperatura: 0.9 })}>
+        subir-temperatura
       </button>
     )
   }
 
   it('hidrata valores desde localStorage', () => {
-    localStorage.setItem('fvl-settings-v1', JSON.stringify({ numCtx: 7777 }))
+    localStorage.setItem('fvl-settings-v2', JSON.stringify({ temperatura: 0.5 }))
     render(
       <SettingsProvider>
-        <MuestraNumCtx />
+        <MuestraTemperatura />
       </SettingsProvider>,
     )
-    expect(screen.getByTestId('num-ctx')).toHaveTextContent('7777')
-    expect(screen.getByTestId('num-ctx')).not.toHaveTextContent(String(SETTINGS_DEFAULTS.numCtx))
+    expect(screen.getByTestId('temperatura')).toHaveTextContent('0.5')
+    expect(screen.getByTestId('temperatura')).not.toHaveTextContent(String(SETTINGS_DEFAULTS.temperatura))
   })
 
   it('persiste tras cambios posteriores al montaje', async () => {
     const user = userEvent.setup()
     render(
       <SettingsProvider>
-        <MuestraNumCtx />
-        <BotonPersistirAlto />
+        <MuestraTemperatura />
+        <BotonCambiarTemperatura />
       </SettingsProvider>,
     )
 
-    await user.click(screen.getByRole('button', { name: /subir-num-ctx/i }))
+    await user.click(screen.getByRole('button', { name: /subir-temperatura/i }))
     await waitFor(() => {
-      const raw = localStorage.getItem('fvl-settings-v1')
+      const raw = localStorage.getItem('fvl-settings-v2')
       expect(raw).toBeTruthy()
-      expect(JSON.parse(raw as string).numCtx).toBe(12345)
+      expect(JSON.parse(raw as string).temperatura).toBe(0.9)
     })
-    expect(screen.getByTestId('num-ctx')).toHaveTextContent('12345')
+    expect(screen.getByTestId('temperatura')).toHaveTextContent('0.9')
   })
 })

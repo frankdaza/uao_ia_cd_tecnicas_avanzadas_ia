@@ -6,7 +6,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.qa.cliente_ollama import MODELO_LLAMA_3_1_8B, MODELOS_OLLAMA_SOPORTADOS
 from src.qa.cliente_openai import MODELO_OPENAI_GPT_4O_MINI, MODELOS_OPENAI_SOPORTADOS
 
 
@@ -16,7 +15,7 @@ from src.qa.cliente_openai import MODELO_OPENAI_GPT_4O_MINI, MODELOS_OPENAI_SOPO
 
 
 class PeticionQa(BaseModel):
-    """Parámetros de una consulta Q&A (sincrónica o en streaming)."""
+    """Parámetros de una consulta Q&A (sincrónica o en streaming) vía OpenAI."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -25,21 +24,26 @@ class PeticionQa(BaseModel):
         default=None,
         description="Prompt de sistema personalizado; si es None se usa el predeterminado.",
     )
-    usar_ollama: bool = Field(default=True, description="Activar motor Ollama.")
-    usar_openai: bool = Field(default=False, description="Activar motor OpenAI.")
-    modelo_ollama: str = Field(
-        default=MODELO_LLAMA_3_1_8B,
-        description=f"Modelo Ollama. Opciones: {list(MODELOS_OLLAMA_SOPORTADOS)}",
-    )
     modelo_openai: str = Field(
         default=MODELO_OPENAI_GPT_4O_MINI,
         description=f"Modelo OpenAI. Opciones: {list(MODELOS_OPENAI_SOPORTADOS)}",
     )
-    num_ctx: int = Field(default=8192, ge=1024, le=131072, description="Ventana de contexto Ollama.")
     max_tokens_openai: int | None = Field(
         default=None,
         ge=1,
         description="Límite de tokens en la respuesta OpenAI; None = sin límite.",
+    )
+    temperatura: float = Field(
+        default=0.2,
+        ge=0.0,
+        le=2.0,
+        description="Temperatura de muestreo (0 = más determinista, valores altos = más variación).",
+    )
+    top_p: float = Field(
+        default=1.0,
+        ge=0.0,
+        le=1.0,
+        description="Nucleus sampling: masa de probabilidad acumulada considerada por token.",
     )
 
 

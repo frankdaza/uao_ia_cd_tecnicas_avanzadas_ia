@@ -31,7 +31,7 @@ _RESPUESTA_OLLAMA = RespuestaQa(
     archivo_fuente=Path("urgencias.md"),
     source_url="https://valledellili.org/urgencias/",
     titulo="Urgencias",
-    modelo="llama3.1:8b",
+    modelo="gpt-4o-mini",
     score_recuperacion=12.45,
     latencia_ms=1200,
     prompt_sistema_usado="Eres un asistente...",
@@ -56,7 +56,7 @@ def _crear_pipeline_mock() -> MagicMock:
 
     # Propiedad cliente_openai
     cliente_openai = MagicMock()
-    cliente_openai.configuracion.tiene_api_key.return_value = False
+    cliente_openai.configuracion.tiene_api_key.return_value = True
     pipeline.cliente_openai = cliente_openai
 
     # Métodos sincronicos

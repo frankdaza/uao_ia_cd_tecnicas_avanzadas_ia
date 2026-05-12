@@ -45,8 +45,8 @@ describe('Chat', () => {
 
   it('muestra la bienvenida y ejecuta una consulta vía SSE', async () => {
     mocks.streamQa.mockImplementation((_ep, _peticion, handlers) => {
-      handlers.onToken('ollama', 'Hola')
-      handlers.onFinal('ollama', { motor: 'ollama', texto: 'Hola', latencia_ms: 1, modelo: 'test' })
+      handlers.onToken('openai', 'Hola')
+      handlers.onFinal('openai', { motor: 'openai', texto: 'Hola', latencia_ms: 1, modelo: 'test' })
       return { abort: mocks.abort }
     })
     const user = userEvent.setup()

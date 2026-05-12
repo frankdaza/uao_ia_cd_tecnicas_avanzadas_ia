@@ -219,6 +219,8 @@ class ClienteOpenAi:
         *,
         modelo: str,
         max_completion_tokens: int | None = None,
+        temperatura: float | None = None,
+        top_p: float | None = None,
     ) -> str:
         """Generación no streaming; ``modelo`` debe ser un id soportado por la cuenta."""
         if not self._config.tiene_api_key():
@@ -247,6 +249,10 @@ class ClienteOpenAi:
                 }
                 if efectivo is not None:
                     create_kw["max_completion_tokens"] = efectivo
+                if temperatura is not None:
+                    create_kw["temperature"] = temperatura
+                if top_p is not None:
+                    create_kw["top_p"] = top_p
                 return cliente.chat.completions.create(**create_kw)
 
             respuesta = _llamar_con_reintentos_rate_limit(crear_completacion_no_stream)
@@ -282,6 +288,8 @@ class ClienteOpenAi:
         *,
         modelo: str,
         max_completion_tokens: int | None = None,
+        temperatura: float | None = None,
+        top_p: float | None = None,
     ) -> Iterator[str]:
         """Streaming desde ``chat.completions`` con ``stream=True`` (fragmentos de texto)."""
         if not self._config.tiene_api_key():
@@ -312,6 +320,10 @@ class ClienteOpenAi:
                 }
                 if efectivo is not None:
                     create_kw["max_completion_tokens"] = efectivo
+                if temperatura is not None:
+                    create_kw["temperature"] = temperatura
+                if top_p is not None:
+                    create_kw["top_p"] = top_p
                 return cliente.chat.completions.create(**create_kw)
 
             flujo = _llamar_con_reintentos_rate_limit(crear_flujo_stream)

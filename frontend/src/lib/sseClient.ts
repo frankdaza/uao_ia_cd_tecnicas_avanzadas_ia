@@ -20,7 +20,7 @@ export type SseHandlers = {
  * Retorna una función `abort()` para cancelar el stream.
  */
 export function streamQa(
-  endpoint: '/api/qa/stream' | '/api/qa/dual/stream',
+  endpoint: '/api/qa/stream',
   peticion: QaPeticion,
   handlers: SseHandlers,
   signal?: AbortSignal,

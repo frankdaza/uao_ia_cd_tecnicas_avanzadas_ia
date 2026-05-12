@@ -218,6 +218,8 @@ class PipelineQa:
         modelo_openai: str,
         prompt_sistema: str | None = None,
         max_completion_tokens: int | None = None,
+        temperatura: float | None = None,
+        top_p: float | None = None,
     ) -> RespuestaQa:
         """Misma recuperación y mensajes que Ollama; generación vía API OpenAI."""
         if self._cliente_openai is None:
@@ -233,6 +235,8 @@ class PipelineQa:
             ctx.mensajes,
             modelo=modelo_openai,
             max_completion_tokens=max_completion_tokens,
+            temperatura=temperatura,
+            top_p=top_p,
         )
         return self._respuesta_qa_desde_contexto(
             ctx, texto, modelo_openai, t_llm
@@ -313,6 +317,8 @@ class PipelineQa:
                 ctx.mensajes,
                 modelo=modelo_openai,
                 max_completion_tokens=max_completion_tokens,
+                temperatura=None,
+                top_p=None,
             )
             resultado_openai = self._respuesta_qa_desde_contexto(
                 ctx, texto_a, modelo_openai, t_oai
@@ -366,6 +372,8 @@ class PipelineQa:
         t_llm: float,
         *,
         max_completion_tokens: int | None = None,
+        temperatura: float | None = None,
+        top_p: float | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """Contexto BM25 ya resuelto; streaming vía cliente OpenAI."""
         if self._cliente_openai is None:
@@ -375,6 +383,8 @@ class PipelineQa:
             ctx.mensajes,
             modelo=modelo_openai,
             max_completion_tokens=max_completion_tokens,
+            temperatura=temperatura,
+            top_p=top_p,
         ):
             acumulado += delta
             yield acumulado, None
@@ -393,6 +403,8 @@ class PipelineQa:
         modelo_openai: str,
         prompt_sistema: str | None = None,
         max_completion_tokens: int | None = None,
+        temperatura: float | None = None,
+        top_p: float | None = None,
     ) -> Iterator[tuple[str, RespuestaQa | None]]:
         """Analogo a :meth:`responder_stream` pero con la API de OpenAI."""
         if self._cliente_openai is None:
@@ -426,6 +438,8 @@ class PipelineQa:
             modelo_openai,
             t_llm,
             max_completion_tokens=max_completion_tokens,
+            temperatura=temperatura,
+            top_p=top_p,
         )
 
     def responder_stream(
