@@ -58,5 +58,6 @@ build-backend = "uv_build"
 markers = [
     "network: pruebas con red hacia un origen publico (activar con EJECUTAR_TESTS_CON_RED=1)",
     "integration_ollama: prueba contra Ollama local (se omite si no hay servidor)",
+    "integration_postgres: prueba contra PostgreSQL real (activar con EJECUTAR_INTEGRACION_POSTGRES=1)",
     "legacy: pruebas del modulo Gradio deprecado (conservadas como cobertura historica)",
 ]

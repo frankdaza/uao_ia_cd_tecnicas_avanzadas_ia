@@ -1,10 +1,10 @@
 ---
 id: TASK-46
 title: Esquema de base de datos y migración Alembic inicial (tabla usuarios)
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:11'
 labels:
   - postgres
   - alembic
@@ -20,7 +20,7 @@ references:
 documentation:
   - .claude/skills/uv-python-env/SKILL.md
 priority: high
-ordinal: 4000
+ordinal: 0.015625
 ---
 
 ## Description
@@ -47,15 +47,14 @@ Preferir `pytest` con **testcontainers** o `pytest-postgresql` si el esfuerzo es
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Directorio `alembic/` versionado con configuración funcional
-- [ ] #2 Modelo `Usuario` reflejado en migración y en metadata SQLAlchemy
-- [ ] #3 `alembic upgrade head` crea la tabla esperada en Postgres limpio
-- [ ] #4 Restricción UNIQUE en `documento_identidad` y índice verificable
-- [ ] #5 `env.py` no imprime secretos; usa URL desde settings
-- [ ] #6 Documentación en cuerpo de task o README: tabla `chat_history` la crea LangChain en lifespan (no Alembic)
-- [ ] #7 Al menos un test automatizado o script de verificación reproducible
+- [x] #1 Directorio `alembic/` versionado con configuración funcional
+- [x] #2 Modelo `Usuario` reflejado en migración y en metadata SQLAlchemy
+- [x] #3 `alembic upgrade head` crea la tabla esperada en Postgres limpio
+- [x] #4 Restricción UNIQUE en `documento_identidad` y índice verificable
+- [x] #5 `env.py` no imprime secretos; usa URL desde settings
+- [x] #6 Documentación en cuerpo de task o README: tabla `chat_history` la crea LangChain en lifespan (no Alembic)
+- [x] #7 Al menos un test automatizado o script de verificación reproducible
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -73,12 +72,19 @@ Preferir `pytest` con **testcontainers** o `pytest-postgresql` si el esfuerzo es
 <!-- SECTION:NOTES:BEGIN -->
 - Convención de nombres de tabla en español ASCII (`usuarios`) alineada a rules del proyecto.
 - Si la app usa async engine, mantener clara separación entre URL sync para migraciones y async para runtime.
+
+Verificacion local recomendada: docker compose up -d postgres y ALEMBIC_SYNC_DATABASE_URL o DATABASE_URL alineados con credenciales del volumen; uv run alembic upgrade head.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agrego el modelo SQLAlchemy 2.x Usuario en src/persistencia/modelos.py (id UUID con gen_random_uuid() en servidor, documento_identidad unico, nombre, timestamps con zona y last_login_at). Alembic usa target_metadata = Base.metadata y la misma fuente de URL que la app (pydantic-settings en alembic/env.py, override ALEMBIC_SYNC_DATABASE_URL para driver sincrono psycopg). Migracion inicial alembic/versions/0001_create_usuarios.py crea la tabla usuarios con restriccion uq_usuarios_documento_identidad. Pruebas: tests/persistencia/test_modelo_usuario.py (unitarias) y test de integracion con marcador integration_postgres (variable INTEGRATION_POSTGRES_ASYNC_URL y skip ante OperationalError). README documenta que chat_history la crea LangChain en lifespan, no Alembic. Se elimino la revision base vacia 20260512_0001 y se anadio path_separator=os en alembic.ini.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run alembic upgrade head` funciona contra Postgres del compose
-- [ ] #2 `uv run pytest` verde para tests nuevos o marcados skip explícito
-- [ ] #3 `ruff check` en módulos nuevos
+- [x] #1 `uv run alembic upgrade head` funciona contra Postgres del compose
+- [x] #2 `uv run pytest` verde para tests nuevos o marcados skip explícito
+- [x] #3 `ruff check` en módulos nuevos
 <!-- DOD:END -->
