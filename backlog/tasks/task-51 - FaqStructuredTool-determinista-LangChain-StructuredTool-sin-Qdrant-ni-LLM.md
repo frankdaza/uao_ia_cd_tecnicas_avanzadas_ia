@@ -1,10 +1,10 @@
 ---
 id: TASK-51
 title: FaqStructuredTool determinista (LangChain StructuredTool) sin Qdrant ni LLM
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 06:39'
+updated_date: '2026-05-12 06:47'
 labels:
   - langchain
   - herramientas
@@ -18,7 +18,7 @@ references:
 documentation:
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 1000
+ordinal: 0.00048828125
 ---
 
 ## Description
@@ -49,15 +49,14 @@ Cobertura: cada FAQ con una frase que debería matchear; casos negativos con pre
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 `crear_faq_tool()` retorna `StructuredTool` invocable por LangGraph
-- [ ] #2 Matching determinista; mismas entradas producen misma salida
-- [ ] #3 Umbral `FAQ_UMBRAL_MATCH` configurable por `.env` / settings
-- [ ] #4 No hay imports de Qdrant, LlamaIndex ni OpenAI en este módulo
-- [ ] #5 Tests cubren ≥1 caso positivo por FAQ y ≥3 negativos
-- [ ] #6 Manejo de archivo JSON ausente con error controlado y mensaje en español
-- [ ] #7 Docstring describe la función de scoring
+- [x] #1 `crear_faq_tool()` retorna `StructuredTool` invocable por LangGraph
+- [x] #2 Matching determinista; mismas entradas producen misma salida
+- [x] #3 Umbral `FAQ_UMBRAL_MATCH` configurable por `.env` / settings
+- [x] #4 No hay imports de Qdrant, LlamaIndex ni OpenAI en este módulo
+- [x] #5 Tests cubren ≥1 caso positivo por FAQ y ≥3 negativos
+- [x] #6 Manejo de archivo JSON ausente con error controlado y mensaje en español
+- [x] #7 Docstring describe la función de scoring
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -77,10 +76,15 @@ Cobertura: cada FAQ con una frase que debería matchear; casos negativos con pre
 - Si el score es empate, preferir FAQ con más keywords coincidentes o orden estable por `id`.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado `src/agentes/herramientas/faq_tool.py`: `buscar_faq` con normalización NFKD + minúsculas, tokens alfanuméricos, score = palabras clave coincidentes / total por FAQ, umbral `FAQ_UMBRAL_MATCH` vía `Configuracion.faq_umbral_match`, cache por `mtime` del JSON, empate por score/coincidencias/`id`. `crear_faq_tool()` expone `StructuredTool` `faq_estructurada`. Ruta JSON configurable con `FAQ_JSON_RELATIVO_RAIZ` (default `data/structured/faqs.json` relativo a la raíz del repo). Ausencia de archivo: `ArchivoFaqStructuredAusenteError` con mensaje en español. Tests en `tests/agentes/test_faq_tool.py` (1 positivo por FAQ, negativos médicos, umbral, archivo ausente, invoke). Ejemplo manual: `uv run python -c 'from src.agentes.herramientas.faq_tool import crear_faq_tool; print(crear_faq_tool().invoke({"consulta": "telefono PBX 602 331 9090"}))'`
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest` verde para tests de `FaqStructuredTool`
-- [ ] #2 `ruff check` sin errores nuevos
-- [ ] #3 Ejemplo de invocación manual documentado en notas o doc-003
+- [x] #1 `uv run pytest` verde para tests de `FaqStructuredTool`
+- [x] #2 `ruff check` sin errores nuevos
+- [x] #3 Ejemplo de invocación manual documentado en notas o doc-003
 <!-- DOD:END -->

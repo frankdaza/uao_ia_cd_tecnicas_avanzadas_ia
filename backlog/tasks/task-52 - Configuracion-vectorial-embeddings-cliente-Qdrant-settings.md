@@ -1,10 +1,10 @@
 ---
 id: TASK-52
 title: 'Configuración vectorial: embeddings, cliente Qdrant y settings Pydantic'
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:47'
 labels:
   - qdrant
   - embeddings
@@ -20,7 +20,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 10000
+ordinal: 1000
 ---
 
 ## Description

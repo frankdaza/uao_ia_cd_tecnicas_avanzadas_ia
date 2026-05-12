@@ -65,6 +65,8 @@ class Configuracion(BaseSettings):
 
     # --- Modulo 2: FAQ tool ---
     faq_umbral_match: float = Field(default=0.5, ge=0.0, le=1.0)
+    # Ruta relativa a la raiz del repo o absoluta; usada por la tool determinista FAQ JSON.
+    faq_json_relativo_raiz: str = "data/structured/faqs.json"
 
     # --- Modulo 2: router LangGraph ---
     router_meta_prompt_path: str = "config/router_meta_prompt.json"
