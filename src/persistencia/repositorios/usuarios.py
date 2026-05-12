@@ -24,6 +24,10 @@ class RepositorioUsuarios:
         res = await self._sesion.execute(stmt)
         return res.scalars().first()
 
+    async def obtener_por_id(self, usuario_id: uuid.UUID) -> Usuario | None:
+        """Busca por clave primaria ``id``."""
+        return await self._sesion.get(Usuario, usuario_id)
+
     async def obtener_o_crear(self, documento: str, nombre: str) -> tuple[Usuario, bool]:
         """
         Inserta si no existe; si ya existia, devuelve la fila actual sin

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import uuid
+from datetime import datetime
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -10,8 +12,94 @@ from src.qa.cliente_openai import MODELO_OPENAI_GPT_4O_MINI, MODELOS_OPENAI_SOPO
 
 
 # ---------------------------------------------------------------------------
-# Request bodies
+# Modulo 2: sesion de usuario e historial conversacional
 # ---------------------------------------------------------------------------
+
+
+class PeticionInicioSesion(BaseModel):
+    """Credenciales ligeras para identificar al visitante (sin JWT)."""
+
+    model_config = ConfigDict(
+        frozen=True,
+        json_schema_extra={
+            "examples": [
+                {"documento_identidad": "1234567890", "nombre": "María Pérez"},
+            ]
+        },
+    )
+
+    documento_identidad: str = Field(..., min_length=1, max_length=128)
+    nombre: str = Field(..., min_length=1, max_length=512)
+
+
+class RespuestaInicioSesion(BaseModel):
+    """Resultado de iniciar sesion: ids canonicos y bandera de usuario previo."""
+
+    model_config = ConfigDict(
+        frozen=True,
+        json_schema_extra={
+            "examples": [
+                {
+                    "usuario_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "session_id": "user:550e8400-e29b-41d4-a716-446655440000",
+                    "nombre": "María Pérez",
+                    "ya_existia": False,
+                    "ultimo_mensaje_at": None,
+                },
+            ]
+        },
+    )
+
+    usuario_id: uuid.UUID
+    session_id: str
+    nombre: str
+    ya_existia: bool
+    ultimo_mensaje_at: datetime | None = None
+
+
+RolMensajeHistorial = Literal["human", "ai", "system", "tool"]
+
+
+class MensajeHistorialItem(BaseModel):
+    """Un mensaje del historial persistido (LangChain) listo para el frontend."""
+
+    model_config = ConfigDict(frozen=True)
+
+    rol: RolMensajeHistorial
+    contenido: str
+    creado_en: datetime | None = Field(
+        default=None,
+        description="Marca de tiempo si esta disponible en el modelo de persistencia.",
+    )
+
+
+class RespuestaHistorialSesion(BaseModel):
+    """Lista ordenada de mensajes (cronologico ascendente)."""
+
+    model_config = ConfigDict(
+        frozen=True,
+        json_schema_extra={
+            "examples": [
+                {
+                    "mensajes": [
+                        {"rol": "human", "contenido": "Hola", "creado_en": None},
+                        {"rol": "ai", "contenido": "Hola, ¿en qué puedo ayudarte?", "creado_en": None},
+                    ],
+                },
+            ]
+        },
+    )
+
+    mensajes: list[MensajeHistorialItem] = Field(default_factory=list)
+
+
+class RespuestaCierreSesion(BaseModel):
+    """Confirmacion de cierre (operacion idempotente en el servidor)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    ok: bool = True
+    mensaje: str = "Sesion cerrada en el cliente; la cookie de sesion se elimino si existia."
 
 
 class PeticionQa(BaseModel):

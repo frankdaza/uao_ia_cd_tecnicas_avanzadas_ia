@@ -114,6 +114,16 @@ curl -sS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
 
 El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Ver `Dockerfile` y `docker-compose.yml`.
 
+### API de sesión (Módulo 2)
+
+Tras levantar PostgreSQL y la API, el frontend puede autenticarse de forma ligera (sin JWT) y recuperar el historial conversacional:
+
+- **`POST /api/sesiones`**: cuerpo JSON con `documento_identidad` y `nombre`. Respuesta: `usuario_id`, `session_id` en forma `user:{uuid}`, `nombre`, `ya_existia` y `ultimo_mensaje_at` (opcional). Además se envía la cookie HTTP-only **`fvl_session_id`** con ese `session_id`.
+- **Credenciales en peticiones posteriores** (orden de precedencia): cabecera **`X-Session-Id`**, parámetro de consulta **`session_id`**, cookie **`fvl_session_id`**.
+- **`GET /api/sesiones/actual/historial`**: requiere credencial válida; devuelve `mensajes` en orden cronológico con campos `rol` (`human`, `ai`, `system`, `tool`), `contenido` y `creado_en` (opcional).
+- **`POST /api/sesiones/cerrar`**: responde confirmando la intención de cierre y pide al navegador borrar la cookie; no elimina filas de usuario ni de historial en base de datos.
+- **CORS y cookies**: el backend usa `allow_credentials=True`; en `.env`, `ALLOWED_ORIGINS` debe ser una lista de orígenes explícitos (no se admite `*` junto con credenciales).
+
 ### Experiencia en la UI (React + shadcn/ui)
 
 - **Streaming token a token**: la respuesta del modelo aparece progresivamente en el área de chat mientras llega del backend vía Server-Sent Events (SSE).
@@ -152,7 +162,7 @@ El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con cat
 | Síntoma | Qué revisar |
 | --- | --- |
 | El texto aparece **de golpe** en lugar de en streaming | Proxies/CDN pueden bufferizar SSE: en Nginx usar `proxy_buffering off`; con Cloudflare evita transformaciones en la respuesta (`Cache-Control: no-transform`). Verifica que ningún intermediario agrupe líneas SSE. |
-| **CORS bloqueado** en el navegador | Configura `ALLOWED_ORIGINS` en `.env` con el origen exacto del frontend (p. ej. `http://localhost:5173`) y reinicia el backend. |
+| **CORS bloqueado** en el navegador | Configura `ALLOWED_ORIGINS` en `.env` con el origen exacto del frontend (p. ej. `http://localhost:5173`) y reinicia el backend. Con cookies de sesión (`fvl_session_id`) el backend envía `Access-Control-Allow-Credentials: true`; el origen debe coincidir literalmente con el de la petición. |
 | **Ollama no responde** | Ejecuta `ollama serve`, revisa `OLLAMA_BASE_URL` y ejecuta `ollama pull llama3.1:8b` (u otro modelo que uses). Con Docker Compose, el job `ollama-init` ejecuta `ollama pull` cuando el demonio está saludable. |
 | Difícil rastrear un fallo intermitente | Las respuestas incluyen cabecera `X-Request-ID`; búscala en los logs del API (middleware de peticiones). |
 

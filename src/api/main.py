@@ -20,7 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import obtener_configuracion
 from src.api.middleware_request_id import registrar_request_response
-from src.api.routers import corpus, qa, salud
+from src.api.routers import corpus, qa, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
     crear_motor_async,
@@ -87,13 +87,14 @@ def crear_app() -> FastAPI:
         allow_origins=cfg.allowed_origins,
         allow_methods=["*"],
         allow_headers=["*"],
-        allow_credentials=False,
+        allow_credentials=True,
     )
     app.middleware("http")(registrar_request_response)
 
     app.include_router(salud.router, prefix="/api")
     app.include_router(corpus.router, prefix="/api")
     app.include_router(qa.router, prefix="/api")
+    app.include_router(sesiones.router, prefix="/api")
 
     # Servir el frontend React como estáticos en producción
     if _FRONTEND_DIST.exists():

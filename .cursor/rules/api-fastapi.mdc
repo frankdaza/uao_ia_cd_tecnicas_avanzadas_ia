@@ -111,7 +111,7 @@ class PeticionQa(BaseModel):
 
 - Configurar `CORSMiddleware` con `allow_origins` leido desde `settings.allowed_origins` (lista de strings desde `.env`).
 - En desarrollo el default es `["http://localhost:5173", "http://127.0.0.1:5173"]`.
-- `allow_methods=["*"]`, `allow_headers=["*"]`, `allow_credentials=False`.
+- `allow_methods=["*"]`, `allow_headers=["*"]`, `allow_credentials=True` cuando el producto use cookies de sesion (M2); de lo contrario puede mantenerse `False` si no hay credenciales cruzadas.
 
 ## Configuracion (pydantic-settings)
 
