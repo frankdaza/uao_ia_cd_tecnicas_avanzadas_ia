@@ -2,8 +2,10 @@
 id: decision-1
 title: MVP usa BM25 a nivel archivo (sin chunking ni embeddings)
 date: '2026-04-26'
-status: accepted
+status: superseded
 ---
+
+> **Alcance de la sustitución:** La elección de BM25 a nivel archivo sigue siendo el **registro histórico del MVP de la Fase 1** y del código legacy asociado. En cambio, el **camino de recuperación en el runtime productivo del Módulo 2** (solo similitud densa en Qdrant, sin BM25 ni RAG híbrido) queda definido en [decision-3 — Arquitectura agente M2](decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
 
 ## Contexto
 

@@ -1,10 +1,10 @@
 ---
 id: TASK-43
 title: 'ADR decision-3: Arquitectura agéntica M2 (Router + Memoria + RAG denso Qdrant)'
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 05:45'
 labels:
   - adr
   - docs
@@ -13,14 +13,27 @@ labels:
 dependencies: []
 references:
   - backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md
-  - backlog/decisions/decision-2 - Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md
-  - backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje - Actividad del Módulo 2.pdf
+  - >-
+    backlog/decisions/decision-2 -
+    Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md
+  - >-
+    backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
+    Actividad del Módulo 2.pdf
   - .claude/skills/backlog-decisions/SKILL.md
 documentation:
-  - backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje - Actividad del Módulo 2.pdf
+  - >-
+    backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
+    Actividad del Módulo 2.pdf
   - .claude/skills/backlog-decisions/SKILL.md
+  - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
+modified_files:
+  - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
+  - backlog/decisions/decision-1 - MVP-BM25-Archivo-Completo.md
+  - >-
+    backlog/tasks/task-43 -
+    ADR-decision-3-Arquitectura-agentica-M2-Router-Memoria-RAG-Qdrant.md
 priority: high
-ordinal: 1000
+ordinal: 0.125
 ---
 
 ## Description
@@ -50,14 +63,14 @@ No incluir secretos ni API keys en el ADR.
 ## Acceptance Criteria
 
 <!-- AC:BEGIN -->
-- [ ] #1 Archivo `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` existe y cumple naming ASCII del skill backlog-decisions
-- [ ] #2 Front matter con `id: decision-3`, `title`, `date` ISO, `status` coherente (`accepted` cuando se apruebe el contenido)
-- [ ] #3 Secciones Contexto, Decisión, Consecuencias (positivas, negativas/riesgos, mitigación si aplica), Alternativas consideradas, Referencias
-- [ ] #4 Justifica PostgreSQL, Qdrant, stack LangGraph + LlamaIndex + LangChain-postgres y embeddings parametrizables (.env)
-- [ ] #5 Declara explícitamente retiro de BM25/híbrido y estado **superseded** de decision-1 respecto al runtime de recuperación; enlaza decision-2 como contexto de UI/API
-- [ ] #6 Diagrama Mermaid del flujo end-to-end solicitado
-- [ ] #7 Menciona `HISTORIAL_DIAS_MAX` y modelo de sesión continua por usuario
-- [ ] #8 Prosa en español latinoamericano; identificadores en ejemplos de código alineados a convenciones del repo
+- [x] #1 Archivo `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` existe y cumple naming ASCII del skill backlog-decisions
+- [x] #2 Front matter con `id: decision-3`, `title`, `date` ISO, `status` coherente (`accepted` cuando se apruebe el contenido)
+- [x] #3 Secciones Contexto, Decisión, Consecuencias (positivas, negativas/riesgos, mitigación si aplica), Alternativas consideradas, Referencias
+- [x] #4 Justifica PostgreSQL, Qdrant, stack LangGraph + LlamaIndex + LangChain-postgres y embeddings parametrizables (.env)
+- [x] #5 Declara explícitamente retiro de BM25/híbrido y estado **superseded** de decision-1 respecto al runtime de recuperación; enlaza decision-2 como contexto de UI/API
+- [x] #6 Diagrama Mermaid del flujo end-to-end solicitado
+- [x] #7 Menciona `HISTORIAL_DIAS_MAX` y modelo de sesión continua por usuario
+- [x] #8 Prosa en español latinoamericano; identificadores en ejemplos de código alineados a convenciones del repo
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -78,10 +91,16 @@ No incluir secretos ni API keys en el ADR.
 - No editar el archivo de plan `.cursor/plans/` al documentar; solo `backlog/decisions/`.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+ADR decision-3 creado (LangGraph + LangChain Postgres + LlamaIndex/Qdrant, sin BM25 en runtime M2, diagrama Mermaid, HISTORIAL_DIAS_MAX). decision-1 marcada superseded con nota de alcance. pytest: 125 passed, 1 skipped.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 
 <!-- DOD:BEGIN -->
-- [ ] #1 ADR mergeable en `backlog/decisions/` con skill backlog-decisions satisfecha
-- [ ] #2 `uv run pytest` y frontend tests no requieren cambio por solo-docs; si el CI valida markdown/lint, pasar sin errores nuevos
-- [ ] #3 Referencias cruzadas a decision-1 (superseded) y decision-2 verificables desde el markdown
+- [x] #1 ADR mergeable en `backlog/decisions/` con skill backlog-decisions satisfecha
+- [x] #2 `uv run pytest` y frontend tests no requieren cambio por solo-docs; si el CI valida markdown/lint, pasar sin errores nuevos
+- [x] #3 Referencias cruzadas a decision-1 (superseded) y decision-2 verificables desde el markdown
 <!-- DOD:END -->
