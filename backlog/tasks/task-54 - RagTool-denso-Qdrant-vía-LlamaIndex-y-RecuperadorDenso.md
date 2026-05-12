@@ -1,10 +1,10 @@
 ---
 id: TASK-54
 title: RagTool denso (Qdrant vía LlamaIndex) y RecuperadorDenso
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 07:08'
+updated_date: '2026-05-12 07:16'
 labels:
   - rag
   - qdrant
@@ -19,8 +19,15 @@ references:
   - tests/rag/test_recuperador_denso.py
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
+modified_files:
+  - src/rag/recuperador_denso.py
+  - src/rag/qdrant_store.py
+  - src/rag/__init__.py
+  - src/agentes/herramientas/rag_tool.py
+  - src/agentes/herramientas/__init__.py
+  - tests/rag/test_recuperador_denso.py
 priority: high
-ordinal: 1000
+ordinal: 0.00006103515625
 ---
 
 ## Description
@@ -52,15 +59,14 @@ Fixture de corpus pequeño + **Qdrant `:memory:`** (`QdrantClient(location=":mem
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 `RecuperadorDenso` no usa BM25 ni lectura de markdown en disco
-- [ ] #2 `crear_rag_tool()` retorna `StructuredTool` compatible con LangGraph tool-calling
-- [ ] #3 Respuesta estructurada incluye `respuesta_contexto` y `fuentes` con campos requeridos
-- [ ] #4 `top_k` y `score_minimo` leídos de settings (`RAG_TOP_K`, `RAG_SCORE_MINIMO`)
-- [ ] #5 Tests con Qdrant in-memory pasan en CI sin API externa (mockear embeddings o usar dim fija con vector aleatorio controlado)
-- [ ] #6 Manejo de colección vacía: mensaje claro para el compositor ("sin resultados")
-- [ ] #7 Docstrings en español latinoamericano
+- [x] #1 `RecuperadorDenso` no usa BM25 ni lectura de markdown en disco
+- [x] #2 `crear_rag_tool()` retorna `StructuredTool` compatible con LangGraph tool-calling
+- [x] #3 Respuesta estructurada incluye `respuesta_contexto` y `fuentes` con campos requeridos
+- [x] #4 `top_k` y `score_minimo` leídos de settings (`RAG_TOP_K`, `RAG_SCORE_MINIMO`)
+- [x] #5 Tests con Qdrant in-memory pasan en CI sin API externa (mockear embeddings o usar dim fija con vector aleatorio controlado)
+- [x] #6 Manejo de colección vacía: mensaje claro para el compositor ("sin resultados")
+- [x] #7 Docstrings en español latinoamericano
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -78,12 +84,21 @@ Fixture de corpus pequeño + **Qdrant `:memory:`** (`QdrantClient(location=":mem
 <!-- SECTION:NOTES:BEGIN -->
 - Alinear umbral de score con la métrica devuelta por Qdrant/LlamaIndex (similaridad vs distancia); documentar conversión.
 - Cuando no haya contexto suficiente, el compositor debe tender a responder literal **"No tengo información suficiente"** (política ya existente en `src/qa/prompt.py`); referenciar en descripción de tool o en meta-prompt task-55.
+
+Score: se usa el valor devuelto por Qdrant (p. ej. similitud coseno creciente con mayor parecido cuando QDRANT_DISTANCE es Cosine). Para otras métricas ajustar RAG_SCORE_MINIMO según la convención del servidor.
+
+Colección sin puntos: mensaje explícito MENSAJE_COLECCION_VACIA; sin hits sobre umbral: MENSAJE_SIN_RESULTADOS.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se implementó RecuperadorDenso (consulta Qdrant vía QdrantVectorStore de LlamaIndex, filtro por RAG_SCORE_MINIMO y orden por score) y crear_rag_tool con StructuredTool rag_denso. Salida Pydantic: respuesta_contexto con cabeceras [CHUNK i] y fuentes con archivo, titulo, source_url, score, chunk_index. obtener_vector_store usa text_key=texto alineado a la ingesta. Tests en tests/rag/test_recuperador_denso.py con Qdrant :memory: y embeddings mock; validación de campos compatibles con FuenteBm25 del frontend.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest tests/rag/` verde
-- [ ] #2 `ruff check` sin errores nuevos
-- [ ] #3 Ejemplo de payload de fuentes validado contra schema frontend (task-59)
+- [x] #1 `uv run pytest tests/rag/` verde
+- [x] #2 `ruff check` sin errores nuevos
+- [x] #3 Ejemplo de payload de fuentes validado contra schema frontend (task-59)
 <!-- DOD:END -->

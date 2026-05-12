@@ -161,4 +161,8 @@ def obtener_vector_store(
     cliente = obtener_qdrant_client(cfg)
     distancia = distancia_desde_settings(cfg.qdrant_distance)
     asegurar_coleccion(cliente, cfg.qdrant_collection, cfg.embedding_dims, distancia)
-    return QdrantVectorStore(collection_name=cfg.qdrant_collection, client=cliente)
+    return QdrantVectorStore(
+        collection_name=cfg.qdrant_collection,
+        client=cliente,
+        text_key="texto",
+    )

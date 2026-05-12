@@ -7,8 +7,10 @@ from src.rag.qdrant_store import (
     obtener_vector_store,
     reiniciar_cliente_qdrant,
 )
+from src.rag.recuperador_denso import RecuperadorDenso
 
 __all__ = [
+    "RecuperadorDenso",
     "asegurar_coleccion",
     "obtener_embeddings",
     "obtener_qdrant_client",

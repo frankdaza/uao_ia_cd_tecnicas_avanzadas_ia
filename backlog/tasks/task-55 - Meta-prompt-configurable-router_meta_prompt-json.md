@@ -1,10 +1,12 @@
 ---
 id: TASK-55
-title: Meta-prompt configurable en config/router_meta_prompt.json y cargador con caché
-status: To Do
+title: >-
+  Meta-prompt configurable en config/router_meta_prompt.json y cargador con
+  caché
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 07:16'
 labels:
   - router
   - configuracion
@@ -19,7 +21,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 13000
+ordinal: 1000
 ---
 
 ## Description

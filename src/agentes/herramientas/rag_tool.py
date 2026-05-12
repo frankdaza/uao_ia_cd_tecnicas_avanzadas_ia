@@ -1,0 +1,69 @@
+"""
+Tool de recuperacion densa (Qdrant + LlamaIndex) para el router del agente M2.
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+from langchain_core.tools import StructuredTool
+from pydantic import BaseModel, Field
+
+from src.api.configuracion import Configuracion, obtener_configuracion
+from src.rag.embeddings import obtener_embeddings
+from src.rag.qdrant_store import obtener_vector_store
+from src.rag.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
+
+
+class ArgsConsultaRagDenso(BaseModel):
+    """Entrada expuesta al modelo para recuperar contexto del corpus vectorizado."""
+
+    consulta: str = Field(
+        description=(
+            "Pregunta o consulta en español sobre politicas, servicios, historia, "
+            "investigacion o documentacion amplia de la Fundacion Valle del Lili (FVL), "
+            "que requiera contexto profundo del corpus institucional indexado."
+        ),
+        min_length=1,
+    )
+
+
+def crear_rag_tool(
+    *,
+    configuracion: Configuracion | None = None,
+    recuperador: RecuperadorDenso | None = None,
+) -> StructuredTool:
+    """
+    Construye la ``StructuredTool`` ``rag_denso`` (binding con LangGraph / tool-calling).
+
+    Por defecto usa ``obtener_vector_store``, ``obtener_embeddings`` y los umbrales
+    ``RAG_TOP_K`` / ``RAG_SCORE_MINIMO`` de settings. En pruebas puede inyectarse un
+    ``RecuperadorDenso`` ya configurado.
+    """
+    cfg = configuracion or obtener_configuracion()
+    rec = recuperador or RecuperadorDenso(
+        vector_store=obtener_vector_store(cfg),
+        embeddings=obtener_embeddings(cfg),
+        top_k=cfg.rag_top_k,
+        score_minimo=cfg.rag_score_minimo,
+    )
+
+    def _ejecutar(consulta: str) -> dict[str, Any]:
+        salida: SalidaRecuperacionRagDenso = rec.consultar(consulta)
+        return salida.model_dump(mode="json")
+
+    return StructuredTool.from_function(
+        name="rag_denso",
+        description=(
+            "Recupera fragmentos relevantes del corpus institucional de la Fundación "
+            "Valle del Lili mediante búsqueda semántica densa en Qdrant (embeddings). "
+            "Úsala para preguntas abiertas de dominio FVL que requieran contexto textual "
+            "profundo (normativas, descripciones extensas, contenido web convertido a "
+            "Markdown indexado). No sustituye datos FAQ puntuales ni razonamiento clínico; "
+            "si no hay fragmentos por encima del umbral de similitud, el compositor debe "
+            "responder que no hay información suficiente."
+        ),
+        func=_ejecutar,
+        args_schema=ArgsConsultaRagDenso,
+        infer_schema=False,
+    )
