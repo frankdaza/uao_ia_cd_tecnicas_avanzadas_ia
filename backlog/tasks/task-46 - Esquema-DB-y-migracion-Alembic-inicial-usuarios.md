@@ -1,0 +1,84 @@
+---
+id: TASK-46
+title: Esquema de base de datos y migración Alembic inicial (tabla usuarios)
+status: To Do
+assignee: []
+created_date: '2026-05-11 00:00'
+updated_date: '2026-05-11 00:00'
+labels:
+  - postgres
+  - alembic
+  - sqlalchemy
+  - modulo-2
+dependencies:
+  - TASK-44
+  - TASK-45
+references:
+  - alembic/
+  - src/persistencia/modelos.py
+  - src/api/configuracion.py
+documentation:
+  - .claude/skills/uv-python-env/SKILL.md
+priority: high
+ordinal: 4000
+---
+
+## Description
+
+<!-- SECTION:DESCRIPTION:BEGIN -->
+## Contexto
+
+Se necesita persistir usuarios identificados por **documento de identidad** único y **nombre**, con auditoría básica de creación y último acceso. El historial de chat en formato LangChain (`chat_history`) será creado por **`PostgresChatMessageHistory.create_tables`** en runtime (task-48); esta task cubre solo el esquema **aplicación** vía Alembic.
+
+## Objetivo
+
+1. Inicializar proyecto **Alembic** en `alembic/` (`env.py`, `script.py.mako`, `versions/`).
+2. Definir modelo SQLAlchemy 2.x **`Usuario`** en `src/persistencia/modelos.py`:
+   - `id` UUID PK (default generado en DB o en app, documentar).
+   - `documento_identidad` **único**, indexado.
+   - `nombre` (texto).
+   - `created_at`, `updated_at`, `last_login_at` (timestamps con timezone).
+3. Configurar `alembic/env.py` para leer `DATABASE_URL` desde **pydantic-settings** (misma fuente que la app).
+4. Generar revisión inicial `0001_create_usuarios.py` que crea la tabla `usuarios` (o nombre acordado en español ASCII: `usuarios`).
+
+## Tests
+
+Preferir `pytest` con **testcontainers** o `pytest-postgresql` si el esfuerzo es razonable; si no, smoke test documentado contra contenedor Compose y marcador `integration_postgres` para skips en CI sin Docker.
+<!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+
+<!-- AC:BEGIN -->
+- [ ] #1 Directorio `alembic/` versionado con configuración funcional
+- [ ] #2 Modelo `Usuario` reflejado en migración y en metadata SQLAlchemy
+- [ ] #3 `alembic upgrade head` crea la tabla esperada en Postgres limpio
+- [ ] #4 Restricción UNIQUE en `documento_identidad` y índice verificable
+- [ ] #5 `env.py` no imprime secretos; usa URL desde settings
+- [ ] #6 Documentación en cuerpo de task o README: tabla `chat_history` la crea LangChain en lifespan (no Alembic)
+- [ ] #7 Al menos un test automatizado o script de verificación reproducible
+<!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. `alembic init` adaptado al layout del repo (import string `src.persistencia.modelos`).
+2. Implementar `Usuario` con tipos `Mapped` / `mapped_column` (SQLAlchemy 2).
+3. Autogenerate o escribir a mano migración inicial revisada.
+4. Cablear `DATABASE_URL` async vs sync: Alembic suele usar URL sync (`postgresql+psycopg://`); documentar dual URL si hace falta.
+5. Añadir test o job CI opcional con servicio Postgres.
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+- Convención de nombres de tabla en español ASCII (`usuarios`) alineada a rules del proyecto.
+- Si la app usa async engine, mantener clara separación entre URL sync para migraciones y async para runtime.
+<!-- SECTION:NOTES:END -->
+
+## Definition of Done
+
+<!-- DOD:BEGIN -->
+- [ ] #1 `uv run alembic upgrade head` funciona contra Postgres del compose
+- [ ] #2 `uv run pytest` verde para tests nuevos o marcados skip explícito
+- [ ] #3 `ruff check` en módulos nuevos
+<!-- DOD:END -->
