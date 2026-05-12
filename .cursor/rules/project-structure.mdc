@@ -1,5 +1,5 @@
 ---
-description: Layout de carpetas sugerido para scraping, conocimiento, Q&A, API y frontend
+description: Layout de carpetas sugerido para scraping, conocimiento, Q&A, agente M2, API y frontend
 alwaysApply: true
 ---
 
@@ -10,20 +10,29 @@ src/
   scraping/          # descarga; guardar crudo en data/raw/
   markdown_export/   # conversion crudo -> Markdown con front matter (data/markdown/)
   preprocessing/     # limpieza adicional si hace falta antes del chunking
-  knowledge_base/    # scripts de chunking y export del corpus procesado
-  qa/                # prompts, cadena LLM, respuestas (PipelineQa)
-  retrieval/         # recuperador BM25
+  knowledge_base/    # scripts de chunking y export del corpus procesado (M1 / legacy)
+  qa/                # prompts, cadena LLM (PipelineQa en M1; puede quedar legacy en M2)
+  retrieval/         # recuperador BM25 (M1; fuera del runtime productivo M2 segun ADR)
+  agentes/           # M2: router LangGraph, estado, meta_prompt, herramientas, memoria
+  rag/               # M2: embeddings, Qdrant, chunking vectorial, recuperador denso
+  persistencia/      # M2: motor SQLAlchemy async, modelos, repositorios (usuarios, sesiones)
   api/               # backend HTTP FastAPI + SSE
     main.py          # app FastAPI, lifespan, CORSMiddleware
     configuracion.py # pydantic-settings, lectura de .env
-    dependencias.py  # Depends(obtener_pipeline) y otros
+    dependencias.py  # Depends (pipeline, grafo agente, sesion DB, etc.)
     esquemas.py      # modelos Pydantic v2 request/response
     routers/
       salud.py       # GET /api/salud
-      qa.py          # POST /api/qa, POST /api/qa/stream, POST /api/qa/dual/stream
+      qa.py          # M1: POST /api/qa, /api/qa/stream (legacy / retirar en M2)
+      sesiones.py    # M2: POST /api/sesiones, historial, cerrar sesion
+      agente.py      # M2: POST /api/agente/stream (SSE agente)
       corpus.py      # POST /api/recargar-corpus, GET /api/modelos
   app/
     legacy/          # app_gradio.py (deprecado; conservado para referencia)
+config/              # M2: router_meta_prompt.json (sin secretos)
+alembic/             # M2: migraciones esquema app (p. ej. usuarios)
+scripts/
+  indexar_corpus_qdrant.py  # M2: ingesta Markdown -> Qdrant (idempotente)
 frontend/            # aplicacion React 19 + Vite 7 + TypeScript + shadcn/ui
   package.json
   pnpm-lock.yaml
@@ -34,7 +43,8 @@ frontend/            # aplicacion React 19 + Vite 7 + TypeScript + shadcn/ui
     main.tsx
     App.tsx
     features/
-      chat/          # Chat.tsx, MessageList, MessageBubble, ChatInput, DualResponseView, SourcesPanel
+      auth/          # M2: AuthScreen, AuthContext (identificacion DocId + nombre)
+      chat/          # Chat.tsx, MessageList, MessageBubble, ChatInput, SourcesPanel; SSE agente
       settings/      # SettingsPanel, ModelSelector, SystemPromptEditor
     components/
       ui/            # componentes shadcn/ui generados por CLI
@@ -50,9 +60,14 @@ frontend/            # aplicacion React 19 + Vite 7 + TypeScript + shadcn/ui
 data/
   raw/               # HTML, JSON, XML, PDF u otro tal cual se descargo (gitignore)
   markdown/          # fuente de verdad textual: .md legibles con front matter YAML
+  structured/        # M2: faqs.json + schema (FAQ tool determinista)
   processed/         # chunks / JSONL derivados de markdown/ (evaluar DVC o git-lfs si pesa)
 tests/               # tests Python (pytest)
   api/               # tests del backend FastAPI con httpx AsyncClient
+  agentes/           # M2: router, tools, meta-prompt
+  rag/               # M2: Qdrant in-memory / recuperador denso
+  persistencia/      # M2: repositorios
+  e2e/               # M2: escenarios modulo 2 (opcional)
   qa/
   retrieval/
   scraping/
@@ -64,15 +79,30 @@ notebooks/           # opcional, experimentacion
 1. **`data/raw/`**: artefacto nativo de la descarga o de la libreria (html, json, xml, etc.).
 2. **`data/markdown/`**: Markdown canonico por recurso o pagina, generado desde `raw/` (ver skill `markdown-knowledge-base`).
 3. **`data/processed/`**: chunks listos para Q&A o RAG futuro, producidos desde los `.md` de `markdown/`.
+4. **`data/structured/`** (M2): JSON fijo de FAQs y schema; no sustituye al corpus Markdown.
 
 ## Flujo de peticion en produccion
 
+**Modulo 1 (legacy, mientras exista en codigo):**
+
 ```
-Usuario -> frontend/ (React + Vite) -> POST /api/qa/stream (SSE)
-        -> src/api/ (FastAPI) -> src/qa/pipeline.py (PipelineQa)
+Usuario -> frontend/ -> POST /api/qa/stream (SSE)
+        -> src/api/ -> src/qa/pipeline.py (PipelineQa)
         -> src/retrieval/ (BM25) -> data/markdown/
         -> Ollama local / OpenAI API
 ```
+
+**Modulo 2 (objetivo productivo):**
+
+```
+Usuario -> frontend/ (login) -> POST /api/sesiones
+        -> frontend/ (chat) -> POST /api/agente/stream (SSE)
+        -> src/api/routers/agente.py -> src/agentes/ (LangGraph)
+        -> Postgres (usuarios + chat_history) | Qdrant (vectores corpus)
+        -> OpenAI API (router / composicion / embeddings segun configuracion)
+```
+
+El corpus `data/markdown/` alimenta **ingesta** hacia Qdrant (`scripts/indexar_corpus_qdrant.py`); el runtime del agente **no** lee BM25 sobre Markdown por peticion.
 
 ## Reglas de versionado
 

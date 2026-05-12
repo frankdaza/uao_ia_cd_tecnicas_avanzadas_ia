@@ -24,6 +24,11 @@ description: Lee Markdown de data/markdown/, normaliza si hace falta y divide en
 - Preferir cortes en **limites de encabezados Markdown** o bloques completos (listas, parrafos) antes que a mitad de frase.
 - Evitar cortar en medio de una tabla critica si se puede partir por filas o secciones.
 
+### Modulo 2 (Qdrant / LlamaIndex)
+
+- El chunking **principal** para vectores puede vivir en el script de ingesta (`scripts/indexar_corpus_qdrant.py`) usando `SentenceSplitter` de LlamaIndex con `CHUNK_SIZE` / `CHUNK_OVERLAP` desde `.env`.
+- Seguir propagando metadatos del front matter al **payload** de Qdrant (`titulo`, `source_url`, `archivo`, etc.) segun skill `markdown-knowledge-base` y esta skill.
+
 ## Metadatos por chunk
 
 - Campos utiles: heredar del front matter y anadir `chunk_id`, `indice_chunk` (nombres ASCII en codigo).

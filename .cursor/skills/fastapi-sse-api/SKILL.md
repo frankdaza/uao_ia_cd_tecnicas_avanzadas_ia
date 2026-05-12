@@ -1,6 +1,6 @@
 ---
 name: fastapi-sse-api
-description: Implementa el backend HTTP con FastAPI + sse-starlette para exponer el PipelineQa via REST + SSE. Usar al crear o modificar src/api/ o cuando se necesite agregar endpoints al backend.
+description: Implementa el backend HTTP con FastAPI + sse-starlette (M1 PipelineQa y M2 agente SSE). Usar al crear o modificar src/api/ o cuando se necesite agregar endpoints al backend.
 ---
 
 # Backend HTTP: FastAPI + SSE
@@ -26,7 +26,9 @@ src/api/
   routers/
     __init__.py
     salud.py        # GET /api/salud
-    qa.py           # POST /api/qa, /api/qa/stream, /api/qa/dual/stream
+    qa.py           # M1: POST /api/qa, /api/qa/stream (legacy si se retira)
+    sesiones.py     # M2: sesion e historial
+    agente.py       # M2: POST /api/agente/stream
     corpus.py       # GET /api/modelos, POST /api/recargar-corpus, GET /api/prompt-defecto
 ```
 
@@ -199,7 +201,18 @@ Ver `.env.example`; las nuevas variables del backend son:
 - `ALLOWED_ORIGINS`: lista JSON de origenes CORS, ej. `["http://localhost:5173"]`
 - `API_PORT`: puerto del servidor (defecto `8000`)
 
+## SSE del agente (Modulo 2)
+
+- Endpoint tipico: **`POST /api/agente/stream`** con cuerpo JSON (p. ej. `session_id`, `pregunta`, `primer_turno` opcional).
+- **Eventos** (nombres de campo `event` en SSE, alineados con `esquemas.py`): incluir entre otros `pensamiento`, `herramienta`, `token` (p. ej. `motor: "agente"`), `fuentes` (metadata Qdrant), `final`, `error`, y opcionalmente `keepalive`.
+- **Serializacion**: cada `data` debe ser JSON valido; preferir modelos Pydantic v2 + `model_dump(mode="json")` para tipos no JSON nativos.
+- **Pruebas**: `httpx.AsyncClient` leyendo el cuerpo como texto, acumulando buffer y parseando lineas `event:` / `data:`; mockear el grafo LangChain/LangGraph en `app.state` para no llamar APIs reales.
+- **Cancelacion**: al cancelar el cliente, propagar cancelacion al async generator del grafo (no dejar tareas huerfanas).
+- **CORS y cookies**: si la sesion usa cookie HTTP-only, configurar `allow_credentials` y origenes explicitos (coordinar con `react-vite-qa-ui`).
+- Detalle de arquitectura agente: skill **`agente-modulo-2`**.
+
 ## Referencia de reglas
 
 - Convencion FastAPI: `.cursor/rules/api-fastapi.mdc`
+- Agente M2 (globs acotados): `.cursor/rules/agente-modulo-2.mdc`
 - Idioma: `.cursor/rules/language-conventions.mdc`

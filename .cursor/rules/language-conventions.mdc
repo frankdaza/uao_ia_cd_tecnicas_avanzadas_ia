@@ -27,6 +27,10 @@ numero_chunks: int = 0
 
 - **Cadenas de texto**, **docstrings** y **comentarios** si pueden incluir tildes y ene donde corresponda al espanol.
 
+## Excepcion: nombres de tools LangChain / OpenAI (Modulo 2)
+
+- El campo `name` de herramientas expuestas a modelos con tool-calling suele requerir un **identificador estable en ingles** (p. ej. `faq_estructurada`, `rag_denso`). Mantener descripciones y docstrings en espanol latinoamericano; el `name` es contrato de API, no texto de UI.
+
 ## Excepcion: Codigo fuente TypeScript/JavaScript (frontend)
 
 En archivos `frontend/**/*.{ts,tsx,js,jsx}` los **identificadores** siguen la **convencion del ecosistema React/TypeScript**: se usan en **ingles** y en **camelCase** o **PascalCase** segun el tipo de simbolo.
