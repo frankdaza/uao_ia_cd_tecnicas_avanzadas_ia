@@ -81,6 +81,19 @@ class Configuracion(BaseSettings):
             f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
         )
 
+    def url_base_datos_sync(self) -> str:
+        """
+        URL ``postgresql://...`` para ``psycopg`` (memoria LangChain sync).
+
+        Deriva de ``url_base_datos_async`` sustituyendo el driver ``asyncpg``.
+        """
+        url = self.url_base_datos_async()
+        if "+asyncpg" in url:
+            return url.replace("postgresql+asyncpg://", "postgresql://", 1)
+        if "+psycopg" in url:
+            return url.replace("postgresql+psycopg://", "postgresql://", 1)
+        return url
+
 
 @lru_cache
 def obtener_configuracion() -> Configuracion:

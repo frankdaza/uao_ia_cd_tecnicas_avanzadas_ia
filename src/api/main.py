@@ -7,6 +7,8 @@ Inicialización:
 
 from __future__ import annotations
 
+import asyncio
+import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -15,6 +17,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import obtener_configuracion
 from src.api.middleware_request_id import registrar_request_response
 from src.api.routers import corpus, qa, salud
@@ -25,6 +28,8 @@ from src.persistencia.motor import (
     verificar_conexion_inicial,
 )
 from src.qa.pipeline import construir_pipeline_por_defecto
+
+logger = logging.getLogger(__name__)
 
 _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
@@ -44,6 +49,19 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     app.state.engine_db = motor_db
     app.state.session_factory = crear_session_factory(motor_db)
     await verificar_conexion_inicial(motor_db)
+
+    try:
+        await asyncio.to_thread(
+            inicializar_esquema_memoria_chat,
+            cfg.url_base_datos_sync(),
+        )
+    except Exception as exc:
+        logger.error(
+            "No se pudo inicializar el esquema de memoria conversacional (%s). "
+            "El chat persistente puede fallar hasta que PostgreSQL este disponible.",
+            exc.__class__.__name__,
+            exc_info=False,
+        )
 
     yield
 
