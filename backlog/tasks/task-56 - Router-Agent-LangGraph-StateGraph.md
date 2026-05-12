@@ -1,10 +1,12 @@
 ---
 id: TASK-56
-title: Router Agent con LangGraph (StateGraph) y nodos de memoria, tools y composición
-status: To Do
+title: >-
+  Router Agent con LangGraph (StateGraph) y nodos de memoria, tools y
+  composición
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 07:22'
 labels:
   - langgraph
   - agente
@@ -19,10 +21,10 @@ references:
   - src/agentes/router.py
   - src/qa/prompt.py
 documentation:
-  - https://langchain-ai.github.io/langgraph/
+  - 'https://langchain-ai.github.io/langgraph/'
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 14000
+ordinal: 1000
 ---
 
 ## Description

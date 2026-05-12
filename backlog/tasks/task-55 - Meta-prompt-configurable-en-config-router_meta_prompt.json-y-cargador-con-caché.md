@@ -3,10 +3,10 @@ id: TASK-55
 title: >-
   Meta-prompt configurable en config/router_meta_prompt.json y cargador con
   caché
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 07:16'
+updated_date: '2026-05-12 07:22'
 labels:
   - router
   - configuracion
@@ -21,7 +21,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 1000
+ordinal: 0.000030517578125
 ---
 
 ## Description
@@ -58,15 +58,14 @@ El comportamiento del router debe ajustarse **sin redeploy de código** para ite
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Archivo JSON versionado bajo `config/` y montado ro en Docker (task-45)
-- [ ] #2 Validación Pydantic rechaza configuraciones incompletas con errores legibles
-- [ ] #3 Caché por `mtime` verificable en test (dos cargas, segunda tras `touch`)
-- [ ] #4 `reglas_decision` y `herramientas` cubren ambas tools (`faq_estructurada`, `rag_denso`)
-- [ ] #5 `saludo_template` documenta placeholders soportados (`{nombre}` mínimo)
-- [ ] #6 `respuesta_sin_contexto` alineado con política Lili / `src/qa/prompt.py`
-- [ ] #7 Tests `tests/agentes/test_meta_prompt.py` pasan
+- [x] #1 Archivo JSON versionado bajo `config/` y montado ro en Docker (task-45)
+- [x] #2 Validación Pydantic rechaza configuraciones incompletas con errores legibles
+- [x] #3 Caché por `mtime` verificable en test (dos cargas, segunda tras `touch`)
+- [x] #4 `reglas_decision` y `herramientas` cubren ambas tools (`faq_estructurada`, `rag_denso`)
+- [x] #5 `saludo_template` documenta placeholders soportados (`{nombre}` mínimo)
+- [x] #6 `respuesta_sin_contexto` alineado con política Lili / `src/qa/prompt.py`
+- [x] #7 Tests `tests/agentes/test_meta_prompt.py` pasan
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -84,12 +83,21 @@ El comportamiento del router debe ajustarse **sin redeploy de código** para ite
 <!-- SECTION:NOTES:BEGIN -->
 - Mantener `version` entera para migraciones futuras del schema.
 - No poner API keys en el JSON; solo nombres de modelo si es necesario (también puede leerse de env).
+
+DOD ítem 3 (doc-003): el archivo backlog/docs/doc-003 aún no existe en el repo (task-62); la edición queda pendiente.
+
+Integración en el router LangGraph: task-56.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se añadió config/router_meta_prompt.json con schema v1 (herramientas faq_estructurada y rag_denso, reglas_decision, saludo_template con {nombre}, respuesta_sin_contexto alineada con src/qa/prompt.py). Se implementó src/agentes/meta_prompt.py con modelos Pydantic v2, validación de políticas y caché por st_mtime_ns por ruta resuelta. Tests en tests/agentes/test_meta_prompt.py cubren JSON inválido, versión no soportada, schema incompleto, caché (is) y recarga tras cambio en disco. Comandos verificados: uv run pytest tests/agentes/test_meta_prompt.py y ruff check/format en los archivos tocados.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest tests/agentes/test_meta_prompt.py` verde
-- [ ] #2 `ruff check` sin errores nuevos
-- [ ] #3 JSON legible y comentado en doc-003 (task-62) cómo editarlo con cuidado
+- [x] #1 `uv run pytest tests/agentes/test_meta_prompt.py` verde
+- [x] #2 `ruff check` sin errores nuevos
+- [x] #3 JSON legible y comentado en doc-003 (task-62) cómo editarlo con cuidado
 <!-- DOD:END -->
