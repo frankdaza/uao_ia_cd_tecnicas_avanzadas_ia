@@ -1,10 +1,12 @@
 ---
 id: TASK-45
-title: docker-compose.yml con PostgreSQL 16, Qdrant, healthchecks y volúmenes nombrados
-status: To Do
+title: >-
+  docker-compose.yml con PostgreSQL 16, Qdrant, healthchecks y volúmenes
+  nombrados
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 06:02'
 labels:
   - docker
   - infra
@@ -19,7 +21,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - README.md
 priority: high
-ordinal: 3000
+ordinal: 0.03125
 ---
 
 ## Description
@@ -47,15 +49,14 @@ Actualizar **`Dockerfile`** si hace falta para copiar `config/`, `data/structure
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Servicios `postgres` y `qdrant` con healthchecks y volúmenes persistentes nombrados
-- [ ] #2 Job `db-init` (o equivalente) ejecuta migraciones Alembic contra Postgres sano
-- [ ] #3 Servicio `api` no arranca antes de dependencias salvo documentación explícita de desarrollo
-- [ ] #4 Volúmenes `./config` y `./data/structured` montados ro en `api` según plan
-- [ ] #5 `Dockerfile` incluye artefactos necesarios (`alembic/`, `config/`, `data/structured/`) si la imagen los requiere
-- [ ] #6 Documentación breve en README o comentarios YAML sobre puertos y variables requeridas
-- [ ] #7 `docker compose up` + smoke `curl` salud documentado en Implementation Notes
+- [x] #1 Servicios `postgres` y `qdrant` con healthchecks y volúmenes persistentes nombrados
+- [x] #2 Job `db-init` (o equivalente) ejecuta migraciones Alembic contra Postgres sano
+- [x] #3 Servicio `api` no arranca antes de dependencias salvo documentación explícita de desarrollo
+- [x] #4 Volúmenes `./config` y `./data/structured` montados ro en `api` según plan
+- [x] #5 `Dockerfile` incluye artefactos necesarios (`alembic/`, `config/`, `data/structured/`) si la imagen los requiere
+- [x] #6 Documentación breve en README o comentarios YAML sobre puertos y variables requeridas
+- [x] #7 `docker compose up` + smoke `curl` salud documentado en Implementation Notes
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -74,12 +75,19 @@ Actualizar **`Dockerfile`** si hace falta para copiar `config/`, `data/structure
 - En desarrollo local sin Docker, los devs pueden usar `docker compose up postgres qdrant` solamente.
 - Alinear `DATABASE_URL` del contenedor `api` con host `postgres` y credenciales del compose.
 - Qdrant gRPC 6334 vs REST 6333: documentar cuál usa el cliente.
+
+Smoke (2026-05-12): `docker compose config` OK; `docker compose up -d postgres qdrant` + `docker compose run --rm --build db-init` aplico revision `20260512_0001` en Postgres 16; build Docker corrigio orden `COPY src/` antes de `uv sync` (uv_build). Smoke API + Ollama: `docker compose up --build -d` luego `curl -sS http://127.0.0.1:${API_PORT:-8000}/api/salud` (requiere pull del modelo en ollama-init).
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Compose: postgres:16-alpine (volumen postgres-data, healthcheck pg_isready, puerto host por defecto 15432), qdrant/qdrant:v1.12.5 (qdrant-storage, healthcheck TCP 6333, puertos 6333/6334), job db-init con `uv run alembic upgrade head` tras Postgres sano, api con depends_on saludables + db-init completado, montajes ro `./config` y `./data/structured`. Dockerfile: copia alembic/, config/, orden de build con src antes de uv sync. Alembic minimo (revision base vacia) para que db-init sea funcional hasta task-46. README: puertos, variables y comandos de verificacion.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Compose validado con `docker compose config`
-- [ ] #2 Smoke manual documentado (comandos exactos) en notas de la tarea o README (task-63 puede consolidar)
-- [ ] #3 Sin secretos hardcodeados en YAML (usar env_file / variables)
+- [x] #1 Compose validado con `docker compose config`
+- [x] #2 Smoke manual documentado (comandos exactos) en notas de la tarea o README (task-63 puede consolidar)
+- [x] #3 Sin secretos hardcodeados en YAML (usar env_file / variables)
 <!-- DOD:END -->

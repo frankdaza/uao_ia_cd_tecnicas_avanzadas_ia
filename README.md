@@ -97,8 +97,17 @@ Variables opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO`, `OPENAI_API_KEY`,
 
 ### Modo producción (Docker)
 
+El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), **Ollama**, el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`**. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+
+- **PostgreSQL en el host**: puerto publicado por defecto **15432** → 5432 interno (`POSTGRES_PUBLISH_PORT` para cambiarlo). Variables: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` (valores por defecto acordes con `src/api/configuracion.py`).
+- **Qdrant**: REST **6333** y gRPC **6334** en el host (`QDRANT_REST_PORT`, `QDRANT_GRPC_PORT`). En la red de Compose la API usa `QDRANT_URL=http://qdrant:6333` (solo HTTP; el cliente no requiere gRPC en el contenedor `api`).
+- **Solo infra** (sin Ollama ni API): `docker compose up -d postgres qdrant`.
+
 ```bash
-docker-compose up
+docker compose config
+docker compose down -v
+docker compose up --build -d
+curl -sS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
 ```
 
 El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Ver `Dockerfile` y `docker-compose.yml`.
