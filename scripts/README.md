@@ -14,6 +14,7 @@ Para la lista completa de argumentos de cada programa, usa siempre:
 uv run python -m scripts.scrape --help
 uv run python -m scripts.export_markdown --help
 uv run python -m scripts.evaluar_qa --help
+uv run python -m scripts.indexar_corpus_qdrant --help
 ```
 
 ## Flujo sugerido
@@ -138,6 +139,35 @@ uv run python -m scripts.evaluar_qa --modelos llama3.1:8b --solo-pregunta 5 --fe
 | `--fecha` | Fecha del informe `YYYY-MM-DD` (defecto: hoy). |
 
 Si un modelo no está disponible, el script sigue con los demás y deja constancia en el informe o en consola según el caso; revisa los `.md` generados y la salida estándar.
+
+---
+
+## `scripts.indexar_corpus_qdrant` (Módulo 2)
+
+**Qué hace.** Lee Markdown con front matter YAML bajo `data/markdown/` (por defecto `valledellili-org/`), aplica `SentenceSplitter` de LlamaIndex (`CHUNK_SIZE` / `CHUNK_OVERLAP` desde configuración) y hace **upsert** en Qdrant con ids deterministas. Si un chunk ya existe con el mismo `content_hash`, **no** vuelve a llamar a embeddings ni a Qdrant (corrida idempotente).
+
+**Requisitos.** Servidor Qdrant accesible (`QDRANT_URL`; en pruebas puede usarse `:memory:`). Para `EMBEDDING_PROVIDER=openai` hace falta `OPENAI_API_KEY` válida antes de embedir. Las dimensiones (`EMBEDDING_DIMS`) y la colección (`QDRANT_COLLECTION`) deben ser coherentes con el despliegue.
+
+**Ejecución.**
+
+```bash
+uv run python scripts/indexar_corpus_qdrant.py
+uv run python -m scripts.indexar_corpus_qdrant
+uv run python scripts/indexar_corpus_qdrant.py --markdown-dir data/markdown/valledellili-org --glob "**/*.md"
+```
+
+**Opciones destacadas:**
+
+| Opción | Rol breve |
+| --- | --- |
+| `--markdown-dir` | Directorio base del corpus (defecto: `data/markdown/valledellili-org`). |
+| `--glob` | Patrón glob relativo a ese directorio (defecto: `**/*.md`). |
+| `--purgar` | Borra puntos del prefijo del corpus en Qdrant que ya no corresponden a la indexación actual. Se ignora si usas `--limit`. |
+| `--limit` | Máximo de archivos `.md` a procesar (orden por ruta). |
+| `--collection` | Sobrescribe el nombre de la colección Qdrant. |
+| `--batch-size` | Lote para embeddings y upsert. |
+
+**Salida.** Resumen en consola: archivos considerados, chunks totales, cuántos se omitieron por hash, upserts y tiempos.
 
 ---
 

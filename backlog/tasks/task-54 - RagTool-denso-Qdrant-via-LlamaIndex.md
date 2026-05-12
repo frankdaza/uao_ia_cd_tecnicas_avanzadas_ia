@@ -1,10 +1,10 @@
 ---
 id: TASK-54
 title: RagTool denso (Qdrant vía LlamaIndex) y RecuperadorDenso
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-12 07:08'
 labels:
   - rag
   - qdrant
@@ -20,7 +20,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 12000
+ordinal: 1000
 ---
 
 ## Description
