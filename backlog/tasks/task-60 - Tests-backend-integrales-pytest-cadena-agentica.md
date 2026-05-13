@@ -1,10 +1,10 @@
 ---
 id: TASK-60
-title: Tests backend integrales (pytest) de la cadena agéntica, RAG y persistencia
-status: To Do
+title: 'Tests backend integrales (pytest) de la cadena agéntica, RAG y persistencia'
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 00:50'
 labels:
   - pytest
   - qa
@@ -26,7 +26,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 18000
+ordinal: 1000
 ---
 
 ## Description

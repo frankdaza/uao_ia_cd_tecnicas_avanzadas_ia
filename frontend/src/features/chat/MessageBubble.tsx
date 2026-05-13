@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { toast } from 'sonner'
-import { Copy, RotateCcw } from 'lucide-react'
+import { Copy, RotateCcw, ChevronDown, ChevronRight } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -22,6 +23,16 @@ interface MessageBubbleProps {
   message: Message
   showAssistantFooter?: boolean
   onRegenerate?: () => void
+  /** Nombre de tool ejecutada (`faq_estructurada`, `rag_denso`, …). */
+  toolUsed?: string | null
+  /** Eventos de decisión del router (solo resúmenes seguros del backend). */
+  routerThoughts?: { herramientaCandidata: string; razon: string }[]
+}
+
+function etiquetaToolEjecutada(nombre: string): string {
+  if (nombre === 'faq_estructurada') return 'Tool: FAQ'
+  if (nombre === 'rag_denso') return 'Tool: RAG denso'
+  return `Tool: ${nombre}`
 }
 
 async function copiar(texto: string) {
@@ -38,8 +49,12 @@ export function MessageBubble({
   message,
   showAssistantFooter = false,
   onRegenerate,
+  toolUsed = null,
+  routerThoughts,
 }: MessageBubbleProps) {
   const esUsuario = message.role === 'user'
+  const [razonamientoAbierto, setRazonamientoAbierto] = useState(false)
+  const pensamientos = routerThoughts ?? []
 
   return (
     <div
@@ -62,14 +77,21 @@ export function MessageBubble({
 
       <div className={cn('flex-1 flex flex-col gap-1 min-w-0', esUsuario && 'items-end')}>
         {!esUsuario && message.motor && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="secondary" className="text-xs">
               {message.motor === 'ollama'
                 ? 'Ollama (local)'
                 : message.motor === 'openai'
                   ? 'OpenAI (API)'
-                  : message.motor}
+                  : message.motor === 'agente'
+                    ? 'Agente'
+                    : message.motor}
             </Badge>
+            {toolUsed && (
+              <Badge variant="outline" className="text-xs border-[var(--color-accent)]/40">
+                {etiquetaToolEjecutada(toolUsed)}
+              </Badge>
+            )}
             {message.latencia_ms != null &&
               !message.isStreaming &&
               message.latencia_ms > 0 && (
@@ -77,6 +99,34 @@ export function MessageBubble({
                   {(message.latencia_ms / 1000).toFixed(1)}s
                 </span>
               )}
+          </div>
+        )}
+
+        {!esUsuario && pensamientos.length > 0 && (
+          <div className="w-full max-w-full">
+            <button
+              type="button"
+              className="flex items-center gap-1 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-md py-0.5"
+              aria-expanded={razonamientoAbierto}
+              onClick={() => setRazonamientoAbierto((a) => !a)}
+            >
+              {razonamientoAbierto ? (
+                <ChevronDown className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              ) : (
+                <ChevronRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              )}
+              Razonamiento del router
+            </button>
+            {razonamientoAbierto && (
+              <ul className="mt-1.5 space-y-1.5 rounded-lg border border-[var(--border)] bg-[var(--color-surface-2)]/60 px-3 py-2 text-xs text-[var(--color-text-muted)]">
+                {pensamientos.map((p, idx) => (
+                  <li key={`${p.herramientaCandidata}-${idx}`} className="leading-snug">
+                    <span className="font-medium text-[var(--color-text)]">{p.herramientaCandidata}</span>
+                    {p.razon ? <span>: {p.razon}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 

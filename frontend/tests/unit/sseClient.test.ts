@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { waitFor } from '@testing-library/react'
-import type { FuenteBm25 } from '@/lib/schemas'
-import { streamQa } from '@/lib/sseClient'
+import type { RagChunk } from '@/lib/schemas'
+import { streamAgente } from '@/lib/sseClient'
 
-describe('streamQa', () => {
+describe('streamAgente', () => {
   beforeEach(() => {
     vi.stubGlobal(
       'fetch',
@@ -13,10 +13,17 @@ describe('streamQa', () => {
           body: new ReadableStream({
             start(controller) {
               const enc = new TextEncoder()
-              controller.enqueue(enc.encode(`data: ${JSON.stringify({ tipo: 'token', motor: 'openai', texto: 'Ho' })}\n\n`))
               controller.enqueue(
                 enc.encode(
-                  `data: ${JSON.stringify({ tipo: 'final', motor: 'openai', texto: 'Hola', latencia_ms: 10, modelo: 'x' })}\n\n`,
+                  `data: ${JSON.stringify({ tipo: 'pensamiento', herramienta_candidata: 'rag_denso', razon: 'x' })}\n\n`,
+                ),
+              )
+              controller.enqueue(
+                enc.encode(`data: ${JSON.stringify({ tipo: 'token', motor: 'agente', texto: 'Ho' })}\n\n`),
+              )
+              controller.enqueue(
+                enc.encode(
+                  `data: ${JSON.stringify({ tipo: 'final', motor: 'agente', texto: 'Hola', latencia_ms: 10, modelo: 'x' })}\n\n`,
                 ),
               )
               controller.close()
@@ -31,27 +38,32 @@ describe('streamQa', () => {
     vi.unstubAllGlobals()
   })
 
-  it('emis eventos tipo token y final', async () => {
+  it('emite pensamiento, token y final', async () => {
+    const onPensamiento = vi.fn()
     const onToken = vi.fn()
     const onFinal = vi.fn()
-    streamQa(
-      '/api/qa/stream',
+    streamAgente(
+      '/api/agente/stream',
       {
+        session_id: 'user:550e8400-e29b-41d4-a716-446655440000',
         pregunta: 't',
-        modelo_openai: 'gpt-4o-mini',
-        temperatura: 0.2,
-        top_p: 1,
+        primer_turno: false,
       },
       {
+        onPensamiento,
+        onHerramienta: vi.fn(),
         onToken,
+        onFuentes: (_c: RagChunk[]) => {},
         onFinal,
         onError: vi.fn(),
-        onFuentes: (_f: FuenteBm25[]) => {},
       },
     )
     await waitFor(() => {
-      expect(onToken).toHaveBeenCalledWith('openai', 'Ho')
-      expect(onFinal).toHaveBeenCalled()
+      expect(onPensamiento).toHaveBeenCalledWith('rag_denso', 'x')
+      expect(onToken).toHaveBeenCalledWith('agente', 'Ho')
+      expect(onFinal).toHaveBeenCalledWith(
+        expect.objectContaining({ motor: 'agente', texto: 'Hola', latencia_ms: 10, modelo: 'x' }),
+      )
     })
   })
 
@@ -66,15 +78,16 @@ describe('streamQa', () => {
       ),
     )
     const onError = vi.fn()
-    const { abort } = streamQa(
-      '/api/qa/stream',
+    const { abort } = streamAgente(
+      '/api/agente/stream',
       {
+        session_id: 'user:550e8400-e29b-41d4-a716-446655440000',
         pregunta: 't',
-        modelo_openai: 'gpt-4o-mini',
-        temperatura: 0.2,
-        top_p: 1,
+        primer_turno: false,
       },
       {
+        onPensamiento: vi.fn(),
+        onHerramienta: vi.fn(),
         onToken: vi.fn(),
         onFinal: vi.fn(),
         onError,

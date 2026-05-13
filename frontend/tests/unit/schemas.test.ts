@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   ModelosRespuestaSchema,
-  EventoSseSchema,
+  EventoAgenteSseSchema,
   QaPeticionSchema,
   SesionRespuestaSchema,
   HistorialSesionRespuestaSchema,
@@ -21,15 +21,15 @@ describe('Schemas Zod', () => {
     expect(() => ModelosRespuestaSchema.parse({ modelos_ollama: [] })).toThrow()
   })
 
-  it('valida evento SSE tipo token', () => {
-    const evento = { tipo: 'token', motor: 'ollama', texto: 'La Fundación' }
-    const resultado = EventoSseSchema.safeParse(evento)
+  it('valida evento SSE agente tipo token', () => {
+    const evento = { tipo: 'token', motor: 'agente', texto: 'La Fundación' }
+    const resultado = EventoAgenteSseSchema.safeParse(evento)
     expect(resultado.success).toBe(true)
   })
 
-  it('rechaza evento SSE con tipo desconocido', () => {
-    const evento = { tipo: 'desconocido', motor: 'ollama' }
-    const resultado = EventoSseSchema.safeParse(evento)
+  it('rechaza evento SSE agente con tipo desconocido', () => {
+    const evento = { tipo: 'desconocido', motor: 'agente' }
+    const resultado = EventoAgenteSseSchema.safeParse(evento)
     expect(resultado.success).toBe(false)
   })
 

@@ -1,24 +1,29 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
-import type { FuenteBm25 } from '@/lib/schemas'
+import type { RagChunk } from '@/lib/schemas'
 import { ArrowDownToLine, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SUGGESTED_PROMPTS } from '@/features/chat/constants'
 import type { Message } from './MessageBubble'
 import { MessageBubble } from './MessageBubble'
-import { DualResponseView } from './DualResponseView'
 import { SourcesPanel } from './SourcesPanel'
+
+export interface RouterThought {
+  herramientaCandidata: string
+  razon: string
+}
 
 export interface ChatTurn {
   id: string
-  pregunta: Message
-  respuestaOllama?: Message
-  respuestaOpenai?: Message
-  fuentes: FuenteBm25[]
-  modoDual: boolean
+  userMessage: Message
+  assistantMessage?: Message
+  ragSources: RagChunk[]
+  routerThoughts: RouterThought[]
+  toolUsed: string | null
 }
 
 interface MessageListProps {
   turns: ChatTurn[]
+  historialLoading?: boolean
   onSelectSuggested?: (pregunta: string) => void
   onRegenerateLast?: () => void
 }
@@ -26,7 +31,12 @@ interface MessageListProps {
 const UMBRAL_PXL = 100
 
 /** Lista scrollable con auto-scroll condicional y sugerencias iniciales. */
-export function MessageList({ turns, onSelectSuggested, onRegenerateLast }: MessageListProps) {
+export function MessageList({
+  turns,
+  historialLoading = false,
+  onSelectSuggested,
+  onRegenerateLast,
+}: MessageListProps) {
   const areaRef = useRef<HTMLDivElement>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const prevLen = useRef(0)
@@ -49,6 +59,16 @@ export function MessageList({ turns, onSelectSuggested, onRegenerateLast }: Mess
   }, [turns, cercanoAlPie])
 
   const onScroll = () => setMostrarSaltarAbajo(!cercanoAlPie())
+
+  if (historialLoading && turns.length === 0) {
+    return (
+      <div className="flex-1 overflow-y-auto flex flex-col bg-[var(--color-background)] items-center justify-center px-4 py-12">
+        <p className="text-sm text-[var(--color-text-muted)]" role="status">
+          Cargando historial de la sesión…
+        </p>
+      </div>
+    )
+  }
 
   if (turns.length === 0) {
     return (
@@ -97,34 +117,24 @@ export function MessageList({ turns, onSelectSuggested, onRegenerateLast }: Mess
       >
         {turns.map((turn, index) => {
           const ultimoTurno = index === turns.length - 1
-          let ultimoAstSingle: Message | undefined
-          if (!turn.modoDual) {
-            ultimoAstSingle = turn.respuestaOllama ?? turn.respuestaOpenai
-          }
+          const assistant = turn.assistantMessage
           return (
             <div key={turn.id} className="flex flex-col gap-4 relative">
               <div className="px-4">
-                <MessageBubble message={turn.pregunta} />
+                <MessageBubble message={turn.userMessage} />
               </div>
-              {turn.modoDual ? (
-                <DualResponseView
-                  mensajeOllama={turn.respuestaOllama ?? null}
-                  mensajeOpenai={turn.respuestaOpenai ?? null}
-                />
-              ) : (
-                <div className="px-4">
-                  {ultimoAstSingle != null ? (
-                    <MessageBubble
-                      message={ultimoAstSingle}
-                      showAssistantFooter={Boolean(
-                        ultimoTurno && ultimoAstSingle.role === 'assistant',
-                      )}
-                      onRegenerate={ultimoTurno ? onRegenerateLast : undefined}
-                    />
-                  ) : null}
-                </div>
-              )}
-              {turn.fuentes.length > 0 && !turn.modoDual && <SourcesPanel fuentes={turn.fuentes} />}
+              <div className="px-4">
+                {assistant != null ? (
+                  <MessageBubble
+                    message={assistant}
+                    toolUsed={turn.toolUsed}
+                    routerThoughts={turn.routerThoughts}
+                    showAssistantFooter={Boolean(ultimoTurno && assistant.role === 'assistant')}
+                    onRegenerate={ultimoTurno ? onRegenerateLast : undefined}
+                  />
+                ) : null}
+              </div>
+              {turn.ragSources.length > 0 && <SourcesPanel chunks={turn.ragSources} />}
             </div>
           )
         })}

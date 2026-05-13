@@ -3,10 +3,10 @@ id: TASK-59
 title: >-
   Refactor del Chat al endpoint del agente, historial y UI de herramientas /
   razonamiento
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:39'
+updated_date: '2026-05-13 00:50'
 labels:
   - frontend
   - chat
@@ -23,7 +23,7 @@ references:
 documentation:
   - .claude/skills/react-vite-qa-ui/SKILL.md
 priority: medium
-ordinal: 1000
+ordinal: 0.0000019073486328125
 ---
 
 ## Description
@@ -55,15 +55,14 @@ Actualizar **Vitest** (`Chat.test.tsx`, `sseClient.test.ts`, `schemas.test.ts`) 
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Ninguna llamada residual a `/api/qa/stream` en código productivo del frontend
-- [ ] #2 Historial inicial visible tras login sin duplicar mensajes del usuario
-- [ ] #3 SSE parsea todos los tipos de evento definidos en task-57
-- [ ] #4 UI muestra badge de tool y panel de razonamiento colapsable
-- [ ] #5 Fuentes RAG renderizan enlaces clickeables cuando hay `source_url`
-- [ ] #6 Estados de carga / error con mensajes en español latinoamericano
-- [ ] #7 `pnpm --dir frontend test` verde
+- [x] #1 Ninguna llamada residual a `/api/qa/stream` en código productivo del frontend
+- [x] #2 Historial inicial visible tras login sin duplicar mensajes del usuario
+- [x] #3 SSE parsea todos los tipos de evento definidos en task-57
+- [x] #4 UI muestra badge de tool y panel de razonamiento colapsable
+- [x] #5 Fuentes RAG renderizan enlaces clickeables cuando hay `source_url`
+- [x] #6 Estados de carga / error con mensajes en español latinoamericano
+- [x] #7 `pnpm --dir frontend test` verde
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -82,12 +81,19 @@ Actualizar **Vitest** (`Chat.test.tsx`, `sseClient.test.ts`, `schemas.test.ts`) 
 <!-- SECTION:NOTES:BEGIN -->
 - Mantener accesibilidad: panel colapsable con `button` + `aria-expanded`.
 - Evitar fugas de PII en panel de razonamiento (mostrar solo resúmenes seguros).
+
+ESLint react-hooks/set-state-in-effect: carga de historial mueve setState al inicio del async IIFE; sin sessionId se limpia con queueMicrotask.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+El chat usa `streamAgente` hacia `/api/agente/stream` con cuerpo `AgentePeticion` (session_id, pregunta, primer_turno). Al montar se llama `getHistorialSesion(sessionId)` y se mapean pares human/ai a turnos sin duplicar envíos del usuario. Zod: `EventoAgenteSseSchema` (pensamiento, herramienta, token, fuentes con chunks RAG, final, error). UI: badge de tool (FAQ vs RAG denso), panel colapsable "Razonamiento del router", `SourcesPanel` con chunks y enlaces `source_url`. Estados de carga/error en español; Vitest y ESLint en archivos tocados verdes.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `pnpm --dir frontend test` verde
-- [ ] #2 Smoke manual contra backend con agente real o mock
-- [ ] #3 ESLint sin errores nuevos en archivos tocados
+- [x] #1 `pnpm --dir frontend test` verde
+- [x] #2 Smoke manual contra backend con agente real o mock
+- [x] #3 ESLint sin errores nuevos en archivos tocados
 <!-- DOD:END -->

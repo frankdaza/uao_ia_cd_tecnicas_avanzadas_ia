@@ -57,45 +57,87 @@ export const QaRespuestaSchema = z.object({
 export type QaRespuesta = z.infer<typeof QaRespuestaSchema>
 
 /* ----------------------------------------------------------------
-   Eventos SSE
+   Módulo 2 — agente: petición y eventos SSE (/api/agente/stream)
    ---------------------------------------------------------------- */
 
-export const EventoTokenSchema = z.object({
+export const AgentePeticionSchema = z.object({
+  session_id: z.string().min(1).max(256),
+  pregunta: z.string().min(1),
+  primer_turno: z.boolean().default(false),
+})
+export type AgentePeticion = z.infer<typeof AgentePeticionSchema>
+
+/** Chunk RAG denso (Qdrant); el backend puede incluir campos extra. */
+export const RagChunkSchema = z
+  .object({
+    archivo: z.string().optional(),
+    titulo: z.string().optional(),
+    source_url: z.string().optional(),
+    score: z.coerce.number().optional(),
+    chunk_index: z.coerce.number().optional(),
+  })
+  .passthrough()
+export type RagChunk = z.infer<typeof RagChunkSchema>
+
+export const EventoPensamientoSchema = z.object({
+  tipo: z.literal('pensamiento'),
+  herramienta_candidata: z.string(),
+  razon: z.string().default(''),
+})
+export type EventoPensamiento = z.infer<typeof EventoPensamientoSchema>
+
+export const EventoHerramientaSchema = z.object({
+  tipo: z.literal('herramienta'),
+  nombre: z.string(),
+  latencia_ms: z.number().int().nonnegative(),
+})
+export type EventoHerramienta = z.infer<typeof EventoHerramientaSchema>
+
+export const EventoTokenAgenteSchema = z.object({
   tipo: z.literal('token'),
   motor: z.string(),
   texto: z.string(),
 })
-export type EventoToken = z.infer<typeof EventoTokenSchema>
+export type EventoTokenAgente = z.infer<typeof EventoTokenAgenteSchema>
 
-export const EventoFuentesSchema = z.object({
+export const EventoFuentesAgenteSchema = z.object({
   tipo: z.literal('fuentes'),
-  fuentes: z.array(FuenteBm25Schema),
+  chunks: z
+    .array(z.unknown())
+    .default([])
+    .transform((arr) =>
+      arr.map((item) => RagChunkSchema.safeParse(item)).flatMap((r) => (r.success ? [r.data] : [])),
+    ),
 })
-export type EventoFuentes = z.infer<typeof EventoFuentesSchema>
+export type EventoFuentesAgente = z.infer<typeof EventoFuentesAgenteSchema>
 
-export const EventoFinalSchema = z.object({
+export const EventoFinalAgenteSchema = z.object({
   tipo: z.literal('final'),
   motor: z.string(),
   texto: z.string(),
-  latencia_ms: z.number(),
+  latencia_ms: z.number().int().nonnegative(),
   modelo: z.string(),
+  metricas: z.record(z.string(), z.unknown()).nullable().optional(),
 })
-export type EventoFinal = z.infer<typeof EventoFinalSchema>
+export type EventoFinalAgente = z.infer<typeof EventoFinalAgenteSchema>
 
-export const EventoErrorSchema = z.object({
+export const EventoErrorAgenteSchema = z.object({
   tipo: z.literal('error'),
-  motor: z.string(),
+  codigo: z.string().default('error'),
   mensaje: z.string(),
+  motor: z.string(),
 })
-export type EventoError = z.infer<typeof EventoErrorSchema>
+export type EventoErrorAgente = z.infer<typeof EventoErrorAgenteSchema>
 
-export const EventoSseSchema = z.discriminatedUnion('tipo', [
-  EventoTokenSchema,
-  EventoFuentesSchema,
-  EventoFinalSchema,
-  EventoErrorSchema,
+export const EventoAgenteSseSchema = z.discriminatedUnion('tipo', [
+  EventoPensamientoSchema,
+  EventoHerramientaSchema,
+  EventoTokenAgenteSchema,
+  EventoFuentesAgenteSchema,
+  EventoFinalAgenteSchema,
+  EventoErrorAgenteSchema,
 ])
-export type EventoSse = z.infer<typeof EventoSseSchema>
+export type EventoAgenteSse = z.infer<typeof EventoAgenteSseSchema>
 
 /* ----------------------------------------------------------------
    Health check
