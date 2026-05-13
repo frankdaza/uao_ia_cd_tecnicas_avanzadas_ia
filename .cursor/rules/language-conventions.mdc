@@ -38,12 +38,12 @@ En archivos `frontend/**/*.{ts,tsx,js,jsx}` los **identificadores** siguen la **
 - Componentes React: `PascalCase` en ingles (`AppShell`, `ChatInput`, `MessageBubble`).
 - Hooks: `camelCase` con prefijo `use` en ingles (`useModels`, `useReloadCorpus`).
 - Funciones y variables: `camelCase` en ingles (`streamQa`, `apiClient`, `isLoading`).
-- Tipos e interfaces: `PascalCase` en ingles (`ModelosRespuesta`, `FuenteBm25`, `QaPeticion`).
+- Tipos e interfaces: `PascalCase` en ingles (`ModelosRespuesta`, `RagChunk`, `QaPeticion`).
 
 ```typescript
 // Bien (convencion React/TS en ingles)
 const useModels = () => { ... }
-interface FuenteBm25 { fileName: string; score: number; sourceUrl: string }
+interface RagChunk { fileName: string; score: number; sourceUrl: string }
 
 // Mal (no usar espanol con tildes en identificadores TS)
 // const usarModelos = () => { ... }  // incorrecto
@@ -59,7 +59,7 @@ const placeholder = '¿Cuál es tu pregunta sobre la Fundación Valle del Lili?'
 
 ## Anglicismos tecnicos
 
-- Mantener en ingles cuando sea termino consolidado o nombre propio: `chunk`, `scraping`, `embedding`, `prompt`, `endpoint`, `framework`, APIs y paquetes (`requests`, `gradio`).
+- Mantener en ingles cuando sea termino consolidado o nombre propio: `chunk`, `scraping`, `embedding`, `prompt`, `endpoint`, `framework`, APIs y paquetes (`requests`, `vite`).
 
 ## Skills y rules del proyecto
 

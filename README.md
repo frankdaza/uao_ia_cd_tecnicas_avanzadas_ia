@@ -60,7 +60,7 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | FAQ | `FAQ_JSON_RELATIVO_RAIZ`, `FAQ_UMBRAL_MATCH` | Ruta al JSON estructurado y umbral de coincidencia. |
 | Meta-prompt del router | `ROUTER_META_PROMPT_PATH` | JSON de configuración sin secretos. |
 | Laboratorio / E2E | `MOCK_LLM` (`0` o `1`) | Modo determinista sin llamadas reales al LLM del router; ver `GET /api/salud` (`agente_mock_llm`). |
-| Ollama (solo perfil Compose `legacy`) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Pipeline M1 / scripts legacy; no requerido para el agente M2 en `docker compose up` sin perfil. |
+| Ollama (laboratorio local) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Cliente Ollama en `src/qa` para pruebas; no requerido para el agente M2 en `docker compose up` sin servicio Ollama. |
 
 Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre los campos de `Configuracion` en `src/api/configuracion.py` (típicamente `MAYUSCULAS_CON_GUIONES`).
 
@@ -178,14 +178,9 @@ Suite **`tests/e2e/test_escenarios_modulo2.py`**: cuatro escenarios alineados co
 - **Eventos de trazabilidad** (`pensamiento`, `herramienta`, `fuentes` con chunks de Qdrant cuando aplica).
 - **Panel de configuración**, modo claro/oscuro, accesibilidad y atajos de teclado (ver código en `frontend/src`).
 
-## Resultados (evaluaciones del pipeline BM25 — legado)
+## Dataset de preguntas (referencia de laboratorio)
 
-Los informes automáticos del script **`scripts/evaluar_qa.py`** (dataset ≥20 preguntas, recuperación **BM25** del Módulo 1) se generan bajo **`data/processed/evaluaciones/`**. Cada corrida produce un Markdown por modelo. Requiere dependencias del grupo **`legacy`** de `uv` (`rank-bm25`, `nltk`, etc.) y Ollama u OpenAI según el script. Para regenerarlos:
-
-```bash
-uv sync --group legacy
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
-```
+El archivo **`tests/qa/preguntas_evaluacion.yml`** (≥20 ítems) sigue versionado como **referencia de contenido** y cobertura de esquema en `tests/qa/test_preguntas_evaluacion_dataset.py`. No hay script batch en el repo que ejecute esas preguntas contra un pipeline retirado.
 
 ## Solución de problemas
 
@@ -197,13 +192,12 @@ uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
 | **RAG vacío** | Colección Qdrant sin ingesta o umbral `RAG_SCORE_MINIMO` demasiado alto; vuelva a indexar y verifique `QDRANT_COLLECTION`. |
 | **Postgres no listo** en Compose | `docker compose ps`, healthchecks y puerto `POSTGRES_PUBLISH_PORT` vs variables del `.env`. Tras subir de versión mayor de Postgres, puede hacer falta **recrear el volumen** `postgres-data` (ver sección Docker Compose arriba). |
 
-## Historial de versiones — Módulo 1 (BM25 y pipeline Q&A)
+## Historial de versiones — Módulo 1 (BM25)
 
-La primera fase del proyecto implementó un **pipeline Q&A** con recuperación **BM25 a nivel archivo** (`rank-bm25`), selección **top-k** de documentos Markdown completos y generación con **Ollama** u **OpenAI** opcional. Ese camino vive hoy en código **legacy** (`src/legacy/`, Gradio en `src/app/legacy/`, pruebas marcadas `legacy_bm25`) y **no** se expone en la API productiva del **agente M2** (`POST /api/sesiones`, `POST /api/agente/stream`). Los antiguos endpoints HTTP tipo **`/api/qa`** no están montados en `src/api/main.py`. El agente M2 recupera contexto solo por **similitud densa en Qdrant** según [decision-3](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). Detalle del MVP léxico: [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
+La primera fase del curso documentó un pipeline Q&A con recuperación léxica **BM25** a nivel archivo (`rank-bm25`), top-k de Markdown completos y generación con **Ollama** u **OpenAI**. Ese camino **se retiró del código** (sin `src/legacy/`, sin Gradio en el árbol, sin `scripts/evaluar_qa.py`). El agente M2 recupera contexto solo por **similitud densa en Qdrant** según [decision-3](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). Contexto histórico del MVP léxico: [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
 
 ## Limitaciones conocidas
 
 - **Coste y dependencia de API:** embeddings e inferencia del router suelen depender de proveedor externo salvo configuración local explícita.
 - **Sincronización corpus–vectores:** cambios en `data/markdown/` requieren **reindexación** para reflejarse en Qdrant.
-- **Concurrencia y operación:** más servicios en desarrollo (Postgres + Qdrant + API) que el MVP monolítico.
-- Las limitaciones del **Módulo 1** (truncamiento con varios `.md` largos en un solo prompt BM25, ambigüedad léxica) aplican solo si se usa ese pipeline legacy en laboratorio.
+- **Concurrencia y operación:** más servicios en desarrollo (Postgres + Qdrant + API) que un monolito de solo lectura de archivos locales.

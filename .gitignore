@@ -12,7 +12,7 @@ env/
 ENV/
 .env.venv
 
-# Distribution / packaging
+# Distribution / packaging (build/ y dist/ aplican a todo el arbol, p. ej. frontend/dist/)
 build/
 develop-eggs/
 dist/
@@ -56,7 +56,7 @@ dmypy.json
 .ruff_cache/
 
 # Jupyter
-.ipynb_checkpoints
+.ipynb_checkpoints/
 
 # Environments and secrets
 .env
@@ -103,12 +103,20 @@ Thumbs.db
 # IDEs
 .idea/
 
+# Node: dependencias en cualquier paquete (monorepo / scripts en raiz)
+node_modules/
 
-# Frontend (Node / Vite)
-frontend/node_modules/
-frontend/dist/
+# Almacen de paquetes de pnpm si store-dir apunta dentro del repo (evita miles de archivos UT)
+.pnpm-store/
+
+# Frontend (Vite / Vitest / Playwright / ESLint)
 frontend/.vite/
 frontend/.cache/
 frontend/coverage/
 frontend/playwright-report/
 frontend/test-results/
+*.tsbuildinfo
+.eslintcache
+
+# Registros locales de servidores y herramientas
+*.log

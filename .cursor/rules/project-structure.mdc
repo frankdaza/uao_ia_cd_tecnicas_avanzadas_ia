@@ -10,23 +10,21 @@ src/
   scraping/          # descarga; guardar crudo en data/raw/
   markdown_export/   # conversion crudo -> Markdown con front matter (data/markdown/)
   preprocessing/     # limpieza adicional si hace falta antes del chunking
-  knowledge_base/    # scripts de chunking y export del corpus procesado (M1 / legacy)
-  qa/                # prompts, cadena LLM (PipelineQa en M1; puede quedar legacy en M2)
-  retrieval/         # recuperador BM25 (M1; fuera del runtime productivo M2 segun ADR)
+  knowledge_base/    # scripts de chunking y export del corpus procesado
+  qa/                # prompts, clientes LLM (Ollama/OpenAI), composicion de contexto
   agentes/           # M2: router LangGraph, estado, meta_prompt, herramientas, memoria
   rag/               # M2: embeddings, Qdrant, chunking vectorial, recuperador denso
   persistencia/      # M2: motor SQLAlchemy async, modelos, repositorios (usuarios, sesiones)
   api/               # backend HTTP FastAPI + SSE
     main.py          # app FastAPI, lifespan, CORSMiddleware
     configuracion.py # pydantic-settings, lectura de .env
-    dependencias.py  # Depends (pipeline, grafo agente, sesion DB, etc.)
+    dependencias.py  # Depends (grafo agente, sesion DB, etc.)
     esquemas.py      # modelos Pydantic v2 request/response
     routers/
       salud.py       # GET /api/salud
       sesiones.py    # M2: POST /api/sesiones, historial, borrar ultimo turno, cerrar sesion
       agente.py      # M2: POST /api/agente/stream (SSE agente)
-  app/
-    legacy/          # app_gradio.py (deprecado; conservado para referencia)
+  app/               # paquete reservado (sin UI legacy; producto en frontend/)
 config/              # M2: router_meta_prompt.json (sin secretos)
 alembic/             # M2: migraciones esquema app (p. ej. usuarios)
 scripts/
@@ -67,7 +65,6 @@ tests/               # tests Python (pytest)
   persistencia/      # M2: repositorios
   e2e/               # M2: escenarios modulo 2 (opcional)
   qa/
-  retrieval/
   scraping/
 notebooks/           # opcional, experimentacion
 ```
@@ -81,13 +78,7 @@ notebooks/           # opcional, experimentacion
 
 ## Flujo de peticion en produccion
 
-**Modulo 1 (legacy en codigo; sin routers HTTP en ``src/api/routers``):**
-
-```
-Usuario -> Gradio legacy (src/app/legacy) o scripts/tests (pytest -m legacy_bm25)
-        -> src/legacy/ o PipelineQa bajo src/qa segun escenario
-        -> BM25 / Ollama / OpenAI segun configuracion de laboratorio
-```
+El **Modulo 1** (BM25 + Gradio) fue retirado del arbol de codigo; el historial queda en ADRs y git.
 
 **Modulo 2 (objetivo productivo):**
 

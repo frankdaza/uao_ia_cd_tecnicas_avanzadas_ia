@@ -128,6 +128,21 @@ def cargar_meta_prompt_config(
     return config
 
 
+def meta_prompt_desde_dict(payload: dict[str, object]) -> MetaPromptConfig:
+    """
+    Valida un diccionario como :class:`MetaPromptConfig` (misma regla que el JSON en disco).
+
+    Parameters
+    ----------
+    payload:
+        Objeto raiz equivalente al archivo ``router_meta_prompt.json``.
+    """
+    if not isinstance(payload, dict):
+        msg = "El meta-prompt debe ser un objeto JSON en la raiz."
+        raise TypeError(msg)
+    return MetaPromptConfig.model_validate(payload)
+
+
 def obtener_ruta_meta_prompt_defecto() -> Path:
     """Ruta canónica versionada bajo ``config/router_meta_prompt.json``."""
     return _RUTA_JSON_DEFECTO

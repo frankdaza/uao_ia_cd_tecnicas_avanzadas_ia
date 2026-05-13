@@ -4,7 +4,7 @@ title: 'Configuración vectorial: embeddings, cliente Qdrant y settings Pydantic
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:58'
+updated_date: '2026-05-13 06:02'
 labels:
   - qdrant
   - embeddings
@@ -20,7 +20,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 9000
+ordinal: 12000
 ---
 
 ## Description

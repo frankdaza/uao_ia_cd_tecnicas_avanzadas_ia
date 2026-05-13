@@ -36,11 +36,6 @@ dependencies = [
 ]
 
 [dependency-groups]
-legacy = [
-    "gradio>=6.13.0",
-    "nltk>=3.9.4",
-    "rank-bm25>=0.2.2",
-]
 dev = [
     "anyio>=4.13.0",
     "httpx>=0.28.1",
@@ -66,6 +61,4 @@ markers = [
     "integration_postgres: prueba contra PostgreSQL real (activar con EJECUTAR_INTEGRACION_POSTGRES=1)",
     "integration_qdrant: prueba contra Qdrant en red (activar con EJECUTAR_INTEGRACION_QDRANT=1; sin Docker se omite)",
     "e2e_modulo2: E2E contra API levantada (docker-compose); activar con EJECUTAR_E2E_MODULO2=1",
-    "legacy: pruebas del modulo Gradio deprecado (conservadas como cobertura historica)",
-    "legacy_bm25: pipeline M1 BM25 bajo src/legacy (excluir con pytest -m \"not legacy_bm25\")",
 ]

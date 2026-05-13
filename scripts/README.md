@@ -1,6 +1,6 @@
 # Scripts de línea de comandos
 
-Utilidades para descargar el sitio, generar el corpus Markdown y evaluar el pipeline de Q&A. Todos los comandos asumen que estás en la **raíz del repositorio** (donde están `pyproject.toml`, `src/` y `scripts/`).
+Utilidades para descargar el sitio, generar el corpus Markdown e indexar en Qdrant. Todos los comandos asumen que estás en la **raíz del repositorio** (donde están `pyproject.toml`, `src/` y `scripts/`).
 
 ## Requisitos comunes
 
@@ -13,7 +13,6 @@ Para la lista completa de argumentos de cada programa, usa siempre:
 ```bash
 uv run python -m scripts.scrape --help
 uv run python -m scripts.export_markdown --help
-uv run python -m scripts.evaluar_qa --help
 uv run python -m scripts.indexar_corpus_qdrant --help
 ```
 
@@ -23,17 +22,19 @@ uv run python -m scripts.indexar_corpus_qdrant --help
 flowchart LR
   scrape[scripts.scrape]
   export[scripts.export_markdown]
-  eval[scripts.evaluar_qa]
+  idx[scripts.indexar_corpus_qdrant]
   raw[data/raw]
   md[data/markdown]
+  qd[(Qdrant)]
   scrape --> raw
   export --> md
-  md --> eval
+  md --> idx
+  idx --> qd
 ```
 
 1. **`scrape`** — llena `data/raw/` con HTML y metadatos.
-2. **`export_markdown`** — convierte ese crudo en `data/markdown/` (base BM25 de la app).
-3. **`evaluar_qa`** (opcional) — ejecuta el dataset de prueba contra el mismo pipeline que la app y escribe informes en `data/processed/evaluaciones/`.
+2. **`export_markdown`** — convierte ese crudo en `data/markdown/` (fuente de verdad textual e ingesta hacia Qdrant).
+3. **`indexar_corpus_qdrant`** — fragmenta y vuelca embeddings en **Qdrant** para el agente M2.
 
 ## Paquete `scripts/`
 
@@ -106,39 +107,6 @@ uv run python -m scripts.export_markdown --solo-uno nombre-del-archivo-sin-exten
 | --- | --- |
 | `--forzar` | Regenera todos los `.md` aunque el hash coincida. |
 | `--solo-uno SLUG` | Solo el `.html` cuyo nombre base es `SLUG` (depuración). |
-
----
-
-## `scripts.evaluar_qa`
-
-**Qué hace.** Carga el dataset de preguntas en YAML, ejecuta cada ítem con `PipelineQa` (recuperación BM25 + llamada a **Ollama**) y escribe un informe Markdown por modelo.
-
-**Requisitos.** Ollama en ejecución y los nombres de modelo que pases deben existir en tu instalación (por ejemplo tras `ollama pull <nombre>`). Variables útiles en `.env`: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` (la app y el pipeline pueden leerlas según la configuración del proyecto).
-
-**Dataset por defecto:** `tests/qa/preguntas_evaluacion.yml` (mínimo 20 preguntas; el repo incluye 23 con `archivo_esperado` cuando aplica).
-
-**Salida por defecto:** `data/processed/evaluaciones/` con archivos nombrados `<slug-modelo>__YYYY-MM-DD.md` (slug derivado del nombre del modelo).
-
-**Ejecución.**
-
-```bash
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b otro-modelo:tag
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b --dataset ruta/al/dataset.yml --salida data/processed/evaluaciones
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b --solo-pregunta 5 --fecha 2026-04-27
-```
-
-**Opciones destacadas:**
-
-| Opción | Rol breve |
-| --- | --- |
-| `--modelos` | **Obligatorio.** Uno o más nombres de modelo Ollama. |
-| `--dataset` | Ruta al YAML (defecto: `tests/qa/preguntas_evaluacion.yml`). |
-| `--salida` | Directorio base de los informes `.md`. |
-| `--solo-pregunta ID` | Solo la pregunta con ese `id` en el YAML. |
-| `--fecha` | Fecha del informe `YYYY-MM-DD` (defecto: hoy). |
-
-Si un modelo no está disponible, el script sigue con los demás y deja constancia en el informe o en consola según el caso; revisa los `.md` generados y la salida estándar.
 
 ---
 
@@ -241,6 +209,45 @@ pnpm --dir frontend exec playwright test
 - Sin `EJECUTAR_E2E_MODULO2=1`, los tests `e2e_modulo2` se **saltan** con mensaje explícito.
 - Sin API alcanzable, el fixture `cliente_http_e2e` emite skip.
 - No commitear `.env` con claves reales.
+
+## API administrativa M2 (panel backend)
+
+Migración: `uv run alembic upgrade head` (tabla `config_admin_m2`).
+
+- Definir **`ADMIN_API_KEY`** en `.env` (si falta, las rutas admin responden **503**).
+- Enviar cabecera **`X-Admin-Key`** en cada petición (no volcar el valor en logs).
+
+Rutas bajo **`/api/admin`**:
+
+| Método | Ruta | Uso breve |
+| --- | --- | --- |
+| `GET` | `/api/admin/config` | Estado fusionado (PostgreSQL > JSON router > `.env` > constantes de temperatura). |
+| `PATCH` | `/api/admin/config` | Parche parcial con `version` optimista; respuesta incluye `version` y `updated_at`. |
+| `GET` | `/api/admin/usuarios` | Listado paginado (`limit`, `offset`). |
+| `GET` | `/api/admin/metricas/resumen` | Conteos para dashboard. |
+
+Ejemplos **curl** (API en `127.0.0.1:8000`):
+
+```bash
+export ADMIN_API_KEY='cambiar-por-clave-segura'
+
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" http://127.0.0.1:8000/api/admin/config | jq .
+
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" -H 'Content-Type: application/json' \
+  -X PATCH http://127.0.0.1:8000/api/admin/config \
+  -d '{"version":0,"temperatura_router":0.1}' | jq .
+
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" 'http://127.0.0.1:8000/api/admin/usuarios?limit=10&offset=0' | jq .
+```
+
+Un `PATCH` exitoso aplica en el **siguiente** `POST /api/agente/stream` **sin reiniciar** el proceso del servidor.
+
+### Panel administrativo M2 (frontend)
+
+1. Arranque del backend con **`ADMIN_API_KEY`** definido (sin esto las rutas `/api/admin/*` responden **503**).
+2. En el navegador, abrir la ruta dedicada **`/admin`** (misma base que el chat; en desarrollo suele ser `http://127.0.0.1:5173/admin` con Vite y proxy `/api` hacia FastAPI).
+3. En la pantalla de acceso, pegar la misma clave que `ADMIN_API_KEY`: se verifica con `GET /api/admin/config` y **no** se guarda en `localStorage` (solo memoria de la pestaña).
+4. Desde el panel se consultan métricas, se editan modelo/sampling y prompts, y se listan usuarios; los cambios persistidos se reflejan tras invalidar datos (react-query) y aplican al agente en la **siguiente** conversación SSE.
 
 ---
 

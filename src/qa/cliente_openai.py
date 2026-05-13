@@ -8,7 +8,6 @@ from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from typing import TypeVar
 
-from dotenv import load_dotenv
 from openai import (
     APIConnectionError,
     APITimeoutError,

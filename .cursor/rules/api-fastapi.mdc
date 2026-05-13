@@ -21,61 +21,41 @@ src/api/
   __init__.py
   main.py          # app FastAPI, lifespan, CORSMiddleware, montaje de routers
   configuracion.py # clase Settings(BaseSettings) con lectura de .env
-  dependencias.py  # Depends: pipeline (M1), grafo agente, sesion DB, etc.
+  dependencias.py  # Depends: grafo agente, sesion DB, etc.
   esquemas.py      # modelos Pydantic v2 de request y response
   routers/
     __init__.py
     salud.py       # GET /api/salud
-    qa.py          # M1: POST /api/qa, POST /api/qa/stream (legacy si se retira en M2)
     sesiones.py    # M2: POST /api/sesiones, historial, cerrar sesion
     agente.py      # M2: POST /api/agente/stream (SSE agente)
-    corpus.py      # GET /api/modelos, POST /api/recargar-corpus, GET /api/prompt-defecto
+    admin.py       # panel administrativo (segun implementacion)
 ```
 
 ## Idioma
 
-- Identificadores Python en **espanol ASCII** (sin tildes ni ene): `obtener_pipeline`, `esquema_respuesta`, `manejar_error`.
+- Identificadores Python en **espanol ASCII** (sin tildes ni ene): `obtener_grafo_agente`, `esquema_respuesta`, `manejar_error`.
 - Strings de mensajes de error y respuesta en **espanol latinoamericano** (pueden llevar tildes).
 - Docstrings de funciones publicas en espanol latinoamericano.
 
 ## Inyeccion de dependencias
 
-- **M1**: `PipelineQa` puede instanciarse **una sola vez** en el `lifespan` y guardarse en `app.state`; usar `Depends(obtener_pipeline)` en routers legacy.
-- **M2**: ademas o en sustitucion, exponer en `app.state` dependencias del agente (cliente Qdrant, factorias de embeddings, grafo LangGraph compilado, engine async de DB, etc.) y consumirlas via `Depends` dedicados. No instanciar recursos pesados dentro de handlers por peticion.
-- No instanciar `PipelineQa` ni el grafo del agente **dentro** de handlers de ruta si el patron del proyecto es singleton en lifespan.
+- **M2**: exponer en `app.state` dependencias del agente (cliente Qdrant, factorias de embeddings, grafo LangGraph compilado, engine async de DB, pool `psycopg` para memoria, etc.) y consumirlas via `Depends` dedicados. No instanciar recursos pesados dentro de handlers por peticion.
+- No instanciar el grafo del agente **dentro** de handlers de ruta si el patron del proyecto es singleton en lifespan.
 
 ```python
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    app.state.pipeline = construir_pipeline_por_defecto()  # M1 si aplica
-    # app.state.grafo_agente = crear_grafo_agente(...)      # M2
+    app.state.grafo_agente = construir_grafo_agente_produccion_o_none(cfg)
+    # motor DB, session_factory, pool memoria...
     yield
-
-async def obtener_pipeline(request: Request) -> PipelineQa:
-    return request.app.state.pipeline
 ```
 
 ## Endpoints SSE con sse-starlette
 
 - Usar `EventSourceResponse` de `sse-starlette`.
-- **M1 / qa**: los generadores del pipeline pueden ser sincronicos (`Iterator`); envolverlos en `asyncio.to_thread` o usar `run_in_executor` para no bloquear el event loop.
-- **M1 eventos** tipicos: `token`, `fuentes`, `final`, `error`, `keepalive` (y `motor` si aplica).
 - **M2 / agente**: contrato extendido con eventos como `pensamiento`, `herramienta`, `token` (p. ej. `motor: "agente"`), `fuentes` (chunks Qdrant), `final`, `error`. Mantener payloads **JSON serializables** (Pydantic `model_dump` / adapters).
 - Cada evento es un dict serializable a JSON; incluir campo `motor` cuando el frontend deba distinguir fuentes.
 - **Cancelacion**: si el cliente cierra la conexion SSE, cancelar de forma cooperativa la tarea/async generator del grafo para no seguir llamando al LLM.
-
-```python
-async def _generar_eventos(pipeline: PipelineQa, peticion: PeticionQa):
-    async for parcial, final in pipeline.responder_stream_async(...):
-        if final is None:
-            yield {"event": "token", "data": json.dumps({"motor": "ollama", "texto": parcial})}
-        else:
-            yield {"event": "final", "data": json.dumps({"motor": "ollama", **_serializar(final)})}
-
-@router.post("/qa/stream")
-async def qa_stream(peticion: PeticionQa, pipeline: PipelineQa = Depends(obtener_pipeline)):
-    return EventSourceResponse(_generar_eventos(pipeline, peticion))
-```
 
 ## Esquemas Pydantic v2
 
@@ -97,7 +77,7 @@ class PeticionQa(BaseModel):
 
 ## Manejo de errores
 
-- Capturar excepciones del pipeline (`OllamaNoAccesibleError`, `ModeloNoDisponibleError`, `ClaveApiOpenAiAusenteError`) y re-lanzar como `HTTPException` con status code apropiado y `detail` en espanol.
+- Capturar excepciones de clientes LLM o del grafo (`OllamaNoAccesibleError`, `ModeloNoDisponibleError`, `ClaveApiOpenAiAusenteError`, etc.) y re-lanzar como `HTTPException` con status code apropiado y `detail` en espanol.
 - Formato de error JSON:
 
 ```json
@@ -136,5 +116,5 @@ uv run uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
 - Usar `httpx.AsyncClient(app=app, base_url="http://test")` con `asgi_transport=ASGITransport(app=app)`.
 - Fixture `async_client` en `tests/api/conftest.py`.
-- Mockear `PipelineQa` via `app.state.pipeline = MagicMock()` en el fixture.
+- Mockear dependencias pesadas (grafo, pools) via `app.state` o `dependency_overrides` segun el caso.
 - No hacer llamadas reales a Ollama ni a OpenAI en tests.

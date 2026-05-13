@@ -1,36 +1,14 @@
 ---
 name: gradio-qa-ui
-description: "DEPRECADO: esta skill fue reemplazada por react-vite-qa-ui. El frontend del proyecto ahora usa React 19 + Vite 8 + shadcn/ui. Ver .cursor/skills/react-vite-qa-ui/SKILL.md. La implementacion Gradio vive en src/app/legacy/app_gradio.py."
+description: "DEPRECADO: el frontend del proyecto usa React 19 + Vite 8 (react-vite-qa-ui). La UI Gradio y el pipeline BM25 asociado fueron retirados del arbol de codigo; ver historial en git y ADRs."
 deprecated: true
 replaced_by: react-vite-qa-ui
 ---
 
-> **DEPRECADO**: esta skill fue reemplazada por **`react-vite-qa-ui`** al migrar el frontend de Gradio a React 19 + Vite 8 + shadcn/ui. No usar para codigo nuevo. Ver `.cursor/skills/react-vite-qa-ui/SKILL.md`.
+> **DEPRECADO**: el producto y el laboratorio usan **`react-vite-qa-ui`** (React 19 + Vite 8 + shadcn/ui) y el agente M2 vía FastAPI. La aplicación Gradio y el recuperador BM25 ya **no** están en el repositorio; si necesitas el patron `gr.Blocks` como referencia académica, consulta commits anteriores o el informe del modulo 1.
 >
-> El codigo Gradio original vive en `src/app/legacy/app_gradio.py` como referencia historica.
+> Para implementar o modificar la interfaz actual: `.cursor/skills/react-vite-qa-ui/SKILL.md` (espejo en `.claude/skills/react-vite-qa-ui/SKILL.md`).
 
-# Interfaz de prueba Q&A con Gradio
+## Mantenimiento del espejo
 
-> Mantener el mismo contenido en `.cursor/skills/gradio-qa-ui/` y `.claude/skills/gradio-qa-ui/`.
-
-## Patron recomendado (`gr.Blocks`)
-
-- `gr.Blocks()` como contenedor principal.
-- `gr.Textbox` para la **pregunta** del usuario (entrada).
-- `gr.Textbox` o `gr.Markdown` para la **respuesta** (salida); indicar si el texto proviene solo del contexto recuperado.
-- `gr.Radio` para elegir **modelo** o modo cuando el pipeline lo permita.
-- `gr.Accordion` para opciones avanzadas (por ejemplo **prompt del sistema** editable) sin saturar la vista principal.
-- Boton **Enviar** con `gr.Button` que dispare la funcion que llama al pipeline Q&A.
-
-## Ejecucion
-
-- Entrypoint documentado del proyecto: `uv run python -m src.app.app_gradio` (ajustar modulo si el equipo define otra ruta).
-
-## Textos de UI
-
-- Etiquetas y mensajes al usuario en **espanol latinoamericano** (pueden llevar tildes en strings).
-- Nombres de variables en codigo en espanol **ASCII** (`texto_pregunta`, `boton_enviar`).
-
-## Demo
-
-- La sustentacion es en vivo con la app; evitar depender de diapositivas segun la guia de la actividad.
+Mantener el mismo contenido en `.cursor/skills/gradio-qa-ui/` y `.claude/skills/gradio-qa-ui/`.

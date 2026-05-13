@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:58'
+updated_date: '2026-05-13 06:02'
 labels:
   - rag
   - qdrant
@@ -22,7 +22,7 @@ references:
 documentation:
   - .claude/skills/text-chunking/SKILL.md
 priority: high
-ordinal: 8000
+ordinal: 11000
 ---
 
 ## Description

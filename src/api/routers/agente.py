@@ -18,8 +18,13 @@ from sse_starlette.sse import EventSourceResponse
 from psycopg_pool import ConnectionPool
 
 from src.agentes.memoria.historial import MemoriaConexionError, MemoriaUsuario, normalizar_session_id_postgres_langchain
-from src.api.configuracion import obtener_configuracion
-from src.api.dependencias import obtener_grafo_agente, obtener_pool_memoria_psycopg, obtener_usuario_actual
+from src.agentes.runtime_agente import RuntimeAgenteBundle
+from src.api.dependencias import (
+    obtener_bundle_runtime_agente,
+    obtener_grafo_agente,
+    obtener_pool_memoria_psycopg,
+    obtener_usuario_actual,
+)
 from src.api.esquemas import (
     EventoError,
     EventoFinal,
@@ -101,13 +106,13 @@ async def _generador_eventos_sse(
     peticion: PeticionAgente,
     usuario: Usuario,
     pool: ConnectionPool,
+    bundle: RuntimeAgenteBundle,
 ) -> AsyncGenerator[dict[str, str], None]:
-    cfg = obtener_configuracion()
     disco = asyncio.Event()
     vigia = asyncio.create_task(_tarea_watch_disconnect(request, disco))
     t0 = time.perf_counter()
     texto_acumulado = ""
-    modelo_etiqueta = (cfg.compositor_llm_model or cfg.router_llm_model).strip()
+    modelo_etiqueta = bundle.etiqueta_modelo_compositor.strip()
     t_tool_ini: float | None = None
     ultima_tool_decidida = ""
     abortado_cliente = False
@@ -130,7 +135,7 @@ async def _generador_eventos_sse(
                         "doc_id": usuario.documento_identidad,
                     },
                 }
-                config = {"configurable": {"memoria": memoria}}
+                config = {"configurable": {"memoria": memoria, "runtime_agente": bundle}}
                 agen = grafo.astream_events(entrada, version="v2", config=config)
                 try:
                     async for ev in agen:
@@ -292,11 +297,12 @@ async def agente_stream(
     usuario: Usuario = Depends(obtener_usuario_actual),
     grafo: CompiledStateGraph = Depends(obtener_grafo_agente),
     pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
+    bundle: RuntimeAgenteBundle = Depends(obtener_bundle_runtime_agente),
 ) -> EventSourceResponse:
     """SSE extendido del agente (LangGraph + memoria Postgres + tools)."""
     _session_id_autorizado(peticion, usuario)
     return EventSourceResponse(
-        _generador_eventos_sse(request, grafo, peticion, usuario, pool),
+        _generador_eventos_sse(request, grafo, peticion, usuario, pool, bundle),
         ping=_KEEPALIVE_SEG,
     )
 

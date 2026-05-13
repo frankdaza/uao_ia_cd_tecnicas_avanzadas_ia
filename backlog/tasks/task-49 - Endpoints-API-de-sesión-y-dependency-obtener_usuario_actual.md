@@ -4,7 +4,7 @@ title: Endpoints API de sesión y dependency obtener_usuario_actual
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:58'
+updated_date: '2026-05-13 06:02'
 labels:
   - fastapi
   - api
@@ -22,7 +22,7 @@ references:
 documentation:
   - .claude/skills/fastapi-sse-api/SKILL.md
 priority: high
-ordinal: 12000
+ordinal: 15000
 ---
 
 ## Description

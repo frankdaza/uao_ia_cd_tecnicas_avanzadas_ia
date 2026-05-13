@@ -32,11 +32,11 @@ class _EmbeddingsVecFijo:
         return list(self._vector)
 
 
-class _CargaFuenteBm25Actual(BaseModel):
+class _CargaFuenteRag(BaseModel):
     """
-    Subconjunto alineado con ``FuenteBm25Schema`` del frontend (task-59).
+    Subconjunto alineado con RagChunk / evento fuentes del frontend (M2).
 
-    ``chunk_index`` es extra para trazabilidad RAG; la UI actual no lo exige.
+    ``chunk_index`` es extra para trazabilidad RAG; la UI puede ignorarlo.
     """
 
     archivo: str
@@ -214,10 +214,10 @@ def test_recuperador_consulta_vacia(limpiar_singletons_qdrant: None) -> None:
     assert out.respuesta_contexto == MENSAJE_SIN_RESULTADOS
 
 
-def test_fuentes_compatibles_con_campos_bm25_frontend(
+def test_fuentes_compatibles_con_schema_ui_rag(
     limpiar_singletons_qdrant: None,
 ) -> None:
-    """Valida archivo/titulo/source_url/score frente al contrato actual de la UI."""
+    """Valida archivo/titulo/source_url/score frente al contrato de la UI (chunks RAG)."""
     cliente = QdrantClient(location=":memory:")
     nombre = "col_schema"
     cliente.create_collection(
@@ -248,7 +248,7 @@ def test_fuentes_compatibles_con_campos_bm25_frontend(
         score_minimo=0.1,
     )
     out = rec.consultar("hola")
-    TypeAdapter(list[_CargaFuenteBm25Actual]).validate_python(
+    TypeAdapter(list[_CargaFuenteRag]).validate_python(
         [f.model_dump() for f in out.fuentes]
     )
     for f in out.fuentes:

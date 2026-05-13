@@ -8,6 +8,8 @@ import { AppShell } from '@/components/AppShell'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
 import { Chat } from '@/features/chat/Chat'
 import { Button } from '@/components/ui/button'
+import { AdminEntrada } from '@/features/admin/AdminEntrada'
+import { useAppPath } from '@/lib/useAppPath'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,14 +50,21 @@ function AppConSesion() {
 }
 
 export default function App() {
+  const { path, setPath } = useAppPath()
+  const esPanelAdmin = path === '/admin' || path.startsWith('/admin/')
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <TooltipProvider delayDuration={300}>
-          <AuthProvider>
-            <AppConSesion />
-            <Toaster richColors position="top-right" />
-          </AuthProvider>
+          {esPanelAdmin ? (
+            <AdminEntrada pathActual={path} onNavigate={setPath} />
+          ) : (
+            <AuthProvider>
+              <AppConSesion />
+            </AuthProvider>
+          )}
+          <Toaster richColors position="top-right" />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

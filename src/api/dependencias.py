@@ -12,11 +12,13 @@ from psycopg_pool import ConnectionPool
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.agentes.memoria.historial import normalizar_session_id_postgres_langchain
+from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api.configuracion import obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.persistencia.modelos import Usuario
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.repositorios.usuarios import RepositorioUsuarios
+from src.api.servicios.agente_m2_config import ServicioAgenteM2Config
 
 # Nombres canonicos del mecanismo de sesion (Modulo 2); ver README seccion API de sesion.
 NOMBRE_COOKIE_SESION = "fvl_session_id"
@@ -55,6 +57,21 @@ async def obtener_grafo_agente(request: Request) -> CompiledStateGraph:
             )
         request.app.state.grafo_agente = nuevo
         return nuevo
+
+
+async def obtener_bundle_runtime_agente(
+    sesion: AsyncSession = Depends(obtener_sesion_db),
+) -> RuntimeAgenteBundle:
+    """
+    Construye el snapshot de LLMs y prompts para la peticion actual (hot-reload desde PostgreSQL).
+    """
+    try:
+        return await ServicioAgenteM2Config(sesion).construir_bundle_tiempo_ejecucion()
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        ) from exc
 
 
 def obtener_pool_memoria_psycopg(request: Request) -> ConnectionPool:
@@ -109,6 +126,7 @@ async def obtener_usuario_actual(
 __all__ = [
     "NOMBRE_COOKIE_SESION",
     "NOMBRE_HEADER_SESION",
+    "obtener_bundle_runtime_agente",
     "obtener_grafo_agente",
     "obtener_pool_memoria_psycopg",
     "obtener_sesion_db",

@@ -113,6 +113,14 @@ class Configuracion(BaseSettings):
         description="Modelo OpenAI del compositor; si es None se usa ROUTER_LLM_MODEL.",
     )
 
+    admin_api_key: str | None = Field(
+        default=None,
+        description=(
+            "Clave estatica para rutas /api/admin/*; enviar en cabecera X-Admin-Key. "
+            "Si queda vacia, las rutas admin responden 503."
+        ),
+    )
+
     openai_base_url: str | None = Field(
         default=None,
         description="URL base de la API compatible con OpenAI (opcional).",

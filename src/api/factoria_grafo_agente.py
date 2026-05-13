@@ -61,6 +61,7 @@ def construir_grafo_agente_produccion(cfg: Configuracion) -> CompiledStateGraph:
         llm_router=llm_router,
         llm_compositor=llm_compositor,
         meta_prompt=meta,
+        etiqueta_modelo_compositor=modelo_compositor,
     )
     logger.info("Grafo del agente compilado (router=%s, compositor=%s).", modelo_router, modelo_compositor)
     return grafo
@@ -81,6 +82,7 @@ def construir_grafo_agente_mock_llm(cfg: Configuracion) -> CompiledStateGraph:
         llm_compositor=CompositorDeterministicoModulo2E2e(),
         meta_prompt=meta,
         herramientas=herramientas,
+        etiqueta_modelo_compositor="mock_llm",
     )
     logger.info("Grafo del agente compilado en modo MOCK_LLM (sin OpenAI).")
     return grafo

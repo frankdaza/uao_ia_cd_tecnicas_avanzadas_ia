@@ -22,7 +22,7 @@ from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
-from src.api.routers import agente, salud, sesiones
+from src.api.routers import admin, agente, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
     crear_motor_async,
@@ -114,6 +114,7 @@ def crear_app() -> FastAPI:
     app.include_router(salud.router, prefix="/api")
     app.include_router(sesiones.router, prefix="/api")
     app.include_router(agente.router, prefix="/api")
+    app.include_router(admin.router, prefix="/api")
 
     # Servir el frontend React como estáticos en producción
     if _FRONTEND_DIST.exists():

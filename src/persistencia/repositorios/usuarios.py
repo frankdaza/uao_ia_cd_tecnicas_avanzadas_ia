@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import select, update
+from sqlalchemy import func, select, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -69,3 +69,43 @@ class RepositorioUsuarios:
             .values(last_login_at=ahora_utc)
         )
         await self._sesion.execute(stmt)
+
+    async def contar_total(self) -> int:
+        """Cuenta filas en ``usuarios`` (barato con indice secundario minimo en PK)."""
+        stmt = select(func.count()).select_from(Usuario)
+        res = await self._sesion.execute(stmt)
+        n = res.scalar_one()
+        return int(n)
+
+    async def contar_activos_ultimos_dias(self, dias: int) -> int:
+        """
+        Usuarios con ``last_login_at`` no nulo dentro de la ventana de ``dias`` (UTC).
+
+        La comparacion usa el reloj del servidor de aplicacion (UTC) alineado a
+        ``DateTime(timezone=True)`` en PostgreSQL.
+        """
+        limite = datetime.now(UTC) - timedelta(days=int(dias))
+        stmt = (
+            select(func.count())
+            .select_from(Usuario)
+            .where(Usuario.last_login_at.is_not(None))
+            .where(Usuario.last_login_at >= limite)
+        )
+        res = await self._sesion.execute(stmt)
+        return int(res.scalar_one())
+
+    async def listar_paginado(
+        self,
+        *,
+        limite: int,
+        offset: int,
+    ) -> list[Usuario]:
+        """Lista estable por ``created_at`` ascendente y ``id`` como desempate."""
+        stmt = (
+            select(Usuario)
+            .order_by(Usuario.created_at.asc(), Usuario.id.asc())
+            .offset(offset)
+            .limit(limite)
+        )
+        res = await self._sesion.execute(stmt)
+        return list(res.scalars().all())

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import importlib
 import sys
 from pathlib import Path
 from typing import Any
@@ -317,11 +318,13 @@ def test_pensamiento_router_incluye_herramienta(
     assert decisiones and decisiones[0].get("herramienta") == "rag_denso"
 
 
-def test_modulo_prompt_sin_cargar_recuperador_al_importar() -> None:
+def test_modulo_prompt_no_carga_legacy_ni_rank_bm25() -> None:
+    """Import frio de prompt: no debe arrastrar modulos BM25 eliminados."""
+    sys.modules.pop("src.qa.prompt", None)
     for k in list(sys.modules):
-        if k.startswith("src.legacy.retrieval"):
+        if k.startswith("src.legacy") or k == "rank_bm25":
             del sys.modules[k]
-    import src.qa.prompt as prompt_modulo
-
-    assert "src.legacy.retrieval.recuperador" not in sys.modules
+    prompt_modulo = importlib.import_module("src.qa.prompt")
     assert "No tengo información suficiente" in prompt_modulo.PROMPT_SISTEMA_DEFECTO
+    assert not any(m.startswith("src.legacy") for m in sys.modules)
+    assert "rank_bm25" not in sys.modules

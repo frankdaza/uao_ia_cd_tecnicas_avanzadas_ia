@@ -6,7 +6,7 @@ import json
 import uuid
 from collections.abc import AsyncIterator
 from typing import Any
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi import FastAPI
@@ -15,7 +15,8 @@ from langchain_core.language_models.fake_chat_models import FakeListChatModel
 from langchain_core.messages import AIMessage
 from langchain_core.tools import StructuredTool
 
-from src.api.dependencias import obtener_sesion_db, obtener_usuario_actual
+from src.api.dependencias import obtener_bundle_runtime_agente, obtener_sesion_db, obtener_usuario_actual
+from src.api.main import crear_app
 from src.agentes.memoria.historial import MemoriaConexionError
 from src.api.esquemas import (
     EventoError,
@@ -24,7 +25,8 @@ from src.api.esquemas import (
     EventoPensamiento,
     EventoToken,
 )
-from src.api.main import crear_app
+from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api.routers import agente as agente_mod
 from src.agentes.router import crear_grafo_agente
 from src.persistencia.modelos import Usuario
@@ -103,6 +105,15 @@ async def test_agente_stream_emite_eventos_parseables(
         herramientas=[faq_t, rag_t],
     )
 
+    async def _bundle_override() -> RuntimeAgenteBundle:
+        return RuntimeAgenteBundle(
+            llm_router=router_llm,
+            llm_compositor=compositor,
+            meta_prompt=_meta_prompt_minimo(),
+            prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
+            etiqueta_modelo_compositor="test-compositor",
+        )
+
     mem = _MemoriaFalsa()
     mem.cerrar = lambda: None  # type: ignore[method-assign]
 
@@ -121,6 +132,7 @@ async def test_agente_stream_emite_eventos_parseables(
     app.state.psycopg_pool = pool
     app.dependency_overrides[obtener_sesion_db] = override_sesion
     app.dependency_overrides[obtener_usuario_actual] = override_usuario
+    app.dependency_overrides[obtener_bundle_runtime_agente] = _bundle_override
     app.state.grafo_agente = grafo
 
     session_id = sesion_id_memoria_langchain(uid)
@@ -190,14 +202,27 @@ async def test_agente_stream_403_session_id_no_alineado(
         return usuario  # type: ignore[return-value]
 
     faq_t, rag_t = herramientas_kv
+    router_llm = _ListaRouterFalso([AIMessage(content="ok")])
+    compositor = FakeListChatModel(responses=["x"])
     grafo = crear_grafo_agente(
-        llm_router=_ListaRouterFalso([AIMessage(content="ok")]),
-        llm_compositor=FakeListChatModel(responses=["x"]),
+        llm_router=router_llm,
+        llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
         herramientas=[faq_t, rag_t],
     )
+
+    async def _bundle_override() -> RuntimeAgenteBundle:
+        return RuntimeAgenteBundle(
+            llm_router=router_llm,
+            llm_compositor=compositor,
+            meta_prompt=_meta_prompt_minimo(),
+            prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
+            etiqueta_modelo_compositor="fake",
+        )
+
     fastapi_app_sesion_mock.state.grafo_agente = grafo
     fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual] = _usuario_fijo
+    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = _bundle_override
     try:
         sid_a = sesion_id_memoria_langchain(uid_a)
         sid_b = sesion_id_memoria_langchain(uid_b)
@@ -216,6 +241,7 @@ async def test_agente_stream_403_session_id_no_alineado(
             )
     finally:
         del fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual]
+        del fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente]
 
     assert resp.status_code == 403
 
@@ -235,19 +261,23 @@ async def test_agente_stream_503_sin_grafo(fastapi_app_sesion_mock: FastAPI) -> 
     fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual] = _usuario_fijo
     try:
         sid = sesion_id_memoria_langchain(uid)
-        async with AsyncClient(
-            transport=ASGITransport(app=fastapi_app_sesion_mock),
-            base_url="http://test",
-        ) as client:
-            resp = await client.post(
-                "/api/agente/stream",
-                headers={"X-Session-Id": sid},
-                json={
-                    "session_id": sid,
-                    "pregunta": "Hola",
-                    "primer_turno": True,
-                },
-            )
+        with patch(
+            "src.api.dependencias.construir_grafo_agente_produccion_o_none",
+            return_value=None,
+        ):
+            async with AsyncClient(
+                transport=ASGITransport(app=fastapi_app_sesion_mock),
+                base_url="http://test",
+            ) as client:
+                resp = await client.post(
+                    "/api/agente/stream",
+                    headers={"X-Session-Id": sid},
+                    json={
+                        "session_id": sid,
+                        "pregunta": "Hola",
+                        "primer_turno": True,
+                    },
+                )
     finally:
         del fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual]
         fastapi_app_sesion_mock.state.grafo_agente = None
@@ -299,8 +329,19 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
         meta_prompt=_meta_prompt_minimo(),
         herramientas=[faq_t, rag_t],
     )
+
+    async def _bundle_override() -> RuntimeAgenteBundle:
+        return RuntimeAgenteBundle(
+            llm_router=router_llm,
+            llm_compositor=compositor,
+            meta_prompt=_meta_prompt_minimo(),
+            prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
+            etiqueta_modelo_compositor="test-compositor",
+        )
+
     fastapi_app_sesion_mock.state.grafo_agente = grafo
     fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual] = _usuario_fijo
+    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = _bundle_override
     sid = sesion_id_memoria_langchain(uid)
     try:
         async with AsyncClient(
@@ -321,6 +362,7 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
                 cuerpo = await response.aread()
     finally:
         del fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual]
+        del fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente]
 
     eventos = _parsear_eventos_sse(cuerpo)
     errores = [(e, p) for e, p in eventos if e == "error"]

@@ -15,7 +15,7 @@ Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): c
 - Base documental: artefactos crudos en **`data/raw/`**; corpus textual canónico en **`data/markdown/`** (Markdown con front matter YAML). Conversión HTML→Markdown con **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para el front matter; **`pdfplumber`** opcional si hay PDF.
 - Orquestación LLM: **LangChain** *o* **LlamaIndex** (una opción por equipo en la cadena simple M1).
 - Modelo: **Ollama** (local) *o* **API** (p. ej. OpenAI).
-- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (puede exponer `PipelineQa` vía REST + SSE mientras exista).
+- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (sesiones y agente M2).
 - Interfaz: **React 19** + **Vite 8** + **TypeScript 6** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Stack (Módulo 2 — agente)
@@ -41,7 +41,7 @@ Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | M1 PipelineQa / Ollama-OpenAI; M2 resumen + delegación a `agente-modulo-2` |
+| `llm-backend` | Clientes Ollama/OpenAI en `src/qa`, agente M2 y RAG; ver `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain, LlamaIndex+Qdrant, Postgres |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
 | `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |

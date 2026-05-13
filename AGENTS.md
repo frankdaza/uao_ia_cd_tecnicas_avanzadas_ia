@@ -55,7 +55,7 @@ Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conv
 - Markdown: **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para front matter; **`pdfplumber`** opcional para PDF.
 - Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo en la cadena simple M1).
 - Modelo: **Ollama** (local) o **API** (p. ej. OpenAI).
-- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (puede exponer `PipelineQa` vía REST + SSE mientras exista en el árbol).
+- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (sesiones y agente M2; sin pipeline BM25 retirado).
 - Interfaz: **React 19** + **Vite 8** + **TypeScript 6** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Stack (Módulo 2 — agente)
@@ -103,7 +103,7 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | M1 PipelineQa / Ollama-OpenAI; M2 resumen + delegación a `agente-modulo-2` |
+| `llm-backend` | Clientes Ollama/OpenAI en `src/qa`, agente M2 y RAG; ver `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain tools/memoria, LlamaIndex+Qdrant, persistencia |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
 | `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |

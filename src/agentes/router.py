@@ -19,6 +19,7 @@ from langgraph.graph.state import CompiledStateGraph
 from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+from src.agentes.runtime_agente import RuntimeAgenteBundle
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +78,7 @@ def crear_grafo_agente(
     meta_prompt: MetaPromptConfig,
     herramientas: Sequence[StructuredTool] | None = None,
     prompt_sistema_institucional: str | None = None,
+    etiqueta_modelo_compositor: str | None = None,
 ) -> CompiledStateGraph:
     """
     Compila el StateGraph del agente con dependencias inyectadas.
@@ -94,6 +96,8 @@ def crear_grafo_agente(
         Tools enlazadas al router; por defecto ``faq_estructurada`` + ``rag_denso``.
     prompt_sistema_institucional:
         Texto base Lili; por defecto :data:`src.agentes.prompt_institucional.PROMPT_SISTEMA_DEFECTO`.
+    etiqueta_modelo_compositor:
+        Etiqueta legible del modelo del compositor (p. ej. para eventos SSE); por defecto ``agente``.
 
     Returns
     -------
@@ -132,6 +136,21 @@ def crear_grafo_agente(
         raise ValueError(msg)
     tools_por_nombre: dict[str, StructuredTool] = {t.name: t for t in tools}
     texto_institucional = (prompt_sistema_institucional or PROMPT_SISTEMA_DEFECTO).rstrip()
+    etiqueta_mc = (etiqueta_modelo_compositor or "agente").strip() or "agente"
+    bundle_defecto = RuntimeAgenteBundle(
+        llm_router=llm_router,
+        llm_compositor=llm_compositor,
+        meta_prompt=meta_prompt,
+        prompt_institucional=texto_institucional,
+        etiqueta_modelo_compositor=etiqueta_mc,
+    )
+
+    def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
+        configurable = config.get("configurable") or {}
+        rt = configurable.get("runtime_agente")
+        if isinstance(rt, RuntimeAgenteBundle):
+            return rt
+        return bundle_defecto
 
     def nodo_cargar_memoria(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
         memoria = _obtener_memoria_desde_config(config)
@@ -143,16 +162,17 @@ def crear_grafo_agente(
         }
 
     def nodo_decidir_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
-        _ = config
+        bundle = _bundle_desde_config(config)
+        meta = bundle.meta_prompt
         historial_txt = _historial_a_texto_router(state.get("mensajes_historial") or [])
         contenido_humano = (
             f"{historial_txt}\n\n---\n\nConsulta actual del usuario:\n{state['pregunta']}"
         )
         mensajes_router: list[BaseMessage] = [
-            SystemMessage(content=meta_prompt.system_prompt),
+            SystemMessage(content=meta.system_prompt),
             HumanMessage(content=contenido_humano),
         ]
-        enlazado = llm_router.bind_tools(tools)
+        enlazado = bundle.llm_router.bind_tools(tools)
         mensaje_ai: AIMessage = enlazado.invoke(mensajes_router)
         tool_decidida: str | None = None
         argumentos_tool: dict[str, Any] = {}
@@ -226,7 +246,8 @@ def crear_grafo_agente(
         }
 
     def nodo_componer_respuesta(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
-        _ = config
+        bundle = _bundle_desde_config(config)
+        meta = bundle.meta_prompt
         usuario = state.get("usuario") or {}
         nombre = str(usuario.get("nombre") or "").strip()
         usar_saludo = bool(
@@ -234,9 +255,9 @@ def crear_grafo_agente(
             and state.get("historial_previo_vacio")
             and nombre
         )
-        bloques_sistema: list[str] = [texto_institucional]
+        bloques_sistema: list[str] = [bundle.prompt_institucional]
         if usar_saludo:
-            saludo = meta_prompt.saludo_template.replace("{nombre}", nombre)
+            saludo = meta.saludo_template.replace("{nombre}", nombre)
             bloques_sistema.append(
                 "Al inicio de la conversacion (sin historial previo en base de datos), "
                 "comience la respuesta con el siguiente saludo institucional exacto "
@@ -257,7 +278,7 @@ def crear_grafo_agente(
             HumanMessage(content=state["pregunta"]),
         ]
         texto = ""
-        for trozo in llm_compositor.stream(mensajes_compositor):
+        for trozo in bundle.llm_compositor.stream(mensajes_compositor):
             if isinstance(trozo, AIMessage):
                 c = trozo.content
             else:
@@ -271,7 +292,7 @@ def crear_grafo_agente(
                         if isinstance(t, str):
                             texto += t
         if not texto.strip():
-            salida = llm_compositor.invoke(mensajes_compositor)
+            salida = bundle.llm_compositor.invoke(mensajes_compositor)
             if not isinstance(salida, AIMessage):
                 msg = f"El compositor debio devolver AIMessage; se obtuvo {type(salida)!r}."
                 raise TypeError(msg)

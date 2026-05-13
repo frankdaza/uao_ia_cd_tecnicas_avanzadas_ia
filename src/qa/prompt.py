@@ -10,12 +10,11 @@ LLM, no en este módulo.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from src.legacy.retrieval.recuperador import DocumentoRecuperado
+from src.agentes import prompt_institucional
+from src.qa.documento_contexto import DocumentoContexto
 
-from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+PROMPT_SISTEMA_DEFECTO: str = prompt_institucional.PROMPT_SISTEMA_DEFECTO
 
 _SIN_URL_ETIQUETA: str = "sin URL"
 
@@ -27,13 +26,13 @@ _INSTRUCCION_CONTEXTO_MULTI: str = (
 
 def componer_mensajes_multi(
     prompt_sistema: str,
-    documentos: list["DocumentoRecuperado"],
+    documentos: list[DocumentoContexto],
     pregunta: str,
 ) -> list[dict[str, str]]:
     """
     Arma ``messages`` con varios documentos completos como CONTEXTOS numerados.
 
-    ``documentos`` deben estar ordenados por relevancia (p. ej. BM25 descendente).
+    ``documentos`` deben estar ordenados por relevancia (mejor primero).
     """
     n = len(documentos)
     bloques: list[str] = []
@@ -47,11 +46,9 @@ def componer_mensajes_multi(
     sep = "\n\n---\n\n"
     cuerpo_contexto = sep.join(bloques)
     if n == 1:
-        cabecera_ctx = "CONTEXTO (1 documento ordenado por relevancia BM25):\n\n"
+        cabecera_ctx = "CONTEXTO (1 documento ordenado por relevancia):\n\n"
     else:
-        cabecera_ctx = (
-            f"CONTEXTO ({n} documentos ordenados por relevancia BM25):\n\n"
-        )
+        cabecera_ctx = f"CONTEXTO ({n} documentos ordenados por relevancia):\n\n"
     contexto = f"{cabecera_ctx}{cuerpo_contexto}\n\n{_INSTRUCCION_CONTEXTO_MULTI}"
     contenido_sistema = f"{prompt_sistema.rstrip()}\n\n{contexto}"
     return [
@@ -71,12 +68,10 @@ def componer_mensajes(
 
     Compatibilidad: un solo documento vía :func:`componer_mensajes_multi`.
     """
-    from src.legacy.retrieval.recuperador import DocumentoRecuperado  # noqa: PLC0415
-
     meta = metadata_documento or {}
     titulo = str(meta.get("titulo", "") or "")
     url = str(meta.get("source_url", "") or "")
-    doc = DocumentoRecuperado(
+    doc = DocumentoContexto(
         ruta=Path("__componer_mensajes__"),
         titulo=titulo,
         source_url=url,

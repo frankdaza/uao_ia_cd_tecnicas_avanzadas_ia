@@ -19,8 +19,7 @@ alwaysApply: true
 
 ## Orquestacion LLM
 
-- **Modulo 1 (legacy Q&A)**: elegir **uno** de `langchain` **o** `llama-index` para la cadena simple documentada en el repo.
-- **Modulo 2 (agente conversacional)**: stack **combinado** segun ADR `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` (cuando exista): **LangGraph** (router), **LangChain** (tools, memoria con `langchain-postgres`), **LlamaIndex** (RAG denso sobre **Qdrant**). Ver skill **`agente-modulo-2`**.
+- **Modulo 2 (agente conversacional)**: stack **combinado** segun ADR `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md`: **LangGraph** (router), **LangChain** (tools, memoria con `langchain-postgres`), **LlamaIndex** (RAG denso sobre **Qdrant**). Ver skill **`agente-modulo-2`**.
 
 ## Modelos
 
@@ -32,7 +31,6 @@ alwaysApply: true
 - **FastAPI** + **Uvicorn** (servidor ASGI) en `src/api/`.
 - **sse-starlette** para endpoints de streaming token a token (Server-Sent Events).
 - **pydantic-settings** para cargar configuracion desde `.env`.
-- **M1**: expone REST + SSE al frontend; puede reutilizar `PipelineQa` de `src/qa/pipeline.py` mientras exista en el arbol.
 - **M2**: sesiones (`POST /api/sesiones`, historial) y agente (`POST /api/agente/stream`) con SSE multi-evento; persistencia **PostgreSQL** + vectores **Qdrant**; detalle en skill `agente-modulo-2` y `fastapi-sse-api`.
 - Comandos base: `uv add fastapi uvicorn[standard] sse-starlette pydantic-settings`.
 

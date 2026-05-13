@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from src.qa.documento_contexto import DocumentoContexto
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes, componer_mensajes_multi
-from src.legacy.retrieval.recuperador import DocumentoRecuperado
 
 
 def test_prompt_contiene_frase_clave() -> None:
@@ -34,27 +34,27 @@ def test_componer_mensajes_estructura() -> None:
     assert md in lista[0]["content"]
     assert lista[1]["content"] == "¿Qué dice el documento?"
     assert "https://ejemplo.org/doc" in lista[0]["content"]
-    assert "CONTEXTO (1 documento ordenado por relevancia BM25)" in lista[0]["content"]
+    assert "CONTEXTO (1 documento ordenado por relevancia)" in lista[0]["content"]
     assert "[DOCUMENTO 1]" in lista[0]["content"]
 
 
 def test_componer_mensajes_multi_tres_documentos_y_separadores() -> None:
     docs = [
-        DocumentoRecuperado(
+        DocumentoContexto(
             Path("a.md"),
             "Titulo A",
             "https://a.example/doc",
             "Cuerpo alpha",
             3.0,
         ),
-        DocumentoRecuperado(
+        DocumentoContexto(
             Path("b.md"),
             "Titulo B",
             "https://b.example/doc",
             "Cuerpo beta",
             2.0,
         ),
-        DocumentoRecuperado(
+        DocumentoContexto(
             Path("c.md"),
             "Titulo C",
             "",
@@ -67,7 +67,7 @@ def test_componer_mensajes_multi_tres_documentos_y_separadores() -> None:
     assert "[DOCUMENTO 1]" in sistema
     assert "[DOCUMENTO 2]" in sistema
     assert "[DOCUMENTO 3]" in sistema
-    assert "CONTEXTO (3 documentos ordenados por relevancia BM25)" in sistema
+    assert "CONTEXTO (3 documentos ordenados por relevancia)" in sistema
     assert sistema.count("---") >= 2
     assert "Cuerpo alpha" in sistema and "Cuerpo beta" in sistema and "Cuerpo gamma" in sistema
     assert "sin URL" in sistema

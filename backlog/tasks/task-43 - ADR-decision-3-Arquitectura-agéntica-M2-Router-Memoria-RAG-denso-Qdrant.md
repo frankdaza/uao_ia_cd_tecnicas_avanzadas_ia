@@ -4,7 +4,7 @@ title: 'ADR decision-3: Arquitectura agéntica M2 (Router + Memoria + RAG denso 
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:58'
+updated_date: '2026-05-13 06:02'
 labels:
   - adr
   - docs
@@ -33,7 +33,7 @@ modified_files:
     backlog/tasks/task-43 -
     ADR-decision-3-Arquitectura-agentica-M2-Router-Memoria-RAG-Qdrant.md
 priority: high
-ordinal: 18000
+ordinal: 22000
 ---
 
 ## Description
