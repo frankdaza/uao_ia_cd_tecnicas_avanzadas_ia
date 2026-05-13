@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
+import pytest
 from src.qa.cliente_ollama import ClienteOllama, ConfiguracionLlm, MODELO_LLAMA_3_1_8B
 from src.qa.cliente_openai import (
     MODELOS_OPENAI_SOPORTADOS,
@@ -11,6 +12,8 @@ from src.qa.cliente_openai import (
 )
 from src.legacy.qa.pipeline import PipelineQa
 from src.legacy.retrieval.recuperador import RecuperadorBm25
+
+pytestmark = pytest.mark.legacy_bm25
 
 
 def test_responder_openai_usa_mismos_mensajes_que_ollama_mock(

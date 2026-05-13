@@ -61,5 +61,7 @@ markers = [
     "network: pruebas con red hacia un origen publico (activar con EJECUTAR_TESTS_CON_RED=1)",
     "integration_ollama: prueba contra Ollama local (se omite si no hay servidor)",
     "integration_postgres: prueba contra PostgreSQL real (activar con EJECUTAR_INTEGRACION_POSTGRES=1)",
+    "integration_qdrant: prueba contra Qdrant en red (activar con EJECUTAR_INTEGRACION_QDRANT=1; sin Docker se omite)",
     "legacy: pruebas del modulo Gradio deprecado (conservadas como cobertura historica)",
+    "legacy_bm25: pipeline M1 BM25 bajo src/legacy (excluir con pytest -m \"not legacy_bm25\")",
 ]

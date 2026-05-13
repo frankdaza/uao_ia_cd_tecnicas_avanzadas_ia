@@ -20,6 +20,8 @@ from src.legacy.qa.pipeline import PipelineQa, construir_pipeline_por_defecto
 from src.legacy.retrieval.recuperador import RecuperacionVaciaError, RecuperadorBm25
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO
 
+pytestmark = pytest.mark.legacy_bm25
+
 
 def test_pipeline_responde_pregunta_valida(dir_fixtures_markdown: Path) -> None:
     recu = RecuperadorBm25(dir_fixtures_markdown)

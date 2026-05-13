@@ -110,96 +110,12 @@ async def _generador_eventos_sse(
     abortado_cliente = False
     error_emitido = False
 
-    memoria = crear_memoria_usuario(peticion.session_id.strip(), cfg.url_base_datos_sync())
+    memoria = None
     try:
-        entrada: dict[str, Any] = {
-            "pregunta": peticion.pregunta.strip(),
-            "session_id": peticion.session_id.strip(),
-            "primer_turno": bool(peticion.primer_turno),
-            "usuario": {
-                "nombre": usuario.nombre,
-                "doc_id": usuario.documento_identidad,
-            },
-        }
-        config = {"configurable": {"memoria": memoria}}
-        agen = grafo.astream_events(entrada, version="v2", config=config)
         try:
-            async for ev in agen:
-                if disco.is_set():
-                    abortado_cliente = True
-                    try:
-                        await agen.aclose()
-                    except Exception:  # noqa: BLE001
-                        pass
-                    break
-
-                evento = ev.get("event")
-                nodo = _meta_nodo(ev)
-
-                if evento == "on_chain_start" and nodo == "ejecutar_tool":
-                    t_tool_ini = time.perf_counter()
-
-                if evento == "on_chat_model_stream" and nodo == "componer_respuesta":
-                    datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
-                    delta = _extraer_texto_delta_chunk(datos.get("chunk"))
-                    if delta:
-                        texto_acumulado += delta
-                        yield {
-                            "event": "token",
-                            "data": json.dumps(
-                                EventoToken(motor="agente", texto=delta).model_dump(),
-                            ),
-                        }
-
-                if evento == "on_chain_end" and nodo == "decidir_tool":
-                    datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
-                    salida = datos.get("output")
-                    if isinstance(salida, dict):
-                        for p in salida.get("pensamientos") or []:
-                            if not isinstance(p, dict):
-                                continue
-                            if p.get("tipo") != "decision_router":
-                                continue
-                            herr = str(p.get("herramienta") or "")
-                            ultima_tool_decidida = herr
-                            razon = str(p.get("razon_breve") or "")
-                            yield {
-                                "event": "pensamiento",
-                                "data": json.dumps(
-                                    EventoPensamiento(
-                                        herramienta_candidata=herr,
-                                        razon=razon,
-                                    ).model_dump(),
-                                ),
-                            }
-
-                if evento == "on_chain_end" and nodo == "ejecutar_tool":
-                    lat_ms = 0
-                    if t_tool_ini is not None:
-                        lat_ms = int((time.perf_counter() - t_tool_ini) * 1000)
-                    datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
-                    salida = datos.get("output")
-                    nombre_tool = ultima_tool_decidida or "tool"
-                    if isinstance(salida, dict):
-                        fuentes = salida.get("fuentes")
-                        if isinstance(fuentes, list) and fuentes:
-                            serializables = [f for f in fuentes if isinstance(f, dict)]
-                            yield {
-                                "event": "fuentes",
-                                "data": json.dumps(
-                                    EventoFuentes(chunks=serializables).model_dump(),
-                                ),
-                            }
-                    yield {
-                        "event": "herramienta",
-                        "data": json.dumps(
-                            EventoHerramienta(nombre=nombre_tool, latencia_ms=lat_ms).model_dump(),
-                        ),
-                    }
-                    t_tool_ini = None
-
-        except asyncio.CancelledError:
-            raise
+            memoria = crear_memoria_usuario(
+                peticion.session_id.strip(), cfg.url_base_datos_sync()
+            )
         except MemoriaConexionError as exc:
             error_emitido = True
             yield {
@@ -212,42 +128,146 @@ async def _generador_eventos_sse(
                     ).model_dump(),
                 ),
             }
-        except Exception as exc:  # noqa: BLE001 — SSE: error seguro al cliente
-            error_emitido = True
-            logger.exception("Fallo en streaming del agente")
-            yield {
-                "event": "error",
-                "data": json.dumps(
-                    EventoError(
-                        codigo="agente_error",
-                        mensaje="No se pudo completar la respuesta del agente. Intente de nuevo.",
-                        motor="agente",
-                    ).model_dump(),
-                ),
+        else:
+            entrada: dict[str, Any] = {
+                "pregunta": peticion.pregunta.strip(),
+                "session_id": peticion.session_id.strip(),
+                "primer_turno": bool(peticion.primer_turno),
+                "usuario": {
+                    "nombre": usuario.nombre,
+                    "doc_id": usuario.documento_identidad,
+                },
             }
-            logger.debug("Detalle interno del fallo del agente: %s", exc)
+            config = {"configurable": {"memoria": memoria}}
+            agen = grafo.astream_events(entrada, version="v2", config=config)
+            try:
+                async for ev in agen:
+                    if disco.is_set():
+                        abortado_cliente = True
+                        try:
+                            await agen.aclose()
+                        except Exception:  # noqa: BLE001
+                            pass
+                        break
 
-        if not abortado_cliente and not error_emitido:
-            lat_total = int((time.perf_counter() - t0) * 1000)
-            yield {
-                "event": "final",
-                "data": json.dumps(
-                    EventoFinal(
-                        motor="agente",
-                        texto=texto_acumulado,
-                        latencia_ms=lat_total,
-                        modelo=modelo_etiqueta,
-                        metricas=None,
-                    ).model_dump(),
-                ),
-            }
+                    evento = ev.get("event")
+                    nodo = _meta_nodo(ev)
+
+                    if evento == "on_chain_start" and nodo == "ejecutar_tool":
+                        t_tool_ini = time.perf_counter()
+
+                    if evento == "on_chat_model_stream" and nodo == "componer_respuesta":
+                        datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
+                        delta = _extraer_texto_delta_chunk(datos.get("chunk"))
+                        if delta:
+                            texto_acumulado += delta
+                            yield {
+                                "event": "token",
+                                "data": json.dumps(
+                                    EventoToken(motor="agente", texto=delta).model_dump(),
+                                ),
+                            }
+
+                    if evento == "on_chain_end" and nodo == "decidir_tool":
+                        datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
+                        salida = datos.get("output")
+                        if isinstance(salida, dict):
+                            for p in salida.get("pensamientos") or []:
+                                if not isinstance(p, dict):
+                                    continue
+                                if p.get("tipo") != "decision_router":
+                                    continue
+                                herr = str(p.get("herramienta") or "")
+                                ultima_tool_decidida = herr
+                                razon = str(p.get("razon_breve") or "")
+                                yield {
+                                    "event": "pensamiento",
+                                    "data": json.dumps(
+                                        EventoPensamiento(
+                                            herramienta_candidata=herr,
+                                            razon=razon,
+                                        ).model_dump(),
+                                    ),
+                                }
+
+                    if evento == "on_chain_end" and nodo == "ejecutar_tool":
+                        lat_ms = 0
+                        if t_tool_ini is not None:
+                            lat_ms = int((time.perf_counter() - t_tool_ini) * 1000)
+                        datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
+                        salida = datos.get("output")
+                        nombre_tool = ultima_tool_decidida or "tool"
+                        if isinstance(salida, dict):
+                            fuentes = salida.get("fuentes")
+                            if isinstance(fuentes, list) and fuentes:
+                                serializables = [f for f in fuentes if isinstance(f, dict)]
+                                yield {
+                                    "event": "fuentes",
+                                    "data": json.dumps(
+                                        EventoFuentes(chunks=serializables).model_dump(),
+                                    ),
+                                }
+                        yield {
+                            "event": "herramienta",
+                            "data": json.dumps(
+                                EventoHerramienta(
+                                    nombre=nombre_tool, latencia_ms=lat_ms
+                                ).model_dump(),
+                            ),
+                        }
+                        t_tool_ini = None
+
+            except asyncio.CancelledError:
+                raise
+            except MemoriaConexionError as exc:
+                error_emitido = True
+                yield {
+                    "event": "error",
+                    "data": json.dumps(
+                        EventoError(
+                            codigo="memoria_postgres",
+                            mensaje=str(exc),
+                            motor="agente",
+                        ).model_dump(),
+                    ),
+                }
+            except Exception as exc:  # noqa: BLE001 — SSE: error seguro al cliente
+                error_emitido = True
+                logger.exception("Fallo en streaming del agente")
+                yield {
+                    "event": "error",
+                    "data": json.dumps(
+                        EventoError(
+                            codigo="agente_error",
+                            mensaje="No se pudo completar la respuesta del agente. Intente de nuevo.",
+                            motor="agente",
+                        ).model_dump(),
+                    ),
+                }
+                logger.debug("Detalle interno del fallo del agente: %s", exc)
+
+            if not abortado_cliente and not error_emitido:
+                lat_total = int((time.perf_counter() - t0) * 1000)
+                yield {
+                    "event": "final",
+                    "data": json.dumps(
+                        EventoFinal(
+                            motor="agente",
+                            texto=texto_acumulado,
+                            latencia_ms=lat_total,
+                            modelo=modelo_etiqueta,
+                            metricas=None,
+                        ).model_dump(),
+                    ),
+                }
 
     finally:
         vigia.cancel()
-        try:
-            memoria.cerrar()
-        except Exception:  # noqa: BLE001
-            logger.debug("Cierre de memoria del agente (no critico).", exc_info=False)
+        if memoria is not None:
+            try:
+                memoria.cerrar()
+            except Exception:  # noqa: BLE001
+                logger.debug("Cierre de memoria del agente (no critico).", exc_info=False)
 
 
 @router.post(

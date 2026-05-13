@@ -18,6 +18,8 @@ from src.legacy.retrieval.recuperador import (
     tokenizar,
 )
 
+pytestmark = pytest.mark.legacy_bm25
+
 
 def test_tokenizacion_tilde_y_minuscula() -> None:
     assert tokenizar("Cardiología") == ["cardiologi"]

@@ -1,10 +1,10 @@
 ---
 id: TASK-60
 title: 'Tests backend integrales (pytest) de la cadena agéntica, RAG y persistencia'
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:50'
+updated_date: '2026-05-13 00:56'
 labels:
   - pytest
   - qa
@@ -58,15 +58,14 @@ La migración elimina BM25 del runtime; la suite de tests debe reflejar la **nue
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 `uv run pytest` verde en CI local del proyecto tras migración M2
-- [ ] #2 Markers documentados; tests pesados no bloquean desarrollo sin Docker
-- [ ] #3 Cobertura listada en esta descripción alcanzada o justificada en notas
-- [ ] #4 Tests BM25 legacy eliminados o aislados sin dejar suite roja
-- [ ] #5 Fixtures reutilizables para AsyncClient FastAPI y DB
-- [ ] #6 Casos de error SSE y sesión inválida cubiertos
-- [ ] #7 `ruff check tests/` sin errores nuevos
+- [x] #1 `uv run pytest` verde en CI local del proyecto tras migración M2
+- [x] #2 Markers documentados; tests pesados no bloquean desarrollo sin Docker
+- [x] #3 Cobertura listada en esta descripción alcanzada o justificada en notas
+- [x] #4 Tests BM25 legacy eliminados o aislados sin dejar suite roja
+- [x] #5 Fixtures reutilizables para AsyncClient FastAPI y DB
+- [x] #6 Casos de error SSE y sesión inválida cubiertos
+- [x] #7 `ruff check tests/` sin errores nuevos
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -84,12 +83,29 @@ La migración elimina BM25 del runtime; la suite de tests debe reflejar la **nue
 <!-- SECTION:NOTES:BEGIN -->
 - Para SSE, considerar `httpx` stream y acumulación de eventos.
 - Evitar llamadas reales a OpenAI en default CI; usar mocks/fakes.
+
+Se añadió ``tests/conftest.py`` con documentación de markers, skip automático para ``integration_qdrant``, fixture ``fastapi_app_sesion_mock`` y helpers de sesión DB mock.
+
+``pyproject.toml``: markers ``integration_qdrant`` y ``legacy_bm25``.
+
+Tests BM25 bajo ``src/legacy`` marcados con ``legacy_bm25`` (``test_pipeline*``, ``test_recuperador_bm25``).
+
+``tests/persistencia/test_repositorio_usuarios_unidad.py``: mocks de ``obtener_o_crear`` y ``actualizar_last_login``.
+
+``tests/api/test_agente_stream.py``: 401 sin credencial, 403 ``session_id`` desalineado, 503 sin grafo, SSE ``error`` por ``MemoriaConexionError``.
+
+``src/api/routers/agente.py``: ``MemoriaConexionError`` al crear memoria ahora emite evento SSE ``error`` (antes propagaba y rompía el stream).
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Suite M2 consolidada: markers ``integration_qdrant`` y ``legacy_bm25`` documentados en ``pyproject.toml`` y ``tests/conftest.py`` (skip opcional para Qdrant en red). Fixture compartida ``fastapi_app_sesion_mock`` para FastAPI sin Postgres real; ``test_sesiones`` la reutiliza. Tests legacy BM25 etiquetados para excluir con ``pytest -m "not legacy_bm25"``. Nuevos tests: repositorio usuarios con sesión mock; agente SSE cubre 401/403/503 y evento ``error`` por fallo de memoria. Corrección en ``agente.py`` para capturar ``MemoriaConexionError`` al instanciar memoria y emitir SSE en lugar de fallar el transporte. ``uv run pytest`` y ``ruff check tests/`` verdes.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest` completo verde
-- [ ] #2 Sin warnings críticos nuevos de deprecación sin ticket
-- [ ] #3 Tiempo de suite razonable (<N minutos; documentar si crece)
+- [x] #1 `uv run pytest` completo verde
+- [x] #2 Sin warnings críticos nuevos de deprecación sin ticket
+- [x] #3 Tiempo de suite razonable (<N minutos; documentar si crece)
 <!-- DOD:END -->

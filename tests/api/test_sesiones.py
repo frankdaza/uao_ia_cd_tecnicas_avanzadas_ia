@@ -3,57 +3,28 @@
 from __future__ import annotations
 
 import uuid
-from unittest.mock import AsyncMock, MagicMock, patch
-
-from collections.abc import AsyncGenerator
+from unittest.mock import AsyncMock, patch
 
 import pytest
 import pytest_asyncio
-from fastapi import Request
 from httpx import ASGITransport, AsyncClient
 
-from src.api.dependencias import obtener_sesion_db, obtener_usuario_actual
+from src.api.dependencias import obtener_usuario_actual
 from src.api.esquemas import MensajeHistorialItem
-from src.api.main import crear_app
 from src.persistencia.modelos import Usuario
 from src.persistencia.repositorios.sesiones import sesion_id_memoria_langchain
 
 
-def _grafo_minimo() -> MagicMock:
-    grafo = MagicMock()
-
-    async def _stream_vacio(*_a: object, **_k: object):
-        if False:
-            yield {}
-
-    grafo.astream_events = MagicMock(side_effect=lambda *a, **k: _stream_vacio())
-    return grafo
-
-
-async def _sesion_db_falsa(request: Request) -> AsyncGenerator[AsyncMock, None]:
-    """Replica el contrato de ``obtener_sesion_db`` sin PostgreSQL."""
-    sesion = AsyncMock()
-    try:
-        yield sesion
-        await sesion.commit()
-    except Exception:
-        await sesion.rollback()
-        raise
-
-
 @pytest_asyncio.fixture
-async def cliente_api_sesiones() -> AsyncClient:
+async def cliente_api_sesiones(fastapi_app_sesion_mock) -> AsyncClient:
     """Cliente ASGI con factoria de sesion DB sobrescrita (sin Postgres)."""
-    app = crear_app()
-    app.state.grafo_agente = _grafo_minimo()
-    app.dependency_overrides[obtener_sesion_db] = _sesion_db_falsa
+    app = fastapi_app_sesion_mock
     async with AsyncClient(
         transport=ASGITransport(app=app),
         base_url="http://test",
     ) as cliente:
         cliente._app_ref = app  # type: ignore[attr-defined]
         yield cliente
-    app.dependency_overrides.clear()
 
 
 @pytest.mark.asyncio
