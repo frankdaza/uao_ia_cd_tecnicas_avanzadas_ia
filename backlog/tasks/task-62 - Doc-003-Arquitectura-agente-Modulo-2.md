@@ -1,10 +1,12 @@
 ---
 id: TASK-62
-title: 'Documentación doc-003: Arquitectura del agente Módulo 2 (Markdown en backlog/docs)'
-status: To Do
+title: >-
+  Documentación doc-003: Arquitectura del agente Módulo 2 (Markdown en
+  backlog/docs)
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 01:22'
 labels:
   - docs
   - modulo-2
@@ -17,7 +19,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: medium
-ordinal: 20000
+ordinal: 1000
 ---
 
 ## Description
@@ -47,15 +49,14 @@ Requiere ADR **decision-3** y suite e2e **task-61** para no documentar comportam
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Archivo cumple naming `doc-003 - ...` y skill backlog-docs
-- [ ] #2 Front matter válido y consistente con otras docs del repo
-- [ ] #3 Incluye diagrama Mermaid y secciones listadas en Description
-- [ ] #4 Troubleshooting con síntomas → causas → acciones
-- [ ] #5 Ejemplos `curl` copy-paste con `BASE_URL` placeholder
-- [ ] #6 Sin secretos; solo placeholders de variables
-- [ ] #7 Enlaces internos a ADR decision-3 y a scripts/README.md
+- [x] #1 Archivo cumple naming `doc-003 - ...` y skill backlog-docs
+- [x] #2 Front matter válido y consistente con otras docs del repo
+- [x] #3 Incluye diagrama Mermaid y secciones listadas en Description
+- [x] #4 Troubleshooting con síntomas → causas → acciones
+- [x] #5 Ejemplos `curl` copy-paste con `BASE_URL` placeholder
+- [x] #6 Sin secretos; solo placeholders de variables
+- [x] #7 Enlaces internos a ADR decision-3 y a scripts/README.md
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -74,10 +75,15 @@ Requiere ADR **decision-3** y suite e2e **task-61** para no documentar comportam
 - Si `doc-003` ya existe por otro PR, evolucionar en lugar de duplicar IDs.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agrego backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md con front matter alineado a backlog-docs, diagrama Mermaid sin BM25, secciones de tools FAQ vs RAG denso, memoria (HISTORIAL_DIAS_MAX / HISTORIAL_TURNOS_MAX y privacidad), comandos uv/docker-compose, tabla de troubleshooting, ejemplos curl con BASE_URL y referencia a tests/e2e/test_escenarios_modulo2.py, migracion M1 BM25 a M2 Qdrant, y enlaces a decision-3 y scripts/README.md. El ADR decision-3 ya enlazaba a doc-003 en Referencias (referencia cruzada). Revision: checklist de criterios de aceptacion aplicada sobre el archivo entregado.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Archivo mergeado en `backlog/docs/`
-- [ ] #2 Referencia cruzada desde README (task-63) o desde ADR
-- [ ] #3 Revisión por par técnico (self-review + checklist AC)
+- [x] #1 Archivo mergeado en `backlog/docs/`
+- [x] #2 Referencia cruzada desde README (task-63) o desde ADR
+- [x] #3 Revisión por par técnico (self-review + checklist AC)
 <!-- DOD:END -->

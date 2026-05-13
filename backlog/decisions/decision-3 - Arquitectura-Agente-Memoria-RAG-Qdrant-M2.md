@@ -136,6 +136,7 @@ En el diagrama, **PostgreSQL** concentra la persistencia de identidad y memoria 
 
 ## Referencias
 
+- [doc-003 — Arquitectura operativa del agente (Módulo 2)](../docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) (guía: comandos, troubleshooting, escenarios E2E y migración M1→M2).
 - [decision-1 — MVP BM25 a nivel archivo](decision-1%20-%20MVP-BM25-Archivo-Completo.md) (estado `superseded` para el runtime de recuperación del producto; texto histórico conservado en el archivo).
 - [decision-2 — Migración React + Vite + FastAPI + SSE](decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md) (contexto de UI, API y streaming).
 - Skills: `.cursor/skills/agente-modulo-2/SKILL.md`, `.cursor/skills/backlog-decisions/SKILL.md`, `.cursor/skills/fastapi-sse-api/SKILL.md`, `.cursor/skills/llm-backend/SKILL.md`.

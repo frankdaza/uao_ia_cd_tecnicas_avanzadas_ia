@@ -1,10 +1,10 @@
 ---
 id: TASK-63
 title: Actualizar README.md e informe/Informe_Latex.tex con arquitectura Módulo 2
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 01:23'
 labels:
   - docs
   - informe
@@ -18,7 +18,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: medium
-ordinal: 21000
+ordinal: 1000
 ---
 
 ## Description
