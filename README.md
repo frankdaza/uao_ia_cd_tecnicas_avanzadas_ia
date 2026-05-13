@@ -100,13 +100,15 @@ Alternativa equivalente: `uv run python scripts/indexar_corpus_qdrant.py` con lo
 ### Requisitos
 
 - Python **3.12.12** y [uv](https://docs.astral.sh/uv/)
-- Node **22 LTS** y **pnpm 10.x**
+- Node **22 LTS** y **pnpm 11.1.1** (pin en `frontend/package.json` → `packageManager`)
 - **PostgreSQL** y **Qdrant** accesibles (local o vía Docker Compose)
 - Para inferencia real del agente: **`OPENAI_API_KEY`** (o laboratorio con **`MOCK_LLM=1`**)
 
 ### Docker Compose (recomendado)
 
-El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`** (healthcheck HTTP a `/api/salud`). **Ollama** y la precarga de modelos van en el **perfil `legacy`** (`docker compose --profile legacy up`); el arranque por defecto del agente M2 **no** depende de Ollama. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+El archivo `docker-compose.yml` levanta **PostgreSQL 17.9** (`postgres:17.9-alpine`), **Qdrant** (`qdrant/qdrant:v1.18.0`, compatible con `qdrant-client` del lockfile), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`** (healthcheck HTTP a `/api/salud`). **Ollama** y la precarga de modelos van en el **perfil `legacy`** (`docker compose --profile legacy up`); el arranque por defecto del agente M2 **no** depende de Ollama. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+
+Si **cambia la versión mayor** de la imagen de Postgres respecto a datos ya guardados en `postgres-data`, el contenedor puede rechazar el directorio de datos: en desarrollo suele bastar con eliminar el volumen `postgres-data` y volver a levantar el stack para que `db-init` reaplique Alembic (o use `pg_upgrade` / volcado lógico si necesita conservar datos).
 
 - **CORS en Compose:** variable `ALLOWED_ORIGINS` (lista JSON); puede definirse en `.env` en la raíz del proyecto (plantilla [`.env.example`](.env.example)). El `docker-compose.yml` aplica un valor por defecto local si no está definida.
 
@@ -193,7 +195,7 @@ uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
 | **CORS** o cookies bloqueadas | `ALLOWED_ORIGINS` con el origen exacto del frontend; credenciales y `X-Session-Id` coherentes con la sesión creada. |
 | **`POST /api/agente/stream` en 503** | Sin `OPENAI_API_KEY` y sin `MOCK_LLM=1`; revise `GET /api/salud`. |
 | **RAG vacío** | Colección Qdrant sin ingesta o umbral `RAG_SCORE_MINIMO` demasiado alto; vuelva a indexar y verifique `QDRANT_COLLECTION`. |
-| **Postgres no listo** en Compose | `docker compose ps`, healthchecks y puerto `POSTGRES_PUBLISH_PORT` vs variables del `.env`. |
+| **Postgres no listo** en Compose | `docker compose ps`, healthchecks y puerto `POSTGRES_PUBLISH_PORT` vs variables del `.env`. Tras subir de versión mayor de Postgres, puede hacer falta **recrear el volumen** `postgres-data` (ver sección Docker Compose arriba). |
 
 ## Historial de versiones — Módulo 1 (BM25 y pipeline Q&A)
 

@@ -1,4 +1,4 @@
-# Stack local: API + PostgreSQL 16 + Qdrant (Modulo 2). Ollama opcional (perfil legacy).
+# Stack local: API + PostgreSQL 17.9 + Qdrant (Modulo 2). Ollama opcional (perfil legacy).
 #
 # Qdrant:
 #   - REST (cliente qdrant-client / LlamaIndex): puerto 6333 en la red interna; se publica en el host segun QDRANT_REST_PORT.
@@ -9,7 +9,7 @@
 
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:17.9-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}

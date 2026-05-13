@@ -75,6 +75,48 @@ def test_buscar_faq_caso_positivo_urgencias_pediatricas() -> None:
     assert r.id == "fvl-urgencias-pediatricas-continua"
 
 
+@pytest.mark.parametrize(
+    ("consulta", "faq_id"),
+    [
+        (
+            "¿Cuál es el teléfono principal de la Fundación Valle del Lili?",
+            "fvl-linea-pbx-general",
+        ),
+        (
+            "¿En qué horario atiende el SIAU (PQRS) de la Fundación Valle del Lili?",
+            "fvl-siau-pqrs-horario",
+        ),
+        (
+            "¿Cuál es el NIT y la razón social de la Fundación Valle del Lili?",
+            "fvl-nit-razon-social",
+        ),
+        (
+            "¿Dónde queda la sede principal / el domicilio principal de la Fundación Valle del Lili en Cali?",
+            "fvl-direccion-domicilio-cali",
+        ),
+        (
+            "¿Dónde consulto resultados médicos o laboratorio como paciente?",
+            "fvl-portal-paciente-resultados",
+        ),
+    ],
+)
+def test_buscar_faq_pregunta_natural_cercana_canonica(
+    consulta: str, faq_id: str
+) -> None:
+    r = buscar_faq(consulta)
+    assert r is not None
+    assert r.id == faq_id
+
+
+def test_buscar_faq_pregunta_natural_urgencias_con_tilde() -> None:
+    """Forma cercana a la pregunta canónica con tilde en pediátricas."""
+    r = buscar_faq(
+        "¿Las urgencias pediátricas de la Fundación Valle del Lili atienden las 24 horas?",
+    )
+    assert r is not None
+    assert r.id == "fvl-urgencias-pediatricas-continua"
+
+
 def test_buscar_faq_caso_positivo_portal_resultados() -> None:
     r = buscar_faq(
         "portal paciente resultados examenes laboratorio mifundacion en linea",
@@ -102,7 +144,7 @@ def test_buscar_faq_determinismo() -> None:
 
 
 def test_umbral_match_configurable(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Con umbral 1.0, 8/9 keywords de PBX no alcanza y debe retornar None."""
+    """Con umbral 1.0, el score efectivo (max keywords vs canónica) debe ser < 1.0."""
     monkeypatch.setenv("FAQ_UMBRAL_MATCH", "1.0")
     obtener_configuracion.cache_clear()
     invalidar_cache_faqs()

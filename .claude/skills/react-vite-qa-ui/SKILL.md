@@ -11,7 +11,7 @@ description: Construye la interfaz web Q&A (M1) y agente M2 (auth, SSE /api/agen
 
 | Capa | Tecnologia | Rol |
 | --- | --- | --- |
-| Build | Vite 8 + pnpm 10 | Bundler y gestor de paquetes |
+| Build | Vite 8 + pnpm 11.1.1 | Bundler y gestor de paquetes |
 | UI framework | React 19 + TypeScript 6 strict | Componentes y logica |
 | Estilos | Tailwind CSS v4 + tailwindcss-animate | Utilidades CSS y animaciones |
 | Componentes | shadcn/ui (Radix UI + lucide-react) | Sistema de diseno accesible |

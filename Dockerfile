@@ -7,7 +7,7 @@ WORKDIR /app/frontend
 
 # Copiar manifiestos y lockfile primero para cachear instalación
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
-RUN npm install -g pnpm@10 && pnpm install --frozen-lockfile
+RUN npm install -g pnpm@11.1.1 && pnpm install --frozen-lockfile
 
 # Copiar el resto del frontend y construir
 COPY frontend/ ./

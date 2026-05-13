@@ -1,11 +1,15 @@
 """
 Tool determinista de FAQs estructuradas (JSON) sin LLM ni Qdrant.
 
-El score por FAQ es la proporción de palabras clave que coinciden respecto al
-total de palabras clave de esa entrada: ``coincidencias / len(keywords)``.
-Una palabra clave coincide si, tras normalizar (NFKD sin marcas diacríticas,
-minúsculas) y tokenizar la consulta y la clave, **cada** token obtenido de la
-clave aparece como token en la consulta (subconjunto estricto de tokens).
+Por cada entrada se calculan dos señales y se usa el máximo frente al umbral:
+
+1. **Keywords**: ``coincidencias / len(keywords)``; cada palabra clave exige que
+   todos sus tokens (NFKD, minúsculas, regex alfanumérico) aparezcan en la
+   consulta; la consulta admite forma singular si el token en texto termina en
+   ``s`` (longitud ≥ 5).
+2. **Pregunta canónica**: recall ``|tokens_consulta ∩ tokens_contenido| /
+   max(1, |tokens_contenido|)`` donde ``tokens_contenido`` proviene de
+   ``pregunta_canonica`` sin stopwords ni boilerplate institucional mínimo.
 """
 
 from __future__ import annotations
@@ -27,6 +31,72 @@ _RUTA_JSON_POR_DEFECTO = _RAIZ_PROYECTO / "data" / "structured" / "faqs.json"
 
 # Cache (mtime_ns, lista de entradas) para invalidar si el archivo cambia en disco.
 _cache_entradas: tuple[int, list["FaqEntrada"]] | None = None
+
+# Stopwords en forma ya normalizada (ASCII, minúsculas) para filtrar la pregunta canónica.
+_STOPWORDS_CONTENIDO: frozenset[str] = frozenset(
+    {
+        "a",
+        "al",
+        "algo",
+        "ante",
+        "como",
+        "con",
+        "cual",
+        "cuales",
+        "de",
+        "del",
+        "donde",
+        "el",
+        "en",
+        "es",
+        "esta",
+        "este",
+        "estos",
+        "fue",
+        "ha",
+        "han",
+        "hay",
+        "la",
+        "las",
+        "le",
+        "les",
+        "lo",
+        "los",
+        "mas",
+        "me",
+        "mi",
+        "mis",
+        "muy",
+        "no",
+        "nos",
+        "o",
+        "os",
+        "para",
+        "pero",
+        "por",
+        "que",
+        "queda",
+        "se",
+        "sin",
+        "sobre",
+        "son",
+        "su",
+        "sus",
+        "te",
+        "tu",
+        "tus",
+        "un",
+        "una",
+        "unas",
+        "unos",
+        "y",
+        "ya",
+        "yo",
+    }
+)
+
+# Tokens muy genéricos del nombre corto de la institución (no discriminan intención).
+_BOILERPLATE_INSTITUCION: frozenset[str] = frozenset({"fundacion", "lili", "fvl"})
 
 
 class ArchivoFaqStructuredAusenteError(FileNotFoundError):
@@ -89,6 +159,40 @@ def _tokens_consulta(consulta: str) -> set[str]:
     return set(_tokens_desde_fragmento(base))
 
 
+def _tokens_consulta_para_match(consulta: str) -> set[str]:
+    """
+    Tokens de la consulta más variantes singulares si el token termina en ``s``
+    (longitud ≥ 5), p. ej. ``pediatricas`` admite la keyword ``pediatrica``.
+    """
+    base = _tokens_consulta(consulta)
+    extra: set[str] = set()
+    for t in base:
+        if len(t) >= 5 and t.endswith("s"):
+            singular = t[:-1]
+            if singular:
+                extra.add(singular)
+    return base | extra
+
+
+def _tokens_contenido_canonica(texto: str) -> set[str]:
+    """Tokens de ``pregunta_canonica`` sin stopwords ni boilerplate institucional."""
+    tokens = _tokens_consulta(texto)
+    return {
+        t
+        for t in tokens
+        if t not in _STOPWORDS_CONTENIDO and t not in _BOILERPLATE_INSTITUCION
+    }
+
+
+def _score_solapamiento_canonica(consulta: str, entrada: FaqEntrada) -> float:
+    """Recall de tokens de contenido de la pregunta canónica presentes en la consulta."""
+    tc = _tokens_contenido_canonica(entrada.pregunta_canonica)
+    if not tc:
+        return 0.0
+    tq = _tokens_consulta_para_match(consulta)
+    return len(tq & tc) / len(tc)
+
+
 def _tokens_palabra_clave(palabra_clave: str) -> list[str]:
     """Tokens requeridos para considerar una palabra clave como encontrada."""
     norm = _normalizar_sin_tildes(palabra_clave)
@@ -139,25 +243,35 @@ def _cargar_entradas_desde_disco() -> list[FaqEntrada]:
 
 def buscar_faq(consulta: str) -> FaqRespuesta | None:
     """
-    Busca la FAQ con mayor score de solapamiento de palabras clave.
+    Busca la FAQ con mayor score entre keywords y solapamiento con ``pregunta_canonica``.
 
-    Score: ``(# palabras clave que coinciden) / (# palabras clave de la FAQ)``.
-    Se retorna la mejor entrada si su score es ``>= FAQ_UMBRAL_MATCH``; si no, ``None``.
-    En empate de score, gana la que tenga más coincidencias absolutas y luego ``id`` menor
-    en orden lexicográfico (orden estable).
+    Score efectivo por entrada: ``max(score_keywords, score_canonica)``, donde
+    ``score_keywords`` es ``coincidencias / len(keywords)`` y ``score_canonica`` es
+    el recall de tokens de contenido (ver ``_score_solapamiento_canonica``).
+    Se retorna la mejor entrada si el score efectivo es ``>= FAQ_UMBRAL_MATCH``; si no,
+    ``None``. En empate de score, gana la que tenga más coincidencias de keywords y
+    luego ``id`` menor en orden lexicográfico (orden estable).
     """
     umbral = obtener_configuracion().faq_umbral_match
     entradas = _cargar_entradas_desde_disco()
-    tokens_q = _tokens_consulta(consulta)
+    tokens_q = _tokens_consulta_para_match(consulta)
     candidatos: list[_CandidatoScore] = []
     for entrada in entradas:
         if not entrada.keywords:
             continue
         n = len(entrada.keywords)
-        coincidencias = sum(1 for kw in entrada.keywords if _palabra_clave_coincide(kw, tokens_q))
-        score = coincidencias / n
+        coincidencias = sum(
+            1 for kw in entrada.keywords if _palabra_clave_coincide(kw, tokens_q)
+        )
+        score_keywords = coincidencias / n
+        score_canonica = _score_solapamiento_canonica(consulta, entrada)
+        score = max(score_keywords, score_canonica)
         if score >= umbral:
-            candidatos.append(_CandidatoScore(entrada=entrada, score=score, coincidencias=coincidencias))
+            candidatos.append(
+                _CandidatoScore(
+                    entrada=entrada, score=score, coincidencias=coincidencias
+                )
+            )
     if not candidatos:
         return None
     mejor = min(
@@ -177,7 +291,10 @@ def buscar_faq(consulta: str) -> FaqRespuesta | None:
 def _ejecutar_tool_faq(consulta: str) -> dict[str, Any]:
     hallazgo = buscar_faq(consulta)
     if hallazgo is None:
-        return {"encontrado": False, "detalle": "Ninguna FAQ superó el umbral de coincidencia."}
+        return {
+            "encontrado": False,
+            "detalle": "Ninguna FAQ superó el umbral de coincidencia.",
+        }
     return {"encontrado": True, **hallazgo.model_dump(mode="json")}
 
 

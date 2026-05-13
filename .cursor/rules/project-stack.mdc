@@ -55,7 +55,7 @@ Instalar con `uv add` segun implementacion (ver `pyproject.toml` / ADR): `langgr
 - **next-themes** para modo claro/oscuro persistente.
 - **sonner** para notificaciones toast.
 - **react-markdown** + **remark-gfm** + **shiki** para render de Markdown enriquecido.
-- Node 22 LTS, pnpm 10.x como gestor de paquetes del frontend.
+- Node 22 LTS, pnpm 11.x (pin 11.1.1 en `frontend/package.json` → `packageManager`) como gestor de paquetes del frontend.
 - Identificadores en `frontend/**/*.{ts,tsx,js,jsx}` en **ingles** (convencion del ecosistema React/TS); textos de UI y comentarios en espanol latinoamericano.
 
 ## Configuracion y secretos
