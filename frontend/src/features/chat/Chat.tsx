@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useAuth } from '@/features/auth/AuthContext'
-import { getHistorialSesion } from '@/lib/api'
+import { deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
 import { streamAgente } from '@/lib/sseClient'
 import type { HistorialMensaje, RagChunk } from '@/lib/schemas'
 import type { ChatTurn } from './MessageList'
@@ -75,8 +75,13 @@ export function Chat() {
   const [historialLoading, setHistorialLoading] = useState(true)
   const [historialError, setHistorialError] = useState<string | null>(null)
   const abortRef = useRef<(() => void) | null>(null)
+  const turnsRef = useRef<ChatTurn[]>([])
   /** Tras la primera carga: si no había mensajes, el primer envío usa `primer_turno: true`. */
   const usarPrimerTurnoRef = useRef(false)
+
+  useEffect(() => {
+    turnsRef.current = turns
+  }, [turns])
 
   useEffect(() => {
     if (!sessionId) {
@@ -271,16 +276,21 @@ export function Chat() {
     )
   }, [])
 
-  const handleRegenerateLast = useCallback(() => {
-    if (isBusy || historialLoading) return
-    setTurns((prev) => {
-      if (prev.length === 0) return prev
-      const q = prev[prev.length - 1].userMessage.content
-      const next = prev.slice(0, -1)
-      queueMicrotask(() => lanzarConsulta(q))
-      return next
-    })
-  }, [isBusy, historialLoading, lanzarConsulta])
+  const handleRegenerateLast = useCallback(async () => {
+    if (isBusy || historialLoading || !sessionId) return
+    const prev = turnsRef.current
+    if (prev.length === 0) return
+    const q = prev[prev.length - 1].userMessage.content.trim()
+    if (!q) return
+    try {
+      await deleteUltimoTurno(sessionId)
+    } catch {
+      toast.error('No se pudo eliminar el último turno en el servidor. Intente de nuevo.')
+      return
+    }
+    setTurns((p) => (p.length === 0 ? p : p.slice(0, -1)))
+    queueMicrotask(() => lanzarConsulta(q))
+  }, [isBusy, historialLoading, sessionId, lanzarConsulta])
 
   if (!sessionId) {
     return (

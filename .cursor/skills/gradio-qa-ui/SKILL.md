@@ -1,11 +1,11 @@
 ---
 name: gradio-qa-ui
-description: "DEPRECADO: esta skill fue reemplazada por react-vite-qa-ui. El frontend del proyecto ahora usa React 19 + Vite 7 + shadcn/ui. Ver .cursor/skills/react-vite-qa-ui/SKILL.md. La implementacion Gradio vive en src/app/legacy/app_gradio.py."
+description: "DEPRECADO: esta skill fue reemplazada por react-vite-qa-ui. El frontend del proyecto ahora usa React 19 + Vite 8 + shadcn/ui. Ver .cursor/skills/react-vite-qa-ui/SKILL.md. La implementacion Gradio vive en src/app/legacy/app_gradio.py."
 deprecated: true
 replaced_by: react-vite-qa-ui
 ---
 
-> **DEPRECADO**: esta skill fue reemplazada por **`react-vite-qa-ui`** al migrar el frontend de Gradio a React 19 + Vite 7 + shadcn/ui. No usar para codigo nuevo. Ver `.cursor/skills/react-vite-qa-ui/SKILL.md`.
+> **DEPRECADO**: esta skill fue reemplazada por **`react-vite-qa-ui`** al migrar el frontend de Gradio a React 19 + Vite 8 + shadcn/ui. No usar para codigo nuevo. Ver `.cursor/skills/react-vite-qa-ui/SKILL.md`.
 >
 > El codigo Gradio original vive en `src/app/legacy/app_gradio.py` como referencia historica.
 

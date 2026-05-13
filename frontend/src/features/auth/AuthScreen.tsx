@@ -12,9 +12,9 @@ const AuthIdentificacionFormSchema = z.object({
   documento_identidad: z
     .string()
     .trim()
-    .min(5, 'Ingresa al menos 5 caracteres.')
+    .min(1, 'Ingresa al menos 1 carácter.')
     .max(128, 'Máximo 128 caracteres.')
-    .regex(/^[0-9A-Za-z-]+$/, 'Solo se permiten letras sin tilde, números y guiones.'),
+    .regex(/^[0-9A-Za-z.\- ]+$/, 'Solo se permiten letras sin tilde, números, espacio, punto y guión.'),
   nombre: z
     .string()
     .trim()

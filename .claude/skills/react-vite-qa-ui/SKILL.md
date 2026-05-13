@@ -1,9 +1,9 @@
 ---
 name: react-vite-qa-ui
-description: Construye la interfaz web Q&A (M1) y agente M2 (auth, SSE /api/agente/stream) con React 19 + Vite 7 + TypeScript + Tailwind v4 + shadcn/ui + streaming. Usar al crear o modificar frontend/ o integracion con FastAPI.
+description: Construye la interfaz web Q&A (M1) y agente M2 (auth, SSE /api/agente/stream) con React 19 + Vite 8 + TypeScript 6 + Tailwind v4 + shadcn/ui + streaming. Usar al crear o modificar frontend/ o integracion con FastAPI.
 ---
 
-# Interfaz Q&A con React 19 + Vite 7 + shadcn/ui
+# Interfaz Q&A con React 19 + Vite 8 + shadcn/ui
 
 > Mantener el mismo contenido en `.cursor/skills/react-vite-qa-ui/` y `.claude/skills/react-vite-qa-ui/`.
 
@@ -11,8 +11,8 @@ description: Construye la interfaz web Q&A (M1) y agente M2 (auth, SSE /api/agen
 
 | Capa | Tecnologia | Rol |
 | --- | --- | --- |
-| Build | Vite 7 + pnpm 10 | Bundler y gestor de paquetes |
-| UI framework | React 19 + TypeScript 5 strict | Componentes y logica |
+| Build | Vite 8 + pnpm 10 | Bundler y gestor de paquetes |
+| UI framework | React 19 + TypeScript 6 strict | Componentes y logica |
 | Estilos | Tailwind CSS v4 + tailwindcss-animate | Utilidades CSS y animaciones |
 | Componentes | shadcn/ui (Radix UI + lucide-react) | Sistema de diseno accesible |
 | Datos del servidor | @tanstack/react-query v5 | Cache y sincronizacion |

@@ -47,7 +47,7 @@ Instalar con `uv add` segun implementacion (ver `pyproject.toml` / ADR): `langgr
 
 ## Interfaz de usuario (frontend)
 
-- **React 19** + **Vite 7** + **TypeScript 5** (strict) en `frontend/`.
+- **React 19** + **Vite 8** + **TypeScript 6** (strict) en `frontend/`.
 - **Tailwind CSS v4** con plugin Vite (`@tailwindcss/vite`).
 - **shadcn/ui** (Radix UI + lucide-react) para componentes de alto impacto visual.
 - **Vercel AI SDK** (`ai`, `@ai-sdk/react`) con custom transport SSE para streaming token a token.

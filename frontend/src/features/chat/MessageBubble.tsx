@@ -22,7 +22,7 @@ export interface Message {
 interface MessageBubbleProps {
   message: Message
   showAssistantFooter?: boolean
-  onRegenerate?: () => void
+  onRegenerate?: () => void | Promise<void>
   /** Nombre de tool ejecutada (`faq_estructurada`, `rag_denso`, …). */
   toolUsed?: string | null
   /** Eventos de decisión del router (solo resúmenes seguros del backend). */
@@ -212,7 +212,7 @@ export function MessageBubble({
                 variant="ghost"
                 size="sm"
                 className="h-7 px-2 text-xs"
-                onClick={() => onRegenerate()}
+                onClick={() => void Promise.resolve(onRegenerate())}
                 aria-label="Generar respuesta nuevamente"
               >
                 <RotateCcw className="h-3 w-3 mr-1.5 shrink-0" aria-hidden />

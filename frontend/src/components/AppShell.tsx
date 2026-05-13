@@ -94,7 +94,7 @@ export function AppShell({ sidebar, children, headerExtras }: AppShellProps) {
               Q&A — Fundación Valle del Lili
             </span>
             <span className="text-[10px] text-[var(--color-text-muted)] hidden sm:block">
-              Asistente inteligente · BM25 + Ollama + OpenAI
+              Agente conversacional · LangGraph + RAG Qdrant
             </span>
           </div>
         </div>
@@ -131,7 +131,7 @@ export function AppShell({ sidebar, children, headerExtras }: AppShellProps) {
       <footer className="shrink-0 border-t border-[var(--border)] px-4 py-2 flex flex-col gap-1 bg-[var(--color-background)]">
         <ApiStatusFooter />
         <p className="text-[10px] text-center text-[var(--color-text-subtle)]">
-          Técnicas avanzadas de IA — Módulo 1 · Universidad Autónoma de Occidente
+          Técnicas avanzadas de IA — Módulo 2 · Universidad Autónoma de Occidente
         </p>
       </footer>
     </div>

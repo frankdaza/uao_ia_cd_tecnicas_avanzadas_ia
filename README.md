@@ -50,7 +50,7 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | Grupo | Variables representativas | Notas |
 | --- | --- | --- |
 | API y CORS | `ALLOWED_ORIGINS`, `API_PORT` | Con cookies de sesión, orígenes explícitos (no `*` con credenciales). |
-| LLM del router / OpenAI | `OPENAI_API_KEY`, `ROUTER_LLM_MODEL` | Router y composición; ver `src/api/configuracion.py`. |
+| LLM del router / OpenAI | `OPENAI_API_KEY`, `ROUTER_LLM_MODEL`, `COMPOSITOR_LLM_MODEL` (opcional) | Router y composición; ver `src/api/configuracion.py`. |
 | PostgreSQL | `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` o `DATABASE_URL` | Con **Docker Compose**, desde el host suele usarse `localhost` y el puerto publicado (p. ej. **15432** → 5432 interno). |
 | Qdrant | `QDRANT_URL`, `QDRANT_COLLECTION`, `QDRANT_API_KEY` (opcional), `QDRANT_DISTANCE` | En la red de Compose la API usa `http://qdrant:6333`. |
 | Embeddings e ingesta | `EMBEDDING_PROVIDER`, `EMBEDDING_MODEL`, `EMBEDDING_DIMS` | Deben alinearse con la colección creada en Qdrant. |
@@ -60,7 +60,7 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | FAQ | `FAQ_JSON_RELATIVO_RAIZ`, `FAQ_UMBRAL_MATCH` | Ruta al JSON estructurado y umbral de coincidencia. |
 | Meta-prompt del router | `ROUTER_META_PROMPT_PATH` | JSON de configuración sin secretos. |
 | Laboratorio / E2E | `MOCK_LLM` (`0` o `1`) | Modo determinista sin llamadas reales al LLM del router; ver `GET /api/salud` (`agente_mock_llm`). |
-| Ollama (legacy u otros usos) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Pueden aplicar al pipeline M1 si sigue habilitado. |
+| Ollama (solo perfil Compose `legacy`) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Pipeline M1 / scripts legacy; no requerido para el agente M2 en `docker compose up` sin perfil. |
 
 Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre los campos de `Configuracion` en `src/api/configuracion.py` (típicamente `MAYUSCULAS_CON_GUIONES`).
 
@@ -106,7 +106,9 @@ Alternativa equivalente: `uv run python scripts/indexar_corpus_qdrant.py` con lo
 
 ### Docker Compose (recomendado)
 
-El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), **Ollama** (según perfil del compose), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`**. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`** (healthcheck HTTP a `/api/salud`). **Ollama** y la precarga de modelos van en el **perfil `legacy`** (`docker compose --profile legacy up`); el arranque por defecto del agente M2 **no** depende de Ollama. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+
+- **CORS en Compose:** variable `ALLOWED_ORIGINS` (lista JSON); puede definirse en `.env` en la raíz del proyecto (plantilla [`.env.example`](.env.example)). El `docker-compose.yml` aplica un valor por defecto local si no está definida.
 
 - **PostgreSQL en el host:** puerto publicado por defecto **15432** → 5432 interno (`POSTGRES_PUBLISH_PORT` para cambiarlo). Variables: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` (alineadas con `src/api/configuracion.py`).
 - **Qdrant:** REST **6333** y gRPC **6334** en el host (`QDRANT_REST_PORT`, `QDRANT_GRPC_PORT`). En la red interna de Compose la API usa `QDRANT_URL=http://qdrant:6333`.
@@ -115,7 +117,9 @@ El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`)
 ```bash
 docker compose config
 docker compose up --build -d
-curl -sS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
+# Opcional (M1 / laboratorio con Ollama en el mismo compose):
+# docker compose --profile legacy up --build -d
+curl -fsS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
 ```
 
 El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Tras el primer arranque, ejecute la **ingesta** a Qdrant (sección anterior) si la colección está vacía.
@@ -174,9 +178,10 @@ Suite **`tests/e2e/test_escenarios_modulo2.py`**: cuatro escenarios alineados co
 
 ## Resultados (evaluaciones del pipeline BM25 — legado)
 
-Los informes automáticos del script **`scripts/evaluar_qa.py`** (dataset ≥20 preguntas, recuperación **BM25** del Módulo 1) se generan bajo **`data/processed/evaluaciones/`**. Cada corrida produce un Markdown por modelo. Para regenerarlos (Ollama y modelos instalados):
+Los informes automáticos del script **`scripts/evaluar_qa.py`** (dataset ≥20 preguntas, recuperación **BM25** del Módulo 1) se generan bajo **`data/processed/evaluaciones/`**. Cada corrida produce un Markdown por modelo. Requiere dependencias del grupo **`legacy`** de `uv` (`rank-bm25`, `nltk`, etc.) y Ollama u OpenAI según el script. Para regenerarlos:
 
 ```bash
+uv sync --group legacy
 uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
 ```
 
@@ -190,9 +195,9 @@ uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
 | **RAG vacío** | Colección Qdrant sin ingesta o umbral `RAG_SCORE_MINIMO` demasiado alto; vuelva a indexar y verifique `QDRANT_COLLECTION`. |
 | **Postgres no listo** en Compose | `docker compose ps`, healthchecks y puerto `POSTGRES_PUBLISH_PORT` vs variables del `.env`. |
 
-## Historial de versiones — Módulo 1 (BM25 y `/api/qa`)
+## Historial de versiones — Módulo 1 (BM25 y pipeline Q&A)
 
-La primera fase del proyecto implementó un **pipeline Q&A** con recuperación **BM25 a nivel archivo** (`rank-bm25`), selección **top-k** de documentos Markdown completos y generación con **Ollama** u **OpenAI** opcional. Los endpoints **`POST /api/qa`**, **`POST /api/qa/stream`** y el modo dual **`POST /api/qa/dual/stream`** pueden seguir disponibles para laboratorio o referencia académica; **no** constituyen el camino principal del **agente M2**, que recupera contexto solo por **similitud densa en Qdrant** según [decision-3](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). Detalle del MVP léxico: [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
+La primera fase del proyecto implementó un **pipeline Q&A** con recuperación **BM25 a nivel archivo** (`rank-bm25`), selección **top-k** de documentos Markdown completos y generación con **Ollama** u **OpenAI** opcional. Ese camino vive hoy en código **legacy** (`src/legacy/`, Gradio en `src/app/legacy/`, pruebas marcadas `legacy_bm25`) y **no** se expone en la API productiva del **agente M2** (`POST /api/sesiones`, `POST /api/agente/stream`). Los antiguos endpoints HTTP tipo **`/api/qa`** no están montados en `src/api/main.py`. El agente M2 recupera contexto solo por **similitud densa en Qdrant** según [decision-3](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). Detalle del MVP léxico: [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
 
 ## Limitaciones conocidas
 

@@ -1,62 +1,6 @@
 import { z } from 'zod'
 
 /* ----------------------------------------------------------------
-   Modelos disponibles
-   ---------------------------------------------------------------- */
-
-export const ModelosRespuestaSchema = z.object({
-  modelos_ollama: z.array(z.string()),
-  modelos_openai: z.array(z.string()),
-  openai_disponible: z.boolean(),
-})
-export type ModelosRespuesta = z.infer<typeof ModelosRespuestaSchema>
-
-/* ----------------------------------------------------------------
-   Fuentes BM25
-   ---------------------------------------------------------------- */
-
-export const FuenteBm25Schema = z.object({
-  archivo: z.string(),
-  titulo: z.string(),
-  source_url: z.string(),
-  score: z.number(),
-})
-export type FuenteBm25 = z.infer<typeof FuenteBm25Schema>
-
-/* ----------------------------------------------------------------
-   Request Q&A
-   ---------------------------------------------------------------- */
-
-export const QaPeticionSchema = z.object({
-  pregunta: z.string().min(1),
-  prompt_sistema: z.string().nullable().optional(),
-  modelo_openai: z.string().default('gpt-4o-mini'),
-  max_tokens_openai: z.number().int().positive().nullable().optional(),
-  temperatura: z.number().min(0).max(2).default(0.2),
-  top_p: z.number().min(0).max(1).default(1),
-})
-export type QaPeticion = z.infer<typeof QaPeticionSchema>
-
-/* ----------------------------------------------------------------
-   Response Q&A sincrónico
-   ---------------------------------------------------------------- */
-
-export const MetadatosMotorSchema = z.object({
-  modelo: z.string(),
-  latencia_ms: z.number(),
-})
-export type MetadatosMotor = z.infer<typeof MetadatosMotorSchema>
-
-export const QaRespuestaSchema = z.object({
-  texto_ollama: z.string().nullable(),
-  texto_openai: z.string().nullable(),
-  fuentes: z.array(FuenteBm25Schema),
-  metadatos_ollama: MetadatosMotorSchema.nullable(),
-  metadatos_openai: MetadatosMotorSchema.nullable(),
-})
-export type QaRespuesta = z.infer<typeof QaRespuestaSchema>
-
-/* ----------------------------------------------------------------
    Módulo 2 — agente: petición y eventos SSE (/api/agente/stream)
    ---------------------------------------------------------------- */
 
@@ -146,26 +90,9 @@ export type EventoAgenteSse = z.infer<typeof EventoAgenteSseSchema>
 export const SaludSchema = z.object({
   estado: z.string(),
   version: z.string(),
+  agente_mock_llm: z.boolean().nullish(),
 })
 export type Salud = z.infer<typeof SaludSchema>
-
-/* ----------------------------------------------------------------
-   Prompt por defecto
-   ---------------------------------------------------------------- */
-
-export const PromptDefectoSchema = z.object({
-  prompt_sistema: z.string(),
-})
-export type PromptDefecto = z.infer<typeof PromptDefectoSchema>
-
-/* ----------------------------------------------------------------
-   Recarga de corpus
-   ---------------------------------------------------------------- */
-
-export const RecargaRespuestaSchema = z.object({
-  mensaje: z.string(),
-})
-export type RecargaRespuesta = z.infer<typeof RecargaRespuestaSchema>
 
 /* ----------------------------------------------------------------
    Módulo 2: sesión (POST /api/sesiones, historial, cierre)
@@ -203,3 +130,9 @@ export const SesionCierreRespuestaSchema = z.object({
   mensaje: z.string(),
 })
 export type SesionCierreRespuesta = z.infer<typeof SesionCierreRespuestaSchema>
+
+export const BorradoUltimoTurnoRespuestaSchema = z.object({
+  ok: z.boolean(),
+  filas_borradas: z.number().int().min(0).max(2),
+})
+export type BorradoUltimoTurnoRespuesta = z.infer<typeof BorradoUltimoTurnoRespuestaSchema>

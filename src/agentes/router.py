@@ -18,7 +18,7 @@ from langgraph.graph.state import CompiledStateGraph
 
 from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
-from src.qa.prompt import PROMPT_SISTEMA_DEFECTO
+from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +93,7 @@ def crear_grafo_agente(
     herramientas:
         Tools enlazadas al router; por defecto ``faq_estructurada`` + ``rag_denso``.
     prompt_sistema_institucional:
-        Texto base Lili; por defecto :data:`src.qa.prompt.PROMPT_SISTEMA_DEFECTO`.
+        Texto base Lili; por defecto :data:`src.agentes.prompt_institucional.PROMPT_SISTEMA_DEFECTO`.
 
     Returns
     -------
@@ -160,16 +160,18 @@ def crear_grafo_agente(
             principal = mensaje_ai.tool_calls[0]
             tool_decidida = principal["name"]
             argumentos_tool = dict(principal.get("args") or {})
+            razon_breve = "Seleccion vía tool binding del LLM del router segun meta-prompt."
         else:
             logger.warning(
                 "El router no devolvio tool_calls; se usa rag_denso como respaldo deterministico."
             )
             tool_decidida = "rag_denso"
             argumentos_tool = {"consulta": state["pregunta"]}
+            razon_breve = "Router sin tool_calls; fallback a rag_denso."
         pensamiento = {
             "tipo": "decision_router",
             "herramienta": tool_decidida,
-            "razon_breve": "Seleccion vía tool binding del LLM del router segun meta-prompt.",
+            "razon_breve": razon_breve,
             "argumentos_resumidos": _argumentos_serializables(argumentos_tool),
         }
         return {

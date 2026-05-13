@@ -16,12 +16,13 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from psycopg_pool import ConnectionPool
 
 from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
-from src.api.routers import agente, corpus, salud, sesiones
+from src.api.routers import agente, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
     crear_motor_async,
@@ -54,6 +55,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
     app.state.grafo_agente = construir_grafo_agente_produccion_o_none(cfg)
 
+    pool_pg = ConnectionPool(
+        conninfo=cfg.url_base_datos_sync(),
+        min_size=1,
+        max_size=10,
+        open=True,
+        timeout=60.0,
+    )
+    app.state.psycopg_pool = pool_pg
+
     motor_db = crear_motor_async(cfg.url_base_datos_async())
     app.state.engine_db = motor_db
     app.state.session_factory = crear_session_factory(motor_db)
@@ -74,6 +84,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
+    await asyncio.to_thread(pool_pg.close)
     await cerrar_motor_async(motor_db)
 
 
@@ -85,7 +96,7 @@ def crear_app() -> FastAPI:
         title="Fundación Valle del Lili — API (agente M2)",
         description=(
             "Backend HTTP con FastAPI + SSE: sesiones, agente conversacional "
-            "(LangGraph + Postgres + Qdrant) y utilidades de modelos."
+            "(LangGraph + Postgres + Qdrant)."
         ),
         version="1.0.0",
         lifespan=lifespan,
@@ -101,7 +112,6 @@ def crear_app() -> FastAPI:
     app.middleware("http")(registrar_request_response)
 
     app.include_router(salud.router, prefix="/api")
-    app.include_router(corpus.router, prefix="/api")
     app.include_router(sesiones.router, prefix="/api")
     app.include_router(agente.router, prefix="/api")
 

@@ -1,4 +1,4 @@
-# Stack local: Ollama + API + PostgreSQL 16 + Qdrant (Modulo 2).
+# Stack local: API + PostgreSQL 16 + Qdrant (Modulo 2). Ollama opcional (perfil legacy).
 #
 # Qdrant:
 #   - REST (cliente qdrant-client / LlamaIndex): puerto 6333 en la red interna; se publica en el host segun QDRANT_REST_PORT.
@@ -60,6 +60,8 @@ services:
     restart: "no"
 
   ollama:
+    profiles:
+      - legacy
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
@@ -75,6 +77,8 @@ services:
     restart: unless-stopped
 
   ollama-init:
+    profiles:
+      - legacy
     image: ollama/ollama:latest
     environment:
       - OLLAMA_HOST=http://ollama:11434
@@ -101,13 +105,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-app}
       QDRANT_URL: http://qdrant:6333
-      OLLAMA_BASE_URL: http://ollama:11434
-      MODELO_LLM_DEFECTO: ${MODELO_LLM_DEFECTO:-llama3.1:8b}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       # 1/true: router y compositor sin OpenAI (ver scripts/README.md y tests/e2e/).
       MOCK_LLM: ${MOCK_LLM:-0}
-      # Lista JSON (pydantic-settings). Si cambias API_PORT en el host, amplia la lista o usa .env.
-      ALLOWED_ORIGINS: '["http://localhost:8000","http://127.0.0.1:8000","http://localhost:5173","http://127.0.0.1:5173"]'
+      # Lista JSON (pydantic-settings). Sobreescribible con variable de entorno (archivo `.env` junto al compose).
+      ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8000","http://127.0.0.1:8000","http://localhost:5173","http://127.0.0.1:5173"]}'
     volumes:
       - ./config:/app/config:ro
       - ./data/structured:/app/data/structured:ro
@@ -118,10 +120,16 @@ services:
         condition: service_healthy
       db-init:
         condition: service_completed_successfully
-      ollama:
-        condition: service_healthy
-      ollama-init:
-        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8000/api/salud || exit 1",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 8
+      start_period: 30s
     restart: unless-stopped
 
 volumes:

@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
+import asyncio
 import uuid
 
 from fastapi import Depends, Header, HTTPException, Query, Request
 from fastapi import status as estado_http
 from langgraph.graph.state import CompiledStateGraph
+from psycopg_pool import ConnectionPool
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.agentes.memoria.historial import normalizar_session_id_postgres_langchain
+from src.api.configuracion import obtener_configuracion
+from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.persistencia.modelos import Usuario
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.repositorios.usuarios import RepositorioUsuarios
@@ -20,17 +24,48 @@ NOMBRE_HEADER_SESION = "X-Session-Id"
 
 
 async def obtener_grafo_agente(request: Request) -> CompiledStateGraph:
-    """Retorna el grafo LangGraph compilado del agente (singleton en ``app.state``)."""
+    """
+    Retorna el grafo LangGraph compilado del agente (cache en ``app.state``).
+
+    Si el arranque dejo ``grafo_agente`` en ``None`` (p. ej. OpenAI no disponible al boot),
+    intenta recompilar una vez bajo candado async.
+    """
     grafo = getattr(request.app.state, "grafo_agente", None)
-    if grafo is None:
+    if grafo is not None:
+        return grafo  # type: ignore[no-any-return]
+
+    lock = getattr(request.app.state, "_lock_grafo_agente", None)
+    if lock is None:
+        lock = asyncio.Lock()
+        request.app.state._lock_grafo_agente = lock
+
+    cfg = obtener_configuracion()
+    async with lock:
+        grafo = getattr(request.app.state, "grafo_agente", None)
+        if grafo is not None:
+            return grafo  # type: ignore[no-any-return]
+        nuevo = construir_grafo_agente_produccion_o_none(cfg)
+        if nuevo is None:
+            raise HTTPException(
+                status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=(
+                    "El agente conversacional no esta disponible. Verifique OPENAI_API_KEY, "
+                    "meta-prompt del router y conectividad a Qdrant segun la configuracion."
+                ),
+            )
+        request.app.state.grafo_agente = nuevo
+        return nuevo
+
+
+def obtener_pool_memoria_psycopg(request: Request) -> ConnectionPool:
+    """Pool sincrono compartido (``psycopg_pool``) para memoria LangChain."""
+    pool = getattr(request.app.state, "psycopg_pool", None)
+    if pool is None:
         raise HTTPException(
             status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=(
-                "El agente conversacional no esta disponible. Verifique OPENAI_API_KEY, "
-                "meta-prompt del router y conectividad a Qdrant segun la configuracion."
-            ),
+            detail="Pool de PostgreSQL para memoria conversacional no inicializado.",
         )
-    return grafo  # type: ignore[no-any-return]
+    return pool  # type: ignore[no-any-return]
 
 
 async def obtener_usuario_actual(
@@ -75,6 +110,7 @@ __all__ = [
     "NOMBRE_COOKIE_SESION",
     "NOMBRE_HEADER_SESION",
     "obtener_grafo_agente",
+    "obtener_pool_memoria_psycopg",
     "obtener_sesion_db",
     "obtener_usuario_actual",
 ]

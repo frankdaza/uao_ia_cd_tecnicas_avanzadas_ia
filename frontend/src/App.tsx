@@ -2,7 +2,6 @@ import { ThemeProvider } from 'next-themes'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { SettingsProvider } from '@/features/settings/SettingsContext'
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
 import { AuthScreen } from '@/features/auth/AuthScreen'
 import { AppShell } from '@/components/AppShell'
@@ -54,10 +53,8 @@ export default function App() {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <TooltipProvider delayDuration={300}>
           <AuthProvider>
-            <SettingsProvider>
-              <AppConSesion />
-              <Toaster richColors position="top-right" />
-            </SettingsProvider>
+            <AppConSesion />
+            <Toaster richColors position="top-right" />
           </AuthProvider>
         </TooltipProvider>
       </ThemeProvider>

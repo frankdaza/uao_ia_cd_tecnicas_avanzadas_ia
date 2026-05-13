@@ -60,11 +60,23 @@ def grafo_agente_minimo_mock() -> MagicMock:
     return grafo
 
 
+def pool_memoria_falso() -> MagicMock:
+    """Pool minimo para rutas que inyectan ``obtener_pool_memoria_psycopg`` sin Postgres real."""
+    pool = MagicMock()
+    conn = MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__.return_value = conn
+    ctx.__exit__.return_value = None
+    pool.connection.return_value = ctx
+    return pool
+
+
 @pytest_asyncio.fixture
 async def fastapi_app_sesion_mock() -> AsyncGenerator[FastAPI, None]:
     """App FastAPI con ``obtener_sesion_db`` sobrescrito (sin Postgres real)."""
     app = crear_app()
     app.state.grafo_agente = grafo_agente_minimo_mock()
+    app.state.psycopg_pool = pool_memoria_falso()
     app.dependency_overrides[obtener_sesion_db] = sesion_db_falsa
     yield app
     app.dependency_overrides.clear()

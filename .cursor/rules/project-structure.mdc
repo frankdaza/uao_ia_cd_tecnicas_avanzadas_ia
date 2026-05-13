@@ -23,17 +23,15 @@ src/
     esquemas.py      # modelos Pydantic v2 request/response
     routers/
       salud.py       # GET /api/salud
-      qa.py          # M1: POST /api/qa, /api/qa/stream (legacy / retirar en M2)
-      sesiones.py    # M2: POST /api/sesiones, historial, cerrar sesion
+      sesiones.py    # M2: POST /api/sesiones, historial, borrar ultimo turno, cerrar sesion
       agente.py      # M2: POST /api/agente/stream (SSE agente)
-      corpus.py      # POST /api/recargar-corpus, GET /api/modelos
   app/
     legacy/          # app_gradio.py (deprecado; conservado para referencia)
 config/              # M2: router_meta_prompt.json (sin secretos)
 alembic/             # M2: migraciones esquema app (p. ej. usuarios)
 scripts/
   indexar_corpus_qdrant.py  # M2: ingesta Markdown -> Qdrant (idempotente)
-frontend/            # aplicacion React 19 + Vite 7 + TypeScript + shadcn/ui
+frontend/            # aplicacion React 19 + Vite 8 + TypeScript + shadcn/ui
   package.json
   pnpm-lock.yaml
   vite.config.ts     # alias @/, proxy /api -> localhost:8000
@@ -45,12 +43,12 @@ frontend/            # aplicacion React 19 + Vite 7 + TypeScript + shadcn/ui
     features/
       auth/          # M2: AuthScreen, AuthContext (identificacion DocId + nombre)
       chat/          # Chat.tsx, MessageList, MessageBubble, ChatInput, SourcesPanel; SSE agente
-      settings/      # SettingsPanel, ModelSelector, SystemPromptEditor
+      settings/      # SettingsPanel (info M2 read-only, tema)
     components/
       ui/            # componentes shadcn/ui generados por CLI
       AppShell.tsx
       ThemeToggle.tsx
-    hooks/           # useModels.ts, useReloadCorpus.ts
+    hooks/           # p. ej. useSalud.ts (estado /api/salud)
     lib/             # api.ts, sseClient.ts, schemas.ts, cn.ts
     styles/
       globals.css    # @import "tailwindcss"; tokens CSS de diseno institucional
@@ -83,13 +81,12 @@ notebooks/           # opcional, experimentacion
 
 ## Flujo de peticion en produccion
 
-**Modulo 1 (legacy, mientras exista en codigo):**
+**Modulo 1 (legacy en codigo; sin routers HTTP en ``src/api/routers``):**
 
 ```
-Usuario -> frontend/ -> POST /api/qa/stream (SSE)
-        -> src/api/ -> src/qa/pipeline.py (PipelineQa)
-        -> src/retrieval/ (BM25) -> data/markdown/
-        -> Ollama local / OpenAI API
+Usuario -> Gradio legacy (src/app/legacy) o scripts/tests (pytest -m legacy_bm25)
+        -> src/legacy/ o PipelineQa bajo src/qa segun escenario
+        -> BM25 / Ollama / OpenAI segun configuracion de laboratorio
 ```
 
 **Modulo 2 (objetivo productivo):**

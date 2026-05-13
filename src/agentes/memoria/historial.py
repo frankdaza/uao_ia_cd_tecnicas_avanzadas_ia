@@ -15,6 +15,7 @@ import psycopg
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, messages_from_dict
 from langchain_postgres import PostgresChatMessageHistory
 from psycopg import sql
+from psycopg_pool import ConnectionPool
 
 from src.api.configuracion import obtener_configuracion
 
@@ -90,19 +91,52 @@ def inicializar_esquema_memoria_chat(
     )
 
 
-def crear_memoria_usuario(session_id: str, conninfo: str) -> MemoriaUsuario:
-    """
-    Fabrica una ``MemoriaUsuario`` con conexion propia.
+def consultar_max_created_at_chat_pool(pool: ConnectionPool, session_uuid_txt: str) -> datetime | None:
+    """Lee ``MAX(created_at)`` en ``chat_history`` usando una conexion del pool."""
+    try:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT MAX(created_at) FROM chat_history WHERE session_id = %s::uuid",
+                    (session_uuid_txt,),
+                )
+                row = cur.fetchone()
+    except psycopg.Error:
+        return None
+    if not row or row[0] is None:
+        return None
+    return row[0]
 
-    El llamador debe invocar :meth:`MemoriaUsuario.cerrar` al terminar o usar la
-    instancia como gestor de contexto (``with``).
+
+def borrar_ultimo_turno_en_pool(pool: ConnectionPool, session_id: str) -> int:
     """
-    conn = conectar_memoria_sync(conninfo)
-    return MemoriaUsuario(
-        session_id,
-        conn,
-        cerrar_conexion_al_salir=True,
-    )
+    Elimina las ultimas filas del historial (hasta dos: respuesta AI y pregunta human).
+
+    Orden esperado de insercion en un turno completo: ``HumanMessage`` luego ``AIMessage``.
+    Se borran por ``id`` descendente (las dos mas recientes). Retorna filas eliminadas.
+    """
+    uuid_txt = normalizar_session_id_postgres_langchain(session_id)
+    with pool.connection() as conn:
+        try:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT id FROM chat_history WHERE session_id = %s::uuid ORDER BY id DESC LIMIT 2",
+                    (uuid_txt,),
+                )
+                ids = [row[0] for row in cur.fetchall()]
+                if not ids:
+                    conn.commit()
+                    return 0
+                if len(ids) == 1:
+                    cur.execute("DELETE FROM chat_history WHERE id = %s", (ids[0],))
+                else:
+                    cur.execute("DELETE FROM chat_history WHERE id IN (%s, %s)", (ids[0], ids[1]))
+                n = cur.rowcount
+            conn.commit()
+            return int(n)
+        except psycopg.Error:
+            conn.rollback()
+            raise
 
 
 def aplicar_tope_turnos_ultimos(
@@ -169,7 +203,7 @@ class MemoriaUsuario:
         )
 
     def cerrar(self) -> None:
-        """Cierra la conexion si esta instancia la abrio con ``crear_memoria_usuario``."""
+        """Cierra la conexion si se construyo con ``cerrar_conexion_al_salir=True``."""
         if self._cerrar_conn and not self._conn.closed:
             self._conn.close()
 

@@ -108,11 +108,17 @@ async def test_agente_stream_emite_eventos_parseables(
 
     monkeypatch.setattr(
         agente_mod,
-        "crear_memoria_usuario",
-        lambda *_a, **_k: mem,
+        "MemoriaUsuario",
+        lambda *args, **kwargs: mem,
     )
 
     app = crear_app()
+    pool = MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__.return_value = MagicMock()
+    ctx.__exit__.return_value = None
+    pool.connection.return_value = ctx
+    app.state.psycopg_pool = pool
     app.dependency_overrides[obtener_sesion_db] = override_sesion
     app.dependency_overrides[obtener_usuario_actual] = override_usuario
     app.state.grafo_agente = grafo
@@ -255,10 +261,11 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
     monkeypatch: pytest.MonkeyPatch,
     fastapi_app_sesion_mock: FastAPI,
 ) -> None:
-    def _fallo_memoria(*_a: object, **_k: object) -> None:
-        raise MemoriaConexionError("postgres no disponible en prueba")
+    class _MemoriaQueFalla:
+        def __init__(self, *args: object, **kwargs: object) -> None:
+            raise MemoriaConexionError("postgres no disponible en prueba")
 
-    monkeypatch.setattr(agente_mod, "crear_memoria_usuario", _fallo_memoria)
+    monkeypatch.setattr(agente_mod, "MemoriaUsuario", _MemoriaQueFalla)
 
     faq_t, rag_t = herramientas_kv
     uid = uuid.UUID("dddddddd-dddd-4ddd-8ddd-dddddddddddd")

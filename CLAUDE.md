@@ -16,7 +16,7 @@ Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): c
 - Orquestación LLM: **LangChain** *o* **LlamaIndex** (una opción por equipo en la cadena simple M1).
 - Modelo: **Ollama** (local) *o* **API** (p. ej. OpenAI).
 - Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (puede exponer `PipelineQa` vía REST + SSE mientras exista).
-- Interfaz: **React 19** + **Vite 7** + **TypeScript** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
+- Interfaz: **React 19** + **Vite 8** + **TypeScript 6** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Stack (Módulo 2 — agente)
 
@@ -44,7 +44,7 @@ Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/
 | `llm-backend` | M1 PipelineQa / Ollama-OpenAI; M2 resumen + delegación a `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain, LlamaIndex+Qdrant, Postgres |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
-| `react-vite-qa-ui` | Interfaz React 19 + Vite 7 + shadcn/ui en `frontend/` |
+| `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |
 | `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentación en `backlog/docs/` |

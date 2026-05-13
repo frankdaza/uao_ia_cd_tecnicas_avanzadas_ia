@@ -6,17 +6,27 @@ import asyncio
 import logging
 from datetime import datetime
 
-import psycopg
 from fastapi import APIRouter, Depends, Response
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
+from psycopg_pool import ConnectionPool
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.agentes.memoria.historial import crear_memoria_usuario, normalizar_session_id_postgres_langchain
-from src.api.configuracion import obtener_configuracion
-from src.api.dependencias import NOMBRE_COOKIE_SESION, obtener_sesion_db, obtener_usuario_actual
+from src.agentes.memoria.historial import (
+    MemoriaUsuario,
+    borrar_ultimo_turno_en_pool,
+    consultar_max_created_at_chat_pool,
+    normalizar_session_id_postgres_langchain,
+)
+from src.api.dependencias import (
+    NOMBRE_COOKIE_SESION,
+    obtener_pool_memoria_psycopg,
+    obtener_sesion_db,
+    obtener_usuario_actual,
+)
 from src.api.esquemas import (
     MensajeHistorialItem,
     PeticionInicioSesion,
+    RespuestaBorradoUltimoTurno,
     RespuestaCierreSesion,
     RespuestaHistorialSesion,
     RespuestaInicioSesion,
@@ -32,28 +42,6 @@ router = APIRouter(tags=["sesiones"])
 _SEGUNDOS_COOKIE_SESION = 60 * 60 * 24 * 30
 
 
-def _consultar_max_created_at_chat(conninfo: str, session_uuid_txt: str) -> datetime | None:
-    """Lee ``MAX(created_at)`` en ``chat_history`` sin bloquear el loop async."""
-    try:
-        conn = psycopg.connect(conninfo, connect_timeout=5)
-    except psycopg.Error:
-        return None
-    try:
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT MAX(created_at) FROM chat_history WHERE session_id = %s::uuid",
-                (session_uuid_txt,),
-            )
-            row = cur.fetchone()
-    except psycopg.Error:
-        return None
-    finally:
-        conn.close()
-    if not row or row[0] is None:
-        return None
-    return row[0]
-
-
 def _serializar_mensaje_lc(mensaje: BaseMessage) -> MensajeHistorialItem:
     if isinstance(mensaje, HumanMessage):
         rol = "human"
@@ -67,11 +55,13 @@ def _serializar_mensaje_lc(mensaje: BaseMessage) -> MensajeHistorialItem:
     return MensajeHistorialItem(rol=rol, contenido=contenido, creado_en=None)
 
 
-async def _cargar_mensajes_desde_memoria(session_id_canonico: str) -> list[MensajeHistorialItem]:
-    cfg = obtener_configuracion()
-
+async def _cargar_mensajes_desde_memoria(
+    session_id_canonico: str,
+    pool: ConnectionPool,
+) -> list[MensajeHistorialItem]:
     def _sync_load() -> list[MensajeHistorialItem]:
-        with crear_memoria_usuario(session_id_canonico, cfg.url_base_datos_sync()) as memoria:
+        with pool.connection() as conn:
+            memoria = MemoriaUsuario(session_id_canonico, conn, cerrar_conexion_al_salir=False)
             mensajes_lc = memoria.cargar_ventana()
             return [_serializar_mensaje_lc(m) for m in mensajes_lc]
 
@@ -83,6 +73,7 @@ async def iniciar_sesion(
     cuerpo: PeticionInicioSesion,
     respuesta: Response,
     sesion: AsyncSession = Depends(obtener_sesion_db),
+    pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
 ) -> RespuestaInicioSesion:
     """
     Crea o reutiliza un usuario por documento, actualiza ``last_login`` y fija la cookie de sesion.
@@ -95,12 +86,11 @@ async def iniciar_sesion(
     await repo.actualizar_last_login(usuario.id)
     session_id = sesion_id_memoria_langchain(usuario.id)
     uuid_txt = normalizar_session_id_postgres_langchain(session_id)
-    cfg = obtener_configuracion()
-    ultimo = await asyncio.to_thread(
-        _consultar_max_created_at_chat,
-        cfg.url_base_datos_sync(),
-        uuid_txt,
-    )
+
+    def _ultimo() -> datetime | None:
+        return consultar_max_created_at_chat_pool(pool, uuid_txt)
+
+    ultimo = await asyncio.to_thread(_ultimo)
     respuesta.set_cookie(
         key=NOMBRE_COOKIE_SESION,
         value=session_id,
@@ -123,13 +113,33 @@ async def iniciar_sesion(
     )
 
 
+@router.delete("/sesiones/actual/ultimo-turno", response_model=RespuestaBorradoUltimoTurno)
+async def borrar_ultimo_turno_sesion_actual(
+    usuario: Usuario = Depends(obtener_usuario_actual),
+    pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
+) -> RespuestaBorradoUltimoTurno:
+    """
+    Quita de ``chat_history`` el ultimo intercambio persistido (hasta dos filas).
+
+    Idempotente en el sentido de que, si no hay mensajes, devuelve ``filas_borradas=0``.
+    """
+    session_id = sesion_id_memoria_langchain(usuario.id)
+
+    def _sync_borrar() -> int:
+        return borrar_ultimo_turno_en_pool(pool, session_id)
+
+    filas = await asyncio.to_thread(_sync_borrar)
+    return RespuestaBorradoUltimoTurno(ok=True, filas_borradas=filas)
+
+
 @router.get("/sesiones/actual/historial", response_model=RespuestaHistorialSesion)
 async def historial_sesion_actual(
     usuario: Usuario = Depends(obtener_usuario_actual),
+    pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
 ) -> RespuestaHistorialSesion:
     """Devuelve mensajes persistidos en orden cronologico para repintar el chat."""
     session_id = sesion_id_memoria_langchain(usuario.id)
-    mensajes = await _cargar_mensajes_desde_memoria(session_id)
+    mensajes = await _cargar_mensajes_desde_memoria(session_id, pool)
     return RespuestaHistorialSesion(mensajes=mensajes)
 
 

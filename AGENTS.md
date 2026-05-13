@@ -56,7 +56,7 @@ Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conv
 - Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo en la cadena simple M1).
 - Modelo: **Ollama** (local) o **API** (p. ej. OpenAI).
 - Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (puede exponer `PipelineQa` vía REST + SSE mientras exista en el árbol).
-- Interfaz: **React 19** + **Vite 7** + **TypeScript** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
+- Interfaz: **React 19** + **Vite 8** + **TypeScript 6** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
 
 ## Stack (Módulo 2 — agente)
 
@@ -106,7 +106,7 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `llm-backend` | M1 PipelineQa / Ollama-OpenAI; M2 resumen + delegación a `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain tools/memoria, LlamaIndex+Qdrant, persistencia |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
-| `react-vite-qa-ui` | Interfaz React 19 + Vite 7 + shadcn/ui en `frontend/` |
+| `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |
 | `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; código legacy en `src/app/legacy/` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |

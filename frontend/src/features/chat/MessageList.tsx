@@ -25,7 +25,7 @@ interface MessageListProps {
   turns: ChatTurn[]
   historialLoading?: boolean
   onSelectSuggested?: (pregunta: string) => void
-  onRegenerateLast?: () => void
+  onRegenerateLast?: () => void | Promise<void>
 }
 
 const UMBRAL_PXL = 100

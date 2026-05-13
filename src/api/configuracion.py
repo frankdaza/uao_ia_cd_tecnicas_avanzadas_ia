@@ -108,6 +108,17 @@ class Configuracion(BaseSettings):
     # --- Modulo 2: router LangGraph ---
     router_meta_prompt_path: str = "config/router_meta_prompt.json"
     router_llm_model: str = "gpt-4o-mini"
+    compositor_llm_model: str | None = Field(
+        default=None,
+        description="Modelo OpenAI del compositor; si es None se usa ROUTER_LLM_MODEL.",
+    )
+
+    openai_base_url: str | None = Field(
+        default=None,
+        description="URL base de la API compatible con OpenAI (opcional).",
+    )
+    openai_timeout_segundos: float = Field(default=180.0, ge=5.0, le=600.0)
+    openai_max_completion_tokens: int | None = Field(default=None, ge=1)
 
     # --- Modulo 2: E2E / laboratorio sin OpenAI (tokens e2e70xx en la pregunta; ver scripts/README) ---
     mock_llm: int = Field(

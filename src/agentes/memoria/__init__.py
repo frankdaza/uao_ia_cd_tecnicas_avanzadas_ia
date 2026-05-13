@@ -1,9 +1,10 @@
 """Memoria conversacional persistente (LangChain + PostgreSQL)."""
 
 from src.agentes.memoria.historial import (
-    MemoriaUsuario,
     MemoriaConexionError,
-    crear_memoria_usuario,
+    MemoriaUsuario,
+    borrar_ultimo_turno_en_pool,
+    consultar_max_created_at_chat_pool,
     inicializar_esquema_memoria_chat,
     normalizar_session_id_postgres_langchain,
 )
@@ -11,7 +12,8 @@ from src.agentes.memoria.historial import (
 __all__ = [
     "MemoriaUsuario",
     "MemoriaConexionError",
-    "crear_memoria_usuario",
+    "borrar_ultimo_turno_en_pool",
+    "consultar_max_created_at_chat_pool",
     "inicializar_esquema_memoria_chat",
     "normalizar_session_id_postgres_langchain",
 ]

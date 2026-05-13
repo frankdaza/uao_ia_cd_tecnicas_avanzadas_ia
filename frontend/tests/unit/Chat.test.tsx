@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from 'sonner'
 import * as sonner from 'sonner'
-import { SettingsProvider } from '@/features/settings/SettingsContext'
 import { Chat } from '@/features/chat/Chat'
 
 const mocks = vi.hoisted(() => ({
@@ -50,10 +49,8 @@ function renderChat() {
     <QueryClientProvider client={qc}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
         <TooltipProvider>
-          <SettingsProvider>
-            <Chat />
-            <Toaster />
-          </SettingsProvider>
+          <Chat />
+          <Toaster />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>,

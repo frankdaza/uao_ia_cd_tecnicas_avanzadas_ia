@@ -5,25 +5,18 @@
 
 import type {
   HistorialSesionRespuesta,
-  ModelosRespuesta,
-  PromptDefecto,
-  QaPeticion,
-  QaRespuesta,
-  RecargaRespuesta,
   Salud,
   SesionCierreRespuesta,
   SesionPeticion,
   SesionRespuesta,
+  BorradoUltimoTurnoRespuesta,
 } from './schemas'
 import {
   HistorialSesionRespuestaSchema,
-  ModelosRespuestaSchema,
-  PromptDefectoSchema,
-  QaRespuestaSchema,
-  RecargaRespuestaSchema,
   SaludSchema,
   SesionCierreRespuestaSchema,
   SesionRespuestaSchema,
+  BorradoUltimoTurnoRespuestaSchema,
 } from './schemas'
 
 const BASE = '/api'
@@ -70,34 +63,6 @@ export async function getSalud(): Promise<Salud> {
   return parseJson(res, SaludSchema)
 }
 
-/** Lista los modelos disponibles por motor. */
-export async function getModelos(): Promise<ModelosRespuesta> {
-  const res = await fetch(`${BASE}/modelos`)
-  return parseJson(res, ModelosRespuestaSchema)
-}
-
-/** Obtiene el prompt de sistema predeterminado. */
-export async function getPromptDefecto(): Promise<PromptDefecto> {
-  const res = await fetch(`${BASE}/prompt-defecto`)
-  return parseJson(res, PromptDefectoSchema)
-}
-
-/** Recarga el índice BM25. */
-export async function postRecargarCorpus(): Promise<RecargaRespuesta> {
-  const res = await fetch(`${BASE}/recargar-corpus`, { method: 'POST' })
-  return parseJson(res, RecargaRespuestaSchema)
-}
-
-/** Consulta sincrónica al pipeline Q&A. */
-export async function postQa(peticion: QaPeticion): Promise<QaRespuesta> {
-  const res = await fetch(`${BASE}/qa`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(peticion),
-  })
-  return parseJson(res, QaRespuestaSchema)
-}
-
 /**
  * Inicia sesión M2: envía documento y nombre; el servidor fija cookie HTTP-only `fvl_session_id`.
  */
@@ -121,6 +86,16 @@ export async function getHistorialSesion(sessionId?: string): Promise<HistorialS
     headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
   })
   return parseJson(res, HistorialSesionRespuestaSchema)
+}
+
+/** Elimina el último turno persistido (human + ai) antes de regenerar en el cliente. */
+export async function deleteUltimoTurno(sessionId?: string): Promise<BorradoUltimoTurnoRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/actual/ultimo-turno`, {
+    method: 'DELETE',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, BorradoUltimoTurnoRespuestaSchema)
 }
 
 /** Cierra sesión en el servidor (borra cookie en la respuesta). */

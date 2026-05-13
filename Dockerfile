@@ -18,6 +18,10 @@ RUN pnpm build
 # =============================================================================
 FROM python:3.12-slim AS backend
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 # Instalar uv para gestión de dependencias
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
@@ -39,7 +43,12 @@ COPY config/ ./config/
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
 # Directorios de datos (Markdown del corpus opcional; structured/ FAQ en M2)
-RUN mkdir -p data/markdown data/raw data/processed data/structured
+RUN mkdir -p data/markdown data/raw data/processed data/structured \
+    && groupadd --system app \
+    && useradd --system --gid app --no-create-home --shell /usr/sbin/nologin app \
+    && chown -R app:app /app
+
+USER app
 
 # Puerto de exposición
 EXPOSE 8000

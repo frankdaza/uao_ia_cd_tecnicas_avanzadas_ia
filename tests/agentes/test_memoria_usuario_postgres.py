@@ -22,11 +22,11 @@ from datetime import UTC, datetime, timedelta
 import psycopg
 import pytest
 from langchain_core.messages import HumanMessage, message_to_dict
+from psycopg_pool import ConnectionPool
 from sqlalchemy.engine.url import make_url
 
 from src.agentes.memoria.historial import (
     MemoriaUsuario,
-    crear_memoria_usuario,
     inicializar_esquema_memoria_chat,
 )
 from src.api.configuracion import obtener_configuracion
@@ -132,13 +132,17 @@ def test_memoria_usuario_crear_desde_conninfo_cierra() -> None:
     except psycopg.OperationalError as exc:
         pytest.skip(f"Postgres no alcanzable: {exc}")
 
+    pool = ConnectionPool(conninfo=sync_url, min_size=1, max_size=2, open=True)
     try:
-        with crear_memoria_usuario(sid, sync_url) as mem:
+        with pool.connection() as conn:
+            mem = MemoriaUsuario(sid, conn, cerrar_conexion_al_salir=False)
             mem.agregar_humano("hola")
             mem.agregar_ai("hola-usuario")
             assert len(mem.cargar_ventana(dias_max=1, turnos_max=5)) >= 2
     except psycopg.OperationalError as exc:
         pytest.skip(f"Postgres no alcanzable: {exc}")
+    finally:
+        pool.close()
 
     conn = psycopg.connect(sync_url)
     try:

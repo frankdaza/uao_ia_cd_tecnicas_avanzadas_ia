@@ -45,13 +45,15 @@ def construir_grafo_agente_produccion(cfg: Configuracion) -> CompiledStateGraph:
         raise ValueError(msg)
     ruta_meta = _resolver_ruta_meta_prompt(cfg)
     meta = cargar_meta_prompt_config(ruta_meta)
+    modelo_router = cfg.router_llm_model.strip()
+    modelo_compositor = (cfg.compositor_llm_model or cfg.router_llm_model).strip()
     llm_router = ChatOpenAI(
-        model=cfg.router_llm_model,
+        model=modelo_router,
         api_key=cfg.openai_api_key,
         temperature=0.0,
     )
     llm_compositor = ChatOpenAI(
-        model=cfg.router_llm_model,
+        model=modelo_compositor,
         api_key=cfg.openai_api_key,
         temperature=0.2,
     )
@@ -60,7 +62,7 @@ def construir_grafo_agente_produccion(cfg: Configuracion) -> CompiledStateGraph:
         llm_compositor=llm_compositor,
         meta_prompt=meta,
     )
-    logger.info("Grafo del agente compilado (router=%s).", cfg.router_llm_model)
+    logger.info("Grafo del agente compilado (router=%s, compositor=%s).", modelo_router, modelo_compositor)
     return grafo
 
 
