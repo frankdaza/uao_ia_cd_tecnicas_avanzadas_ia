@@ -2,27 +2,23 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
-from src.api.dependencias import obtener_pipeline
+from src.api.configuracion import obtener_configuracion
 from src.api.esquemas import RespuestaModelos, RespuestaPromptDefecto, RespuestaRecarga
 from src.qa.cliente_ollama import MODELOS_OLLAMA_SOPORTADOS
 from src.qa.cliente_openai import MODELOS_OPENAI_SOPORTADOS
-from src.qa.pipeline import PipelineQa
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO
 
 router = APIRouter(tags=["corpus"])
 
 
 @router.get("/modelos", response_model=RespuestaModelos)
-async def listar_modelos(
-    pipeline: PipelineQa = Depends(obtener_pipeline),
-) -> RespuestaModelos:
+async def listar_modelos() -> RespuestaModelos:
     """Lista los modelos disponibles por motor y el estado de la clave OpenAI."""
-    openai_disponible = (
-        pipeline.cliente_openai is not None
-        and pipeline.cliente_openai.configuracion.tiene_api_key()
-    )
+    cfg = obtener_configuracion()
+    clave = cfg.openai_api_key
+    openai_disponible = bool(clave and str(clave).strip())
     return RespuestaModelos(
         modelos_ollama=list(MODELOS_OLLAMA_SOPORTADOS),
         modelos_openai=list(MODELOS_OPENAI_SOPORTADOS),
@@ -31,13 +27,17 @@ async def listar_modelos(
 
 
 @router.post("/recargar-corpus", response_model=RespuestaRecarga)
-async def recargar_corpus(
-    pipeline: PipelineQa = Depends(obtener_pipeline),
-) -> RespuestaRecarga:
-    """Recarga el índice BM25 desde el directorio de Markdown."""
-    pipeline.recuperador.recargar()
+async def recargar_corpus() -> RespuestaRecarga:
+    """
+    Indice en caliente: el producto M2 usa Qdrant; no hay recarga BM25 en runtime.
+
+    Para reindexar vectores ejecute ``uv run python scripts/indexar_corpus_qdrant.py``.
+    """
     return RespuestaRecarga(
-        mensaje="Listo: índice BM25 recargado desde el directorio de Markdown."
+        mensaje=(
+            "El indice BM25 en memoria fue retirado del servidor. "
+            "Para actualizar el corpus vectorial use el script de ingesta a Qdrant."
+        )
     )
 
 

@@ -1,6 +1,6 @@
 """Recuperacion de documentos (MVP: BM25 a nivel archivo)."""
 
-from src.retrieval.recuperador import (
+from src.legacy.retrieval.recuperador import (
     DocumentoRecuperado,
     RecuperacionVaciaError,
     RecuperadorBm25,

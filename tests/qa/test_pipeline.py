@@ -16,9 +16,9 @@ from src.qa.cliente_ollama import (
     OllamaNoAccesibleError,
     MODELO_LLAMA_3_1_8B,
 )
-from src.qa.pipeline import PipelineQa, construir_pipeline_por_defecto
+from src.legacy.qa.pipeline import PipelineQa, construir_pipeline_por_defecto
+from src.legacy.retrieval.recuperador import RecuperacionVaciaError, RecuperadorBm25
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO
-from src.retrieval.recuperador import RecuperacionVaciaError, RecuperadorBm25
 
 
 def test_pipeline_responde_pregunta_valida(dir_fixtures_markdown: Path) -> None:

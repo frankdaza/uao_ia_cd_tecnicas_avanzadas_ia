@@ -17,14 +17,17 @@ from src.api.esquemas import MensajeHistorialItem
 from src.api.main import crear_app
 from src.persistencia.modelos import Usuario
 from src.persistencia.repositorios.sesiones import sesion_id_memoria_langchain
-from src.qa.pipeline import PipelineQa
 
 
-def _pipeline_minimo() -> MagicMock:
-    p = MagicMock(spec=PipelineQa)
-    p.recuperador = MagicMock()
-    p.cliente_openai = MagicMock()
-    return p
+def _grafo_minimo() -> MagicMock:
+    grafo = MagicMock()
+
+    async def _stream_vacio(*_a: object, **_k: object):
+        if False:
+            yield {}
+
+    grafo.astream_events = MagicMock(side_effect=lambda *a, **k: _stream_vacio())
+    return grafo
 
 
 async def _sesion_db_falsa(request: Request) -> AsyncGenerator[AsyncMock, None]:
@@ -42,7 +45,7 @@ async def _sesion_db_falsa(request: Request) -> AsyncGenerator[AsyncMock, None]:
 async def cliente_api_sesiones() -> AsyncClient:
     """Cliente ASGI con factoria de sesion DB sobrescrita (sin Postgres)."""
     app = crear_app()
-    app.state.pipeline = _pipeline_minimo()
+    app.state.grafo_agente = _grafo_minimo()
     app.dependency_overrides[obtener_sesion_db] = _sesion_db_falsa
     async with AsyncClient(
         transport=ASGITransport(app=app),

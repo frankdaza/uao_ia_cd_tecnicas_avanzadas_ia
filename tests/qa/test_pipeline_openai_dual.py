@@ -9,8 +9,8 @@ from src.qa.cliente_openai import (
     MODELOS_OPENAI_SOPORTADOS,
     ClienteOpenAi,
 )
-from src.qa.pipeline import PipelineQa
-from src.retrieval.recuperador import RecuperadorBm25
+from src.legacy.qa.pipeline import PipelineQa
+from src.legacy.retrieval.recuperador import RecuperadorBm25
 
 
 def test_responder_openai_usa_mismos_mensajes_que_ollama_mock(

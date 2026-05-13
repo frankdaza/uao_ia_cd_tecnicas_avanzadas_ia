@@ -34,7 +34,7 @@ __all__ = [
 def __getattr__(name: str) -> Any:
     """Carga diferida de ``pipeline`` para no importar BM25 al cargar submodulos como ``prompt``."""
     if name in ("PipelineQa", "RespuestaQa", "FuenteBm25", "construir_pipeline_por_defecto"):
-        from src.qa import pipeline as _pipeline
+        from src.legacy.qa import pipeline as _pipeline
 
         return getattr(_pipeline, name)
     msg = f"module {__name__!r} has no attribute {name!r}"

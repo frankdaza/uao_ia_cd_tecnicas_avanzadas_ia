@@ -15,7 +15,7 @@ from src.qa.cliente_openai import (
 )
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes_multi
 
-from src.retrieval.recuperador import (
+from src.legacy.retrieval.recuperador import (
     DocumentoRecuperado,
     RecuperacionVaciaError,
     RecuperadorBm25,

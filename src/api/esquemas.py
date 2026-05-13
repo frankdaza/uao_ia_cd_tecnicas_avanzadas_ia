@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -102,6 +102,35 @@ class RespuestaCierreSesion(BaseModel):
     mensaje: str = "Sesion cerrada en el cliente; la cookie de sesion se elimino si existia."
 
 
+class PeticionAgente(BaseModel):
+    """Cuerpo de una consulta al agente conversacional con streaming SSE."""
+
+    model_config = ConfigDict(
+        frozen=True,
+        json_schema_extra={
+            "examples": [
+                {
+                    "session_id": "user:550e8400-e29b-41d4-a716-446655440000",
+                    "pregunta": "Cual es el telefono de la linea PBX?",
+                    "primer_turno": False,
+                },
+            ]
+        },
+    )
+
+    session_id: str = Field(
+        ...,
+        min_length=1,
+        max_length=256,
+        description="Identificador canonico de sesion (alineado con POST /api/sesiones).",
+    )
+    pregunta: str = Field(..., min_length=1, description="Texto de la consulta del usuario.")
+    primer_turno: bool = Field(
+        default=False,
+        description="True si el cliente considera este el primer turno (saludo institucional).",
+    )
+
+
 class PeticionQa(BaseModel):
     """Parámetros de una consulta Q&A (sincrónica o en streaming) vía OpenAI."""
 
@@ -141,7 +170,7 @@ class PeticionQa(BaseModel):
 
 
 class FuenteRespuesta(BaseModel):
-    """Metadatos de un documento recuperado por BM25."""
+    """Metadatos de documento (historico BM25 / referencias de texto)."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -192,7 +221,7 @@ class RespuestaSalud(BaseModel):
 
 
 class RespuestaRecarga(BaseModel):
-    """Resultado de recargar el índice BM25."""
+    """Mensaje informativo sobre reindexacion o estado del corpus (sin BM25 en runtime)."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -208,38 +237,74 @@ class RespuestaPromptDefecto(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Eventos SSE
+# Eventos SSE (Modulo 2 — agente)
 # ---------------------------------------------------------------------------
 
 
+class EventoPensamiento(BaseModel):
+    """Transparencia del router: herramienta candidata y razon breve."""
+
+    model_config = ConfigDict(frozen=True)
+
+    tipo: Literal["pensamiento"] = "pensamiento"
+    herramienta_candidata: str = Field(..., description="Nombre de la tool elegida o considerada.")
+    razon: str = Field(default="", description="Justificacion corta y segura para el cliente.")
+
+
+class EventoHerramienta(BaseModel):
+    """Ejecucion de una tool con latencia observada."""
+
+    model_config = ConfigDict(frozen=True)
+
+    tipo: Literal["herramienta"] = "herramienta"
+    nombre: str = Field(..., description="Nombre estable de la tool (contrato LangChain).")
+    latencia_ms: int = Field(..., ge=0, description="Tiempo aproximado de ejecucion en milisegundos.")
+
+
 class EventoToken(BaseModel):
-    """Token parcial emitido durante el streaming."""
+    """Delta de texto emitido durante el streaming del compositor."""
+
+    model_config = ConfigDict(frozen=True)
 
     tipo: Literal["token"] = "token"
-    motor: str
+    motor: str = Field(default="agente", description="Motor logico del token (producto M2: agente).")
     texto: str
 
 
 class EventoFuentes(BaseModel):
-    """Fuentes BM25 emitidas tras completar una respuesta."""
+    """Fragmentos recuperados desde Qdrant (RAG denso), serializables como dict."""
+
+    model_config = ConfigDict(frozen=True)
 
     tipo: Literal["fuentes"] = "fuentes"
-    fuentes: list[FuenteRespuesta]
+    chunks: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Metadatos y texto de chunks vectoriales (p. ej. score, id, payload).",
+    )
 
 
 class EventoFinal(BaseModel):
-    """Metadatos finales de la respuesta completa."""
+    """Cierre del turno con texto acumulado y metricas opcionales."""
+
+    model_config = ConfigDict(frozen=True)
 
     tipo: Literal["final"] = "final"
-    motor: str
+    motor: str = Field(default="agente")
     texto: str
-    latencia_ms: int
+    latencia_ms: int = Field(..., ge=0)
     modelo: str
+    metricas: dict[str, Any] | None = Field(
+        default=None,
+        description="Metricas agregadas opcionales (p. ej. nodos ejecutados).",
+    )
 
 
 class EventoError(BaseModel):
-    """Error ocurrido durante el streaming."""
+    """Error seguro durante el streaming (sin traceback)."""
+
+    model_config = ConfigDict(frozen=True)
 
     tipo: Literal["error"] = "error"
-    motor: str
+    codigo: str = Field(default="error", description="Codigo estable para manejo en cliente.")
     mensaje: str
+    motor: str = Field(default="agente")

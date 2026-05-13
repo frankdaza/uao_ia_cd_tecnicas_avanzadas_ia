@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.retrieval.recuperador import DocumentoRecuperado
+    from src.legacy.retrieval.recuperador import DocumentoRecuperado
 
 _SIN_URL_ETIQUETA: str = "sin URL"
 
@@ -110,7 +110,7 @@ def componer_mensajes(
 
     Compatibilidad: un solo documento vía :func:`componer_mensajes_multi`.
     """
-    from src.retrieval.recuperador import DocumentoRecuperado  # noqa: PLC0415
+    from src.legacy.retrieval.recuperador import DocumentoRecuperado  # noqa: PLC0415
 
     meta = metadata_documento or {}
     titulo = str(meta.get("titulo", "") or "")

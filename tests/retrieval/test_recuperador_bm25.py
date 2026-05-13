@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from src.retrieval.recuperador import (
+from src.legacy.retrieval.recuperador import (
     RecuperacionVaciaError,
     RecuperadorBm25,
     cargar_corpus,
@@ -35,7 +35,7 @@ def test_tokenizacion_filtra_stopwords_por_stopword_y_raiz() -> None:
 
 
 def test_expandir_query_sinonimo_cita_agrega_terminos() -> None:
-    from src.retrieval.sinonimos import expandir_query
+    from src.legacy.retrieval.sinonimos import expandir_query
 
     extendida = expandir_query("Necesito cita medica")
     assert "agendar" in extendida and "consulta" in extendida
@@ -130,9 +130,9 @@ def _cargar_modulo_recuperador_fresco():
     """
     Carga o recarga el modulo de recuperacion y devuelve el objeto modulo.
     """
-    if "src.retrieval.recuperador" in sys.modules:
-        return importlib.reload(sys.modules["src.retrieval.recuperador"])
-    return importlib.import_module("src.retrieval.recuperador")
+    if "src.legacy.retrieval.recuperador" in sys.modules:
+        return importlib.reload(sys.modules["src.legacy.retrieval.recuperador"])
+    return importlib.import_module("src.legacy.retrieval.recuperador")
 
 
 def test_recuperador_no_importa_embedding_stack() -> None:
@@ -214,7 +214,7 @@ def test_cargar_corpus_dedupe_elige_actual_y_mas_largo(tmp_path: Path) -> None:
 
 
 def test_limpiar_boilerplate_quita_bloque_facebook_servicios_para_ti() -> None:
-    from src.retrieval.recuperador import limpiar_boilerplate
+    from src.legacy.retrieval.recuperador import limpiar_boilerplate
 
     mezcla = (
         "---\ntitulo: X\n---\n\n"

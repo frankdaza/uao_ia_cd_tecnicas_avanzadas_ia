@@ -15,7 +15,7 @@ from src.scraping.descarga import (
     extraer_enlaces,
     normalizar_url,
 )
-from src.scraping.robots import USER_AGENT_DEFECTO, GestorRobots
+from src.scraping.robots import USER_AGENT_DEFECTO
 
 HTML_ENLACES = (
     b'<html><body><a href="/p">local</a>'

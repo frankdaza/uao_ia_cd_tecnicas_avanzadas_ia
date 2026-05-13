@@ -319,9 +319,9 @@ def test_pensamiento_router_incluye_herramienta(
 
 def test_modulo_prompt_sin_cargar_recuperador_al_importar() -> None:
     for k in list(sys.modules):
-        if k.startswith("src.retrieval"):
+        if k.startswith("src.legacy.retrieval"):
             del sys.modules[k]
     import src.qa.prompt as prompt_modulo
 
-    assert "src.retrieval.recuperador" not in sys.modules
+    assert "src.legacy.retrieval.recuperador" not in sys.modules
     assert "No tengo información suficiente" in prompt_modulo.PROMPT_SISTEMA_DEFECTO

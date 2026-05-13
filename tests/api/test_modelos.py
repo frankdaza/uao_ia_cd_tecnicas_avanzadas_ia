@@ -29,14 +29,14 @@ async def test_modelos_ollama_no_vacio(async_client: AsyncClient) -> None:
 
 
 @pytest.mark.asyncio
-async def test_modelos_openai_sin_clave(async_client: AsyncClient) -> None:
-    """Sin API key OpenAI (mock), openai_disponible es False."""
-    pipeline = async_client._pipeline_mock  # type: ignore[attr-defined]
-    prev = pipeline.cliente_openai.configuracion.tiene_api_key.return_value
-    pipeline.cliente_openai.configuracion.tiene_api_key.return_value = False
-    try:
-        response = await async_client.get("/api/modelos")
-        data = response.json()
-        assert data["openai_disponible"] is False
-    finally:
-        pipeline.cliente_openai.configuracion.tiene_api_key.return_value = prev
+async def test_modelos_openai_sin_clave(async_client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Sin API key OpenAI en configuracion, openai_disponible es False."""
+    import src.api.routers.corpus as corpus_mod
+
+    class _Cfg:
+        openai_api_key: str | None = None
+
+    monkeypatch.setattr(corpus_mod, "obtener_configuracion", lambda: _Cfg())
+    response = await async_client.get("/api/modelos")
+    data = response.json()
+    assert data["openai_disponible"] is False

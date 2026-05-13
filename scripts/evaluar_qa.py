@@ -15,7 +15,7 @@ from pathlib import Path
 import yaml
 
 from src.qa.cliente_ollama import ModeloNoDisponibleError
-from src.qa.pipeline import PipelineQa, RespuestaQa, construir_pipeline_por_defecto
+from src.legacy.qa.pipeline import PipelineQa, RespuestaQa, construir_pipeline_por_defecto
 
 # Raíz del repositorio (directorio que contiene ``scripts/`` y ``src/``)
 _RAIZ_REPO = Path(__file__).resolve().parent.parent

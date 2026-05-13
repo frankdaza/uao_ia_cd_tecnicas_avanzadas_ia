@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes, componer_mensajes_multi
-from src.retrieval.recuperador import DocumentoRecuperado
+from src.legacy.retrieval.recuperador import DocumentoRecuperado
 
 
 def test_prompt_contiene_frase_clave() -> None:

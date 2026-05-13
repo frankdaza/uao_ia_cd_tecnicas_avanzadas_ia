@@ -6,22 +6,31 @@ import uuid
 
 from fastapi import Depends, Header, HTTPException, Query, Request
 from fastapi import status as estado_http
+from langgraph.graph.state import CompiledStateGraph
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.agentes.memoria.historial import normalizar_session_id_postgres_langchain
 from src.persistencia.modelos import Usuario
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.repositorios.usuarios import RepositorioUsuarios
-from src.qa.pipeline import PipelineQa
 
 # Nombres canonicos del mecanismo de sesion (Modulo 2); ver README seccion API de sesion.
 NOMBRE_COOKIE_SESION = "fvl_session_id"
 NOMBRE_HEADER_SESION = "X-Session-Id"
 
 
-async def obtener_pipeline(request: Request) -> PipelineQa:
-    """Retorna el PipelineQa singleton inicializado en el lifespan de la app."""
-    return request.app.state.pipeline  # type: ignore[no-any-return]
+async def obtener_grafo_agente(request: Request) -> CompiledStateGraph:
+    """Retorna el grafo LangGraph compilado del agente (singleton en ``app.state``)."""
+    grafo = getattr(request.app.state, "grafo_agente", None)
+    if grafo is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=(
+                "El agente conversacional no esta disponible. Verifique OPENAI_API_KEY, "
+                "meta-prompt del router y conectividad a Qdrant segun la configuracion."
+            ),
+        )
+    return grafo  # type: ignore[no-any-return]
 
 
 async def obtener_usuario_actual(
@@ -65,7 +74,7 @@ async def obtener_usuario_actual(
 __all__ = [
     "NOMBRE_COOKIE_SESION",
     "NOMBRE_HEADER_SESION",
-    "obtener_pipeline",
+    "obtener_grafo_agente",
     "obtener_sesion_db",
     "obtener_usuario_actual",
 ]

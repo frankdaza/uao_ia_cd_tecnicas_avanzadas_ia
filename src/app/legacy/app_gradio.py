@@ -41,11 +41,11 @@ from src.qa.cliente_openai import (
     MODELO_OPENAI_GPT_4O_MINI,
     OpenAiClienteError,
 )
-from src.qa.pipeline import (
-    PROMPT_SISTEMA_DEFECTO,
+from src.legacy.qa.pipeline import (
     RespuestaQa,
     construir_pipeline_por_defecto,
 )
+from src.qa.prompt import PROMPT_SISTEMA_DEFECTO
 
 _PIPELINE = construir_pipeline_por_defecto()
 

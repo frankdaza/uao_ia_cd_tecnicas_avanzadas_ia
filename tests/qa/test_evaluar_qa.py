@@ -5,10 +5,8 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 
-import pytest
-
 from scripts import evaluar_qa
-from src.qa.pipeline import RespuestaQa
+from src.legacy.qa.pipeline import RespuestaQa
 
 _DATASET = Path(__file__).resolve().parent / "preguntas_evaluacion.yml"
 

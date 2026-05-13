@@ -254,13 +254,27 @@ def crear_grafo_agente(
             SystemMessage(content=system_final),
             HumanMessage(content=state["pregunta"]),
         ]
-        salida = llm_compositor.invoke(mensajes_compositor)
-        if not isinstance(salida, AIMessage):
-            msg = f"El compositor debio devolver AIMessage; se obtuvo {type(salida)!r}."
-            raise TypeError(msg)
-        texto = salida.content
-        if not isinstance(texto, str):
-            texto = str(texto)
+        texto = ""
+        for trozo in llm_compositor.stream(mensajes_compositor):
+            if isinstance(trozo, AIMessage):
+                c = trozo.content
+            else:
+                c = getattr(trozo, "content", trozo)
+            if isinstance(c, str) and c:
+                texto += c
+            elif isinstance(c, list):
+                for bloque in c:
+                    if isinstance(bloque, dict) and bloque.get("type") == "text":
+                        t = bloque.get("text")
+                        if isinstance(t, str):
+                            texto += t
+        if not texto.strip():
+            salida = llm_compositor.invoke(mensajes_compositor)
+            if not isinstance(salida, AIMessage):
+                msg = f"El compositor debio devolver AIMessage; se obtuvo {type(salida)!r}."
+                raise TypeError(msg)
+            cfinal = salida.content
+            texto = cfinal if isinstance(cfinal, str) else str(cfinal)
         return {"respuesta_final": texto}
 
     def nodo_persistir_turno(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:

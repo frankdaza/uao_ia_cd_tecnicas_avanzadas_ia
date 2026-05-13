@@ -17,8 +17,8 @@ import yaml
 from nltk.stem import SnowballStemmer
 from rank_bm25 import BM25Okapi
 
-from src.retrieval._stopwords_nltk_es import STOPWORDS_NLTK_ES
-from src.retrieval.sinonimos import expandir_query
+from src.legacy.retrieval._stopwords_nltk_es import STOPWORDS_NLTK_ES
+from src.legacy.retrieval.sinonimos import expandir_query
 
 _STOPWORDS_ES_BASE_MANUALES: frozenset[str] = frozenset(
     {

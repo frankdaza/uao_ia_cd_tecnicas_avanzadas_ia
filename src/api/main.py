@@ -19,15 +19,15 @@ from fastapi.staticfiles import StaticFiles
 
 from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import obtener_configuracion
+from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
-from src.api.routers import corpus, qa, salud, sesiones
+from src.api.routers import agente, corpus, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
     crear_motor_async,
     crear_session_factory,
     verificar_conexion_inicial,
 )
-from src.qa.pipeline import construir_pipeline_por_defecto
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
-    Inicializa el PipelineQa (M1) y el motor async de PostgreSQL (M2).
+    Inicializa el motor async de PostgreSQL (M2) y el grafo del agente conversacional.
 
     En recarga de Uvicorn (--reload) cada proceso hijo crea y dispone su propio
     motor; no se comparten pools entre procesos.
@@ -52,7 +52,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         cfg.qdrant_distance,
         cfg.embedding_dims,
     )
-    app.state.pipeline = construir_pipeline_por_defecto()
+    app.state.grafo_agente = construir_grafo_agente_produccion_o_none(cfg)
 
     motor_db = crear_motor_async(cfg.url_base_datos_async())
     app.state.engine_db = motor_db
@@ -82,10 +82,10 @@ def crear_app() -> FastAPI:
     cfg = obtener_configuracion()
 
     app = FastAPI(
-        title="Q&A Fundación Valle del Lili — API",
+        title="Fundación Valle del Lili — API (agente M2)",
         description=(
-            "Backend HTTP con FastAPI + SSE que expone el PipelineQa "
-            "(BM25 + OpenAI) al frontend React."
+            "Backend HTTP con FastAPI + SSE: sesiones, agente conversacional "
+            "(LangGraph + Postgres + Qdrant) y utilidades de modelos."
         ),
         version="1.0.0",
         lifespan=lifespan,
@@ -102,8 +102,8 @@ def crear_app() -> FastAPI:
 
     app.include_router(salud.router, prefix="/api")
     app.include_router(corpus.router, prefix="/api")
-    app.include_router(qa.router, prefix="/api")
     app.include_router(sesiones.router, prefix="/api")
+    app.include_router(agente.router, prefix="/api")
 
     # Servir el frontend React como estáticos en producción
     if _FRONTEND_DIST.exists():
