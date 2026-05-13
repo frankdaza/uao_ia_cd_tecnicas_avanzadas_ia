@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal, Self
 from urllib.parse import quote_plus
 
@@ -11,12 +12,16 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 TipoDistanciaQdrant = Literal["Cosine", "Dot", "Euclid", "Manhattan"]
 
+# Raiz del repo (src/api/configuracion.py -> parents[2]) para cargar `.env` aunque el cwd no sea la raiz.
+_RUTA_RAIZ_REPO = Path(__file__).resolve().parents[2]
+_RUTA_ENV_REPO = _RUTA_RAIZ_REPO / ".env"
+
 
 class Configuracion(BaseSettings):
     """Ajustes del servidor API cargados desde el entorno o `.env`."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_RUTA_ENV_REPO,
         env_file_encoding="utf-8",
         extra="ignore",
     )

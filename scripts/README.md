@@ -214,7 +214,9 @@ pnpm --dir frontend exec playwright test
 
 Migración: `uv run alembic upgrade head` (tabla `config_admin_m2`).
 
-- Definir **`ADMIN_API_KEY`** en `.env` (si falta, las rutas admin responden **503**).
+- Definir **`ADMIN_API_KEY`** en `.env` en la raíz del repositorio (si falta, las rutas admin responden **503**). Cada línea del archivo debe empezar con `NOMBRE=valor` **sin espacios** antes del nombre (p. ej. no usar ` ADMIN_API_KEY=...`).
+- Con **`docker compose`**, Compose lee el `.env` junto a `docker-compose.yml` para interpolar variables; el servicio `api` recibe `ADMIN_API_KEY` en el contenedor. Tras cambiar la clave en `.env`, ejecutar `docker compose up -d --force-recreate api` (o reiniciar el stack) para que el proceso vuelva a leer el entorno.
+- En desarrollo **sin Docker**, arrancar Uvicorn desde la raíz del repo (`uv run uvicorn ...`); la app carga el `.env` de la raíz por ruta fija. Si solo editas `.env`, reinicia el proceso (el ajuste no siempre recarga con `--reload`).
 - Enviar cabecera **`X-Admin-Key`** en cada petición (no volcar el valor en logs).
 
 Rutas bajo **`/api/admin`**:
@@ -244,7 +246,7 @@ Un `PATCH` exitoso aplica en el **siguiente** `POST /api/agente/stream` **sin re
 
 ### Panel administrativo M2 (frontend)
 
-1. Arranque del backend con **`ADMIN_API_KEY`** definido (sin esto las rutas `/api/admin/*` responden **503**).
+1. Arranque del backend con **`ADMIN_API_KEY`** definido (en el entorno del proceso o en `.env` de la raíz; con Docker, vía `docker-compose.yml` y el `.env` del host). Sin esto las rutas `/api/admin/*` responden **503**.
 2. En el navegador, abrir la ruta dedicada **`/admin`** (misma base que el chat; en desarrollo suele ser `http://127.0.0.1:5173/admin` con Vite y proxy `/api` hacia FastAPI).
 3. En la pantalla de acceso, pegar la misma clave que `ADMIN_API_KEY`: se verifica con `GET /api/admin/config` y **no** se guarda en `localStorage` (solo memoria de la pestaña).
 4. Desde el panel se consultan métricas, se editan modelo/sampling y prompts, y se listan usuarios; los cambios persistidos se reflejan tras invalidar datos (react-query) y aplican al agente en la **siguiente** conversación SSE.

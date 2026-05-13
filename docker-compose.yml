@@ -106,6 +106,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       QDRANT_URL: http://qdrant:6333
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      # Panel admin M2 (cabecera X-Admin-Key). Debe coincidir con la entrada en `.env` del host (sin espacios antes del nombre).
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-}
       # 1/true: router y compositor sin OpenAI (ver scripts/README.md y tests/e2e/).
       MOCK_LLM: ${MOCK_LLM:-0}
       # Lista JSON (pydantic-settings). Sobreescribible con variable de entorno (archivo `.env` junto al compose).
