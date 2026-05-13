@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
 
   qdrant:
-    image: qdrant/qdrant:v1.12.5
+    image: qdrant/qdrant:v1.18.0
     ports:
       - "${QDRANT_REST_PORT:-6333}:6333"
       - "${QDRANT_GRPC_PORT:-6334}:6334"

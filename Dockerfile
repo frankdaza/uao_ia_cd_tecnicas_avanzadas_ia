@@ -27,6 +27,9 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 WORKDIR /app
 
+# Python gestionado por uv bajo /app: el venv apunta al intérprete; si queda en /root/.local, el usuario `app` no puede resolverlo.
+ENV UV_PYTHON_INSTALL_DIR=/app/.uv/python
+
 # Copiar manifiestos y codigo Python (uv_build requiere el modulo `src` en sync)
 COPY pyproject.toml uv.lock ./
 COPY src/ ./src/
@@ -46,6 +49,8 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 RUN mkdir -p data/markdown data/raw data/processed data/structured \
     && groupadd --system app \
     && useradd --system --gid app --no-create-home --shell /usr/sbin/nologin app \
+    && mkdir -p /home/app \
+    && chown app:app /home/app \
     && chown -R app:app /app
 
 USER app
