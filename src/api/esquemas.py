@@ -218,6 +218,10 @@ class RespuestaSalud(BaseModel):
 
     estado: str = "ok"
     version: str = "1.0.0"
+    agente_mock_llm: bool | None = Field(
+        default=None,
+        description="True si el agente se compilo con MOCK_LLM (sin OpenAI en router/compositor).",
+    )
 
 
 class RespuestaRecarga(BaseModel):

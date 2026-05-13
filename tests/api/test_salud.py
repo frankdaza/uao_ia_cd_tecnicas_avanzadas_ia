@@ -14,6 +14,7 @@ async def test_salud_retorna_ok(async_client: AsyncClient) -> None:
     data = response.json()
     assert data["estado"] == "ok"
     assert "version" in data
+    assert data.get("agente_mock_llm") in (True, False, None)
 
 
 @pytest.mark.asyncio

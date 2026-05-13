@@ -4,7 +4,7 @@ title: data/structured/faqs.json (5–10 FAQs) y JSON Schema de validación
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 06:39'
+updated_date: '2026-05-13 00:58'
 labels:
   - datos
   - faq
@@ -18,7 +18,7 @@ documentation:
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 2.pdf
 priority: high
-ordinal: 0.0009765625
+ordinal: 11000
 ---
 
 ## Description

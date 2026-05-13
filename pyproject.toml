@@ -62,6 +62,7 @@ markers = [
     "integration_ollama: prueba contra Ollama local (se omite si no hay servidor)",
     "integration_postgres: prueba contra PostgreSQL real (activar con EJECUTAR_INTEGRACION_POSTGRES=1)",
     "integration_qdrant: prueba contra Qdrant en red (activar con EJECUTAR_INTEGRACION_QDRANT=1; sin Docker se omite)",
+    "e2e_modulo2: E2E contra API levantada (docker-compose); activar con EJECUTAR_E2E_MODULO2=1",
     "legacy: pruebas del modulo Gradio deprecado (conservadas como cobertura historica)",
     "legacy_bm25: pipeline M1 BM25 bajo src/legacy (excluir con pytest -m \"not legacy_bm25\")",
 ]

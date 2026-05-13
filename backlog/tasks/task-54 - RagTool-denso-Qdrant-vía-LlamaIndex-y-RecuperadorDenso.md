@@ -4,7 +4,7 @@ title: RagTool denso (Qdrant vía LlamaIndex) y RecuperadorDenso
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 07:16'
+updated_date: '2026-05-13 00:58'
 labels:
   - rag
   - qdrant
@@ -27,7 +27,7 @@ modified_files:
   - src/agentes/herramientas/__init__.py
   - tests/rag/test_recuperador_denso.py
 priority: high
-ordinal: 0.00006103515625
+ordinal: 7000
 ---
 
 ## Description

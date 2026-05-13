@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 05:53'
+updated_date: '2026-05-13 00:58'
 labels:
   - uv
   - backend
@@ -23,7 +23,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - .claude/skills/uv-python-env/SKILL.md
 priority: high
-ordinal: 0.0625
+ordinal: 17000
 ---
 
 ## Description

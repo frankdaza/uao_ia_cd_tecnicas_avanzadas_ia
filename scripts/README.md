@@ -171,4 +171,77 @@ uv run python scripts/indexar_corpus_qdrant.py --markdown-dir data/markdown/vall
 
 ---
 
+## E2E del Módulo 2 (docker-compose + pytest + Playwright)
+
+Flujo reproducible para los **cuatro escenarios** del PDF (RAG, memoria, FAQ estructurada y mixto).
+
+### 1. Levantar dependencias
+
+En la raíz del repositorio:
+
+```bash
+docker compose up -d --build
+```
+
+Exportar claves según el modo:
+
+- **Modo estable (recomendado para CI local):** `MOCK_LLM=1` en el servicio `api` (ya soportado en `docker-compose.yml`). No requiere `OPENAI_API_KEY` para el router ni el compositor; sí puede hacer falta para **ingesta** si `EMBEDDING_PROVIDER=openai`.
+
+```bash
+export MOCK_LLM=1
+docker compose up -d --build
+```
+
+- **Modo LLM real:** definir `OPENAI_API_KEY` en el entorno (o en `.env` que lea compose) y **no** fijar `MOCK_LLM=1`.
+
+### 2. Poblar Qdrant (RAG denso)
+
+Con el contenedor `qdrant` arriba y `QDRANT_URL` coherente (desde el host suele ser `http://127.0.0.1:6333` si el puerto publicado es el defecto):
+
+```bash
+export QDRANT_URL=http://127.0.0.1:6333
+export OPENAI_API_KEY=sk-...   # solo si embeddings OpenAI
+uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/markdown/valledellili-org --glob "**/*.md"
+```
+
+### 3. Pytest E2E (`httpx` contra la API)
+
+Variables:
+
+| Variable | Rol |
+| --- | --- |
+| `EJECUTAR_E2E_MODULO2=1` | Obligatoria para **no omitir** los tests marcados `e2e_modulo2`. |
+| `BASE_URL` o `E2E_BASE_URL` | Origen de la API (defecto `http://127.0.0.1:8000`). |
+| `MOCK_LLM=1` | **En el servidor** (compose): router/compositor deterministicos; las preguntas de prueba incluyen tokens `e2e7001` / `e2e7002` / `e2e7003` documentados en el código. |
+| `E2E_LLM_REAL=1` | En el **cliente de prueba**: relaja aserciones de herramienta si el servidor usa OpenAI real (flujo SSE menos estricto). |
+| `E2E_TIMEOUT_READ` | Segundos máximos de lectura del stream (defecto 120). |
+
+Ejecución:
+
+```bash
+export EJECUTAR_E2E_MODULO2=1
+export BASE_URL=http://127.0.0.1:8000
+uv run pytest tests/e2e/test_escenarios_modulo2.py -v
+```
+
+Comprobar que `GET $BASE_URL/api/salud` devuelve `"agente_mock_llm": true` cuando el backend arrancó con `MOCK_LLM=1`.
+
+### 4. Playwright (frontend)
+
+Los specs en `frontend/tests/e2e/` pueden **interceptar** `/api/sesiones` y `/api/agente/stream` para no depender del backend. El flujo crítico login + FAQ + pregunta abierta está en `chat-modulo2.spec.ts`.
+
+```bash
+pnpm --dir frontend install
+pnpm --dir frontend exec playwright install chromium
+pnpm --dir frontend exec playwright test
+```
+
+### 5. Omisiones y secretos
+
+- Sin `EJECUTAR_E2E_MODULO2=1`, los tests `e2e_modulo2` se **saltan** con mensaje explícito.
+- Sin API alcanzable, el fixture `cliente_http_e2e` emite skip.
+- No commitear `.env` con claves reales.
+
+---
+
 Para la visión general del proyecto y la app Gradio, consulta el [README principal](../README.md) en la raíz del repositorio.

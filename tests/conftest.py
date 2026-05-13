@@ -10,6 +10,8 @@ Markers (ver tambien ``[tool.pytest.ini_options]`` en ``pyproject.toml``):
 - ``integration_qdrant``: contra un Qdrant accesible por URL (no ``:memory:``);
   activar con ``EJECUTAR_INTEGRACION_QDRANT=1``. Sin esa variable, los tests
   marcados se omiten para no bloquear desarrollo sin Docker.
+- ``e2e_modulo2``: contra la API HTTP real (docker-compose); activar con
+  ``EJECUTAR_E2E_MODULO2=1`` (ver ``scripts/README.md`` y ``tests/e2e/``).
 - ``legacy``: app Gradio u otras piezas deprecadas conservadas como referencia.
 - ``legacy_bm25``: pipeline M1 con recuperador BM25 bajo ``src/legacy/``; se puede
   excluir con ``pytest -m "not legacy_bm25"``.
@@ -74,4 +76,10 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
             pytest.skip(
                 "Marcador integration_qdrant: definir EJECUTAR_INTEGRACION_QDRANT=1 "
                 "y un QDRANT_URL accesible (p. ej. contenedor Docker)."
+            )
+    if "e2e_modulo2" in item.keywords:
+        if os.environ.get("EJECUTAR_E2E_MODULO2", "").strip() != "1":
+            pytest.skip(
+                "Marcador e2e_modulo2: definir EJECUTAR_E2E_MODULO2=1, levantar la API "
+                "(p. ej. docker compose) y revisar scripts/README.md (BASE_URL / MOCK_LLM)."
             )

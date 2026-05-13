@@ -109,6 +109,16 @@ class Configuracion(BaseSettings):
     router_meta_prompt_path: str = "config/router_meta_prompt.json"
     router_llm_model: str = "gpt-4o-mini"
 
+    # --- Modulo 2: E2E / laboratorio sin OpenAI (tokens e2e70xx en la pregunta; ver scripts/README) ---
+    mock_llm: int = Field(
+        default=0,
+        ge=0,
+        le=1,
+        description=(
+            "1 activa router y compositor deterministicos sin OpenAI (variable de entorno MOCK_LLM)."
+        ),
+    )
+
     @model_validator(mode="after")
     def validar_dims_embedding_modelos_openai_fijos(self) -> Self:
         """Modelos OpenAI con dimension de salida fija en la API clasica."""

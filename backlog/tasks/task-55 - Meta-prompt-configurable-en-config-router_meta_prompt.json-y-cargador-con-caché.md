@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 07:22'
+updated_date: '2026-05-13 00:58'
 labels:
   - router
   - configuracion
@@ -21,7 +21,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 0.000030517578125
+ordinal: 6000
 ---
 
 ## Description

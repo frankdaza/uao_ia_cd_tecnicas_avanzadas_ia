@@ -1,10 +1,10 @@
 ---
 id: TASK-61
 title: Suite E2E de los 4 escenarios del PDF (pytest + httpx y Playwright frontend)
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 01:04'
 labels:
   - e2e
   - docker
@@ -18,9 +18,11 @@ references:
   - scripts/README.md
   - docker-compose.yml
 documentation:
-  - backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje - Actividad del Módulo 2.pdf
+  - >-
+    backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
+    Actividad del Módulo 2.pdf
 priority: high
-ordinal: 19000
+ordinal: 1000
 ---
 
 ## Description
@@ -47,15 +49,14 @@ El PDF del Módulo 2 define escenarios de validación agéntica. Se requiere una
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Archivo `tests/e2e/test_escenarios_modulo2.py` implementa los cuatro escenarios nombrados
-- [ ] #2 Variables de entorno documentadas (`BASE_URL`, claves, flags mock)
-- [ ] #3 Playwright cubre al menos login + una pregunta FAQ y una abierta (si LLM real inestable, usar intercept/stub de API)
-- [ ] #4 `scripts/README.md` incluye comandos copy-paste para reproducir
-- [ ] #5 Los tests se saltan con mensaje claro si faltan servicios/credenciales
-- [ ] #6 No se commitean secretos ni `.env` reales
-- [ ] #7 Resultados agregados referenciables desde informe LaTeX (task-63)
+- [x] #1 Archivo `tests/e2e/test_escenarios_modulo2.py` implementa los cuatro escenarios nombrados
+- [x] #2 Variables de entorno documentadas (`BASE_URL`, claves, flags mock)
+- [x] #3 Playwright cubre al menos login + una pregunta FAQ y una abierta (si LLM real inestable, usar intercept/stub de API)
+- [x] #4 `scripts/README.md` incluye comandos copy-paste para reproducir
+- [x] #5 Los tests se saltan con mensaje claro si faltan servicios/credenciales
+- [x] #6 No se commitean secretos ni `.env` reales
+- [x] #7 Resultados agregados referenciables desde informe LaTeX (task-63)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -73,12 +74,19 @@ El PDF del Módulo 2 define escenarios de validación agéntica. Se requiere una
 <!-- SECTION:NOTES:BEGIN -->
 - Para CI estable, preferir contenedor con respuestas mock del LLM (feature flag en backend) además del modo OpenAI real local del equipo.
 - Tiempos de espera SSE deben ser generosos pero con timeout global.
+
+MOCK_LLM en settings es entero 0/1 (variable MOCK_LLM) para coercion estable desde docker-compose.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Suite E2E Modulo 2: (1) tests/e2e/test_escenarios_modulo2.py con cuatro escenarios pytest+httpx, marcador e2e_modulo2 y skip sin EJECUTAR_E2E_MODULO2=1; tokens e2e7001/7002/7003 con MOCK_LLM=1 en servidor (router/compositor en src/agentes/llm_deterministico_modulo2.py y factoria). (2) Variables documentadas en scripts/README.md (BASE_URL, MOCK_LLM, E2E_LLM_REAL, OPENAI_API_KEY para ingesta). (3) Playwright frontend/tests/e2e/chat-modulo2.spec.ts con intercept SSE. (4) GET /api/salud expone agente_mock_llm. (5) docker-compose pasa MOCK_LLM al servicio api. MOCK_LLM en Configuracion es entero 0/1.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest tests/e2e/test_escenarios_modulo2.py` pasa en entorno del equipo con compose + clave válida **o** modo mock documentado
-- [ ] #2 `pnpm --dir frontend exec playwright test` pasa en configuración documentada
-- [ ] #3 Documentación en `scripts/README.md` revisada en español latinoamericano
+- [x] #1 `uv run pytest tests/e2e/test_escenarios_modulo2.py` pasa en entorno del equipo con compose + clave válida **o** modo mock documentado
+- [x] #2 `pnpm --dir frontend exec playwright test` pasa en configuración documentada
+- [x] #3 Documentación en `scripts/README.md` revisada en español latinoamericano
 <!-- DOD:END -->

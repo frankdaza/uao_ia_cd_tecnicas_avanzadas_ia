@@ -4,7 +4,7 @@ title: 'Tests backend integrales (pytest) de la cadena agéntica, RAG y persiste
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 00:56'
+updated_date: '2026-05-13 00:58'
 labels:
   - pytest
   - qa
