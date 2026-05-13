@@ -10,6 +10,9 @@ Por cada entrada se calculan dos señales y se usa el máximo frente al umbral:
 2. **Pregunta canónica**: recall ``|tokens_consulta ∩ tokens_contenido| /
    max(1, |tokens_contenido|)`` donde ``tokens_contenido`` proviene de
    ``pregunta_canonica`` sin stopwords ni boilerplate institucional mínimo.
+
+Además, los tokens de la consulta se amplían con **sinónimos** puntuales (p. ej.
+``email`` ↔ ``correo``) para alinear lenguaje coloquial con la pregunta canónica.
 """
 
 from __future__ import annotations
@@ -98,6 +101,22 @@ _STOPWORDS_CONTENIDO: frozenset[str] = frozenset(
 # Tokens muy genéricos del nombre corto de la institución (no discriminan intención).
 _BOILERPLATE_INSTITUCION: frozenset[str] = frozenset({"fundacion", "lili", "fvl"})
 
+# Equivalencias léxicas en consultas (NFKD + minúsculas; un token pertenece a un solo grupo).
+_GRUPOS_SINONIMOS_CONSULTA: tuple[frozenset[str], ...] = (
+    frozenset({"email", "correo", "mail", "e-mail"}),
+)
+
+
+def _expandir_sinonimos_tokens(tokens: set[str]) -> set[str]:
+    """Añade tokens equivalentes (p. ej. ``email`` y ``correo``) para match y recall."""
+    salida = set(tokens)
+    for t in tokens:
+        for grupo in _GRUPOS_SINONIMOS_CONSULTA:
+            if t in grupo:
+                salida |= grupo
+                break
+    return salida
+
 
 class ArchivoFaqStructuredAusenteError(FileNotFoundError):
     """El JSON de FAQs estructuradas no existe o no es accesible."""
@@ -162,7 +181,8 @@ def _tokens_consulta(consulta: str) -> set[str]:
 def _tokens_consulta_para_match(consulta: str) -> set[str]:
     """
     Tokens de la consulta más variantes singulares si el token termina en ``s``
-    (longitud ≥ 5), p. ej. ``pediatricas`` admite la keyword ``pediatrica``.
+    (longitud ≥ 5), p. ej. ``pediatricas`` admite la keyword ``pediatrica``,
+    y sinónimos controlados (p. ej. ``email`` / ``correo``) para consultas cortas.
     """
     base = _tokens_consulta(consulta)
     extra: set[str] = set()
@@ -171,7 +191,7 @@ def _tokens_consulta_para_match(consulta: str) -> set[str]:
             singular = t[:-1]
             if singular:
                 extra.add(singular)
-    return base | extra
+    return _expandir_sinonimos_tokens(base | extra)
 
 
 def _tokens_contenido_canonica(texto: str) -> set[str]:

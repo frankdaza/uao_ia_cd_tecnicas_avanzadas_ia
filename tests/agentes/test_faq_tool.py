@@ -117,6 +117,25 @@ def test_buscar_faq_pregunta_natural_urgencias_con_tilde() -> None:
     assert r.id == "fvl-urgencias-pediatricas-continua"
 
 
+@pytest.mark.parametrize(
+    "consulta",
+    [
+        "Tienes un email para PQRS?",
+        "cuál es el email para las pqrs?",
+        "cual es el email para las pqrs?",
+        "cuál es el email para el SIAU?",
+        "cual es el e-mail del SIAU?",
+        "¿Cuál es el correo del SIAU (PQRS) de la Fundación Valle del Lili?",
+        "mail del SIAU pqrs",
+    ],
+)
+def test_buscar_faq_consultas_cortas_correo_siau(consulta: str) -> None:
+    """Variaciones breves que antes quedaban bajo umbral sin equivalencia email/correo."""
+    r = buscar_faq(consulta)
+    assert r is not None
+    assert r.id == "fvl-correo-siau"
+
+
 def test_buscar_faq_caso_positivo_portal_resultados() -> None:
     r = buscar_faq(
         "portal paciente resultados examenes laboratorio mifundacion en linea",
