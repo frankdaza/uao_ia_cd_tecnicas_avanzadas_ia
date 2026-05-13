@@ -3,10 +3,10 @@ id: TASK-56
 title: >-
   Router Agent con LangGraph (StateGraph) y nodos de memoria, tools y
   composición
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-12 07:22'
+updated_date: '2026-05-13 00:21'
 labels:
   - langgraph
   - agente
@@ -23,8 +23,14 @@ references:
 documentation:
   - 'https://langchain-ai.github.io/langgraph/'
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
+modified_files:
+  - src/agentes/estado.py
+  - src/agentes/router.py
+  - src/qa/prompt.py
+  - src/qa/__init__.py
+  - tests/agentes/test_router_grafo.py
 priority: high
-ordinal: 1000
+ordinal: 0.0000152587890625
 ---
 
 ## Description
@@ -58,15 +64,14 @@ Usar **`FakeListChatModel`** de LangChain para secuencias deterministas de tool_
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Grafo compila y ejecuta un turno completo en test con LLM fake
-- [ ] #2 Rama FAQ vs RAG seleccionable por fixtures de `FakeListChatModel`
-- [ ] #3 Estado incluye `fuentes` cuando la tool RAG devuelve metadata
-- [ ] #4 `pensamientos` captura decisión del router (tool + razón breve) para SSE
-- [ ] #5 `persistir_turno` llama a memoria (verificado con mock/fake history)
-- [ ] #6 `astream_events` expone eventos consumibles por capa HTTP (smoke test)
-- [ ] #7 Sin imports de BM25 ni `src/retrieval/recuperador.py`
+- [x] #1 Grafo compila y ejecuta un turno completo en test con LLM fake
+- [x] #2 Rama FAQ vs RAG seleccionable por fixtures de `FakeListChatModel`
+- [x] #3 Estado incluye `fuentes` cuando la tool RAG devuelve metadata
+- [x] #4 `pensamientos` captura decisión del router (tool + razón breve) para SSE
+- [x] #5 `persistir_turno` llama a memoria (verificado con mock/fake history)
+- [x] #6 `astream_events` expone eventos consumibles por capa HTTP (smoke test)
+- [x] #7 Sin imports de BM25 ni `src/retrieval/recuperador.py`
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -87,10 +92,15 @@ Usar **`FakeListChatModel`** de LangChain para secuencias deterministas de tool_
 - Revisar límites de tokens al inyectar memoria + contexto RAG.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agregaron `src/agentes/estado.py` (TypedDict `EstadoAgente` con reducer en `pensamientos`) y `src/agentes/router.py` con `crear_grafo_agente` que compila un StateGraph lineal: cargar_memoria, decidir_tool (bind_tools + meta-prompt), ejecutar_tool (FAQ vs RAG), componer_respuesta (prompt Lili + resultado de tool + saludo segun `primer_turno` e historial), persistir_turno. Las tools por defecto se importan de forma diferida dentro de `crear_grafo_agente` para no cargar Qdrant al importar el router. Se ajustó `src/qa/__init__.py` con `__getattr__` para no cargar BM25 al importar submodulos como `prompt`, y `prompt.py` difiere la importación de `DocumentoRecuperado` a las funciones que la usan. Tests en `tests/agentes/test_router_grafo.py` con `FakeListChatModel` (compositor) y doble `_ListaRouterFalso` para tool_calls; smoke de `astream_events`. `uv run pytest` y `ruff check` en archivos tocados verdes.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `uv run pytest tests/agentes/` verde para tests del router
-- [ ] #2 `ruff check` sin errores nuevos
-- [ ] #3 Ejemplo de invocación síncrona documentado para depuración local
+- [x] #1 `uv run pytest tests/agentes/` verde para tests del router
+- [x] #2 `ruff check` sin errores nuevos
+- [x] #3 Ejemplo de invocación síncrona documentado para depuración local
 <!-- DOD:END -->

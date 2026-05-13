@@ -10,8 +10,10 @@ LLM, no en este módulo.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from src.retrieval.recuperador import DocumentoRecuperado
+if TYPE_CHECKING:
+    from src.retrieval.recuperador import DocumentoRecuperado
 
 _SIN_URL_ETIQUETA: str = "sin URL"
 
@@ -64,7 +66,7 @@ Accediendo al portal web: Fundación Valle del Lili.
 
 def componer_mensajes_multi(
     prompt_sistema: str,
-    documentos: list[DocumentoRecuperado],
+    documentos: list["DocumentoRecuperado"],
     pregunta: str,
 ) -> list[dict[str, str]]:
     """
@@ -108,6 +110,8 @@ def componer_mensajes(
 
     Compatibilidad: un solo documento vía :func:`componer_mensajes_multi`.
     """
+    from src.retrieval.recuperador import DocumentoRecuperado  # noqa: PLC0415
+
     meta = metadata_documento or {}
     titulo = str(meta.get("titulo", "") or "")
     url = str(meta.get("source_url", "") or "")
