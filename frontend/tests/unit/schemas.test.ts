@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { ModelosRespuestaSchema, EventoSseSchema, QaPeticionSchema } from '@/lib/schemas'
+import {
+  ModelosRespuestaSchema,
+  EventoSseSchema,
+  QaPeticionSchema,
+  SesionRespuestaSchema,
+  HistorialSesionRespuestaSchema,
+} from '@/lib/schemas'
 
 describe('Schemas Zod', () => {
   it('valida ModelosRespuesta correctamente', () => {
@@ -37,5 +43,24 @@ describe('Schemas Zod', () => {
 
   it('rechaza QaPeticion con pregunta vacía', () => {
     expect(() => QaPeticionSchema.parse({ pregunta: '' })).toThrow()
+  })
+
+  it('valida SesionRespuesta alineada al backend', () => {
+    const data = {
+      usuario_id: '550e8400-e29b-41d4-a716-446655440000',
+      session_id: 'user:550e8400-e29b-41d4-a716-446655440000',
+      nombre: 'María Pérez',
+      ya_existia: false,
+      ultimo_mensaje_at: null,
+    }
+    const parsed = SesionRespuestaSchema.parse(data)
+    expect(parsed.session_id).toContain('user:')
+  })
+
+  it('valida HistorialSesionRespuesta', () => {
+    const data = {
+      mensajes: [{ rol: 'human' as const, contenido: 'Hola', creado_en: null }],
+    }
+    expect(() => HistorialSesionRespuestaSchema.parse(data)).not.toThrow()
   })
 })

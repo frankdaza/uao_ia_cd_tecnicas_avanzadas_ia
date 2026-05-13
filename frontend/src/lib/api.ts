@@ -4,22 +4,34 @@
  */
 
 import type {
+  HistorialSesionRespuesta,
   ModelosRespuesta,
   PromptDefecto,
   QaPeticion,
   QaRespuesta,
   RecargaRespuesta,
   Salud,
+  SesionCierreRespuesta,
+  SesionPeticion,
+  SesionRespuesta,
 } from './schemas'
 import {
+  HistorialSesionRespuestaSchema,
   ModelosRespuestaSchema,
   PromptDefectoSchema,
   QaRespuestaSchema,
   RecargaRespuestaSchema,
   SaludSchema,
+  SesionCierreRespuestaSchema,
+  SesionRespuestaSchema,
 } from './schemas'
 
 const BASE = '/api'
+
+/** Cabecera opcional alineada con `src/api/dependencias.py` (`X-Session-Id`). */
+export const SESSION_HEADER_NAME = 'X-Session-Id'
+
+const DEFAULT_CREDENTIALS: RequestCredentials = 'include'
 
 class ApiError extends Error {
   readonly status: number
@@ -84,6 +96,41 @@ export async function postQa(peticion: QaPeticion): Promise<QaRespuesta> {
     body: JSON.stringify(peticion),
   })
   return parseJson(res, QaRespuestaSchema)
+}
+
+/**
+ * Inicia sesión M2: envía documento y nombre; el servidor fija cookie HTTP-only `fvl_session_id`.
+ */
+export async function postIniciarSesion(peticion: SesionPeticion): Promise<SesionRespuesta> {
+  const res = await fetch(`${BASE}/sesiones`, {
+    method: 'POST',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(peticion),
+  })
+  return parseJson(res, SesionRespuestaSchema)
+}
+
+/**
+ * Historial de la sesión actual (cookie o cabecera `X-Session-Id`).
+ */
+export async function getHistorialSesion(sessionId?: string): Promise<HistorialSesionRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/actual/historial`, {
+    method: 'GET',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, HistorialSesionRespuestaSchema)
+}
+
+/** Cierra sesión en el servidor (borra cookie en la respuesta). */
+export async function postCerrarSesion(sessionId?: string): Promise<SesionCierreRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/cerrar`, {
+    method: 'POST',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, SesionCierreRespuestaSchema)
 }
 
 export { ApiError }

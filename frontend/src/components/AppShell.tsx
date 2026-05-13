@@ -9,13 +9,15 @@ import { cn } from '@/lib/cn'
 interface AppShellProps {
   sidebar: ReactNode
   children: ReactNode
+  /** Contenido opcional junto al interruptor de tema (p. ej. usuario y cierre de sesión). */
+  headerExtras?: ReactNode
 }
 
 const SIDEBAR_KEY = 'fvl-sidebar-collapsed'
 const MAX_ANCHO_MOVIL = 767
 
 /** Layout principal: sidebar en escritorio y sheet deslizable en móvil. */
-export function AppShell({ sidebar, children }: AppShellProps) {
+export function AppShell({ sidebar, children, headerExtras }: AppShellProps) {
   const [esMovil, setEsMovil] = useState(false)
   const [sheetAbierto, setSheetAbierto] = useState(false)
   const [collapsed, setCollapsed] = useState(() => {
@@ -98,6 +100,7 @@ export function AppShell({ sidebar, children }: AppShellProps) {
         </div>
 
         <div className="flex items-center gap-2">
+          {headerExtras}
           <ThemeToggle />
         </div>
       </header>

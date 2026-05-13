@@ -1,10 +1,12 @@
 ---
 id: TASK-58
-title: Pantalla de identificación (DocId + Nombre), AuthContext y cliente API de sesión
-status: To Do
+title: >-
+  Pantalla de identificación (DocId + Nombre), AuthContext y cliente API de
+  sesión
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 00:39'
 labels:
   - frontend
   - auth
@@ -20,7 +22,7 @@ references:
 documentation:
   - .claude/skills/react-vite-qa-ui/SKILL.md
 priority: medium
-ordinal: 16000
+ordinal: 0.000003814697265625
 ---
 
 ## Description
@@ -49,15 +51,14 @@ El Módulo 2 exige asociar conversaciones a una persona mediante **documento de 
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 Usuario sin sesión ve únicamente la pantalla de identificación con textos UI en español latinoamericano
-- [ ] #2 Validación Zod muestra errores accesibles (ARIA básico)
-- [ ] #3 Tras login exitoso, `sessionId` disponible para el Chat (task-59)
-- [ ] #4 Recarga de página restaura sesión desde `localStorage` cuando corresponda
-- [ ] #5 `cerrarSesion` limpia estado y storage
-- [ ] #6 Tests Vitest cubren al menos persistencia y error de red
-- [ ] #7 Playwright: flujo feliz login + reload (skip en CI sin backend si está documentado)
+- [x] #1 Usuario sin sesión ve únicamente la pantalla de identificación con textos UI en español latinoamericano
+- [x] #2 Validación Zod muestra errores accesibles (ARIA básico)
+- [x] #3 Tras login exitoso, `sessionId` disponible para el Chat (task-59)
+- [x] #4 Recarga de página restaura sesión desde `localStorage` cuando corresponda
+- [x] #5 `cerrarSesion` limpia estado y storage
+- [x] #6 Tests Vitest cubren al menos persistencia y error de red
+- [x] #7 Playwright: flujo feliz login + reload (skip en CI sin backend si está documentado)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -76,12 +77,21 @@ El Módulo 2 exige asociar conversaciones a una persona mediante **documento de 
 <!-- SECTION:NOTES:BEGIN -->
 - Alinear con decisión cookie vs header de task-49; si cookie HTTP-only, `localStorage` solo guarda flags mínimos, no el secret.
 - No registrar documento de identidad en analytics del navegador.
+
+E2E login+reload: tests/e2e/auth-sesion.spec.ts usa route.fulfill para POST /api/sesiones; en process.env.CI el caso se omite (sin backend). Los tests home usan addInitScript para sembrar fvl-auth-v1.
+
+Cookie HTTP-only fvl_session_id: el cliente también persiste session_id devuelto en JSON para el cuerpo de futuras peticiones (p. ej. agente M2) y cabecera opcional en cierre.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se implementó la pantalla de identificación (DocId + nombre) con validación Zod y textos en español; AuthProvider/useAuth con persistencia en localStorage (clave fvl-auth-v1) guardando usuarioId, sessionId y nombre — sin documento; integración con POST /api/sesiones, GET historial y POST cerrar con credentials e cabecera X-Session-Id opcional. App.tsx muestra AuthScreen sin sesión y AppShell+Chat con sesión; botón Cerrar sesión en cabecera. Tests Vitest (AuthContext + schemas) y Playwright auth-sesion (mock de POST /api/sesiones; omitido en CI según nota en spec).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 `pnpm --dir frontend test` verde para tests nuevos/actualizados
-- [ ] #2 `pnpm --dir frontend exec eslint` sin errores nuevos en archivos tocados
-- [ ] #3 Contrato JSON verificado contra OpenAPI backend cuando esté disponible
+- [x] #1 `pnpm --dir frontend test` verde para tests nuevos/actualizados
+- [x] #2 `pnpm --dir frontend exec eslint` sin errores nuevos en archivos tocados
+- [x] #3 Contrato JSON verificado contra OpenAPI backend cuando esté disponible
 <!-- DOD:END -->

@@ -124,3 +124,40 @@ export const RecargaRespuestaSchema = z.object({
   mensaje: z.string(),
 })
 export type RecargaRespuesta = z.infer<typeof RecargaRespuestaSchema>
+
+/* ----------------------------------------------------------------
+   Módulo 2: sesión (POST /api/sesiones, historial, cierre)
+   ---------------------------------------------------------------- */
+
+export const SesionPeticionSchema = z.object({
+  documento_identidad: z.string().min(1).max(128),
+  nombre: z.string().min(1).max(512),
+})
+export type SesionPeticion = z.infer<typeof SesionPeticionSchema>
+
+export const SesionRespuestaSchema = z.object({
+  usuario_id: z.string().uuid(),
+  session_id: z.string().min(1).max(256),
+  nombre: z.string(),
+  ya_existia: z.boolean(),
+  ultimo_mensaje_at: z.union([z.string(), z.null()]).optional(),
+})
+export type SesionRespuesta = z.infer<typeof SesionRespuestaSchema>
+
+export const HistorialMensajeSchema = z.object({
+  rol: z.enum(['human', 'ai', 'system', 'tool']),
+  contenido: z.string(),
+  creado_en: z.union([z.string(), z.null()]).optional(),
+})
+export type HistorialMensaje = z.infer<typeof HistorialMensajeSchema>
+
+export const HistorialSesionRespuestaSchema = z.object({
+  mensajes: z.array(HistorialMensajeSchema),
+})
+export type HistorialSesionRespuesta = z.infer<typeof HistorialSesionRespuestaSchema>
+
+export const SesionCierreRespuestaSchema = z.object({
+  ok: z.boolean(),
+  mensaje: z.string(),
+})
+export type SesionCierreRespuesta = z.infer<typeof SesionCierreRespuestaSchema>

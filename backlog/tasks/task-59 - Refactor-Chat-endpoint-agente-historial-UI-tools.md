@@ -1,10 +1,12 @@
 ---
 id: TASK-59
-title: Refactor del Chat al endpoint del agente, historial y UI de herramientas / razonamiento
-status: To Do
+title: >-
+  Refactor del Chat al endpoint del agente, historial y UI de herramientas /
+  razonamiento
+status: In Progress
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-11 00:00'
+updated_date: '2026-05-13 00:39'
 labels:
   - frontend
   - chat
@@ -21,7 +23,7 @@ references:
 documentation:
   - .claude/skills/react-vite-qa-ui/SKILL.md
 priority: medium
-ordinal: 17000
+ordinal: 1000
 ---
 
 ## Description
