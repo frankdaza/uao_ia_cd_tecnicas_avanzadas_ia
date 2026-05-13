@@ -1,91 +1,147 @@
-# Sistema Q&A sobre la Fundación Valle del Lili — MVP fase 1
+# Asistente sobre la Fundación Valle del Lili — Módulo 2 (agente conversacional)
 
-Asistente de preguntas y respuestas que responde **solo** con texto público ya descargado del sitio `valledellili.org`, usando recuperación BM25 sobre archivos Markdown completos (cada `.md` es una unidad de índice), selección **top-k** de documentos para armar el contexto enviado al modelo (por defecto hasta **3**; constante `K_TOP_DOCUMENTOS` en `src/qa/pipeline.py`) y generación principalmente con **Ollama** local. De forma opcional se puede usar la **API de OpenAI** (por ejemplo en el modo dual de la interfaz) configurando `OPENAI_API_KEY`. **No** sustituye canales oficiales ni garantiza vigencia de datos; **no** incluye chunking interno dentro de cada archivo, embeddings ni base vectorial en esta fase.
+El **producto actual** es un agente conversacional con **memoria en PostgreSQL**, recuperación **densa en Qdrant** (embeddings + similitud vectorial; **sin BM25 en inferencia** del Módulo 2) y orquestación **LangGraph** (router), **LangChain** (tools y `langchain-postgres`) y **LlamaIndex** (ingesta y consulta sobre Qdrant). El corpus textual canónico permanece en `data/markdown/` con **front matter YAML**; alimenta la **ingesta** hacia Qdrant mediante `scripts/indexar_corpus_qdrant.py` y **no** sustituye al vector store en cada petición del agente.
 
-## Descripción del problema
+La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume **`POST /api/agente/stream`** (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, entre otros). **No** sustituye canales oficiales ni garantiza vigencia de datos.
 
-Hay necesidad de un canal de comunicación automatizado y preciso para la Fundación Valle del Lili: responder dudas frecuentes con trazabilidad a la fuente, reduciendo alucinaciones y manteniendo un stack reproducible para el curso.
+**Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
 
-## Planteamiento de la solución
-
-Pipeline local: **scraping** (respetando `robots.txt`) → **Markdown** con front matter en `data/markdown/` → **BM25 a nivel archivo** (`rank-bm25`) → **top-k** de documentos completos (sin trocear el contenido de cada `.md`) → composición multi-contexto en el prompt → **Ollama** y, opcionalmente, **OpenAI**.
-
-Decisiones explícitas de esta fase:
-
-- Sin chunking interno: cada unidad indexada es un `.md` completo.
-- Recuperación **top-k** (por defecto tres documentos) con filtro por umbral relativo en el recuperador; el modelo puede recibir varios archivos completos en un solo turno; en la UI, las fuentes BM25 listan los documentos recuperados cuando aplica.
-- Sin embeddings ni base vectorial.
-- Interfaz: **React 19 + Vite 8 + TypeScript 6 + shadcn/ui** (`frontend/`); streaming vía **SSE** con cliente propio (no Vercel AI SDK). Backend **FastAPI + SSE** (`src/api/`). La interfaz Gradio original fue migrada y vive en `src/app/legacy/app_gradio.py` como referencia histórica.
-
-El detalle arquitectónico queda registrado en [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md). **Nota:** ADR-001 describe el MVP con un solo archivo en contexto; la implementación vigente usa **top-k** de archivos completos. Este README y el código reflejan el comportamiento actual hasta que el ADR se actualice.
+## Flujo principal (Módulo 2)
 
 ```mermaid
-flowchart LR
-  scrape[scrape_raw]
-  md[data_markdown]
-  bm25[BM25_por_archivo]
-  topk[top_k_docs]
-  llm[Ollama_o_OpenAI]
-  scrape --> md --> bm25 --> topk --> llm
+flowchart TB
+  subgraph datos["Corpus e ingesta"]
+    raw[data/raw]
+    md[data/markdown]
+    idx[indexar_corpus_qdrant]
+    raw --> md --> idx --> qd[(Qdrant)]
+  end
+  subgraph runtime["Runtime del agente"]
+    fe[Frontend React]
+    api[FastAPI]
+    rg[LangGraph + tools]
+    pg[(PostgreSQL)]
+    fe -->|POST /api/sesiones| api
+    fe -->|POST /api/agente/stream| api
+    api --> rg
+    rg --> pg
+    rg --> qd
+  end
 ```
+
+## Stack del Módulo 2
+
+| Capa | Tecnología |
+| --- | --- |
+| Router y control de flujo | **LangGraph** |
+| Tools y memoria conversacional | **LangChain** (`StructuredTool`, `PostgresChatMessageHistory` vía **langchain-postgres**) |
+| RAG denso | **LlamaIndex** + **qdrant-client** |
+| OLTP (usuarios e historial) | **PostgreSQL**, **SQLAlchemy 2** async, **Alembic**, **asyncpg** |
+| Vectores del corpus | **Qdrant** |
+| API HTTP | **FastAPI**, **Uvicorn**, **sse-starlette**, **pydantic-settings** |
+| Interfaz | **React 19** + **Vite 8** + **TypeScript 6** (estricto), **Tailwind CSS v4**, **shadcn/ui**, **Vercel AI SDK** (transporte SSE), **@tanstack/react-query** |
+
+Herramientas expuestas al modelo (identificador `name` en inglés por contrato de tool-calling): **`faq_estructurada`** (sobre `data/structured/faqs.json` validado con schema) y **`rag_denso`** (recuperación por similitud en Qdrant).
+
+## Variables de entorno (agrupadas)
+
+Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commitear secretos).
+
+| Grupo | Variables representativas | Notas |
+| --- | --- | --- |
+| API y CORS | `ALLOWED_ORIGINS`, `API_PORT` | Con cookies de sesión, orígenes explícitos (no `*` con credenciales). |
+| LLM del router / OpenAI | `OPENAI_API_KEY`, `ROUTER_LLM_MODEL` | Router y composición; ver `src/api/configuracion.py`. |
+| PostgreSQL | `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` o `DATABASE_URL` | Con **Docker Compose**, desde el host suele usarse `localhost` y el puerto publicado (p. ej. **15432** → 5432 interno). |
+| Qdrant | `QDRANT_URL`, `QDRANT_COLLECTION`, `QDRANT_API_KEY` (opcional), `QDRANT_DISTANCE` | En la red de Compose la API usa `http://qdrant:6333`. |
+| Embeddings e ingesta | `EMBEDDING_PROVIDER`, `EMBEDDING_MODEL`, `EMBEDDING_DIMS` | Deben alinearse con la colección creada en Qdrant. |
+| Chunking (ingesta) | `CHUNK_SIZE`, `CHUNK_OVERLAP`, `CHUNK_STRATEGY` | Fragmentación previa a embeddings. |
+| RAG en runtime | `RAG_TOP_K`, `RAG_SCORE_MINIMO` | Umbral y top-k del recuperador denso. |
+| Memoria inyectada | `HISTORIAL_DIAS_MAX`, `HISTORIAL_TURNOS_MAX` | Ventana temporal y tope de turnos cargados para el grafo. |
+| FAQ | `FAQ_JSON_RELATIVO_RAIZ`, `FAQ_UMBRAL_MATCH` | Ruta al JSON estructurado y umbral de coincidencia. |
+| Meta-prompt del router | `ROUTER_META_PROMPT_PATH` | JSON de configuración sin secretos. |
+| Laboratorio / E2E | `MOCK_LLM` (`0` o `1`) | Modo determinista sin llamadas reales al LLM del router; ver `GET /api/salud` (`agente_mock_llm`). |
+| Ollama (legacy u otros usos) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Pueden aplicar al pipeline M1 si sigue habilitado. |
+
+Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre los campos de `Configuracion` en `src/api/configuracion.py` (típicamente `MAYUSCULAS_CON_GUIONES`).
 
 ## Preparación de los datos
 
 | Ubicación | Contenido |
 | --- | --- |
 | `data/raw/valledellili-org/` | HTML descargado del dominio `valledellili.org`, con registro en `data/raw/_log.jsonl`. |
-| `data/markdown/valledellili-org/` | Un `.md` por página, con front matter YAML. |
+| `data/markdown/valledellili-org/` | Un `.md` por página, con front matter YAML (fuente de verdad textual e **ingesta** hacia Qdrant). |
 | `data/structured/faqs.json` | FAQs institucionales fijas (Módulo 2), validadas con `data/structured/faqs.schema.json`. |
 
-**Actualizar FAQs estructuradas:** edite `data/structured/faqs.json` (campo raíz `faqs`: lista de objetos con `id`, `intent`, `keywords`, `pregunta_canonica`, `respuesta`, `actualizado_el` y opcionalmente `source_url`). Ejecute `uv run pytest tests/structured/test_faqs_json_schema.py` para comprobar el esquema antes de confirmar cambios.
+**Actualizar FAQs estructuradas:** edite `data/structured/faqs.json` (campo raíz `faqs`: lista de objetos con `id`, `intent`, `keywords`, `pregunta_canonica`, `respuesta`, `actualizado_el` y opcionalmente `source_url`). Ejecute `uv run pytest tests/structured/test_faqs_json_schema.py` para comprobar el esquema.
 
-Variables opcionales: `.env` (plantilla en `.env.example`), p. ej. `URL_BASE_SITIO`, `USER_AGENT`.
-
-Comandos típicos (desde la raíz del repositorio):
+Comandos típicos de adquisición y exportación (desde la raíz):
 
 ```bash
 uv run python -m scripts.scrape --max-paginas 200
 uv run python -m scripts.export_markdown
 ```
 
-Ayuda y opciones adicionales:
+Ayuda: `uv run python -m scripts.scrape --help` y `uv run python -m scripts.export_markdown --help`. Más detalle en [scripts/README.md](scripts/README.md).
+
+## Indexar el corpus en Qdrant
+
+Con Qdrant accesible y credenciales de embeddings según `EMBEDDING_PROVIDER` (p. ej. `OPENAI_API_KEY` si usa OpenAI):
 
 ```bash
-uv run python -m scripts.scrape --help
-uv run python -m scripts.export_markdown --help
+export QDRANT_URL=http://127.0.0.1:6333
+export OPENAI_API_KEY=sk-reemplazar
+uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/markdown/valledellili-org --glob "**/*.md"
 ```
 
-Referencia detallada de flags y orden del pipeline: [scripts/README.md](scripts/README.md).
+Alternativa equivalente: `uv run python scripts/indexar_corpus_qdrant.py` con los mismos argumentos. Opciones adicionales y modo de pruebas: [scripts/README.md](scripts/README.md) (ingesta y **E2E del Módulo 2**).
 
-## Modelado
+## Cómo correr la aplicación
 
-- **Recuperación:** BM25 sobre el texto completo de cada archivo en `data/markdown/valledellili-org/`; cada archivo completo recibe un score y se seleccionan los **k** mejores (por defecto 3), descartando candidatos por debajo de un umbral relativo al mejor score (ver `src/retrieval/recuperador.py`).
-- **Generación:** principalmente modelos **Ollama** locales; la API y la UI permiten además **OpenAI** si hay clave (`OPENAI_API_KEY`), incluido modo dual con una sola pasada BM25 compartida. En la app se ofrecen entre otros `llama3.1:8b` y `gemma4:e2b` (este último puede no existir en el catálogo público de Ollama; ver limitaciones).
-- **Prompt:** instrucciones zero-shot anti-alucinación en `src/qa/prompt.py`: la asistente institucional «Lili» usa solo la información de los contextos aportados; tono formal, cordial e institucional; respuesta literal *«No tengo información suficiente»* cuando la información no está en esos contextos.
+### Requisitos
 
-## Cómo correr la app
+- Python **3.12.12** y [uv](https://docs.astral.sh/uv/)
+- Node **22 LTS** y **pnpm 10.x**
+- **PostgreSQL** y **Qdrant** accesibles (local o vía Docker Compose)
+- Para inferencia real del agente: **`OPENAI_API_KEY`** (o laboratorio con **`MOCK_LLM=1`**)
 
-### Modo desarrollo (2 terminales)
+### Docker Compose (recomendado)
 
-Requisitos: Python **3.12.12**, [uv](https://docs.astral.sh/uv/), Node 22 LTS, pnpm 10.x, **React 19**, **Vite 8**, **TypeScript 6** y Ollama en ejecución (API de OpenAI opcional con `OPENAI_API_KEY`).
+El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), **Ollama** (según perfil del compose), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`**. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
 
-**Terminal 1 — Backend FastAPI:**
+- **PostgreSQL en el host:** puerto publicado por defecto **15432** → 5432 interno (`POSTGRES_PUBLISH_PORT` para cambiarlo). Variables: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` (alineadas con `src/api/configuracion.py`).
+- **Qdrant:** REST **6333** y gRPC **6334** en el host (`QDRANT_REST_PORT`, `QDRANT_GRPC_PORT`). En la red interna de Compose la API usa `QDRANT_URL=http://qdrant:6333`.
+- **Solo infraestructura:** `docker compose up -d postgres qdrant`.
+
+```bash
+docker compose config
+docker compose up --build -d
+curl -sS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
+```
+
+El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Tras el primer arranque, ejecute la **ingesta** a Qdrant (sección anterior) si la colección está vacía.
+
+Las migraciones **Alembic** (`alembic/`) crean el esquema de aplicación (p. ej. tabla **`usuarios`**). La tabla **`chat_history`** usada por la memoria LangChain **no** se versiona con Alembic: se crea en runtime (`PostgresChatMessageHistory.create_tables` en el lifespan de la API).
+
+### Desarrollo local (API + frontend en dos terminales)
+
+**Terminal 1 — Backend** (con Postgres y Qdrant ya levantados y migraciones aplicadas):
 
 ```bash
 uv python install 3.12.12
 uv sync
-ollama pull llama3.1:8b
-uv run uvicorn src.api.main:app --reload --port 8000
+uv run alembic upgrade head
+export QDRANT_URL=http://127.0.0.1:6333
+uv run uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Terminal 2 — Frontend React:**
+**Terminal 2 — Frontend:**
 
 ```bash
 pnpm --dir frontend install
 pnpm --dir frontend dev
 ```
 
-El frontend queda disponible en `http://localhost:5173/`. El proxy de Vite reenvía `/api/*` al backend en `http://localhost:8000`.
+El frontend queda en `http://localhost:5173/`. El proxy de Vite reenvía `/api/*` al backend en `http://localhost:8000`.
 
 Pruebas del frontend (opcional):
 
@@ -94,84 +150,53 @@ pnpm --dir frontend test
 pnpm --dir frontend test:e2e
 ```
 
-**Nota:** si `gemma4:e2b` no está disponible en tu instalación de Ollama, omite ese `pull` y usa solo `llama3.1:8b` en la interfaz.
+### API HTTP (rutas principales del producto)
 
-Variables opcionales: `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO`, `OPENAI_API_KEY`, `ALLOWED_ORIGINS` (ver `.env.example`).
+- **`POST /api/sesiones`:** cuerpo JSON con `documento_identidad` y `nombre`. Respuesta: `usuario_id`, `session_id` (p. ej. `user:{uuid}`), `nombre`, `ya_existia`, `ultimo_mensaje_at` (opcional). Cookie HTTP-only **`fvl_session_id`** con ese `session_id`.
+- **Credenciales en peticiones posteriores** (orden de precedencia): cabecera **`X-Session-Id`**, query **`session_id`**, cookie **`fvl_session_id`**.
+- **`GET /api/sesiones/actual/historial`:** historial cronológico (`rol`, `contenido`, `creado_en` opcional).
+- **`POST /api/sesiones/cerrar`:** confirma cierre y pide borrar la cookie; no elimina filas en base de datos.
+- **`POST /api/agente/stream`:** SSE del agente (eventos extendidos). Requiere sesión válida.
+- **`GET /api/salud`:** incluye señales de dependencias y, cuando aplica, **`agente_mock_llm`** si el servidor arrancó con `MOCK_LLM=1`.
 
-### Modo producción (Docker)
+**CORS y cookies:** `allow_credentials=True`; en `.env`, `ALLOWED_ORIGINS` debe listar orígenes explícitos.
 
-El archivo `docker-compose.yml` levanta **PostgreSQL 16** (`postgres:16-alpine`), **Qdrant** (`qdrant/qdrant:v1.12.5`, compatible con `qdrant-client` del lockfile), **Ollama**, el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`**. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+### Pruebas E2E del Módulo 2 (TASK-61)
 
-Las migraciones **Alembic** (`alembic/`) crean el esquema de aplicación; la tabla **`usuarios`** forma parte de esa cadena. La tabla **`chat_history`** usada por la memoria conversacional de LangChain **no** se versiona con Alembic: se crea en runtime mediante `PostgresChatMessageHistory.create_tables` en el lifespan de la API (ver task-48).
+Suite **`tests/e2e/test_escenarios_modulo2.py`**: cuatro escenarios alineados con la actividad del curso (RAG denso, memoria multi-turno, FAQ estructurada y diálogo mixto). Requiere API alcanzable y `EJECUTAR_E2E_MODULO2=1`. Las aserciones estrictas de herramienta usan tokens `e2e7001` / `e2e7002` / `e2e7003` con **`MOCK_LLM=1`** en el servidor. Comandos y variables: [scripts/README.md](scripts/README.md). Playwright: `frontend/tests/e2e/`.
 
-- **PostgreSQL en el host**: puerto publicado por defecto **15432** → 5432 interno (`POSTGRES_PUBLISH_PORT` para cambiarlo). Variables: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` (valores por defecto acordes con `src/api/configuracion.py`).
-- **Qdrant**: REST **6333** y gRPC **6334** en el host (`QDRANT_REST_PORT`, `QDRANT_GRPC_PORT`). En la red de Compose la API usa `QDRANT_URL=http://qdrant:6333` (solo HTTP; el cliente no requiere gRPC en el contenedor `api`).
-- **Solo infra** (sin Ollama ni API): `docker compose up -d postgres qdrant`.
+## Experiencia en la UI (React + shadcn/ui)
 
-```bash
-docker compose config
-docker compose down -v
-docker compose up --build -d
-curl -sS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
-```
+- **Autenticación liviana** antes del chat (documento de identidad y nombre).
+- **Streaming** de la respuesta del agente vía SSE (`/api/agente/stream`).
+- **Eventos de trazabilidad** (`pensamiento`, `herramienta`, `fuentes` con chunks de Qdrant cuando aplica).
+- **Panel de configuración**, modo claro/oscuro, accesibilidad y atajos de teclado (ver código en `frontend/src`).
 
-El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Ver `Dockerfile` y `docker-compose.yml`.
+## Resultados (evaluaciones del pipeline BM25 — legado)
 
-### API de sesión (Módulo 2)
-
-Tras levantar PostgreSQL y la API, el frontend puede autenticarse de forma ligera (sin JWT) y recuperar el historial conversacional:
-
-- **`POST /api/sesiones`**: cuerpo JSON con `documento_identidad` y `nombre`. Respuesta: `usuario_id`, `session_id` en forma `user:{uuid}`, `nombre`, `ya_existia` y `ultimo_mensaje_at` (opcional). Además se envía la cookie HTTP-only **`fvl_session_id`** con ese `session_id`.
-- **Credenciales en peticiones posteriores** (orden de precedencia): cabecera **`X-Session-Id`**, parámetro de consulta **`session_id`**, cookie **`fvl_session_id`**.
-- **`GET /api/sesiones/actual/historial`**: requiere credencial válida; devuelve `mensajes` en orden cronológico con campos `rol` (`human`, `ai`, `system`, `tool`), `contenido` y `creado_en` (opcional).
-- **`POST /api/sesiones/cerrar`**: responde confirmando la intención de cierre y pide al navegador borrar la cookie; no elimina filas de usuario ni de historial en base de datos.
-- **CORS y cookies**: el backend usa `allow_credentials=True`; en `.env`, `ALLOWED_ORIGINS` debe ser una lista de orígenes explícitos (no se admite `*` junto con credenciales).
-
-### Experiencia en la UI (React + shadcn/ui)
-
-- **Streaming token a token**: la respuesta del modelo aparece progresivamente en el área de chat mientras llega del backend vía Server-Sent Events (SSE).
-- **Modo dual Ollama + OpenAI**: dos columnas side-by-side con una sola pasada BM25 compartida; aviso de coste dual visible.
-- **Fuentes BM25**: panel de cards con archivo, score y URL clickable de los documentos recuperados.
-- **Panel de configuración**: sidebar colapsable con selección de modelo, slider de `num_ctx`, editor del prompt del sistema y botón de recarga del corpus.
-- **Modo oscuro**: toggle persistente entre tema claro y oscuro con paleta institucional Valle del Lili.
-- **Accesibilidad**: ARIA labels en español; atajos `Cmd/Ctrl+Enter` (enviar), `Cmd/Ctrl+K` (foco en el campo de pregunta), `Cmd/Ctrl+B` (abrir/cerrar panel lateral).
-- **Borrador y parámetros**: el borrador del input se recupera en la misma sesión; modelo, `num_ctx` y prompt se guardan en el navegador.
-
-## Resultados
-
-Los informes de evaluación automática (tarea de dataset ≥20 preguntas) se generan bajo:
-
-**`data/processed/evaluaciones/`**
-
-Cada corrida produce un Markdown por modelo, p. ej. `data/processed/evaluaciones/<slug-modelo>__YYYY-MM-DD.md`. El directorio conserva `.gitkeep`; los informes de ejecuciones locales suelen ignorarse en git salvo que se versionen a propósito.
-
-Para regenerarlos (requiere Ollama y modelos instalados):
+Los informes automáticos del script **`scripts/evaluar_qa.py`** (dataset ≥20 preguntas, recuperación **BM25** del Módulo 1) se generan bajo **`data/processed/evaluaciones/`**. Cada corrida produce un Markdown por modelo. Para regenerarlos (Ollama y modelos instalados):
 
 ```bash
-uv run python -m scripts.evaluar_qa --modelos llama3.1:8b gemma4:e2b
+uv run python -m scripts.evaluar_qa --modelos llama3.1:8b
 ```
 
-El dataset por defecto es `tests/qa/preguntas_evaluacion.yml` (23 ítems con categoría y, cuando aplica, `archivo_esperado`). Cada informe agrega, entre otros:
-
-| Métrica (por modelo) | Origen en el informe |
-| --- | --- |
-| Número de preguntas ejecutadas | Tabla resumen |
-| Aciertos en archivo recuperado | Comparación con `archivo_esperado` |
-| Respuestas con «No tengo información suficiente» | Conteo en resumen |
-| Latencia promedio | Estadística de ms por pregunta |
-
-## Solución de problemas (streaming, CORS, Ollama)
+## Solución de problemas
 
 | Síntoma | Qué revisar |
 | --- | --- |
-| El texto aparece **de golpe** en lugar de en streaming | Proxies/CDN pueden bufferizar SSE: en Nginx usar `proxy_buffering off`; con Cloudflare evita transformaciones en la respuesta (`Cache-Control: no-transform`). Verifica que ningún intermediario agrupe líneas SSE. |
-| **CORS bloqueado** en el navegador | Configura `ALLOWED_ORIGINS` en `.env` con el origen exacto del frontend (p. ej. `http://localhost:5173`) y reinicia el backend. Con cookies de sesión (`fvl_session_id`) el backend envía `Access-Control-Allow-Credentials: true`; el origen debe coincidir literalmente con el de la petición. |
-| **Ollama no responde** | Ejecuta `ollama serve`, revisa `OLLAMA_BASE_URL` y ejecuta `ollama pull llama3.1:8b` (u otro modelo que uses). Con Docker Compose, el job `ollama-init` ejecuta `ollama pull` cuando el demonio está saludable. |
-| Difícil rastrear un fallo intermitente | Las respuestas incluyen cabecera `X-Request-ID`; búscala en los logs del API (middleware de peticiones). |
+| El texto del agente aparece **de golpe** | Proxies que bufferizan SSE (`proxy_buffering off` en Nginx; sin transformaciones agresivas en CDN). |
+| **CORS** o cookies bloqueadas | `ALLOWED_ORIGINS` con el origen exacto del frontend; credenciales y `X-Session-Id` coherentes con la sesión creada. |
+| **`POST /api/agente/stream` en 503** | Sin `OPENAI_API_KEY` y sin `MOCK_LLM=1`; revise `GET /api/salud`. |
+| **RAG vacío** | Colección Qdrant sin ingesta o umbral `RAG_SCORE_MINIMO` demasiado alto; vuelva a indexar y verifique `QDRANT_COLLECTION`. |
+| **Postgres no listo** en Compose | `docker compose ps`, healthchecks y puerto `POSTGRES_PUBLISH_PORT` vs variables del `.env`. |
+
+## Historial de versiones — Módulo 1 (BM25 y `/api/qa`)
+
+La primera fase del proyecto implementó un **pipeline Q&A** con recuperación **BM25 a nivel archivo** (`rank-bm25`), selección **top-k** de documentos Markdown completos y generación con **Ollama** u **OpenAI** opcional. Los endpoints **`POST /api/qa`**, **`POST /api/qa/stream`** y el modo dual **`POST /api/qa/dual/stream`** pueden seguir disponibles para laboratorio o referencia académica; **no** constituyen el camino principal del **agente M2**, que recupera contexto solo por **similitud densa en Qdrant** según [decision-3](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). Detalle del MVP léxico: [ADR-001](backlog/decisions/decision-1%20-%20MVP-BM25-Archivo-Completo.md) y [ADR-002](backlog/decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md).
 
 ## Limitaciones conocidas
 
-- Combinar **varios** `.md` completos en el prompt (top-k) puede acercar o superar `num_ctx` (p. ej. 8192): el motor puede **truncar** el contexto y afectar la respuesta más que con un solo documento corto.
-- Páginas muy largas aisladas también pueden superar `num_ctx`: Ollama puede **truncar** el contexto y afectar la respuesta.
-- BM25 a nivel archivo puede recuperar la **página equivocada** cuando varias comparten mucho vocabulario.
-- El tag `gemma4:e2b` puede no existir en el registro oficial de Ollama; si falla el `pull` o la inferencia, usar solo `llama3.1:8b` y documentar la limitación en la sustentación.
+- **Coste y dependencia de API:** embeddings e inferencia del router suelen depender de proveedor externo salvo configuración local explícita.
+- **Sincronización corpus–vectores:** cambios en `data/markdown/` requieren **reindexación** para reflejarse en Qdrant.
+- **Concurrencia y operación:** más servicios en desarrollo (Postgres + Qdrant + API) que el MVP monolítico.
+- Las limitaciones del **Módulo 1** (truncamiento con varios `.md` largos en un solo prompt BM25, ambigüedad léxica) aplican solo si se usa ese pipeline legacy en laboratorio.

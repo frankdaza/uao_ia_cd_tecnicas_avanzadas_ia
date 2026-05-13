@@ -1,10 +1,10 @@
 ---
 id: TASK-63
 title: Actualizar README.md e informe/Informe_Latex.tex con arquitectura Módulo 2
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 01:23'
+updated_date: '2026-05-13 01:30'
 labels:
   - docs
   - informe
@@ -52,15 +52,14 @@ Prosa en **español latinoamericano** en ambos artefactos.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-- [ ] #1 README describe el arranque actual sin mencionar `/api/qa` como ruta principal
-- [ ] #2 README enlaza a `doc-003` y menciona requisitos Docker nuevos
-- [ ] #3 Informe LaTeX compila con `latexmk` o comando usado en el repo sin errores nuevos
-- [ ] #4 Capítulo M2 incluye referencias bibliográficas internas (ADR, doc-003, tests e2e)
-- [ ] #5 Se eliminan afirmaciones incorrectas sobre BM25 en runtime; lo histórico queda acotado
-- [ ] #6 Figuras/tablas numeradas y referenciadas correctamente en LaTeX
-- [ ] #7 Sin rutas absolutas personales ni secretos
+- [x] #1 README describe el arranque actual sin mencionar `/api/qa` como ruta principal
+- [x] #2 README enlaza a `doc-003` y menciona requisitos Docker nuevos
+- [x] #3 Informe LaTeX compila con `latexmk` o comando usado en el repo sin errores nuevos
+- [x] #4 Capítulo M2 incluye referencias bibliográficas internas (ADR, doc-003, tests e2e)
+- [x] #5 Se eliminan afirmaciones incorrectas sobre BM25 en runtime; lo histórico queda acotado
+- [x] #6 Figuras/tablas numeradas y referenciadas correctamente en LaTeX
+- [x] #7 Sin rutas absolutas personales ni secretos
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -81,10 +80,15 @@ Prosa en **español latinoamericano** en ambos artefactos.
 - Si el informe tiene dependencias LaTeX no disponibles en CI, documentar solo build local.
 <!-- SECTION:NOTES:END -->
 
-## Definition of Done
+## Final Summary
 
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+README.md reescrito centrado en el agente M2: stack LangGraph/LangChain/LlamaIndex, Postgres, Qdrant, variables de entorno agrupadas, ingesta con `uv run python -m scripts.indexar_corpus_qdrant`, Docker Compose y API principal `/api/agente/stream`; enlaces a doc-003 y decision-3; BM25 y `/api/qa` acotados en seccion de historial M1. informe/Informe_Latex.tex: nueva seccion M2 con figura TikZ, herramientas/memoria, justificacion densa vs BM25 con cita al ADR, tabla resumen E2E (TASK-61), listing SSE anonimizado, referencias bibliograficas internas; intro/discusion/conclusiones alineadas. Compilacion verificada con `latexmk -g -pdf` en informe/.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 README revisado por checklist AC
+- [x] #1 README revisado por checklist AC
 - [ ] #2 Informe PDF generado y adjunto en entrega académica según flujo del curso (fuera de alcance git opcional)
-- [ ] #3 `uv run pytest` + `pnpm --dir frontend test` verdes en rama de cierre M2
+- [x] #3 `uv run pytest` + `pnpm --dir frontend test` verdes en rama de cierre M2
 <!-- DOD:END -->
