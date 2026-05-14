@@ -1,11 +1,11 @@
 ---
 id: TASK-74
 title: 'BUG: corregir nDCG@k > 1 en metricas_eval y anadir test de regresion'
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:25'
-updated_date: '2026-05-14 23:49'
+updated_date: '2026-05-14 23:53'
 labels:
   - rag
   - evaluation
@@ -19,6 +19,10 @@ references:
   - scripts/eval_metricas_rag.py
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
+  - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
+modified_files:
+  - src/rag/metricas_eval.py
+  - tests/rag/test_metricas_eval.py
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
 ordinal: 1000
@@ -71,11 +75,11 @@ Alternativa descartada: nDCG por documento deduplicado (`list(dict.fromkeys(top_
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 ndcg_at_k devuelve siempre 0.0 <= ndcg <= 1.0 para cualquier top_k y conjunto de relevantes (incluyendo casos con un solo documento relevante repetido en multiples chunks).
-- [ ] #2 Test parametrizado nuevo en tests/rag/test_metricas_eval.py cubre: (a) un solo doc relevante repetido en k chunks; (b) lista de relevantes vacia; (c) k=0; (d) ningun chunk relevante; (e) todos chunks relevantes; (f) mezcla de relevantes y no relevantes.
-- [ ] #3 doc-003 queda alineado a la definicion elegida (nDCG por chunk con iDCG acotado a k); TASK-73 ya separo granularidades, aqui solo se indica cual aplica a nDCG.
-- [ ] #4 scripts/eval_metricas_rag.py no cambia su CLI; corridas con --config baseline producen nDCG <= 1.
-- [ ] #5 No se rompen tests existentes.
+- [x] #1 ndcg_at_k devuelve siempre 0.0 <= ndcg <= 1.0 para cualquier top_k y conjunto de relevantes (incluyendo casos con un solo documento relevante repetido en multiples chunks).
+- [x] #2 Test parametrizado nuevo en tests/rag/test_metricas_eval.py cubre: (a) un solo doc relevante repetido en k chunks; (b) lista de relevantes vacia; (c) k=0; (d) ningun chunk relevante; (e) todos chunks relevantes; (f) mezcla de relevantes y no relevantes.
+- [x] #3 doc-003 queda alineado a la definicion elegida (nDCG por chunk con iDCG acotado a k); TASK-73 ya separo granularidades, aqui solo se indica cual aplica a nDCG.
+- [x] #4 scripts/eval_metricas_rag.py no cambia su CLI; corridas con --config baseline producen nDCG <= 1.
+- [x] #5 No se rompen tests existentes.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -114,9 +118,15 @@ Alternativa descartada: nDCG por documento deduplicado (`list(dict.fromkeys(top_
 Mantener firma publica y nombre `ndcg_at_k` para no romper imports existentes. Si el equipo prefiere la alternativa (nDCG por documento deduplicado), ajustar el plan y documentar en doc-003 (esta tarea sigue siendo valida con la alternativa: solo cambia la implementacion del DCG y la cota de iDCG). El test de regresion del caso (a) es la clave: con la implementacion previa fallaria por nDCG > 1; con la nueva pasa.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se corrigio `ndcg_at_k` para usar iDCG con suma sobre las k ranuras (todas relevantes en el ranking ideal), garantizando 0 <= nDCG <= 1 cuando R no es vacio. Se anadio `if not rel: return 0.0`. Tests: ajuste de expectativas en `TestNdcgAtK` y prueba parametrizada TASK-74 (casos a-f). doc-003: fila nDCG alineada a la definicion. `uv run pytest tests/rag/test_metricas_eval.py -v` y `tests/rag/` en verde. Eval `uv run python -m scripts.eval_metricas_rag --config baseline` ejecutado con Qdrant local (docker compose); nDCG@k en reporte <= 1. Artefactos de reporte generados se eliminaron del arbol de trabajo para no dejar archivos sin seguimiento.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_metricas_eval.py -v en verde.
-- [ ] #2 uv run scripts/eval_metricas_rag.py --config baseline manualmente exitoso con nDCG <= 1.
-- [ ] #3 Tarea con status: Done sin archivar.
+- [x] #1 uv run pytest tests/rag/test_metricas_eval.py -v en verde.
+- [x] #2 uv run scripts/eval_metricas_rag.py --config baseline manualmente exitoso con nDCG <= 1.
+- [x] #3 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

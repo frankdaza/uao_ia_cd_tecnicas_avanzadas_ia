@@ -93,23 +93,22 @@ def mrr(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> flo
 def ndcg_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> float:
     """
     ``nDCG@k`` con relevancia binaria por chunk: ganancia 1 si el archivo del chunk
-    pertenece a ``R``, 0 si no. Normalizado respecto al DCG ideal que coloca todos
-    los documentos relevantes al inicio del ranking (hasta ``k`` posiciones).
+    pertenece a ``R`` en esa posicion. El iDCG asume que las ``k`` primeras ranuras
+    del ranking son todas relevantes (``sum(1/log2(i+2), i=0..k-1)``), de modo que
+    ``0 <= nDCG <= 1`` aunque un mismo documento relevante ocupe varias posiciones.
     """
     if k <= 0:
         return 0.0
     rel = {_normalizar_ruta(r) for r in relevantes}
+    if not rel:
+        return 0.0
     ranked = archivos_desde_chunks_rankeados(archivos_por_chunk, k)
-    dcg = 0.0
-    for i, a in enumerate(ranked):
-        gain = 1.0 if a in rel else 0.0
-        dcg += gain / math.log2(i + 2.0)
-
-    num_rel = len(rel)
-    ideal_len = min(k, num_rel) if num_rel > 0 else 0
-    idcg = 0.0
-    for i in range(ideal_len):
-        idcg += 1.0 / math.log2(i + 2.0)
+    dcg = sum(
+        1.0 / math.log2(i + 2.0)
+        for i, a in enumerate(ranked)
+        if a in rel
+    )
+    idcg = sum(1.0 / math.log2(i + 2.0) for i in range(k))
     if idcg <= 0.0:
         return 0.0
     return dcg / idcg

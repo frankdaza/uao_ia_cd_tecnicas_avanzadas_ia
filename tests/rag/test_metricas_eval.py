@@ -109,7 +109,9 @@ class TestNdcgAtK:
     def test_perfecto_un_relevante_al_inicio(self) -> None:
         rel1 = {"data/markdown/a.md"}
         arch = ["data/markdown/a.md", "z.md"]
-        assert ndcg_at_k(arch, rel1, k=2) == pytest.approx(1.0)
+        dcg = 1.0 / math.log2(2.0)
+        idcg = 1.0 / math.log2(2.0) + 1.0 / math.log2(3.0)
+        assert ndcg_at_k(arch, rel1, k=2) == pytest.approx(dcg / idcg)
 
     def test_cero_relevancia(self) -> None:
         assert ndcg_at_k(["z.md", "w.md"], REL, k=2) == 0.0
@@ -121,13 +123,49 @@ class TestNdcgAtK:
 
     def test_dos_relevantes_mejor_posicion(self) -> None:
         rel2 = {"a.md", "b.md"}
-        ideal = 1.0 / math.log2(2) + 1.0 / math.log2(3)
         arch = ["a.md", "b.md", "z.md"]
         dcg = 1.0 / math.log2(2) + 1.0 / math.log2(3)
-        assert ndcg_at_k(arch, rel2, k=3) == pytest.approx(dcg / ideal)
+        idcg = sum(1.0 / math.log2(i + 2) for i in range(3))
+        assert ndcg_at_k(arch, rel2, k=3) == pytest.approx(dcg / idcg)
 
     def test_k_trunca(self) -> None:
         assert ndcg_at_k(["z.md", "data/markdown/a.md"], REL, k=1) == 0.0
+
+
+@pytest.mark.parametrize(
+    "archivos,relevantes,k,caso",
+    [
+        pytest.param(
+            ["docs/mision.md"] * 3 + ["docs/otros.md", "docs/otros.md"],
+            {"docs/mision.md"},
+            5,
+            "a",
+            id="a_doc_relevante_repetido_en_varios_chunks",
+        ),
+        pytest.param(["a.md"], set(), 2, "b", id="b_relevantes_vacio"),
+        pytest.param(["a.md"], {"a.md"}, 0, "c", id="c_k_cero"),
+        pytest.param(["x.md", "y.md"], {"a.md"}, 3, "d", id="d_ningun_chunk_relevante"),
+        pytest.param(["a.md", "b.md"], {"a.md", "b.md"}, 2, "e", id="e_todos_chunks_relevantes"),
+        pytest.param(["a.md", "z.md"], {"a.md"}, 2, "f", id="f_mezcla_relevantes_y_no"),
+    ],
+)
+def test_ndcg_at_k_regresion_parametrizado(
+    archivos: list[str],
+    relevantes: set[str],
+    k: int,
+    caso: str,
+) -> None:
+    """Cobertura TASK-74: nDCG acotado a [0, 1] y casos de borde."""
+    valor = ndcg_at_k(archivos, relevantes, k)
+    assert 0.0 <= valor <= 1.0
+    if caso == "a":
+        assert valor > 0.0
+    elif caso == "e":
+        assert valor == pytest.approx(1.0)
+    elif caso == "f":
+        assert 0.0 < valor < 1.0
+    else:
+        assert valor == pytest.approx(0.0)
 
 
 class TestRecallConteo:

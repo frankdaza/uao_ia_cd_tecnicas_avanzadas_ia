@@ -219,7 +219,7 @@ flowchart LR
 | `precision@k` | documento deduplicado en el top-k | `precision_at_k` | Conjunto `T` de **archivos unicos** entre los primeros `k` chunks; el denominador sigue siendo `k`. |
 | `recall@k` | documento deduplicado en el top-k | `recall_at_k` | Mismo `T` que en `precision@k`; cociente respecto a `|R|` (ground truth). |
 | `MRR` | ranking por chunk (truncado a `k`) | `mrr` | Inverso del rank **1-indexado** del primer chunk cuyo archivo esta en `R`; 0 si no hay acierto en el top-k. |
-| `nDCG@k` | ranking por chunk (relevancia binaria por posicion de chunk) | `ndcg_at_k` | Ganancia 1 si el archivo del chunk en esa posicion pertenece a `R`. Una revision del calculo esta prevista en TASK-74; aqui se documenta el contrato del codigo actual. |
+| `nDCG@k` | ranking por chunk (relevancia binaria por posicion de chunk) | `ndcg_at_k` | Ganancia 1 si el archivo del chunk en esa posicion pertenece a `R`. El iDCG usa la suma de descuentos de las `k` ranuras como si todas fueran relevantes (`sum 1/log2(i+2)` para `i=0..k-1`), de modo que `nDCG = DCG/iDCG` queda en `[0, 1]` (TASK-74). |
 
 - **Adicional**: `recall_conteo` para listados cuando exista la integracion con TASK-70.
 - **Comparacion entre configuraciones**: flag `--comparar` sobre dos archivos `*.results.jsonl` (delta agregado y por consulta; codigo de salida no cero si el MRR medio cae mas del umbral).
