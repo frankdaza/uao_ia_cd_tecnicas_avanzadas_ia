@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 06:02'
+updated_date: '2026-05-14 19:32'
 labels:
   - sqlalchemy
   - persistencia
@@ -21,7 +21,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 17000
+ordinal: 18000
 ---
 
 ## Description

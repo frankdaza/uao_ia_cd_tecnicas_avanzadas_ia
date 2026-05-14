@@ -83,11 +83,17 @@ class RecuperadorDenso:
             ).count
         )
 
-    def _pares_filtrados(self, consulta_limpia: str) -> list[tuple[float, object]]:
+    def _pares_filtrados(
+        self,
+        consulta_limpia: str,
+        *,
+        top_k: int | None = None,
+    ) -> list[tuple[float, object]]:
+        k = self._top_k if top_k is None else max(1, int(top_k))
         query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
         consulta_vs = VectorStoreQuery(
             query_embedding=list(query_embedding),
-            similarity_top_k=self._top_k,
+            similarity_top_k=k,
         )
         resultado_vs = self._vector_store.query(consulta_vs)
         nodos = resultado_vs.nodes or []
@@ -141,12 +147,22 @@ class RecuperadorDenso:
             fuentes=fuentes,
         )
 
-    def consultar(self, consulta: str) -> SalidaRecuperacionRagDenso:
+    def consultar(
+        self,
+        consulta: str,
+        *,
+        top_k: int | None = None,
+    ) -> SalidaRecuperacionRagDenso:
         """
         Embedea ``consulta``, consulta el vector store y filtra por ``score_minimo``.
 
         Los resultados se ordenan por score descendente. Si la colección está vacía o
         ningún punto supera el umbral, se devuelve un mensaje claro y ``fuentes`` vacía.
+
+        Args:
+            consulta: Texto de la pregunta.
+            top_k: Si se informa, sustituye el ``top_k`` del constructor solo en esta
+                llamada (p. ej. evaluación con ``k_evaluacion`` distinto del producto).
         """
         consulta_limpia = consulta.strip()
         if not consulta_limpia:
@@ -154,6 +170,8 @@ class RecuperadorDenso:
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,
                 fuentes=[],
             )
+
+        top_efectivo = self._top_k if top_k is None else max(1, int(top_k))
 
         if self._contar_puntos() == 0:
             logger.info(
@@ -165,7 +183,7 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
-        pares = self._pares_filtrados(consulta_limpia)
+        pares = self._pares_filtrados(consulta_limpia, top_k=top_efectivo)
         if not pares:
             return SalidaRecuperacionRagDenso(
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,

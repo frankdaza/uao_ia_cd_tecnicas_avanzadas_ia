@@ -4,7 +4,7 @@ title: Actualizar README.md e informe/Informe_Latex.tex con arquitectura Módulo
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 01:30'
+updated_date: '2026-05-14 19:32'
 labels:
   - docs
   - informe
@@ -18,7 +18,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: medium
-ordinal: 1000
+ordinal: 2000
 ---
 
 ## Description

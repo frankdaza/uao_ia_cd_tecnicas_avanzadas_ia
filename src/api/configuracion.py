@@ -92,10 +92,34 @@ class Configuracion(BaseSettings):
         ),
     )
 
-    # --- Modulo 2: chunking (ingesta) ---
-    chunk_size: int = Field(default=512, ge=64, le=8192)
-    chunk_overlap: int = Field(default=80, ge=0, le=2048)
-    chunk_strategy: str = "sentence"
+    # --- Modulo 2: chunking (ingesta; scripts/indexar_corpus_qdrant.py) ---
+    chunk_size: int = Field(
+        default=1024,
+        ge=64,
+        le=8192,
+        description=(
+            "Tamaño de fragmento para SentenceSplitter (LlamaIndex). "
+            "Variable de entorno: CHUNK_SIZE. Tras cambiar .env, reiniciar el proceso: "
+            "obtener_configuracion() esta cacheada con lru_cache."
+        ),
+    )
+    chunk_overlap: int = Field(
+        default=128,
+        ge=0,
+        le=2048,
+        description=(
+            "Solapamiento entre fragmentos consecutivos. Variable de entorno: CHUNK_OVERLAP. "
+            "Reiniciar el proceso tras editar .env (ver chunk_size)."
+        ),
+    )
+    chunk_strategy: str = Field(
+        default="sentence",
+        description=(
+            "Valor reservado para futuras estrategias de chunking. "
+            "Variable de entorno: CHUNK_STRATEGY. La ingesta actual solo usa SentenceSplitter; "
+            "este campo no altera indexar_corpus_qdrant.py hoy."
+        ),
+    )
 
     # --- Modulo 2: recuperacion densa ---
     rag_top_k: int = Field(default=5, ge=1, le=50)

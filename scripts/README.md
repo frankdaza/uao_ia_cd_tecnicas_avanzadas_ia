@@ -13,7 +13,10 @@ Para la lista completa de argumentos de cada programa, usa siempre:
 ```bash
 uv run python -m scripts.scrape --help
 uv run python -m scripts.export_markdown --help
+uv run python -m scripts.agrupar_corpus_markdown --help
 uv run python -m scripts.indexar_corpus_qdrant --help
+uv run python -m scripts.eval_recuperacion_consultas --help
+uv run python -m scripts.eval_metricas_rag --help
 ```
 
 ## Flujo sugerido
@@ -22,19 +25,25 @@ uv run python -m scripts.indexar_corpus_qdrant --help
 flowchart LR
   scrape[scripts.scrape]
   export[scripts.export_markdown]
+  agr[scripts.agrupar_corpus_markdown]
   idx[scripts.indexar_corpus_qdrant]
   raw[data/raw]
   md[data/markdown]
+  mda[data/processed/markdown_agrupado]
   qd[(Qdrant)]
   scrape --> raw
   export --> md
+  md --> agr
+  agr --> mda
   md --> idx
+  mda --> idx
   idx --> qd
 ```
 
 1. **`scrape`** — llena `data/raw/` con HTML y metadatos.
 2. **`export_markdown`** — convierte ese crudo en `data/markdown/` (fuente de verdad textual e ingesta hacia Qdrant).
-3. **`indexar_corpus_qdrant`** — fragmenta y vuelca embeddings en **Qdrant** para el agente M2.
+3. **`agrupar_corpus_markdown`** (opcional) — fusiona familias de `.md` por patrones (`config/agrupacion_corpus_valledellili.yaml`) en `data/processed/markdown_agrupado/` para mejorar la señal RAG en algunos listados; el corpus canónico en `data/markdown/` no se modifica.
+4. **`indexar_corpus_qdrant`** — fragmenta y vuelca embeddings en **Qdrant** para el agente M2 (entrada: `data/markdown/...` o el árbol agrupado con `--markdown-dir`).
 
 ## Paquete `scripts/`
 
@@ -107,6 +116,113 @@ uv run python -m scripts.export_markdown --solo-uno nombre-del-archivo-sin-exten
 | --- | --- |
 | `--forzar` | Regenera todos los `.md` aunque el hash coincida. |
 | `--solo-uno SLUG` | Solo el `.html` cuyo nombre base es `SLUG` (depuración). |
+
+---
+
+## `scripts.agrupar_corpus_markdown`
+
+**Qué hace.** Lee el corpus Markdown bajo un directorio (por defecto `data/markdown/valledellili-org/`), aplica reglas de agrupación por nombre de archivo (`fnmatch`, orden de grupos en el YAML) y escribe un **árbol derivado** bajo `data/processed/markdown_agrupado/valledellili-org/` (gitignored como el resto de `data/processed/**`). Los archivos que no coinciden con ningún grupo se **copian** tal cual a la salida, salvo que uses `--solo-grupos`. Genera `_manifest_agrupacion.json` con la trazabilidad `grupo -> archivos_origen`.
+
+**Requisitos.** `pyyaml` (ya en el proyecto). No requiere Qdrant ni claves de embedding.
+
+**Ejecución.**
+
+```bash
+uv run python -m scripts.agrupar_corpus_markdown
+uv run python -m scripts.agrupar_corpus_markdown --config config/agrupacion_corpus_valledellili.yaml
+uv run python -m scripts.agrupar_corpus_markdown --solo-grupos
+uv run python -m scripts.agrupar_corpus_markdown --limpiar-salida
+```
+
+**Opciones destacadas:**
+
+| Opción | Rol breve |
+| --- | --- |
+| `--config` | YAML con la lista `grupos` (`patron_nombre` como texto o lista de patrones `fnmatch`, `archivo_salida`, `titulo`, `seccion`, `source_url_canonica` opcional). |
+| `--entrada` / `--salida` | Directorios de corpus de entrada y de salida derivada. |
+| `--solo-grupos` | No copia los `.md` que no matchean ningún grupo (solo salidas fusionadas + manifiesto). |
+| `--limpiar-salida` | Borra todo el contenido de `--salida` antes de escribir. Solo se permite si la ruta resuelta contiene el segmento `markdown_agrupado` (protección anti borrados accidentales). |
+
+**Ingesta posterior.** Usa el mismo indexador apuntando al derivado:
+
+```bash
+uv run python -m scripts.indexar_corpus_qdrant \
+  --markdown-dir data/processed/markdown_agrupado/valledellili-org \
+  --glob "**/*.md"
+```
+
+**Migración en Qdrant.** Los ids de chunk dependen de la ruta del archivo respecto a la raíz del repo. Si pasas de indexar `data/markdown/...` a `data/processed/markdown_agrupado/...`, los payloads antiguos **siguen** en la colección hasta que los purges o uses otra colección. Estrategias típicas:
+
+- **A/B:** `uv run python -m scripts.indexar_corpus_qdrant --collection corpus_agrupado_prueba ...` y comparar con `scripts.eval_recuperacion_consultas`.
+- **Sustitución controlada:** reindexar el nuevo árbol y luego `--purgar` **por prefijo** solo si el prefijo de `payload.archivo` en Qdrant coincide con el directorio que acabas de indexar (ver ayuda de `--purgar` en el indexador). Para eliminar vectores del corpus antiguo con otro prefijo hace falta purga manual o herramientas de Qdrant.
+
+---
+
+## `scripts.eval_recuperacion_consultas`
+
+**Qué hace.** Carga [`config/evaluacion_rag_consultas_ejemplo.json`](config/evaluacion_rag_consultas_ejemplo.json) (o un JSON propio con clave `consultas`) y, salvo `--solo-validar-json`, ejecuta [`RecuperadorDenso`](../src/rag/recuperador_denso.py) contra la colección Qdrant configurada, imprimiendo `score`, `archivo` y `source_url` por consulta. Sirve para comparar **antes / después** de la agrupación si indexaste en colecciones distintas (`--collection` en el indexador y aquí con el mismo nombre).
+
+**Ejecución.**
+
+```bash
+# Sin Qdrant (CI o revisión rápida del JSON)
+uv run python -m scripts.eval_recuperacion_consultas --solo-validar-json
+
+# Con Qdrant y embeddings reales (variables en .env)
+uv run python -m scripts.eval_recuperacion_consultas
+uv run python -m scripts.eval_recuperacion_consultas --collection corpus_agrupado_prueba
+```
+
+**Checklist manual A/B sugerido**
+
+1. Indexar corpus canónico (o usar la colección ya desplegada) y anotar cuántas consultas del JSON devuelven fuentes.
+2. Ejecutar `agrupar_corpus_markdown`, indexar el derivado en **otra** colección (`--collection`).
+3. Ejecutar este script dos veces (sin `--collection` vs `--collection ...`) o alternando `QDRANT_COLLECTION` en `.env` y comparar salidas.
+
+---
+
+## `scripts.eval_metricas_rag` (TASK-72)
+
+**Qué hace.** Valida [`data/eval/golden_set_rag.jsonl`](data/eval/golden_set_rag.jsonl) contra [`data/eval/golden_set.schema.json`](data/eval/golden_set.schema.json), ejecuta el **RecuperadorDenso** por cada pregunta factual y calcula métricas estándar (`hit@k`, `precision@k`, `recall@k`, `MRR`, `nDCG@k`). Las filas `listado` / `conteo` quedan como **no aplicables** hasta integrar la tool `listar_estructurado` (TASK-70). Escribe un Markdown en `--reporte-out` y un JSONL paralelo `*.results.jsonl` para el comparador.
+
+**Validación sin Qdrant ni red (CI):**
+
+```bash
+uv run python -m scripts.eval_metricas_rag --solo-validar-golden
+```
+
+**Línea base reproducible (ejemplo con Qdrant local + HuggingFace, sin OpenAI):**
+
+```bash
+docker compose up -d qdrant
+
+QDRANT_URL=http://127.0.0.1:6333 QDRANT_COLLECTION=corpus_fvl_eval_hf_baseline \
+  EMBEDDING_PROVIDER=huggingface EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2 EMBEDDING_DIMS=384 \
+  uv run python -m scripts.indexar_corpus_qdrant --collection corpus_fvl_eval_hf_baseline
+
+QDRANT_URL=http://127.0.0.1:6333 QDRANT_COLLECTION=corpus_fvl_eval_hf_baseline \
+  EMBEDDING_PROVIDER=huggingface EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2 EMBEDDING_DIMS=384 \
+  RAG_SCORE_MINIMO=0.0 \
+  uv run python -m scripts.eval_metricas_rag --config baseline --collection corpus_fvl_eval_hf_baseline \
+  --reporte-out data/eval/reportes/eval-baseline-2026-05-14.md
+```
+
+> En evaluación suele fijarse `RAG_SCORE_MINIMO=0.0` para no descartar candidatos por umbral; el producto puede seguir usando el default (0.25).
+
+**Comparar dos corridas (delta de métricas agregadas y por consulta):**
+
+```bash
+uv run python -m scripts.eval_metricas_rag \
+  --comparar data/eval/reportes/eval-baseline-2026-05-14.results.jsonl \
+            data/eval/reportes/eval-limpio-2026-05-20.results.jsonl \
+  --umbral-regresion-mrr 0.05
+```
+
+Código de salida `1` si el **MRR medio** de B cae más de `--umbral-regresion-mrr` respecto a A.
+
+**Flags útiles:** `--golden`, `--config baseline|limpio|markdown|mmr|reranker|adaptativo`, `--collection`, `--reporte-out`, `--comparar`, `--solo-validar-golden`.
+
+**Métricas en código:** [`src/rag/metricas_eval.py`](../src/rag/metricas_eval.py) y pruebas en `tests/rag/test_metricas_eval.py`.
 
 ---
 

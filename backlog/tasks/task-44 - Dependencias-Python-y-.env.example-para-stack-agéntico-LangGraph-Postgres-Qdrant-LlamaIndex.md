@@ -40,7 +40,7 @@ La arquitectura M2 añade orquestación con **LangGraph**, memoria con **langcha
    - **PostgreSQL**: `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DATABASE_URL` (async).
    - **Qdrant**: `QDRANT_URL`, `QDRANT_API_KEY` (opcional), `QDRANT_COLLECTION`, `QDRANT_DISTANCE=Cosine`.
    - **Embeddings**: `EMBEDDING_PROVIDER=openai|huggingface`, `EMBEDDING_MODEL=text-embedding-3-small`, `EMBEDDING_DIMS=1536`.
-   - **Chunking**: `CHUNK_SIZE=512`, `CHUNK_OVERLAP=80`, `CHUNK_STRATEGY=sentence`.
+   - **Chunking**: `CHUNK_SIZE=1024`, `CHUNK_OVERLAP=128`, `CHUNK_STRATEGY=sentence`.
    - **RAG**: `RAG_TOP_K=5`, `RAG_SCORE_MINIMO=0.25`.
    - **Memoria**: `HISTORIAL_DIAS_MAX=7`, `HISTORIAL_TURNOS_MAX=20`.
    - **FAQ**: `FAQ_UMBRAL_MATCH=0.5`.

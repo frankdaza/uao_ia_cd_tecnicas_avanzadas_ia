@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/schemas/golden_set_rag.schema.json",
+  "title": "Golden set RAG (evaluacion de recuperacion)",
+  "type": "object",
+  "required": ["id", "consulta", "tipo", "k_evaluacion"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "consulta": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tipo": {
+      "type": "string",
+      "enum": ["factual", "listado", "conteo"]
+    },
+    "archivos_relevantes": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "filtros_esperados": {
+      "type": ["object", "null"],
+      "additionalProperties": true
+    },
+    "conteo_esperado": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "k_evaluacion": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500
+    },
+    "comentario": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "tipo": { "const": "factual" } },
+        "required": ["tipo"]
+      },
+      "then": {
+        "required": ["archivos_relevantes"],
+        "properties": {
+          "archivos_relevantes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tipo": { "enum": ["listado", "conteo"] }
+        },
+        "required": ["tipo"]
+      },
+      "then": {
+        "required": ["filtros_esperados", "conteo_esperado"],
+        "properties": {
+          "filtros_esperados": { "type": "object", "minProperties": 1 },
+          "conteo_esperado": { "type": "integer", "minimum": 1 },
+          "archivos_relevantes": { "type": "null" }
+        }
+      }
+    }
+  ]
+}

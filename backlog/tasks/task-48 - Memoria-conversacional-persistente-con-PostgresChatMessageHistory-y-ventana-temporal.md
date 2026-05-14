@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 06:02'
+updated_date: '2026-05-14 19:32'
 labels:
   - langchain
   - postgres
@@ -24,7 +24,7 @@ documentation:
   - 'https://python.langchain.com/docs/integrations/memory/'
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: high
-ordinal: 16000
+ordinal: 17000
 ---
 
 ## Description

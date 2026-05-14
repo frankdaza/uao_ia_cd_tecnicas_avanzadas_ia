@@ -3,6 +3,7 @@ id: doc-003
 title: Arquitectura operativa del agente conversacional (Modulo 2)
 type: architecture
 created_date: '2026-05-12'
+updated_date: '2026-05-14'
 status: vigente
 modulo: 2
 ---
@@ -123,6 +124,14 @@ uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/markdown/vall
 ```
 
 Más opciones y modo mock: [scripts/README.md](../../scripts/README.md) (sección **E2E del Modulo 2** y **`scripts.indexar_corpus_qdrant`**).
+
+### Evaluacion cuantitativa del RAG (golden set, TASK-72)
+
+- **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.
+- **Script**: `uv run python -m scripts.eval_metricas_rag` — validacion local sin red (`--solo-validar-golden`), corrida completa contra Qdrant y reporte Markdown + `*.results.jsonl` en `data/eval/reportes/`.
+- **Metricas** (implementacion pura): `src/rag/metricas_eval.py` — `hit@k`, `precision@k`, `recall@k`, `MRR`, `nDCG@k` a nivel documento deduplicado en el top-k; `recall_conteo` para listados cuando exista la integracion con TASK-70.
+- **Comparacion entre configuraciones**: flag `--comparar` sobre dos archivos `*.results.jsonl` (delta agregado y por consulta; codigo de salida no cero si el MRR medio cae mas del umbral).
+- **Detalle operativo y comandos de ejemplo**: [scripts/README.md](../../scripts/README.md), seccion **`scripts.eval_metricas_rag`**.
 
 ## 5. Troubleshooting
 

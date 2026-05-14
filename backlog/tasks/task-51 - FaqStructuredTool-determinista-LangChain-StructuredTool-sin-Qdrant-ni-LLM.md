@@ -4,7 +4,7 @@ title: FaqStructuredTool determinista (LangChain StructuredTool) sin Qdrant ni L
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-13 06:02'
+updated_date: '2026-05-14 19:32'
 labels:
   - langchain
   - herramientas
@@ -18,7 +18,7 @@ references:
 documentation:
   - .claude/skills/llm-backend/SKILL.md
 priority: high
-ordinal: 13000
+ordinal: 14000
 ---
 
 ## Description
