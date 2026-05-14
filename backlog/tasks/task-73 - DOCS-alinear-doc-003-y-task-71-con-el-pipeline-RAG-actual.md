@@ -1,11 +1,11 @@
 ---
 id: TASK-73
 title: 'DOCS: alinear doc-003 y task-71 con el pipeline RAG actual'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:24'
-updated_date: '2026-05-14 23:25'
+updated_date: '2026-05-14 23:46'
 labels:
   - rag
   - documentation
@@ -49,11 +49,11 @@ Esta tarea **solo edita documentacion** (`doc-003` y `task-71`). No modifica cod
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 doc-003 separa explicitamente las metricas segun su granularidad: precision@k y recall@k sobre conjunto deduplicado por archivo; mrr y ndcg@k sobre ranking por chunk. Incluye una tabla con columnas: metrica | granularidad | implementacion | comentario.
-- [ ] #2 task-71 queda con un unico marcador SECTION:FINAL_SUMMARY:END (lineas 138-140 actualizadas). El YAML del front matter sigue siendo valido.
-- [ ] #3 La descripcion del problema en task-71 aclara la diferencia entre 'default de produccion' (rag_mmr_habilitado=True) y 'baseline del script eval_metricas_rag --config baseline' (MMR/rerank off para comparacion).
-- [ ] #4 doc-003 anade un parrafo en la seccion de configuracion explicando: cambios en .env requieren reinicio (obtener_configuracion cacheada con @lru_cache); cambios via panel admin aplican en la siguiente peticion al agente.
-- [ ] #5 Ambos archivos siguen las convenciones de backlog-docs-format.mdc (front matter, naming) y backlog-md (sin secretos).
+- [x] #1 doc-003 separa explicitamente las metricas segun su granularidad: precision@k y recall@k sobre conjunto deduplicado por archivo; mrr y ndcg@k sobre ranking por chunk. Incluye una tabla con columnas: metrica | granularidad | implementacion | comentario.
+- [x] #2 task-71 queda con un unico marcador SECTION:FINAL_SUMMARY:END (lineas 138-140 actualizadas). El YAML del front matter sigue siendo valido.
+- [x] #3 La descripcion del problema en task-71 aclara la diferencia entre 'default de produccion' (rag_mmr_habilitado=True) y 'baseline del script eval_metricas_rag --config baseline' (MMR/rerank off para comparacion).
+- [x] #4 doc-003 anade un parrafo en la seccion de configuracion explicando: cambios en .env requieren reinicio (obtener_configuracion cacheada con @lru_cache); cambios via panel admin aplican en la siguiente peticion al agente.
+- [x] #5 Ambos archivos siguen las convenciones de backlog-docs-format.mdc (front matter, naming) y backlog-md (sin secretos).
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -77,9 +77,15 @@ Esta tarea **solo edita documentacion** (`doc-003` y `task-71`). No modifica cod
 No tocar el contenido cuantitativo del Final Summary de TASK-71; solo formato. Esta tarea NO corrige el calculo de nDCG (eso es TASK-74); solo documenta la definicion actual y deja claro que cambia TASK-74. Mantener idioma espanol latinoamericano y front matter compatible con backlog-docs-format.mdc.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se alineo backlog/docs/doc-003 con src/rag/metricas_eval.py: tabla metrica | granularidad | implementacion | comentario (incluye hit@k) y nota sobre TASK-74 para nDCG. Se anadio la seccion 4.0 sobre recarga: .env requiere reinicio por @lru_cache en obtener_configuracion; PATCH /api/admin/agente-m2 aplica en la siguiente peticion via RuntimeAgenteBundle. En backlog/tasks/task-71 se elimino el marcador SECTION:FINAL_SUMMARY:END duplicado, se distinguio default de produccion (MMR on) del preset baseline del script eval_metricas_rag, y se ajusto el ejemplo. Verificacion: uv run python -c import yaml sobre ambos front matter sin errores.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 AC verificados en los archivos editados.
-- [ ] #2 uv run python -c "import yaml,sys; [yaml.safe_load(open(p).read().split('---',2)[1]) for p in sys.argv[1:]]" backlog/tasks/task-71*.md backlog/docs/doc-003*.md pasa sin errores.
-- [ ] #3 Tarea queda con status: Done en backlog/tasks/ (no archivar).
+- [x] #1 AC verificados en los archivos editados.
+- [x] #2 uv run python -c "import yaml,sys; [yaml.safe_load(open(p).read().split('---',2)[1]) for p in sys.argv[1:]]" backlog/tasks/task-71*.md backlog/docs/doc-003*.md pasa sin errores.
+- [x] #3 Tarea queda con status: Done en backlog/tasks/ (no archivar).
 <!-- DOD:END -->

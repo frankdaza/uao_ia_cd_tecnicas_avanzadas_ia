@@ -8,7 +8,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
-updated_date: '2026-05-14 22:54'
+updated_date: '2026-05-14'
 labels:
   - rag
   - qdrant
@@ -34,14 +34,16 @@ ordinal: 1000
 <!-- SECTION:DESCRIPTION:BEGIN -->
 ### Problema
 
-El recuperador denso ([`src/rag/recuperador_denso.py`](src/rag/recuperador_denso.py)) opera hoy así:
+**Default de produccion** (hoy): en [`src/api/configuracion.py`](src/api/configuracion.py) el recuperador denso ([`src/rag/recuperador_denso.py`](src/rag/recuperador_denso.py)) suele ejecutarse con `rag_mmr_habilitado=True`, sobrerrecuperacion (`rag_top_k_inicial`) y etapas opcionales de reranker; ver doc-003 y la tabla de parametros.
+
+**Linea base comparable (sin MMR ni reranker)**: antes de TASK-71, y hoy cuando se quiere una comparacion legacy controlada, el preset **`baseline`** de `uv run python -m scripts.eval_metricas_rag --config baseline` fuerza MMR y reranker **desactivados**. En ese modo el pipeline se reduce a:
 
 1. Embedea la consulta.
 2. Pide a Qdrant `top_k = cfg.rag_top_k` (default 5) por similitud coseno.
 3. Filtra `score >= cfg.rag_score_minimo` (default 0.25).
 4. Devuelve los chunks ordenados por score.
 
-Dos defectos observables:
+Dos defectos observables **en esa linea base sin diversidad**:
 
 - **Sin diversidad**: cuando varios chunks comparten plantillas (cabecera institucional repetida, bloque "Otros especialistas", etc.), los 5 vecinos más cercanos pueden ser **cinco variaciones** de la misma plantilla, dejando fuera el chunk único que responde la pregunta. Caso real: el screenshot del usuario muestra cinco chunks de `sedes-consolidado / educacion-consolidado / buscador-integral-consolidado` para una pregunta sobre la misión institucional.
 - **Sin reranking semántico**: la similitud por embedding no es una función de relevancia; un reranker cross-encoder (que compara la consulta con cada candidato directamente) mejora el ordenamiento final con costo computacional acotado.
@@ -85,7 +87,7 @@ Variables `.env`: `RAG_TOP_K_INICIAL`, `RAG_MMR_HABILITADO`, `RAG_MMR_LAMBDA`, `
 
 Consulta: **"¿Cuál es la misión institucional de la Fundación?"**
 
-- **Baseline (hoy)**: top_k=5 → 5 chunks plantilla; respuesta "No tengo información suficiente".
+- **Baseline del script (`eval_metricas_rag --config baseline`, MMR/rerank off)**: top_k=5 → 5 chunks plantilla; respuesta "No tengo información suficiente".
 - **+TASK-68/TASK-69**: el chunk con la misión existe en la colección con `tipo_pagina="institucional"`.
 - **+MMR (lambda=0.5)**: top_k_inicial=20 → MMR reduce a 5 chunks diversos: idealmente uno institucional aparece.
 - **+Reranker BGE**: re-puntúa los 10 mejores tras MMR; el chunk institucional sube al top.
@@ -135,8 +137,6 @@ Reranker sin MMR: candidatos post-filtro ordenados por similitud; reranker toma 
 Implementado pipeline RAG: sobrerrecuperacion (RAG_TOP_K_INICIAL), MMR opcional (src/rag/diversificador_mmr.py), reranker cross-encoder opcional con singleton y degradacion ante fallo (src/rag/reranker_cross_encoder.py), integracion en RecuperadorDenso con query Qdrant con vectores cuando MMR esta activo, factory desde_configuracion y cableado en rag_tool y scripts de evaluacion. Tests: tests/rag/test_diversificador_mmr.py (6 casos), test_reranker_cross_encoder.py (4), test_recuperador_denso_pipeline.py (6). scripts/eval_recuperacion_consultas.py: --config baseline|mmr|reranker|combinado|todas. scripts/eval_metricas_rag: etiqueta combinado y overrides MMR/reranker; baseline fuerza flags legacy para comparacion. Dependencia sentence-transformers anadida con uv. .env.example ampliado; doc-003 seccion Reranking y diversidad.
 
 Tuning TASK-72: la tabla de metricas (hit@5, MRR, recall@10) con las cuatro configuraciones debe generarse en un entorno con Qdrant indexado y embeddings configurados (uv run python -m scripts.eval_metricas_rag --config ...). No se ejecuto esa corrida completa en esta sesion por depender de infraestructura local; los defaults recomendados quedan alineados a los valores existentes (RAG_TOP_K=5, RAG_SCORE_MINIMO=0.25) mas RAG_MMR_LAMBDA=0.5 y MMR activado por defecto en Configuracion.
-<!-- SECTION:FINAL_SUMMARY:END -->
-
 <!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done

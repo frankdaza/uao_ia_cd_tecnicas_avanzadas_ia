@@ -88,6 +88,12 @@ En inferencia **no** participa BM25 ni `data/markdown/` como índice léxico: el
 
 ## 4. Comandos: desarrollo local y Docker Compose
 
+### 4.0 Recarga de parametros (`.env` vs panel administrativo)
+
+Los valores cargados desde `.env` atraviesan `obtener_configuracion()` en `src/api/configuracion.py`, decorada con `@lru_cache` de la biblioteca estandar: **cualquier cambio en `.env` exige reiniciar** el proceso de Uvicorn (o invalidar manualmente el cache en laboratorio) para que la API observe los nuevos valores.
+
+Los parametros del agente M2 persistidos mediante `PATCH /api/admin/agente-m2` se resuelven en un **bundle por peticion** (`RuntimeAgenteBundle`): la **proxima** llamada a `POST /api/agente/stream` ya usa lo guardado en base de datos **sin** reinicio del servicio.
+
 **Variables** (placeholders; detalle en `.env.example`):
 
 - `POSTGRES_*` o `DATABASE_URL` (asyncpg).
@@ -205,7 +211,17 @@ flowchart LR
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.
 - **Script**: `uv run python -m scripts.eval_metricas_rag` — validacion local sin red (`--solo-validar-golden`), corrida completa contra Qdrant y reporte Markdown + `*.results.jsonl` en `data/eval/reportes/`.
-- **Metricas** (implementacion pura): `src/rag/metricas_eval.py` — `hit@k`, `precision@k`, `recall@k`, `MRR`, `nDCG@k` a nivel documento deduplicado en el top-k; `recall_conteo` para listados cuando exista la integracion con TASK-70.
+- **Metricas** (implementacion pura en `src/rag/metricas_eval.py`): todas operan sobre la lista ordenada de archivos por chunk (`archivos_por_chunk`), pero **no** comparten la misma granularidad; al comparar configuraciones conviene citar la fila correspondiente.
+
+| metrica | granularidad | implementacion | comentario |
+| --- | --- | --- | --- |
+| `hit@k` | ranking por chunk (primer acierto) | `hit_at_k` | Vale 1 si algun chunk entre los primeros `k` pertenece a un archivo del ground truth. |
+| `precision@k` | documento deduplicado en el top-k | `precision_at_k` | Conjunto `T` de **archivos unicos** entre los primeros `k` chunks; el denominador sigue siendo `k`. |
+| `recall@k` | documento deduplicado en el top-k | `recall_at_k` | Mismo `T` que en `precision@k`; cociente respecto a `|R|` (ground truth). |
+| `MRR` | ranking por chunk (truncado a `k`) | `mrr` | Inverso del rank **1-indexado** del primer chunk cuyo archivo esta en `R`; 0 si no hay acierto en el top-k. |
+| `nDCG@k` | ranking por chunk (relevancia binaria por posicion de chunk) | `ndcg_at_k` | Ganancia 1 si el archivo del chunk en esa posicion pertenece a `R`. Una revision del calculo esta prevista en TASK-74; aqui se documenta el contrato del codigo actual. |
+
+- **Adicional**: `recall_conteo` para listados cuando exista la integracion con TASK-70.
 - **Comparacion entre configuraciones**: flag `--comparar` sobre dos archivos `*.results.jsonl` (delta agregado y por consulta; codigo de salida no cero si el MRR medio cae mas del umbral).
 - **Detalle operativo y comandos de ejemplo**: [scripts/README.md](../../scripts/README.md), seccion **`scripts.eval_metricas_rag`**.
 

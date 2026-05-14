@@ -1,11 +1,11 @@
 ---
 id: TASK-74
 title: 'BUG: corregir nDCG@k > 1 en metricas_eval y anadir test de regresion'
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:25'
-updated_date: '2026-05-14 23:25'
+updated_date: '2026-05-14 23:49'
 labels:
   - rag
   - evaluation
@@ -21,7 +21,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
-ordinal: 2000
+ordinal: 1000
 ---
 
 ## Description
