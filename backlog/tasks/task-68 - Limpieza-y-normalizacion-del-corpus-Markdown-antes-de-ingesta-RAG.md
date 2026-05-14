@@ -1,13 +1,14 @@
 ---
 id: TASK-68
 title: >-
-  Limpieza y normalización del corpus Markdown (`data/processed/markdown_limpio/`)
-  antes de la ingesta RAG: remoción de plantillas, exclusión de páginas hub y
-  dedup intra-documento
-status: "To Do"
+  Limpieza y normalización del corpus Markdown
+  (`data/processed/markdown_limpio/`) antes de la ingesta RAG: remoción de
+  plantillas, exclusión de páginas hub y dedup intra-documento
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
+updated_date: '2026-05-14 22:15'
 labels:
   - rag
   - qdrant
@@ -22,12 +23,21 @@ references:
   - scripts/agrupar_corpus_markdown.py
   - config/agrupacion_corpus_valledellili.yaml
   - src/rag/recuperador_denso.py
+  - scripts/limpiar_corpus_markdown.py
+  - config/limpieza_corpus_valledellili.yaml
+  - tests/scripts/test_limpiar_corpus_markdown.py
 documentation:
   - .claude/skills/markdown-knowledge-base/SKILL.md
   - .claude/skills/text-chunking/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
+modified_files:
+  - scripts/limpiar_corpus_markdown.py
+  - config/limpieza_corpus_valledellili.yaml
+  - tests/scripts/test_limpiar_corpus_markdown.py
+  - scripts/README.md
+  - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
-ordinal: 210
+ordinal: 1000
 ---
 
 ## Description
@@ -93,15 +103,15 @@ La agrupación grosera por prefijo (consolidar todos los `directorio-medico-*` e
 
 <!-- AC:BEGIN -->
 
-- [ ] #1 Script ejecutable: `uv run python -m scripts.limpiar_corpus_markdown` con `--help` claro (`--config`, `--entrada`, `--salida`, `--limpiar-salida`, `--limit`, `-v`).
-- [ ] #2 Reglas declarativas en `config/limpieza_corpus_valledellili.yaml` con secciones `excluir_archivos`, `remover_bloques`, `remover_lineas`, `minimo_caracteres_utiles`, validadas con esquema mínimo (errores de YAML descriptivos como en `cargar_configuracion_grupos` de [`scripts/agrupar_corpus_markdown.py`](scripts/agrupar_corpus_markdown.py)).
-- [ ] #3 Front matter YAML del archivo fuente preservado **literal** en la salida; sólo cambia el cuerpo.
-- [ ] #4 Manifiesto `_manifest_limpieza.json` en la raíz de la salida con: `version`, `fecha_limpieza`, `entrada_posix`, `salida_posix`, `archivos_leidos`, `archivos_excluidos`, `archivos_descartados_por_minimo`, `archivos_escritos`, `bytes_removidos_por_regla` (map regla→bytes), `advertencias` (lista).
-- [ ] #5 Idempotencia: si el archivo de salida ya existe y su `content_hash` (sha256 del nuevo cuerpo limpio + front matter) coincide, no se reescribe; se contabiliza en `archivos_omitidos_sin_cambio`.
-- [ ] #6 Tests en `tests/scripts/test_limpiar_corpus_markdown.py` con ≥ 4 fixtures: (a) ficha de médico con bloque "Otros especialistas" → cuerpo limpio sin ese bloque; (b) `buscador-integral-q-*.md` → excluido; (c) archivo bajo `minimo_caracteres_utiles` tras limpieza → descartado y reportado; (d) ejecución idempotente (segunda corrida no reescribe).
-- [ ] #7 Documentación en `scripts/README.md`: comando completo + ejemplo de YAML + ejemplo de ejecución encadenada `limpiar_corpus_markdown` → `indexar_corpus_qdrant --markdown-dir data/processed/markdown_limpio/valledellili-org --collection corpus_fvl_v2`.
-- [ ] #8 Compatibilidad: el corpus de salida **debe** pasar la ingesta actual de [`scripts/indexar_corpus_qdrant.py`](scripts/indexar_corpus_qdrant.py) sin modificaciones (front matter parseable; `titulo`, `source_url`, `seccion` presentes).
-- [ ] #9 Smoke real documentado en `Final Summary` con conteos: `uv run python -m scripts.limpiar_corpus_markdown --limpiar-salida` sobre los 987 archivos reales; verificar que ≥ 80 % de archivos sobreviven (resto: 93 `buscador-integral-q-*` + descartados por umbral).
+- [x] #1 Script ejecutable: `uv run python -m scripts.limpiar_corpus_markdown` con `--help` claro (`--config`, `--entrada`, `--salida`, `--limpiar-salida`, `--limit`, `-v`).
+- [x] #2 Reglas declarativas en `config/limpieza_corpus_valledellili.yaml` con secciones `excluir_archivos`, `remover_bloques`, `remover_lineas`, `minimo_caracteres_utiles`, validadas con esquema mínimo (errores de YAML descriptivos como en `cargar_configuracion_grupos` de [`scripts/agrupar_corpus_markdown.py`](scripts/agrupar_corpus_markdown.py)).
+- [x] #3 Front matter YAML del archivo fuente preservado **literal** en la salida; sólo cambia el cuerpo.
+- [x] #4 Manifiesto `_manifest_limpieza.json` en la raíz de la salida con: `version`, `fecha_limpieza`, `entrada_posix`, `salida_posix`, `archivos_leidos`, `archivos_excluidos`, `archivos_descartados_por_minimo`, `archivos_escritos`, `bytes_removidos_por_regla` (map regla→bytes), `advertencias` (lista).
+- [x] #5 Idempotencia: si el archivo de salida ya existe y su `content_hash` (sha256 del nuevo cuerpo limpio + front matter) coincide, no se reescribe; se contabiliza en `archivos_omitidos_sin_cambio`.
+- [x] #6 Tests en `tests/scripts/test_limpiar_corpus_markdown.py` con ≥ 4 fixtures: (a) ficha de médico con bloque "Otros especialistas" → cuerpo limpio sin ese bloque; (b) `buscador-integral-q-*.md` → excluido; (c) archivo bajo `minimo_caracteres_utiles` tras limpieza → descartado y reportado; (d) ejecución idempotente (segunda corrida no reescribe).
+- [x] #7 Documentación en `scripts/README.md`: comando completo + ejemplo de YAML + ejemplo de ejecución encadenada `limpiar_corpus_markdown` → `indexar_corpus_qdrant --markdown-dir data/processed/markdown_limpio/valledellili-org --collection corpus_fvl_v2`.
+- [x] #8 Compatibilidad: el corpus de salida **debe** pasar la ingesta actual de [`scripts/indexar_corpus_qdrant.py`](scripts/indexar_corpus_qdrant.py) sin modificaciones (front matter parseable; `titulo`, `source_url`, `seccion` presentes).
+- [x] #9 Smoke real documentado en `Final Summary` con conteos: `uv run python -m scripts.limpiar_corpus_markdown --limpiar-salida` sobre los 987 archivos reales; verificar que ≥ 80 % de archivos sobreviven (resto: 93 `buscador-integral-q-*` + descartados por umbral).
 
 <!-- AC:END -->
 
@@ -162,18 +172,52 @@ La agrupación grosera por prefijo (consolidar todos los `directorio-medico-*` e
 
 <!-- DOD:BEGIN -->
 
-- [ ] #1 Acceptance Criteria verificados en código, tests y documentación.
-- [ ] #2 `uv run pytest tests/scripts/test_limpiar_corpus_markdown.py` pasa en local.
-- [ ] #3 Smoke real reportado en `Final Summary` con conteos antes/después y al menos 5 ejemplos concretos de bloques removidos.
-- [ ] #4 `scripts/README.md` actualizado con el comando encadenado limpieza → ingesta → eval.
-- [ ] #5 `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` actualizado con sección "Limpieza del corpus".
-- [ ] #6 Sin secretos en YAML ni en la tarea.
-- [ ] #7 Al cerrar, ajustar `status` a `Done` (no archivar; ver regla `backlog-workflow.mdc`).
+- [x] #1 Acceptance Criteria verificados en código, tests y documentación.
+- [x] #2 `uv run pytest tests/scripts/test_limpiar_corpus_markdown.py` pasa en local.
+- [x] #3 Smoke real reportado en `Final Summary` con conteos antes/después y al menos 5 ejemplos concretos de bloques removidos.
+- [x] #4 `scripts/README.md` actualizado con el comando encadenado limpieza → ingesta → eval.
+- [x] #5 `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` actualizado con sección "Limpieza del corpus".
+- [x] #6 Sin secretos en YAML ni en la tarea.
+- [x] #7 Al cerrar, ajustar `status` a `Done` (no archivar; ver regla `backlog-workflow.mdc`).
 
 <!-- DOD:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
+
+### Entregables
+
+- Script: [`scripts/limpiar_corpus_markdown.py`](scripts/limpiar_corpus_markdown.py) (`uv run python -m scripts.limpiar_corpus_markdown`).
+- Configuración: [`config/limpieza_corpus_valledellili.yaml`](config/limpieza_corpus_valledellili.yaml).
+- Pruebas: [`tests/scripts/test_limpiar_corpus_markdown.py`](tests/scripts/test_limpiar_corpus_markdown.py) (7 tests).
+- Documentación: [`scripts/README.md`](scripts/README.md) (sección **scripts.limpiar_corpus_markdown**), [`backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md`](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) (apartado **4.3 Limpieza del corpus**).
+
+### Smoke sobre corpus real (`data/markdown/valledellili-org`)
+
+Comando: `uv run python -m scripts.limpiar_corpus_markdown --limpiar-salida`.
+
+| Métrica | Valor |
+| --- | ---: |
+| `archivos_leidos` | 987 |
+| `archivos_excluidos` (`buscador-integral-q-*.md`) | 93 |
+| `archivos_descartados_por_minimo` (umbral 200) | 20 |
+| `archivos_escritos` | 874 |
+| Sobreviven respecto al total (874 / 987) | **88,6 %** (≥ 80 % exigido) |
+| Candidatos no excluidos (987 − 93) | 894; escritos + descartados = 874 + 20 |
+
+Manifiesto: `data/processed/markdown_limpio/valledellili-org/_manifest_limpieza.json` (gitignored con `data/processed/**`).
+
+### Cinco reglas con mayor impacto (bytes UTF-8 aproximados removidos del cuerpo)
+
+1. **`navegacion_encuentra_hasta_titulo_principal`**: bloque `### Encuentra lo que necesitas…` + menú lateral hasta la línea del título principal `# …` (p. ej. en [`directorio-medico-fabian-sandoval-pereira.md`](../../data/markdown/valledellili-org/directorio-medico-fabian-sandoval-pereira.md) líneas 17–39 antes del `# Fabian Sandoval Pereira` en la línea 40).
+2. **`otros_especialistas_hasta_siguiente_h2`**: encabezado `## Otros especialistas que te pueden interesar` (en el corpus real es `##`, no `####`; la regex usa `^#{1,6}\s+Otros especialistas`) hasta el siguiente `^##\s` o EOF — mismo archivo, a partir de la línea 67 aprox.
+3. **`autorizacion_datos_hasta_eof`**: desde `### Autorización datos personales` hasta el final del archivo (texto legal repetido).
+4. **`linea_tag_buscador_integral`**: líneas con enlaces `buscador-integral/?by_tag=…` (p. ej. líneas 56–59 del ejemplo de ficha).
+5. **`redes_sociales_enlace_unico`** / **`linkedin_enlace_unico`** / **`spotify_open_enlace`**: líneas de enlaces a redes en cabecera (p. ej. líneas 10–15 del ejemplo).
+
+### Ingesta sin cambios en el indexador
+
+`QDRANT_URL=:memory: EMBEDDING_PROVIDER=huggingface EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2 EMBEDDING_DIMS=384 uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/processed/markdown_limpio/valledellili-org --glob "**/*.md" --collection corpus_fvl_limpio_smoke --limit 5` → 5 archivos, 8 chunks, 0 omitidos por YAML.
 
 <!-- SECTION:FINAL_SUMMARY:END -->

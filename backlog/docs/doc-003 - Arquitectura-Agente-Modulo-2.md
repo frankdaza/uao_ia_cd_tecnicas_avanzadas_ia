@@ -17,7 +17,7 @@ Guía para desarrollo, demostración y resolución de problemas del **agente con
 - **Entrada**: el usuario se identifica con `POST /api/sesiones`; el chat usa `POST /api/agente/stream` (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, etc.).
 - **Orquestación**: un grafo **LangGraph** decide si invoca herramientas y compone la respuesta; el LLM del router usa tool-calling (`faq_estructurada`, `rag_denso`).
 - **Memoria**: mensajes persistidos con **LangChain** `PostgresChatMessageHistory` (`langchain-postgres`); el contexto inyectado respeta ventana temporal `HISTORIAL_DIAS_MAX` y tope de turnos `HISTORIAL_TURNOS_MAX` (ver `src/api/configuracion.py`).
-- **RAG**: solo **similitud densa** sobre vectores en **Qdrant**; el corpus canónico sigue en `data/markdown/` y alimenta **ingesta** (`scripts.indexar_corpus_qdrant`), no sustituye al vector store en cada consulta.
+- **RAG**: solo **similitud densa** sobre vectores en **Qdrant**; el corpus canónico vive en `data/markdown/` y alimenta **ingesta** (`scripts.indexar_corpus_qdrant`). Para reducir ruido de plantilla antes de vectorizar, se puede generar un derivado limpio en `data/processed/markdown_limpio/` con `scripts.limpiar_corpus_markdown` y apuntar `--markdown-dir` a esa ruta (detalle en [scripts/README.md](../../scripts/README.md)); en runtime el agente **no** lee Markdown en disco, solo Qdrant.
 
 ```mermaid
 flowchart TB
@@ -114,6 +114,10 @@ docker compose up -d --build
 - **Qdrant** REST: puerto host `6333` por defecto (`QDRANT_REST_PORT`).
 - **API**: `8000` por defecto (`API_PORT`).
 - Tras cambios en el esquema: el servicio `db-init` ejecuta `alembic upgrade head`.
+
+### 4.3 Limpieza del corpus (antes de la ingesta Qdrant)
+
+El HTML exportado a Markdown suele arrastrar bloques repetidos (menús, redes, pies legales, listados de “otros especialistas” en fichas del directorio médico). Ese ruido **no** debe editarse en `data/markdown/` (fuente de verdad); el script `uv run python -m scripts.limpiar_corpus_markdown` aplica reglas declarativas en `config/limpieza_corpus_valledellili.yaml`, conserva el front matter **literal** y escribe `data/processed/markdown_limpio/valledellili-org/` con `_manifest_limpieza.json` (métricas e idempotencia por hash). La ingesta siguiente usa el mismo indexador cambiando solo `--markdown-dir` (ver [scripts/README.md](../../scripts/README.md), sección **`scripts.limpiar_corpus_markdown`**).
 
 Ingesta de corpus hacia Qdrant (desde el host con Qdrant accesible):
 

@@ -14,6 +14,7 @@ Para la lista completa de argumentos de cada programa, usa siempre:
 uv run python -m scripts.scrape --help
 uv run python -m scripts.export_markdown --help
 uv run python -m scripts.agrupar_corpus_markdown --help
+uv run python -m scripts.limpiar_corpus_markdown --help
 uv run python -m scripts.indexar_corpus_qdrant --help
 uv run python -m scripts.eval_recuperacion_consultas --help
 uv run python -m scripts.eval_metricas_rag --help
@@ -26,28 +27,75 @@ flowchart LR
   scrape[scripts.scrape]
   export[scripts.export_markdown]
   agr[scripts.agrupar_corpus_markdown]
+  limp[scripts.limpiar_corpus_markdown]
   idx[scripts.indexar_corpus_qdrant]
   raw[data/raw]
   md[data/markdown]
   mda[data/processed/markdown_agrupado]
+  mdl[data/processed/markdown_limpio]
   qd[(Qdrant)]
   scrape --> raw
   export --> md
   md --> agr
   agr --> mda
+  md --> limp
+  limp --> mdl
   md --> idx
   mda --> idx
+  mdl --> idx
   idx --> qd
 ```
 
 1. **`scrape`** — llena `data/raw/` con HTML y metadatos.
 2. **`export_markdown`** — convierte ese crudo en `data/markdown/` (fuente de verdad textual e ingesta hacia Qdrant).
-3. **`agrupar_corpus_markdown`** (opcional) — fusiona familias de `.md` por patrones (`config/agrupacion_corpus_valledellili.yaml`) en `data/processed/markdown_agrupado/` para mejorar la señal RAG en algunos listados; el corpus canónico en `data/markdown/` no se modifica.
-4. **`indexar_corpus_qdrant`** — fragmenta y vuelca embeddings en **Qdrant** para el agente M2 (entrada: `data/markdown/...` o el árbol agrupado con `--markdown-dir`).
+3. **`agrupar_corpus_markdown`** (opcional, legado de experimentación) — fusiona familias de `.md` por patrones (`config/agrupacion_corpus_valledellili.yaml`) en `data/processed/markdown_agrupado/`; el corpus canónico en `data/markdown/` no se modifica.
+4. **`limpiar_corpus_markdown`** (recomendado antes de ingesta RAG) — aplica reglas declarativas (`config/limpieza_corpus_valledellili.yaml`) y escribe `data/processed/markdown_limpio/valledellili-org/` con el mismo front matter literal y cuerpo sin plantillas repetidas (ver sección siguiente).
+5. **`indexar_corpus_qdrant`** — fragmenta y vuelca embeddings en **Qdrant** para el agente M2 (entrada: `data/markdown/...`, `markdown_limpio/...` o `markdown_agrupado/...` vía `--markdown-dir`).
 
 ## Paquete `scripts/`
 
 El archivo `__init__.py` solo declara el directorio como paquete de Python para poder usar `python -m scripts.<modulo>`. No tiene entrada propia.
+
+---
+
+## `scripts.limpiar_corpus_markdown`
+
+**Qué hace.** Lee un árbol de Markdown con front matter (por defecto `data/markdown/valledellili-org/`), aplica exclusiones `fnmatch`, elimina bloques y líneas según regex en YAML, descarta ficheros con poco texto útil tras la limpieza y escribe un **corpus derivado** en `data/processed/markdown_limpio/valledellili-org/` sin tocar `data/markdown/`. El front matter del archivo fuente se conserva **literal**; solo cambia el cuerpo. Genera `_manifest_limpieza.json` con contadores y `bytes_removidos_por_regla`. Si el `.md` de salida ya existe y el hash SHA-256 del contenido nuevo coincide con el existente, **no** reescribe (idempotencia).
+
+**Configuración.** `config/limpieza_corpus_valledellili.yaml` — claves `excluir_archivos`, `remover_bloques` (cada regla: `nombre`, `regex_inicio` y exactamente uno de `regex_fin`, `hasta_proximo_h2: true` o `hasta_eof: true`), `remover_lineas`, `minimo_caracteres_utiles`.
+
+**Ejecución.**
+
+```bash
+uv run python -m scripts.limpiar_corpus_markdown
+uv run python -m scripts.limpiar_corpus_markdown --config config/limpieza_corpus_valledellili.yaml
+uv run python -m scripts.limpiar_corpus_markdown --limpiar-salida
+uv run python -m scripts.limpiar_corpus_markdown --limit 50 -v
+```
+
+**Ingesta y evaluación encadenadas** (colección nueva para no mezclar con el índice anterior):
+
+```bash
+uv run python -m scripts.limpiar_corpus_markdown --limpiar-salida
+
+uv run python -m scripts.indexar_corpus_qdrant \
+  --markdown-dir data/processed/markdown_limpio/valledellili-org \
+  --glob "**/*.md" \
+  --collection corpus_fvl_v2
+
+# Opcional: métricas sobre la colección indexada (TASK-72)
+uv run python -m scripts.eval_metricas_rag --collection corpus_fvl_v2 --reporte-out data/eval/reportes/eval-limpio.md
+```
+
+**Opciones destacadas.**
+
+| Opción | Rol breve |
+| --- | --- |
+| `--config` | YAML de reglas (defecto: `config/limpieza_corpus_valledellili.yaml`). |
+| `--entrada` / `--salida` | Directorios de entrada y de salida derivada. |
+| `--limpiar-salida` | Borra `--salida` antes de escribir; solo si la ruta resuelta contiene el segmento `markdown_limpio`. |
+| `--limit` | Tope de archivos `.md` procesados (orden por ruta). |
+| `-v` / `--verbose` | Logs de depuración. |
 
 ---
 
