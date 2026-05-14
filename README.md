@@ -1,10 +1,36 @@
 # Asistente sobre la Fundación Valle del Lili — Módulo 2 (agente conversacional)
 
+Proyecto del curso **Técnicas avanzadas de IA** (Universidad Autónoma de Occidente, UAO): asistente conversacional sobre contenido público de la **Fundación Valle del Lili**. El **Módulo 1** del curso cubrió corpus, scraping y un pipeline Q&A con BM25 (retirado del código; ver [Historial — Módulo 1 (BM25)](#historial-de-versiones--módulo-1-bm25)). El **Módulo 2** es el **producto actual**: agente con memoria en PostgreSQL, RAG denso en Qdrant y orquestación LangGraph + LangChain + LlamaIndex.
+
 El **producto actual** es un agente conversacional con **memoria en PostgreSQL**, recuperación **densa en Qdrant** (embeddings + similitud vectorial; **sin BM25 en inferencia** del Módulo 2) y orquestación **LangGraph** (router), **LangChain** (tools y `langchain-postgres`) y **LlamaIndex** (ingesta y consulta sobre Qdrant). El corpus textual canónico permanece en `data/markdown/` con **front matter YAML**; alimenta la **ingesta** hacia Qdrant mediante `scripts/indexar_corpus_qdrant.py` y **no** sustituye al vector store en cada petición del agente.
 
 La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume **`POST /api/agente/stream`** (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, entre otros). **No** sustituye canales oficiales ni garantiza vigencia de datos.
 
 **Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+
+**Colaboración y tareas:** el flujo con Backlog.md (MCP) y convenciones del repo están en [AGENTS.md](AGENTS.md).
+
+## Índice
+
+- [Flujo principal (Módulo 2)](#flujo-principal-módulo-2)
+- [Arquitectura del agente (detalle)](#arquitectura-del-agente-detalle)
+- [Pipeline de datos](#pipeline-de-datos)
+- [Estructura del repositorio](#estructura-del-repositorio)
+- [Stack del Módulo 2](#stack-del-módulo-2)
+- [Patrones de diseño en el código](#patrones-de-diseño-en-el-código)
+- [Variables de entorno (agrupadas)](#variables-de-entorno-agrupadas)
+- [Panel administrativo (Admin M2)](#panel-administrativo-admin-m2)
+- [Preparación de los datos](#preparación-de-los-datos)
+- [Indexar el corpus en Qdrant](#indexar-el-corpus-en-qdrant)
+- [Cómo correr la aplicación](#cómo-correr-la-aplicación)
+- [API HTTP (rutas principales del producto)](#api-http-rutas-principales-del-producto)
+- [Pruebas](#pruebas)
+- [Experiencia en la UI (React + shadcn/ui)](#experiencia-en-la-ui-react-shadcnui)
+- [Dataset de preguntas (referencia de laboratorio)](#dataset-de-preguntas-referencia-de-laboratorio)
+- [Solución de problemas](#solución-de-problemas)
+- [Historial de versiones — Módulo 1 (BM25)](#historial-de-versiones--módulo-1-bm25)
+- [Limitaciones conocidas](#limitaciones-conocidas)
+- [Autores y manifiesto](#autores-y-manifiesto)
 
 ## Flujo principal (Módulo 2)
 
@@ -29,6 +55,82 @@ flowchart TB
   end
 ```
 
+## Arquitectura del agente (detalle)
+
+Vista ampliada del camino de inferencia (memoria, tool-calling y almacenes). Diagrama alineado con [doc-003 §1](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md); allí hay matices operativos adicionales.
+
+```mermaid
+flowchart TB
+  subgraph cli["Cliente"]
+    FE["Frontend React"]
+  end
+  subgraph capaApi["FastAPI"]
+    S["POST /api/sesiones"]
+    A["POST /api/agente/stream SSE"]
+  end
+  subgraph nucleo["Agente M2"]
+    RG["Router LangGraph"]
+    LLM["LLM con tools"]
+    H{"Tool elegida"}
+    FAQ["StructuredTool faq_estructurada"]
+    RAG["rag_denso LlamaIndex"]
+  end
+  PG[("PostgreSQL usuarios + chat_history")]
+  QD[("Qdrant corpus indexado")]
+  EMB["Embeddings configurados"]
+
+  FE --> S
+  FE --> A
+  S --> PG
+  A --> RG
+  RG --> PG
+  RG --> LLM
+  LLM --> H
+  H --> FAQ
+  H --> RAG
+  RAG --> QD
+  RAG --> EMB
+  FAQ --> RG
+  RAG --> RG
+  LLM --> A
+  A --> FE
+```
+
+## Pipeline de datos
+
+1. **Adquisición:** `scripts.scrape` (u otras fuentes) → artefactos en `data/raw/`.
+2. **Canon textual:** `scripts.export_markdown` → `data/markdown/` con front matter YAML.
+3. **Vectores:** `scripts.indexar_corpus_qdrant` (o módulo equivalente) → embeddings y puntos en **Qdrant** (alineados con `EMBEDDING_*` y chunking).
+4. **FAQs fijas:** `data/structured/faqs.json` validado contra schema; consumo por la tool `faq_estructurada` sin pasar por Qdrant.
+5. **Producto:** el usuario abre sesión (`POST /api/sesiones`); cada mensaje va a `POST /api/agente/stream`, que ejecuta el grafo y puede invocar **Postgres** (memoria), **Qdrant** (`rag_denso`) y el JSON de FAQs.
+
+```mermaid
+flowchart LR
+  raw[data/raw] --> md[data/markdown]
+  md --> idx[Indexar corpus]
+  idx --> qd[(Qdrant)]
+  faq[faqs.json] --> agente[Agente M2]
+  qd --> agente
+```
+
+## Estructura del repositorio
+
+| Ubicación | Responsabilidad |
+| --- | --- |
+| [`src/api/`](src/api/) | FastAPI (`main`, lifespan), routers (`sesiones`, `agente`, `salud`, `admin`), SSE, esquemas Pydantic, configuración (`configuracion.py`), dependencias. |
+| [`src/agentes/`](src/agentes/) | Grafo LangGraph, estado, meta-prompt, herramientas LangChain, memoria, runtime del agente. |
+| [`src/rag/`](src/rag/) | Embeddings, cliente Qdrant, recuperador denso para la tool `rag_denso`. |
+| [`src/persistencia/`](src/persistencia/) | Motor SQLAlchemy async, modelos y repositorios (usuarios, sesiones, `config_admin_m2`). |
+| [`src/scraping/`](src/scraping/) | Descarga ética y registro de adquisición hacia `data/raw/`. |
+| [`src/markdown_export/`](src/markdown_export/) | Conversión de crudo a Markdown con front matter. |
+| [`src/qa/`](src/qa/) | Clientes Ollama/OpenAI y utilidades de prompts para laboratorio o piezas reutilizables. |
+| [`frontend/src/`](frontend/src/) | App Vite: `features/` (auth, chat, settings), `components/ui/`, `lib/` (API, SSE, Zod). |
+| [`scripts/`](scripts/) | Scrape, export Markdown, indexación Qdrant; detalle en [scripts/README.md](scripts/README.md). |
+| [`data/raw/`](data/raw/), [`data/markdown/`](data/markdown/), [`data/structured/`](data/structured/) | Crudo, corpus canónico, FAQs JSON. |
+| [`tests/`](tests/) | Pytest: API, agentes, RAG, e2e, QA, structured. |
+| [`alembic/`](alembic/) | Migraciones del esquema OLTP versionado (p. ej. `usuarios`, `config_admin_m2`). |
+| [`config/`](config/) | Meta-prompt del router (`router_meta_prompt.json`) sin secretos. |
+
 ## Stack del Módulo 2
 
 | Capa | Tecnología |
@@ -39,9 +141,21 @@ flowchart TB
 | OLTP (usuarios e historial) | **PostgreSQL**, **SQLAlchemy 2** async, **Alembic**, **asyncpg** |
 | Vectores del corpus | **Qdrant** |
 | API HTTP | **FastAPI**, **Uvicorn**, **sse-starlette**, **pydantic-settings** |
-| Interfaz | **React 19** + **Vite 8** + **TypeScript 6** (estricto), **Tailwind CSS v4**, **shadcn/ui**, **Vercel AI SDK** (transporte SSE), **@tanstack/react-query** |
+| Interfaz | **React 19** + **Vite 8** + **TypeScript 6** (estricto), **Tailwind CSS v4**, **shadcn/ui** (Radix), **@tanstack/react-query**, **next-themes**, **sonner**, **react-markdown** + **remark-gfm** + **shiki** |
+| Streaming al chat | Cliente propio en [`frontend/src/lib/sseClient.ts`](frontend/src/lib/sseClient.ts): **`fetch`** + **`ReadableStream`** / **`TextDecoderStream`** + validación con **Zod** (POST con cuerpo JSON; el `EventSource` del navegador no lo permite). |
+| Pruebas frontend | **Vitest** (`pnpm --dir frontend test`), **Playwright** (`pnpm --dir frontend test:e2e`). |
 
 Herramientas expuestas al modelo (identificador `name` en inglés por contrato de tool-calling): **`faq_estructurada`** (sobre `data/structured/faqs.json` validado con schema) y **`rag_denso`** (recuperación por similitud en Qdrant).
+
+## Patrones de diseño en el código
+
+- **Estado de aplicación e inicialización en `lifespan`:** el grafo del agente, el motor async de PostgreSQL, el pool `psycopg` y la creación del esquema de memoria se montan al arrancar la API en [`src/api/main.py`](src/api/main.py); los handlers no instancian esos recursos por petición.
+- **Inyección de dependencias (FastAPI):** acceso al grafo, sesión de base de datos y configuración vía `Depends` y `app.state` en [`src/api/dependencias.py`](src/api/dependencias.py).
+- **Factory del grafo:** construcción y opciones del grafo LangGraph en [`src/api/factoria_grafo_agente.py`](src/api/factoria_grafo_agente.py).
+- **Repositorio:** acceso a tablas OLTP encapsulado en [`src/persistencia/repositorios/`](src/persistencia/repositorios/) (usuarios, sesiones, configuración admin).
+- **Strategy / configuración por proveedor:** selección de embeddings (OpenAI, HuggingFace, etc.) en [`src/rag/embeddings.py`](src/rag/embeddings.py) según variables `EMBEDDING_*`.
+- **Tool-calling (LangChain):** el router obliga las dos `StructuredTool` (`faq_estructurada`, `rag_denso`) en [`src/agentes/router.py`](src/agentes/router.py).
+- **Hot reload de parámetros admin:** tras `PATCH /api/admin/config`, el siguiente stream usa un snapshot actualizado del bundle en [`src/agentes/runtime_agente.py`](src/agentes/runtime_agente.py), orquestado por [`src/api/servicios/agente_m2_config.py`](src/api/servicios/agente_m2_config.py) (ver [Panel administrativo](#panel-administrativo-admin-m2)).
 
 ## Variables de entorno (agrupadas)
 
@@ -66,7 +180,14 @@ Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre lo
 
 ## Panel administrativo (Admin M2)
 
-El frontend expone rutas bajo **`/admin`** (por ejemplo **`/admin/modelo`** para «Modelo y sampling»). El servidor debe definir **`ADMIN_API_KEY`**; el cliente envía la misma clave en la cabecera **`X-Admin-Key`**.
+El frontend expone rutas bajo **`/admin`** (por ejemplo **`/admin/modelo`** para «Modelo y sampling»). El servidor debe definir **`ADMIN_API_KEY`**; el cliente envía la misma clave en la cabecera **`X-Admin-Key`**. Si `ADMIN_API_KEY` no está definida, las rutas administrativas responden **503** (administración deshabilitada).
+
+**API HTTP administrativa** (router montado con prefijo `/api`; todas requieren `X-Admin-Key`):
+
+- **`GET /api/admin/config`:** configuración efectiva del agente M2 ya fusionada (PostgreSQL → JSON del router → `.env` → constantes), incluye `version` para parches optimistas.
+- **`PATCH /api/admin/config`:** actualización parcial con control de versión; **409** si otro proceso modificó la fila; el siguiente `POST /api/agente/stream` usa el nuevo snapshot (streams ya abiertos no se alteran).
+- **`GET /api/admin/usuarios`:** listado paginado de usuarios con documento de identidad enmascarado.
+- **`GET /api/admin/metricas/resumen`:** agregados ligeros (conteos sobre `usuarios`) para panel.
 
 Parámetros que pueden persistirse en PostgreSQL (tabla `config_admin_m2`, control optimista con `GET` / `PATCH /api/admin/config`) y aplicarse en la **siguiente** conversación del agente (hot reload del `RuntimeAgenteBundle`), entre otros:
 
@@ -164,12 +285,7 @@ pnpm --dir frontend dev
 
 El frontend queda en `http://localhost:5173/`. El proxy de Vite reenvía `/api/*` al backend en `http://localhost:8000`.
 
-Pruebas del frontend (opcional):
-
-```bash
-pnpm --dir frontend test
-pnpm --dir frontend test:e2e
-```
+Comandos de **Vitest** y **Playwright** están en la sección [Pruebas](#pruebas).
 
 ### API HTTP (rutas principales del producto)
 
@@ -182,9 +298,44 @@ pnpm --dir frontend test:e2e
 
 **CORS y cookies:** `allow_credentials=True`; en `.env`, `ALLOWED_ORIGINS` debe listar orígenes explícitos.
 
-### Pruebas E2E del Módulo 2 (TASK-61)
+## Pruebas
 
-Suite **`tests/e2e/test_escenarios_modulo2.py`**: cuatro escenarios alineados con la actividad del curso (RAG denso, memoria multi-turno, FAQ estructurada y diálogo mixto). Requiere API alcanzable y `EJECUTAR_E2E_MODULO2=1`. Las aserciones estrictas de herramienta usan tokens `e2e7001` / `e2e7002` / `e2e7003` con **`MOCK_LLM=1`** en el servidor. Comandos y variables: [scripts/README.md](scripts/README.md). Playwright: `frontend/tests/e2e/`.
+### Backend (pytest)
+
+Desde la raíz del repositorio:
+
+```bash
+uv run pytest
+```
+
+Los **markers** opcionales (activar con variables de entorno o flags) están definidos en [`pyproject.toml`](pyproject.toml) y documentados en [`tests/conftest.py`](tests/conftest.py):
+
+| Marker / modo | Cuándo usarlo |
+| --- | --- |
+| `network` | Pruebas que llaman a un origen público; requiere `EJECUTAR_TESTS_CON_RED=1`. |
+| `integration_postgres` | Contra PostgreSQL real; `EJECUTAR_INTEGRACION_POSTGRES=1`. |
+| `integration_qdrant` | Contra Qdrant en red; `EJECUTAR_INTEGRACION_QDRANT=1`. |
+| `e2e_modulo2` | Suite E2E contra API levantada; `EJECUTAR_E2E_MODULO2=1`. |
+
+Ejemplos:
+
+```bash
+EJECUTAR_INTEGRACION_POSTGRES=1 uv run pytest -m integration_postgres
+EJECUTAR_E2E_MODULO2=1 uv run pytest -m e2e_modulo2
+```
+
+### E2E del Módulo 2 (TASK-61)
+
+Suite **`tests/e2e/test_escenarios_modulo2.py`**: cuatro escenarios alineados con la actividad del curso (RAG denso, memoria multi-turno, FAQ estructurada y diálogo mixto). Requiere API alcanzable y `EJECUTAR_E2E_MODULO2=1`. Las aserciones estrictas de herramienta usan tokens `e2e7001` / `e2e7002` / `e2e7003` con **`MOCK_LLM=1`** en el servidor. Comandos y variables: [scripts/README.md](scripts/README.md).
+
+### Frontend
+
+```bash
+pnpm --dir frontend test
+pnpm --dir frontend test:e2e
+```
+
+E2E del navegador: `frontend/tests/e2e/`.
 
 ## Experiencia en la UI (React + shadcn/ui)
 
@@ -216,3 +367,9 @@ La primera fase del curso documentó un pipeline Q&A con recuperación léxica *
 - **Coste y dependencia de API:** embeddings e inferencia del router suelen depender de proveedor externo salvo configuración local explícita.
 - **Sincronización corpus–vectores:** cambios en `data/markdown/` requieren **reindexación** para reflejarse en Qdrant.
 - **Concurrencia y operación:** más servicios en desarrollo (Postgres + Qdrant + API) que un monolito de solo lectura de archivos locales.
+
+## Autores y manifiesto
+
+- Paquete Python: **`uao-ia-cd-tecnicas-avanzadas-ia`** ([`pyproject.toml`](pyproject.toml)).
+- Autores declarados en el manifiesto: **Frank Edward Daza Gonzalez**, **Alvaro Julián Barco Ocampo** (correos en `pyproject.toml`).
+- No hay archivo `LICENSE` en la raíz del repositorio; reutilización sujeta a políticas del curso o acuerdos del equipo.
