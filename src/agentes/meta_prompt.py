@@ -21,7 +21,7 @@ _RUTA_JSON_DEFECTO = _RAIZ_PROYECTO / "config" / "router_meta_prompt.json"
 _TEXTO_SIN_CONTEXTO_CANONICO = "No tengo información suficiente"
 
 _NOMBRES_HERRAMIENTAS_REQUERIDAS: frozenset[str] = frozenset(
-    {"faq_estructurada", "rag_denso"}
+    {"faq_estructurada", "rag_denso", "listar_estructurado"}
 )
 
 
@@ -32,7 +32,7 @@ class ArchivoMetaPromptAusenteError(FileNotFoundError):
 class MetaPromptHerramienta(BaseModel):
     """Definicion pedagogica de una tool expuesta al router (no sustituye el binding real)."""
 
-    name: Literal["faq_estructurada", "rag_denso"]
+    name: Literal["faq_estructurada", "rag_denso", "listar_estructurado"]
     description: str = Field(min_length=1)
     when_to_use: str = Field(min_length=1)
     ejemplos: list[str] = Field(default_factory=list)

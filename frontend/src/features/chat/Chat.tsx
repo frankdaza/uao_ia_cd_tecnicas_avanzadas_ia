@@ -3,7 +3,8 @@ import { toast } from 'sonner'
 import { useAuth } from '@/features/auth/AuthContext'
 import { deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
 import { streamAgente } from '@/lib/sseClient'
-import type { HistorialMensaje, RagChunk } from '@/lib/schemas'
+import type { HistorialMensaje, ListadoItem, RagChunk, ResultadoListadoSse } from '@/lib/schemas'
+import { ListadoItemSchema } from '@/lib/schemas'
 import type { ChatTurn } from './MessageList'
 import { MessageList } from './MessageList'
 import { ChatInput } from './ChatInput'
@@ -54,6 +55,9 @@ function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
         ragSources: [],
         routerThoughts: [],
         toolUsed: null,
+        listadoItems: [],
+        listadoConteo: undefined,
+        listadoMuestraTruncada: undefined,
       })
       continue
     }
@@ -65,6 +69,13 @@ function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
 function mergeRagSources(prev: RagChunk[], next: RagChunk[]): RagChunk[] {
   if (next.length === 0) return prev
   return [...prev, ...next]
+}
+
+function itemsDesdeResultadoListado(res: ResultadoListadoSse | null | undefined): ListadoItem[] {
+  if (!res?.items?.length) return []
+  return res.items
+    .map((x) => ListadoItemSchema.safeParse(x))
+    .flatMap((r) => (r.success ? [r.data] : []))
 }
 
 /** Contenedor principal del chat M2: historial, streaming SSE del agente y metadatos de tools. */
@@ -152,6 +163,9 @@ export function Chat() {
         ragSources: [],
         routerThoughts: [],
         toolUsed: null,
+        listadoItems: [],
+        listadoConteo: undefined,
+        listadoMuestraTruncada: undefined,
       }
 
       setTurns((prev) => [...prev, nuevoTurno])
@@ -183,9 +197,30 @@ export function Chat() {
               ),
             )
           },
-          onHerramienta: (nombre) => {
+          onHerramienta: (nombre, _latenciaMs, resultadoListado) => {
             setTurns((prev) =>
-              prev.map((t) => (t.id === idTurno ? { ...t, toolUsed: nombre } : t)),
+              prev.map((t) => {
+                if (t.id !== idTurno) return t
+                const listadoItems =
+                  nombre === 'listar_estructurado'
+                    ? itemsDesdeResultadoListado(resultadoListado ?? null)
+                    : t.listadoItems
+                const listadoConteo =
+                  nombre === 'listar_estructurado'
+                    ? resultadoListado?.conteo
+                    : t.listadoConteo
+                const listadoMuestraTruncada =
+                  nombre === 'listar_estructurado'
+                    ? resultadoListado?.muestra_truncada
+                    : t.listadoMuestraTruncada
+                return {
+                  ...t,
+                  toolUsed: nombre,
+                  listadoItems,
+                  listadoConteo,
+                  listadoMuestraTruncada,
+                }
+              }),
             )
           },
           onToken: (_motor, texto) => {

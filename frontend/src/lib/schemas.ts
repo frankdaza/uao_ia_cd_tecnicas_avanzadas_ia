@@ -23,6 +23,23 @@ export const RagChunkSchema = z
   .passthrough()
 export type RagChunk = z.infer<typeof RagChunkSchema>
 
+export const ListadoItemSchema = z.object({
+  nombre: z.string(),
+  source_url: z.string().optional(),
+  especialidad: z.array(z.string()).optional(),
+  sedes: z.array(z.string()).optional(),
+  archivo: z.string().optional(),
+})
+export type ListadoItem = z.infer<typeof ListadoItemSchema>
+
+export const ResultadoListadoSseSchema = z.object({
+  conteo: z.coerce.number().optional(),
+  muestra_truncada: z.boolean().optional(),
+  items: z.array(z.unknown()).optional(),
+  filtros_aplicados: z.record(z.string(), z.unknown()).optional(),
+})
+export type ResultadoListadoSse = z.infer<typeof ResultadoListadoSseSchema>
+
 export const EventoPensamientoSchema = z.object({
   tipo: z.literal('pensamiento'),
   herramienta_candidata: z.string(),
@@ -38,6 +55,7 @@ export const EventoHerramientaSchema = z.object({
   faq_match_encontrado: z.boolean().optional(),
   faq_umbral_match: z.number().optional(),
   faq_consulta_ejecutada: z.string().optional(),
+  resultado_listado: ResultadoListadoSseSchema.optional(),
 })
 export type EventoHerramienta = z.infer<typeof EventoHerramientaSchema>
 

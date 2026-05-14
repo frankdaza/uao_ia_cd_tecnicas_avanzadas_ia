@@ -2,11 +2,13 @@
 id: TASK-71
 title: >-
   Reranking del recuperador denso: MMR para diversidad, cross-encoder opcional
-  (BGE-reranker), tuning de `top_k` y `score_minimo` con evidencia del golden set
-status: "To Do"
+  (BGE-reranker), tuning de `top_k` y `score_minimo` con evidencia del golden
+  set
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
+updated_date: '2026-05-14 22:43'
 labels:
   - rag
   - qdrant
@@ -24,7 +26,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 240
+ordinal: 1000
 ---
 
 ## Description

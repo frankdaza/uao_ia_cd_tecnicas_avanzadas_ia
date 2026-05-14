@@ -45,6 +45,8 @@ def _elegir_tool_y_consulta(texto_router: str) -> tuple[str, str]:
     consulta = _extraer_consulta_actual(texto_router)
     if "e2e7002" in texto_router:
         return "faq_estructurada", consulta or "faq"
+    if "e2e7004" in texto_router:
+        return "listar_estructurado", consulta or "listado"
     if "e2e7001" in texto_router or "e2e7003" in texto_router:
         return "rag_denso", consulta or "consulta"
     return "rag_denso", consulta or "consulta"

@@ -198,6 +198,24 @@ async def _generador_eventos_sse(
                             datos = ev.get("data") if isinstance(ev.get("data"), dict) else {}
                             salida = datos.get("output")
                             nombre_tool = ultima_tool_decidida or "tool"
+                            if isinstance(salida, dict) and salida.get("tool_decidida"):
+                                nombre_tool = str(salida.get("tool_decidida") or nombre_tool)
+                            resultado_listado: dict[str, Any] | None = None
+                            if isinstance(salida, dict):
+                                rt = salida.get("resultado_tool")
+                                if (
+                                    isinstance(rt, dict)
+                                    and "conteo" in rt
+                                    and isinstance(rt.get("items"), list)
+                                ):
+                                    items = rt.get("items") or []
+                                    items_muestra = items[:50] if isinstance(items, list) else []
+                                    resultado_listado = {
+                                        "conteo": rt.get("conteo"),
+                                        "muestra_truncada": rt.get("muestra_truncada"),
+                                        "items": items_muestra,
+                                        "filtros_aplicados": rt.get("filtros_aplicados"),
+                                    }
                             if isinstance(salida, dict):
                                 fuentes = salida.get("fuentes")
                                 if isinstance(fuentes, list) and fuentes:
@@ -245,7 +263,8 @@ async def _generador_eventos_sse(
                                         faq_match_encontrado=faq_match,
                                         faq_umbral_match=faq_umbral,
                                         faq_consulta_ejecutada=faq_consulta,
-                                    ).model_dump(),
+                                        resultado_listado=resultado_listado,
+                                    ).model_dump(exclude_none=True),
                                 ),
                             }
                             t_tool_ini = None

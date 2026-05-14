@@ -42,6 +42,12 @@ def _meta_prompt_minimo() -> MetaPromptConfig:
                     "when_to_use": "Consultas abiertas sobre documentacion.",
                     "ejemplos": ["Politica de calidad"],
                 },
+                {
+                    "name": "listar_estructurado",
+                    "description": "Listado por payload Qdrant.",
+                    "when_to_use": "Enumeracion o conteo por filtros.",
+                    "ejemplos": ["Cuantos pediatras hay"],
+                },
             ],
             "reglas_decision": ["Priorizar FAQ cuando aplique match directo."],
             "respuesta_sin_contexto": "No tengo información suficiente",
@@ -107,9 +113,9 @@ def _tool_faq_falsa() -> StructuredTool:
 
 
 def _tool_rag_falsa() -> StructuredTool:
-    def _ejecutar(consulta: str) -> dict[str, Any]:
+    def _ejecutar(consulta: str, filtros_tipo_pagina: list[str] | None = None) -> dict[str, Any]:
         """Devuelve fuentes ficticias tipo salida RAG densa."""
-        _ = consulta
+        _ = consulta, filtros_tipo_pagina
         return {
             "respuesta_contexto": "[CHUNK 0] titulo: Politica\nURL: https://ejemplo.test/p\n\nTexto.",
             "fuentes": [
@@ -132,9 +138,44 @@ def _tool_rag_falsa() -> StructuredTool:
     )
 
 
+def _tool_listar_falsa() -> StructuredTool:
+    from src.agentes.herramientas.listar_estructurado_tool import ArgsConsultaListados
+
+    def _ejecutar(
+        tipo_pagina: str | None = None,
+        especialidad: str | None = None,
+        sedes: list[str] | None = None,
+        especialidad_contains: str | None = None,
+        limite: int = 50,
+    ) -> dict[str, Any]:
+        _ = tipo_pagina, especialidad, sedes, especialidad_contains, limite
+        return {
+            "conteo": 2,
+            "items": [
+                {
+                    "nombre": "Dr. Demo",
+                    "source_url": "https://ejemplo.test/m",
+                    "especialidad": ["Pediatria"],
+                    "sedes": ["Sede Valle del Lili"],
+                    "archivo": "directorio-medico-x.md",
+                }
+            ],
+            "muestra_truncada": False,
+            "filtros_aplicados": {"tipo_pagina": "ficha_medico"},
+        }
+
+    return StructuredTool.from_function(
+        name="listar_estructurado",
+        description="Listado falso para pruebas.",
+        func=_ejecutar,
+        args_schema=ArgsConsultaListados,
+        infer_schema=False,
+    )
+
+
 @pytest.fixture
-def herramientas_falsas() -> tuple[StructuredTool, StructuredTool]:
-    return (_tool_faq_falsa(), _tool_rag_falsa())
+def herramientas_falsas() -> tuple[StructuredTool, StructuredTool, StructuredTool]:
+    return (_tool_faq_falsa(), _tool_rag_falsa(), _tool_listar_falsa())
 
 
 def test_import_router_no_carga_recuperador_bm25() -> None:
@@ -144,9 +185,9 @@ def test_import_router_no_carga_recuperador_bm25() -> None:
 
 
 def test_grafo_turno_completo_faq_fake_models(
-    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
-    faq_t, rag_t = herramientas_falsas
+    faq_t, rag_t, list_t = herramientas_falsas
     router_llm = _ListaRouterFalso(
         [
             AIMessage(
@@ -167,7 +208,7 @@ def test_grafo_turno_completo_faq_fake_models(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     memoria = _MemoriaFalsa()
     salida = grafo.invoke(
@@ -192,9 +233,9 @@ def test_grafo_turno_completo_faq_fake_models(
 
 
 def test_grafo_rama_rag_y_fuentes_en_estado(
-    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
-    faq_t, rag_t = herramientas_falsas
+    faq_t, rag_t, list_t = herramientas_falsas
     router_llm = _ListaRouterFalso(
         [
             AIMessage(
@@ -215,7 +256,7 @@ def test_grafo_rama_rag_y_fuentes_en_estado(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     memoria = _MemoriaFalsa()
     salida = grafo.invoke(
@@ -233,9 +274,9 @@ def test_grafo_rama_rag_y_fuentes_en_estado(
 
 
 def test_astream_events_smoke(
-    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
-    faq_t, rag_t = herramientas_falsas
+    faq_t, rag_t, list_t = herramientas_falsas
     router_llm = _ListaRouterFalso(
         [
             AIMessage(
@@ -256,7 +297,7 @@ def test_astream_events_smoke(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
 
     async def _recolectar() -> list[str]:
@@ -280,9 +321,9 @@ def test_astream_events_smoke(
 
 
 def test_pensamiento_router_incluye_herramienta(
-    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
-    faq_t, rag_t = herramientas_falsas
+    faq_t, rag_t, list_t = herramientas_falsas
     router_llm = _ListaRouterFalso(
         [
             AIMessage(
@@ -303,7 +344,7 @@ def test_pensamiento_router_incluye_herramienta(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     salida = grafo.invoke(
         {
@@ -319,7 +360,7 @@ def test_pensamiento_router_incluye_herramienta(
 
 
 def test_compositor_recibe_nombre_registrado_e_historial_en_system(
-    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
     """El compositor debe ver nombre de sesion y turnos previos en el system prompt."""
     from langchain_core.messages import HumanMessage as HM
@@ -327,7 +368,7 @@ def test_compositor_recibe_nombre_registrado_e_historial_en_system(
     from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
     from src.agentes.runtime_agente import RuntimeAgenteBundle
 
-    faq_t, rag_t = herramientas_falsas
+    faq_t, rag_t, list_t = herramientas_falsas
     mem = _MemoriaFalsa(
         [
             HM(content="En el chat digo que me dicen Pepe."),
@@ -361,7 +402,7 @@ def test_compositor_recibe_nombre_registrado_e_historial_en_system(
         llm_router=router_llm,
         llm_compositor=compositor_llm,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     bundle = RuntimeAgenteBundle(
         llm_router=router_llm,
@@ -397,7 +438,7 @@ def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
     """reglas_decision y herramientas del meta deben llegar al SystemMessage del router."""
     from langchain_core.messages import SystemMessage
 
-    faq_t, rag_t = _tool_faq_falsa(), _tool_rag_falsa()
+    faq_t, rag_t, list_t = _tool_faq_falsa(), _tool_rag_falsa(), _tool_listar_falsa()
     mensajes_capturados: list[list[Any]] = []
     tools_capturadas: list[list[Any]] = []
 
@@ -432,7 +473,7 @@ def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
         llm_router=_RouterCap(),
         llm_compositor=FakeListChatModel(responses=["ok"]),
         meta_prompt=meta,
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     grafo.invoke(
         {"pregunta": "PBX?", "session_id": "u:1", "primer_turno": True, "usuario": {}},
@@ -444,6 +485,7 @@ def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
     assert "Priorizar FAQ cuando aplique match directo." in texto
     assert "Telefono PBX" in texto
     assert "### Herramienta `faq_estructurada`" in texto
+    assert "### Herramienta `listar_estructurado`" in texto
     assert tools_capturadas
     d0 = tools_capturadas[-1][0].description
     assert "Telefono PBX" in d0
@@ -458,7 +500,7 @@ def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> 
     base["reglas_decision"] = ["REGLA_UNICA_ADMIN_SOLO_EN_LISTA."]
     meta = MetaPromptConfig.model_validate(base)
 
-    faq_t, rag_t = _tool_faq_falsa(), _tool_rag_falsa()
+    faq_t, rag_t, list_t = _tool_faq_falsa(), _tool_rag_falsa(), _tool_listar_falsa()
     cap: list[str] = []
 
     class _RouterCap:
@@ -489,13 +531,51 @@ def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> 
         llm_router=_RouterCap(),
         llm_compositor=FakeListChatModel(responses=["x"]),
         meta_prompt=meta,
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
     grafo.invoke(
         {"pregunta": "x", "session_id": "u:1", "primer_turno": False, "usuario": {}},
         config={"configurable": {"memoria": _MemoriaFalsa()}},
     )
     assert cap and "REGLA_UNICA_ADMIN_SOLO_EN_LISTA." in cap[-1]
+
+
+def test_grafo_conteo_pediatras_enruta_listar_sin_llm_router(
+    herramientas_falsas: tuple[StructuredTool, StructuredTool, StructuredTool],
+) -> None:
+    """Heuristica de intencion + filtros: no se invoca al modelo del router."""
+    faq_t, rag_t, list_t = herramientas_falsas
+
+    class _RouterProhibido:
+        def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
+            _ = tools, kwargs
+
+            class _E:
+                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                    _ = self2, mensajes, config, kw
+                    raise AssertionError("No se esperaba invocacion al LLM del router")
+
+            return _E()
+
+    compositor = FakeListChatModel(responses=["Respuesta sintetica al listado."])
+    grafo = crear_grafo_agente(
+        llm_router=_RouterProhibido(),
+        llm_compositor=compositor,
+        meta_prompt=_meta_prompt_minimo(),
+        herramientas=[faq_t, rag_t, list_t],
+    )
+    salida = grafo.invoke(
+        {
+            "pregunta": "¿Cuántos pediatras hay en el directorio médico?",
+            "session_id": "user:00000000-0000-4000-8000-00000000b701",
+            "primer_turno": False,
+            "usuario": {},
+        },
+        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    )
+    assert salida.get("tool_decidida") == "listar_estructurado"
+    rt = salida.get("resultado_tool") or {}
+    assert int(rt.get("conteo") or 0) == 2
 
 
 def test_modulo_prompt_no_carga_legacy_ni_rank_bm25() -> None:

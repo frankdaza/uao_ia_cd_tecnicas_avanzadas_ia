@@ -11,12 +11,17 @@ import type {
   EventoFinalAgente,
   EventoFuentesAgente,
   RagChunk,
+  ResultadoListadoSse,
 } from './schemas'
 import { AgentePeticionSchema, EventoAgenteSseSchema } from './schemas'
 
 export type AgenteSseHandlers = {
   onPensamiento: (herramientaCandidata: string, razon: string) => void
-  onHerramienta: (nombre: string, latenciaMs: number) => void
+  onHerramienta: (
+    nombre: string,
+    latenciaMs: number,
+    resultadoListado?: ResultadoListadoSse | null,
+  ) => void
   onToken: (motor: string, texto: string) => void
   onFuentes: (chunks: RagChunk[]) => void
   onFinal: (meta: Omit<EventoFinalAgente, 'tipo'>) => void
@@ -78,7 +83,11 @@ function despacharEventoAgente(json: unknown, handlers: AgenteSseHandlers) {
       handlers.onPensamiento(evento.herramienta_candidata, evento.razon)
       break
     case 'herramienta':
-      handlers.onHerramienta(evento.nombre, evento.latencia_ms)
+      handlers.onHerramienta(
+        evento.nombre,
+        evento.latencia_ms,
+        evento.resultado_listado ?? null,
+      )
       break
     case 'token':
       handlers.onToken(evento.motor, evento.texto)

@@ -15,7 +15,7 @@ Guía para desarrollo, demostración y resolución de problemas del **agente con
 ## 1. Vista general
 
 - **Entrada**: el usuario se identifica con `POST /api/sesiones`; el chat usa `POST /api/agente/stream` (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, etc.).
-- **Orquestación**: un grafo **LangGraph** decide si invoca herramientas y compone la respuesta; el LLM del router usa tool-calling (`faq_estructurada`, `rag_denso`).
+- **Orquestación**: un grafo **LangGraph** decide si invoca herramientas y compone la respuesta; el LLM del router usa tool-calling (`faq_estructurada`, `rag_denso`, `listar_estructurado`). Antes del router se infiere una **intención** heurística (`factual` / `listado` / `conteo`) para enrutar listados sin LLM cuando hay filtros deducibles (ver §4.5).
 - **Memoria**: mensajes persistidos con **LangChain** `PostgresChatMessageHistory` (`langchain-postgres`); el contexto inyectado respeta ventana temporal `HISTORIAL_DIAS_MAX` y tope de turnos `HISTORIAL_TURNOS_MAX` (ver `src/api/configuracion.py`).
 - **RAG**: solo **similitud densa** sobre vectores en **Qdrant**; el corpus canónico vive en `data/markdown/` y alimenta **ingesta** (`scripts.indexar_corpus_qdrant`). Para reducir ruido de plantilla antes de vectorizar, se puede generar un derivado limpio en `data/processed/markdown_limpio/` con `scripts.limpiar_corpus_markdown` y apuntar `--markdown-dir` a esa ruta (detalle en [scripts/README.md](../../scripts/README.md)); en runtime el agente **no** lee Markdown en disco, solo Qdrant.
 
@@ -59,14 +59,15 @@ flowchart TB
 
 En inferencia **no** participa BM25 ni `data/markdown/` como índice léxico: el único recuperador del producto M2 es el camino **embedding + Qdrant**.
 
-## 2. Dos herramientas: FAQ determinista y RAG denso
+## 2. Herramientas del router: FAQ, RAG denso y listado estructurado
 
 | Herramienta (`name`) | Fuente | Rol pedagógico |
 | --- | --- | --- |
 | `faq_estructurada` | `data/structured/faqs.json` (validado contra schema) | Muestra **respuesta estable y auditable** para datos fijos (horarios, PBX, NIT): sin alucinar números; encaja con políticas institucionales y pruebas deterministas. |
-| `rag_denso` | Chunks vectoriales en **Qdrant** (ingesta desde Markdown) | Cubre **preguntas abiertas** sobre documentación narrativa; el modelo compone con fragmentos recuperados por similitud (top-k y umbral `RAG_SCORE_MINIMO` en configuración). |
+| `rag_denso` | Chunks vectoriales en **Qdrant** (ingesta desde Markdown) | Cubre **preguntas abiertas** sobre documentación narrativa; el modelo compone con fragmentos recuperados por similitud (top-k y umbral `RAG_SCORE_MINIMO` en configuración). Acepta opcionalmente `filtros_tipo_pagina` (lista de valores de payload `tipo_pagina`, p. ej. `institucional`) para acotar consultas institucionales. |
+| `listar_estructurado` | Mismo índice **Qdrant** vía `scroll` + filtro de payload | **Enumeración o conteo** determinista de conjuntos (p. ej. pediatras por sede) sin depender del top-k semántico; devuelve `conteo`, `items`, `muestra_truncada`, `filtros_aplicados`. Si `conteo == 0`, el grafo hace **fallback** a `rag_denso` con la pregunta original. |
 
-**Por qué conviven**: separa **hechos tabulares** (FAQ) de **conocimiento textual extenso** (corpus). El router aprende a elegir canal según la intención; en laboratorio, `MOCK_LLM=1` fuerza herramientas según tokens `e2e7001` / `e2e7002` / `e2e7003` en la pregunta (ver `tests/e2e/test_escenarios_modulo2.py` y [scripts/README.md](../../scripts/README.md)).
+**Por qué conviven**: separa **hechos tabulares** (FAQ), **conocimiento textual extenso** recuperado por embedding (RAG) y **agregaciones por metadatos** (listado). El router aprende a elegir canal según la intención; en laboratorio, `MOCK_LLM=1` fuerza herramientas según tokens `e2e7001` / `e2e7002` / `e2e7003` / `e2e7004` en la pregunta (ver `tests/e2e/test_escenarios_modulo2.py` y [scripts/README.md](../../scripts/README.md)).
 
 ## 3. Memoria conversacional
 
@@ -149,6 +150,27 @@ uv run python -m scripts.indexar_corpus_qdrant \
   --markdown-dir data/processed/markdown_limpio/valledellili-org \
   --glob "**/*.md" \
   --limit 50
+```
+
+### 4.5 Recuperacion adaptativa (intencion, listados y filtro blando en RAG)
+
+| Etapa | Modulo | Comportamiento |
+| --- | --- | --- |
+| Intencion | `src/rag/intencion.py` | `inferir_intencion` clasifica `factual` / `listado` / `conteo` con regex (prioridad: conteo > listado > factual). Los patrones de conteo usan formas plurales (`cuantos` / `cuantas`) para no confundir con «cuanto cuesta». |
+| Filtros listado | `src/rag/filtros_listado_heuristica.py` | Deduce `tipo_pagina`, `especialidad`, `sedes`, `especialidad_contains` desde texto (sin LLM); especialidades canonicas en `data/eval/especialidades_canonicas.json`. |
+| Scroll Qdrant | `src/rag/recuperador_listados.py` | `RecuperadorListados.listar` arma filtros de payload, deduplica por `source_url` o nombre+archivo y devuelve `muestra_truncada` si aplica. |
+| Tool | `src/agentes/herramientas/listar_estructurado_tool.py` | `StructuredTool` `listar_estructurado` registrada en el grafo por defecto. |
+| Filtro blando RAG | `src/rag/recuperador_denso.py` | `VectorStoreQuery` con `MetadataFilters` (`tipo_pagina` IN lista) cuando `rag_denso` recibe `filtros_tipo_pagina`; sugerencia automatica para misión/visión institucional. |
+| Grafo | `src/agentes/router.py` | Nodo `inferir_intencion` antes de `decidir_tool`; atajo a `listar_estructurado` con argumentos heuristicos cuando la intencion es `listado`/`conteo` y hay filtros. Si el listado devuelve `conteo == 0`, **fallback** a `rag_denso`. |
+
+**Evento SSE `herramienta`**: el payload JSON puede incluir `resultado_listado` (`conteo`, `muestra_truncada`, `filtros_aplicados`, hasta **50** filas de `items` con `nombre`, `especialidad`, `sedes`, `source_url`, `archivo`) para alimentar la tabla del chat cuando `nombre` es `listar_estructurado`.
+
+```mermaid
+flowchart LR
+  M[cargar_memoria] --> I[inferir_intencion]
+  I --> D[decidir_tool]
+  D --> E[ejecutar_tool]
+  E --> C[componer_respuesta]
 ```
 
 ### Evaluacion cuantitativa del RAG (golden set, TASK-72)

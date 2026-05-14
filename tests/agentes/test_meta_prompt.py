@@ -46,6 +46,12 @@ def _payload_meta_prompt_minimo_valido(
                 "when_to_use": "Consultas abiertas sobre documentacion.",
                 "ejemplos": ["Politica de calidad"],
             },
+            {
+                "name": "listar_estructurado",
+                "description": "Listado por payload.",
+                "when_to_use": "Conteos.",
+                "ejemplos": ["Cuantos medicos"],
+            },
         ],
         "reglas_decision": ["Priorizar FAQ cuando aplique match directo."],
         "respuesta_sin_contexto": "No tengo información suficiente",
@@ -66,7 +72,7 @@ def test_carga_json_versionado_en_repo() -> None:
     cfg = cargar_meta_prompt_config(ruta)
     assert cfg.version == 1
     nombres = {h.name for h in cfg.herramientas}
-    assert nombres == {"faq_estructurada", "rag_denso"}
+    assert nombres == {"faq_estructurada", "rag_denso", "listar_estructurado"}
     assert cfg.respuesta_sin_contexto == "No tengo información suficiente"
     assert "{nombre}" in cfg.saludo_template
     assert "tool-calls" in cfg.system_prompt.lower()

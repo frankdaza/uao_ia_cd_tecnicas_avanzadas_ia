@@ -195,6 +195,13 @@ class EventoHerramienta(BaseModel):
         default=None,
         description="Solo FAQ: cadena usada para el match (truncada en servidor).",
     )
+    resultado_listado: dict[str, Any] | None = Field(
+        default=None,
+        description=(
+            "Solo ``listar_estructurado``: resumen JSON seguro (conteo, muestra_truncada, "
+            "primeros items) para la UI sin repetir todo el payload."
+        ),
+    )
 
 
 class EventoToken(BaseModel):

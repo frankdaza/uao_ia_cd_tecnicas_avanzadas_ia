@@ -9,6 +9,7 @@ from langchain_openai import ChatOpenAI
 from langgraph.graph.state import CompiledStateGraph
 
 from src.agentes.herramientas.faq_tool import crear_faq_tool
+from src.agentes.herramientas.listar_estructurado_tool import crear_listar_estructurado_tool
 from src.agentes.herramientas.rag_tool import crear_rag_tool
 from src.agentes.llm_deterministico_modulo2 import (
     CompositorDeterministicoModulo2E2e,
@@ -76,7 +77,11 @@ def construir_grafo_agente_mock_llm(cfg: Configuracion) -> CompiledStateGraph:
     """
     ruta_meta = _resolver_ruta_meta_prompt(cfg)
     meta = cargar_meta_prompt_config(ruta_meta)
-    herramientas = [crear_faq_tool(configuracion=cfg), crear_rag_tool(configuracion=cfg)]
+    herramientas = [
+        crear_faq_tool(configuracion=cfg),
+        crear_rag_tool(configuracion=cfg),
+        crear_listar_estructurado_tool(configuracion=cfg),
+    ]
     grafo = crear_grafo_agente(
         llm_router=RouterDeterministicoModulo2E2e(),
         llm_compositor=CompositorDeterministicoModulo2E2e(),

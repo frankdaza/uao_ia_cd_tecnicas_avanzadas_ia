@@ -26,6 +26,13 @@ class ArgsConsultaRagDenso(BaseModel):
         ),
         min_length=1,
     )
+    filtros_tipo_pagina: list[str] | None = Field(
+        default=None,
+        description=(
+            "Opcional: acota la busqueda densa a estos valores de ``tipo_pagina`` en el payload "
+            "(p. ej. ``institucional`` para mision/vision). Lista vacia se ignora."
+        ),
+    )
 
 
 def ejecutar_rag_denso_sync(
@@ -34,6 +41,7 @@ def ejecutar_rag_denso_sync(
     top_k: int,
     score_minimo: float,
     configuracion: Configuracion | None = None,
+    filtros_tipo_pagina: list[str] | None = None,
 ) -> dict[str, Any]:
     """
     Ejecuta la recuperacion densa con umbrales explicitos (p. ej. desde RuntimeAgenteBundle).
@@ -47,7 +55,10 @@ def ejecutar_rag_denso_sync(
         top_k=top_k,
         score_minimo=score_minimo,
     )
-    salida: SalidaRecuperacionRagDenso = rec.consultar(consulta)
+    salida: SalidaRecuperacionRagDenso = rec.consultar(
+        consulta,
+        filtros_tipo_pagina=filtros_tipo_pagina,
+    )
     return salida.model_dump(mode="json")
 
 
@@ -66,15 +77,22 @@ def crear_rag_tool(
     cfg = configuracion or obtener_configuracion()
     rec_inyectado = recuperador
 
-    def _ejecutar(consulta: str) -> dict[str, Any]:
+    def _ejecutar(
+        consulta: str,
+        filtros_tipo_pagina: list[str] | None = None,
+    ) -> dict[str, Any]:
         if rec_inyectado is not None:
-            salida: SalidaRecuperacionRagDenso = rec_inyectado.consultar(consulta)
+            salida: SalidaRecuperacionRagDenso = rec_inyectado.consultar(
+                consulta,
+                filtros_tipo_pagina=filtros_tipo_pagina,
+            )
             return salida.model_dump(mode="json")
         return ejecutar_rag_denso_sync(
             configuracion=cfg,
             consulta=consulta,
             top_k=cfg.rag_top_k,
             score_minimo=cfg.rag_score_minimo,
+            filtros_tipo_pagina=filtros_tipo_pagina,
         )
 
     return StructuredTool.from_function(

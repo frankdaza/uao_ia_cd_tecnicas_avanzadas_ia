@@ -36,13 +36,14 @@ from tests.agentes.test_router_grafo import (
     _MemoriaFalsa,
     _meta_prompt_minimo,
     _tool_faq_falsa,
+    _tool_listar_falsa,
     _tool_rag_falsa,
 )
 
 
 @pytest.fixture
-def herramientas_kv() -> tuple[StructuredTool, StructuredTool]:
-    return (_tool_faq_falsa(), _tool_rag_falsa())
+def herramientas_kv() -> tuple[StructuredTool, StructuredTool, StructuredTool]:
+    return (_tool_faq_falsa(), _tool_rag_falsa(), _tool_listar_falsa())
 
 
 def _parsear_eventos_sse(cuerpo: bytes) -> list[tuple[str, dict[str, Any]]]:
@@ -65,11 +66,11 @@ def _parsear_eventos_sse(cuerpo: bytes) -> list[tuple[str, dict[str, Any]]]:
 
 @pytest.mark.asyncio
 async def test_agente_stream_emite_eventos_parseables(
-    herramientas_kv: tuple[StructuredTool, StructuredTool],
+    herramientas_kv: tuple[StructuredTool, StructuredTool, StructuredTool],
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """POST /api/agente/stream emite JSON validado por los modelos Pydantic de eventos."""
-    faq_t, rag_t = herramientas_kv
+    faq_t, rag_t, list_t = herramientas_kv
     uid = uuid.UUID("00000000-0000-4000-8000-00000000c0de")
     usuario = MagicMock(spec=Usuario)
     usuario.id = uid
@@ -102,7 +103,7 @@ async def test_agente_stream_emite_eventos_parseables(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
 
     async def _bundle_override() -> RuntimeAgenteBundle:
@@ -190,7 +191,7 @@ async def test_agente_stream_401_sin_credencial(fastapi_app_sesion_mock: FastAPI
 @pytest.mark.asyncio
 async def test_agente_stream_403_session_id_no_alineado(
     fastapi_app_sesion_mock: FastAPI,
-    herramientas_kv: tuple[StructuredTool, StructuredTool],
+    herramientas_kv: tuple[StructuredTool, StructuredTool, StructuredTool],
 ) -> None:
     uid_a = uuid.UUID("aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa")
     uid_b = uuid.UUID("bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb")
@@ -202,14 +203,14 @@ async def test_agente_stream_403_session_id_no_alineado(
     async def _usuario_fijo() -> Usuario:
         return usuario  # type: ignore[return-value]
 
-    faq_t, rag_t = herramientas_kv
+    faq_t, rag_t, list_t = herramientas_kv
     router_llm = _ListaRouterFalso([AIMessage(content="ok")])
     compositor = FakeListChatModel(responses=["x"])
     grafo = crear_grafo_agente(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
 
     async def _bundle_override() -> RuntimeAgenteBundle:
@@ -289,7 +290,7 @@ async def test_agente_stream_503_sin_grafo(fastapi_app_sesion_mock: FastAPI) -> 
 
 @pytest.mark.asyncio
 async def test_agente_stream_emite_evento_error_memoria_postgres(
-    herramientas_kv: tuple[StructuredTool, StructuredTool],
+    herramientas_kv: tuple[StructuredTool, StructuredTool, StructuredTool],
     monkeypatch: pytest.MonkeyPatch,
     fastapi_app_sesion_mock: FastAPI,
 ) -> None:
@@ -299,7 +300,7 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
 
     monkeypatch.setattr(agente_mod, "MemoriaUsuario", _MemoriaQueFalla)
 
-    faq_t, rag_t = herramientas_kv
+    faq_t, rag_t, list_t = herramientas_kv
     uid = uuid.UUID("dddddddd-dddd-4ddd-8ddd-dddddddddddd")
     usuario = MagicMock(spec=Usuario)
     usuario.id = uid
@@ -329,7 +330,7 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
         llm_router=router_llm,
         llm_compositor=compositor,
         meta_prompt=_meta_prompt_minimo(),
-        herramientas=[faq_t, rag_t],
+        herramientas=[faq_t, rag_t, list_t],
     )
 
     async def _bundle_override() -> RuntimeAgenteBundle:

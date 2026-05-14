@@ -7,7 +7,12 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from llama_index.core.vector_stores.types import VectorStoreQuery
+from llama_index.core.vector_stores.types import (
+    FilterOperator,
+    MetadataFilter,
+    MetadataFilters,
+    VectorStoreQuery,
+)
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
@@ -88,12 +93,27 @@ class RecuperadorDenso:
         consulta_limpia: str,
         *,
         top_k: int | None = None,
+        filtros_tipo_pagina: list[str] | None = None,
     ) -> list[tuple[float, object]]:
         k = self._top_k if top_k is None else max(1, int(top_k))
         query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
+        filtros_meta: MetadataFilters | None = None
+        if filtros_tipo_pagina:
+            limpios = [str(x).strip() for x in filtros_tipo_pagina if str(x).strip()]
+            if limpios:
+                filtros_meta = MetadataFilters(
+                    filters=[
+                        MetadataFilter(
+                            key="tipo_pagina",
+                            value=limpios,
+                            operator=FilterOperator.IN,
+                        )
+                    ]
+                )
         consulta_vs = VectorStoreQuery(
             query_embedding=list(query_embedding),
             similarity_top_k=k,
+            filters=filtros_meta,
         )
         resultado_vs = self._vector_store.query(consulta_vs)
         nodos = resultado_vs.nodes or []
@@ -152,6 +172,7 @@ class RecuperadorDenso:
         consulta: str,
         *,
         top_k: int | None = None,
+        filtros_tipo_pagina: list[str] | None = None,
     ) -> SalidaRecuperacionRagDenso:
         """
         Embedea ``consulta``, consulta el vector store y filtra por ``score_minimo``.
@@ -183,7 +204,11 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
-        pares = self._pares_filtrados(consulta_limpia, top_k=top_efectivo)
+        pares = self._pares_filtrados(
+            consulta_limpia,
+            top_k=top_efectivo,
+            filtros_tipo_pagina=filtros_tipo_pagina,
+        )
         if not pares:
             return SalidaRecuperacionRagDenso(
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,

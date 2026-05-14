@@ -25,6 +25,7 @@ class EstadoAgente(TypedDict, total=False):
     historial_previo_vacio: bool
     mensajes_historial: list[BaseMessage]
     mensaje_router: AIMessage | None
+    intencion: str
     tool_decidida: str | None
     argumentos_tool: dict[str, Any]
     resultado_tool: dict[str, Any]

@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
-import type { RagChunk } from '@/lib/schemas'
+import type { ListadoItem, RagChunk } from '@/lib/schemas'
 import { ArrowDownToLine, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SUGGESTED_PROMPTS } from '@/features/chat/constants'
@@ -19,6 +19,9 @@ export interface ChatTurn {
   ragSources: RagChunk[]
   routerThoughts: RouterThought[]
   toolUsed: string | null
+  listadoItems: ListadoItem[]
+  listadoConteo?: number
+  listadoMuestraTruncada?: boolean
 }
 
 interface MessageListProps {
@@ -129,6 +132,9 @@ export function MessageList({
                     message={assistant}
                     toolUsed={turn.toolUsed}
                     routerThoughts={turn.routerThoughts}
+                    listadoItems={turn.listadoItems}
+                    listadoConteo={turn.listadoConteo}
+                    listadoMuestraTruncada={turn.listadoMuestraTruncada}
                     showAssistantFooter={Boolean(ultimoTurno && assistant.role === 'assistant')}
                     onRegenerate={ultimoTurno ? onRegenerateLast : undefined}
                   />
