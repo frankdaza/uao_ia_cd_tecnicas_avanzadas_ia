@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { getAdminConfig, patchAdminConfig } from '@/lib/adminApi'
 import type { AdminConfigEstado } from '@/lib/adminSchemas'
 import {
+  validarHistorialTurnosMax,
   validarIdentificadorModelo,
   validarRagScoreMinimo,
   validarRagTopK,
@@ -108,6 +109,7 @@ function AdminModelFormInner({
   const [kwargsComp, setKwargsComp] = useState(JSON.stringify(data.model_kwargs_compositor ?? {}, null, 2))
   const [ragTopK, setRagTopK] = useState(String(data.rag_top_k))
   const [ragScoreMinimo, setRagScoreMinimo] = useState(String(data.rag_score_minimo))
+  const [historialTurnosMax, setHistorialTurnosMax] = useState(String(data.historial_turnos_max))
   const [errores, setErrores] = useState<Record<string, string>>({})
 
   async function guardar() {
@@ -128,6 +130,8 @@ function AdminModelFormInner({
     if (eRk) next.ragTopK = eRk
     const eRs = validarRagScoreMinimo(ragScoreMinimo)
     if (eRs) next.ragScoreMinimo = eRs
+    const eHt = validarHistorialTurnosMax(historialTurnosMax)
+    if (eHt) next.historialTurnosMax = eHt
     setErrores(next)
     if (Object.keys(next).length > 0) {
       toast.error('Revise los campos marcados antes de guardar.')
@@ -154,6 +158,7 @@ function AdminModelFormInner({
       model_kwargs_compositor: mkC,
       rag_top_k: Number.parseInt(ragTopK, 10),
       rag_score_minimo: Number.parseFloat(ragScoreMinimo),
+      historial_turnos_max: Number.parseInt(historialTurnosMax, 10),
     }
     if (topPRouter.trim() !== '') body.top_p_router = Number.parseFloat(topPRouter)
     if (topPComp.trim() !== '') body.top_p_compositor = Number.parseFloat(topPComp)
@@ -167,6 +172,33 @@ function AdminModelFormInner({
         <code className="text-xs">top_k</code>) van en <code className="text-xs">model_kwargs</code> si el backend
         del modelo los admite.
       </p>
+      <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
+        <h2 className="text-sm font-medium text-foreground">Memoria conversacional (compositor)</h2>
+        <p className="text-xs text-muted-foreground">
+          Cantidad máxima de <strong>turnos</strong> (cada mensaje del usuario cuenta como un turno) que se envían al
+          modelo que redacta la respuesta final y al router. Si no hay valor en base de datos, aplica{' '}
+          <code className="text-xs">HISTORIAL_TURNOS_MAX</code> del entorno.
+        </p>
+        <div className="space-y-2 max-w-xs">
+          <Label htmlFor="historial-turnos-max">historial_turnos_max</Label>
+          <Input
+            id="historial-turnos-max"
+            type="number"
+            min={1}
+            max={200}
+            step={1}
+            value={historialTurnosMax}
+            onChange={(e) => setHistorialTurnosMax(e.target.value)}
+            aria-invalid={errores.historialTurnosMax ? true : undefined}
+            aria-describedby={errores.historialTurnosMax ? 'err-hist-t' : undefined}
+          />
+          {errores.historialTurnosMax ? (
+            <p id="err-hist-t" className="text-sm text-destructive" role="alert">
+              {errores.historialTurnosMax}
+            </p>
+          ) : null}
+        </div>
+      </div>
       <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
         <h2 className="text-sm font-medium text-foreground">Recuperación RAG (Qdrant)</h2>
         <p className="text-xs text-muted-foreground">

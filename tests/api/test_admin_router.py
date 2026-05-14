@@ -72,6 +72,7 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
     cfg = obtener_configuracion()
     assert cuerpo["rag_top_k"] == cfg.rag_top_k
     assert cuerpo["rag_score_minimo"] == cfg.rag_score_minimo
+    assert cuerpo["historial_turnos_max"] == cfg.historial_turnos_max
 
 
 @pytest.mark.asyncio
@@ -186,5 +187,21 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             assert r4.status_code == 200
             assert r4.json()["rag_top_k"] == 12
             assert r4.json()["rag_score_minimo"] == 0.4
+            r5 = await client.patch(
+                "/api/admin/config",
+                headers=headers,
+                json={"version": r4.json()["version"], "historial_turnos_max": 33},
+            )
+            assert r5.status_code == 200
+            assert r5.json()["historial_turnos_max"] == 33
+            r6 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
+            assert r6.status_code == 200
+            assert r6.json()["historial_turnos_max"] == 33
+            r_bad = await client.patch(
+                "/api/admin/config",
+                headers=headers,
+                json={"version": r6.json()["version"], "historial_turnos_max": 0},
+            )
+            assert r_bad.status_code == 422
     finally:
         app.dependency_overrides.clear()

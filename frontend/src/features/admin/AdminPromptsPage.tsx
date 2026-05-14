@@ -82,11 +82,29 @@ function AdminPromptsFormInner({
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-foreground">
+      <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-foreground space-y-3">
         <p>
-          El campo <code className="font-mono text-xs">respuesta_sin_contexto</code> del meta-prompt debe ser
-          exactamente <strong>No tengo información suficiente</strong> (política institucional). El saludo debe
-          incluir el placeholder <code className="font-mono text-xs">{'{nombre}'}</code>.
+          Al guardar, los textos se persisten en la base de datos y el agente los usa en la{' '}
+          <strong>siguiente</strong> pregunta del chat (no hace falta editar archivos en disco ni reiniciar el
+          servidor).
+        </p>
+        <p>
+          El <code className="font-mono text-xs">system_prompt</code>, las{' '}
+          <code className="font-mono text-xs">reglas_decision</code> y el bloque{' '}
+          <code className="font-mono text-xs">herramientas</code> del JSON se envían al modelo del router; las
+          descripciones de las tools expuestas al proveedor se alinean a ese mismo JSON. El saludo del compositor
+          usa <code className="font-mono text-xs">saludo_template</code> (debe incluir{' '}
+          <code className="font-mono text-xs">{'{nombre}'}</code>).
+        </p>
+        <p>
+          El campo <code className="font-mono text-xs">modelo_router</code> dentro del meta-prompt es solo
+          referencia documental: el modelo real del router se define en <strong>Modelo y sampling</strong>, en el
+          campo <code className="font-mono text-xs">modelo_llm_router</code> o en la variable de entorno
+          equivalente.
+        </p>
+        <p>
+          El campo <code className="font-mono text-xs">respuesta_sin_contexto</code> debe ser exactamente{' '}
+          <strong>No tengo información suficiente</strong> (política institucional y validación del servidor).
         </p>
       </div>
       <div className="space-y-2">

@@ -120,6 +120,11 @@ class ServicioAgenteM2Config:
             return float(fila.rag_score_minimo)
         return float(self._cfg.rag_score_minimo)
 
+    def historial_turnos_max_efectivo(self, fila: ConfigAdminM2 | None) -> int:
+        if fila is not None and fila.historial_turnos_max is not None:
+            return int(fila.historial_turnos_max)
+        return int(self._cfg.historial_turnos_max)
+
     async def obtener_fila(self) -> ConfigAdminM2 | None:
         return await self._repo.obtener()
 
@@ -178,6 +183,7 @@ class ServicioAgenteM2Config:
                 etiqueta_modelo_compositor="mock_llm",
                 rag_top_k=self.rag_top_k_efectivo(fila),
                 rag_score_minimo=self.rag_score_minimo_efectivo(fila),
+                historial_turnos_max=self.historial_turnos_max_efectivo(fila),
             )
 
         if not (self._cfg.openai_api_key and str(self._cfg.openai_api_key).strip()):
@@ -192,6 +198,7 @@ class ServicioAgenteM2Config:
             etiqueta_modelo_compositor=etiqueta,
             rag_top_k=self.rag_top_k_efectivo(fila),
             rag_score_minimo=self.rag_score_minimo_efectivo(fila),
+            historial_turnos_max=self.historial_turnos_max_efectivo(fila),
         )
 
     async def aplicar_parche(
@@ -210,6 +217,7 @@ class ServicioAgenteM2Config:
         prompt_institucional: str | None = None,
         rag_top_k: int | None = None,
         rag_score_minimo: float | None = None,
+        historial_turnos_max: int | None = None,
     ) -> ConfigAdminM2:
         """Persiste cambios parciales con control optimista de ``version``."""
         fila_bloqueada = await self._repo.obtener_para_actualizar()
@@ -279,6 +287,12 @@ class ServicioAgenteM2Config:
                 msg = "rag_score_minimo debe estar entre 0.0 y 1.0."
                 raise ValueError(msg)
             fila.rag_score_minimo = sm
+        if historial_turnos_max is not None:
+            ht = int(historial_turnos_max)
+            if not (1 <= ht <= 200):
+                msg = "historial_turnos_max debe estar entre 1 y 200."
+                raise ValueError(msg)
+            fila.historial_turnos_max = ht
 
         await self._sesion.flush()
         return fila

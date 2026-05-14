@@ -177,12 +177,16 @@ async def _generador_eventos_sse(
                                     herr = str(p.get("herramienta") or "")
                                     ultima_tool_decidida = herr
                                     razon = str(p.get("razon_breve") or "")
+                                    args_sum = p.get("argumentos_resumidos")
                                     yield {
                                         "event": "pensamiento",
                                         "data": json.dumps(
                                             EventoPensamiento(
                                                 herramienta_candidata=herr,
                                                 razon=razon,
+                                                argumentos_resumidos=args_sum
+                                                if isinstance(args_sum, dict)
+                                                else None,
                                             ).model_dump(),
                                         ),
                                     }
@@ -204,11 +208,43 @@ async def _generador_eventos_sse(
                                             EventoFuentes(chunks=serializables).model_dump(),
                                         ),
                                     }
+                            faq_match: bool | None = None
+                            faq_umbral: float | None = None
+                            faq_consulta: str | None = None
+                            if nombre_tool == "faq_estructurada" and isinstance(
+                                salida, dict
+                            ):
+                                plist = salida.get("pensamientos")
+                                if isinstance(plist, list):
+                                    for pen in plist:
+                                        if not isinstance(pen, dict):
+                                            continue
+                                        if pen.get("tipo") != "ejecucion_tool":
+                                            continue
+                                        v_match = pen.get("faq_match_encontrado")
+                                        if isinstance(v_match, bool):
+                                            faq_match = v_match
+                                        v_um = pen.get("faq_umbral_match")
+                                        try:
+                                            faq_umbral = (
+                                                float(v_um) if v_um is not None else None
+                                            )
+                                        except (TypeError, ValueError):
+                                            faq_umbral = None
+                                        v_cq = pen.get("faq_consulta_ejecutada")
+                                        faq_consulta = (
+                                            str(v_cq) if v_cq is not None else None
+                                        )
+                                        break
                             yield {
                                 "event": "herramienta",
                                 "data": json.dumps(
                                     EventoHerramienta(
-                                        nombre=nombre_tool, latencia_ms=lat_ms
+                                        nombre=nombre_tool,
+                                        latencia_ms=lat_ms,
+                                        faq_match_encontrado=faq_match,
+                                        faq_umbral_match=faq_umbral,
+                                        faq_consulta_ejecutada=faq_consulta,
                                     ).model_dump(),
                                 ),
                             }
@@ -278,7 +314,9 @@ async def _generador_eventos_sse(
     "/agente/stream",
     summary="Streaming SSE del agente conversacional",
     description=(
-        "Emite eventos Server-Sent Events JSON: `pensamiento`, `herramienta`, `token`, "
+        "Emite eventos Server-Sent Events JSON: `pensamiento` (incluye `argumentos_resumidos` "
+        "opcional del router), `herramienta` (diagnosticos opcionales FAQ: `faq_match_encontrado`, "
+        "`faq_umbral_match`, `faq_consulta_ejecutada`), `token`, "
         "`fuentes`, `final` y `error`. Requiere sesion valida (cookie o cabecera) alineada "
         "con el campo `session_id` del cuerpo."
     ),

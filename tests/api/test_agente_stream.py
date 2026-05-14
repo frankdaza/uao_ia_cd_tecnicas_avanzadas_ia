@@ -112,6 +112,7 @@ async def test_agente_stream_emite_eventos_parseables(
             meta_prompt=_meta_prompt_minimo(),
             prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
             etiqueta_modelo_compositor="test-compositor",
+            historial_turnos_max=20,
         )
 
     mem = _MemoriaFalsa()
@@ -218,6 +219,7 @@ async def test_agente_stream_403_session_id_no_alineado(
             meta_prompt=_meta_prompt_minimo(),
             prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
             etiqueta_modelo_compositor="fake",
+            historial_turnos_max=20,
         )
 
     fastapi_app_sesion_mock.state.grafo_agente = grafo
@@ -337,6 +339,7 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
             meta_prompt=_meta_prompt_minimo(),
             prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
             etiqueta_modelo_compositor="test-compositor",
+            historial_turnos_max=20,
         )
 
     fastapi_app_sesion_mock.state.grafo_agente = grafo

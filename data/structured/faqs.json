@@ -5,14 +5,9 @@
       "intent": "linea_telefonica_pbx",
       "keywords": [
         "telefono",
-        "llamar",
         "PBX",
         "linea",
-        "contacto",
-        "602",
-        "331",
-        "9090",
-        "central"
+        "contacto"
       ],
       "pregunta_canonica": "¿Cuál es el teléfono principal de la Fundación Valle del Lili?",
       "respuesta": "La línea de atención general (PBX) es (+57) 602 331 9090. Algunas especialidades publican extensiones específicas en el sitio web oficial.",
@@ -71,11 +66,12 @@
         "18-49",
         "ubicacion",
         "sede",
+        "sedes",
         "principal",
         "Valle del Cauca"
       ],
       "pregunta_canonica": "¿Dónde queda la sede principal / el domicilio principal de la Fundación Valle del Lili en Cali?",
-      "respuesta": "El domicilio principal informado en canales oficiales es Cra. 98 #18-49, Cali (Colombia). La institución cuenta además con otras sedes (p. ej. Limonar, Tequendama, Av. Estación, Alfaguara); consulte la sección «Sedes» en el sitio web para detalle y cómo llegar.",
+      "respuesta": "La fundación tiene 5 sedes. El domicilio principal informado en canales oficiales es Cra. 98 #18-49, Cali (Colombia). La institución cuenta además con otras sedes (p. ej. Limonar, Tequendama, Av. Estación, Alfaguara); consulte la sección «Sedes» en el sitio web para detalle y cómo llegar.",
       "source_url": "https://valledellili.org/sedes/sede-principal/",
       "actualizado_el": "2026-05-12"
     },

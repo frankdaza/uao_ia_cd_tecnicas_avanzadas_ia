@@ -11,11 +11,13 @@ describe('AdminConfigEstadoSchema', () => {
       temperatura_compositor: 0.2,
       rag_top_k: 5,
       rag_score_minimo: 0.25,
+      historial_turnos_max: 20,
       meta_prompt: { version: 1 },
       prompt_institucional: 'x'.repeat(80),
     }
     const r = AdminConfigEstadoSchema.parse(raw)
     expect(r.version).toBe(0)
+    expect(r.historial_turnos_max).toBe(20)
     expect(r.model_kwargs_router).toEqual({})
   })
 })

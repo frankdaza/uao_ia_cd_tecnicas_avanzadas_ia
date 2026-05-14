@@ -17,6 +17,7 @@ class RuntimeAgenteBundle:
 
     Se pasa por ``RunnableConfig['configurable']['runtime_agente']`` para que los
     nodos tomen valores actualizados sin recompilar el grafo compilado al boot.
+    ``historial_turnos_max`` acota los turnos cargados desde Postgres para router y compositor.
     """
 
     llm_router: Any
@@ -26,6 +27,7 @@ class RuntimeAgenteBundle:
     etiqueta_modelo_compositor: str
     rag_top_k: int = 5
     rag_score_minimo: float = 0.25
+    historial_turnos_max: int = 20
 
 
 __all__ = ["RuntimeAgenteBundle"]

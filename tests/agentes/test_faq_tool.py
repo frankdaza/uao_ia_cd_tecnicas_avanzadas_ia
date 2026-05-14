@@ -31,6 +31,14 @@ def test_buscar_faq_caso_positivo_pbx() -> None:
     assert r.id == "fvl-linea-pbx-general"
 
 
+def test_buscar_faq_pregunta_meta_prompt_pbx() -> None:
+    """Frase de ejemplo del meta-prompt del router (PBX) debe matchear la FAQ."""
+    consulta = "¿Cual es el teléfono, o contacto, número de la linea PBX?"
+    r = buscar_faq(consulta)
+    assert r is not None
+    assert r.id == "fvl-linea-pbx-general"
+
+
 def test_buscar_faq_caso_positivo_siau_horario() -> None:
     r = buscar_faq(
         "horario SIAU PQRS atencion usuario 4190 lunes viernes extension 320",
@@ -167,10 +175,8 @@ def test_umbral_match_configurable(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("FAQ_UMBRAL_MATCH", "1.0")
     obtener_configuracion.cache_clear()
     invalidar_cache_faqs()
-    # 8 de 9 palabras clave de la FAQ PBX (falta una respecto al caso positivo completo).
-    r = buscar_faq(
-        "telefono llamar PBX linea contacto 602 331 9090",
-    )
+    # Tres de cuatro palabras clave PBX (falta "contacto"); ratio 0.75 < 1.0.
+    r = buscar_faq("telefono PBX linea")
     assert r is None
 
 

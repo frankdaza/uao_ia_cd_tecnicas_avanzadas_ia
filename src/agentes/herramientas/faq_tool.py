@@ -27,13 +27,13 @@ from typing import Any
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
 
-from src.api.configuracion import obtener_configuracion
+from src.api.configuracion import Configuracion, obtener_configuracion
 
 _RAIZ_PROYECTO = Path(__file__).resolve().parents[3]
 _RUTA_JSON_POR_DEFECTO = _RAIZ_PROYECTO / "data" / "structured" / "faqs.json"
 
-# Cache (mtime_ns, lista de entradas) para invalidar si el archivo cambia en disco.
-_cache_entradas: tuple[int, list["FaqEntrada"]] | None = None
+# Cache por ruta resuelta: clave str(Path.resolve()) -> (mtime_ns, entradas).
+_cache_entradas_por_ruta: dict[str, tuple[int, list["FaqEntrada"]]] = {}
 
 # Stopwords en forma ya normalizada (ASCII, minúsculas) para filtrar la pregunta canónica.
 _STOPWORDS_CONTENIDO: frozenset[str] = frozenset(
@@ -149,8 +149,9 @@ class ArgsConsultaFaq(BaseModel):
 
     consulta: str = Field(
         description=(
-            "Pregunta o mensaje del usuario en español sobre datos institucionales "
-            "factuales (teléfonos, horarios, NIT, dirección, correos, sitio web, etc.)."
+            "Texto literal de la consulta actual del usuario (copiar del bloque "
+            "\"Consulta actual del usuario\" del mensaje humano del router), sin resumir "
+            "ni parafrasear. Si no esta seguro, repita la pregunta del usuario tal cual."
         ),
         min_length=1,
     )
@@ -227,41 +228,43 @@ def _palabra_clave_coincide(palabra_clave: str, tokens_consulta: set[str]) -> bo
     return bool(req) and all(t in tokens_consulta for t in req)
 
 
-def _resolver_ruta_json() -> Path:
-    cfg = obtener_configuracion()
+def _resolver_ruta_json(configuracion: Configuracion | None = None) -> Path:
+    cfg = configuracion or obtener_configuracion()
     rel = Path(cfg.faq_json_relativo_raiz)
     return rel if rel.is_absolute() else _RAIZ_PROYECTO / rel
 
 
 def invalidar_cache_faqs() -> None:
     """Limpia la cache en memoria (útil en tests tras cambiar el archivo o la config)."""
-    global _cache_entradas
-    _cache_entradas = None
+    global _cache_entradas_por_ruta
+    _cache_entradas_por_ruta = {}
 
 
-def _cargar_entradas_desde_disco() -> list[FaqEntrada]:
-    global _cache_entradas
-    ruta = _resolver_ruta_json()
+def _cargar_entradas_desde_disco(configuracion: Configuracion | None = None) -> list[FaqEntrada]:
+    global _cache_entradas_por_ruta
+    ruta = _resolver_ruta_json(configuracion)
     if not ruta.is_file():
         raise ArchivoFaqStructuredAusenteError(
             "No se encontró el archivo de FAQs estructuradas en "
             f"{ruta}. Verifique la ruta, el despliegue del repositorio o la variable "
             "FAQ_JSON_RELATIVO_RAIZ."
         )
+    clave = str(ruta.resolve())
     mtime_ns = ruta.stat().st_mtime_ns
-    if _cache_entradas is not None and _cache_entradas[0] == mtime_ns:
-        return _cache_entradas[1]
+    cacheada = _cache_entradas_por_ruta.get(clave)
+    if cacheada is not None and cacheada[0] == mtime_ns:
+        return cacheada[1]
     with ruta.open(encoding="utf-8") as f:
         payload: dict[str, Any] = json.load(f)
     lista = payload.get("faqs")
     if not isinstance(lista, list):
         raise ValueError("El JSON de FAQs debe contener la clave 'faqs' con una lista.")
     entradas = [FaqEntrada.model_validate(item) for item in lista]
-    _cache_entradas = (mtime_ns, entradas)
+    _cache_entradas_por_ruta[clave] = (mtime_ns, entradas)
     return entradas
 
 
-def buscar_faq(consulta: str) -> FaqRespuesta | None:
+def buscar_faq(consulta: str, *, configuracion: Configuracion | None = None) -> FaqRespuesta | None:
     """
     Busca la FAQ con mayor score entre keywords y solapamiento con ``pregunta_canonica``.
 
@@ -271,9 +274,15 @@ def buscar_faq(consulta: str) -> FaqRespuesta | None:
     Se retorna la mejor entrada si el score efectivo es ``>= FAQ_UMBRAL_MATCH``; si no,
     ``None``. En empate de score, gana la que tenga más coincidencias de keywords y
     luego ``id`` menor en orden lexicográfico (orden estable).
+
+    Parameters
+    ----------
+    configuracion:
+        Settings opcionales para umbral y ruta al JSON; por defecto ``obtener_configuracion()``.
     """
-    umbral = obtener_configuracion().faq_umbral_match
-    entradas = _cargar_entradas_desde_disco()
+    cfg = configuracion or obtener_configuracion()
+    umbral = cfg.faq_umbral_match
+    entradas = _cargar_entradas_desde_disco(configuracion)
     tokens_q = _tokens_consulta_para_match(consulta)
     candidatos: list[_CandidatoScore] = []
     for entrada in entradas:
@@ -308,8 +317,12 @@ def buscar_faq(consulta: str) -> FaqRespuesta | None:
     )
 
 
-def _ejecutar_tool_faq(consulta: str) -> dict[str, Any]:
-    hallazgo = buscar_faq(consulta)
+def _ejecutar_tool_faq(
+    consulta: str,
+    *,
+    configuracion: Configuracion | None = None,
+) -> dict[str, Any]:
+    hallazgo = buscar_faq(consulta, configuracion=configuracion)
     if hallazgo is None:
         return {
             "encontrado": False,
@@ -318,13 +331,23 @@ def _ejecutar_tool_faq(consulta: str) -> dict[str, Any]:
     return {"encontrado": True, **hallazgo.model_dump(mode="json")}
 
 
-def crear_faq_tool() -> StructuredTool:
+def crear_faq_tool(*, configuracion: Configuracion | None = None) -> StructuredTool:
     """
     Construye la StructuredTool ``faq_estructurada`` para tool binding / LangGraph.
 
-    La ejecución solo lee ``data/structured/faqs.json`` (cache por ``mtime``) y aplica
+    La ejecución solo lee ``data/structured/faqs.json`` (cache por ruta y ``mtime``) y aplica
     reglas deterministas; no usa Qdrant, LlamaIndex ni APIs de modelo dentro de la tool.
+
+    Parameters
+    ----------
+    configuracion:
+        Settings opcionales (p. ej. tests o ``MOCK_LLM``); por defecto ``obtener_configuracion()``.
     """
+    cfg_inyectada = configuracion
+
+    def _ejecutar(consulta: str) -> dict[str, Any]:
+        return _ejecutar_tool_faq(consulta, configuracion=cfg_inyectada)
+
     return StructuredTool.from_function(
         name="faq_estructurada",
         description=(
@@ -334,7 +357,7 @@ def crear_faq_tool() -> StructuredTool:
             "Úsala cuando el usuario pida datos concretos publicados por la institución y no "
             "requiera razonamiento clínico ni documentación amplia del corpus."
         ),
-        func=_ejecutar_tool_faq,
+        func=_ejecutar,
         args_schema=ArgsConsultaFaq,
         infer_schema=False,
     )

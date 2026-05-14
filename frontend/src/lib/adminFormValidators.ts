@@ -44,6 +44,15 @@ export function validarRagScoreMinimo(valor: string): string | null {
   return null
 }
 
+/** Entero 1–200 alineado a ``HISTORIAL_TURNOS_MAX`` / columna admin. */
+export function validarHistorialTurnosMax(valor: string): string | null {
+  const t = valor.trim()
+  const n = Number.parseInt(t, 10)
+  if (!Number.isFinite(n) || String(n) !== t) return 'Ingrese un entero válido entre 1 y 200.'
+  if (n < 1 || n > 200) return 'historial_turnos_max debe estar entre 1 y 200.'
+  return null
+}
+
 export function validarLongitudPromptInstitucional(texto: string): string | null {
   const t = texto.trim()
   if (t.length < LONGITUD_MINIMA_PROMPT_INSTITUCIONAL) {

@@ -27,6 +27,7 @@ export const EventoPensamientoSchema = z.object({
   tipo: z.literal('pensamiento'),
   herramienta_candidata: z.string(),
   razon: z.string().default(''),
+  argumentos_resumidos: z.record(z.string(), z.unknown()).optional(),
 })
 export type EventoPensamiento = z.infer<typeof EventoPensamientoSchema>
 
@@ -34,6 +35,9 @@ export const EventoHerramientaSchema = z.object({
   tipo: z.literal('herramienta'),
   nombre: z.string(),
   latencia_ms: z.number().int().nonnegative(),
+  faq_match_encontrado: z.boolean().optional(),
+  faq_umbral_match: z.number().optional(),
+  faq_consulta_ejecutada: z.string().optional(),
 })
 export type EventoHerramienta = z.infer<typeof EventoHerramientaSchema>
 

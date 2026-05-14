@@ -1,5 +1,9 @@
 # Stack local: API + PostgreSQL 17.9 + Qdrant (Modulo 2). Ollama opcional (perfil legacy).
 #
+# pgweb (UI web liviana para Postgres): http://127.0.0.1:8081 por defecto; puerto del host con PGWEB_PUBLISH_PORT.
+# Conexión interna al servicio postgres (mismas credenciales que POSTGRES_*). Si la contrasena tiene caracteres
+# reservados en URL (@, :, /, etc.), use una contrasena local simple o codifique la URL.
+#
 # Qdrant:
 #   - REST (cliente qdrant-client / LlamaIndex): puerto 6333 en la red interna; se publica en el host segun QDRANT_REST_PORT.
 #   - gRPC: 6334 (misma convencion que la imagen oficial).
@@ -28,6 +32,17 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
+    restart: unless-stopped
+
+  pgweb:
+    image: sosedoff/pgweb:0.16.2
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-app}?sslmode=disable
+    ports:
+      - "127.0.0.1:${PGWEB_PUBLISH_PORT:-8081}:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   qdrant:

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   LONGITUD_MINIMA_PROMPT_INSTITUCIONAL,
+  validarHistorialTurnosMax,
   validarIdentificadorModelo,
   validarLongitudPromptInstitucional,
   validarTemperatura,
@@ -35,6 +36,19 @@ describe('validarTopP', () => {
   it('valida rango cuando hay valor', () => {
     expect(validarTopP('0.5', true)).toBeNull()
     expect(validarTopP('1.1', true)).not.toBeNull()
+  })
+})
+
+describe('validarHistorialTurnosMax', () => {
+  it('rechaza fuera de rango o no entero', () => {
+    expect(validarHistorialTurnosMax('0')).not.toBeNull()
+    expect(validarHistorialTurnosMax('201')).not.toBeNull()
+    expect(validarHistorialTurnosMax('3.5')).not.toBeNull()
+  })
+  it('acepta enteros en rango', () => {
+    expect(validarHistorialTurnosMax('1')).toBeNull()
+    expect(validarHistorialTurnosMax('20')).toBeNull()
+    expect(validarHistorialTurnosMax('200')).toBeNull()
   })
 })
 

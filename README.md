@@ -120,15 +120,16 @@ Alternativa equivalente: `uv run python scripts/indexar_corpus_qdrant.py` con lo
 
 ### Docker Compose (recomendado)
 
-El archivo `docker-compose.yml` levanta **PostgreSQL 17.9** (`postgres:17.9-alpine`), **Qdrant** (`qdrant/qdrant:v1.18.0`, compatible con `qdrant-client` del lockfile), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable) y el servicio **`api`** (healthcheck HTTP a `/api/salud`). **Ollama** y la precarga de modelos van en el **perfil `legacy`** (`docker compose --profile legacy up`); el arranque por defecto del agente M2 **no** depende de Ollama. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
+El archivo `docker-compose.yml` levanta **PostgreSQL 17.9** (`postgres:17.9-alpine`), **Qdrant** (`qdrant/qdrant:v1.18.0`, compatible con `qdrant-client` del lockfile), el job **`db-init`** (`alembic upgrade head` cuando Postgres está saludable), el servicio **`api`** (healthcheck HTTP a `/api/salud`) y **`pgweb`** (interfaz web liviana para inspeccionar Postgres; imagen `sosedoff/pgweb:0.16.2`). **Ollama** y la precarga de modelos van en el **perfil `legacy`** (`docker compose --profile legacy up`); el arranque por defecto del agente M2 **no** depende de Ollama. Los datos persisten en volúmenes nombrados `postgres-data` y `qdrant-storage`.
 
 Si **cambia la versión mayor** de la imagen de Postgres respecto a datos ya guardados en `postgres-data`, el contenedor puede rechazar el directorio de datos: en desarrollo suele bastar con eliminar el volumen `postgres-data` y volver a levantar el stack para que `db-init` reaplique Alembic (o use `pg_upgrade` / volcado lógico si necesita conservar datos).
 
 - **CORS en Compose:** variable `ALLOWED_ORIGINS` (lista JSON); puede definirse en `.env` en la raíz del proyecto (plantilla [`.env.example`](.env.example)). El `docker-compose.yml` aplica un valor por defecto local si no está definida.
 
 - **PostgreSQL en el host:** puerto publicado por defecto **15432** → 5432 interno (`POSTGRES_PUBLISH_PORT` para cambiarlo). Variables: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` (alineadas con `src/api/configuracion.py`).
+- **pgweb (explorar la base en el navegador):** por defecto **http://127.0.0.1:8081** (solo interfaz loopback del host; puerto con `PGWEB_PUBLISH_PORT`). Usa las mismas credenciales que `POSTGRES_*` del `.env`.
 - **Qdrant:** REST **6333** y gRPC **6334** en el host (`QDRANT_REST_PORT`, `QDRANT_GRPC_PORT`). En la red interna de Compose la API usa `QDRANT_URL=http://qdrant:6333`.
-- **Solo infraestructura:** `docker compose up -d postgres qdrant`.
+- **Solo infraestructura:** `docker compose up -d postgres qdrant` (añada `pgweb` si quiere la UI sin levantar la API).
 
 ```bash
 docker compose config

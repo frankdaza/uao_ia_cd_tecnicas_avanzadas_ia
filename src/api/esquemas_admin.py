@@ -38,6 +38,14 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
         le=1.0,
         description="Umbral minimo de similitud para conservar fragmentos RAG.",
     )
+    historial_turnos_max: int = Field(
+        ge=1,
+        le=200,
+        description=(
+            "Tope de turnos (mensajes humano como ancla) cargados para router y compositor; "
+            "columna admin o HISTORIAL_TURNOS_MAX en .env."
+        ),
+    )
     nota_precedencia: str = Field(
         default=(
             "Valores mostrados son los efectivos al atender peticiones: overrides en "
@@ -68,6 +76,7 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     prompt_institucional: str | None = None
     rag_top_k: int | None = Field(default=None, ge=1, le=50)
     rag_score_minimo: float | None = Field(default=None, ge=0.0, le=1.0)
+    historial_turnos_max: int | None = Field(default=None, ge=1, le=200)
 
     @field_validator("modelo_llm_router", "modelo_llm_compositor")
     @classmethod

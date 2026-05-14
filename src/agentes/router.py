@@ -36,12 +36,13 @@ def _texto_mensaje(mensaje: BaseMessage) -> str:
     return str(contenido)
 
 
-def _historial_a_texto_router(mensajes: list[BaseMessage], *, max_bloques: int = 24) -> str:
-    """Resume el historial en texto plano para el mensaje humano del router."""
+def _historial_a_texto_router(mensajes: list[BaseMessage], *, max_bloques: int | None = None) -> str:
+    """Resume el historial en texto plano para el mensaje humano del router o el compositor."""
     if not mensajes:
         return "(sin mensajes previos en esta sesion)"
+    ventana = mensajes if max_bloques is None else mensajes[-max_bloques:]
     lineas: list[str] = []
-    for m in mensajes[-max_bloques:]:
+    for m in ventana:
         if isinstance(m, HumanMessage):
             lineas.append(f"usuario: {_texto_mensaje(m)[:1800]}")
         elif isinstance(m, AIMessage):
@@ -72,6 +73,63 @@ def _argumentos_serializables(argumentos: dict[str, Any]) -> dict[str, Any]:
     return salida
 
 
+def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
+    """
+    Arma el system prompt del router: ``system_prompt`` mas bloques derivados del JSON
+    (``reglas_decision`` y definicion pedagogica de ``herramientas``) para que ediciones
+    desde el panel admin surtan efecto sin depender solo del texto base.
+    """
+    partes: list[str] = [meta.system_prompt.rstrip()]
+    lineas_reglas = [r.strip() for r in meta.reglas_decision if isinstance(r, str) and r.strip()]
+    if lineas_reglas:
+        bloque_reglas = "\n".join(f"- {linea}" for linea in lineas_reglas)
+        partes.append(
+            "Reglas de decision (priorizar segun el enunciado y el contexto de la consulta):\n" + bloque_reglas
+        )
+    bloques_h: list[str] = []
+    for h in meta.herramientas:
+        sub = (
+            f"### Herramienta `{h.name}`\n"
+            f"Descripcion: {h.description.strip()}\n"
+            f"Cuando usar: {h.when_to_use.strip()}"
+        )
+        if h.ejemplos:
+            sub += "\nEjemplos de consultas:\n" + "\n".join(f"- {ej}" for ej in h.ejemplos if str(ej).strip())
+        bloques_h.append(sub)
+    if bloques_h:
+        partes.append(
+            "Referencia de herramientas disponibles (debe alinearse con las tool-calls del proveedor):\n\n"
+            + "\n\n".join(bloques_h)
+        )
+    return "\n\n---\n\n".join(partes)
+
+
+def _descripcion_tool_desde_meta(meta: MetaPromptConfig, nombre_tool: str) -> str | None:
+    for h in meta.herramientas:
+        if h.name == nombre_tool:
+            bloques = [h.description.strip(), f"Criterio de uso: {h.when_to_use.strip()}"]
+            ejemplos_txt = [str(e).strip() for e in h.ejemplos if str(e).strip()]
+            if ejemplos_txt:
+                bloques.append("Ejemplos de consultas:\n" + "\n".join(f"- {ej}" for ej in ejemplos_txt))
+            return "\n\n".join(bloques)
+    return None
+
+
+def _tools_con_descripciones_de_meta(
+    tools: Sequence[StructuredTool],
+    meta: MetaPromptConfig,
+) -> list[StructuredTool]:
+    """Clona tools con ``description`` alineada al meta-prompt (admin / JSON) por nombre."""
+    salida: list[StructuredTool] = []
+    for t in tools:
+        desc = _descripcion_tool_desde_meta(meta, t.name)
+        if desc is not None:
+            salida.append(t.model_copy(update={"description": desc}))
+        else:
+            salida.append(t)
+    return salida
+
+
 def crear_grafo_agente(
     *,
     llm_router: Any,
@@ -92,7 +150,9 @@ def crear_grafo_agente(
     llm_compositor:
         Modelo chat para la respuesta final institucional (politica Lili).
     meta_prompt:
-        Configuracion validada del JSON del router (system prompt de decision).
+        Configuracion validada del JSON del router; ademas de ``system_prompt`` se inyectan
+        ``reglas_decision`` y el detalle de ``herramientas`` en el mensaje de sistema del router,
+        y las descripciones expuestas al proveedor en ``bind_tools`` se derivan del mismo objeto.
     herramientas:
         Tools enlazadas al router; por defecto ``faq_estructurada`` + ``rag_denso``.
     prompt_sistema_institucional:
@@ -147,6 +207,7 @@ def crear_grafo_agente(
         etiqueta_modelo_compositor=etiqueta_mc,
         rag_top_k=int(cfg_rag.rag_top_k),
         rag_score_minimo=float(cfg_rag.rag_score_minimo),
+        historial_turnos_max=int(cfg_rag.historial_turnos_max),
     )
 
     def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
@@ -158,7 +219,8 @@ def crear_grafo_agente(
 
     def nodo_cargar_memoria(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
         memoria = _obtener_memoria_desde_config(config)
-        mensajes = memoria.cargar_ventana()
+        bundle_rt = _bundle_desde_config(config)
+        mensajes = memoria.cargar_ventana(turnos_max=bundle_rt.historial_turnos_max)
         historial_previo_vacio = len(mensajes) == 0
         return {
             "mensajes_historial": mensajes,
@@ -168,15 +230,17 @@ def crear_grafo_agente(
     def nodo_decidir_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
         bundle = _bundle_desde_config(config)
         meta = bundle.meta_prompt
-        historial_txt = _historial_a_texto_router(state.get("mensajes_historial") or [])
+        historial_txt = _historial_a_texto_router(state.get("mensajes_historial") or [], max_bloques=None)
         contenido_humano = (
             f"{historial_txt}\n\n---\n\nConsulta actual del usuario:\n{state['pregunta']}"
         )
+        texto_sistema = _construir_texto_sistema_router(meta)
         mensajes_router: list[BaseMessage] = [
-            SystemMessage(content=meta.system_prompt),
+            SystemMessage(content=texto_sistema),
             HumanMessage(content=contenido_humano),
         ]
-        enlazado = bundle.llm_router.bind_tools(tools)
+        tools_router = _tools_con_descripciones_de_meta(tools, meta)
+        enlazado = bundle.llm_router.bind_tools(tools_router)
         mensaje_ai: AIMessage = enlazado.invoke(mensajes_router)
         tool_decidida: str | None = None
         argumentos_tool: dict[str, Any] = {}
@@ -209,6 +273,15 @@ def crear_grafo_agente(
         bundle = _bundle_desde_config(config)
         nombre_tool = state.get("tool_decidida") or ""
         args = state.get("argumentos_tool") or {}
+        args_invocacion = dict(args)
+        if nombre_tool == "faq_estructurada":
+            pregunta_txt = str(state.get("pregunta") or "").strip()
+            cq = str(args_invocacion.get("consulta") or "").strip()
+            if not cq or (
+                pregunta_txt
+                and len(cq) < max(24, int(len(pregunta_txt) * 0.5))
+            ):
+                args_invocacion["consulta"] = pregunta_txt or cq
         tool = tools_por_nombre.get(nombre_tool)
         if tool is None:
             resultado: dict[str, Any] = {
@@ -224,9 +297,9 @@ def crear_grafo_agente(
                     bundle.rag_score_minimo - float(cfg.rag_score_minimo)
                 ) <= 1e-9
                 if mismo_que_env:
-                    salida_tool = tool.invoke(args)
+                    salida_tool = tool.invoke(args_invocacion)
                 else:
-                    consulta_txt = str(args.get("consulta") or "")
+                    consulta_txt = str(args_invocacion.get("consulta") or "")
                     salida_tool = ejecutar_rag_denso_sync(
                         configuracion=cfg,
                         consulta=consulta_txt,
@@ -234,7 +307,7 @@ def crear_grafo_agente(
                         score_minimo=bundle.rag_score_minimo,
                     )
             else:
-                salida_tool = tool.invoke(args)
+                salida_tool = tool.invoke(args_invocacion)
         except Exception as exc:  # noqa: BLE001 — aislar fallos de tool en respuesta trazable
             logger.exception("Fallo al ejecutar la tool %s", nombre_tool)
             return {
@@ -255,16 +328,23 @@ def crear_grafo_agente(
             raw = salida_tool.get("fuentes")
             if isinstance(raw, list):
                 fuentes = [f for f in raw if isinstance(f, dict)]
+        pensamiento_ejec: dict[str, Any] = {
+            "tipo": "ejecucion_tool",
+            "herramienta": nombre_tool,
+            "razon_breve": "Tool ejecutada; resultado disponible para el compositor.",
+        }
+        if nombre_tool == "faq_estructurada" and isinstance(salida_tool, dict):
+            um_faq = float(obtener_configuracion().faq_umbral_match)
+            cq_ej = str(args_invocacion.get("consulta") or "")
+            pensamiento_ejec["faq_umbral_match"] = um_faq
+            pensamiento_ejec["faq_match_encontrado"] = bool(salida_tool.get("encontrado"))
+            pensamiento_ejec["faq_consulta_ejecutada"] = (
+                cq_ej if len(cq_ej) <= 400 else cq_ej[:400] + "…"
+            )
         return {
             "resultado_tool": salida_tool,
             "fuentes": fuentes,
-            "pensamientos": [
-                {
-                    "tipo": "ejecucion_tool",
-                    "herramienta": nombre_tool,
-                    "razon_breve": "Tool ejecutada; resultado disponible para el compositor.",
-                }
-            ],
+            "pensamientos": [pensamiento_ejec],
         }
 
     def nodo_componer_respuesta(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
@@ -278,6 +358,12 @@ def crear_grafo_agente(
             and nombre
         )
         bloques_sistema: list[str] = [bundle.prompt_institucional]
+        if nombre:
+            bloques_sistema.append(
+                "Datos del usuario autenticado en esta sesion (usar para trato personal; "
+                "no confundir con fragmentos del corpus institucional ni con fuentes bibliograficas del RAG):\n"
+                f"- Nombre registrado al iniciar sesion: {nombre}"
+            )
         if usar_saludo:
             saludo = meta.saludo_template.replace("{nombre}", nombre)
             bloques_sistema.append(
@@ -289,6 +375,14 @@ def crear_grafo_agente(
             bloques_sistema.append(
                 "Ya existe historial previo en esta sesion: no repita un saludo largo "
                 "de bienvenida; mantenga continuidad con tono institucional sobrio."
+            )
+        previos = state.get("mensajes_historial") or []
+        if previos:
+            historial_txt = _historial_a_texto_router(previos, max_bloques=None)
+            bloques_sistema.append(
+                "Historial reciente de la conversacion (turnos ya completados en esta sesion). "
+                "No inventar hechos que no consten aqui ni en el contexto de herramienta debajo:\n"
+                + historial_txt
             )
         bloques_sistema.append(
             "CONTEXTO DE HERRAMIENTA (resultado serializable de la ultima tool ejecutada):\n"

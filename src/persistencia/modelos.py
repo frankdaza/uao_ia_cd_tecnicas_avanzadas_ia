@@ -78,6 +78,7 @@ class ConfigAdminM2(Base):
     prompt_institucional: Mapped[str | None] = mapped_column(Text, nullable=True)
     rag_top_k: Mapped[int | None] = mapped_column(Integer, nullable=True)
     rag_score_minimo: Mapped[float | None] = mapped_column(Float, nullable=True)
+    historial_turnos_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

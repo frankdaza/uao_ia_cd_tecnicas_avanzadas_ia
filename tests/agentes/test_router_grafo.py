@@ -318,6 +318,186 @@ def test_pensamiento_router_incluye_herramienta(
     assert decisiones and decisiones[0].get("herramienta") == "rag_denso"
 
 
+def test_compositor_recibe_nombre_registrado_e_historial_en_system(
+    herramientas_falsas: tuple[StructuredTool, StructuredTool],
+) -> None:
+    """El compositor debe ver nombre de sesion y turnos previos en el system prompt."""
+    from langchain_core.messages import HumanMessage as HM
+
+    from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+    from src.agentes.runtime_agente import RuntimeAgenteBundle
+
+    faq_t, rag_t = herramientas_falsas
+    mem = _MemoriaFalsa(
+        [
+            HM(content="En el chat digo que me dicen Pepe."),
+            AIMessage(content="Entendido."),
+        ]
+    )
+    captura_mensajes: list[list[Any]] = []
+
+    class _CompositorCaptura(FakeListChatModel):
+        def stream(self, input, config=None, **kwargs):  # noqa: ANN001, ARG002
+            captura_mensajes.append(list(input))
+            yield from super().stream(input, config=config, **kwargs)
+
+    router_llm = _ListaRouterFalso(
+        [
+            AIMessage(
+                content="",
+                tool_calls=[
+                    {
+                        "name": "faq_estructurada",
+                        "args": {"consulta": "x"},
+                        "id": "c-faq",
+                        "type": "tool_call",
+                    }
+                ],
+            )
+        ]
+    )
+    compositor_llm = _CompositorCaptura(responses=["Respuesta breve de prueba."])
+    grafo = crear_grafo_agente(
+        llm_router=router_llm,
+        llm_compositor=compositor_llm,
+        meta_prompt=_meta_prompt_minimo(),
+        herramientas=[faq_t, rag_t],
+    )
+    bundle = RuntimeAgenteBundle(
+        llm_router=router_llm,
+        llm_compositor=compositor_llm,
+        meta_prompt=_meta_prompt_minimo(),
+        prompt_institucional=PROMPT_SISTEMA_DEFECTO.rstrip(),
+        etiqueta_modelo_compositor="test",
+        historial_turnos_max=12,
+        rag_top_k=5,
+        rag_score_minimo=0.25,
+    )
+    salida = grafo.invoke(
+        {
+            "pregunta": "Recuerdas lo anterior?",
+            "session_id": "user:00000000-0000-4000-8000-0000000000aa",
+            "primer_turno": False,
+            "usuario": {"nombre": "Alvaro", "doc_id": "1"},
+        },
+        config={"configurable": {"memoria": mem, "runtime_agente": bundle}},
+    )
+    assert salida.get("respuesta_final")
+    assert captura_mensajes, "el compositor debio recibir mensajes"
+    ultimo = captura_mensajes[-1]
+    from langchain_core.messages import SystemMessage
+
+    textos_sistema = [m.content for m in ultimo if isinstance(m, SystemMessage) and isinstance(m.content, str)]
+    unido = "\n".join(textos_sistema)
+    assert "Alvaro" in unido
+    assert "Pepe" in unido
+
+
+def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
+    """reglas_decision y herramientas del meta deben llegar al SystemMessage del router."""
+    from langchain_core.messages import SystemMessage
+
+    faq_t, rag_t = _tool_faq_falsa(), _tool_rag_falsa()
+    mensajes_capturados: list[list[Any]] = []
+    tools_capturadas: list[list[Any]] = []
+
+    class _RouterCap:
+        def __init__(self) -> None:
+            self._respuesta = AIMessage(
+                content="",
+                tool_calls=[
+                    {
+                        "name": "faq_estructurada",
+                        "args": {"consulta": "x"},
+                        "id": "c",
+                        "type": "tool_call",
+                    }
+                ],
+            )
+
+        def bind_tools(self, tools_arg: Any, **kwargs: Any) -> Any:
+            _ = kwargs
+            tools_capturadas.append(list(tools_arg))
+
+            class _E:
+                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                    _ = self2, config, kw
+                    mensajes_capturados.append(list(mensajes))
+                    return self._respuesta
+
+            return _E()
+
+    meta = _meta_prompt_minimo()
+    grafo = crear_grafo_agente(
+        llm_router=_RouterCap(),
+        llm_compositor=FakeListChatModel(responses=["ok"]),
+        meta_prompt=meta,
+        herramientas=[faq_t, rag_t],
+    )
+    grafo.invoke(
+        {"pregunta": "PBX?", "session_id": "u:1", "primer_turno": True, "usuario": {}},
+        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    )
+    assert mensajes_capturados
+    sys_msgs = [m for m in mensajes_capturados[-1] if isinstance(m, SystemMessage)]
+    texto = sys_msgs[0].content if sys_msgs and isinstance(sys_msgs[0].content, str) else ""
+    assert "Priorizar FAQ cuando aplique match directo." in texto
+    assert "Telefono PBX" in texto
+    assert "### Herramienta `faq_estructurada`" in texto
+    assert tools_capturadas
+    d0 = tools_capturadas[-1][0].description
+    assert "Telefono PBX" in d0
+    assert "Datos puntuales institucionales." in d0
+
+
+def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> None:
+    """Cambiar solo reglas_decision debe reflejarse en el system del router (paridad JSON admin)."""
+    from langchain_core.messages import SystemMessage
+
+    base = _meta_prompt_minimo().model_dump()
+    base["reglas_decision"] = ["REGLA_UNICA_ADMIN_SOLO_EN_LISTA."]
+    meta = MetaPromptConfig.model_validate(base)
+
+    faq_t, rag_t = _tool_faq_falsa(), _tool_rag_falsa()
+    cap: list[str] = []
+
+    class _RouterCap:
+        def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
+            _ = kwargs
+
+            class _E:
+                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                    _ = self2, config, kw
+                    for m in mensajes:
+                        if isinstance(m, SystemMessage) and isinstance(m.content, str):
+                            cap.append(m.content)
+                    return AIMessage(
+                        content="",
+                        tool_calls=[
+                            {
+                                "name": "faq_estructurada",
+                                "args": {"consulta": "x"},
+                                "id": "i",
+                                "type": "tool_call",
+                            }
+                        ],
+                    )
+
+            return _E()
+
+    grafo = crear_grafo_agente(
+        llm_router=_RouterCap(),
+        llm_compositor=FakeListChatModel(responses=["x"]),
+        meta_prompt=meta,
+        herramientas=[faq_t, rag_t],
+    )
+    grafo.invoke(
+        {"pregunta": "x", "session_id": "u:1", "primer_turno": False, "usuario": {}},
+        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    )
+    assert cap and "REGLA_UNICA_ADMIN_SOLO_EN_LISTA." in cap[-1]
+
+
 def test_modulo_prompt_no_carga_legacy_ni_rank_bm25() -> None:
     """Import frio de prompt: no debe arrastrar modulos BM25 eliminados."""
     sys.modules.pop("src.qa.prompt", None)

@@ -16,6 +16,7 @@ export const AdminConfigEstadoSchema = z.object({
   prompt_institucional: z.string(),
   rag_top_k: z.number().int().min(1).max(50),
   rag_score_minimo: z.number().min(0).max(1),
+  historial_turnos_max: z.number().int().min(1).max(200),
   nota_precedencia: z.string().optional(),
 })
 export type AdminConfigEstado = z.infer<typeof AdminConfigEstadoSchema>

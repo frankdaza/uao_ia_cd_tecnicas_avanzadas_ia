@@ -169,6 +169,10 @@ class EventoPensamiento(BaseModel):
     tipo: Literal["pensamiento"] = "pensamiento"
     herramienta_candidata: str = Field(..., description="Nombre de la tool elegida o considerada.")
     razon: str = Field(default="", description="Justificacion corta y segura para el cliente.")
+    argumentos_resumidos: dict[str, Any] | None = Field(
+        default=None,
+        description="Argumentos del tool-call del router (p. ej. consulta truncada), sin secretos.",
+    )
 
 
 class EventoHerramienta(BaseModel):
@@ -179,6 +183,18 @@ class EventoHerramienta(BaseModel):
     tipo: Literal["herramienta"] = "herramienta"
     nombre: str = Field(..., description="Nombre estable de la tool (contrato LangChain).")
     latencia_ms: int = Field(..., ge=0, description="Tiempo aproximado de ejecucion en milisegundos.")
+    faq_match_encontrado: bool | None = Field(
+        default=None,
+        description="Solo FAQ: True si el JSON devolvio match por umbral.",
+    )
+    faq_umbral_match: float | None = Field(
+        default=None,
+        description="Solo FAQ: umbral FAQ_UMBRAL_MATCH efectivo al ejecutar la tool.",
+    )
+    faq_consulta_ejecutada: str | None = Field(
+        default=None,
+        description="Solo FAQ: cadena usada para el match (truncada en servidor).",
+    )
 
 
 class EventoToken(BaseModel):
