@@ -32,12 +32,19 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
     model_kwargs_compositor: dict[str, Any] = Field(default_factory=dict)
     meta_prompt: dict[str, Any]
     prompt_institucional: str
+    rag_top_k: int = Field(ge=1, le=50, description="Top-k efectivo del recuperador denso (Qdrant).")
+    rag_score_minimo: float = Field(
+        ge=0.0,
+        le=1.0,
+        description="Umbral minimo de similitud para conservar fragmentos RAG.",
+    )
     nota_precedencia: str = Field(
         default=(
             "Valores mostrados son los efectivos al atender peticiones: overrides en "
             "PostgreSQL (tabla config_admin_m2) sustituyen al archivo config/router_meta_prompt.json, "
             "a su vez sobre valores por defecto de variables de entorno y constantes de codigo "
-            "(temperaturas 0.0 router / 0.2 compositor cuando no hay override en base de datos)."
+            "(temperaturas 0.0 router / 0.2 compositor cuando no hay override en base de datos; "
+            "RAG_TOP_K y RAG_SCORE_MINIMO cuando las columnas rag_* estan en NULL)."
         ),
         description="Texto fijo de documentacion para operadores humanos.",
     )
@@ -59,6 +66,8 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     model_kwargs_compositor: dict[str, Any] | None = None
     meta_prompt: dict[str, Any] | None = None
     prompt_institucional: str | None = None
+    rag_top_k: int | None = Field(default=None, ge=1, le=50)
+    rag_score_minimo: float | None = Field(default=None, ge=0.0, le=1.0)
 
     @field_validator("modelo_llm_router", "modelo_llm_compositor")
     @classmethod

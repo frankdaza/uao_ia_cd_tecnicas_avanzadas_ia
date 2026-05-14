@@ -24,6 +24,8 @@ class RuntimeAgenteBundle:
     meta_prompt: MetaPromptConfig
     prompt_institucional: str
     etiqueta_modelo_compositor: str
+    rag_top_k: int = 5
+    rag_score_minimo: float = 0.25
 
 
 __all__ = ["RuntimeAgenteBundle"]

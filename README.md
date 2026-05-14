@@ -55,7 +55,7 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | Qdrant | `QDRANT_URL`, `QDRANT_COLLECTION`, `QDRANT_API_KEY` (opcional), `QDRANT_DISTANCE` | En la red de Compose la API usa `http://qdrant:6333`. |
 | Embeddings e ingesta | `EMBEDDING_PROVIDER`, `EMBEDDING_MODEL`, `EMBEDDING_DIMS` | Deben alinearse con la colección creada en Qdrant. |
 | Chunking (ingesta) | `CHUNK_SIZE`, `CHUNK_OVERLAP`, `CHUNK_STRATEGY` | Fragmentación previa a embeddings. |
-| RAG en runtime | `RAG_TOP_K`, `RAG_SCORE_MINIMO` | Umbral y top-k del recuperador denso. |
+| RAG en runtime | `RAG_TOP_K`, `RAG_SCORE_MINIMO` | Umbral y top-k del recuperador denso; si el panel admin guardó valores en `config_admin_m2`, esos overrides tienen prioridad sobre el `.env`. |
 | Memoria inyectada | `HISTORIAL_DIAS_MAX`, `HISTORIAL_TURNOS_MAX` | Ventana temporal y tope de turnos cargados para el grafo. |
 | FAQ | `FAQ_JSON_RELATIVO_RAIZ`, `FAQ_UMBRAL_MATCH` | Ruta al JSON estructurado y umbral de coincidencia. |
 | Meta-prompt del router | `ROUTER_META_PROMPT_PATH` | JSON de configuración sin secretos. |
@@ -63,6 +63,20 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | Ollama (laboratorio local) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Cliente Ollama en `src/qa` para pruebas; no requerido para el agente M2 en `docker compose up` sin servicio Ollama. |
 
 Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre los campos de `Configuracion` en `src/api/configuracion.py` (típicamente `MAYUSCULAS_CON_GUIONES`).
+
+## Panel administrativo (Admin M2)
+
+El frontend expone rutas bajo **`/admin`** (por ejemplo **`/admin/modelo`** para «Modelo y sampling»). El servidor debe definir **`ADMIN_API_KEY`**; el cliente envía la misma clave en la cabecera **`X-Admin-Key`**.
+
+Parámetros que pueden persistirse en PostgreSQL (tabla `config_admin_m2`, control optimista con `GET` / `PATCH /api/admin/config`) y aplicarse en la **siguiente** conversación del agente (hot reload del `RuntimeAgenteBundle`), entre otros:
+
+| Área | Campos relevantes en el API | Notas |
+| --- | --- | --- |
+| Modelo y sampling | `modelo_llm_router`, `modelo_llm_compositor`, `temperatura_*`, `top_p_*`, `model_kwargs_*` | Precedencia: columnas no nulas en `config_admin_m2` sobre archivo `config/router_meta_prompt.json`, variables de entorno y constantes de código (ver `nota_precedencia` en la respuesta JSON del admin). |
+| Recuperación RAG | `rag_top_k`, `rag_score_minimo` | Límites alineados a `Configuracion`: entero 1–50 y umbral 0–1 para la tool `rag_denso`. Si las columnas quedan en `NULL`, se usan `RAG_TOP_K` y `RAG_SCORE_MINIMO` del `.env`. |
+| Prompts | Meta-prompt e institucional | Pantalla **Prompts** (`/admin/prompts`). |
+
+Tras añadir columnas nuevas, ejecute **`alembic upgrade head`** (incluido en el flujo Docker `db-init`) para aplicar migraciones como la de `rag_top_k` / `rag_score_minimo`.
 
 ## Preparación de los datos
 

@@ -14,6 +14,8 @@ export const AdminConfigEstadoSchema = z.object({
   model_kwargs_compositor: z.record(z.string(), z.unknown()).optional().default({}),
   meta_prompt: z.record(z.string(), z.unknown()),
   prompt_institucional: z.string(),
+  rag_top_k: z.number().int().min(1).max(50),
+  rag_score_minimo: z.number().min(0).max(1),
   nota_precedencia: z.string().optional(),
 })
 export type AdminConfigEstado = z.infer<typeof AdminConfigEstadoSchema>

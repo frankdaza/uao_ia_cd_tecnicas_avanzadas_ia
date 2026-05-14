@@ -9,6 +9,8 @@ describe('AdminConfigEstadoSchema', () => {
       modelo_llm_compositor: 'gpt-4o-mini',
       temperatura_router: 0,
       temperatura_compositor: 0.2,
+      rag_top_k: 5,
+      rag_score_minimo: 0.25,
       meta_prompt: { version: 1 },
       prompt_institucional: 'x'.repeat(80),
     }

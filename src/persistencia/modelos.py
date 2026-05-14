@@ -76,6 +76,8 @@ class ConfigAdminM2(Base):
     model_kwargs_compositor: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     meta_prompt_json: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     prompt_institucional: Mapped[str | None] = mapped_column(Text, nullable=True)
+    rag_top_k: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    rag_score_minimo: Mapped[float | None] = mapped_column(Float, nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

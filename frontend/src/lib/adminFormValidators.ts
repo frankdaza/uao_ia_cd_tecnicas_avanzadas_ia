@@ -27,6 +27,23 @@ export function validarTopP(valor: string, opcional: boolean): string | null {
   return null
 }
 
+/** Entero 1–50 alineado a ``RAG_TOP_K`` / columna ``rag_top_k`` del admin. */
+export function validarRagTopK(valor: string): string | null {
+  const t = valor.trim()
+  const n = Number.parseInt(t, 10)
+  if (!Number.isFinite(n) || String(n) !== t) return 'Ingrese un entero válido entre 1 y 50.'
+  if (n < 1 || n > 50) return 'rag_top_k debe estar entre 1 y 50.'
+  return null
+}
+
+/** Umbral 0–1 alineado a ``RAG_SCORE_MINIMO``. */
+export function validarRagScoreMinimo(valor: string): string | null {
+  const n = Number.parseFloat(valor)
+  if (!Number.isFinite(n)) return 'Ingrese un número válido.'
+  if (n < 0 || n > 1) return 'rag_score_minimo debe estar entre 0 y 1.'
+  return null
+}
+
 export function validarLongitudPromptInstitucional(texto: string): string | null {
   const t = texto.trim()
   if (t.length < LONGITUD_MINIMA_PROMPT_INSTITUCIONAL) {

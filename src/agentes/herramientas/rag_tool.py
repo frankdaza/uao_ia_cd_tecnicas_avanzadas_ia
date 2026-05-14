@@ -28,6 +28,29 @@ class ArgsConsultaRagDenso(BaseModel):
     )
 
 
+def ejecutar_rag_denso_sync(
+    *,
+    consulta: str,
+    top_k: int,
+    score_minimo: float,
+    configuracion: Configuracion | None = None,
+) -> dict[str, Any]:
+    """
+    Ejecuta la recuperacion densa con umbrales explicitos (p. ej. desde RuntimeAgenteBundle).
+
+    Usa el mismo pipeline que la tool ``rag_denso`` para mantener un solo camino de serializacion.
+    """
+    cfg = configuracion or obtener_configuracion()
+    rec = RecuperadorDenso(
+        vector_store=obtener_vector_store(cfg),
+        embeddings=obtener_embeddings(cfg),
+        top_k=top_k,
+        score_minimo=score_minimo,
+    )
+    salida: SalidaRecuperacionRagDenso = rec.consultar(consulta)
+    return salida.model_dump(mode="json")
+
+
 def crear_rag_tool(
     *,
     configuracion: Configuracion | None = None,
@@ -41,16 +64,18 @@ def crear_rag_tool(
     ``RecuperadorDenso`` ya configurado.
     """
     cfg = configuracion or obtener_configuracion()
-    rec = recuperador or RecuperadorDenso(
-        vector_store=obtener_vector_store(cfg),
-        embeddings=obtener_embeddings(cfg),
-        top_k=cfg.rag_top_k,
-        score_minimo=cfg.rag_score_minimo,
-    )
+    rec_inyectado = recuperador
 
     def _ejecutar(consulta: str) -> dict[str, Any]:
-        salida: SalidaRecuperacionRagDenso = rec.consultar(consulta)
-        return salida.model_dump(mode="json")
+        if rec_inyectado is not None:
+            salida: SalidaRecuperacionRagDenso = rec_inyectado.consultar(consulta)
+            return salida.model_dump(mode="json")
+        return ejecutar_rag_denso_sync(
+            configuracion=cfg,
+            consulta=consulta,
+            top_k=cfg.rag_top_k,
+            score_minimo=cfg.rag_score_minimo,
+        )
 
     return StructuredTool.from_function(
         name="rag_denso",

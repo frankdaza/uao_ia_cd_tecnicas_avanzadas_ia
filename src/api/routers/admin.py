@@ -79,6 +79,8 @@ async def _construir_estado_config_respuesta(
         model_kwargs_compositor=svc.kwargs_compositor(fila),
         meta_prompt=meta.model_dump(),
         prompt_institucional=svc.prompt_institucional_efectivo(fila),
+        rag_top_k=svc.rag_top_k_efectivo(fila),
+        rag_score_minimo=svc.rag_score_minimo_efectivo(fila),
     )
 
 

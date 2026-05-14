@@ -20,6 +20,7 @@ from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.runtime_agente import RuntimeAgenteBundle
+from src.api.configuracion import obtener_configuracion
 
 logger = logging.getLogger(__name__)
 
@@ -137,12 +138,15 @@ def crear_grafo_agente(
     tools_por_nombre: dict[str, StructuredTool] = {t.name: t for t in tools}
     texto_institucional = (prompt_sistema_institucional or PROMPT_SISTEMA_DEFECTO).rstrip()
     etiqueta_mc = (etiqueta_modelo_compositor or "agente").strip() or "agente"
+    cfg_rag = obtener_configuracion()
     bundle_defecto = RuntimeAgenteBundle(
         llm_router=llm_router,
         llm_compositor=llm_compositor,
         meta_prompt=meta_prompt,
         prompt_institucional=texto_institucional,
         etiqueta_modelo_compositor=etiqueta_mc,
+        rag_top_k=int(cfg_rag.rag_top_k),
+        rag_score_minimo=float(cfg_rag.rag_score_minimo),
     )
 
     def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
@@ -202,7 +206,7 @@ def crear_grafo_agente(
         }
 
     def nodo_ejecutar_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
-        _ = config
+        bundle = _bundle_desde_config(config)
         nombre_tool = state.get("tool_decidida") or ""
         args = state.get("argumentos_tool") or {}
         tool = tools_por_nombre.get(nombre_tool)
@@ -212,7 +216,25 @@ def crear_grafo_agente(
             }
             return {"resultado_tool": resultado, "fuentes": []}
         try:
-            salida_tool = tool.invoke(args)
+            if nombre_tool == "rag_denso":
+                from src.agentes.herramientas.rag_tool import ejecutar_rag_denso_sync
+
+                cfg = obtener_configuracion()
+                mismo_que_env = bundle.rag_top_k == int(cfg.rag_top_k) and abs(
+                    bundle.rag_score_minimo - float(cfg.rag_score_minimo)
+                ) <= 1e-9
+                if mismo_que_env:
+                    salida_tool = tool.invoke(args)
+                else:
+                    consulta_txt = str(args.get("consulta") or "")
+                    salida_tool = ejecutar_rag_denso_sync(
+                        configuracion=cfg,
+                        consulta=consulta_txt,
+                        top_k=bundle.rag_top_k,
+                        score_minimo=bundle.rag_score_minimo,
+                    )
+            else:
+                salida_tool = tool.invoke(args)
         except Exception as exc:  # noqa: BLE001 — aislar fallos de tool en respuesta trazable
             logger.exception("Fallo al ejecutar la tool %s", nombre_tool)
             return {

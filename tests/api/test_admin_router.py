@@ -69,6 +69,9 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
     assert cuerpo["version"] == 0
     assert "meta_prompt" in cuerpo
     assert "modelo_llm_router" in cuerpo
+    cfg = obtener_configuracion()
+    assert cuerpo["rag_top_k"] == cfg.rag_top_k
+    assert cuerpo["rag_score_minimo"] == cfg.rag_score_minimo
 
 
 @pytest.mark.asyncio
@@ -167,5 +170,21 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             assert r2.status_code == 200
             assert r2.json()["temperatura_router"] == 0.37
             assert r2.json()["version"] >= 1
+            r3 = await client.patch(
+                "/api/admin/config",
+                headers=headers,
+                json={
+                    "version": r2.json()["version"],
+                    "rag_top_k": 12,
+                    "rag_score_minimo": 0.4,
+                },
+            )
+            assert r3.status_code == 200
+            assert r3.json()["rag_top_k"] == 12
+            assert r3.json()["rag_score_minimo"] == 0.4
+            r4 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
+            assert r4.status_code == 200
+            assert r4.json()["rag_top_k"] == 12
+            assert r4.json()["rag_score_minimo"] == 0.4
     finally:
         app.dependency_overrides.clear()

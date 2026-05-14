@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { HelpCircle } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { getAdminConfig, patchAdminConfig } from '@/lib/adminApi'
 import type { AdminConfigEstado } from '@/lib/adminSchemas'
 import {
   validarIdentificadorModelo,
+  validarRagScoreMinimo,
+  validarRagTopK,
   validarTemperatura,
   validarTopP,
 } from '@/lib/adminFormValidators'
@@ -16,6 +20,40 @@ import { ApiError } from '@/lib/api'
 
 type Props = {
   adminKey: string
+}
+
+function EtiquetaConAyudaRag({
+  htmlFor,
+  etiqueta,
+  lineasAyuda,
+}: {
+  htmlFor: string
+  etiqueta: string
+  lineasAyuda: readonly string[]
+}) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <Label htmlFor={htmlFor}>{etiqueta}</Label>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className="inline-flex rounded-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={`Información: ${etiqueta}`}
+          >
+            <HelpCircle className="h-4 w-4 shrink-0" aria-hidden />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-xs text-left font-normal leading-relaxed">
+          {lineasAyuda.map((linea, i) => (
+            <p key={`${htmlFor}-ayuda-${i}`} className={i > 0 ? 'mt-1.5' : undefined}>
+              {linea}
+            </p>
+          ))}
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  )
 }
 
 export function AdminModelPage({ adminKey }: Props) {
@@ -68,6 +106,8 @@ function AdminModelFormInner({
   const [topPComp, setTopPComp] = useState(data.top_p_compositor != null ? String(data.top_p_compositor) : '')
   const [kwargsRouter, setKwargsRouter] = useState(JSON.stringify(data.model_kwargs_router ?? {}, null, 2))
   const [kwargsComp, setKwargsComp] = useState(JSON.stringify(data.model_kwargs_compositor ?? {}, null, 2))
+  const [ragTopK, setRagTopK] = useState(String(data.rag_top_k))
+  const [ragScoreMinimo, setRagScoreMinimo] = useState(String(data.rag_score_minimo))
   const [errores, setErrores] = useState<Record<string, string>>({})
 
   async function guardar() {
@@ -84,6 +124,10 @@ function AdminModelFormInner({
     if (eTpr) next.topPRouter = eTpr
     const eTpc = validarTopP(topPComp, true)
     if (eTpc) next.topPComp = eTpc
+    const eRk = validarRagTopK(ragTopK)
+    if (eRk) next.ragTopK = eRk
+    const eRs = validarRagScoreMinimo(ragScoreMinimo)
+    if (eRs) next.ragScoreMinimo = eRs
     setErrores(next)
     if (Object.keys(next).length > 0) {
       toast.error('Revise los campos marcados antes de guardar.')
@@ -108,6 +152,8 @@ function AdminModelFormInner({
       temperatura_compositor: Number.parseFloat(tempComp),
       model_kwargs_router: mkR,
       model_kwargs_compositor: mkC,
+      rag_top_k: Number.parseInt(ragTopK, 10),
+      rag_score_minimo: Number.parseFloat(ragScoreMinimo),
     }
     if (topPRouter.trim() !== '') body.top_p_router = Number.parseFloat(topPRouter)
     if (topPComp.trim() !== '') body.top_p_compositor = Number.parseFloat(topPComp)
@@ -121,6 +167,68 @@ function AdminModelFormInner({
         <code className="text-xs">top_k</code>) van en <code className="text-xs">model_kwargs</code> si el backend
         del modelo los admite.
       </p>
+      <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
+        <h2 className="text-sm font-medium text-foreground">Recuperación RAG (Qdrant)</h2>
+        <p className="text-xs text-muted-foreground">
+          Cantidad y umbral de fragmentos recuperados por la herramienta <code className="text-xs">rag_denso</code>.
+          Si no hay fila en base de datos, aplican las variables de entorno <code className="text-xs">RAG_TOP_K</code> y{' '}
+          <code className="text-xs">RAG_SCORE_MINIMO</code>.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <EtiquetaConAyudaRag
+              htmlFor="rag-top-k"
+              etiqueta="rag_top_k"
+              lineasAyuda={[
+                'Máximo de fragmentos (chunks) que Qdrant devuelve como candidatos por similitud vectorial. No confundir con el parámetro top_k del modelo de chat: aquí solo afecta a la recuperación RAG.',
+                'Ejemplo: 10 permite hasta diez fuentes candidatas antes de filtrar por el umbral de similitud.',
+              ]}
+            />
+            <Input
+              id="rag-top-k"
+              type="number"
+              min={1}
+              max={50}
+              step={1}
+              value={ragTopK}
+              onChange={(e) => setRagTopK(e.target.value)}
+              aria-invalid={errores.ragTopK ? true : undefined}
+              aria-describedby={errores.ragTopK ? 'err-rag-k' : undefined}
+            />
+            {errores.ragTopK ? (
+              <p id="err-rag-k" className="text-sm text-destructive" role="alert">
+                {errores.ragTopK}
+              </p>
+            ) : null}
+          </div>
+          <div className="space-y-2">
+            <EtiquetaConAyudaRag
+              htmlFor="rag-score-min"
+              etiqueta="rag_score_minimo"
+              lineasAyuda={[
+                'Puntuación mínima de similitud (0 a 1) para conservar un fragmento en la respuesta de la herramienta. Valores más altos exigen mayor coincidencia con la consulta.',
+                'Ejemplo: 0.35 suele descartar coincidencias débiles; 0.5 es más estricto.',
+              ]}
+            />
+            <Input
+              id="rag-score-min"
+              type="number"
+              min={0}
+              max={1}
+              step={0.01}
+              value={ragScoreMinimo}
+              onChange={(e) => setRagScoreMinimo(e.target.value)}
+              aria-invalid={errores.ragScoreMinimo ? true : undefined}
+              aria-describedby={errores.ragScoreMinimo ? 'err-rag-s' : undefined}
+            />
+            {errores.ragScoreMinimo ? (
+              <p id="err-rag-s" className="text-sm text-destructive" role="alert">
+                {errores.ragScoreMinimo}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="m-router">Modelo router</Label>

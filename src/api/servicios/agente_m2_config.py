@@ -110,6 +110,16 @@ class ServicioAgenteM2Config:
             return str(fila.prompt_institucional).strip()
         return PROMPT_SISTEMA_DEFECTO.rstrip()
 
+    def rag_top_k_efectivo(self, fila: ConfigAdminM2 | None) -> int:
+        if fila is not None and fila.rag_top_k is not None:
+            return int(fila.rag_top_k)
+        return int(self._cfg.rag_top_k)
+
+    def rag_score_minimo_efectivo(self, fila: ConfigAdminM2 | None) -> float:
+        if fila is not None and fila.rag_score_minimo is not None:
+            return float(fila.rag_score_minimo)
+        return float(self._cfg.rag_score_minimo)
+
     async def obtener_fila(self) -> ConfigAdminM2 | None:
         return await self._repo.obtener()
 
@@ -166,6 +176,8 @@ class ServicioAgenteM2Config:
                 meta_prompt=meta,
                 prompt_institucional=prompt_inst,
                 etiqueta_modelo_compositor="mock_llm",
+                rag_top_k=self.rag_top_k_efectivo(fila),
+                rag_score_minimo=self.rag_score_minimo_efectivo(fila),
             )
 
         if not (self._cfg.openai_api_key and str(self._cfg.openai_api_key).strip()):
@@ -178,6 +190,8 @@ class ServicioAgenteM2Config:
             meta_prompt=meta,
             prompt_institucional=prompt_inst,
             etiqueta_modelo_compositor=etiqueta,
+            rag_top_k=self.rag_top_k_efectivo(fila),
+            rag_score_minimo=self.rag_score_minimo_efectivo(fila),
         )
 
     async def aplicar_parche(
@@ -194,6 +208,8 @@ class ServicioAgenteM2Config:
         model_kwargs_compositor: dict[str, Any] | None = None,
         meta_prompt: dict[str, Any] | None = None,
         prompt_institucional: str | None = None,
+        rag_top_k: int | None = None,
+        rag_score_minimo: float | None = None,
     ) -> ConfigAdminM2:
         """Persiste cambios parciales con control optimista de ``version``."""
         fila_bloqueada = await self._repo.obtener_para_actualizar()
@@ -251,6 +267,18 @@ class ServicioAgenteM2Config:
                 msg = "El prompt institucional debe tener al menos 80 caracteres."
                 raise ValueError(msg)
             fila.prompt_institucional = texto
+        if rag_top_k is not None:
+            rk = int(rag_top_k)
+            if not (1 <= rk <= 50):
+                msg = "rag_top_k debe estar entre 1 y 50."
+                raise ValueError(msg)
+            fila.rag_top_k = rk
+        if rag_score_minimo is not None:
+            sm = float(rag_score_minimo)
+            if not (0.0 <= sm <= 1.0):
+                msg = "rag_score_minimo debe estar entre 0.0 y 1.0."
+                raise ValueError(msg)
+            fila.rag_score_minimo = sm
 
         await self._sesion.flush()
         return fila
