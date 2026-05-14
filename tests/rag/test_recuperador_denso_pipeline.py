@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from typing import Any
+from unittest.mock import MagicMock
 
 import pytest
 from llama_index.vector_stores.qdrant import QdrantVectorStore
@@ -97,6 +98,28 @@ def test_pipeline_baseline_sin_mmr_ni_reranker(limpiar_qdrant: None) -> None:
     out = rec.consultar("x")
     assert len(out.fuentes) == 2
     assert out.fuentes[0].archivo == "a.md"
+
+
+def test_consultar_embeddea_consulta_una_sola_vez(limpiar_qdrant: None) -> None:
+    casos = [
+        (False, {}),
+        (True, {"top_k_inicial": 10, "mmr_lambda": 0.02}),
+    ]
+    for mmr_habilitado, extra in casos:
+        vs = _coleccion_y_vs(limpiar_qdrant)
+        emb = MagicMock()
+        emb.get_query_embedding = MagicMock(return_value=[1.0, 0.0, 0.0, 0.0])
+        rec = RecuperadorDenso(
+            vs,
+            emb,
+            top_k=2,
+            score_minimo=0.5,
+            mmr_habilitado=mmr_habilitado,
+            reranker_habilitado=False,
+            **extra,
+        )
+        rec.consultar("que es la fundacion?")
+        assert emb.get_query_embedding.call_count == 1, f"mmr_habilitado={mmr_habilitado}"
 
 
 def test_pipeline_solo_mmr(limpiar_qdrant: None) -> None:

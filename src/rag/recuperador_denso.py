@@ -183,12 +183,17 @@ class RecuperadorDenso:
         *,
         top_k: int | None = None,
         filtros_tipo_pagina: list[str] | None = None,
+        query_embedding: list[float] | None = None,
     ) -> list[tuple[float, object]]:
         k = self._limite_qdrant(self._top_k if top_k is None else max(1, int(top_k)))
-        query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
+        emb_consulta = (
+            list(query_embedding)
+            if query_embedding is not None
+            else list(self._embeddings.get_query_embedding(consulta_limpia))
+        )
         filtros_meta = self._filtros_tipo_pagina(filtros_tipo_pagina)
         consulta_vs = VectorStoreQuery(
-            query_embedding=list(query_embedding),
+            query_embedding=emb_consulta,
             similarity_top_k=k,
             filters=filtros_meta,
         )
@@ -197,7 +202,7 @@ class RecuperadorDenso:
             query_filter = cast(Filter, vs._build_query_filter(consulta_vs))
             resp = vs.client.query_points(
                 collection_name=vs.collection_name,
-                query=list(query_embedding),
+                query=emb_consulta,
                 using=vs.dense_vector_name,
                 limit=k,
                 query_filter=query_filter,
@@ -364,11 +369,12 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
-        query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
+        query_embedding = list(self._embeddings.get_query_embedding(consulta_limpia))
         pares = self._pares_filtrados(
             consulta_limpia,
             top_k=top_efectivo,
             filtros_tipo_pagina=filtros_tipo_pagina,
+            query_embedding=query_embedding,
         )
         if not pares:
             return SalidaRecuperacionRagDenso(
@@ -379,6 +385,6 @@ class RecuperadorDenso:
             pares,
             consulta_limpia,
             top_efectivo,
-            list(query_embedding),
+            query_embedding,
         )
         return self._salida_desde_pares(pares_finales)

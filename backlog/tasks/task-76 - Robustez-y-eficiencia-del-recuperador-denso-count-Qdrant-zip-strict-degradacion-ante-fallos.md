@@ -3,11 +3,11 @@ id: TASK-76
 title: >-
   Robustez y eficiencia del recuperador denso (count Qdrant, zip strict,
   degradacion ante fallos)
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:26'
-updated_date: '2026-05-14 23:27'
+updated_date: '2026-05-14 23:57'
 labels:
   - rag
   - robustness
@@ -23,7 +23,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: medium
-ordinal: 4000
+ordinal: 1000
 ---
 
 ## Description

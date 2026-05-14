@@ -1,11 +1,11 @@
 ---
 id: TASK-75
 title: 'BUG: eliminar doble llamada de embedding por consulta en recuperador denso'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:26'
-updated_date: '2026-05-14 23:26'
+updated_date: '2026-05-14 23:56'
 labels:
   - rag
   - performance
@@ -19,7 +19,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: high
-ordinal: 3000
+ordinal: 1000
 ---
 
 ## Description
@@ -77,11 +77,11 @@ Solo `src/rag/recuperador_denso.py` y su test asociado. No cambia la API publica
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Un spy/mock sobre embeddings.get_query_embedding registra exactamente una invocacion por llamada a RecuperadorDenso.consultar (medible con MagicMock count_calls).
-- [ ] #2 Tests existentes en tests/rag/test_recuperador_denso_pipeline.py siguen verdes sin modificaciones.
-- [ ] #3 Test nuevo test_consultar_embeddea_consulta_una_sola_vez en tests/rag/test_recuperador_denso_pipeline.py verifica el comportamiento (regresion).
-- [ ] #4 API publica del recuperador no cambia: firma y semantica de consultar() identicas para los llamadores.
-- [ ] #5 El embedding ya calculado se reutiliza tambien por MMR si esta habilitado (no se vuelve a pedir).
+- [x] #1 Un spy/mock sobre embeddings.get_query_embedding registra exactamente una invocacion por llamada a RecuperadorDenso.consultar (medible con MagicMock count_calls).
+- [x] #2 Tests existentes en tests/rag/test_recuperador_denso_pipeline.py siguen verdes sin modificaciones.
+- [x] #3 Test nuevo test_consultar_embeddea_consulta_una_sola_vez en tests/rag/test_recuperador_denso_pipeline.py verifica el comportamiento (regresion).
+- [x] #4 API publica del recuperador no cambia: firma y semantica de consultar() identicas para los llamadores.
+- [x] #5 El embedding ya calculado se reutiliza tambien por MMR si esta habilitado (no se vuelve a pedir).
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -106,9 +106,15 @@ Solo `src/rag/recuperador_denso.py` y su test asociado. No cambia la API publica
 No introducir cache global (clave por hash del texto): anade complejidad sin beneficio frente a la solucion por parametro. La solucion por parametro tiene la ventaja de mantener `_pares_filtrados` usable de forma independiente en tests. Si futuras tareas (TASK-78) cambian el orden del pipeline, mantener el contrato: el embedding se calcula una vez en `consultar` y se pasa a las etapas que lo necesiten.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se elimino la doble llamada a get_query_embedding: consultar calcula el vector una vez y lo pasa a _pares_filtrados como query_embedding opcional (retrocompatible si es None). MMR sigue recibiendo el mismo vector en _pipeline_post_filtrado. Test test_consultar_embeddea_consulta_una_sola_vez con MagicMock verifica call_count == 1 con y sin MMR. pytest tests/rag/test_recuperador_denso_pipeline.py en verde.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
-- [ ] #2 ReadLints sobre src/rag/recuperador_denso.py sin nuevos errores.
-- [ ] #3 Tarea con status: Done sin archivar.
+- [x] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
+- [x] #2 ReadLints sobre src/rag/recuperador_denso.py sin nuevos errores.
+- [x] #3 Tarea con status: Done sin archivar.
 <!-- DOD:END -->
