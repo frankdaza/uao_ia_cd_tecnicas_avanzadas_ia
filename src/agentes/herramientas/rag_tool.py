@@ -10,8 +10,6 @@ from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.qdrant_store import obtener_vector_store
 from src.rag.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
 
 
@@ -42,18 +40,30 @@ def ejecutar_rag_denso_sync(
     score_minimo: float,
     configuracion: Configuracion | None = None,
     filtros_tipo_pagina: list[str] | None = None,
+    top_k_inicial: int | None = None,
+    mmr_habilitado: bool | None = None,
+    mmr_lambda: float | None = None,
+    reranker_habilitado: bool | None = None,
+    reranker_modelo: str | None = None,
+    reranker_top_n_entrada: int | None = None,
 ) -> dict[str, Any]:
     """
     Ejecuta la recuperacion densa con umbrales explicitos (p. ej. desde RuntimeAgenteBundle).
 
     Usa el mismo pipeline que la tool ``rag_denso`` para mantener un solo camino de serializacion.
+    Los parametros opcionales MMR/reranker (``None``) se toman de ``configuracion`` / ``.env``.
     """
     cfg = configuracion or obtener_configuracion()
-    rec = RecuperadorDenso(
-        vector_store=obtener_vector_store(cfg),
-        embeddings=obtener_embeddings(cfg),
+    rec = RecuperadorDenso.desde_configuracion(
+        cfg,
         top_k=top_k,
         score_minimo=score_minimo,
+        top_k_inicial=top_k_inicial,
+        mmr_habilitado=mmr_habilitado,
+        mmr_lambda=mmr_lambda,
+        reranker_habilitado=reranker_habilitado,
+        reranker_modelo=reranker_modelo,
+        reranker_top_n_entrada=reranker_top_n_entrada,
     )
     salida: SalidaRecuperacionRagDenso = rec.consultar(
         consulta,

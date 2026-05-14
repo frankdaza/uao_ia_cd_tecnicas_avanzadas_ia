@@ -5,7 +5,7 @@ Recuperacion densa sobre Qdrant usando LlamaIndex (sin BM25 ni lectura de Markdo
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from llama_index.core.vector_stores.types import (
     FilterOperator,
@@ -14,6 +14,9 @@ from llama_index.core.vector_stores.types import (
     VectorStoreQuery,
 )
 from pydantic import BaseModel, Field
+from qdrant_client.http.models import Filter
+
+from src.api.configuracion import Configuracion
 
 if TYPE_CHECKING:
     from llama_index.core.base.embeddings.base import BaseEmbedding
@@ -74,11 +77,78 @@ class RecuperadorDenso:
         embeddings: BaseEmbedding,
         top_k: int,
         score_minimo: float,
+        *,
+        top_k_inicial: int = 20,
+        mmr_habilitado: bool = False,
+        mmr_lambda: float = 0.5,
+        reranker_habilitado: bool = False,
+        reranker_modelo: str = "BAAI/bge-reranker-base",
+        reranker_top_n_entrada: int = 10,
+        reranker_instancia: object | None = None,
     ) -> None:
         self._vector_store = vector_store
         self._embeddings = embeddings
         self._top_k = top_k
         self._score_minimo = score_minimo
+        self._top_k_inicial = max(1, int(top_k_inicial))
+        self._mmr_habilitado = bool(mmr_habilitado)
+        self._mmr_lambda = float(mmr_lambda)
+        self._reranker_habilitado = bool(reranker_habilitado)
+        self._reranker_modelo = str(reranker_modelo).strip() or "BAAI/bge-reranker-base"
+        self._reranker_top_n_entrada = max(1, int(reranker_top_n_entrada))
+        self._reranker_instancia = reranker_instancia
+
+    @classmethod
+    def desde_configuracion(
+        cls,
+        cfg: Configuracion,
+        *,
+        vector_store: QdrantVectorStore | None = None,
+        embeddings: BaseEmbedding | None = None,
+        top_k: int | None = None,
+        score_minimo: float | None = None,
+        top_k_inicial: int | None = None,
+        mmr_habilitado: bool | None = None,
+        mmr_lambda: float | None = None,
+        reranker_habilitado: bool | None = None,
+        reranker_modelo: str | None = None,
+        reranker_top_n_entrada: int | None = None,
+    ) -> RecuperadorDenso:
+        """Carga vector store y embeddings desde ``cfg`` salvo que se inyecten."""
+        from src.rag.embeddings import obtener_embeddings
+        from src.rag.qdrant_store import obtener_vector_store
+
+        vs = vector_store or obtener_vector_store(cfg)
+        emb = embeddings or obtener_embeddings(cfg)
+        return cls(
+            vector_store=vs,
+            embeddings=emb,
+            top_k=int(cfg.rag_top_k if top_k is None else top_k),
+            score_minimo=float(cfg.rag_score_minimo if score_minimo is None else score_minimo),
+            top_k_inicial=int(cfg.rag_top_k_inicial if top_k_inicial is None else top_k_inicial),
+            mmr_habilitado=bool(cfg.rag_mmr_habilitado if mmr_habilitado is None else mmr_habilitado),
+            mmr_lambda=float(cfg.rag_mmr_lambda if mmr_lambda is None else mmr_lambda),
+            reranker_habilitado=bool(
+                cfg.rag_reranker_habilitado if reranker_habilitado is None else reranker_habilitado
+            ),
+            reranker_modelo=str(cfg.rag_reranker_modelo if reranker_modelo is None else reranker_modelo).strip(),
+            reranker_top_n_entrada=int(
+                cfg.rag_reranker_top_n_entrada if reranker_top_n_entrada is None else reranker_top_n_entrada
+            ),
+        )
+
+    def _necesita_vectores(self) -> bool:
+        return self._mmr_habilitado
+
+    def _limite_qdrant(self, top_efectivo: int) -> int:
+        """Candidatos pedidos a Qdrant antes de MMR/rerank (retrocompatible si ambos off)."""
+        te = max(1, int(top_efectivo))
+        if not self._mmr_habilitado and not self._reranker_habilitado:
+            return te
+        n = max(self._top_k_inicial, te)
+        if self._reranker_habilitado:
+            n = max(n, self._reranker_top_n_entrada)
+        return max(1, n)
 
     def _contar_puntos(self) -> int:
         cliente = self._vector_store.client
@@ -88,6 +158,25 @@ class RecuperadorDenso:
             ).count
         )
 
+    @staticmethod
+    def _filtros_tipo_pagina(
+        filtros_tipo_pagina: list[str] | None,
+    ) -> MetadataFilters | None:
+        if not filtros_tipo_pagina:
+            return None
+        limpios = [str(x).strip() for x in filtros_tipo_pagina if str(x).strip()]
+        if not limpios:
+            return None
+        return MetadataFilters(
+            filters=[
+                MetadataFilter(
+                    key="tipo_pagina",
+                    value=limpios,
+                    operator=FilterOperator.IN,
+                )
+            ]
+        )
+
     def _pares_filtrados(
         self,
         consulta_limpia: str,
@@ -95,27 +184,29 @@ class RecuperadorDenso:
         top_k: int | None = None,
         filtros_tipo_pagina: list[str] | None = None,
     ) -> list[tuple[float, object]]:
-        k = self._top_k if top_k is None else max(1, int(top_k))
+        k = self._limite_qdrant(self._top_k if top_k is None else max(1, int(top_k)))
         query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
-        filtros_meta: MetadataFilters | None = None
-        if filtros_tipo_pagina:
-            limpios = [str(x).strip() for x in filtros_tipo_pagina if str(x).strip()]
-            if limpios:
-                filtros_meta = MetadataFilters(
-                    filters=[
-                        MetadataFilter(
-                            key="tipo_pagina",
-                            value=limpios,
-                            operator=FilterOperator.IN,
-                        )
-                    ]
-                )
+        filtros_meta = self._filtros_tipo_pagina(filtros_tipo_pagina)
         consulta_vs = VectorStoreQuery(
             query_embedding=list(query_embedding),
             similarity_top_k=k,
             filters=filtros_meta,
         )
-        resultado_vs = self._vector_store.query(consulta_vs)
+        if self._necesita_vectores():
+            vs = self._vector_store
+            query_filter = cast(Filter, vs._build_query_filter(consulta_vs))
+            resp = vs.client.query_points(
+                collection_name=vs.collection_name,
+                query=list(query_embedding),
+                using=vs.dense_vector_name,
+                limit=k,
+                query_filter=query_filter,
+                with_payload=True,
+                with_vectors=True,
+            )
+            resultado_vs = vs.parse_to_query_result(resp.points)
+        else:
+            resultado_vs = self._vector_store.query(consulta_vs)
         nodos = resultado_vs.nodes or []
         sims = resultado_vs.similarities or []
         pares: list[tuple[float, object]] = []
@@ -167,6 +258,75 @@ class RecuperadorDenso:
             fuentes=fuentes,
         )
 
+    def _pipeline_post_filtrado(
+        self,
+        pares: list[tuple[float, object]],
+        consulta_limpia: str,
+        top_efectivo: int,
+        query_embedding: list[float],
+    ) -> list[tuple[float, object]]:
+        """MMR opcional, reranker opcional; sin flags devuelve los ``top_efectivo`` mejores."""
+        if not pares:
+            return []
+
+        if not self._mmr_habilitado and not self._reranker_habilitado:
+            return pares[: max(1, int(top_efectivo))]
+
+        from llama_index.core.schema import NodeWithScore
+
+        from src.rag.diversificador_mmr import (
+            aplicar_mmr,
+            candidatos_desde_pares_similitud,
+            pares_desde_candidatos_mmr,
+        )
+
+        candidatos_ns = candidatos_desde_pares_similitud(pares)
+        if self._mmr_habilitado:
+            try:
+                mmr_sel = aplicar_mmr(
+                    candidatos_ns,
+                    query_embedding,
+                    self._mmr_lambda,
+                    max(1, int(top_efectivo)),
+                )
+            except ValueError as exc:
+                logger.warning("MMR omitido (sin embeddings en nodos): %s", exc)
+                mmr_sel = candidatos_ns[: max(1, int(top_efectivo))]
+        else:
+            # Sin MMR: se conserva el orden por similitud; el reranker opera sobre el prefijo.
+            mmr_sel = candidatos_ns
+
+        if not self._reranker_habilitado:
+            return pares_desde_candidatos_mmr(mmr_sel)
+
+        n_toma = min(self._reranker_top_n_entrada, len(mmr_sel))
+        sub = mmr_sel[:n_toma]
+        textos = [(c.node.get_content() or "").strip() for c in sub]
+        try:
+            rnk = self._reranker_instancia
+            if rnk is None:
+                from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+
+                rnk = RerankerCrossEncoder(self._reranker_modelo)
+            scores_r = rnk.puntuar(consulta_limpia, textos)
+        except Exception as exc:  # noqa: BLE001 — degradar sin tumbar la peticion
+            logger.warning(
+                "Reranker RAG no disponible (%s); se continua solo con orden post-MMR/similitud.",
+                exc,
+            )
+            return pares_desde_candidatos_mmr(mmr_sel)
+
+        ordenados = sorted(
+            zip(scores_r, sub, strict=True),
+            key=lambda t: t[0],
+            reverse=True,
+        )
+        top_n = max(1, int(top_efectivo))
+        salida_c: list[NodeWithScore] = []
+        for scr, c in ordenados[:top_n]:
+            salida_c.append(NodeWithScore(node=c.node, score=float(scr)))
+        return pares_desde_candidatos_mmr(salida_c)
+
     def consultar(
         self,
         consulta: str,
@@ -204,6 +364,7 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
+        query_embedding = self._embeddings.get_query_embedding(consulta_limpia)
         pares = self._pares_filtrados(
             consulta_limpia,
             top_k=top_efectivo,
@@ -214,4 +375,10 @@ class RecuperadorDenso:
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,
                 fuentes=[],
             )
-        return self._salida_desde_pares(pares)
+        pares_finales = self._pipeline_post_filtrado(
+            pares,
+            consulta_limpia,
+            top_efectivo,
+            list(query_embedding),
+        )
+        return self._salida_desde_pares(pares_finales)

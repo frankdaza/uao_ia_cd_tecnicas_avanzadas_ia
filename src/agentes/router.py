@@ -20,9 +20,23 @@ from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.runtime_agente import RuntimeAgenteBundle
-from src.api.configuracion import obtener_configuracion
+from src.api.configuracion import Configuracion, obtener_configuracion
 
 logger = logging.getLogger(__name__)
+
+
+def _parametros_rag_bundle_iguales_a_configuracion(bundle: RuntimeAgenteBundle, cfg: Configuracion) -> bool:
+    """True si el bundle no altera el pipeline RAG respecto a ``cfg`` (se puede usar ``tool.invoke``)."""
+    return (
+        bundle.rag_top_k == int(cfg.rag_top_k)
+        and abs(bundle.rag_score_minimo - float(cfg.rag_score_minimo)) <= 1e-9
+        and bundle.rag_top_k_inicial == int(cfg.rag_top_k_inicial)
+        and bundle.rag_mmr_habilitado == bool(cfg.rag_mmr_habilitado)
+        and abs(bundle.rag_mmr_lambda - float(cfg.rag_mmr_lambda)) <= 1e-9
+        and bundle.rag_reranker_habilitado == bool(cfg.rag_reranker_habilitado)
+        and bundle.rag_reranker_modelo == str(cfg.rag_reranker_modelo).strip()
+        and bundle.rag_reranker_top_n_entrada == int(cfg.rag_reranker_top_n_entrada)
+    )
 
 CLAVE_MEMORIA_EN_CONFIG: str = "memoria"
 
@@ -211,6 +225,12 @@ def crear_grafo_agente(
         rag_top_k=int(cfg_rag.rag_top_k),
         rag_score_minimo=float(cfg_rag.rag_score_minimo),
         historial_turnos_max=int(cfg_rag.historial_turnos_max),
+        rag_top_k_inicial=int(cfg_rag.rag_top_k_inicial),
+        rag_mmr_habilitado=bool(cfg_rag.rag_mmr_habilitado),
+        rag_mmr_lambda=float(cfg_rag.rag_mmr_lambda),
+        rag_reranker_habilitado=bool(cfg_rag.rag_reranker_habilitado),
+        rag_reranker_modelo=str(cfg_rag.rag_reranker_modelo).strip(),
+        rag_reranker_top_n_entrada=int(cfg_rag.rag_reranker_top_n_entrada),
     )
 
     def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
@@ -343,10 +363,7 @@ def crear_grafo_agente(
                 from src.agentes.herramientas.rag_tool import ejecutar_rag_denso_sync
 
                 cfg = obtener_configuracion()
-                mismo_que_env = bundle.rag_top_k == int(cfg.rag_top_k) and abs(
-                    bundle.rag_score_minimo - float(cfg.rag_score_minimo)
-                ) <= 1e-9
-                if mismo_que_env:
+                if _parametros_rag_bundle_iguales_a_configuracion(bundle, cfg):
                     salida_tool = tool.invoke(args_invocacion)
                 else:
                     consulta_txt = str(args_invocacion.get("consulta") or "")
@@ -357,6 +374,12 @@ def crear_grafo_agente(
                         top_k=bundle.rag_top_k,
                         score_minimo=bundle.rag_score_minimo,
                         filtros_tipo_pagina=ft if isinstance(ft, list) else None,
+                        top_k_inicial=bundle.rag_top_k_inicial,
+                        mmr_habilitado=bundle.rag_mmr_habilitado,
+                        mmr_lambda=bundle.rag_mmr_lambda,
+                        reranker_habilitado=bundle.rag_reranker_habilitado,
+                        reranker_modelo=bundle.rag_reranker_modelo,
+                        reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
                     )
             else:
                 salida_tool = tool.invoke(args_invocacion)
@@ -388,6 +411,12 @@ def crear_grafo_agente(
                 top_k=bundle.rag_top_k,
                 score_minimo=bundle.rag_score_minimo,
                 filtros_tipo_pagina=fj,
+                top_k_inicial=bundle.rag_top_k_inicial,
+                mmr_habilitado=bundle.rag_mmr_habilitado,
+                mmr_lambda=bundle.rag_mmr_lambda,
+                reranker_habilitado=bundle.rag_reranker_habilitado,
+                reranker_modelo=bundle.rag_reranker_modelo,
+                reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
             )
             nombre_efectivo = "rag_denso"
         fuentes: list[dict[str, Any]] = []

@@ -72,6 +72,12 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
     cfg = obtener_configuracion()
     assert cuerpo["rag_top_k"] == cfg.rag_top_k
     assert cuerpo["rag_score_minimo"] == cfg.rag_score_minimo
+    assert cuerpo["rag_top_k_inicial"] == cfg.rag_top_k_inicial
+    assert cuerpo["rag_mmr_habilitado"] == cfg.rag_mmr_habilitado
+    assert cuerpo["rag_mmr_lambda"] == cfg.rag_mmr_lambda
+    assert cuerpo["rag_reranker_habilitado"] == cfg.rag_reranker_habilitado
+    assert cuerpo["rag_reranker_modelo"] == cfg.rag_reranker_modelo
+    assert cuerpo["rag_reranker_top_n_entrada"] == cfg.rag_reranker_top_n_entrada
     assert cuerpo["historial_turnos_max"] == cfg.historial_turnos_max
 
 
@@ -197,10 +203,30 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             r6 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
             assert r6.status_code == 200
             assert r6.json()["historial_turnos_max"] == 33
+            r7 = await client.patch(
+                "/api/admin/config",
+                headers=headers,
+                json={
+                    "version": r6.json()["version"],
+                    "rag_top_k_inicial": 48,
+                    "rag_mmr_habilitado": False,
+                    "rag_mmr_lambda": 0.72,
+                    "rag_reranker_habilitado": True,
+                    "rag_reranker_modelo": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+                    "rag_reranker_top_n_entrada": 8,
+                },
+            )
+            assert r7.status_code == 200
+            assert r7.json()["rag_top_k_inicial"] == 48
+            assert r7.json()["rag_mmr_habilitado"] is False
+            assert r7.json()["rag_mmr_lambda"] == 0.72
+            assert r7.json()["rag_reranker_habilitado"] is True
+            assert r7.json()["rag_reranker_modelo"] == "cross-encoder/ms-marco-MiniLM-L-6-v2"
+            assert r7.json()["rag_reranker_top_n_entrada"] == 8
             r_bad = await client.patch(
                 "/api/admin/config",
                 headers=headers,
-                json={"version": r6.json()["version"], "historial_turnos_max": 0},
+                json={"version": r7.json()["version"], "historial_turnos_max": 0},
             )
             assert r_bad.status_code == 422
     finally:

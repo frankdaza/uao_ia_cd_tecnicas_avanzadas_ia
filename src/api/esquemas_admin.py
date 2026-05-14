@@ -38,6 +38,38 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
         le=1.0,
         description="Umbral minimo de similitud para conservar fragmentos RAG.",
     )
+    rag_top_k_inicial: int = Field(
+        ge=1,
+        le=200,
+        description=(
+            "Candidatos que Qdrant devuelve antes de MMR/rerank (sobrerrecuperacion). "
+            "Solo aplica si MMR o reranker estan activos."
+        ),
+    )
+    rag_mmr_habilitado: bool = Field(
+        description=(
+            "Activa MMR (diversidad) sobre candidatos recuperados para reducir fragmentos casi duplicados."
+        ),
+    )
+    rag_mmr_lambda: float = Field(
+        ge=0.0,
+        le=1.0,
+        description="Peso relevancia vs diversidad en MMR (1.0 = solo similitud a la consulta).",
+    )
+    rag_reranker_habilitado: bool = Field(
+        description=(
+            "Activa reranking local con cross-encoder (sentence-transformers); aumenta latencia en CPU."
+        ),
+    )
+    rag_reranker_modelo: str = Field(
+        max_length=256,
+        description="Identificador HuggingFace o ruta del modelo CrossEncoder (p. ej. BAAI/bge-reranker-base).",
+    )
+    rag_reranker_top_n_entrada: int = Field(
+        ge=1,
+        le=50,
+        description="Maximo de fragmentos re-puntuados por el reranker tras MMR (o por similitud si MMR esta off).",
+    )
     historial_turnos_max: int = Field(
         ge=1,
         le=200,
@@ -52,7 +84,8 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
             "PostgreSQL (tabla config_admin_m2) sustituyen al archivo config/router_meta_prompt.json, "
             "a su vez sobre valores por defecto de variables de entorno y constantes de codigo "
             "(temperaturas 0.0 router / 0.2 compositor cuando no hay override en base de datos; "
-            "RAG_TOP_K y RAG_SCORE_MINIMO cuando las columnas rag_* estan en NULL)."
+            "RAG_TOP_K, RAG_SCORE_MINIMO, RAG_TOP_K_INICIAL, MMR/reranker cuando las columnas "
+            "correspondientes estan en NULL)."
         ),
         description="Texto fijo de documentacion para operadores humanos.",
     )
@@ -76,7 +109,24 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     prompt_institucional: str | None = None
     rag_top_k: int | None = Field(default=None, ge=1, le=50)
     rag_score_minimo: float | None = Field(default=None, ge=0.0, le=1.0)
+    rag_top_k_inicial: int | None = Field(default=None, ge=1, le=200)
+    rag_mmr_habilitado: bool | None = None
+    rag_mmr_lambda: float | None = Field(default=None, ge=0.0, le=1.0)
+    rag_reranker_habilitado: bool | None = None
+    rag_reranker_modelo: str | None = Field(default=None, max_length=256)
+    rag_reranker_top_n_entrada: int | None = Field(default=None, ge=1, le=50)
     historial_turnos_max: int | None = Field(default=None, ge=1, le=200)
+
+    @field_validator("rag_reranker_modelo")
+    @classmethod
+    def validar_reranker_modelo_no_vacio_si_presente(cls, v: str | None) -> str | None:
+        if v is None:
+            return None
+        s = v.strip()
+        if not s:
+            msg = "rag_reranker_modelo no puede ser cadena vacia."
+            raise ValueError(msg)
+        return s
 
     @field_validator("modelo_llm_router", "modelo_llm_compositor")
     @classmethod

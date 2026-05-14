@@ -44,6 +44,40 @@ export function validarRagScoreMinimo(valor: string): string | null {
   return null
 }
 
+/** Entero 1–200 alineado a ``RAG_TOP_K_INICIAL`` / columna admin. */
+export function validarRagTopKInicial(valor: string): string | null {
+  const t = valor.trim()
+  const n = Number.parseInt(t, 10)
+  if (!Number.isFinite(n) || String(n) !== t) return 'Ingrese un entero válido entre 1 y 200.'
+  if (n < 1 || n > 200) return 'rag_top_k_inicial debe estar entre 1 y 200.'
+  return null
+}
+
+/** Lambda MMR 0–1 alineado a ``RAG_MMR_LAMBDA``. */
+export function validarRagMmrLambda(valor: string): string | null {
+  const n = Number.parseFloat(valor)
+  if (!Number.isFinite(n)) return 'Ingrese un número válido.'
+  if (n < 0 || n > 1) return 'rag_mmr_lambda debe estar entre 0 y 1.'
+  return null
+}
+
+/** Identificador del modelo CrossEncoder (no vacío, máx. 256 caracteres). */
+export function validarRagRerankerModelo(valor: string): string | null {
+  const t = valor.trim()
+  if (!t) return 'El modelo del reranker no puede estar vacío.'
+  if (t.length > 256) return 'rag_reranker_modelo admite como máximo 256 caracteres.'
+  return null
+}
+
+/** Entero 1–50 alineado a ``RAG_RERANKER_TOP_N_ENTRADA``. */
+export function validarRagRerankerTopNEntrada(valor: string): string | null {
+  const t = valor.trim()
+  const n = Number.parseInt(t, 10)
+  if (!Number.isFinite(n) || String(n) !== t) return 'Ingrese un entero válido entre 1 y 50.'
+  if (n < 1 || n > 50) return 'rag_reranker_top_n_entrada debe estar entre 1 y 50.'
+  return null
+}
+
 /** Entero 1–200 alineado a ``HISTORIAL_TURNOS_MAX`` / columna admin. */
 export function validarHistorialTurnosMax(valor: string): string | null {
   const t = valor.trim()

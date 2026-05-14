@@ -81,6 +81,12 @@ async def _construir_estado_config_respuesta(
         prompt_institucional=svc.prompt_institucional_efectivo(fila),
         rag_top_k=svc.rag_top_k_efectivo(fila),
         rag_score_minimo=svc.rag_score_minimo_efectivo(fila),
+        rag_top_k_inicial=svc.rag_top_k_inicial_efectivo(fila),
+        rag_mmr_habilitado=svc.rag_mmr_habilitado_efectivo(fila),
+        rag_mmr_lambda=svc.rag_mmr_lambda_efectivo(fila),
+        rag_reranker_habilitado=svc.rag_reranker_habilitado_efectivo(fila),
+        rag_reranker_modelo=svc.rag_reranker_modelo_efectivo(fila),
+        rag_reranker_top_n_entrada=svc.rag_reranker_top_n_entrada_efectivo(fila),
         historial_turnos_max=svc.historial_turnos_max_efectivo(fila),
     )
 

@@ -16,6 +16,12 @@ export const AdminConfigEstadoSchema = z.object({
   prompt_institucional: z.string(),
   rag_top_k: z.number().int().min(1).max(50),
   rag_score_minimo: z.number().min(0).max(1),
+  rag_top_k_inicial: z.number().int().min(1).max(200),
+  rag_mmr_habilitado: z.boolean(),
+  rag_mmr_lambda: z.number().min(0).max(1),
+  rag_reranker_habilitado: z.boolean(),
+  rag_reranker_modelo: z.string().max(256),
+  rag_reranker_top_n_entrada: z.number().int().min(1).max(50),
   historial_turnos_max: z.number().int().min(1).max(200),
   nota_precedencia: z.string().optional(),
 })

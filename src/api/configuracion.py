@@ -127,6 +127,51 @@ class Configuracion(BaseSettings):
     # --- Modulo 2: recuperacion densa ---
     rag_top_k: int = Field(default=5, ge=1, le=50)
     rag_score_minimo: float = Field(default=0.25, ge=0.0, le=1.0)
+    rag_top_k_inicial: int = Field(
+        default=20,
+        ge=1,
+        le=200,
+        description=(
+            "Candidatos pedidos a Qdrant antes de MMR/rerank (sobrerrecuperacion). "
+            "Variable de entorno: RAG_TOP_K_INICIAL."
+        ),
+    )
+    rag_mmr_habilitado: bool = Field(
+        default=True,
+        description=(
+            "Activa MMR sobre los candidatos recuperados (diversidad). "
+            "Variable de entorno: RAG_MMR_HABILITADO (0/1, true/false)."
+        ),
+    )
+    rag_mmr_lambda: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Trade-off MMR: 1.0 solo relevancia respecto a la consulta; 0.0 maximiza "
+            "diversidad. Variable de entorno: RAG_MMR_LAMBDA."
+        ),
+    )
+    rag_reranker_habilitado: bool = Field(
+        default=False,
+        description=(
+            "Activa reranking con cross-encoder local (sentence-transformers). "
+            "Variable de entorno: RAG_RERANKER_HABILITADO."
+        ),
+    )
+    rag_reranker_modelo: str = Field(
+        default="BAAI/bge-reranker-base",
+        description="Modelo HuggingFace o ruta para CrossEncoder. Env: RAG_RERANKER_MODELO.",
+    )
+    rag_reranker_top_n_entrada: int = Field(
+        default=10,
+        ge=1,
+        le=50,
+        description=(
+            "Cantidad maxima de fragmentos enviados al reranker tras MMR (o por similitud "
+            "si MMR esta desactivado). Env: RAG_RERANKER_TOP_N_ENTRADA."
+        ),
+    )
 
     # --- Modulo 2: memoria conversacional ---
     historial_dias_max: int = Field(default=7, ge=1, le=365)

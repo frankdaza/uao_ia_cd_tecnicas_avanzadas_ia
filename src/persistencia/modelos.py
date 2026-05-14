@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import CheckConstraint, DateTime, Float, Integer, String, Text, func, text
+from sqlalchemy import Boolean, CheckConstraint, DateTime, Float, Integer, String, Text, func, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -78,6 +78,12 @@ class ConfigAdminM2(Base):
     prompt_institucional: Mapped[str | None] = mapped_column(Text, nullable=True)
     rag_top_k: Mapped[int | None] = mapped_column(Integer, nullable=True)
     rag_score_minimo: Mapped[float | None] = mapped_column(Float, nullable=True)
+    rag_top_k_inicial: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    rag_mmr_habilitado: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    rag_mmr_lambda: Mapped[float | None] = mapped_column(Float, nullable=True)
+    rag_reranker_habilitado: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    rag_reranker_modelo: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    rag_reranker_top_n_entrada: Mapped[int | None] = mapped_column(Integer, nullable=True)
     historial_turnos_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

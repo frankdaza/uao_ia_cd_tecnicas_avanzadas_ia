@@ -173,6 +173,34 @@ flowchart LR
   E --> C[componer_respuesta]
 ```
 
+### Reranking y diversidad (RAG denso, TASK-71)
+
+El recuperador `RecuperadorDenso` puede **sobrerrecuperar** en Qdrant, filtrar por umbral de similitud, aplicar **MMR** (diversidad) y, opcionalmente, un **cross-encoder** local (`sentence-transformers`) para reordenar los fragmentos enviados al compositor. La tool `listar_estructurado` **no** usa reranker.
+
+| Parametro (`.env` / `Configuracion`) | Default | Notas |
+| --- | --- | --- |
+| `RAG_TOP_K` | `5` | Fragmentos finales en la respuesta. |
+| `RAG_SCORE_MINIMO` | `0.25` | Umbral de similitud (metrica coseno en coleccion tipica). |
+| `RAG_TOP_K_INICIAL` | `20` | Candidatos solicitados a Qdrant antes de MMR/rerank (solo si MMR o reranker activos). |
+| `RAG_MMR_HABILITADO` | `true` | Penaliza chunks casi duplicados en el top-k. |
+| `RAG_MMR_LAMBDA` | `0.5` | Trade-off relevancia vs diversidad (`1.0` = equivalente a ordenar solo por similitud a la consulta). |
+| `RAG_RERANKER_HABILITADO` | `false` | Activa `CrossEncoder` local; coste CPU/memoria adicional. |
+| `RAG_RERANKER_MODELO` | `BAAI/bge-reranker-base` | Id HuggingFace o ruta compatible. Alternativa ligera documentada: `cross-encoder/ms-marco-MiniLM-L-6-v2`. |
+| `RAG_RERANKER_TOP_N_ENTRADA` | `10` | Maximo de pares (consulta, fragmento) evaluados por el reranker tras MMR (o por similitud si MMR esta desactivado). |
+
+**Latencia orientativa (CPU tipo laptop):** MMR sobre ~20 vectores suele ser del orden de **unos pocos ms**; el cross-encoder `bge-reranker-base` sobre ~10 pares puede sumar del orden de **decenas a ~100 ms por par** segun hardware (orden de magnitud similar a una llamada extra ligera al LLM). Si el reranker no puede cargarse (dependencia ausente u offline), el recuperador **degrada con advertencia** y sigue solo con MMR/similitud.
+
+```mermaid
+flowchart LR
+  q[consulta] --> emb[embedding]
+  emb --> qdrant[Qdrant top_k_inicial]
+  qdrant --> filtro[umbral score_minimo]
+  filtro --> mmr[MMR opcional]
+  mmr --> salida[fuentes top_k]
+  mmr --> rerank[cross-encoder opcional]
+  rerank --> salida
+```
+
 ### Evaluacion cuantitativa del RAG (golden set, TASK-72)
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.

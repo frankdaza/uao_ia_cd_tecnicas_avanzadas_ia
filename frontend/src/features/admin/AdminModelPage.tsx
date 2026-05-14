@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { getAdminConfig, patchAdminConfig } from '@/lib/adminApi'
@@ -12,8 +13,12 @@ import type { AdminConfigEstado } from '@/lib/adminSchemas'
 import {
   validarHistorialTurnosMax,
   validarIdentificadorModelo,
+  validarRagMmrLambda,
+  validarRagRerankerModelo,
+  validarRagRerankerTopNEntrada,
   validarRagScoreMinimo,
   validarRagTopK,
+  validarRagTopKInicial,
   validarTemperatura,
   validarTopP,
 } from '@/lib/adminFormValidators'
@@ -109,6 +114,12 @@ function AdminModelFormInner({
   const [kwargsComp, setKwargsComp] = useState(JSON.stringify(data.model_kwargs_compositor ?? {}, null, 2))
   const [ragTopK, setRagTopK] = useState(String(data.rag_top_k))
   const [ragScoreMinimo, setRagScoreMinimo] = useState(String(data.rag_score_minimo))
+  const [ragTopKInicial, setRagTopKInicial] = useState(String(data.rag_top_k_inicial))
+  const [ragMmrHabilitado, setRagMmrHabilitado] = useState(data.rag_mmr_habilitado)
+  const [ragMmrLambda, setRagMmrLambda] = useState(String(data.rag_mmr_lambda))
+  const [ragRerankerHabilitado, setRagRerankerHabilitado] = useState(data.rag_reranker_habilitado)
+  const [ragRerankerModelo, setRagRerankerModelo] = useState(data.rag_reranker_modelo)
+  const [ragRerankerTopNEntrada, setRagRerankerTopNEntrada] = useState(String(data.rag_reranker_top_n_entrada))
   const [historialTurnosMax, setHistorialTurnosMax] = useState(String(data.historial_turnos_max))
   const [errores, setErrores] = useState<Record<string, string>>({})
 
@@ -130,6 +141,14 @@ function AdminModelFormInner({
     if (eRk) next.ragTopK = eRk
     const eRs = validarRagScoreMinimo(ragScoreMinimo)
     if (eRs) next.ragScoreMinimo = eRs
+    const eRki = validarRagTopKInicial(ragTopKInicial)
+    if (eRki) next.ragTopKInicial = eRki
+    const eRml = validarRagMmrLambda(ragMmrLambda)
+    if (eRml) next.ragMmrLambda = eRml
+    const eRrm = validarRagRerankerModelo(ragRerankerModelo)
+    if (eRrm) next.ragRerankerModelo = eRrm
+    const eRtn = validarRagRerankerTopNEntrada(ragRerankerTopNEntrada)
+    if (eRtn) next.ragRerankerTopNEntrada = eRtn
     const eHt = validarHistorialTurnosMax(historialTurnosMax)
     if (eHt) next.historialTurnosMax = eHt
     setErrores(next)
@@ -158,6 +177,12 @@ function AdminModelFormInner({
       model_kwargs_compositor: mkC,
       rag_top_k: Number.parseInt(ragTopK, 10),
       rag_score_minimo: Number.parseFloat(ragScoreMinimo),
+      rag_top_k_inicial: Number.parseInt(ragTopKInicial, 10),
+      rag_mmr_habilitado: ragMmrHabilitado,
+      rag_mmr_lambda: Number.parseFloat(ragMmrLambda),
+      rag_reranker_habilitado: ragRerankerHabilitado,
+      rag_reranker_modelo: ragRerankerModelo.trim(),
+      rag_reranker_top_n_entrada: Number.parseInt(ragRerankerTopNEntrada, 10),
       historial_turnos_max: Number.parseInt(historialTurnosMax, 10),
     }
     if (topPRouter.trim() !== '') body.top_p_router = Number.parseFloat(topPRouter)
@@ -202,9 +227,12 @@ function AdminModelFormInner({
       <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
         <h2 className="text-sm font-medium text-foreground">Recuperación RAG (Qdrant)</h2>
         <p className="text-xs text-muted-foreground">
-          Cantidad y umbral de fragmentos recuperados por la herramienta <code className="text-xs">rag_denso</code>.
-          Si no hay fila en base de datos, aplican las variables de entorno <code className="text-xs">RAG_TOP_K</code> y{' '}
-          <code className="text-xs">RAG_SCORE_MINIMO</code>.
+          Parámetros de la herramienta <code className="text-xs">rag_denso</code>. Si la columna correspondiente en
+          base de datos está vacía, aplican (en orden) el archivo de configuración, luego las variables de entorno:{' '}
+          <code className="text-xs">RAG_TOP_K</code>, <code className="text-xs">RAG_SCORE_MINIMO</code>,{' '}
+          <code className="text-xs">RAG_TOP_K_INICIAL</code>, <code className="text-xs">RAG_MMR_HABILITADO</code>,{' '}
+          <code className="text-xs">RAG_MMR_LAMBDA</code>, <code className="text-xs">RAG_RERANKER_HABILITADO</code>,{' '}
+          <code className="text-xs">RAG_RERANKER_MODELO</code>, <code className="text-xs">RAG_RERANKER_TOP_N_ENTRADA</code>.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
@@ -259,6 +287,144 @@ function AdminModelFormInner({
               </p>
             ) : null}
           </div>
+          <div className="space-y-2">
+            <EtiquetaConAyudaRag
+              htmlFor="rag-top-k-inicial"
+              etiqueta="rag_top_k_inicial"
+              lineasAyuda={[
+                'Cantidad de candidatos que Qdrant devuelve antes de aplicar MMR o el reranker (sobrerrecuperación). Debe ser ≥ el top_k final y suele ser mayor para no perder buenos fragmentos tras diversificar o reordenar.',
+                'Solo tiene efecto práctico si MMR o el reranker están activos; si ambos están desactivados, el flujo puede acotarse al mismo rag_top_k.',
+              ]}
+            />
+            <Input
+              id="rag-top-k-inicial"
+              type="number"
+              min={1}
+              max={200}
+              step={1}
+              value={ragTopKInicial}
+              onChange={(e) => setRagTopKInicial(e.target.value)}
+              aria-invalid={errores.ragTopKInicial ? true : undefined}
+              aria-describedby={errores.ragTopKInicial ? 'err-rag-ki' : undefined}
+            />
+            {errores.ragTopKInicial ? (
+              <p id="err-rag-ki" className="text-sm text-destructive" role="alert">
+                {errores.ragTopKInicial}
+              </p>
+            ) : null}
+          </div>
+          <div className="space-y-2">
+            <EtiquetaConAyudaRag
+              htmlFor="rag-mmr-lambda"
+              etiqueta="rag_mmr_lambda"
+              lineasAyuda={[
+                'En MMR, equilibrio entre relevancia a la consulta (1.0) y diversidad entre fragmentos (0.0). Valores intermedios reducen respuestas con chunks casi duplicados.',
+              ]}
+            />
+            <Input
+              id="rag-mmr-lambda"
+              type="number"
+              min={0}
+              max={1}
+              step={0.05}
+              value={ragMmrLambda}
+              onChange={(e) => setRagMmrLambda(e.target.value)}
+              aria-invalid={errores.ragMmrLambda ? true : undefined}
+              aria-describedby={errores.ragMmrLambda ? 'err-rag-ml' : undefined}
+            />
+            {errores.ragMmrLambda ? (
+              <p id="err-rag-ml" className="text-sm text-destructive" role="alert">
+                {errores.ragMmrLambda}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-2 rounded-md border border-border/60 bg-background/50 p-3 sm:col-span-1">
+            <div className="flex items-start justify-between gap-3">
+              <EtiquetaConAyudaRag
+                htmlFor="rag-mmr-on"
+                etiqueta="rag_mmr_habilitado"
+                lineasAyuda={[
+                  'Activa selección MMR (Maximum Marginal Relevance) sobre los candidatos de Qdrant para favorecer fragmentos distintos entre sí, no solo los más parecidos a la pregunta.',
+                ]}
+              />
+              <Switch
+                id="rag-mmr-on"
+                checked={ragMmrHabilitado}
+                onCheckedChange={setRagMmrHabilitado}
+                className="mt-0.5 shrink-0"
+                aria-label="Activar o desactivar MMR en RAG"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 rounded-md border border-border/60 bg-background/50 p-3 sm:col-span-1">
+            <div className="flex items-start justify-between gap-3">
+              <EtiquetaConAyudaRag
+                htmlFor="rag-rerank-on"
+                etiqueta="rag_reranker_habilitado"
+                lineasAyuda={[
+                  'Activa un reranker local tipo cross-encoder (p. ej. sentence-transformers) para reordenar los mejores candidatos. Aumenta latencia y uso de CPU o GPU en el servidor; desactivado por defecto en muchos despliegues.',
+                ]}
+              />
+              <Switch
+                id="rag-rerank-on"
+                checked={ragRerankerHabilitado}
+                onCheckedChange={setRagRerankerHabilitado}
+                className="mt-0.5 shrink-0"
+                aria-label="Activar o desactivar reranker en RAG"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <EtiquetaConAyudaRag
+            htmlFor="rag-rerank-modelo"
+            etiqueta="rag_reranker_modelo"
+            lineasAyuda={[
+              'Identificador del modelo en Hugging Face o ruta local compatible con CrossEncoder (misma familia que BAAI/bge-reranker-base). Debe coincidir con un modelo instalado o descargable en el entorno del backend.',
+            ]}
+          />
+          <Input
+            id="rag-rerank-modelo"
+            value={ragRerankerModelo}
+            onChange={(e) => setRagRerankerModelo(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
+            className="font-mono text-xs"
+            aria-invalid={errores.ragRerankerModelo ? true : undefined}
+            aria-describedby={errores.ragRerankerModelo ? 'err-rag-rm' : undefined}
+          />
+          {errores.ragRerankerModelo ? (
+            <p id="err-rag-rm" className="text-sm text-destructive" role="alert">
+              {errores.ragRerankerModelo}
+            </p>
+          ) : null}
+        </div>
+        <div className="space-y-2 max-w-xs">
+          <EtiquetaConAyudaRag
+            htmlFor="rag-rerank-top-n"
+            etiqueta="rag_reranker_top_n_entrada"
+            lineasAyuda={[
+              'Techo de fragmentos que pasan al reranker después de MMR (o por orden de similitud si MMR está desactivado). Valores mayores mejoran cobertura del reranker pero aumentan coste.',
+            ]}
+          />
+          <Input
+            id="rag-rerank-top-n"
+            type="number"
+            min={1}
+            max={50}
+            step={1}
+            value={ragRerankerTopNEntrada}
+            onChange={(e) => setRagRerankerTopNEntrada(e.target.value)}
+            aria-invalid={errores.ragRerankerTopNEntrada ? true : undefined}
+            aria-describedby={errores.ragRerankerTopNEntrada ? 'err-rag-rtn' : undefined}
+          />
+          {errores.ragRerankerTopNEntrada ? (
+            <p id="err-rag-rtn" className="text-sm text-destructive" role="alert">
+              {errores.ragRerankerTopNEntrada}
+            </p>
+          ) : null}
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">

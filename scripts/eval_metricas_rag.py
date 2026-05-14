@@ -49,6 +49,7 @@ TipoConfigEval = Literal[
     "markdown",
     "mmr",
     "reranker",
+    "combinado",
     "adaptativo",
 ]
 
@@ -99,6 +100,19 @@ def validar_golden_completo(
             raise ValueError(f"Golden linea {i} (id={ent.get('id')}): {msg}")
 
 
+def _overrides_rag_por_etiqueta(nombre: TipoConfigEval) -> dict[str, object]:
+    """Flags MMR/reranker alineados a experimentos TASK-71 (baseline = camino legacy)."""
+    if nombre == "baseline":
+        return {"rag_mmr_habilitado": False, "rag_reranker_habilitado": False}
+    if nombre == "mmr":
+        return {"rag_mmr_habilitado": True, "rag_reranker_habilitado": False}
+    if nombre == "reranker":
+        return {"rag_mmr_habilitado": False, "rag_reranker_habilitado": True}
+    if nombre == "combinado":
+        return {"rag_mmr_habilitado": True, "rag_reranker_habilitado": True}
+    return {}
+
+
 def ajustar_configuracion_eval(
     nombre: TipoConfigEval,
     collection_cli: str | None,
@@ -106,32 +120,37 @@ def ajustar_configuracion_eval(
     """
     Mapea la etiqueta de experimento a parametros de ``Configuracion``.
 
-    Las rutas ``mmr``, ``reranker`` y ``adaptativo`` dependen de TASK-71/70;
-    hasta entonces el recuperador denso es el mismo y las diferencias vienen
-    sobre todo de ``QDRANT_COLLECTION`` (p. ej. ``corpus_fvl_v2`` tras limpieza).
+    Las rutas ``mmr``, ``reranker`` y ``combinado`` aplican overrides de TASK-71
+    ademas de ``QDRANT_COLLECTION`` cuando se pasa ``--collection``.
     """
     obtener_configuracion.cache_clear()
     base = obtener_configuracion()
+    updates: dict[str, object] = {}
     coleccion = collection_cli
     if nombre == "baseline":
-        pass
+        updates.update(_overrides_rag_por_etiqueta("baseline"))
     elif nombre == "limpio":
         coleccion = coleccion or "corpus_fvl_v2"
     elif nombre == "markdown":
         coleccion = coleccion or "corpus_fvl_v2"
-    elif nombre in ("mmr", "reranker", "adaptativo"):
+    elif nombre in ("mmr", "reranker", "combinado"):
+        coleccion = coleccion or base.qdrant_collection
+        updates.update(_overrides_rag_por_etiqueta(nombre))
+    elif nombre == "adaptativo":
         coleccion = coleccion or base.qdrant_collection
     if coleccion:
-        return base.model_copy(update={"qdrant_collection": coleccion})
+        updates["qdrant_collection"] = coleccion
+    if updates:
+        return base.model_copy(update=updates)
     return base
 
 
 def notas_por_config(nombre: TipoConfigEval) -> list[str]:
     notas: list[str] = []
-    if nombre in ("mmr", "reranker"):
+    if nombre in ("mmr", "reranker", "combinado"):
         notas.append(
-            "Configuracion MMR/reranker: TASK-71 anadira flags; hoy las metricas "
-            "reflejan el mismo RecuperadorDenso que baseline salvo coleccion distinta."
+            f"Overrides RAG TASK-71: MMR={nombre in ('mmr', 'combinado')}, "
+            f"reranker={nombre in ('reranker', 'combinado')} (ver ``Configuracion`` / ``.env``)."
         )
     if nombre == "adaptativo":
         notas.append(
@@ -158,7 +177,6 @@ def ejecutar_fila_factual(
     relevantes = list(fila["archivos_relevantes"] or [])
     salida = rec.consultar(consulta, top_k=k)
     archivos_por_chunk = [f.archivo for f in salida.fuentes]
-    suf = str(k)
     return {
         "qid": fila["id"],
         "consulta": consulta,
@@ -224,6 +242,10 @@ def fragmentos_contexto_ejecucion(cfg: Configuracion) -> list[str]:
         f"- **Proveedor embeddings**: `{cfg.embedding_provider}` / modelo `{cfg.embedding_model}` / dims `{cfg.embedding_dims}`",
         f"- **RAG_SCORE_MINIMO** (evaluacion): `{cfg.rag_score_minimo}`",
         f"- **RAG_TOP_K** (constructor recuperador): `{cfg.rag_top_k}`",
+        f"- **RAG_TOP_K_INICIAL**: `{cfg.rag_top_k_inicial}`",
+        f"- **RAG_MMR_HABILITADO** / **RAG_MMR_LAMBDA**: `{cfg.rag_mmr_habilitado}` / `{cfg.rag_mmr_lambda}`",
+        f"- **RAG_RERANKER_HABILITADO** / modelo / top_n: `{cfg.rag_reranker_habilitado}` / "
+        f"`{cfg.rag_reranker_modelo}` / `{cfg.rag_reranker_top_n_entrada}`",
     ]
 
 
@@ -438,7 +460,7 @@ def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--golden", type=Path, default=golden_def, help="Ruta al golden set JSONL.")
     p.add_argument(
         "--config",
-        choices=["baseline", "limpio", "markdown", "mmr", "reranker", "adaptativo"],
+        choices=["baseline", "limpio", "markdown", "mmr", "reranker", "combinado", "adaptativo"],
         default="baseline",
         help="Etiqueta de experimento (afecta coleccion por defecto y notas).",
     )
@@ -498,11 +520,8 @@ def main(argv: list[str] | None = None) -> int:
     cfg = ajustar_configuracion_eval(args.config, args.collection)
     vector_store = obtener_vector_store(cfg)
     embeddings = obtener_embeddings(cfg)
-    rec = RecuperadorDenso(
-        vector_store=vector_store,
-        embeddings=embeddings,
-        top_k=cfg.rag_top_k,
-        score_minimo=cfg.rag_score_minimo,
+    rec = RecuperadorDenso.desde_configuracion(
+        cfg, vector_store=vector_store, embeddings=embeddings
     )
 
     resultados: list[dict[str, Any]] = []
