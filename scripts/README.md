@@ -276,17 +276,27 @@ Código de salida `1` si el **MRR medio** de B cae más de `--umbral-regresion-m
 
 ## `scripts.indexar_corpus_qdrant` (Módulo 2)
 
-**Qué hace.** Lee Markdown con front matter YAML bajo `data/markdown/` (por defecto `valledellili-org/`), aplica `SentenceSplitter` de LlamaIndex (`CHUNK_SIZE` / `CHUNK_OVERLAP` desde configuración) y hace **upsert** en Qdrant con ids deterministas. Si un chunk ya existe con el mismo `content_hash`, **no** vuelve a llamar a embeddings ni a Qdrant (corrida idempotente).
+**Qué hace.** Lee Markdown con front matter YAML (por defecto `data/markdown/valledellili-org/`), aplica chunking con LlamaIndex según `CHUNK_STRATEGY` en configuración (`sentence`: `SentenceSplitter` sobre el cuerpo; `markdown`: `MarkdownNodeParser` con post-fractura) usando `CHUNK_SIZE` / `CHUNK_OVERLAP`, enriquece el **payload** en Qdrant con metadata estructurada (`tipo_pagina`, `especialidad`, `sedes`, `headings_path`, etc.; ver [decision-4](../backlog/decisions/decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md)) y hace **upsert** con ids deterministas. Si un chunk ya existe con el mismo `content_hash`, **no** vuelve a llamar a embeddings ni a Qdrant (corrida idempotente).
 
-**Requisitos.** Servidor Qdrant accesible (`QDRANT_URL`; en pruebas puede usarse `:memory:`). Para `EMBEDDING_PROVIDER=openai` hace falta `OPENAI_API_KEY` válida antes de embedir. Las dimensiones (`EMBEDDING_DIMS`) y la colección (`QDRANT_COLLECTION`) deben ser coherentes con el despliegue.
+**Requisitos.** Servidor Qdrant accesible (`QDRANT_URL`; en pruebas puede usarse `:memory:`). Para `EMBEDDING_PROVIDER=openai` hace falta `OPENAI_API_KEY` válida antes de embedir. Las dimensiones (`EMBEDDING_DIMS`) y la colección (`QDRANT_COLLECTION`) deben ser coherentes con el despliegue. Los índices de payload (`tipo_pagina`, `especialidad`, `sedes`, `seccion`) se intentan al crear/validar la colección; en Qdrant local `:memory:` el cliente puede advertir que no tienen efecto.
 
 **Ejecución.**
 
 ```bash
 uv run python scripts/indexar_corpus_qdrant.py
 uv run python -m scripts.indexar_corpus_qdrant
-uv run python scripts/indexar_corpus_qdrant.py --markdown-dir data/markdown/valledellili-org --glob "**/*.md"
+uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/markdown/valledellili-org --glob "**/*.md"
+
+# Chunking estructural + coleccion nueva (recomendado en migracion TASK-69)
+export CHUNK_STRATEGY=markdown
+export QDRANT_COLLECTION=corpus_fvl_v2
+uv run python -m scripts.indexar_corpus_qdrant \
+  --markdown-dir data/processed/markdown_limpio/valledellili-org \
+  --glob "**/*.md" \
+  --limit 50
 ```
+
+**Variables relevantes:** `CHUNK_STRATEGY` (`sentence`|`markdown`), `CHUNK_SIZE`, `CHUNK_OVERLAP`, `QDRANT_COLLECTION`, `EMBEDDING_*`.
 
 **Opciones destacadas:**
 
@@ -299,7 +309,7 @@ uv run python scripts/indexar_corpus_qdrant.py --markdown-dir data/markdown/vall
 | `--collection` | Sobrescribe el nombre de la colección Qdrant. |
 | `--batch-size` | Lote para embeddings y upsert. |
 
-**Salida.** Resumen en consola: archivos considerados, chunks totales, cuántos se omitieron por hash, upserts y tiempos.
+**Salida.** Resumen en consola: estrategia activa, archivos considerados, chunks totales, cuántos se omitieron por hash, upserts, tiempos y **conteo por `tipo_pagina`**.
 
 ---
 

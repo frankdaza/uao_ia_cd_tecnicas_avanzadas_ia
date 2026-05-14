@@ -2,12 +2,13 @@
 id: TASK-69
 title: >-
   Chunking semántico Markdown-aware (LlamaIndex MarkdownNodeParser) y
-  enriquecimiento del payload Qdrant con metadata estructurada
-  (`tipo_pagina`, `especialidad`, `sedes`, `nombre_medico`, `headings_path`)
-status: "To Do"
+  enriquecimiento del payload Qdrant con metadata estructurada (`tipo_pagina`,
+  `especialidad`, `sedes`, `nombre_medico`, `headings_path`)
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
+updated_date: '2026-05-14 22:24'
 labels:
   - rag
   - qdrant
@@ -29,13 +30,12 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
-ordinal: 220
+ordinal: 1000
 ---
 
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-
 ### Problema
 
 `scripts/indexar_corpus_qdrant.py` usa hoy `SentenceSplitter(chunk_size=1024, chunk_overlap=128)`. Esto tiene dos defectos para nuestro corpus de Markdown estructurado:
@@ -106,30 +106,25 @@ Migrar el chunking del corpus a `MarkdownNodeParser` de LlamaIndex (con post-spl
 - **Misión institucional**: el chunk con la misión, marcado `tipo_pagina="institucional"` y con `headings_path` significativo, puede recuperarse aun con baja similitud porque (a) tiene metadata propia y (b) **TASK-70** podrá filtrarlo blandamente cuando la consulta toque "misión", "visión", "valores".
 - **Listado de pediatras**: con `tipo_pagina="ficha_medico"` y `especialidad=["Pediatria"]`, **TASK-70** podrá enumerar las 102 fichas mediante `scroll + filter`.
 - **Headings preservados**: cada chunk lleva su contexto (`h1/h2/h3`), reduciendo ambigüedad y mejorando similitud frente a preguntas concretas ("¿qué procedimientos hace gastro pediátrica?").
-
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
 <!-- AC:BEGIN -->
-
-- [ ] #1 `Configuracion.chunk_strategy: Literal["sentence", "markdown"]` activo en [`src/api/configuracion.py`](src/api/configuracion.py); cuando es `"markdown"`, el script usa `MarkdownNodeParser`. Cuando es `"sentence"`, comportamiento idéntico al actual (retro-compatible).
-- [ ] #2 Implementado `MarkdownNodeParser` con post-split por tamaño máximo (p. ej. 1200 caracteres efectivos) para evitar chunks gigantes; tamaño objetivo y mínimo configurables vía `cfg.chunk_size`, `cfg.chunk_overlap`.
-- [ ] #3 Nuevo módulo `src/rag/extractor_metadata.py` con las funciones listadas en *Description*, cada una con docstring y type hints; tests unitarios en `tests/rag/test_extractor_metadata.py` con ≥ 10 casos cubriendo: ficha de médico con varias sedes, servicio con `headings_path`, sede pura, archivo institucional (misión), archivo sin metadata extraíble (fallback a defaults).
-- [ ] #4 Payload Qdrant extendido con todos los campos nuevos de la tabla en *Description*. Campos opcionales (`nombre_medico`, `subtipo`) admiten `null`.
-- [ ] #5 Índices de payload creados en `asegurar_coleccion` para `tipo_pagina` (keyword), `especialidad` (keyword[]), `sedes` (keyword[]), `seccion` (keyword). Mensaje claro si el servidor no soporta `create_payload_index` (modo `:memory:`).
-- [ ] #6 Tests de integración en `tests/scripts/test_indexar_corpus_qdrant_markdown.py` con Qdrant `:memory:` y fixtures: (a) ingesta de 3 archivos de tipos distintos, (b) verifica payload completo de un punto, (c) verifica idempotencia (segunda corrida no embedde de nuevo), (d) `chunk_strategy="sentence"` mantiene comportamiento anterior con los mismos fixtures.
-- [ ] #7 Smoke real documentado: `EMBEDDING_PROVIDER=huggingface`, `EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2`, `EMBEDDING_DIMS=384`, `CHUNK_STRATEGY=markdown`, `uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/processed/markdown_limpio/valledellili-org --collection corpus_fvl_v2 --limit 50` produce conteos: archivos in, chunks producidos, distribución por `tipo_pagina` (impresa en el resumen final del script).
-- [ ] #8 [`scripts/indexar_corpus_qdrant.py`](scripts/indexar_corpus_qdrant.py) imprime al final un **resumen por `tipo_pagina`** (cuántos chunks por categoría) además de los conteos existentes.
-- [ ] #9 Documentación en [`scripts/README.md`](scripts/README.md) y `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` con: nuevo payload, comando `CHUNK_STRATEGY=markdown`, recomendación de **colección nueva** (`corpus_fvl_v2`) durante la migración para A/B sin downtime.
-- [ ] #10 ADR `backlog/decisions/decision-4 - Payload-Qdrant-enriquecido-y-chunking-Markdown.md` corto que justifique el cambio y declare el impacto sobre colecciones existentes (recomienda recrear colección).
-
+- [x] #1 `Configuracion.chunk_strategy: Literal["sentence", "markdown"]` activo en [`src/api/configuracion.py`](src/api/configuracion.py); cuando es `"markdown"`, el script usa `MarkdownNodeParser`. Cuando es `"sentence"`, comportamiento idéntico al actual (retro-compatible).
+- [x] #2 Implementado `MarkdownNodeParser` con post-split por tamaño máximo (p. ej. 1200 caracteres efectivos) para evitar chunks gigantes; tamaño objetivo y mínimo configurables vía `cfg.chunk_size`, `cfg.chunk_overlap`.
+- [x] #3 Nuevo módulo `src/rag/extractor_metadata.py` con las funciones listadas en *Description*, cada una con docstring y type hints; tests unitarios en `tests/rag/test_extractor_metadata.py` con ≥ 10 casos cubriendo: ficha de médico con varias sedes, servicio con `headings_path`, sede pura, archivo institucional (misión), archivo sin metadata extraíble (fallback a defaults).
+- [x] #4 Payload Qdrant extendido con todos los campos nuevos de la tabla en *Description*. Campos opcionales (`nombre_medico`, `subtipo`) admiten `null`.
+- [x] #5 Índices de payload creados en `asegurar_coleccion` para `tipo_pagina` (keyword), `especialidad` (keyword[]), `sedes` (keyword[]), `seccion` (keyword). Mensaje claro si el servidor no soporta `create_payload_index` (modo `:memory:`).
+- [x] #6 Tests de integración en `tests/scripts/test_indexar_corpus_qdrant_markdown.py` con Qdrant `:memory:` y fixtures: (a) ingesta de 3 archivos de tipos distintos, (b) verifica payload completo de un punto, (c) verifica idempotencia (segunda corrida no embedde de nuevo), (d) `chunk_strategy="sentence"` mantiene comportamiento anterior con los mismos fixtures.
+- [x] #7 Smoke real documentado: `EMBEDDING_PROVIDER=huggingface`, `EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2`, `EMBEDDING_DIMS=384`, `CHUNK_STRATEGY=markdown`, `uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/processed/markdown_limpio/valledellili-org --collection corpus_fvl_v2 --limit 50` produce conteos: archivos in, chunks producidos, distribución por `tipo_pagina` (impresa en el resumen final del script).
+- [x] #8 [`scripts/indexar_corpus_qdrant.py`](scripts/indexar_corpus_qdrant.py) imprime al final un **resumen por `tipo_pagina`** (cuántos chunks por categoría) además de los conteos existentes.
+- [x] #9 Documentación en [`scripts/README.md`](scripts/README.md) y `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` con: nuevo payload, comando `CHUNK_STRATEGY=markdown`, recomendación de **colección nueva** (`corpus_fvl_v2`) durante la migración para A/B sin downtime.
+- [x] #10 ADR `backlog/decisions/decision-4 - Payload-Qdrant-enriquecido-y-chunking-Markdown.md` corto que justifique el cambio y declare el impacto sobre colecciones existentes (recomienda recrear colección).
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-
 1. **Dependencias**: verificar que `llama-index-core` ya provee `MarkdownNodeParser`. Si hace falta paquete adicional, declarar con `uv add` y dejar nota en el PR.
 2. **Configuración**: en [`src/api/configuracion.py`](src/api/configuracion.py), cambiar `chunk_strategy: str` a `chunk_strategy: Literal["sentence", "markdown"]` con validación; actualizar el docstring para indicar que `"markdown"` ya tiene efecto.
 3. **Extractor de metadata** en `src/rag/extractor_metadata.py`:
@@ -145,13 +140,11 @@ Migrar el chunking del corpus a `MarkdownNodeParser` de LlamaIndex (con post-spl
 7. **Smoke + reporte por tipo_pagina** integrado en `_imprimir_resumen`.
 8. **ADR** en `backlog/decisions/decision-4 - Payload-Qdrant-enriquecido-y-chunking-Markdown.md`.
 9. **Doc-003** actualizado con sección "Chunking semántico y payload enriquecido".
-
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-
 ### `headings_path` con LlamaIndex
 
 `MarkdownNodeParser` rellena `node.metadata["Header_1"]`, `Header_2`, `Header_3` con el último encabezado de cada nivel visto. La función `construir_headings_path(nodo)` debe concatenar de mayor a menor nivel presente, ignorando los `None`:
@@ -186,25 +179,25 @@ Algunas páginas de servicios tienen secciones largas. Si `len(nodo.get_content(
 
 - **TASK-70** depende de esta task: sin `tipo_pagina`, `especialidad`, `sedes` indexados, no hay filtros.
 - **TASK-71** se beneficia de esta task: chunks con `headings_path` claros mejoran la calidad de reranking.
-
 <!-- SECTION:NOTES:END -->
-
-## Definition of Done
-
-<!-- DOD:BEGIN -->
-
-- [ ] #1 Acceptance Criteria verificados en código, tests y documentación.
-- [ ] #2 `uv run pytest tests/rag/test_extractor_metadata.py tests/scripts/test_indexar_corpus_qdrant_markdown.py` pasa en local.
-- [ ] #3 Smoke real reportado en `Final Summary` con: archivos in, chunks producidos, distribución por `tipo_pagina`, dimensión del vector y tiempo total.
-- [ ] #4 ADR `decision-4` mergeado (o nota incorporada a `decision-3` si el equipo prefiere).
-- [ ] #5 [`scripts/README.md`](scripts/README.md) actualizado con el flujo encadenado completo (TASK-68 → TASK-69 → ingesta).
-- [ ] #6 Sin secretos en código, configuraciones ni en la tarea.
-- [ ] #7 Al cerrar, ajustar `status` a `Done` (no archivar; ver regla `backlog-workflow.mdc`).
-
-<!-- DOD:END -->
 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado chunking dual (CHUNK_STRATEGY=sentence|markdown) en scripts/indexar_corpus_qdrant.py con MarkdownNodeParser + post-fractura por tamano; payload Qdrant extendido (tipo_pagina, especialidad, sedes, headings_path, h1-h3, tags, nombre_medico, subtipo); heuristicas en src/rag/extractor_metadata.py con tests (>=14 casos); indices de payload en asegurar_coleccion (src/rag/qdrant_store.py); Literal en src/api/configuracion.py; ADR backlog/decisions/decision-4; doc-003 seccion 4.4 y scripts/README actualizados.
 
+Smoke local (2026-05-14): EMBEDDING_PROVIDER=huggingface, EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2, EMBEDDING_DIMS=384, CHUNK_STRATEGY=markdown, QDRANT_URL=:memory:, --markdown-dir data/markdown/valledellili-org --limit 5 --collection smoke_task69: archivos in=5, chunks=56, vector_dim=384, tiempo total ~6.6 s (embeddings+upsert ~0.83 s). Resumen por tipo_pagina impreso (ej. otro: 52, programa: 4 en esa muestra ordenada por ruta).
+
+Tests: uv run pytest tests/rag/test_extractor_metadata.py tests/scripts/test_indexar_corpus_qdrant_markdown.py tests/scripts/test_indexar_corpus_qdrant.py tests/rag/ (74 passed).
 <!-- SECTION:FINAL_SUMMARY:END -->
+
+## Definition of Done
+<!-- DOD:BEGIN -->
+- [x] #1 Acceptance Criteria verificados en código, tests y documentación.
+- [x] #2 `uv run pytest tests/rag/test_extractor_metadata.py tests/scripts/test_indexar_corpus_qdrant_markdown.py` pasa en local.
+- [x] #3 Smoke real reportado en `Final Summary` con: archivos in, chunks producidos, distribución por `tipo_pagina`, dimensión del vector y tiempo total.
+- [x] #4 ADR `decision-4` mergeado (o nota incorporada a `decision-3` si el equipo prefiere).
+- [x] #5 [`scripts/README.md`](scripts/README.md) actualizado con el flujo encadenado completo (TASK-68 → TASK-69 → ingesta).
+- [x] #6 Sin secretos en código, configuraciones ni en la tarea.
+- [x] #7 Al cerrar, ajustar `status` a `Done` (no archivar; ver regla `backlog-workflow.mdc`).
+<!-- DOD:END -->

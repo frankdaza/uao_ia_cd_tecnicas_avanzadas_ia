@@ -6,7 +6,7 @@ import logging
 import threading
 from typing import TYPE_CHECKING
 
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 from qdrant_client.models import Distance, VectorParams
 
 from src.api.configuracion import Configuracion, obtener_configuracion
@@ -127,6 +127,7 @@ def asegurar_coleccion(
             collection_name=nombre,
             vectors_config=VectorParams(size=dims, distance=distancia),
         )
+        asegurar_indices_payload_filtrables(cliente, nombre)
         return
 
     info = cliente.get_collection(nombre)
@@ -145,6 +146,43 @@ def asegurar_coleccion(
             f"La coleccion {nombre!r} existe con distance={existente.distance!s}, "
             f"se esperaba {distancia!s}. Ajusta QDRANT_DISTANCE."
         )
+
+    asegurar_indices_payload_filtrables(cliente, nombre)
+
+
+def asegurar_indices_payload_filtrables(cliente: QdrantClient, nombre: str) -> None:
+    """
+    Crea indices de payload para filtros RAG (``tipo_pagina``, ``especialidad``, ...).
+
+    En cliente ``:memory:`` Qdrant emite advertencia y el indice no tiene efecto; en
+    servidor HTTP los errores por campo ya indexado se ignoran de forma segura.
+    """
+    keyword = models.KeywordIndexParams(type=models.KeywordIndexType.KEYWORD)
+    campos = ("tipo_pagina", "especialidad", "sedes", "seccion")
+    for campo in campos:
+        try:
+            cliente.create_payload_index(
+                collection_name=nombre,
+                field_name=campo,
+                field_schema=keyword,
+            )
+        except Exception as exc:  # noqa: BLE001
+            texto = str(exc).lower()
+            if "already exists" in texto or "duplicate" in texto:
+                logger.debug(
+                    "Qdrant: indice payload %r en %r ya existia (%s)",
+                    campo,
+                    nombre,
+                    exc,
+                )
+                continue
+            logger.warning(
+                "Qdrant: no se pudo crear indice payload %r en %r (%s). "
+                "En modo local :memory: es esperable; en servidor revisa permisos y version.",
+                campo,
+                nombre,
+                exc,
+            )
 
 
 def obtener_vector_store(

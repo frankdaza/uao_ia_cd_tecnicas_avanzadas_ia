@@ -1,5 +1,6 @@
 """
-Ingesta del corpus Markdown hacia Qdrant: chunking con LlamaIndex (SentenceSplitter)
+Ingesta del corpus Markdown hacia Qdrant: chunking con LlamaIndex
+(SentenceSplitter o MarkdownNodeParser segun ``CHUNK_STRATEGY``)
 e upsert idempotente por hash de contenido.
 
 Ejecucion desde la raiz del repositorio:
@@ -15,16 +16,28 @@ import hashlib
 import logging
 import time
 import uuid
+from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from llama_index.core import Document
-from llama_index.core.node_parser import SentenceSplitter
-from qdrant_client.models import PointStruct, PointIdsList
+from llama_index.core.node_parser import MarkdownNodeParser, SentenceSplitter
+from qdrant_client.models import PointIdsList, PointStruct
 
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.rag.embeddings import obtener_embeddings
+from src.rag.extractor_metadata import (
+    construir_headings_path,
+    extraer_especialidades,
+    extraer_h1_h2_h3_desde_nodo,
+    extraer_nombre_medico,
+    extraer_sedes,
+    extraer_tags,
+    inferir_subtipo,
+    inferir_tipo_pagina,
+)
 from src.rag.qdrant_store import (
     asegurar_coleccion,
     distancia_desde_settings,
@@ -52,6 +65,7 @@ class EstadisticasIndexacion:
     segundos_embeddings: float = 0.0
     dimension_vector: int = 0
     advertencias: list[str] = field(default_factory=list)
+    chunks_por_tipo_pagina: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -67,6 +81,16 @@ class TrabajoChunk:
     seccion: str
     chunk_index: int
     content_hash: str
+    tipo_pagina: str = "otro"
+    subtipo: str | None = None
+    especialidad: list[str] = field(default_factory=list)
+    sedes: list[str] = field(default_factory=list)
+    nombre_medico: str | None = None
+    headings_path: str = ""
+    h1: str | None = None
+    h2: str | None = None
+    h3: str | None = None
+    tags: list[str] = field(default_factory=list)
 
 
 def encontrar_raiz_repo(inicio: Path | None = None) -> Path:
@@ -119,17 +143,51 @@ def id_punto_qdrant_desde_hex(id_chunk_hex: str) -> str:
     return str(uuid.uuid5(_NAMESPACE_ID_CHUNK, id_chunk_hex))
 
 
+def _metadata_documental(
+    fm: dict,
+    cuerpo: str,
+    archivo_posix: str,
+    titulo: str,
+    seccion: str,
+) -> tuple[str, str | None, str | None, list[str], list[str], list[str]]:
+    """Clasificacion y listas base por archivo (se repiten en cada chunk)."""
+    tipo = inferir_tipo_pagina(seccion, archivo_posix)
+    sub = inferir_subtipo(archivo_posix)
+    nombre = extraer_nombre_medico(titulo, fm) if tipo == "ficha_medico" else None
+    espec = extraer_especialidades(cuerpo, fm)
+    sedes = extraer_sedes(cuerpo, fm)
+    tags = extraer_tags(fm, cuerpo)
+    if tipo == "educacion" and not espec and "pediatr" in titulo.lower():
+        espec = ["Pediatria"]
+    return tipo, sub, nombre, list(espec), list(sedes), list(tags)
+
+
 def construir_trabajos(
     rutas_md: list[Path],
     raiz: Path,
     chunk_size: int,
     chunk_overlap: int,
+    chunk_strategy: Literal["sentence", "markdown"] = "sentence",
 ) -> tuple[list[TrabajoChunk], int, list[str]]:
     """
-    Lee Markdown, aplica SentenceSplitter y arma la lista de ``TrabajoChunk``.
+    Lee Markdown y arma la lista de ``TrabajoChunk``.
 
     Retorna ``(trabajos, archivos_omitidos, advertencias)``.
     """
+    if chunk_strategy == "markdown":
+        return construir_trabajos_markdown(
+            rutas_md, raiz, chunk_size, chunk_overlap
+        )
+    return construir_trabajos_sentence(rutas_md, raiz, chunk_size, chunk_overlap)
+
+
+def construir_trabajos_sentence(
+    rutas_md: list[Path],
+    raiz: Path,
+    chunk_size: int,
+    chunk_overlap: int,
+) -> tuple[list[TrabajoChunk], int, list[str]]:
+    """Chunking retrocompatible: ``SentenceSplitter`` sobre el cuerpo completo."""
     splitter = SentenceSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     trabajos: list[TrabajoChunk] = []
     omitidos = 0
@@ -157,6 +215,10 @@ def construir_trabajos(
         source_url = str(fm.get("source_url") or "")
         seccion = str(fm.get("seccion") or "")
 
+        tipo, sub, nombre, espec, sedes, tags = _metadata_documental(
+            fm, cuerpo, archivo_posix, titulo, seccion
+        )
+
         doc = Document(text=cuerpo.strip() or cuerpo)
         nodos = splitter.get_nodes_from_documents([doc])
         if not nodos:
@@ -178,6 +240,110 @@ def construir_trabajos(
                     seccion=seccion,
                     chunk_index=chunk_index,
                     content_hash=calcular_content_hash(texto),
+                    tipo_pagina=tipo,
+                    subtipo=sub,
+                    especialidad=list(espec),
+                    sedes=list(sedes),
+                    nombre_medico=nombre,
+                    headings_path="",
+                    h1=None,
+                    h2=None,
+                    h3=None,
+                    tags=list(tags),
+                )
+            )
+
+    return trabajos, omitidos, advertencias
+
+
+def construir_trabajos_markdown(
+    rutas_md: list[Path],
+    raiz: Path,
+    chunk_size: int,
+    chunk_overlap: int,
+) -> tuple[list[TrabajoChunk], int, list[str]]:
+    """Chunking estructural: ``MarkdownNodeParser`` + post-fractura por tamano."""
+    md_parser = MarkdownNodeParser()
+    splitter = SentenceSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    tope_max_caracteres = min(max(1200, chunk_size * 4), 16384)
+
+    trabajos: list[TrabajoChunk] = []
+    omitidos = 0
+    advertencias: list[str] = []
+
+    for ruta in rutas_md:
+        archivo_posix = ruta.resolve().relative_to(raiz).as_posix()
+        try:
+            texto_completo = ruta.read_text(encoding="utf-8")
+        except OSError as exc:
+            omitidos += 1
+            advertencias.append(f"{archivo_posix}: lectura fallida ({exc})")
+            logger.warning("%s: lectura fallida: %s", archivo_posix, exc)
+            continue
+
+        fm, cuerpo, err = parsear_front_matter_yaml(texto_completo)
+        if fm is None or err:
+            omitidos += 1
+            msg = err or "front matter ausente o invalido"
+            advertencias.append(f"{archivo_posix}: {msg}")
+            logger.warning("%s: %s", archivo_posix, msg)
+            continue
+
+        titulo = str(fm.get("titulo") or "")
+        source_url = str(fm.get("source_url") or "")
+        seccion = str(fm.get("seccion") or "")
+
+        tipo, sub, nombre, espec, sedes, tags = _metadata_documental(
+            fm, cuerpo, archivo_posix, titulo, seccion
+        )
+
+        doc = Document(text=cuerpo.strip() or cuerpo)
+        nodos_md = md_parser.get_nodes_from_documents([doc])
+        if not nodos_md:
+            advertencias.append(f"{archivo_posix}: sin chunks (cuerpo vacio)")
+            logger.warning("%s: sin nodos tras MarkdownNodeParser", archivo_posix)
+            continue
+
+        nodos_expandidos: list = []
+        for nodo in nodos_md:
+            texto_n = nodo.get_content()
+            if len(texto_n) <= tope_max_caracteres:
+                nodos_expandidos.append(nodo)
+                continue
+            meta_base = dict(getattr(nodo, "metadata", None) or {})
+            sub_doc = Document(text=texto_n, metadata=meta_base)
+            partes = splitter.get_nodes_from_documents([sub_doc])
+            if not partes:
+                nodos_expandidos.append(nodo)
+            else:
+                nodos_expandidos.extend(partes)
+
+        for chunk_index, nodo in enumerate(nodos_expandidos):
+            texto = nodo.get_content()
+            id_hex = calcular_id_chunk_hex(archivo_posix, chunk_index, texto)
+            hpath = construir_headings_path(nodo)
+            h1, h2, h3 = extraer_h1_h2_h3_desde_nodo(nodo)
+            trabajos.append(
+                TrabajoChunk(
+                    id_chunk_hex=id_hex,
+                    id_punto_qdrant=id_punto_qdrant_desde_hex(id_hex),
+                    texto=texto,
+                    archivo=archivo_posix,
+                    titulo=titulo,
+                    source_url=source_url,
+                    seccion=seccion,
+                    chunk_index=chunk_index,
+                    content_hash=calcular_content_hash(texto),
+                    tipo_pagina=tipo,
+                    subtipo=sub,
+                    especialidad=list(espec),
+                    sedes=list(sedes),
+                    nombre_medico=nombre,
+                    headings_path=hpath,
+                    h1=h1,
+                    h2=h2,
+                    h3=h3,
+                    tags=list(tags),
                 )
             )
 
@@ -194,6 +360,16 @@ def _payload_desde_trabajo(t: TrabajoChunk) -> dict:
         "content_hash": t.content_hash,
         "id_chunk": t.id_chunk_hex,
         "texto": t.texto,
+        "tipo_pagina": t.tipo_pagina,
+        "subtipo": t.subtipo,
+        "especialidad": list(t.especialidad),
+        "sedes": list(t.sedes),
+        "nombre_medico": t.nombre_medico,
+        "headings_path": t.headings_path,
+        "h1": t.h1,
+        "h2": t.h2,
+        "h3": t.h3,
+        "tags": list(t.tags),
     }
 
 
@@ -250,10 +426,12 @@ def ejecutar_indexacion(
         raiz,
         cfg.chunk_size,
         cfg.chunk_overlap,
+        cfg.chunk_strategy,
     )
     stats.archivos_omitidos_aviso = omit_fm
     stats.advertencias.extend(adv_const)
     stats.chunks_totales = len(trabajos)
+    stats.chunks_por_tipo_pagina = dict(Counter(t.tipo_pagina for t in trabajos))
 
     cliente = obtener_qdrant_client(cfg)
     distancia = distancia_desde_settings(cfg.qdrant_distance)
@@ -386,7 +564,8 @@ def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
     md_def = raiz_def / "data" / "markdown" / "valledellili-org"
     p = argparse.ArgumentParser(
         description=(
-            "Indexa Markdown del corpus en Qdrant con SentenceSplitter (LlamaIndex) "
+            "Indexa Markdown del corpus en Qdrant con chunking LlamaIndex "
+            "(``sentence``: SentenceSplitter; ``markdown``: MarkdownNodeParser) "
             "y upsert idempotente por hash de contenido."
         ),
     )
@@ -445,6 +624,7 @@ def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
 def _imprimir_resumen(stats: EstadisticasIndexacion, cfg: Configuracion) -> None:
     print("")
     print("=== Indexacion Qdrant ===")
+    print(f"  Estrategia chunking (env):      {cfg.chunk_strategy}")
     print(f"  Archivos Markdown considerados: {stats.archivos_markdown}")
     print(f"  Archivos omitidos (YAML/aviso): {stats.archivos_omitidos_aviso}")
     print(f"  Chunks totales en corpus:       {stats.chunks_totales}")
@@ -454,6 +634,11 @@ def _imprimir_resumen(stats: EstadisticasIndexacion, cfg: Configuracion) -> None
     print(f"  Dimension vector informada:   {stats.dimension_vector or cfg.embedding_dims}")
     print(f"  Tiempo embeddings + upsert:   {stats.segundos_embeddings:.2f} s")
     print(f"  Tiempo total:                   {stats.segundos_ingesta:.2f} s")
+    if stats.chunks_por_tipo_pagina:
+        print("")
+        print("  Chunks por tipo_pagina:")
+        for tipo in sorted(stats.chunks_por_tipo_pagina.keys()):
+            print(f"    - {tipo}: {stats.chunks_por_tipo_pagina[tipo]}")
     if stats.advertencias:
         print("")
         print("Advertencias:")

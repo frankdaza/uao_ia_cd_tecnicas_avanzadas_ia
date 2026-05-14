@@ -129,6 +129,28 @@ uv run python -m scripts.indexar_corpus_qdrant --markdown-dir data/markdown/vall
 
 Más opciones y modo mock: [scripts/README.md](../../scripts/README.md) (sección **E2E del Modulo 2** y **`scripts.indexar_corpus_qdrant`**).
 
+### 4.4 Chunking semantico y payload enriquecido (TASK-69)
+
+- **Estrategia de fragmentacion**: variable `CHUNK_STRATEGY` en `.env` / `Configuracion`: `sentence` (retrocompatible, `SentenceSplitter` sobre el cuerpo) o `markdown` (`MarkdownNodeParser` con post-fractura por tamano maximo en caracteres). Ver [decision-4](../decisions/decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md).
+- **Payload extendido** en Qdrant (ademas de `archivo`, `titulo`, `source_url`, `seccion`, `chunk_index`, `content_hash`, `id_chunk`, `texto`): `tipo_pagina`, `subtipo`, `especialidad` (lista), `sedes` (lista), `nombre_medico`, `headings_path`, `h1`, `h2`, `h3`, `tags`. Las heuristicas viven en `src/rag/extractor_metadata.py`.
+- **Indices de payload** (`tipo_pagina`, `especialidad`, `sedes`, `seccion`) se crean al asegurar la coleccion; en cliente `:memory:` Qdrant solo emite advertencia (sin efecto).
+- **Migracion**: se recomienda indexar en una **coleccion nueva** (p. ej. `corpus_fvl_v2`) para A/B frente a `corpus_fvl` sin downtime; el runtime del agente sigue leyendo solo `QDRANT_COLLECTION` configurada.
+
+Ejemplo con corpus limpio (TASK-68) y embeddings locales HuggingFace:
+
+```bash
+export QDRANT_URL=http://127.0.0.1:6333
+export EMBEDDING_PROVIDER=huggingface
+export EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+export EMBEDDING_DIMS=384
+export CHUNK_STRATEGY=markdown
+export QDRANT_COLLECTION=corpus_fvl_v2
+uv run python -m scripts.indexar_corpus_qdrant \
+  --markdown-dir data/processed/markdown_limpio/valledellili-org \
+  --glob "**/*.md" \
+  --limit 50
+```
+
 ### Evaluacion cuantitativa del RAG (golden set, TASK-72)
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.

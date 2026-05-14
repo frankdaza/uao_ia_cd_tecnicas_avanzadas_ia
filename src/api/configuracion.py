@@ -11,6 +11,7 @@ from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 TipoDistanciaQdrant = Literal["Cosine", "Dot", "Euclid", "Manhattan"]
+TipoChunkStrategy = Literal["sentence", "markdown"]
 
 # Raiz del repo (src/api/configuracion.py -> parents[2]) para cargar `.env` aunque el cwd no sea la raiz.
 _RUTA_RAIZ_REPO = Path(__file__).resolve().parents[2]
@@ -112,12 +113,14 @@ class Configuracion(BaseSettings):
             "Reiniciar el proceso tras editar .env (ver chunk_size)."
         ),
     )
-    chunk_strategy: str = Field(
+    chunk_strategy: TipoChunkStrategy = Field(
         default="sentence",
         description=(
-            "Valor reservado para futuras estrategias de chunking. "
-            "Variable de entorno: CHUNK_STRATEGY. La ingesta actual solo usa SentenceSplitter; "
-            "este campo no altera indexar_corpus_qdrant.py hoy."
+            "Estrategia de fragmentacion para ``scripts.indexar_corpus_qdrant``: "
+            "``sentence`` (SentenceSplitter sobre el cuerpo completo, retrocompatible) o "
+            "``markdown`` (MarkdownNodeParser con post-fractura por tamano). "
+            "Variable de entorno: CHUNK_STRATEGY. Reiniciar el proceso tras editar .env "
+            "(``obtener_configuracion`` esta cacheada)."
         ),
     )
 
