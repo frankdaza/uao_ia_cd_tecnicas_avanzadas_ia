@@ -15,10 +15,12 @@ from typing import Any
 # Marcadores de sede conocidos en el sitio (orden: cadenas largas primero).
 _SEDES_CONOCIDAS: tuple[str, ...] = (
     "Sede Valle del Lili",
+    "Sede Av. Estación",
     "Sede Alfaguara",
     "Sede Limonar",
     "Sede Ciudad Jardin",
     "Sede Caicedonia",
+    "Sede Tequendama",
 )
 
 _RE_HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
@@ -121,19 +123,29 @@ def extraer_nombre_medico(titulo: str, fm: dict[str, Any] | None) -> str | None:
     return normalizar_etiqueta_titulo(raw)
 
 
-def _primer_heading_nivel(cuerpo: str, nivel: int) -> str | None:
-    for m in _RE_HEADING.finditer(cuerpo or ""):
-        hashes = m.group(1)
-        if len(hashes) == nivel:
-            return normalizar_etiqueta_titulo(m.group(2))
-    return None
+def _es_h2_basura_listado_relacionado(titulo_h2: str) -> bool:
+    """Encabezados de navegacion lateral / recomendaciones, no la especialidad clinica."""
+    b = _sin_tildes(titulo_h2).lower()
+    if "otros especialistas" in b:
+        return True
+    if "te pueden interesar" in b or "te puede interesar" in b:
+        return True
+    if "especialistas relacionados" in b:
+        return True
+    return False
 
 
-def extraer_especialidades(cuerpo: str, fm: dict[str, Any] | None) -> list[str]:
+def extraer_especialidades(
+    cuerpo: str,
+    fm: dict[str, Any] | None,
+    nombre_archivo: str | None = None,
+) -> list[str]:
     """
     Lista de especialidades normalizadas (sin duplicados, orden de aparicion).
 
     Lee claves comunes del front matter y encabezados ``##`` del cuerpo.
+    En fichas ``directorio-medico-*.md`` omite el primer ``##`` generico del sitio
+    (p. ej. «Otros especialistas…») y usa el siguiente encabezado util si existe.
     """
     salida: list[str] = []
     visto: set[str] = set()
@@ -158,9 +170,21 @@ def extraer_especialidades(cuerpo: str, fm: dict[str, Any] | None) -> list[str]:
             elif isinstance(raw, str) and raw.strip():
                 agregar(raw)
 
-    h2 = _primer_heading_nivel(cuerpo or "", 2)
-    if h2:
-        agregar(h2)
+    es_ficha = False
+    if nombre_archivo:
+        base = Path(nombre_archivo).stem.lower()
+        es_ficha = base.startswith("directorio-medico-")
+
+    for m in _RE_HEADING.finditer(cuerpo or ""):
+        if len(m.group(1)) != 2:
+            continue
+        tit = normalizar_etiqueta_titulo(m.group(2))
+        if not tit:
+            continue
+        if es_ficha and _es_h2_basura_listado_relacionado(tit):
+            continue
+        agregar(tit)
+        break
 
     return salida
 

@@ -47,3 +47,18 @@ def test_filtros_tipo_pagina_mision() -> None:
 
 def test_filtros_tipo_pagina_sin_match() -> None:
     assert inferir_filtros_tipo_pagina_para_rag("Telefono PBX") is None
+
+
+def test_filtros_tipo_pagina_sede() -> None:
+    assert inferir_filtros_tipo_pagina_para_rag("Dame toda la información de tus sedes") == [
+        "sede",
+    ]
+    assert inferir_filtros_tipo_pagina_para_rag("¿Dónde están las sedes?") == ["sede"]
+
+
+def test_inferir_intencion_informacion_sedes_es_listado() -> None:
+    assert inferir_intencion("Dame toda la información de tus sedes") == "listado"
+
+
+def test_inferir_intencion_cuántas_sedes_es_conteo() -> None:
+    assert inferir_intencion("¿Cuántas sedes hay?") == "conteo"

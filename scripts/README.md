@@ -302,6 +302,14 @@ uv run python -m scripts.indexar_corpus_qdrant \
   --limit 50
 ```
 
+**Verificación de sedes en Qdrant.** Tras la ingesta, para comprobar que existen puntos con `tipo_pagina=sede` (páginas `sedes-*.md`):
+
+```bash
+uv run python scripts/verificar_sedes_en_qdrant.py
+```
+
+Si cambia la heuristica de **especialidad en payload** (p. ej. `extraer_especialidades` para fichas `directorio-medico-*.md`), vuelva a ejecutar la ingesta sobre el mismo corpus para refrescar vectores y metadatos en Qdrant.
+
 **Variables relevantes:** `CHUNK_STRATEGY` (`sentence`|`markdown`), `CHUNK_SIZE`, `CHUNK_OVERLAP`, `QDRANT_COLLECTION`, `EMBEDDING_*`.
 
 **Opciones destacadas:**

@@ -21,6 +21,27 @@ _RE_LISTADO = re.compile(
     r"qu[eé]\s+m[eé]dicos)\b",
     re.IGNORECASE,
 )
+# Catalogo o informacion amplia sobre sedes institucionales (listado / filtros / RAG).
+_RE_FOCO_SEDES_INSTITUCIONAL = re.compile(
+    r"(?is)"
+    r"\binformaci[oó]n.{0,160}\bsedes\b|"
+    r"\bdatos.{0,120}\bsedes\b|"
+    r"\bdame\b.{0,180}\bsedes\b|"
+    r"\bcu[aá]les\s+son\s+(las\s+)?sedes\b|"
+    r"\bcu[aá]ntas?\s+sedes\b|"
+    r"\btodas?\s+las\s+sedes\b|"
+    r"\bpuntos?\s+de\s+atenci[oó]n\b|"
+    r"\bubicaciones?\s+.{0,50}\b(fvl|fundaci[oó]n|sedes)\b|"
+    r"\b(sedes|sede)\s+de\s+la\s+fundaci[oó]n\b|"
+    r"\bd[oó]nde\s+(est[aá]n|quedan?)\s+(las\s+)?sedes\b",
+    re.IGNORECASE,
+)
+
+
+def texto_sugiere_foco_sedes_institucional(texto: str) -> bool:
+    """True si la consulta pide informacion o catalogo de sedes (no necesariamente directorio medico)."""
+    t = (texto or "").strip()
+    return bool(t and _RE_FOCO_SEDES_INSTITUCIONAL.search(t))
 
 
 def inferir_intencion(consulta: str) -> IntencionConsulta:
@@ -34,7 +55,7 @@ def inferir_intencion(consulta: str) -> IntencionConsulta:
         return "factual"
     if _RE_CONTEO.search(texto):
         return "conteo"
-    if _RE_LISTADO.search(texto):
+    if _RE_LISTADO.search(texto) or texto_sugiere_foco_sedes_institucional(texto):
         return "listado"
     return "factual"
 
@@ -56,4 +77,6 @@ def inferir_filtros_tipo_pagina_para_rag(consulta: str) -> list[str] | None:
         return None
     if _RE_MISION_VISION.search(t):
         return ["institucional"]
+    if texto_sugiere_foco_sedes_institucional(t):
+        return ["sede"]
     return None

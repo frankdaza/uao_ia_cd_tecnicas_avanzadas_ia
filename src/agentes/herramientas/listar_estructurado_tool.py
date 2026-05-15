@@ -124,10 +124,13 @@ def crear_listar_estructurado_tool(
         name="listar_estructurado",
         description=(
             "Enumera entidades del corpus institucional indexado en Qdrant filtrando por "
-            "metadatos de payload (tipo de pagina, especialidad, sedes). Usar cuando la consulta "
-            "pida listar, enumerar o contar conjuntos (p. ej. pediatras por sede) donde la "
-            "busqueda semantica top-k no basta. No sustituye a ``rag_denso`` para preguntas "
-            "abiertas de texto ni a FAQ determinista."
+            "metadatos de payload (tipo de pagina, especialidad, sedes). Para un **catalogo de "
+            "sedes** (ubicaciones institucionales) use ``tipo_pagina=\"sede\"`` solo; no pase "
+            "todas las sedes conocidas en el argumento ``sedes`` para significar \"todas las "
+            "sedes\" (eso hace OR sobre menciones en cualquier pagina, p. ej. notas). Usar cuando "
+            "la consulta pida listar, enumerar o contar conjuntos (p. ej. pediatras por sede) "
+            "donde la busqueda semantica top-k no basta. No sustituye a ``rag_denso`` para "
+            "preguntas abiertas de texto ni a FAQ determinista."
         ),
         func=_ejecutar,
         args_schema=ArgsConsultaListados,

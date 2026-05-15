@@ -194,7 +194,7 @@ Parámetros que pueden persistirse en PostgreSQL (tabla `config_admin_m2`, contr
 | Área | Campos relevantes en el API | Notas |
 | --- | --- | --- |
 | Modelo y sampling | `modelo_llm_router`, `modelo_llm_compositor`, `temperatura_*`, `top_p_*`, `model_kwargs_*` | Precedencia: columnas no nulas en `config_admin_m2` sobre archivo `config/router_meta_prompt.json`, variables de entorno y constantes de código (ver `nota_precedencia` en la respuesta JSON del admin). |
-| Recuperación RAG | `rag_top_k`, `rag_score_minimo` | Límites alineados a `Configuracion`: entero 1–50 y umbral 0–1 para la tool `rag_denso`. Si las columnas quedan en `NULL`, se usan `RAG_TOP_K` y `RAG_SCORE_MINIMO` del `.env`. |
+| Recuperación RAG | `rag_top_k`, `rag_score_minimo`, MMR, reranker | Solo afectan a la tool **`rag_denso`** (similitud densa en Qdrant). La tool **`listar_estructurado`** hace scroll por payload (`tipo_pagina`, `especialidad`, …) y **no** usa esos umbrales. |
 | Prompts | Meta-prompt e institucional | Pantalla **Prompts** (`/admin/prompts`). |
 
 Tras añadir columnas nuevas, ejecute **`alembic upgrade head`** (incluido en el flujo Docker `db-init`) para aplicar migraciones como la de `rag_top_k` / `rag_score_minimo`.

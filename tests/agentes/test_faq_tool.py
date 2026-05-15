@@ -41,7 +41,7 @@ def test_buscar_faq_pregunta_meta_prompt_pbx() -> None:
 
 def test_buscar_faq_caso_positivo_siau_horario() -> None:
     r = buscar_faq(
-        "horario SIAU PQRS atencion usuario 4190 lunes viernes extension 320",
+        "horario SIAU PQRS atencion usuario lunes viernes jornada queja",
     )
     assert r is not None
     assert r.id == "fvl-siau-pqrs-horario"
@@ -77,7 +77,7 @@ def test_buscar_faq_caso_positivo_sitio_web() -> None:
 
 def test_buscar_faq_caso_positivo_urgencias_pediatricas() -> None:
     r = buscar_faq(
-        "urgencias pediatricas 24 horas 365 continua emergencia nino",
+        "urgencias pediatricas 24 horas emergencia nino todo el dia servicio emergencias",
     )
     assert r is not None
     assert r.id == "fvl-urgencias-pediatricas-continua"
@@ -126,6 +126,46 @@ def test_buscar_faq_pregunta_natural_urgencias_con_tilde() -> None:
 
 
 @pytest.mark.parametrize(
+    ("consulta", "faq_id"),
+    [
+        (
+            "¿El servicio de emergencias para niños funciona todo el día y toda la noche?",
+            "fvl-urgencias-pediatricas-continua",
+        ),
+        (
+            "¿Hay atención médica pediátrica de urgencia disponible las 24 horas?",
+            "fvl-urgencias-pediatricas-continua",
+        ),
+        (
+            "¿Puedo llevar a un niño a urgencias en la madrugada o cualquier día del año?",
+            "fvl-urgencias-pediatricas-continua",
+        ),
+        (
+            "¿Cómo puedo ver los resultados de mis exámenes en línea?",
+            "fvl-portal-paciente-resultados",
+        ),
+        (
+            "¿En qué plataforma descargo mis pruebas de laboratorio?",
+            "fvl-portal-paciente-resultados",
+        ),
+        (
+            "¿A qué horas está abierto el servicio de atención al usuario?",
+            "fvl-siau-pqrs-horario",
+        ),
+        (
+            "¿Cuál es la jornada de atención para poner una queja o sugerencia (PQRS)?",
+            "fvl-siau-pqrs-horario",
+        ),
+    ],
+)
+def test_buscar_faq_reformulaciones_capturas(consulta: str, faq_id: str) -> None:
+    """Frases reales de usuarios que antes quedaban bajo umbral o sin match."""
+    r = buscar_faq(consulta)
+    assert r is not None
+    assert r.id == faq_id
+
+
+@pytest.mark.parametrize(
     "consulta",
     [
         "Tienes un email para PQRS?",
@@ -146,7 +186,7 @@ def test_buscar_faq_consultas_cortas_correo_siau(consulta: str) -> None:
 
 def test_buscar_faq_caso_positivo_portal_resultados() -> None:
     r = buscar_faq(
-        "portal paciente resultados examenes laboratorio mifundacion en linea",
+        "ver resultados examenes en linea pruebas laboratorio plataforma descargo",
     )
     assert r is not None
     assert r.id == "fvl-portal-paciente-resultados"

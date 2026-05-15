@@ -11,13 +11,23 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from src.rag.intencion import texto_sugiere_foco_sedes_institucional
+
 # Alineado con ``src.rag.extractor_metadata`` (sedes conocidas en el sitio).
 _SEDES_ORDENADAS: tuple[str, ...] = (
     "Sede Valle del Lili",
+    "Sede Av. Estación",
     "Sede Alfaguara",
     "Sede Limonar",
     "Sede Ciudad Jardin",
     "Sede Caicedonia",
+    "Sede Tequendama",
+)
+
+
+_RE_CTX_MEDICO_DIR = re.compile(
+    r"\b(directorio|medico|medicos|doctor|doctores|pediatras?|especialistas?|fichas?)\b",
+    re.IGNORECASE,
 )
 
 
@@ -75,13 +85,14 @@ _RE_GASTRO_PE = re.compile(r"gastro\s*ped|gastro\s*pedi", re.IGNORECASE)
 
 def _detectar_especialidad_por_alias(pregunta: str) -> str | None:
     """Si no hubo match literal con el JSON canonico, usa alias frecuentes."""
-    if _RE_GASTRO_PE.search(pregunta):
+    n = _normalizar_busqueda(pregunta)
+    if _RE_GASTRO_PE.search(n):
         return "Gastroenterologia Pediatrica"
-    if _RE_PED.search(pregunta):
+    if _RE_PED.search(n):
         return "Pediatria"
-    if _RE_ONC.search(pregunta):
+    if _RE_ONC.search(n):
         return "Oncologia"
-    if _RE_CARD.search(pregunta):
+    if _RE_CARD.search(n):
         return "Cardiologia"
     return None
 
@@ -103,19 +114,23 @@ def extraer_filtros_listado_desde_pregunta(pregunta: str) -> dict[str, Any]:
         out["tipo_pagina"] = "servicio"
         if "oncolog" in t.lower():
             out["especialidad_contains"] = "oncolog"
-    elif any(
-        k in n
-        for k in (
-            "medico",
-            "medicos",
-            "doctor",
-            "doctores",
-            "directorio",
-            "pediatra",
-            "especialista",
-        )
-    ):
+        esp = _detectar_especialidad_exacta(t) or _detectar_especialidad_por_alias(t)
+        if esp:
+            out["especialidad"] = esp
+        return out
+
+    if _RE_CTX_MEDICO_DIR.search(n):
         out["tipo_pagina"] = "ficha_medico"
+        sedes = _detectar_sedes(t)
+        if sedes:
+            out["sedes"] = sedes
+        esp = _detectar_especialidad_exacta(t) or _detectar_especialidad_por_alias(t)
+        if esp:
+            out["especialidad"] = esp
+        return out
+
+    if texto_sugiere_foco_sedes_institucional(t):
+        return {"tipo_pagina": "sede"}
 
     sedes = _detectar_sedes(t)
     if sedes:

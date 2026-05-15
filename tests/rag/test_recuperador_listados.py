@@ -148,3 +148,60 @@ def test_muestra_truncada(cliente_memoria: QdrantClient) -> None:
     assert res.conteo == 5
     assert res.muestra_truncada
     assert len(res.items) == 2
+
+
+def test_listado_por_tipo_pagina_sede(cliente_memoria: QdrantClient) -> None:
+    """Catalogo institucional: solo chunks con tipo_pagina=sede (paginas sedes-*.md)."""
+    col = "col_listado_sede"
+    _coleccion_vacia(cliente_memoria, col)
+    cliente_memoria.upsert(
+        collection_name=col,
+        points=[
+            PointStruct(
+                id=str(uuid.uuid4()),
+                vector=[0.6, 0.1],
+                payload={
+                    "tipo_pagina": "sede",
+                    "especialidad": [],
+                    "sedes": [],
+                    "nombre_medico": None,
+                    "titulo": "Sede Principal",
+                    "source_url": "https://ejemplo.test/sedes/principal",
+                    "archivo": "valledellili-org/sedes-sede-principal.md",
+                },
+            ),
+            PointStruct(
+                id=str(uuid.uuid4()),
+                vector=[0.6, 0.2],
+                payload={
+                    "tipo_pagina": "sede",
+                    "especialidad": [],
+                    "sedes": [],
+                    "nombre_medico": None,
+                    "titulo": "Sede Limonar",
+                    "source_url": "https://ejemplo.test/sedes/limonar",
+                    "archivo": "valledellili-org/sedes-sede-limonar.md",
+                },
+            ),
+            PointStruct(
+                id=str(uuid.uuid4()),
+                vector=[0.7, 0.1],
+                payload={
+                    "tipo_pagina": "otro",
+                    "especialidad": [],
+                    "sedes": ["Sede Limonar"],
+                    "nombre_medico": None,
+                    "titulo": "Nota con mencion de sede",
+                    "source_url": "https://ejemplo.test/nota/1",
+                    "archivo": "valledellili-org/nota.md",
+                },
+            ),
+        ],
+    )
+    rec = RecuperadorListados(cliente_memoria, col)
+    res = rec.listar({"tipo_pagina": "sede"}, limite=20)
+    assert res.conteo == 2
+    archivos = {it.archivo for it in res.items}
+    assert "valledellili-org/sedes-sede-principal.md" in archivos
+    assert "valledellili-org/sedes-sede-limonar.md" in archivos
+    assert all("sedes-sede" in (it.archivo or "") for it in res.items)

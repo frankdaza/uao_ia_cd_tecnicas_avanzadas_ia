@@ -183,7 +183,7 @@ def _metadata_documental(
     tipo = inferir_tipo_pagina(seccion, archivo_posix)
     sub = inferir_subtipo(archivo_posix)
     nombre = extraer_nombre_medico(titulo, fm) if tipo == "ficha_medico" else None
-    espec = extraer_especialidades(cuerpo, fm)
+    espec = extraer_especialidades(cuerpo, fm, archivo_posix)
     sedes = extraer_sedes(cuerpo, fm)
     tags = extraer_tags(fm, cuerpo)
     if tipo == "educacion" and not espec and "pediatr" in titulo.lower():

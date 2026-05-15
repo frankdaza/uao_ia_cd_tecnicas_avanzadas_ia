@@ -11,8 +11,9 @@ Por cada entrada se calculan dos señales y se usa el máximo frente al umbral:
    max(1, |tokens_contenido|)`` donde ``tokens_contenido`` proviene de
    ``pregunta_canonica`` sin stopwords ni boilerplate institucional mínimo.
 
-Además, los tokens de la consulta se amplían con **sinónimos** puntuales (p. ej.
-``email`` ↔ ``correo``) para alinear lenguaje coloquial con la pregunta canónica.
+Además, los tokens de la consulta se amplían con **sinónimos** controlados (p. ej.
+``email`` ↔ ``correo``; ``urgencias`` ↔ ``emergencias``; ``pediatrica`` ↔ ``pediatricas``;
+``nino`` ↔ ``nina``) para alinear lenguaje coloquial con palabras clave y pregunta canónica.
 """
 
 from __future__ import annotations
@@ -104,6 +105,9 @@ _BOILERPLATE_INSTITUCION: frozenset[str] = frozenset({"fundacion", "lili", "fvl"
 # Equivalencias léxicas en consultas (NFKD + minúsculas; un token pertenece a un solo grupo).
 _GRUPOS_SINONIMOS_CONSULTA: tuple[frozenset[str], ...] = (
     frozenset({"email", "correo", "mail", "e-mail"}),
+    frozenset({"urgencias", "urgencia", "emergencias", "emergencia"}),
+    frozenset({"pediatricas", "pediatrica", "pediatricos", "pediatrico"}),
+    frozenset({"nino", "nina"}),
 )
 
 

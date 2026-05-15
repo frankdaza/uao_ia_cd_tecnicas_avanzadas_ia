@@ -54,6 +54,19 @@ def test_extraer_especialidades_desde_primer_h2() -> None:
     assert em.extraer_especialidades(cuerpo, {}) == ["Gastroenterologia Pediatrica"]
 
 
+def test_extraer_especialidades_ficha_omite_h2_generico_recomendaciones() -> None:
+    cuerpo = """## Otros Especialistas Que Te Pueden Interesar
+
+- [Link](x)
+
+## Cardiologia
+
+Texto ficha.
+"""
+    ruta = "valledellili-org/directorio-medico-juan-perez.md"
+    assert em.extraer_especialidades(cuerpo, {}, ruta) == ["Cardiologia"]
+
+
 def test_extraer_sedes_lista_y_marcadores() -> None:
     cuerpo = """
 ### Sedes
@@ -64,6 +77,11 @@ def test_extraer_sedes_lista_y_marcadores() -> None:
 Mas texto.
 """
     assert em.extraer_sedes(cuerpo, {}) == ["Sede Alfaguara", "Sede Valle del Lili"]
+
+
+def test_extraer_sedes_marcas_tequendama_y_av_estacion() -> None:
+    assert "Sede Tequendama" in em.extraer_sedes("Atencion en **Sede Tequendama**.", None)
+    assert "Sede Av. Estación" in em.extraer_sedes("Como llegar a la Sede Av. Estación.", None)
 
 
 def test_extraer_tags_fm_y_by_tag() -> None:

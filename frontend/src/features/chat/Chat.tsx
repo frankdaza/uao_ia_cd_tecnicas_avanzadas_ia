@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useAuth } from '@/features/auth/AuthContext'
 import { deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
+import { respuestaFinalEsSinInformacion } from '@/lib/agenteRespuesta'
 import { streamAgente } from '@/lib/sseClient'
 import type { HistorialMensaje, ListadoItem, RagChunk, ResultadoListadoSse } from '@/lib/schemas'
 import { ListadoItemSchema } from '@/lib/schemas'
@@ -245,11 +246,20 @@ export function Chat() {
             )
           },
           onFinal: (meta) => {
+            const sinInfo = respuestaFinalEsSinInformacion(meta.texto)
             setTurns((prev) =>
               prev.map((t) => {
                 if (t.id !== idTurno || !t.assistantMessage) return t
+                const limpiarListado = sinInfo && t.toolUsed === 'listar_estructurado'
                 return {
                   ...t,
+                  ...(limpiarListado
+                    ? {
+                        listadoItems: [],
+                        listadoConteo: undefined,
+                        listadoMuestraTruncada: undefined,
+                      }
+                    : {}),
                   assistantMessage: {
                     ...t.assistantMessage,
                     isStreaming: false,
