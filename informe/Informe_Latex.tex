@@ -1,5 +1,5 @@
 % ============================================================
-%  Informe de actividad - Técnicas Avanzadas de IA
+%  Informe de actividad Fase 2 (Módulo 2) — Técnicas Avanzadas de IA
 %  Universidad Autónoma de Occidente
 %  Formato IEEE Conference
 % ============================================================
@@ -17,14 +17,14 @@
 
 % --- Gráficos y diagramas ---
 \usepackage{graphicx}
-\graphicspath{{figuras/}}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, backgrounds, fit}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, backgrounds, fit, calc}
 
 % --- Tablas ---
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{array}
 
 % --- Código fuente ---
 \usepackage{listings}
@@ -38,18 +38,18 @@
 \usepackage{hyperref}
 
 % ============================================================
-%  Configuración de colores para listings
+%  Colores y estilos de listings
 % ============================================================
 \definecolor{clrGreen}{rgb}{0,0.55,0}
 \definecolor{clrGray}{rgb}{0.5,0.5,0.5}
 \definecolor{clrPurple}{rgb}{0.50,0,0.70}
-\definecolor{clrBackground}{rgb}{0.97,0.97,0.97}
+\definecolor{clrBg}{rgb}{0.97,0.97,0.97}
 \definecolor{clrOrange}{rgb}{0.80,0.40,0}
+\definecolor{clrBlue}{rgb}{0.10,0.20,0.70}
 
-% Definición de lenguaje YAML para listings
 \lstdefinelanguage{yaml}{
-    keywords={true, false, null, yes, no},
-    keywordstyle=\color{blue}\bfseries,
+    keywords={true,false,null,yes,no},
+    keywordstyle=\color{clrBlue}\bfseries,
     sensitive=false,
     comment=[l]{\#},
     commentstyle=\color{clrGreen}\itshape,
@@ -58,10 +58,24 @@
     stringstyle=\color{clrOrange},
 }
 
+\lstdefinelanguage{json}{
+    morestring=[b]",
+    stringstyle=\color{clrOrange},
+    literate=
+        *{0}{{{\color{clrPurple}0}}}{1}
+         {1}{{{\color{clrPurple}1}}}{1}
+         {2}{{{\color{clrPurple}2}}}{1}
+         {3}{{{\color{clrPurple}3}}}{1}
+         {4}{{{\color{clrPurple}4}}}{1}
+         {5}{{{\color{clrPurple}5}}}{1}
+         {:}{{{\color{black}{:}}}}{1}
+         {,}{{{\color{black}{,}}}}{1},
+}
+
 \lstdefinestyle{estiloBase}{
-    backgroundcolor=\color{clrBackground},
+    backgroundcolor=\color{clrBg},
     commentstyle=\color{clrGreen},
-    keywordstyle=\color{blue}\bfseries,
+    keywordstyle=\color{clrBlue}\bfseries,
     numberstyle=\tiny\color{clrGray},
     stringstyle=\color{clrPurple},
     basicstyle=\footnotesize\ttfamily,
@@ -76,24 +90,11 @@
     tabsize=2,
     frame=single,
     rulecolor=\color{black!30},
-    extendedchars=true,
-    inputencoding=utf8,
-    literate=%
-      {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-      {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-      {ñ}{{\~n}}1 {Ñ}{{\~N}}1
-      {ü}{{\"u}}1 {Ü}{{\"U}}1
-      {¿}{{?`}}1 {¡}{{!`}}1,
 }
-
 \lstset{style=estiloBase}
 
-% Comando para código inline
 \newcommand{\code}[1]{\texttt{\small #1}}
 
-% ============================================================
-%  Configuración de hyperref
-% ============================================================
 \hypersetup{
     colorlinks=true,
     linkcolor=blue!70!black,
@@ -106,14 +107,15 @@
 % ============================================================
 \begin{document}
 
-\title{Sistema de Preguntas y Respuestas mediante Web Scraping y Modelos de Lenguaje de Gran Escala: Aplicación a la Fundación Valle del Lili}
+\title{Agente Conversacional con Web Scraping, Recuperación Densa\\
+y Memoria Persistente para Información Institucional Hospitalaria:\\
+Fundación Valle del Lili}
 
 \author{
     \IEEEauthorblockN{%
-        Frank Edward Daza\quad
-        Andrés Fernando López\quad
-        Viviana Valle Fernández\quad
-        Álvaro Julián Barco%
+        Frank Edward Daza González\quad
+        Andrés Fernando López Rendón\quad
+        Viviana Valle Fernández%
     }
     \IEEEauthorblockA{%
         Técnicas Avanzadas de IA Aplicadas en Modelos de Lenguaje\\
@@ -127,1139 +129,936 @@
 % ============================================================
 \begin{abstract}
 % ============================================================
-Este artículo presenta el diseño e implementación de un sistema de
-preguntas y respuestas (\textit{Q\&A}) basado en información obtenida
-mediante \textit{web scraping} aplicado al dominio institucional de la
-Fundación Valle del Lili. En su fase 2, el sistema se organiza en siete
-módulos secuenciales: (1)~extracción automatizada mediante un
-\textit{crawler} de búsqueda en anchura (BFS) que respeta las directivas de
-\code{robots.txt}, con un corpus de 1\,000 páginas HTML descargadas en
-aproximadamente 51 minutos; (2)~conversión a Markdown con \textit{front
-matter} YAML, produciendo 1\,000 documentos en
-\code{data/markdown/valledellili-org/}; (3)~recuperación léxica con el
-algoritmo BM25 Okapi, que selecciona y concatena los tres documentos de
-mayor puntuación como contexto enriquecido; (4)~composición del
-\textit{prompt} con instrucciones anti-alucinación; (5)~generación de
-respuestas con ocho modelos de lenguaje disponibles bajo una interfaz
-uniforme —tres modelos locales en Ollama (\code{llama3.1:8b},
-\code{gemma4:e2b} y \code{gemma4:e4b}) y cinco modelos en la nube por la API
-de OpenAI (\code{gpt-4o}, \code{gpt-4o-mini}, \code{gpt-4-turbo},
-\code{chatgpt-4o-latest} y \code{gpt-3.5-turbo})—; (6)~un backend HTTP
-construido con FastAPI, Uvicorn y \code{sse-starlette} que expone el
-\textit{pipeline} como servicio REST con transmisión \textit{Server-Sent
-Events} (SSE) y un modo dual que consulta Ollama y OpenAI con una sola pasada
-BM25; y (7)~un \textit{frontend} \textit{single page application} (SPA)
-desarrollado en React 19 + Vite 7 + TypeScript, con Tailwind CSS v4 y
-\textit{shadcn/ui}, que renderiza la respuesta en tiempo real y permite
-editar el \textit{prompt} de sistema sin modificar el código fuente. Se
-diseñó un protocolo de evaluación reproducible con 23 preguntas de
-referencia distribuidas en cinco categorías temáticas, con métricas de
-precisión de recuperación, Recall@3, tasa de abstención y latencia media
-por modelo. En una extensión documentada en la Sección~\ref{sec:m2_agente},
-el \textbf{Módulo~2} incorpora un agente conversacional con memoria en
-PostgreSQL, recuperación \textbf{densa exclusiva} en Qdrant (sin BM25 en
-inferencia del producto) y orquestación LangGraph/LangChain/LlamaIndex,
-validado con pruebas E2E reproducibles del repositorio~\cite{e2em2tests,
-doc003m2,decision3m2}.
+Este artículo presenta la segunda fase del sistema de asistencia conversacional
+para la Fundación Valle del Lili, que evoluciona del pipeline RAG léxico (BM25)
+del Módulo~1 hacia un agente conversacional completo con tres componentes
+nucleares: recuperación densa en Qdrant con \textit{embeddings}, memoria
+multi-turno en PostgreSQL y orquestación dinámica con LangGraph. El
+\textit{web scraping} del corpus institucional, descrito en la fase anterior,
+mantiene su función como fuente de verdad textual y alimenta el proceso de
+ingesta hacia el almacén vectorial. El agente orquesta tres herramientas
+complementarias: \code{faq\_estructurada} (respuestas deterministas sobre un
+JSON curado), \code{rag\_denso} (recuperación semántica por similitud coseno
+con diversificación MMR y reranking cruzado opcional) y
+\code{listar\_estructurado} (agregación y conteo por filtros de \textit{payload}
+en Qdrant). La transmisión de la respuesta al cliente se realiza mediante
+eventos SSE extendidos (\textit{pensamiento}, \textit{herramienta},
+\textit{token}, \textit{fuentes}, \textit{final}, \textit{error}).
+La interfaz de usuario se migró de Gradio a una SPA en React~19 con
+Vite~8, TypeScript~6, Tailwind~v4 y shadcn/ui. Se incluye un panel
+administrativo con recarga en caliente de parámetros LLM y RAG sin
+reiniciar el servidor, y una suite de evaluación con métricas nDCG,
+Recall@K, Precision@K y MRR sobre un conjunto de referencia (\textit{golden set}).
 \end{abstract}
 
 \begin{IEEEkeywords}
-recuperación aumentada por generación, BM25, LangGraph, PostgreSQL, Qdrant,
-LlamaIndex, \textit{web scraping}, modelos
-de lenguaje grandes, FastAPI, \textit{Server-Sent Events}, React, Vite,
-Ollama, OpenAI, procesamiento de lenguaje natural, inteligencia artificial
+agente conversacional, recuperación aumentada por generación, LangGraph,
+LlamaIndex, Qdrant, PostgreSQL, FastAPI, SSE, React, \textit{web scraping},
+modelos de lenguaje grandes, inteligencia artificial
 \end{IEEEkeywords}
 
 % ============================================================
 \section{Introducción}
 % ============================================================
 
-La creciente disponibilidad de modelos de lenguaje de gran escala
-(\textit{Large Language Models}, LLM) ha abierto nuevas posibilidades para
-la construcción de sistemas de preguntas y respuestas capaces de interactuar
-en lenguaje natural sobre dominios específicos. Sin embargo, el uso de LLM
-sin restricción sobre el dominio de conocimiento conlleva el fenómeno de
-alucinación: la generación de información plausible pero factualmente
-incorrecta \cite{lewis2020rag}.
+El Módulo~1 del proyecto estableció una base sólida: un corpus textual de 40+
+páginas extraídas de \url{https://valledellili.org/} mediante \textit{web
+scraping}, convertidas a Markdown con metadatos YAML y consultables mediante
+BM25~\cite{robertson2009bm25}. Si bien ese enfoque demostró la viabilidad del
+RAG léxico, presentó limitaciones inherentes: incapacidad para capturar
+similitud semántica, recuperación de un único documento sin diversificación y
+ausencia de memoria conversacional entre turnos.
 
-La Fundación Valle del Lili es una institución hospitalaria de referencia en
-Colombia que dispone de un sitio web institucional con información sobre
-servicios médicos, trámites administrativos, especialidades y datos de
-contacto. Un sistema automatizado de Q\&A sobre esta información reduciría
-la carga en canales de atención al cliente y mejoraría la accesibilidad para
-pacientes y público en general.
+El Módulo~2 supera estas limitaciones mediante una arquitectura de agente
+completo~\cite{lewis2020rag, chase2022langchain} que incorpora: (i)~recuperación
+densa con \textit{embeddings} y similitud coseno en Qdrant~\cite{qdrant2024};
+(ii)~diversificación MMR~\cite{carbonell1998mmr} y reranking con
+\textit{cross-encoder}; (iii)~memoria conversacional multi-turno en
+PostgreSQL~\cite{langchainpostgres}; (iv)~orquestación de flujo con
+LangGraph~\cite{langgraph2024}; y (v)~interfaz SPA moderna con React~19
+y streaming SSE.
 
-Este trabajo propone un \textit{pipeline} RAG completo que aborda el
-problema en fases secuenciales bien delimitadas: adquisición de datos,
-procesamiento documental, recuperación de contexto relevante, generación
-de respuestas, exposición del \textit{pipeline} como servicio HTTP y
-consumo desde una interfaz web moderna. La recuperación se implementa
-mediante el algoritmo BM25 Okapi \cite{robertson2009bm25}, que selecciona
-los tres archivos más relevantes ante cada consulta y los concatena como
-contexto único. Estos documentos se presentan al LLM junto con un
-\textit{prompt} de sistema que restringe la respuesta al dominio del corpus.
-
-La contribución principal de este trabajo consiste en demostrar que es
-posible construir un sistema RAG funcional, trazable y libre de alucinaciones
-inicialmente \textbf{sin} bases de datos vectoriales ni modelos de
-\textit{embedding} en el camino de recuperación BM25 (Módulo~1), lo que
-simplifica el despliegue inicial y reduce requisitos computacionales. En una
-extensión posterior (Módulo~2, Sección~\ref{sec:m2_agente}), el producto
-incorpora recuperación densa en Qdrant y memoria persistente, manteniendo el
-corpus Markdown como fuente de verdad textual. Como contribución adicional
-de la fase 2, el sistema se desacopla en un \textit{backend} HTTP con
-FastAPI + SSE y un \textit{frontend} SPA construido con React 19 + Vite 7 +
-Tailwind CSS v4 + \textit{shadcn/ui}, lo que habilita interfaces de alto
-impacto visual, modo dual de comparación entre modelos locales y en la nube
-en el pipeline BM25, y reutilización del API por scripts de evaluación y por
-los módulos posteriores del curso.
-
-El artículo se organiza de la siguiente manera: la Sección~\ref{sec:arq}
-describe la arquitectura general; las Secciones~\ref{sec:scraping}
-a~\ref{sec:api_ui} detallan cada módulo; la Sección~\ref{sec:m2_agente}
-documenta el agente conversacional del Módulo~2; la Sección~\ref{sec:eval}
-presenta el protocolo de evaluación y los resultados; finalmente, las
-Secciones~\ref{sec:disc} y~\ref{sec:conc} ofrecen la discusión y las
-conclusiones.
+La contribución principal de este trabajo es la demostración de una
+arquitectura de agente conversacional educativamente completa, que integra
+múltiples herramientas heterogéneas bajo un grafo de orquestación unificado,
+con trazabilidad de razonamiento expuesta al usuario final y capacidad de
+ajuste administrativo en tiempo de ejecución sin reiniciar el servidor.
 
 % ============================================================
-\section{Arquitectura del Sistema}
+\section{Arquitectura General del Sistema}
 \label{sec:arq}
 % ============================================================
 
-El sistema sigue una arquitectura de tubería (\textit{pipeline}) secuencial
-dividida en siete módulos funcionales, tal como se ilustra en la
-Figura~\ref{fig:arq}. Cada módulo produce artefactos persistentes que sirven
-como entrada al módulo siguiente, lo que facilita la rejecución parcial del
-\textit{pipeline} ante cambios en el corpus o en los parámetros del sistema.
+La Figura~\ref{fig:arq} muestra los componentes del sistema y sus
+interacciones. El corpus textual, obtenido mediante \textit{web scraping}
+(Módulo~1), fluye hacia Qdrant a través del script de ingesta. En tiempo de
+inferencia, cada petición del usuario pasa por FastAPI, que delega al grafo
+LangGraph, el cual accede a PostgreSQL (memoria) y Qdrant (RAG) según la
+herramienta elegida.
 
 \begin{figure*}[ht]
 \centering
 \begin{tikzpicture}[
-    node distance=0.38cm,
     box/.style={
         rectangle, rounded corners=4pt,
         draw=black!60, fill=blue!7,
-        text width=15.5cm, minimum height=0.80cm,
+        minimum width=3.0cm, minimum height=1.05cm,
+        font=\small\sffamily, align=center, inner sep=5pt
+    },
+    dbase/.style={
+        rectangle, rounded corners=4pt,
+        draw=black!60, fill=green!10,
+        minimum width=2.2cm, minimum height=1.05cm,
+        font=\small\sffamily, align=center, inner sep=5pt
+    },
+    arrow/.style={-Stealth, thick, draw=black!60},
+    dasharrow/.style={-Stealth, thick, draw=black!45, dashed},
+    lbl/.style={font=\tiny\sffamily}
+]
+% ---- Fila superior: pipeline de ingesta (offline) ----
+\node[box] at (0,    2.6) (raw)
+    {\textbf{data/raw/}\\[1pt]\footnotesize HTML + JSON};
+\node[box] at (4.0,  2.6) (md)
+    {\textbf{data/markdown/}\\[1pt]\footnotesize Markdown + YAML};
+\node[box] at (8.2,  2.6) (idx)
+    {\textbf{Ingesta}\\[1pt]\footnotesize chunks + embeddings\\[-2pt]\footnotesize upsert idempotente};
+\node[dbase] at (13.0, 2.6) (qdrant)
+    {\textbf{Qdrant}\\[1pt]\footnotesize v1.18.0};
+
+% ---- Fila inferior: runtime ----
+\node[box] at (0,    0) (fe)
+    {\textbf{Frontend}\\[1pt]\footnotesize React 19 + Vite 8\\[-2pt]\footnotesize SSE client};
+\node[box] at (4.0,  0) (api)
+    {\textbf{FastAPI}\\[1pt]\footnotesize Uvicorn\\[-2pt]\footnotesize SSE + Admin};
+\node[box] at (8.2,  0) (lg)
+    {\textbf{Grafo LangGraph}\\[1pt]\footnotesize 6 nodos secuenciales\\[-2pt]\footnotesize 3 herramientas};
+\node[dbase] at (13.0, 0) (pg)
+    {\textbf{PostgreSQL}\\[1pt]\footnotesize 17.9-alpine};
+
+% ---- Flechas de ingesta ----
+\draw[arrow] (raw) -- node[above,lbl]{scraping} (md);
+\draw[arrow] (md)  -- node[above,lbl]{export}   (idx);
+\draw[arrow] (idx) -- node[above,lbl]{upsert}   (qdrant);
+
+% ---- Flechas de runtime ----
+\draw[arrow]    (fe)  -- node[above,lbl]{POST}  (api);
+\draw[dasharrow](fe.south) -- ++(0,-0.30) -| node[below,lbl,pos=0.25]{SSE} ($(api.south)-(0.4,0)$);
+\draw[arrow]    (api) -- node[above,lbl]{grafo}  (lg);
+\draw[arrow]    (lg)  -- node[above,lbl]{memoria}(pg);
+
+% ---- Flecha LangGraph → Qdrant (vertical entre filas) ----
+\draw[arrow] (lg.north) -- node[right,lbl]{rag\_denso} (qdrant.south);
+
+% ---- Etiqueta admin ----
+\node[lbl,above=0.08cm of api]{\textit{/api/admin}};
+
+\end{tikzpicture}
+\caption{Arquitectura del sistema Módulo~2. El corpus (izquierda) se indexa
+\textit{offline} en Qdrant (fila superior). En inferencia (fila inferior),
+Frontend $\to$ FastAPI $\to$ LangGraph accede a Qdrant (\code{rag\_denso})
+y a PostgreSQL (memoria conversacional).}
+\label{fig:arq}
+\end{figure*}
+
+La Tabla~\ref{tab:stack} resume el \textit{stack} tecnológico empleado.
+
+\begin{table}[ht]
+\centering
+\caption{Stack tecnológico del Módulo 2}
+\label{tab:stack}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Capa} & \textbf{Tecnología} & \textbf{Versión} \\
+\midrule
+Orquestación   & LangGraph                         & 0.2.x      \\
+Tools y memoria& LangChain + langchain-postgres    & 0.3.x      \\
+RAG denso      & LlamaIndex + qdrant-client        & 0.12.x     \\
+Vector store   & Qdrant                            & v1.18.0    \\
+OLTP           & PostgreSQL + SQLAlchemy async     & 17.9 / 2.x \\
+Migraciones    & Alembic                           & 1.13.x     \\
+Backend HTTP   & FastAPI + Uvicorn + sse-starlette & 0.115.x    \\
+Frontend       & React 19 + Vite 8 + TypeScript 6  & —          \\
+UI components  & Tailwind v4 + shadcn/ui           & —          \\
+Streaming UI   & fetch + ReadableStream + Zod      & —          \\
+Contenedores   & Docker Compose                    & —          \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Corpus y Proceso de Ingesta}
+\label{sec:corpus}
+% ============================================================
+
+\subsection{Continuidad con el Módulo 1}
+
+El \textit{web scraping} de \url{https://valledellili.org/} y la conversión a
+Markdown con \textit{front matter} YAML descritos en el Módulo~1 permanecen
+sin cambios. El directorio \code{data/markdown/valledellili-org/} (40+ archivos)
+constituye la fuente de verdad textual del sistema.
+
+\subsection{Ingesta en Qdrant}
+
+El script \code{scripts/indexar\_corpus\_qdrant.py} transforma el corpus textual
+en vectores y los carga en Qdrant mediante el proceso de la
+Figura~\ref{fig:ingesta}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    node distance=0.38cm,
+    box/.style={
+        rectangle, rounded corners=3pt,
+        draw=black!60, fill=blue!7,
+        text width=6.8cm, minimum height=0.72cm,
         font=\small\sffamily, align=center,
         inner sep=4pt
     },
     arrow/.style={-Stealth, thick, draw=black!60}
 ]
-    \node[box] (s1)
-        {\textbf{Módulo 1: Adquisición de Datos}\quad
-         \textit{Crawler BFS $\cdot$ respeto a robots.txt $\cdot$
-         idempotencia SHA-256 $\cdot$ salida: data/raw/}};
-
-    \node[box, below=of s1] (s2)
-        {\textbf{Módulo 2: Conversión Documental}\quad
-         \textit{Limpieza HTML $\cdot$ markdownify $\cdot$
-         front matter YAML $\cdot$ salida: data/markdown/}};
-
-    \node[box, below=of s2] (s3)
-        {\textbf{Módulo 3: Recuperación BM25}\quad
-         \textit{Tokenización sin stopwords $\cdot$
-         índice BM25 Okapi $\cdot$ selección top-3 documentos}};
-
-    \node[box, below=of s3] (s4)
-        {\textbf{Módulo 4: Composición del Prompt}\quad
-         \textit{Prompt de sistema (editable) $\cdot$
-         concatenación de los 3 documentos $\cdot$
-         pregunta del usuario}};
-
-    \node[box, below=of s4] (s5)
-        {\textbf{Módulo 5: Modelos de Lenguaje}\quad
-         \textit{Ollama local (llama3.1:8b, gemma4:e2b, gemma4:e4b) $\cdot$
-         OpenAI API (gpt-4o, gpt-4o-mini, gpt-4-turbo, chatgpt-4o-latest,
-         gpt-3.5-turbo)}};
-
-    \node[box, below=of s5] (s6)
-        {\textbf{Módulo 6: Backend HTTP FastAPI + SSE}\quad
-         \textit{FastAPI + Uvicorn + sse-starlette $\cdot$ REST + SSE
-         token a token $\cdot$ modo dual Ollama + OpenAI}};
-
-    \node[box, below=of s6] (s7)
-        {\textbf{Módulo 7: Frontend SPA React 19 + Vite 7}\quad
-         \textit{Tailwind CSS v4 $\cdot$ shadcn/ui $\cdot$
-         prompt editable $\cdot$ trazabilidad BM25 $\cdot$ modo claro/oscuro}};
-
-    \draw[arrow] (s1) -- (s2);
-    \draw[arrow] (s2) -- (s3);
-    \draw[arrow] (s3) -- (s4);
-    \draw[arrow] (s4) -- (s5);
-    \draw[arrow] (s5) -- (s6);
-    \draw[arrow] (s6) -- (s7);
+    \node[box] (p1)
+        {\textbf{1. Descubrimiento}\quad
+         \textit{glob *.md en data/markdown/}};
+    \node[box,below=of p1] (p2)
+        {\textbf{2. Parseo}\quad
+         \textit{front matter YAML + cuerpo Markdown}};
+    \node[box,below=of p2] (p3)
+        {\textbf{3. Chunking}\quad
+         \textit{SentenceSplitter (chunk=1024, overlap=128)}};
+    \node[box,below=of p3] (p4)
+        {\textbf{4. Enriquecimiento de metadatos}\quad
+         \textit{tipo\_pagina, especialidad, sedes, headings}};
+    \node[box,below=of p4] (p5)
+        {\textbf{5. Embeddings}\quad
+         \textit{texto $\rightarrow$ vector $\rightarrow$ normalización L2}};
+    \node[box,below=of p5] (p6)
+        {\textbf{6. Upsert idempotente en Qdrant}\quad
+         \textit{id = UUID5(SHA-256(chunk\_text))}};
+    \draw[arrow] (p1)--(p2);
+    \draw[arrow] (p2)--(p3);
+    \draw[arrow] (p3)--(p4);
+    \draw[arrow] (p4)--(p5);
+    \draw[arrow] (p5)--(p6);
 \end{tikzpicture}
-\caption{Arquitectura general del \textit{pipeline} RAG en la fase 2. El
-\textit{pipeline} de datos (módulos 1--5) se expone como servicio HTTP
-(módulo 6) y se consume desde una \textit{single page application}
-desacoplada (módulo 7).}
-\label{fig:arq}
-\end{figure*}
-
-La Tabla~\ref{tab:stack} resume las tecnologías empleadas en cada módulo y
-los artefactos que produce.
-
-\begin{table}[ht]
-\centering
-\caption{Stack tecnológico por módulo}
-\label{tab:stack}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Módulo} & \textbf{Tecnología} & \textbf{Artefacto de salida} \\
-\midrule
-Adquisición  & requests, BeautifulSoup4      & HTML + JSON sidecar     \\
-Conversión   & markdownify, PyYAML           & Markdown + front matter \\
-Recuperación & rank-bm25                     & Top-3 documentos        \\
-Prompt       & composición propia            & Lista de mensajes       \\
-LLM          & Ollama, OpenAI SDK            & Texto de respuesta      \\
-Backend      & FastAPI, Uvicorn,             & API REST + eventos SSE  \\
-             & sse-starlette, pydantic-settings &                      \\
-Frontend     & React 19, Vite 7, TypeScript, & SPA web con streaming   \\
-             & Tailwind v4, shadcn/ui,       &                         \\
-             & Vercel AI SDK                 &                         \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textit{Nota}: La interfaz Gradio del MVP fase 1 se conserva como código
-legacy en \code{src/app/legacy/app\_gradio.py}
-\cite{abid2019gradio}; la experiencia oficial del usuario es ahora la SPA
-del módulo 7.
-
-% ============================================================
-\section{Módulo de Adquisición de Datos}
-\label{sec:scraping}
-% ============================================================
-
-\subsection{Diseño del \textit{Crawler}}
-
-El módulo de \textit{scraping} implementa un \textit{crawler} BFS sobre el
-dominio \url{https://valledellili.org/}. La clase \code{Crawler} acepta una
-configuración con los parámetros descritos en la Tabla~\ref{tab:crawler}.
-Los valores corresponden a los efectivamente usados en la última ejecución
-del módulo en la fase 2.
-
-\begin{table}[ht]
-\centering
-\caption{Parámetros de configuración del \textit{crawler} (fase 2)}
-\label{tab:crawler}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Parámetro} & \textbf{Valor utilizado} & \textbf{Descripción} \\
-\midrule
-\code{url\_inicio}      & valledellili.org & URL semilla               \\
-\code{max\_paginas}     & 1\,000           & Páginas máximas a visitar \\
-\code{profundidad\_max} & 8                & Niveles de enlace         \\
-\code{delay\_segundos}  & 1.5\,s           & Pausa entre peticiones    \\
-\code{timeout}          & 30\,s            & Tiempo máximo HTTP        \\
-\code{reintentos}       & 3                & Reintentos ante error     \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Respeto a \texttt{robots.txt} e Idempotencia}
-
-Antes de visitar cualquier URL, el sistema consulta la clase
-\code{GestorRobots}, que carga y analiza el archivo \code{robots.txt} del
-dominio con carga perezosa (\textit{lazy loading}). Si la directiva prohíbe
-el acceso o la lectura falla, el gestor adopta un modo conservador que
-rechaza todas las rutas. El \textit{Crawl-Delay} declarado en
-\code{robots.txt} se respeta si supera el \code{delay\_segundos} configurado.
-
-Para garantizar idempotencia, cada página descargada se persiste junto a un
-archivo \textit{sidecar} JSON que almacena su hash SHA-256. En ejecuciones
-posteriores, si el contenido no ha cambiado, la página se omite sin realizar
-una nueva petición HTTP.
-
-Ante errores transitorios (códigos 5xx o 429), el sistema aplica retroceso
-exponencial con esperas de 1, 2 y 4 segundos entre intentos sucesivos.
-
-\subsection{Salida del Módulo}
-
-Por cada página exitosa, el \textit{crawler} genera en
-\code{data/raw/valledellili-org/} un par de archivos:
-
-\begin{itemize}
-    \item \textbf{HTML}: contenido bruto de la respuesta HTTP.
-    \item \textbf{JSON sidecar}: URL canónica, código de estado, hash SHA-256,
-          profundidad de rastreo y marca de tiempo.
-\end{itemize}
-
-Las descargas se registran de forma acumulativa en
-\code{data/raw/\_log.jsonl}, lo que permite auditar qué URLs se visitaron,
-cuáles se omitieron por \code{robots.txt} o por hash idéntico, y cuáles
-fallaron en red.
-
-\subsection{Resultados de la ejecución}
-\label{subsec:scraping_resultados}
-
-La última ejecución del módulo se invocó con el comando:
-
-\begin{lstlisting}[language=bash, caption={Comando de ejecución del
-\textit{crawler} en la fase 2}, label={lst:scrape_cmd}]
-uv run python -m scripts.scrape \
-  --max-paginas 1000 \
-  --profundidad-maxima 8
-\end{lstlisting}
-
-La Tabla~\ref{tab:scraping_resultados} resume las métricas observadas y
-la Figura~\ref{fig:scraping} muestra la salida resumida del
-\textit{runner} de ejecución. Los 20 errores corresponden a URLs que
-fallaron en red o devolvieron un código HTTP distinto de 200; no
-impidieron completar el lote solicitado de 1\,000 descargas exitosas.
-
-\begin{table}[ht]
-\centering
-\caption{Resultados del \textit{scraping} (corrida fase 2)}
-\label{tab:scraping_resultados}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Métrica} & \textbf{Valor} \\
-\midrule
-Descargas exitosas               & 1\,000 \\
-Omitidas por \code{robots.txt}   & 0      \\
-Omitidas por hash (idempotencia) & 0      \\
-Errores (red o HTTP $\neq 200$)  & 20     \\
-Duración total                   & $\approx 51$ min \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\linewidth]{scraping_resultado_1000.png}
-\caption{Salida del \textit{runner} \code{scripts.scrape} tras la ejecución
-con \code{--max-paginas 1000 --profundidad-maxima 8}: 1\,000 descargas
-exitosas, 0 omitidas por \code{robots.txt} ni por hash, 20 errores y una
-duración aproximada de 51 min.}
-\label{fig:scraping}
+\caption{Pipeline de ingesta: de Markdown a puntos vectoriales en Qdrant.}
+\label{fig:ingesta}
 \end{figure}
 
-% ============================================================
-\section{Módulo de Procesamiento Documental}
-\label{sec:conversion}
-% ============================================================
+La idempotencia se garantiza mediante el identificador de punto:
+\[
+\text{id\_chunk} = \mathrm{UUID5}(\mathcal{N},\; \mathrm{SHA256}(\text{chunk\_text}))
+\]
+donde $\mathcal{N}$ es un \textit{namespace} fijo del proyecto. Un upsert sobre
+un chunk sin cambios solo reescribe el vector y el \textit{payload} con valores
+idénticos, sin duplicar datos.
 
-\subsection{Limpieza del HTML}
+Cada punto en Qdrant almacena en su \textit{payload}: \code{archivo},
+\code{titulo}, \code{source\_url}, \code{tipo\_pagina}, \code{especialidad},
+\code{sedes}, \code{chunk\_index} y un campo \code{texto} con los primeros 500
+caracteres del fragmento.
 
-Antes de la conversión, se elimina el ruido léxico mediante BeautifulSoup4:
-se suprimen los elementos \code{<script>}, \code{<style>}, \code{<nav>},
-\code{<header>}, \code{<footer>}, \code{<iframe>} y los banners de cookies.
-Esta etapa mejora directamente la calidad de la recuperación BM25 al reducir
-términos irrelevantes en el vocabulario del corpus.
+\subsection{Configuración de Embeddings}
 
-\subsection{Conversión a Markdown}
-
-La conversión HTML $\rightarrow$ Markdown se realiza con la biblioteca
-\code{markdownify}~\cite{markdownify}, configurada con encabezados ATX
-(\code{\#}) y viñetas con guion. El resultado se normaliza para eliminar
-saltos de línea consecutivos excesivos (máximo dos seguidos).
-
-\subsection{Front Matter YAML}
-
-Cada archivo Markdown incorpora un bloque de metadatos YAML al inicio:
-
-\begin{lstlisting}[language=yaml, caption={Ejemplo de front matter generado
-automáticamente}, label={lst:fm}]
----
-source_url: https://valledellili.org/atencion-al-paciente/
-titulo: "Atención al Paciente"
-seccion: atencion-al-paciente
-fecha_extraccion: '2026-04-27'
-idioma: es
-hash: a3f2c1d9...
----
-\end{lstlisting}
-
-El campo \code{source\_url} es fundamental para la trazabilidad: se expone
-al usuario junto a cada respuesta generada. El campo \code{hash} permite la
-idempotencia de re-exportaciones.
-
-\subsection{Salida del Módulo}
-
-Los archivos Markdown se almacenan en
-\code{data/markdown/valledellili-org/}. El script \code{export\_markdown.py}
-es idempotente: omite la re-conversión si el hash del HTML coincide con el
-registrado en el Markdown existente, a menos que se invoque con la bandera
-\code{--forzar}.
-
-\subsection{Resultados de la exportación a Markdown}
-\label{subsec:markdown_resultados}
-
-Tras la corrida de \textit{scraping} descrita en la
-Sección~\ref{subsec:scraping_resultados}, el comando:
-
-\begin{lstlisting}[language=bash, caption={Comando de exportación del
-corpus crudo a Markdown}, label={lst:export_cmd}]
-uv run python -m scripts.export_markdown
-\end{lstlisting}
-
-produjo el corpus textual definitivo utilizado por el recuperador BM25.
-La Tabla~\ref{tab:markdown_resultados} resume las métricas observadas y la
-Figura~\ref{fig:markdown} muestra la salida del script. El corpus pasa así
-de los 45 documentos aproximados del MVP fase 1 a 1\,000 documentos
-\code{.md} en \code{data/markdown/valledellili-org/}, cada uno con su
-bloque de \textit{front matter} YAML y su hash SHA-256.
+El sistema soporta dos proveedores de \textit{embeddings} intercambiables
+(Tabla~\ref{tab:emb}), seleccionables mediante la variable
+\code{EMBEDDING\_PROVIDER}.
 
 \begin{table}[ht]
 \centering
-\caption{Resultados de la exportación a Markdown (corrida fase 2)}
-\label{tab:markdown_resultados}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lr@{}}
+\caption{Proveedores de embeddings soportados}
+\label{tab:emb}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}llcc@{}}
 \toprule
-\textbf{Métrica} & \textbf{Valor} \\
+\textbf{Proveedor} & \textbf{Modelo por defecto} & \textbf{Dims} & \textbf{Tipo} \\
 \midrule
-Archivos \code{.md} creados   & 1\,000 \\
-Archivos actualizados         & 0      \\
-Omitidos por hash             & 0      \\
-Errores de conversión         & 0      \\
-Duración total                & $\approx 32$ s \\
+OpenAI      & text-embedding-3-small & 1536 & API (nube)  \\
+HuggingFace & all-MiniLM-L6-v2       & 384  & Local (CPU) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\linewidth]{markdown_export_1000.png}
-\caption{Salida del script \code{scripts.export\_markdown}: 1\,000 archivos
-\code{.md} creados, 0 actualizados, 0 omitidos por hash y 0 errores en una
-duración aproximada de 32 s.}
-\label{fig:markdown}
-\end{figure}
-
 % ============================================================
-\section{Módulo de Recuperación BM25}
-\label{sec:bm25}
+\section{Módulo de Recuperación Densa}
+\label{sec:rag}
 % ============================================================
 
-\subsection{Algoritmo BM25 Okapi}
+\subsection{Similitud Coseno y Búsqueda en Qdrant}
 
-La recuperación de información se basa en el algoritmo BM25
-Okapi~\cite{robertson2009bm25}, una función de puntuación probabilística que
-pondera la frecuencia de los términos de la consulta en cada documento y
-normaliza por la longitud del documento. La puntuación de un documento $D$
-ante una consulta $Q = \{q_1, q_2, \ldots, q_n\}$ se define como:
+La similitud entre el vector de consulta $\mathbf{q}$ y cada vector de documento
+$\mathbf{d}_j$ se calcula como:
 
 \begin{equation}
-\mathrm{BM25}(D,Q)
-= \sum_{i=1}^{n} \mathrm{IDF}(q_i)
-  \cdot \frac{f(q_i,D)\,(k_1+1)}
-             {f(q_i,D) + k_1\!\left(1 - b + b\,\dfrac{|D|}{\overline{dl}}\right)}
-\label{eq:bm25}
+\mathrm{sim}(\mathbf{q}, \mathbf{d}_j)
+= \frac{\mathbf{q} \cdot \mathbf{d}_j}{\|\mathbf{q}\|_2\,\|\mathbf{d}_j\|_2}
+\label{eq:coseno}
 \end{equation}
 
-donde:
-\begin{itemize}
-    \item $f(q_i, D)$: frecuencia del término $q_i$ en el documento $D$.
-    \item $|D|$: longitud del documento en número de tokens.
-    \item $\overline{dl}$: longitud media de los documentos del corpus.
-    \item $k_1 = 1.5$: parámetro de saturación de frecuencia de término.
-    \item $b = 0.75$: parámetro de normalización de longitud.
-    \item $\mathrm{IDF}(q_i)$: frecuencia inversa de documento:
-\end{itemize}
+Los vectores se normalizan a norma unitaria en la ingesta, por lo que la
+búsqueda se reduce a un producto escalar, lo que optimiza el cómputo en Qdrant.
+La clase \code{RecuperadorDenso} (en \code{src/rag/recuperador\_denso.py})
+solicita inicialmente $K_0 = \max(K_\text{ini}, K)$ candidatos
+($K_\text{ini} = 20$ por defecto), que luego se filtran y refinan.
+
+\subsection{Filtro por Umbral y Filtros de Payload}
+
+Tras obtener los candidatos, se descartan los fragmentos cuya similitud no
+alcanza el umbral mínimo:
+\[
+\mathcal{F} = \{(\mathbf{d}_j, s_j) : s_j \geq s_{\min}\}, \quad s_{\min} = 0.25
+\]
+Adicionalmente, la búsqueda puede restringirse a subconjuntos del corpus
+mediante filtros sobre el campo \code{tipo\_pagina} del \textit{payload}
+(e.g.\ \code{["institucional"]}, \code{["sede"]}, \code{["ficha\_medico"]}),
+infiriendo la intención de la consulta con heurísticas de expresión regular.
+
+\subsection{Reranking con Cross-Encoder (Opcional)}
+
+Cuando \code{RAG\_RERANKER\_HABILITADO=true}, los primeros $N_r$ candidatos
+se puntúan con un \textit{cross-encoder} (modelo por defecto:
+\code{BAAI/bge-reranker-base}~\cite{bge2023}):
 
 \begin{equation}
-\mathrm{IDF}(q_i)
-= \log \frac{N - \mathrm{df}(q_i) + 0.5}{\mathrm{df}(q_i) + 0.5}
-\label{eq:idf}
+\text{score\_rerank}(q, d) = \mathrm{CrossEncoder}(q \oplus d)
+\label{eq:rerank}
 \end{equation}
 
-siendo $N$ el total de documentos del corpus y $\mathrm{df}(q_i)$ el número
-de documentos que contienen el término $q_i$.
+donde $\oplus$ denota la concatenación del par consulta-documento. A diferencia
+de los \textit{embeddings} bi-encoder, el \textit{cross-encoder} modela la
+interacción completa entre consulta y documento en una única pasada, produciendo
+puntuaciones más precisas a costa de mayor latencia.
 
-\subsection{Tokenización}
+\subsection{Diversificación MMR}
 
-Antes de indexar el corpus y de procesar cada consulta, los textos se
-someten al siguiente proceso:
+Para evitar fragmentos redundantes en la respuesta, se aplica Maximal Marginal
+Relevance~\cite{carbonell1998mmr}. Dado el conjunto de candidatos $\mathcal{F}$
+y el subconjunto de documentos ya seleccionados $\mathcal{S}$, el siguiente
+fragmento elegido es:
+
+\begin{equation}
+d^* = \underset{d \in \mathcal{F} \setminus \mathcal{S}}{\arg\max}
+\left[
+  \lambda \cdot \mathrm{sim}(d, \mathbf{q})
+  - (1-\lambda) \cdot \max_{d' \in \mathcal{S}} \mathrm{sim}(d, d')
+\right]
+\label{eq:mmr}
+\end{equation}
+
+donde $\lambda \in [0,1]$ equilibra la relevancia respecto a la consulta y la
+diversidad respecto a los documentos ya seleccionados. El valor por defecto
+$\lambda = 0.5$ trata ambos criterios simétricamente.
+
+\subsection{Pipeline Completo de Recuperación}
+
+El orden de aplicación de las etapas de post-proceso es:
 
 \begin{enumerate}
-    \item \textbf{Normalización Unicode}: descomposición NFD y eliminación de
-          marcas combinantes (tildes, diéresis), de modo que, por ejemplo,
-          \textit{médico} se tokeniza igual que \textit{medico}.
-    \item \textbf{Minúsculas}: conversión completa a minúsculas.
-    \item \textbf{Extracción de tokens}: expresión regular \code{\textbackslash w+}
-          sobre texto Unicode.
-    \item \textbf{Filtrado}: se descartan tokens de longitud $< 2$ y los
-          pertenecientes a la lista de \textit{stopwords} del español
-          (\textit{de, la, el, en, y, que, los, las, del, un, una, por, con,
-          para, se, su, es, al, lo, a, o}, entre otras).
+    \item \textbf{Reranker} sobre los primeros $N_r$ candidatos densos (si habilitado).
+    \item \textbf{MMR} sobre el pool resultante (si habilitado).
+    \item \textbf{Top-$K$ final}: se retornan los $K$ fragmentos con mayor puntuación.
 \end{enumerate}
 
-\subsection{Selección de Top-3 Documentos}
-
-A diferencia de los enfoques que recuperan un único documento, este sistema
-selecciona los \textbf{tres documentos con mayor puntuación BM25}. Formalmente,
-dado el conjunto de puntuaciones $\{s_1, s_2, \ldots, s_M\}$ calculadas para
-los $M$ documentos del corpus, se selecciona el subconjunto:
-
-\begin{equation}
-\mathcal{C}
-= \underset{|\mathcal{C}|=3,\; D \in \mathcal{D}}{\arg\max}\;
-  \mathrm{BM25}(D, Q),
-\quad s_j > 0
-\label{eq:top3}
-\end{equation}
-
-Los documentos en $\mathcal{C}$ se ordenan de mayor a menor puntuación y se
-concatenan para conformar el contexto que se envía al LLM. Esta estrategia
-reduce el riesgo de que un único documento no contenga toda la información
-necesaria para responder preguntas que abarcan varias secciones del sitio.
-
-\subsection{Implementación}
-
-El módulo \code{src/retrieval/recuperador.py} implementa la clase
-\code{RecuperadorBm25} usando la biblioteca \code{rank-bm25}~\cite{rankbm25}.
-El índice se construye en memoria al inicializar la clase, cargando todos los
-archivos \code{*.md} del directorio \code{data/markdown/valledellili-org/}.
-Sobre el corpus actual de 1\,000 documentos Markdown, la indexación
-completa se realiza en el arranque del servidor FastAPI en unos pocos
-segundos, lo que permite reindexar bajo demanda a través del endpoint
-\code{POST /api/recargar-corpus} sin reiniciar el servicio. El método
-\code{buscar(pregunta)} retorna una lista de objetos
-\code{DocumentoRecuperado} con los atributos: \code{ruta}, \code{titulo},
-\code{source\_url}, \code{contenido} y \code{score}.
+La salida es un objeto \code{SalidaRecuperacionRagDenso} con dos campos clave:
+\code{respuesta\_contexto} (texto concatenado de los fragmentos, con cabeceras
+de identificación) y \code{fuentes} (lista de \code{FuenteRagDenso} con
+\code{score\_denso}, \code{score\_final} y metadatos de trazabilidad).
 
 % ============================================================
-\section{Integración con Modelos de Lenguaje}
-\label{sec:llm}
+\section{Orquestación con LangGraph}
+\label{sec:langgraph}
 % ============================================================
 
-\subsection{Composición del Prompt}
+\subsection{Estado Compartido}
 
-Una vez recuperados los tres documentos $\mathcal{C} = \{D_1, D_2, D_3\}$,
-el módulo \code{src/qa/prompt.py} construye la lista de mensajes que se
-envía al LLM mediante la función \code{componer\_mensajes()}. El mensaje de
-sistema incluye el \textit{prompt} de sistema y el contexto formado por la
-concatenación de los tres documentos, separados por delimitadores explícitos
-con su puntuación BM25:
-
-\begin{lstlisting}[language=Python,
-    caption={Estructura del mensaje enviado al LLM},
-    label={lst:msgs}]
-[
-  {
-    "role": "system",
-    "content": (
-      "<PROMPT_SISTEMA>\n\n"
-      "=== DOCUMENTO 1 (score: 18.4) ===\n"
-      "<contenido D1>\n\n"
-      "=== DOCUMENTO 2 (score: 12.1) ===\n"
-      "<contenido D2>\n\n"
-      "=== DOCUMENTO 3 (score:  8.7) ===\n"
-      "<contenido D3>\n\n"
-      "Responde usando SOLO el contexto anterior."
-    )
-  },
-  {
-    "role": "user",
-    "content": "<PREGUNTA_DEL_USUARIO>"
-  }
-]
-\end{lstlisting}
-
-\subsection{Prompt de Sistema Anti-Alucinación}
-
-El \textit{prompt} de sistema predeterminado instruye al LLM para que actúe
-como \textit{"Lili"}, asistente virtual de la Fundación Valle del Lili. Las
-directivas fundamentales son:
-
-\begin{itemize}
-    \item Responder \textbf{únicamente} con información presente en el
-          contexto entregado.
-    \item Emitir la frase \textit{"No tengo información suficiente"} si la
-          consulta no puede responderse con el contexto disponible.
-    \item No inventar números de teléfono, correos electrónicos, direcciones
-          ni especialidades médicas.
-    \item Mantener un tono profesional y cálido en español colombiano.
-    \item Limitar la respuesta a seis oraciones (salvo listas o pasos) y
-          estructurarla en Markdown.
-\end{itemize}
-
-Estas restricciones constituyen la estrategia primaria de mitigación de
-alucinaciones, complementada por la restricción de dominio que impone el RAG.
-
-\subsection{Modelos Soportados}
-
-La Tabla~\ref{tab:modelos} describe los ocho modelos integrados en el
-sistema, accesibles desde la interfaz sin modificar el código. Las listas
-se mantienen en \code{src/qa/cliente\_ollama.py}
-(\code{MODELOS\_OLLAMA\_SOPORTADOS}) y en \code{src/qa/cliente\_openai.py}
-(\code{MODELOS\_OPENAI\_SOPORTADOS}); el endpoint
-\code{GET /api/modelos} las expone al \textit{frontend} para poblar el
-selector de modelos.
+El grafo opera sobre un estado tipado \code{EstadoAgente} (TypedDict de
+Python), que actúa como memoria de corto plazo dentro de un turno. Los campos
+clave se muestran en la Tabla~\ref{tab:estado}.
 
 \begin{table}[ht]
 \centering
-\caption{Modelos de lenguaje integrados en el sistema}
-\label{tab:modelos}
-\setlength{\tabcolsep}{4pt}
+\caption{Campos principales del estado del grafo LangGraph}
+\label{tab:estado}
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Modelo} & \textbf{Backend} & \textbf{Acceso} \\
+\textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
 \midrule
-\code{llama3.1:8b}        & Ollama & Local       \\
-\code{gemma4:e2b}         & Ollama & Local       \\
-\code{gemma4:e4b}         & Ollama & Local       \\
-\code{gpt-4o}             & OpenAI & API / nube  \\
-\code{gpt-4o-mini}        & OpenAI & API / nube  \\
-\code{gpt-4-turbo}        & OpenAI & API / nube  \\
-\code{chatgpt-4o-latest}  & OpenAI & API / nube  \\
-\code{gpt-3.5-turbo}      & OpenAI & API / nube  \\
+\code{pregunta}            & \code{str}           & Entrada del usuario \\
+\code{session\_id}         & \code{str}           & ID de sesión canónico \\
+\code{mensajes\_historial} & \code{list[BaseMsg]} & Ventana de memoria \\
+\code{intencion}           & \code{str}           & factual / listado / conteo \\
+\code{tool\_decidida}      & \code{str | None}    & Herramienta elegida \\
+\code{resultado\_tool}     & \code{dict}          & Salida de la herramienta \\
+\code{fuentes}             & \code{list[dict]}    & Chunks RAG (si aplica) \\
+\code{pensamientos}        & \code{list[dict]}    & Traza del router (SSE) \\
+\code{respuesta\_final}    & \code{str}           & Texto del compositor \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsubsection{Modelos Locales con Ollama}
+El campo \code{pensamientos} usa el \textit{reducer} \code{operator.add}, que
+agrega (en lugar de sobreescribir) los eventos de razonamiento producidos por
+cada nodo, permitiendo transmitirlos progresivamente al cliente.
 
-\code{llama3.1:8b}~\cite{touvron2023llama} y las variantes
-\code{gemma4:e2b} y \code{gemma4:e4b}~\cite{team2024gemma} se ejecutan
-localmente mediante Ollama~\cite{ollama}, que expone una API REST en
-\code{http://localhost:11434}. El cliente \code{ClienteOllama} realiza
-peticiones \code{POST /api/chat} con \code{temperature = 0.2} y una
-ventana de contexto configurable por la variable \code{OLLAMA\_NUM\_CTX}
-(acotada al rango $[1\,024, 16\,384]$, con valor por defecto de 8\,192
-tokens). Ante errores de conexión (\code{OllamaNoAccesibleError}) o modelo
-no disponible (\code{ModeloNoDisponibleError}), el mensaje se propaga al
-frontend como evento SSE \code{\{"tipo":"error"\}} y se muestra al
-usuario en un \textit{toast} con la causa probable y la acción correctiva.
+\subsection{Nodos y Flujo del Grafo}
 
-\subsubsection{Modelos en la Nube con OpenAI}
-
-El cliente \code{src/qa/cliente\_openai.py} acepta cinco identificadores
-válidos para el parámetro \code{model} de \code{chat.completions}:
-\code{gpt-4o}~\cite{openai2024gpt4o}, \code{gpt-4o-mini},
-\code{gpt-4-turbo}, \code{chatgpt-4o-latest} y \code{gpt-3.5-turbo}. La
-selección se hace en tiempo de ejecución desde el \textit{frontend} sin
-modificar el código. La clave de autenticación se configura con la variable
-de entorno \code{OPENAI\_API\_KEY} en el archivo \code{.env}, leída con
-\code{pydantic-settings}. El acceso se realiza mediante la API oficial de
-OpenAI~\cite{openai2024api}.
-
-Ante errores HTTP 429 (\code{RateLimitError}), el cliente aplica hasta tres
-reintentos con \textit{backoff} que respeta el encabezado \code{Retry-After}
-si la respuesta lo expone; en ausencia de dicho encabezado, usa una espera
-exponencial acotada. Otros errores de autorización o facturación
-(\code{AuthenticationError}, \code{PermissionDeniedError}) se traducen a
-mensajes explícitos en español que el frontend renderiza en un
-\textit{toast} de error. El cliente implementa la misma interfaz que
-\code{ClienteOllama}, lo que permite al \code{PipelineQa} orquestar ambos
-\textit{backends} de forma uniforme, incluyendo el modo dual descrito en
-la Sección~\ref{sec:api_ui}.
-
-% ============================================================
-\section{Backend HTTP FastAPI + SSE y Frontend React 19}
-\label{sec:api_ui}
-% ============================================================
-
-En la fase 2 del proyecto, la interfaz monolítica Gradio del MVP se
-reemplazó por una arquitectura cliente-servidor de dos capas: un
-\textit{backend} HTTP en \code{src/api/} que expone el \code{PipelineQa}
-como servicio REST con \textit{streaming} SSE, y un \textit{frontend}
-\textit{single page application} desarrollado en \code{frontend/}. Esta
-separación, discutida con mayor detalle en~\cite{decision_fvl_fase2}, permite
-reutilizar el API desde \textit{scripts} de evaluación, cuadernos de
-experimentación y el agente conversacional del Módulo~2 sin acoplarse a la
-capa de presentación.
-
-\subsection{Backend HTTP FastAPI}
-
-El \textit{backend} se construye con FastAPI~\cite{fastapi},
-Uvicorn~\cite{uvicorn} como servidor ASGI y
-\code{sse-starlette}~\cite{ssestarlette} para los endpoints de
-\textit{streaming}. La configuración se carga desde \code{.env} con
-\code{pydantic-settings}, incluyendo las variables \code{ALLOWED\_ORIGINS}
-(dominios permitidos en \code{CORSMiddleware}) y \code{OPENAI\_API\_KEY}.
-
-Al arrancar la aplicación, un \textit{context manager} de ciclo de vida
-instancia una única vez el \code{PipelineQa}, lo que evita reconstruir el
-índice BM25 en cada petición. Las dependencias HTTP acceden al pipeline
-mediante \code{Depends(obtener\_pipeline)}. Los mensajes de error se
-traducen a códigos HTTP estándar con cuerpos JSON tipados por modelos
-Pydantic v2. La Tabla~\ref{tab:endpoints} resume los endpoints disponibles.
-
-\begin{table}[ht]
-\centering
-\caption{Endpoints HTTP expuestos por \code{src/api/}}
-\label{tab:endpoints}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Método} & \textbf{Ruta} & \textbf{Descripción} \\
-\midrule
-GET  & \code{/api/salud}          & \textit{Health check}              \\
-GET  & \code{/api/modelos}        & Modelos Ollama y OpenAI disponibles \\
-GET  & \code{/api/prompt-defecto} & \textit{Prompt} de sistema por defecto \\
-POST & \code{/api/recargar-corpus}& Reindexa BM25 desde disco          \\
-POST & \code{/api/qa}             & Respuesta sincrónica               \\
-POST & \code{/api/qa/stream}      & \textit{Streaming} SSE (un motor)  \\
-POST & \code{/api/qa/dual/stream} & \textit{Streaming} SSE modo dual   \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Streaming SSE Token a Token}
-
-Los endpoints de \textit{streaming} devuelven una secuencia de eventos
-\textit{Server-Sent Events} con el campo \code{data} serializado en JSON.
-Cada evento declara un campo \code{tipo} (\code{token}, \code{final},
-\code{fuentes} o \code{error}) y, en los casos aplicables, un campo
-\code{motor} que identifica si proviene de Ollama o de OpenAI. El servidor
-emite además comentarios SSE \code{: keepalive} cada quince segundos para
-mantener viva la conexión a través de \textit{proxies} intermediarios.
-
-\begin{lstlisting}[caption={Ejemplo simplificado de flujo SSE emitido
-por \code{POST /api/qa/stream}}, label={lst:sse_flow}]
-data: {"tipo": "token", "motor": "ollama", "texto": "La "}
-data: {"tipo": "token", "motor": "ollama", "texto": "Fundacion "}
-...
-data: {"tipo": "final", "motor": "ollama",
-       "texto": "...", "latencia_ms": 1823}
-data: {"tipo": "fuentes", "fuentes": [...]}
-: keepalive
-\end{lstlisting}
-
-En el navegador, el objeto \code{EventSource} nativo no permite enviar
-peticiones \code{POST} con cuerpo JSON; por esta razón, el \textit{frontend}
-implementa un cliente propio basado en \code{fetch} combinado con
-\code{ReadableStream} y \code{TextDecoderStream}. Este patrón mantiene la
-semántica SSE y a la vez soporta cuerpos de petición arbitrarios.
-
-\subsection{Modo Dual Ollama + OpenAI}
-
-El modo dual, gatillado cuando el usuario activa simultáneamente ambos
-\textit{backends}, se resuelve con una única invocación a
-\code{preparar\_contexto\_inferencia(pregunta, prompt)} que construye los
-mensajes una sola vez a partir del top-3 BM25. El endpoint
-\code{POST /api/qa/dual/stream} reutiliza ese contexto y emite primero
-todos los eventos con \code{motor:"ollama"} y, a continuación, todos los
-eventos con \code{motor:"openai"}. Esto evita duplicar el costo de la
-recuperación BM25 y entrega al usuario dos respuestas independientes que
-comparten exactamente las mismas fuentes. El \textit{frontend} renderiza
-ambas en el componente \code{DualResponseView}, con dos columnas
-independientes y una zona de fuentes compartida.
-
-\subsection{Frontend React 19 + Vite 7}
-
-El \textit{frontend} vive en la carpeta \code{frontend/} y se compone de
-React 19~\cite{react19} servido por Vite 7~\cite{vite} con TypeScript en
-modo estricto. La gestión del paquete usa \code{pnpm}. Los estilos se
-implementan con Tailwind CSS v4~\cite{tailwindv4} a través del plugin
-oficial para Vite. Los componentes de interfaz se construyen sobre
-\textit{shadcn/ui}~\cite{shadcnui} (Radix UI + \code{lucide-react}), lo que
-facilita accesibilidad ARIA de forma nativa. La integración con el
-\textit{streaming} SSE se apoya en Vercel AI SDK~\cite{vercelaisdk} con un
-\textit{transport} personalizado que consume nuestro propio endpoint.
-
-El sistema de diseño adopta tokens CSS alineados a la identidad
-institucional de la Fundación Valle del Lili: morado primario
-\code{\#6B21A8}, teal complementario \code{\#0D9488} y un par de fondos
-claro/oscuro gestionados por \code{next-themes} con persistencia en
-\code{localStorage}. La tipografía usa Inter para cuerpo y JetBrains Mono
-para código. El \textit{runtime} de datos emplea
-\code{@tanstack/react-query v5} para cachear \code{GET /api/modelos} y
-\code{GET /api/prompt-defecto}, \code{react-markdown} con
-\code{remark-gfm} y \code{shiki} para render de Markdown enriquecido con
-resaltado de sintaxis, y \code{sonner} para notificaciones tipo
-\textit{toast}. La Tabla~\ref{tab:ui} resume las vistas principales.
-
-\begin{table}[ht]
-\centering
-\caption{Vistas React principales del \textit{frontend}}
-\label{tab:ui}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lp{0.55\columnwidth}@{}}
-\toprule
-\textbf{Vista}           & \textbf{Función} \\
-\midrule
-\code{AppShell}          & Encabezado, barra lateral colapsable, área principal y conmutador de tema \\
-\code{Chat}              & Orquesta llamadas SSE y estado de la conversación \\
-\code{MessageBubble}     & Render Markdown con \code{shiki} y \textit{auto-scroll} \\
-\code{DualResponseView}  & Dos columnas Ollama $\mid$ OpenAI con la misma pregunta \\
-\code{SourcesPanel}      & \textit{Cards} con título, URL y \textit{score} BM25 \\
-\code{SettingsPanel}     & Toggles de motor, selectores de modelo, \textit{sliders} y editor de \textit{prompt} de sistema \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Prompt de Sistema Editable y Trazabilidad}
-
-La SPA conserva las dos funcionalidades diferenciales heredadas del MVP:
-
-\begin{itemize}
-    \item \textbf{Prompt de sistema editable}: el componente
-          \code{SystemPromptEditor} permite modificar en caliente las
-          instrucciones anti-alucinación sin reiniciar el servicio. Un
-          botón restaura el \textit{prompt} de fábrica consumido desde
-          \code{GET /api/prompt-defecto}.
-    \item \textbf{Trazabilidad BM25}: al recibir el evento
-          \code{\{"tipo":"fuentes"\}}, la SPA renderiza en
-          \code{SourcesPanel} los tres documentos recuperados con su
-          título, su \code{source\_url} clicable y su puntuación BM25. El
-          evento \code{\{"tipo":"final"\}} añade la latencia total en
-          milisegundos y el identificador del modelo empleado, lo que
-          permite al usuario auditar de qué fuentes proviene la
-          respuesta.
-\end{itemize}
-
-Mientras la respuesta está en curso, el botón de enviar se deshabilita y
-el área de mensaje muestra un \textit{skeleton loader} que se reemplaza
-por el texto final al recibir el evento \code{\{"tipo":"final"\}} del
-motor correspondiente. En caso de error (por ejemplo, Ollama no
-accesible o cuota de OpenAI agotada) se emite un evento
-\code{\{"tipo":"error"\}} que se traduce en un \textit{toast} explicativo
-con la causa probable y la acción sugerida.
-
-\subsection{Despliegue y Comandos Canónicos}
-
-En desarrollo, el \textit{backend} corre con
-\code{uv run uvicorn src.api.main:app --reload --port 8000} y el
-\textit{frontend} con \code{pnpm --dir frontend dev} en el puerto 5173;
-Vite enruta todas las peticiones \code{/api} al puerto 8000 mediante su
-\textit{proxy} de desarrollo. En producción, \code{pnpm --dir frontend
-build} genera \code{frontend/dist/}, que FastAPI sirve como
-\code{StaticFiles} desde el mismo proceso.
-
-% ============================================================
-\section{Módulo 2: agente conversacional}
-\label{sec:m2_agente}
-% ============================================================
-
-Además del pipeline de preguntas y respuestas con BM25 descrito en las
-secciones anteriores, el repositorio incorpora un \textit{agente
-conversacional} de referencia para el curso (Módulo~2): el usuario se
-identifica con \code{POST /api/sesiones}, el chat consume
-\code{POST /api/agente/stream} con \textit{Server-Sent Events} extendidos y
-el servidor orquesta un grafo \textbf{LangGraph} con \textit{tool-calling}
-sobre \textbf{PostgreSQL} (memoria e identidad) y \textbf{Qdrant} (vectores
-del corpus). La guía operativa y los escenarios de prueba están en la
-documentación interna~\cite{doc003m2}; el registro de decisión del stack y
-sus consecuencias se encuentra en~\cite{decision3m2}.
+El grafo contiene seis nodos secuenciales sin aristas condicionales
+explícitas. Las decisiones de ramificación se toman dentro de cada nodo
+mediante lógica condicional interna. La Figura~\ref{fig:grafo} muestra el
+flujo completo.
 
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}[
-    node distance=0.35cm and 0.45cm,
-    box/.style={rectangle, rounded corners=3pt, draw=black!55,
-        fill=purple!6, font=\scriptsize\sffamily, inner sep=2.6pt, align=center,
-        minimum height=0.68cm, minimum width=2.05cm},
-    arr/.style={-Stealth, thick, draw=black!55}
+    node distance=0.36cm,
+    nodo/.style={
+        rectangle, rounded corners=3pt,
+        draw=black!60, fill=orange!10,
+        text width=7.0cm, minimum height=0.68cm,
+        font=\small\sffamily, align=center,
+        inner sep=4pt
+    },
+    arrow/.style={-Stealth, thick, draw=black!60}
 ]
-    \node[box] (fe) {SPA React\\SSE};
-    \node[box, right=of fe] (api) {FastAPI};
-    \node[box, right=of api] (rg) {LangGraph};
-    \node[box, below=of rg] (mem) {PostgreSQL};
-    \node[box, right=of mem] (qd) {Qdrant};
-    \draw[arr] (fe) -- (api);
-    \draw[arr] (api) -- (rg);
-    \draw[arr] (rg) -- (mem);
-    \draw[arr] (rg) -- (qd);
+    \node[nodo] (n1)
+        {\textbf{N1: cargar\_memoria}\quad
+         \textit{Ventana PostgreSQL (días + turnos)}};
+    \node[nodo,below=of n1] (n2)
+        {\textbf{N2: inferir\_intencion}\quad
+         \textit{Regex puro: factual / listado / conteo}};
+    \node[nodo,below=of n2] (n3)
+        {\textbf{N3: decidir\_tool}\quad
+         \textit{Heurística O LLM router + bind\_tools}};
+    \node[nodo,below=of n3] (n4)
+        {\textbf{N4: ejecutar\_tool}\quad
+         \textit{faq\_estructurada / rag\_denso / listar\_estructurado}};
+    \node[nodo,below=of n4] (n5)
+        {\textbf{N5: componer\_respuesta}\quad
+         \textit{LLM compositor con contexto + historial}};
+    \node[nodo,below=of n5] (n6)
+        {\textbf{N6: persistir\_turno}\quad
+         \textit{INSERT HumanMessage + AIMessage en chat\_history}};
+    \draw[arrow] (n1)--(n2);
+    \draw[arrow] (n2)--(n3);
+    \draw[arrow] (n3)--(n4);
+    \draw[arrow] (n4)--(n5);
+    \draw[arrow] (n5)--(n6);
 \end{tikzpicture}
-\caption{Referencia de despliegue del Módulo~2: cliente web con SSE, API
-FastAPI, grafo de enrutamiento y almacenes PostgreSQL (OLTP y memoria) y
-Qdrant (vectores del corpus indexado).}
-\label{fig:m2_arq}
+\caption{Grafo LangGraph del agente: seis nodos secuenciales. Las decisiones
+de herramienta se toman dentro del nodo N3 y el fallback a RAG desde
+N4 si el listado no retorna resultados.}
+\label{fig:grafo}
 \end{figure}
 
-La Figura~\ref{fig:m2_arq} resume la separación de responsabilidades
-aprobada en~\cite{decision3m2}: el texto canónico permanece en Markdown bajo
-\code{data/markdown/}, pero la inferencia del agente \textbf{no} usa BM25
-como recuperador en el producto M2; solo \textbf{similitud densa} sobre
-vectores en Qdrant, con ingesta previa idempotente mediante
-\code{scripts.indexar\_corpus\_qdrant}.
+\subsubsection{Nodo N1 — cargar\_memoria}
+Carga la ventana de historial del usuario desde PostgreSQL filtrando por fecha
+(\code{HISTORIAL\_DIAS\_MAX}, defecto 7 días) y número de turnos
+(\code{HISTORIAL\_TURNOS\_MAX}, defecto 20), usando
+\code{PostgresChatMessageHistory} de langchain-postgres.
 
-\subsection{Diseño de herramientas y memoria}
+\subsubsection{Nodo N2 — inferir\_intencion}
+Clasifica la consulta sin invocar al LLM mediante expresiones regulares:
+\begin{itemize}
+    \item \textbf{conteo}: patrones como \textit{``cuántos'', ``cantidad de''}.
+    \item \textbf{listado}: patrones como \textit{``lista'', ``enumera''}.
+    \item \textbf{factual}: caso por defecto (resto de consultas).
+\end{itemize}
+Esta clasificación local reduce la latencia en rutas predecibles a menos de 1\,ms.
 
-La herramienta \code{faq\_estructurada} consulta \code{data/structured/faqs.json}
-(validado con esquema JSON) para respuestas deterministas en datos
-tabulares (horarios, PBX, identificación tributaria). La herramienta
-\code{rag\_denso} ejecuta recuperación semántica con LlamaIndex y el cliente
-\texttt{qdrant-client}. La memoria conversacional persiste con
-\texttt{PostgresChatMessageHistory} de \texttt{langchain-postgres}; el
-contexto inyectado respeta una ventana temporal configurable
-(\code{HISTORIAL\_DIAS\_MAX}, valor por defecto siete días) y un tope de
-turnos (\code{HISTORIAL\_TURNOS\_MAX}).
+\subsubsection{Nodo N3 — decidir\_tool}
+Si la intención es \textit{listado} o \textit{conteo}, extrae filtros de
+\textit{payload} mediante heurísticas (especialidades, sedes, tipo de página)
+y genera directamente el \textit{tool call} a \code{listar\_estructurado} sin
+consultar al LLM. En caso contrario, invoca al LLM router con
+\code{bind\_tools} sobre las definiciones de herramientas del meta-prompt.
+El \textit{fallback} predeterminado cuando el router no emite
+\textit{tool\_calls} es \code{rag\_denso}.
 
-\subsection{Recuperación densa frente a BM25 e híbridos}
+\subsubsection{Nodo N4 — ejecutar\_tool}
+Invoca la herramienta decidida y captura su salida. Si
+\code{listar\_estructurado} retorna \code{conteo = 0}, se ejecuta un
+\textit{fallback} automático a \code{rag\_denso} con la pregunta original,
+garantizando que el usuario reciba siempre una respuesta contextualizada.
 
-La decisión arquitectónica descarta BM25, fusión híbrida y RRF en el
-\textit{runtime} del producto M2~\cite{decision3m2}. Entre los motivos
-figuran un único flujo de recuperación (menos acople sparse/denso),
-ausencia de ajuste de pesos híbridos en producción y retiro de dependencias
-léxicas del camino caliente del agente. El BM25 de la Sección~\ref{sec:bm25}
-conserva valor como línea base histórica y como motor del protocolo de
-evaluación documentado (\code{scripts/evaluar\_qa.py}), no como recuperador
-del Módulo~2.
+\subsubsection{Nodo N5 — componer\_respuesta}
+Construye el mensaje al LLM compositor con: instrucciones institucionales,
+nombre del usuario (trato personalizado), historial previo y el contexto
+JSON serializado de la herramienta. La respuesta se transmite en
+\textit{streaming} token a token al cliente.
 
-\subsection{Validación automatizada (E2E)}
+\subsubsection{Nodo N6 — persistir\_turno}
+Almacena el par pregunta-respuesta en \code{chat\_history} (PostgreSQL) con
+metadatos de la herramienta utilizada y las fuentes RAG si aplican.
 
-La tarea interna TASK-61 consolidó una suite reproducible en
-\code{tests/e2e/test\_escenarios\_modulo2.py} con cuatro escenarios del PDF
-de la actividad: (a)~RAG denso con verificación de fuentes o metadatos
-coherentes; (b)~memoria en dos turnos; (c)~FAQ estructurada; (d)~sesión mixta
-con más de una herramienta~\cite{e2em2tests}. Con \code{MOCK\_LLM=1} en el
-servidor, el router y el compositor se vuelven deterministas y se emplean
-tokens \code{e2e7001}, \code{e2e7002} y \code{e2e7003} en el texto de la
-pregunta para forzar \code{rag\_denso}, \code{faq\_estructurada} y
-continuación de diálogo sin llamadas reales a OpenAI. El endpoint
-\code{GET /api/salud} expone \code{agente\_mock\_llm} para comprobar el modo
-laboratorio.
+% ============================================================
+\section{Las Tres Herramientas del Agente}
+\label{sec:tools}
+% ============================================================
 
-La Tabla~\ref{tab:e2e_m2} resume los escenarios; los tests se omiten con
-mensaje explícito cuando faltan servicios o la variable
-\code{EJECUTAR\_E2E\_MODULO2} no está definida.
+\subsection{FAQ Estructurada}
+
+La herramienta \code{faq\_estructurada} responde consultas frecuentes sin
+necesidad de LLM ni de Qdrant, con latencia inferior a 5\,ms. Cada entrada
+del archivo \code{data/structured/faqs.json} contiene: \code{id},
+\code{intent}, \code{keywords}, \code{pregunta\_canonica} y \code{respuesta}.
+
+La función de puntuación combina dos señales:
+
+\[
+s_\text{kw} = \frac{|\{k \in \text{keywords} : \text{tokens}(k) \subseteq \text{tokens}(q)\}|}{|\text{keywords}|}
+\]
+\[
+s_\text{can} = \frac{|\text{tokens}(p_c) \cap \text{tokens}(q)|}{|\text{tokens}(p_c)|}
+\]
+\[
+s_\text{efec} = \max(s_\text{kw},\; s_\text{can})
+\]
+
+donde $q$ es la consulta, $p_c$ es la pregunta canónica y los tokens se
+normalizan (NFKD + minúsculas, sin stopwords). Si $s_\text{efec} \geq
+\tau_\text{faq}$ (umbral por defecto $= 0.6$), se retorna la respuesta
+asociada; en caso contrario el router elige otra herramienta.
+
+Un mecanismo de caché basado en \code{mtime} del archivo JSON permite
+actualizar las FAQs sin reiniciar el servidor.
+
+\subsection{RAG Denso}
+
+Implementa el pipeline de recuperación descrito en la Sección~\ref{sec:rag}.
+La herramienta acepta los parámetros \code{consulta},
+\code{filtros\_tipo\_pagina} (opcionales) y parámetros RAG inyectados desde
+el \code{RuntimeAgenteBundle}. El contexto retornado es un bloque de texto con
+fragmentos delimitados y sus fuentes.
+
+\subsection{Listar Estructurado}
+
+Realiza un \textit{scroll} sobre el \textit{payload} de Qdrant con filtros
+exactos (\code{tipo\_pagina}, \code{especialidad}, \code{sedes}), sin computar
+similitud vectorial. Esto permite responder preguntas de agregación como
+\textit{``¿cuántos pediatras tienen en Cali?''} con el conteo exacto de puntos
+que cumplen los filtros, en lugar de aproximaciones semánticas. La salida
+incluye los campos \code{conteo}, \code{items} (lista de registros
+deduplicados), \code{muestra\_truncada} y \code{filtros\_aplicados}.
+
+La Tabla~\ref{tab:tools} compara las tres herramientas.
 
 \begin{table}[ht]
 \centering
-\caption{Escenarios E2E del Módulo~2 (resumen TASK-61)}
-\label{tab:e2e_m2}
+\caption{Comparación de las tres herramientas del agente}
+\label{tab:tools}
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}cp{0.62\columnwidth}@{}}
+\footnotesize
+\begin{tabular}{@{}llccp{1.5cm}@{}}
 \toprule
-\textbf{ID} & \textbf{Objetivo de la prueba automatizada} \\
+\textbf{Herramienta} & \textbf{Backend} & \textbf{LLM} & \textbf{Latencia} & \textbf{Caso de uso} \\
 \midrule
-(a) & Forzar \code{rag\_denso} y validar eventos de fuentes o coherencia de metadatos. \\
-(b) & Segundo turno con referencia al primero (\code{e2e7003} en modo mock). \\
-(c) & Datos de contacto u horarios vía \code{faq\_estructurada} (\code{e2e7002}). \\
-(d) & Conversación en un mismo \code{session\_id} alternando intenciones. \\
+\code{faq\_estr.}          & JSON curado   & No & $<$5\,ms    & Preguntas frecuentes \\
+\code{rag\_denso}          & Qdrant        & No & 50--300\,ms & Búsqueda semántica   \\
+\code{listar\_estr.}       & Qdrant scroll & No & 30--200\,ms & Conteo y listados    \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+% ============================================================
+\section{Memoria Conversacional en PostgreSQL}
+\label{sec:memoria}
+% ============================================================
+
+\subsection{Esquema de Base de Datos}
+
+El sistema mantiene tres tablas en PostgreSQL administradas con SQLAlchemy 2
+async y Alembic. La Tabla~\ref{tab:db} resume su propósito.
+
+\begin{table}[ht]
+\centering
+\caption{Tablas OLTP del sistema}
+\label{tab:db}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Tabla} & \textbf{Gestión} & \textbf{Propósito} \\
+\midrule
+\code{usuarios}        & Alembic   & Registro de usuarios con UUID \\
+\code{chat\_history}   & LangChain & Historial de mensajes por sesión \\
+\code{config\_admin\_m2} & Alembic & Configuración hot-reload (singleton) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Transcripción anónima de eventos SSE}
+La tabla \code{usuarios} almacena \code{id} (UUID), \code{documento\_identidad}
+(único), \code{nombre} y marcas de tiempo. La tabla \code{chat\_history} es
+creada en \textit{runtime} por \code{PostgresChatMessageHistory.create\_tables}
+y almacena cada mensaje como un objeto JSONB con tipo, contenido y metadatos
+(herramienta usada, fuentes RAG).
 
-El listado~\ref{lst:sse_m2} muestra la forma de los eventos (payloads
-abreviados, sin datos personales). Los tipos \code{pensamiento} y
-\code{herramienta} habilitan trazabilidad del router en la interfaz.
+\subsection{Ventana de Memoria y Control Optimista}
 
-\begin{lstlisting}[caption={Secuencia SSE ilustrativa del agente (campos
-abreviados)}, label={lst:sse_m2}]
-data: {"tipo":"pensamiento","herramienta_candidata":"rag_denso"}
-data: {"tipo":"herramienta","nombre":"rag_denso"}
-data: {"tipo":"token","texto":"La "}
-data: {"tipo":"fuentes","fragmentos":[{"texto":"...","score":0.41}]}
-data: {"tipo":"final","latencia_ms":842}
+La ventana de memoria se configura con dos parámetros independientes:
+\code{HISTORIAL\_DIAS\_MAX} (defecto 7 días) y \code{HISTORIAL\_TURNOS\_MAX}
+(defecto 20 turnos). Ambas restricciones se aplican en la misma consulta SQL,
+garantizando que el contexto de historial no desborde la ventana del LLM.
+
+La tabla \code{config\_admin\_m2} implementa \textit{locking} optimista
+mediante un campo \code{version}: el endpoint \code{PATCH /api/admin/config}
+solo actualiza si la versión recibida coincide con la almacenada, retornando
+HTTP~409 en caso de conflicto.
+
+% ============================================================
+\section{API HTTP y Protocolo SSE}
+\label{sec:api}
+% ============================================================
+
+\subsection{Autenticación Liviana}
+
+El endpoint \code{POST /api/sesiones} recibe \code{documento\_identidad} y
+\code{nombre}, crea o recupera el registro en \code{usuarios}, y emite una
+cookie HTTP-only con el \code{session\_id} (\code{user:\{uuid\}}). Las
+peticiones posteriores se autentican mediante la cookie, la cabecera
+\code{X-Session-Id} o el parámetro \code{session\_id} (en ese orden de
+precedencia).
+
+\subsection{Streaming SSE Extendido}
+
+El endpoint \code{POST /api/agente/stream} retorna un \code{EventSourceResponse}
+con seis tipos de eventos (Tabla~\ref{tab:sse}). El cliente React los procesa
+progresivamente: primero muestra el razonamiento del router (\textit{pensamiento}),
+luego los metadatos de la herramienta ejecutada (\textit{herramienta}), seguido
+de los tokens del compositor en tiempo real (\textit{token}), las fuentes RAG
+(\textit{fuentes}, si aplica) y finalmente el evento de cierre (\textit{final}).
+
+\begin{table}[ht]
+\centering
+\caption{Eventos SSE del agente conversacional}
+\label{tab:sse}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Evento} & \textbf{Cuándo se emite} & \textbf{Payload clave} \\
+\midrule
+\textit{pensamiento} & Tras N3 (decidir\_tool)    & herramienta\_candidata, razón \\
+\textit{herramienta} & Tras N4 (ejecutar\_tool)   & nombre, latencia\_ms, resultados \\
+\textit{token}       & Por cada token del N5      & motor, texto \\
+\textit{fuentes}     & Si RAG retorna chunks       & lista de FuenteRagDenso \\
+\textit{final}       & Al finalizar N6             & texto, latencia\_ms, modelo \\
+\textit{error}       & Si excepción en el grafo    & código, mensaje \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Un \textit{watchdog} asíncrono monitorea la desconexión del cliente cada
+250\,ms y aborta el streaming si este se desconecta, evitando cómputo
+innecesario en el servidor.
+
+\subsection{Panel Administrativo y Hot-Reload}
+
+El router \code{/api/admin} (protegido por la cabecera \code{X-Admin-Key})
+expone los endpoints de la Tabla~\ref{tab:admin}. El mecanismo de
+\textit{hot-reload} funciona así: el endpoint \code{PATCH /api/admin/config}
+actualiza la tabla \code{config\_admin\_m2}; la siguiente petición SSE lee la
+configuración actualizada y reconstruye el \code{RuntimeAgenteBundle} sin
+reiniciar Uvicorn. Los parámetros ajustables incluyen: modelo LLM del router y
+compositor, temperatura, top-p, parámetros RAG (top-k, score mínimo, MMR,
+reranker) y los prompts institucionales.
+
+\begin{table}[ht]
+\centering
+\caption{Endpoints del panel administrativo}
+\label{tab:admin}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Método} & \textbf{Ruta} & \textbf{Acción} \\
+\midrule
+GET   & \code{/api/admin/config}    & Configuración efectiva fusionada \\
+PATCH & \code{/api/admin/config}    & Actualización parcial (hot-reload) \\
+GET   & \code{/api/admin/usuarios}  & Listado paginado (doc\_id enmascarado) \\
+GET   & \code{/api/admin/metricas}  & Agregados: sesiones, total chats \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Interfaz de Usuario: React + Vite}
+\label{sec:frontend}
+% ============================================================
+
+\subsection{Migración desde Gradio}
+
+El Módulo~1 empleaba Gradio para la interfaz de usuario. En el Módulo~2, la
+interfaz se migró a una SPA (\textit{Single Page Application}) desarrollada con
+React~19 y Vite~8, que ofrece mayor control sobre la experiencia de usuario,
+soporte completo de TypeScript~6 estricto, componentes accesibles con
+shadcn/ui~\cite{shadcnui} sobre Radix~UI y soporte nativo de modo
+oscuro/claro con \code{next-themes}.
+
+\subsection{Cliente SSE Personalizado}
+
+El \code{EventSource} nativo del navegador no soporta peticiones POST con cuerpo
+JSON. Para mantener la semántica RESTful del endpoint, se implementó un cliente
+SSE propio en \code{frontend/src/lib/sseClient.ts} usando la combinación
+\code{fetch} + \code{ReadableStream} + \code{TextDecoderStream}:
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Esquema del cliente SSE personalizado},
+    label={lst:sse}]
+async function* streamSseEvents(url, body, headers) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json",
+               ...headers },
+    body: JSON.stringify(body),
+    credentials: "include",
+  });
+  const reader = res.body
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new EventStreamTransformStream())
+    .getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    yield { tipo: value.event,
+            payload: JSON.parse(value.data) };
+  }
+}
 \end{lstlisting}
+
+Los eventos se validan con esquemas Zod para garantizar tipado seguro en tiempo
+de ejecución. El proxy de Vite en desarrollo reenvía \code{/api/*} al backend
+en \code{localhost:8000}, eliminando la necesidad de configurar CORS durante
+el desarrollo.
+
+\subsection{Componentes Principales}
+
+\begin{itemize}
+    \item \textbf{IdentificationPage}: formulario de documento e identidad antes
+          del chat; llama \code{POST /api/sesiones} y almacena el contexto de
+          sesión.
+    \item \textbf{ChatPage} + \textbf{MessageList}: historial de mensajes con
+          renderizado Markdown (react-markdown + remark-gfm) y resaltado de
+          sintaxis (shiki). Las fuentes RAG se muestran como tabla colapsable.
+    \item \textbf{AdminDashboardPage}: panel de configuración hot-reload con
+          selectores de modelo, sliders de temperatura/top-p, toggles de MMR
+          y reranker, y editores de prompts.
+    \item \textbf{ThemeToggle} + modo oscuro/claro: persiste en
+          \code{localStorage} y respeta la preferencia del sistema operativo.
+\end{itemize}
+
+% ============================================================
+\section{Despliegue con Docker Compose}
+\label{sec:deploy}
+% ============================================================
+
+El archivo \code{docker-compose.yml} define los servicios de la
+Tabla~\ref{tab:docker}. El servicio \code{db-init} ejecuta
+\code{alembic upgrade head} como condición previa al arranque de la API,
+garantizando que las migraciones se apliquen antes de aceptar tráfico.
+
+\begin{table}[ht]
+\centering
+\caption{Servicios del stack Docker Compose}
+\label{tab:docker}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Servicio} & \textbf{Imagen} & \textbf{Puerto (host)} & \textbf{Rol} \\
+\midrule
+\code{postgres} & postgres:17.9-alpine   & 15432 & OLTP + memoria \\
+\code{qdrant}   & qdrant/qdrant:v1.18.0  & 6333, 6334 & Vector store \\
+\code{pgweb}    & sosedoff/pgweb:0.16.2  & 8081  & UI admin Postgres \\
+\code{db-init}  & (imagen API)           & ---   & Migraciones Alembic \\
+\code{api}      & (multi-stage build)    & 8000  & FastAPI + frontend \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El \textit{build} multi-stage compila el frontend React y lo sirve como
+archivos estáticos desde FastAPI, eliminando la necesidad de un servidor web
+adicional en producción. Los datos persisten en volúmenes nombrados
+\code{postgres-data} y \code{qdrant-storage}.
 
 % ============================================================
 \section{Evaluación}
 \label{sec:eval}
 % ============================================================
 
-\subsection{Protocolo de Evaluación}
+\subsection{Dataset de Referencia}
 
-Se diseñó un banco de 23 preguntas de referencia almacenadas en
-\code{tests/qa/preguntas\_evaluacion.yml}. Cada entrada contiene:
-identificador, texto de la pregunta, categoría temática y, cuando aplica,
-el nombre del archivo Markdown esperado como resultado de la recuperación.
-Las preguntas se distribuyeron en cinco categorías (Tabla~\ref{tab:categorias}).
+Para la evaluación del módulo RAG se construyó un \textit{golden set} en
+formato JSONL almacenado en \code{data/eval/golden\_set\_rag.jsonl}. Cada
+entrada contiene la consulta, el archivo fuente esperado y, opcionalmente,
+el fragmento de texto de referencia. Adicionalmente, el archivo
+\code{tests/qa/preguntas\_evaluacion.yml} (23 preguntas del Módulo~1) permanece
+como referencia de cobertura temática.
+
+\subsection{Métricas de Recuperación}
+
+El script \code{scripts/eval\_metricas\_rag.py} calcula las métricas de la
+Tabla~\ref{tab:metricas} para los $K$ fragmentos recuperados.
 
 \begin{table}[ht]
 \centering
-\caption{Distribución del banco de preguntas por categoría}
-\label{tab:categorias}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lcc@{}}
+\caption{Métricas de evaluación del sistema RAG}
+\label{tab:metricas}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Categoría} & \textbf{Preguntas} & \textbf{Con archivo esperado} \\
+\textbf{Métrica} & \textbf{Granularidad} & \textbf{Definición} \\
 \midrule
-Institucional    & 8  & 8  \\
-Servicios        & 5  & 5  \\
-Procesos         & 7  & 7  \\
-Contacto         & 2  & 2  \\
-Fuera de alcance & 1  & --- \\
-\midrule
-\textbf{Total}   & \textbf{23} & \textbf{22} \\
+Hit@K      & Chunk    & 1 si algún chunk ∈ top-K coincide con ground truth \\
+Precision@K & Doc     & $|\text{docs recuperados} \cap \text{gt}| / K$ \\
+Recall@K    & Doc     & $|\text{docs recuperados} \cap \text{gt}| / |\text{gt}|$ \\
+MRR         & Chunk   & $1 / \text{rango del primer acierto}$ \\
+nDCG@K      & Ranking & $\mathrm{DCG}@K / \mathrm{iDCG}@K$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-El script \code{scripts/evaluar\_qa.py} se ejecuta contra el corpus
-actualizado de 1\,000 documentos Markdown y sobre los ocho modelos
-descritos en la Tabla~\ref{tab:modelos} (tres modelos Ollama locales y
-cinco modelos OpenAI en la nube). Por cada combinación pregunta-modelo
-genera un informe Markdown en
-\code{data/processed/evaluaciones/<modelo>\_\_<fecha>.md}. Las métricas
-calculadas son:
+Donde:
+\begin{equation}
+\mathrm{DCG}@K = \sum_{i=1}^{K} \frac{\mathrm{rel}_i}{\log_2(i+1)}
+\label{eq:dcg}
+\end{equation}
+\begin{equation}
+\mathrm{iDCG}@K = \sum_{i=1}^{\min(K,\,|\mathrm{gt}|)} \frac{1}{\log_2(i+1)}
+\label{eq:idcg}
+\end{equation}
+siendo $\mathrm{rel}_i \in \{0,1\}$ si el $i$-ésimo fragmento recuperado
+pertenece al conjunto de referencia.
 
-\begin{itemize}
-    \item \textbf{Precisión de recuperación (P@1)}: proporción de preguntas
-          donde el documento con mayor puntuación BM25 coincide con el archivo
-          esperado.
-    \item \textbf{Recall@3}: proporción de preguntas donde el documento
-          esperado se encuentra entre los tres recuperados.
-    \item \textbf{Tasa de abstención}: proporción de respuestas que contienen
-          la frase \textit{"No tengo información suficiente"}.
-    \item \textbf{Latencia media}: tiempo promedio de generación en
-          milisegundos.
-\end{itemize}
+\subsection{Escenarios de Prueba E2E}
+
+La suite \code{tests/e2e/test\_escenarios\_modulo2.py} cubre cuatro escenarios
+con \code{MOCK\_LLM=1} (router determinista) para verificar el comportamiento
+del grafo sin dependencia de la API de OpenAI (Tabla~\ref{tab:e2e}).
+
+\begin{table}[ht]
+\centering
+\caption{Escenarios E2E del Módulo 2}
+\label{tab:e2e}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}llp{2.4cm}@{}}
+\toprule
+\textbf{Escenario} & \textbf{Herramienta} & \textbf{Verificación} \\
+\midrule
+A — RAG     & \code{rag\_denso}        & Evento \textit{fuentes} con chunks \\
+B — Memoria & \code{rag\_denso} × 2   & Historial persiste entre turnos \\
+C — FAQ     & \code{faq\_estructurada} & \code{faq\_match}\\
+            &                          & \code{\_encontrado=true} \\
+D — Mixto   & FAQ + RAG + FAQ          & Secuencia y estado coherentes \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
 
 \subsection{Resultados}
 
-La Tabla~\ref{tab:resultados} presenta los resultados obtenidos al ejecutar el
-protocolo de evaluación sobre los tres modelos.
+La Tabla~\ref{tab:resultados} presentará los resultados cuantitativos de
+recuperación y generación una vez ejecutado el protocolo sobre el corpus
+definitivo.
 
 \begin{table}[ht]
 \centering
-\caption{Resultados de evaluación por modelo}
+\caption{Resultados de evaluación RAG por configuración}
 \label{tab:resultados}
-\setlength{\tabcolsep}{3.5pt}
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Modelo} & \textbf{P@1} & \textbf{Recall@3}
-                & \textbf{Abstención} & \textbf{Latencia (ms)} \\
+\textbf{Configuración} & \textbf{Hit@5} & \textbf{Recall@5}
+                       & \textbf{nDCG@5} & \textbf{Latencia (ms)} \\
 \midrule
-\code{llama3.1:8b}       & --- & --- & --- & --- \\
-\code{gemma4:e2b}        & --- & --- & --- & --- \\
-\code{gemma4:e4b}        & --- & --- & --- & --- \\
-\code{gpt-4o}            & --- & --- & --- & --- \\
-\code{gpt-4o-mini}       & --- & --- & --- & --- \\
-\code{gpt-4-turbo}       & --- & --- & --- & --- \\
-\code{chatgpt-4o-latest} & --- & --- & --- & --- \\
-\code{gpt-3.5-turbo}     & --- & --- & --- & --- \\
+Solo denso (base)       & --- & --- & --- & --- \\
+Denso + MMR             & --- & --- & --- & --- \\
+Denso + Reranker        & --- & --- & --- & --- \\
+Denso + Reranker + MMR  & --- & --- & --- & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textit{Nota: Los valores de la Tabla~\ref{tab:resultados} serán completados
-una vez ejecutado el protocolo de evaluación sobre el corpus definitivo.}
-
-\subsection{Análisis Cualitativo}
-
-\textit{[Esta sección presentará ejemplos representativos de respuestas
-generadas por cada modelo, incluyendo: (a)~casos donde los tres modelos
-producen respuestas correctas y trazables, (b)~casos donde el modelo emite
-la respuesta de abstención ante preguntas fuera del corpus, y (c)~casos de
-divergencia entre modelos ante la misma consulta.]}
+\textit{Nota: los valores se completarán con los resultados del \textit{golden set}
+definitivo ejecutado sobre el corpus de producción.}
 
 % ============================================================
 \section{Discusión}
 \label{sec:disc}
 % ============================================================
 
-\subsection{Ventajas del Enfoque BM25 sin Embeddings}
+\subsection{Comparación con el Módulo 1 (BM25)}
 
-La decisión de emplear BM25 en lugar de \textit{embeddings} densos y bases de
-datos vectoriales responde a criterios de simplicidad, trazabilidad y
-eficiencia. BM25 no requiere un modelo de \textit{embedding} preentrenado, no
-demanda GPU para la indexación y produce puntuaciones directamente
-interpretables en términos de frecuencia de términos. Sobre el corpus
-actual de 1\,000 documentos Markdown el índice se reconstruye en unos pocos
-segundos al arranque del \textit{backend}, y cada búsqueda se resuelve en
-tiempo $O(n \cdot |Q|)$ donde $n$ es el número de documentos.
+La migración de BM25 a recuperación densa representa un cambio cualitativo
+en la capacidad de comprensión semántica del sistema. BM25 requería coincidencia
+léxica exacta; el sistema de Módulo~2 puede recuperar documentos relevantes ante
+consultas con sinónimos, abreviaciones o paráfrasis. Sin embargo, este avance
+tiene un costo: la recuperación densa depende de un proveedor de
+\textit{embeddings} (en la configuración por defecto, la API de OpenAI), lo que
+introduce una dependencia externa y un costo por token. La opción de HuggingFace
+local mitiga esta dependencia a expensas de mayor latencia de ingesta.
 
-Además, el sistema de recuperación con top-3 documentos amplía la cobertura
-contextual respecto a la recuperación de documento único, permitiendo que el
-LLM sintetice información distribuida en varias páginas del sitio web.
+\subsection{Ventajas del Diseño con Tres Herramientas}
 
-\subsection{Ventajas de la Separación Backend / Frontend}
+La segmentación en \code{faq\_estructurada}, \code{rag\_denso} y
+\code{listar\_estructurado} responde a una observación empírica: distintos
+tipos de consultas tienen perfiles de información óptimos. Las preguntas
+frecuentes (horarios, contacto, datos institucionales) son mejor respondidas
+por respuestas curadas y deterministas. Las preguntas conceptuales o clínicas
+se benefician de la recuperación semántica. Los listados y conteos requieren
+exactitud sobre el conjunto de datos completo, no aproximaciones.
 
-La arquitectura FastAPI + SSE desacoplada del consumidor web introduce
-ventajas prácticas frente al monolito Gradio del MVP. El mismo API HTTP
-puede ser invocado por el \textit{frontend} React, por los \textit{scripts}
-de evaluación (\code{scripts/evaluar\_qa.py}) o por el agente M2 de la
-Sección~\ref{sec:m2_agente} sin duplicar la lógica de orquestación del
-\code{PipelineQa}. El \textit{frontend}, al consumir un contrato JSON/SSE
-estable, evoluciona con ciclos de iteración propios (diseño,
-accesibilidad, branding) sin bloquearse en la capa Python. Finalmente, la
-interfaz uniforme de los clientes de Ollama y OpenAI facilita el modo
-dual: el costo de recuperación BM25 se paga una sola vez y el mismo
-contexto alimenta ambos motores en paralelo, lo que habilita comparativas
-directas entre modelos locales y en la nube.
-
-\subsection{Limitaciones Identificadas}
+\subsection{Limitaciones}
 
 \begin{enumerate}
-    \item \textbf{Truncamiento de contexto}: si la concatenación de los tres
-          documentos supera los 8\,192 tokens del parámetro \code{num\_ctx}
-          por defecto, Ollama trunca el contexto de forma silenciosa, lo
-          que puede degradar la calidad de la respuesta. El corpus ampliado
-          a 1\,000 documentos incrementa la probabilidad de que los
-          archivos recuperados sean largos y exijan elevar
-          \code{OLLAMA\_NUM\_CTX} o considerar \textit{chunking}.
-    \item \textbf{Ambigüedad léxica}: BM25 no captura similitud semántica;
-          términos sinónimos o expresiones parafrasadas pueden no coincidir
-          léxicamente con el vocabulario del corpus, produciendo recuperaciones
-          incorrectas.
-    \item \textbf{Dependencia del servicio Ollama}: los modelos locales
-          requieren que el proceso Ollama esté en ejecución y que los modelos
-          hayan sido descargados previamente.
-    \item \textbf{Costo de la API}: el uso de los modelos OpenAI
-          —especialmente \code{gpt-4o} y \code{gpt-4-turbo}— genera consumo
-          de tokens facturables; el cliente
-          \code{src/qa/cliente\_openai.py} implementa manejo de
-          \code{RateLimitError} con \textit{backoff}, pero el equipo debe
-          vigilar los límites de cuota del plan contratado.
-    \item \textbf{Doble \textit{runtime} de desarrollo}: la separación
-          \textit{backend} Python (\code{uv}) y \textit{frontend} Node
-          (\code{pnpm}) requiere instalar ambos entornos para desarrollar,
-          lo que incrementa el costo de \textit{onboarding} respecto al
-          monolito Gradio.
+    \item \textbf{Sincronización corpus-vectores}: cambios en
+          \code{data/markdown/} requieren reindexación explícita para reflejarse
+          en Qdrant.
+    \item \textbf{Latencia del reranker en CPU}: el modelo
+          \code{BAAI/bge-reranker-base} puede tardar 300--800\,ms por turno en
+          CPU, lo que lo hace inadecuado en producción sin GPU.
+    \item \textbf{Costo de API}: la inferencia del router y los embeddings
+          dependen de OpenAI en la configuración por defecto.
+    \item \textbf{Retención de datos}: el historial conversacional contiene
+          datos personales; la ventana temporal configurable mitiga la
+          acumulación indefinida pero no sustituye una política de privacidad
+          formal.
 \end{enumerate}
-
-\subsection{Trabajo Futuro}
-
-Tras cerrar el Módulo~2 con Qdrant y \textit{chunking} de ingesta, el trabajo
-futuro se orienta a explorar mitigaciones de costo (embeddings locales o
-\textit{caching}), afinar hiperparámetros del router y evaluar políticas de
-retención del historial, manteniendo la disciplina de un único flujo denso
-en el producto principal~\cite{decision3m2}.
 
 % ============================================================
 \section{Conclusiones}
 \label{sec:conc}
 % ============================================================
 
-Este trabajo presentó un sistema RAG completo para la Fundación Valle del
-Lili, construido con herramientas de código abierto y ejecutable en hardware
-de consumo sin necesidad de GPU. Los aportes principales son:
+Este trabajo presentó un agente conversacional completo para la Fundación
+Valle del Lili que supera las limitaciones del sistema BM25 del Módulo~1
+mediante seis contribuciones técnicas:
 
 \begin{enumerate}
-    \item Un \textit{pipeline} de adquisición y procesamiento documental
-          robusto que respeta \code{robots.txt} y garantiza idempotencia
-          mediante hashes SHA-256, con un corpus escalado en la fase 2 a
-          1\,000 páginas HTML y 1\,000 documentos Markdown con
-          \textit{front matter} YAML.
-    \item Un mecanismo de recuperación BM25 que selecciona y concatena los
-          tres documentos más relevantes, ampliando la cobertura contextual
-          respecto a la recuperación de documento único.
-    \item La integración de ocho modelos de lenguaje heterogéneos —tres
-          locales con Ollama (\code{llama3.1:8b}, \code{gemma4:e2b},
-          \code{gemma4:e4b}) y cinco en la nube con la API de OpenAI
-          (\code{gpt-4o}, \code{gpt-4o-mini}, \code{gpt-4-turbo},
-          \code{chatgpt-4o-latest} y \code{gpt-3.5-turbo})— bajo una
-          interfaz uniforme que permite comparación directa sin modificar
-          el código.
-    \item Una separación clara en dos capas: un \textit{backend} HTTP
-          FastAPI + \code{sse-starlette} que expone el \code{PipelineQa}
-          como servicio REST con \textit{streaming} SSE token a token y
-          con modo dual Ollama + OpenAI sobre una sola pasada BM25.
-    \item Un \textit{frontend} \textit{single page application} construido
-          con React 19 + Vite 7 + TypeScript + Tailwind CSS v4 +
-          \textit{shadcn/ui}, que encapsula una experiencia de usuario de
-          alto impacto visual con identidad institucional, modo claro y
-          oscuro, \textit{prompt} de sistema editable en caliente y panel
-          de trazabilidad BM25.
-    \item Un protocolo de evaluación reproducible con 23 preguntas de
-          referencia y cuatro métricas de calidad de recuperación y
-          generación, ejecutable contra cualquier subconjunto de los ocho
-          modelos integrados.
-    \item Un agente conversacional (Módulo~2) con router LangGraph,
-          herramientas LangChain, memoria PostgreSQL y RAG exclusivamente
-          denso en Qdrant, documentado operativamente en~\cite{doc003m2}
-          y con pruebas E2E en~\cite{e2em2tests}.
+    \item \textbf{RAG denso con pipeline configurable}: similitud coseno en
+          Qdrant, filtro por umbral, reranking con \textit{cross-encoder} y
+          diversificación MMR, todo controlable desde variables de entorno o
+          el panel administrativo en tiempo de ejecución.
+    \item \textbf{Orquestación con LangGraph}: grafo de seis nodos secuenciales
+          con clasificación de intención mediante regex (sin LLM), selección
+          de herramienta por heurísticas o \textit{tool-calling}, y mecanismo
+          de \textit{fallback} encadenado.
+    \item \textbf{Tres herramientas complementarias}: FAQ determinista, RAG
+          semántico y listado estructurado por \textit{payload}, cubriendo
+          los principales patrones de consulta institucional.
+    \item \textbf{Memoria persistente}: ventana de historial en PostgreSQL
+          con control temporal y de turnos, integrada de forma transparente
+          en el estado del grafo.
+    \item \textbf{API SSE con seis tipos de eventos}: trazabilidad completa del
+          razonamiento del agente expuesta al cliente, desde la decisión de
+          herramienta hasta las fuentes RAG.
+    \item \textbf{Panel administrativo con hot-reload}: ajuste de parámetros
+          LLM, RAG y prompts sin reiniciar el servidor, con control de
+          versión optimista para entornos con múltiples operadores.
 \end{enumerate}
 
-Los resultados de la evaluación (Tabla~\ref{tab:resultados}) permitirán
-comparar objetivamente el comportamiento de los ocho modelos y confirmar la
-hipótesis de que BM25 constituye una base sólida para un sistema RAG de
-primera fase. La separación \textit{backend}/\textit{frontend} y el módulo
-conversacional de la Sección~\ref{sec:m2_agente} consolidan la recuperación
-densa operativa con memoria persistente~\cite{decision3m2,doc003m2}.
+La arquitectura demuestra que es posible construir un sistema de asistencia
+conversacional institucional robusto, trazable y ajustable en producción,
+combinando componentes de código abierto (LangGraph, LlamaIndex, Qdrant,
+PostgreSQL, React) con modelos de lenguaje de acceso comercial.
 
 % ============================================================
 \begin{thebibliography}{00}
@@ -1277,38 +1076,46 @@ S.~Robertson y H.~Zaragoza,
 \textit{Foundations and Trends in Information Retrieval},
 vol.~3, n.º~4, pp.~333--389, 2009.
 
-\bibitem{rankbm25}
-D.~Dohan,
-``rank-bm25: A Python implementation of the BM25 ranking algorithm,''
-\textit{GitHub repository}, 2021.
-[En línea]. Disponible en: \url{https://github.com/dorianbrown/rank_bm25}
+\bibitem{chase2022langchain}
+H.~Chase,
+``LangChain: Building applications with LLMs through composability,''
+\textit{GitHub repository}, 2022.
+[En línea]. Disponible en: \url{https://github.com/langchain-ai/langchain}
 
-\bibitem{ollama}
-Ollama,
-``Run large language models locally,''
+\bibitem{langgraph2024}
+LangChain AI,
+``LangGraph: Build stateful, multi-actor applications with LLMs,''
 2024.
-[En línea]. Disponible en: \url{https://ollama.com}
+[En línea]. Disponible en: \url{https://github.com/langchain-ai/langgraph}
 
-\bibitem{abid2019gradio}
-A.~Abid, A.~Abdalla, A.~Abid \textit{et al.},
-``Gradio: Hassle-Free Sharing and Testing of ML Models in the Wild,''
-\textit{arXiv preprint arXiv:1906.02569}, 2019.
+\bibitem{qdrant2024}
+Qdrant,
+``Qdrant: Vector Database for the next generation of AI applications,''
+2024.
+[En línea]. Disponible en: \url{https://qdrant.tech}
 
-\bibitem{markdownify}
-M.~Neumann,
-``markdownify: A Python library to convert HTML to Markdown,''
-\textit{GitHub repository}, 2020.
-[En línea]. Disponible en: \url{https://github.com/matthewwithanm/python-markdownify}
+\bibitem{carbonell1998mmr}
+J.~Carbonell y J.~Goldstein,
+``The Use of MMR, Diversity-Based Reranking for Reordering Documents
+and Producing Summaries,''
+en \textit{Proc.\ 21st ACM SIGIR}, pp.~335--336, 1998.
 
-\bibitem{touvron2023llama}
-H.~Touvron, L.~Martin, K.~Stone \textit{et al.},
-``Llama 2: Open Foundation and Fine-Tuned Chat Models,''
-\textit{arXiv preprint arXiv:2307.09288}, 2023.
+\bibitem{bge2023}
+S.~Xiao, Z.~Liu, P.~Zhang, N.~Muennighoff,
+``C-Pack: Packaged Resources To Advance General Chinese Embedding,''
+\textit{arXiv preprint arXiv:2309.07597}, 2023.
 
-\bibitem{team2024gemma}
-Gemma Team, Google DeepMind,
-``Gemma: Open Models Based on Gemini Research and Technology,''
-\textit{arXiv preprint arXiv:2403.08295}, 2024.
+\bibitem{langchainpostgres}
+LangChain AI,
+``langchain-postgres: PostgreSQL integration for LangChain,''
+2024.
+[En línea]. Disponible en: \url{https://github.com/langchain-ai/langchain-postgres}
+
+\bibitem{llamaindex2024}
+J.~Liu,
+``LlamaIndex: Data Framework for LLM Applications,''
+\textit{GitHub repository}, 2022.
+[En línea]. Disponible en: \url{https://github.com/run-llama/llama_index}
 
 \bibitem{openai2024gpt4o}
 OpenAI,
@@ -1316,83 +1123,17 @@ OpenAI,
 2024.
 [En línea]. Disponible en: \url{https://openai.com/index/gpt-4o-system-card}
 
-\bibitem{openai2024api}
-OpenAI,
-``OpenAI API Documentation,''
+\bibitem{fastapi2024}
+S.~Ramírez,
+``FastAPI: Modern, fast (high-performance) web framework for building APIs,''
 2024.
-[En línea]. Disponible en: \url{https://platform.openai.com/docs}
-
-\bibitem{fastapi}
-S.~Ramirez,
-``FastAPI: Modern, fast (high-performance), web framework for building
-APIs with Python,''
-2024.
-[En línea]. Disponible en: \url{https://fastapi.tiangolo.com/}
-
-\bibitem{uvicorn}
-T.~Christie,
-``Uvicorn: The lightning-fast ASGI server,''
-2024.
-[En línea]. Disponible en: \url{https://www.uvicorn.org/}
-
-\bibitem{ssestarlette}
-S.~Nakamura,
-``sse-starlette: Server-Sent Events for Starlette and FastAPI,''
-\textit{GitHub repository}, 2024.
-[En línea]. Disponible en:
-\url{https://github.com/sysid/sse-starlette}
-
-\bibitem{react19}
-Meta React Team,
-``React 19 --- The library for web and native user interfaces,''
-2024.
-[En línea]. Disponible en: \url{https://react.dev/}
-
-\bibitem{vite}
-E.~You \textit{et al.},
-``Vite: Next Generation Frontend Tooling,''
-2024.
-[En línea]. Disponible en: \url{https://vitejs.dev/}
-
-\bibitem{tailwindv4}
-Tailwind Labs,
-``Tailwind CSS v4,''
-2024.
-[En línea]. Disponible en: \url{https://tailwindcss.com/}
+[En línea]. Disponible en: \url{https://fastapi.tiangolo.com}
 
 \bibitem{shadcnui}
 shadcn,
-``shadcn/ui: Beautifully designed components built with Radix UI and
-Tailwind CSS,''
-\textit{GitHub repository}, 2024.
-[En línea]. Disponible en: \url{https://ui.shadcn.com/}
-
-\bibitem{vercelaisdk}
-Vercel,
-``Vercel AI SDK,''
-\textit{GitHub repository}, 2024.
-[En línea]. Disponible en: \url{https://sdk.vercel.ai/docs}
-
-\bibitem{decision3m2}
-F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
-``ADR decision-3: Arquitectura del agente M2 con router LangGraph, memoria PostgreSQL y RAG denso en Qdrant,''
-repositorio UAO, 2026.
-
-\bibitem{doc003m2}
-F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
-``doc-003: Arquitectura operativa del agente (Módulo 2),''
-repositorio UAO, 2026.
-
-\bibitem{e2em2tests}
-F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
-``tests/e2e/test\_escenarios\_modulo2.py (suite E2E del Módulo 2),''
-repositorio UAO, 2026.
-
-\bibitem{decision_fvl_fase2}
-F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
-``ADR decision-2: Migración del frontend de Gradio a React 19 + Vite 7 y
-adición de backend FastAPI + SSE,''
-Proyecto interno UAO, 2026.
+``shadcn/ui: Beautifully designed components built with Radix UI and Tailwind,''
+2024.
+[En línea]. Disponible en: \url{https://ui.shadcn.com}
 
 \end{thebibliography}
 

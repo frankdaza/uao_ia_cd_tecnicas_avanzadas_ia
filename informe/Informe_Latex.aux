@@ -4,159 +4,121 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{e2em2tests,doc003m2,decision3m2}
-\citation{lewis2020rag}
 \citation{robertson2009bm25}
+\citation{lewis2020rag,chase2022langchain}
+\citation{qdrant2024}
+\citation{carbonell1998mmr}
+\citation{langchainpostgres}
+\citation{langgraph2024}
 \babel@aux{spanish}{}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introducción}{1}{section.1}\protected@file@percent }
-\citation{abid2019gradio}
-\citation{markdownify}
-\@writefile{toc}{\contentsline {section}{\numberline {II}Arquitectura del Sistema}{2}{section.2}\protected@file@percent }
-\newlabel{sec:arq}{{II}{2}{Arquitectura del Sistema}{section.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Stack tecnológico por módulo}}{2}{table.1}\protected@file@percent }
-\newlabel{tab:stack}{{I}{2}{Stack tecnológico por módulo}{table.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Módulo de Adquisición de Datos}{2}{section.3}\protected@file@percent }
-\newlabel{sec:scraping}{{III}{2}{Módulo de Adquisición de Datos}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Diseño del \textit  {Crawler}}{2}{subsection.3.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Parámetros de configuración del \textit  {crawler} (fase 2)}}{2}{table.2}\protected@file@percent }
-\newlabel{tab:crawler}{{II}{2}{Parámetros de configuración del \textit {crawler} (fase 2)}{table.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Respeto a \texttt  {robots.txt} e Idempotencia}{2}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Salida del Módulo}{2}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Resultados de la ejecución}{2}{subsection.3.4}\protected@file@percent }
-\newlabel{subsec:scraping_resultados}{{\mbox  {III-D}}{2}{Resultados de la ejecución}{subsection.3.4}{}}
-\newlabel{lst:scrape_cmd}{{1}{2}{Comando de ejecución del \textit {crawler} en la fase 2}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Comando de ejecución del \textit  {crawler} en la fase 2}{2}{lstlisting.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Resultados del \textit  {scraping} (corrida fase 2)}}{2}{table.3}\protected@file@percent }
-\newlabel{tab:scraping_resultados}{{III}{2}{Resultados del \textit {scraping} (corrida fase 2)}{table.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Módulo de Procesamiento Documental}{2}{section.4}\protected@file@percent }
-\newlabel{sec:conversion}{{IV}{2}{Módulo de Procesamiento Documental}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Limpieza del HTML}{2}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Conversión a Markdown}{2}{subsection.4.2}\protected@file@percent }
-\citation{robertson2009bm25}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Arquitectura general del \textit  {pipeline} RAG en la fase 2. El \textit  {pipeline} de datos (módulos 1--5) se expone como servicio HTTP (módulo 6) y se consume desde una \textit  {single page application} desacoplada (módulo 7).}}{3}{figure.1}\protected@file@percent }
-\newlabel{fig:arq}{{1}{3}{Arquitectura general del \textit {pipeline} RAG en la fase 2. El \textit {pipeline} de datos (módulos 1--5) se expone como servicio HTTP (módulo 6) y se consume desde una \textit {single page application} desacoplada (módulo 7)}{figure.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Salida del \textit  {runner} \texttt  {\relax \fontsize  {9}{10pt}\selectfont  scripts.scrape} tras la ejecución con \texttt  {\relax \fontsize  {9}{10pt}\selectfont  --max-paginas 1000 --profundidad-maxima 8}: 1\,000 descargas exitosas, 0 omitidas por \texttt  {\relax \fontsize  {9}{10pt}\selectfont  robots.txt} ni por hash, 20 errores y una duración aproximada de 51 min.}}{3}{figure.2}\protected@file@percent }
-\newlabel{fig:scraping}{{2}{3}{Salida del \textit {runner} \code {scripts.scrape} tras la ejecución con \code {--max-paginas 1000 --profundidad-maxima 8}: 1\,000 descargas exitosas, 0 omitidas por \code {robots.txt} ni por hash, 20 errores y una duración aproximada de 51 min}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Front Matter YAML}{3}{subsection.4.3}\protected@file@percent }
-\newlabel{lst:fm}{{2}{3}{Ejemplo de front matter generado automáticamente}{lstlisting.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Ejemplo de front matter generado automáticamente}{3}{lstlisting.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Salida del Módulo}{3}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Resultados de la exportación a Markdown}{3}{subsection.4.5}\protected@file@percent }
-\newlabel{subsec:markdown_resultados}{{\mbox  {IV-E}}{3}{Resultados de la exportación a Markdown}{subsection.4.5}{}}
-\newlabel{lst:export_cmd}{{3}{3}{Comando de exportación del corpus crudo a Markdown}{lstlisting.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Comando de exportación del corpus crudo a Markdown}{3}{lstlisting.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Resultados de la exportación a Markdown (corrida fase 2)}}{3}{table.4}\protected@file@percent }
-\newlabel{tab:markdown_resultados}{{IV}{3}{Resultados de la exportación a Markdown (corrida fase 2)}{table.4}{}}
-\citation{rankbm25}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Salida del script \texttt  {\relax \fontsize  {9}{10pt}\selectfont  scripts.export\_markdown}: 1\,000 archivos \texttt  {\relax \fontsize  {9}{10pt}\selectfont  .md} creados, 0 actualizados, 0 omitidos por hash y 0 errores en una duración aproximada de 32 s.}}{4}{figure.3}\protected@file@percent }
-\newlabel{fig:markdown}{{3}{4}{Salida del script \code {scripts.export\_markdown}: 1\,000 archivos \code {.md} creados, 0 actualizados, 0 omitidos por hash y 0 errores en una duración aproximada de 32 s}{figure.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Módulo de Recuperación BM25}{4}{section.5}\protected@file@percent }
-\newlabel{sec:bm25}{{V}{4}{Módulo de Recuperación BM25}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Algoritmo BM25 Okapi}{4}{subsection.5.1}\protected@file@percent }
-\newlabel{eq:bm25}{{1}{4}{Algoritmo BM25 Okapi}{equation.1}{}}
-\newlabel{eq:idf}{{2}{4}{Algoritmo BM25 Okapi}{equation.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Tokenización}{4}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Selección de Top-3 Documentos}{4}{subsection.5.3}\protected@file@percent }
-\newlabel{eq:top3}{{3}{4}{Selección de Top-3 Documentos}{equation.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Implementación}{4}{subsection.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Integración con Modelos de Lenguaje}{4}{section.6}\protected@file@percent }
-\newlabel{sec:llm}{{VI}{4}{Integración con Modelos de Lenguaje}{section.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Composición del Prompt}{4}{subsection.6.1}\protected@file@percent }
-\newlabel{lst:msgs}{{4}{4}{Estructura del mensaje enviado al LLM}{lstlisting.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}Estructura del mensaje enviado al LLM}{4}{lstlisting.4}\protected@file@percent }
-\citation{touvron2023llama}
-\citation{team2024gemma}
-\citation{ollama}
-\citation{openai2024gpt4o}
-\citation{openai2024api}
-\citation{decision_fvl_fase2}
-\citation{fastapi}
-\citation{uvicorn}
-\citation{ssestarlette}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Prompt de Sistema Anti-Alucinación}{5}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Modelos Soportados}{5}{subsection.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Modelos de lenguaje integrados en el sistema}}{5}{table.5}\protected@file@percent }
-\newlabel{tab:modelos}{{V}{5}{Modelos de lenguaje integrados en el sistema}{table.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-C}1}Modelos Locales con Ollama}{5}{subsubsection.6.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-C}2}Modelos en la Nube con OpenAI}{5}{subsubsection.6.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Backend HTTP FastAPI + SSE y Frontend React 19}{5}{section.7}\protected@file@percent }
-\newlabel{sec:api_ui}{{VII}{5}{Backend HTTP FastAPI + SSE y Frontend React 19}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Backend HTTP FastAPI}{5}{subsection.7.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Endpoints HTTP expuestos por \texttt  {\relax \fontsize  {9}{10pt}\selectfont  src/api/}}}{5}{table.6}\protected@file@percent }
-\newlabel{tab:endpoints}{{VI}{5}{Endpoints HTTP expuestos por \code {src/api/}}{table.6}{}}
-\citation{react19}
-\citation{vite}
-\citation{tailwindv4}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Arquitectura General del Sistema}{1}{section.2}\protected@file@percent }
+\newlabel{sec:arq}{{II}{1}{Arquitectura General del Sistema}{section.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Stack tecnológico del Módulo 2}}{1}{table.1}\protected@file@percent }
+\newlabel{tab:stack}{{I}{1}{Stack tecnológico del Módulo 2}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Corpus y Proceso de Ingesta}{1}{section.3}\protected@file@percent }
+\newlabel{sec:corpus}{{III}{1}{Corpus y Proceso de Ingesta}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Continuidad con el Módulo 1}{1}{subsection.3.1}\protected@file@percent }
+\citation{bge2023}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Arquitectura del sistema Módulo~2. El corpus (izquierda) se indexa \textit  {offline} en Qdrant (fila superior). En inferencia (fila inferior), Frontend $\to $ FastAPI $\to $ LangGraph accede a Qdrant (\texttt  {\relax \fontsize  {9}{10pt}\selectfont  rag\_denso}) y a PostgreSQL (memoria conversacional).}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:arq}{{1}{2}{Arquitectura del sistema Módulo~2. El corpus (izquierda) se indexa \textit {offline} en Qdrant (fila superior). En inferencia (fila inferior), Frontend $\to $ FastAPI $\to $ LangGraph accede a Qdrant (\code {rag\_denso}) y a PostgreSQL (memoria conversacional)}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Ingesta en Qdrant}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Pipeline de ingesta: de Markdown a puntos vectoriales en Qdrant.}}{2}{figure.2}\protected@file@percent }
+\newlabel{fig:ingesta}{{2}{2}{Pipeline de ingesta: de Markdown a puntos vectoriales en Qdrant}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Configuración de Embeddings}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Proveedores de embeddings soportados}}{2}{table.2}\protected@file@percent }
+\newlabel{tab:emb}{{II}{2}{Proveedores de embeddings soportados}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Módulo de Recuperación Densa}{2}{section.4}\protected@file@percent }
+\newlabel{sec:rag}{{IV}{2}{Módulo de Recuperación Densa}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Similitud Coseno y Búsqueda en Qdrant}{2}{subsection.4.1}\protected@file@percent }
+\newlabel{eq:coseno}{{1}{2}{Similitud Coseno y Búsqueda en Qdrant}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Filtro por Umbral y Filtros de Payload}{2}{subsection.4.2}\protected@file@percent }
+\citation{carbonell1998mmr}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Reranking con Cross-Encoder (Opcional)}{3}{subsection.4.3}\protected@file@percent }
+\newlabel{eq:rerank}{{2}{3}{Reranking con Cross-Encoder (Opcional)}{equation.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Diversificación MMR}{3}{subsection.4.4}\protected@file@percent }
+\newlabel{eq:mmr}{{3}{3}{Diversificación MMR}{equation.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Pipeline Completo de Recuperación}{3}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Orquestación con LangGraph}{3}{section.5}\protected@file@percent }
+\newlabel{sec:langgraph}{{V}{3}{Orquestación con LangGraph}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Estado Compartido}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Nodos y Flujo del Grafo}{3}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Campos principales del estado del grafo LangGraph}}{3}{table.3}\protected@file@percent }
+\newlabel{tab:estado}{{III}{3}{Campos principales del estado del grafo LangGraph}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Grafo LangGraph del agente: seis nodos secuenciales. Las decisiones de herramienta se toman dentro del nodo N3 y el fallback a RAG desde N4 si el listado no retorna resultados.}}{3}{figure.3}\protected@file@percent }
+\newlabel{fig:grafo}{{3}{3}{Grafo LangGraph del agente: seis nodos secuenciales. Las decisiones de herramienta se toman dentro del nodo N3 y el fallback a RAG desde N4 si el listado no retorna resultados}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}Nodo N1 — cargar\_memoria}{3}{subsubsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Nodo N2 — inferir\_intencion}{3}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}3}Nodo N3 — decidir\_tool}{3}{subsubsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}4}Nodo N4 — ejecutar\_tool}{4}{subsubsection.5.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}5}Nodo N5 — componer\_respuesta}{4}{subsubsection.5.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}6}Nodo N6 — persistir\_turno}{4}{subsubsection.5.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Las Tres Herramientas del Agente}{4}{section.6}\protected@file@percent }
+\newlabel{sec:tools}{{VI}{4}{Las Tres Herramientas del Agente}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}FAQ Estructurada}{4}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}RAG Denso}{4}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Listar Estructurado}{4}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Comparación de las tres herramientas del agente}}{4}{table.4}\protected@file@percent }
+\newlabel{tab:tools}{{IV}{4}{Comparación de las tres herramientas del agente}{table.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Memoria Conversacional en PostgreSQL}{4}{section.7}\protected@file@percent }
+\newlabel{sec:memoria}{{VII}{4}{Memoria Conversacional en PostgreSQL}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Esquema de Base de Datos}{4}{subsection.7.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Tablas OLTP del sistema}}{4}{table.5}\protected@file@percent }
+\newlabel{tab:db}{{V}{4}{Tablas OLTP del sistema}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Ventana de Memoria y Control Optimista}{4}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}API HTTP y Protocolo SSE}{4}{section.8}\protected@file@percent }
+\newlabel{sec:api}{{VIII}{4}{API HTTP y Protocolo SSE}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-A}}Autenticación Liviana}{4}{subsection.8.1}\protected@file@percent }
 \citation{shadcnui}
-\citation{vercelaisdk}
-\citation{doc003m2}
-\citation{decision3m2}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Streaming SSE Token a Token}{6}{subsection.7.2}\protected@file@percent }
-\newlabel{lst:sse_flow}{{5}{6}{Ejemplo simplificado de flujo SSE emitido por \code {POST /api/qa/stream}}{lstlisting.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}Ejemplo simplificado de flujo SSE emitido por \texttt  {\relax \fontsize  {9}{10pt}\selectfont  POST /api/qa/stream}}{6}{lstlisting.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Modo Dual Ollama + OpenAI}{6}{subsection.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}Frontend React 19 + Vite 7}{6}{subsection.7.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Vistas React principales del \textit  {frontend}}}{6}{table.7}\protected@file@percent }
-\newlabel{tab:ui}{{VII}{6}{Vistas React principales del \textit {frontend}}{table.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-E}}Prompt de Sistema Editable y Trazabilidad}{6}{subsection.7.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-F}}Despliegue y Comandos Canónicos}{6}{subsection.7.6}\protected@file@percent }
-\citation{decision3m2}
-\citation{decision3m2}
-\citation{e2em2tests}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Módulo 2: agente conversacional}{7}{section.8}\protected@file@percent }
-\newlabel{sec:m2_agente}{{VIII}{7}{Módulo 2: agente conversacional}{section.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Referencia de despliegue del Módulo~2: cliente web con SSE, API FastAPI, grafo de enrutamiento y almacenes PostgreSQL (OLTP y memoria) y Qdrant (vectores del corpus indexado).}}{7}{figure.4}\protected@file@percent }
-\newlabel{fig:m2_arq}{{4}{7}{Referencia de despliegue del Módulo~2: cliente web con SSE, API FastAPI, grafo de enrutamiento y almacenes PostgreSQL (OLTP y memoria) y Qdrant (vectores del corpus indexado)}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-A}}Diseño de herramientas y memoria}{7}{subsection.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-B}}Recuperación densa frente a BM25 e híbridos}{7}{subsection.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-C}}Validación automatizada (E2E)}{7}{subsection.8.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Escenarios E2E del Módulo~2 (resumen TASK-61)}}{7}{table.8}\protected@file@percent }
-\newlabel{tab:e2e_m2}{{VIII}{7}{Escenarios E2E del Módulo~2 (resumen TASK-61)}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-D}}Transcripción anónima de eventos SSE}{7}{subsection.8.4}\protected@file@percent }
-\newlabel{lst:sse_m2}{{6}{7}{Secuencia SSE ilustrativa del agente (campos abreviados)}{lstlisting.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}Secuencia SSE ilustrativa del agente (campos abreviados)}{7}{lstlisting.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {IX}Evaluación}{7}{section.9}\protected@file@percent }
-\newlabel{sec:eval}{{IX}{7}{Evaluación}{section.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-A}}Protocolo de Evaluación}{7}{subsection.9.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Distribución del banco de preguntas por categoría}}{7}{table.9}\protected@file@percent }
-\newlabel{tab:categorias}{{IX}{7}{Distribución del banco de preguntas por categoría}{table.9}{}}
-\citation{decision3m2}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-B}}Resultados}{8}{subsection.9.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Resultados de evaluación por modelo}}{8}{table.10}\protected@file@percent }
-\newlabel{tab:resultados}{{X}{8}{Resultados de evaluación por modelo}{table.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-C}}Análisis Cualitativo}{8}{subsection.9.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {X}Discusión}{8}{section.10}\protected@file@percent }
-\newlabel{sec:disc}{{X}{8}{Discusión}{section.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-A}}Ventajas del Enfoque BM25 sin Embeddings}{8}{subsection.10.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-B}}Ventajas de la Separación Backend / Frontend}{8}{subsection.10.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-C}}Limitaciones Identificadas}{8}{subsection.10.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-D}}Trabajo Futuro}{8}{subsection.10.4}\protected@file@percent }
-\citation{doc003m2}
-\citation{e2em2tests}
-\citation{decision3m2,doc003m2}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-B}}Streaming SSE Extendido}{5}{subsection.8.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Eventos SSE del agente conversacional}}{5}{table.6}\protected@file@percent }
+\newlabel{tab:sse}{{VI}{5}{Eventos SSE del agente conversacional}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-C}}Panel Administrativo y Hot-Reload}{5}{subsection.8.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Endpoints del panel administrativo}}{5}{table.7}\protected@file@percent }
+\newlabel{tab:admin}{{VII}{5}{Endpoints del panel administrativo}{table.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Interfaz de Usuario: React + Vite}{5}{section.9}\protected@file@percent }
+\newlabel{sec:frontend}{{IX}{5}{Interfaz de Usuario: React + Vite}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-A}}Migración desde Gradio}{5}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-B}}Cliente SSE Personalizado}{5}{subsection.9.2}\protected@file@percent }
+\newlabel{lst:sse}{{1}{5}{Esquema del cliente SSE personalizado}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Esquema del cliente SSE personalizado}{5}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-C}}Componentes Principales}{5}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {X}Despliegue con Docker Compose}{5}{section.10}\protected@file@percent }
+\newlabel{sec:deploy}{{X}{5}{Despliegue con Docker Compose}{section.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Servicios del stack Docker Compose}}{6}{table.8}\protected@file@percent }
+\newlabel{tab:docker}{{VIII}{6}{Servicios del stack Docker Compose}{table.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {XI}Evaluación}{6}{section.11}\protected@file@percent }
+\newlabel{sec:eval}{{XI}{6}{Evaluación}{section.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-A}}Dataset de Referencia}{6}{subsection.11.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-B}}Métricas de Recuperación}{6}{subsection.11.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Métricas de evaluación del sistema RAG}}{6}{table.9}\protected@file@percent }
+\newlabel{tab:metricas}{{IX}{6}{Métricas de evaluación del sistema RAG}{table.9}{}}
+\newlabel{eq:dcg}{{4}{6}{Métricas de Recuperación}{equation.4}{}}
+\newlabel{eq:idcg}{{5}{6}{Métricas de Recuperación}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-C}}Escenarios de Prueba E2E}{6}{subsection.11.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-D}}Resultados}{6}{subsection.11.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Escenarios E2E del Módulo 2}}{6}{table.10}\protected@file@percent }
+\newlabel{tab:e2e}{{X}{6}{Escenarios E2E del Módulo 2}{table.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces Resultados de evaluación RAG por configuración}}{6}{table.11}\protected@file@percent }
+\newlabel{tab:resultados}{{XI}{6}{Resultados de evaluación RAG por configuración}{table.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {XII}Discusión}{6}{section.12}\protected@file@percent }
+\newlabel{sec:disc}{{XII}{6}{Discusión}{section.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XII-A}}Comparación con el Módulo 1 (BM25)}{6}{subsection.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XII-B}}Ventajas del Diseño con Tres Herramientas}{6}{subsection.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XII-C}}Limitaciones}{6}{subsection.12.3}\protected@file@percent }
 \bibcite{lewis2020rag}{1}
 \bibcite{robertson2009bm25}{2}
-\bibcite{rankbm25}{3}
-\bibcite{ollama}{4}
-\bibcite{abid2019gradio}{5}
-\bibcite{markdownify}{6}
-\bibcite{touvron2023llama}{7}
-\bibcite{team2024gemma}{8}
-\bibcite{openai2024gpt4o}{9}
-\bibcite{openai2024api}{10}
-\bibcite{fastapi}{11}
-\bibcite{uvicorn}{12}
-\bibcite{ssestarlette}{13}
-\bibcite{react19}{14}
-\bibcite{vite}{15}
-\bibcite{tailwindv4}{16}
-\bibcite{shadcnui}{17}
-\bibcite{vercelaisdk}{18}
-\bibcite{decision3m2}{19}
-\bibcite{doc003m2}{20}
-\bibcite{e2em2tests}{21}
-\bibcite{decision_fvl_fase2}{22}
-\@writefile{toc}{\contentsline {section}{\numberline {XI}Conclusiones}{9}{section.11}\protected@file@percent }
-\newlabel{sec:conc}{{XI}{9}{Conclusiones}{section.11}{}}
-\@writefile{toc}{\contentsline {section}{Referencias}{9}{section*.1}\protected@file@percent }
-\gdef \@abspage@last{9}
+\bibcite{chase2022langchain}{3}
+\bibcite{langgraph2024}{4}
+\bibcite{qdrant2024}{5}
+\bibcite{carbonell1998mmr}{6}
+\bibcite{bge2023}{7}
+\bibcite{langchainpostgres}{8}
+\bibcite{llamaindex2024}{9}
+\bibcite{openai2024gpt4o}{10}
+\bibcite{fastapi2024}{11}
+\bibcite{shadcnui}{12}
+\@writefile{toc}{\contentsline {section}{\numberline {XIII}Conclusiones}{7}{section.13}\protected@file@percent }
+\newlabel{sec:conc}{{XIII}{7}{Conclusiones}{section.13}{}}
+\@writefile{toc}{\contentsline {section}{Referencias}{7}{section*.1}\protected@file@percent }
+\gdef \@abspage@last{7}
