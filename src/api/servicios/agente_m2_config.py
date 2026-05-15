@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -16,10 +17,12 @@ from src.agentes.llm_deterministico_modulo2 import (
 from src.agentes.meta_prompt import MetaPromptConfig, cargar_meta_prompt_config, meta_prompt_desde_dict
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.runtime_agente import RuntimeAgenteBundle
+from src.api._limites_rag import asegurar_rango_parche_numerico, clamp_valor_admin_numerico
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.persistencia.modelos import ConfigAdminM2
 from src.persistencia.repositorios.config_admin_m2 import RepositorioConfigAdminM2
 
+logger = logging.getLogger(__name__)
 TEMPERATURA_ROUTER_DEFECTO_CODIGO: float = 0.0
 TEMPERATURA_COMPOSITOR_DEFECTO_CODIGO: float = 0.2
 
@@ -110,20 +113,36 @@ class ServicioAgenteM2Config:
             return str(fila.prompt_institucional).strip()
         return PROMPT_SISTEMA_DEFECTO.rstrip()
 
+    def _leer_columna_numerica_admin(
+        self,
+        campo: str,
+        fila: ConfigAdminM2 | None,
+        fallback: int | float,
+    ) -> int | float:
+        """Lee columna admin numerica aplicando clamp defensivo si el valor persistido esta fuera de rango."""
+        if fila is None:
+            return fallback
+        raw = getattr(fila, campo, None)
+        if raw is None:
+            return fallback
+        acotado, hubo_clamp = clamp_valor_admin_numerico(raw, campo)
+        if hubo_clamp:
+            logger.warning(
+                "Parametro admin %s fuera de rango en base de datos: valor_original=%r valor_acotado=%r",
+                campo,
+                raw,
+                acotado,
+            )
+        return acotado
+
     def rag_top_k_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        if fila is not None and fila.rag_top_k is not None:
-            return int(fila.rag_top_k)
-        return int(self._cfg.rag_top_k)
+        return int(self._leer_columna_numerica_admin("rag_top_k", fila, int(self._cfg.rag_top_k)))
 
     def rag_score_minimo_efectivo(self, fila: ConfigAdminM2 | None) -> float:
-        if fila is not None and fila.rag_score_minimo is not None:
-            return float(fila.rag_score_minimo)
-        return float(self._cfg.rag_score_minimo)
+        return float(self._leer_columna_numerica_admin("rag_score_minimo", fila, float(self._cfg.rag_score_minimo)))
 
     def rag_top_k_inicial_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        if fila is not None and fila.rag_top_k_inicial is not None:
-            return int(fila.rag_top_k_inicial)
-        return int(self._cfg.rag_top_k_inicial)
+        return int(self._leer_columna_numerica_admin("rag_top_k_inicial", fila, int(self._cfg.rag_top_k_inicial)))
 
     def rag_mmr_habilitado_efectivo(self, fila: ConfigAdminM2 | None) -> bool:
         if fila is not None and fila.rag_mmr_habilitado is not None:
@@ -131,9 +150,7 @@ class ServicioAgenteM2Config:
         return bool(self._cfg.rag_mmr_habilitado)
 
     def rag_mmr_lambda_efectivo(self, fila: ConfigAdminM2 | None) -> float:
-        if fila is not None and fila.rag_mmr_lambda is not None:
-            return float(fila.rag_mmr_lambda)
-        return float(self._cfg.rag_mmr_lambda)
+        return float(self._leer_columna_numerica_admin("rag_mmr_lambda", fila, float(self._cfg.rag_mmr_lambda)))
 
     def rag_reranker_habilitado_efectivo(self, fila: ConfigAdminM2 | None) -> bool:
         if fila is not None and fila.rag_reranker_habilitado is not None:
@@ -146,19 +163,31 @@ class ServicioAgenteM2Config:
         return str(self._cfg.rag_reranker_modelo).strip()
 
     def rag_reranker_top_n_entrada_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        if fila is not None and fila.rag_reranker_top_n_entrada is not None:
-            return int(fila.rag_reranker_top_n_entrada)
-        return int(self._cfg.rag_reranker_top_n_entrada)
+        return int(
+            self._leer_columna_numerica_admin(
+                "rag_reranker_top_n_entrada",
+                fila,
+                int(self._cfg.rag_reranker_top_n_entrada),
+            )
+        )
 
     def rag_reranker_batch_size_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        if fila is not None and fila.rag_reranker_batch_size is not None:
-            return int(fila.rag_reranker_batch_size)
-        return int(self._cfg.rag_reranker_batch_size)
+        return int(
+            self._leer_columna_numerica_admin(
+                "rag_reranker_batch_size",
+                fila,
+                int(self._cfg.rag_reranker_batch_size),
+            )
+        )
 
     def historial_turnos_max_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        if fila is not None and fila.historial_turnos_max is not None:
-            return int(fila.historial_turnos_max)
-        return int(self._cfg.historial_turnos_max)
+        return int(
+            self._leer_columna_numerica_admin(
+                "historial_turnos_max",
+                fila,
+                int(self._cfg.historial_turnos_max),
+            )
+        )
 
     async def obtener_fila(self) -> ConfigAdminM2 | None:
         return await self._repo.obtener()
@@ -332,31 +361,19 @@ class ServicioAgenteM2Config:
                 raise ValueError(msg)
             fila.prompt_institucional = texto
         if rag_top_k is not None:
-            rk = int(rag_top_k)
-            if not (1 <= rk <= 50):
-                msg = "rag_top_k debe estar entre 1 y 50."
-                raise ValueError(msg)
-            fila.rag_top_k = rk
+            asegurar_rango_parche_numerico("rag_top_k", int(rag_top_k))
+            fila.rag_top_k = int(rag_top_k)
         if rag_score_minimo is not None:
-            sm = float(rag_score_minimo)
-            if not (0.0 <= sm <= 1.0):
-                msg = "rag_score_minimo debe estar entre 0.0 y 1.0."
-                raise ValueError(msg)
-            fila.rag_score_minimo = sm
+            asegurar_rango_parche_numerico("rag_score_minimo", float(rag_score_minimo))
+            fila.rag_score_minimo = float(rag_score_minimo)
         if rag_top_k_inicial is not None:
-            tki = int(rag_top_k_inicial)
-            if not (1 <= tki <= 200):
-                msg = "rag_top_k_inicial debe estar entre 1 y 200."
-                raise ValueError(msg)
-            fila.rag_top_k_inicial = tki
+            asegurar_rango_parche_numerico("rag_top_k_inicial", int(rag_top_k_inicial))
+            fila.rag_top_k_inicial = int(rag_top_k_inicial)
         if rag_mmr_habilitado is not None:
             fila.rag_mmr_habilitado = bool(rag_mmr_habilitado)
         if rag_mmr_lambda is not None:
-            ml = float(rag_mmr_lambda)
-            if not (0.0 <= ml <= 1.0):
-                msg = "rag_mmr_lambda debe estar entre 0.0 y 1.0."
-                raise ValueError(msg)
-            fila.rag_mmr_lambda = ml
+            asegurar_rango_parche_numerico("rag_mmr_lambda", float(rag_mmr_lambda))
+            fila.rag_mmr_lambda = float(rag_mmr_lambda)
         if rag_reranker_habilitado is not None:
             fila.rag_reranker_habilitado = bool(rag_reranker_habilitado)
         if rag_reranker_modelo is not None:
@@ -369,23 +386,14 @@ class ServicioAgenteM2Config:
                 raise ValueError(msg)
             fila.rag_reranker_modelo = rm
         if rag_reranker_top_n_entrada is not None:
-            rtn = int(rag_reranker_top_n_entrada)
-            if not (1 <= rtn <= 50):
-                msg = "rag_reranker_top_n_entrada debe estar entre 1 y 50."
-                raise ValueError(msg)
-            fila.rag_reranker_top_n_entrada = rtn
+            asegurar_rango_parche_numerico("rag_reranker_top_n_entrada", int(rag_reranker_top_n_entrada))
+            fila.rag_reranker_top_n_entrada = int(rag_reranker_top_n_entrada)
         if rag_reranker_batch_size is not None:
-            rbs = int(rag_reranker_batch_size)
-            if not (1 <= rbs <= 256):
-                msg = "rag_reranker_batch_size debe estar entre 1 y 256."
-                raise ValueError(msg)
-            fila.rag_reranker_batch_size = rbs
+            asegurar_rango_parche_numerico("rag_reranker_batch_size", int(rag_reranker_batch_size))
+            fila.rag_reranker_batch_size = int(rag_reranker_batch_size)
         if historial_turnos_max is not None:
-            ht = int(historial_turnos_max)
-            if not (1 <= ht <= 200):
-                msg = "historial_turnos_max debe estar entre 1 y 200."
-                raise ValueError(msg)
-            fila.historial_turnos_max = ht
+            asegurar_rango_parche_numerico("historial_turnos_max", int(historial_turnos_max))
+            fila.historial_turnos_max = int(historial_turnos_max)
 
         await self._sesion.flush()
         return fila

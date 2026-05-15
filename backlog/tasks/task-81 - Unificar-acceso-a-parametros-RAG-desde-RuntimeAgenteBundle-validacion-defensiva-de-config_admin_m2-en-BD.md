@@ -3,11 +3,11 @@ id: TASK-81
 title: >-
   Unificar acceso a parametros RAG desde RuntimeAgenteBundle + validacion
   defensiva de config_admin_m2 en BD
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:30'
-updated_date: '2026-05-14 23:30'
+updated_date: '2026-05-15 00:37'
 labels:
   - rag
   - agente-m2
@@ -33,7 +33,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: medium
-ordinal: 9000
+ordinal: 1000
 ---
 
 ## Description
@@ -73,13 +73,13 @@ Se tocan los archivos del agente (`herramientas/rag_tool.py`, `router.py`, `runt
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 La tool rag_denso NO captura cfg por closure; recibe todos los parametros del bundle en cada invocacion (firma explicita).
-- [ ] #2 Funcion _parametros_rag_bundle_iguales_a_configuracion y la bifurcacion del router se eliminan. Ruta unica: el router siempre construye argumentos desde RuntimeAgenteBundle.
-- [ ] #3 Constantes de rango RAG se definen en un unico modulo (p. ej. src/api/_limites_rag.py) y son consumidas por esquemas_admin.py y servicios/agente_m2_config.py (sin duplicacion).
-- [ ] #4 Lectura defensiva: Configuracion/servicio aplica clamp a valores fuera de rango leidos de BD y registra warning con contexto (campo, valor_original, valor_clamp). Tests parametrizados cubren cada parametro RAG.
-- [ ] #5 Alternativa documentada en Implementation Notes: si se opta por CHECK constraints en BD, anadir migracion 0007_*.py reversible (upgrade/downgrade simetricos). Si NO, dejar la decision argumentada.
-- [ ] #6 Tests de integracion: (a) PATCH /api/admin/agente-m2 con nuevo lambda -> proxima peticion POST /api/agente/stream usa nuevo lambda en el bundle; (b) PATCH con version stale -> 409 Conflict (concurrencia ya existente, conservar); (c) valor fuera de rango insertado directo a BD -> servicio recorta y registra warning.
-- [ ] #7 No queda referencia a _parametros_rag_bundle_iguales_a_configuracion en el codigo del repo (grep -r vacio).
+- [x] #1 La tool rag_denso NO captura cfg por closure; recibe todos los parametros del bundle en cada invocacion (firma explicita).
+- [x] #2 Funcion _parametros_rag_bundle_iguales_a_configuracion y la bifurcacion del router se eliminan. Ruta unica: el router siempre construye argumentos desde RuntimeAgenteBundle.
+- [x] #3 Constantes de rango RAG se definen en un unico modulo (p. ej. src/api/_limites_rag.py) y son consumidas por esquemas_admin.py y servicios/agente_m2_config.py (sin duplicacion).
+- [x] #4 Lectura defensiva: Configuracion/servicio aplica clamp a valores fuera de rango leidos de BD y registra warning con contexto (campo, valor_original, valor_clamp). Tests parametrizados cubren cada parametro RAG.
+- [x] #5 Alternativa documentada en Implementation Notes: si se opta por CHECK constraints en BD, anadir migracion 0007_*.py reversible (upgrade/downgrade simetricos). Si NO, dejar la decision argumentada.
+- [x] #6 Tests de integracion: (a) PATCH /api/admin/agente-m2 con nuevo lambda -> proxima peticion POST /api/agente/stream usa nuevo lambda en el bundle; (b) PATCH con version stale -> 409 Conflict (concurrencia ya existente, conservar); (c) valor fuera de rango insertado directo a BD -> servicio recorta y registra warning.
+- [x] #7 No queda referencia a _parametros_rag_bundle_iguales_a_configuracion en el codigo del repo (grep -r vacio).
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -149,12 +149,20 @@ Se tocan los archivos del agente (`herramientas/rag_tool.py`, `router.py`, `runt
 
 <!-- SECTION:NOTES:BEGIN -->
 Si `CHECK` constraints generan friccion operativa (configuracion legacy en BD), preferir clamp + alerta. La decision se argumenta en Final Summary. Mantener el contrato SSE: la herramienta sigue devolviendo el mismo schema visible al modelo. Si el refactor de `crear_rag_tool` cambia su firma, actualizar todas las llamadas (incluida `MOCK_LLM`). TASK-83 incorporara tests E2E adicionales; aqui solo los integradores de admin. Este refactor reduce significativamente la complejidad del router al eliminar la bifurcacion.
+
+Decision CHECK en BD: no se agrego migracion 0007 con `op.create_check_constraint`; se priorizo clamp + warning en `ServicioAgenteM2Config` para no bloquear arranques con filas legacy fuera de rango y mantener observabilidad operativa.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se centralizaron los rangos RAG (y historial_turnos_max) en `src/api/_limites_rag.py` (`LIMITES_RAG`, `LIMITES_CONFIG_ADMIN_NUMERICOS`, `clamp_valor_admin_numerico`, `asegurar_rango_parche_numerico`). `esquemas_admin.py` y `aplicar_parche` consumen esos limites sin duplicar constantes. La lectura desde PostgreSQL aplica clamp defensivo con `logger.warning` cuando un valor persistido esta fuera de rango. La tool `rag_denso` ya no fija umbrales RAG desde una closure sobre `cfg`: recibe `top_k`, `score_minimo`, MMR y reranker en cada invocacion; `crear_rag_tool` acepta `configuracion_motor` opcional solo para URLs/embeddings y `recuperador` en pruebas. El router elimino `_parametros_rag_bundle_iguales_a_configuracion` y siempre arma la entrada con `_argumentos_invocacion_rag_denso` + `tool.invoke`; el respaldo desde `listar_estructurado` vacio usa la misma ruta. No se agrego migracion Alembic con CHECK: el clamp en servicio evita friccion con datos legacy corruptos y deja trazabilidad en logs (alternativa documentada en notas). Pruebas: `tests/persistencia/test_clamp_defensivo_config_admin_m2.py`, `tests/api/test_admin_conflict_y_bundle.py` (409 y bundle tras PATCH), ajustes en `test_router_grafo` y `test_recuperador_denso`.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/agentes/ tests/api/admin/ tests/persistencia/ -v en verde.
+- [x] #1 uv run pytest tests/agentes/ tests/api/admin/ tests/persistencia/ -v en verde.
 - [ ] #2 uv run alembic upgrade head y downgrade -1 simetricos (si se anadio migracion).
-- [ ] #3 ReadLints sobre archivos modificados sin nuevos errores.
-- [ ] #4 Tarea con status: Done sin archivar.
+- [x] #3 ReadLints sobre archivos modificados sin nuevos errores.
+- [x] #4 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

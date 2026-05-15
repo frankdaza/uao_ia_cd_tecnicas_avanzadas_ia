@@ -113,9 +113,32 @@ def _tool_faq_falsa() -> StructuredTool:
 
 
 def _tool_rag_falsa() -> StructuredTool:
-    def _ejecutar(consulta: str, filtros_tipo_pagina: list[str] | None = None) -> dict[str, Any]:
+    def _ejecutar(
+        consulta: str,
+        filtros_tipo_pagina: list[str] | None = None,
+        top_k: int | None = None,
+        score_minimo: float | None = None,
+        top_k_inicial: int | None = None,
+        mmr_habilitado: bool | None = None,
+        mmr_lambda: float | None = None,
+        reranker_habilitado: bool | None = None,
+        reranker_modelo: str | None = None,
+        reranker_top_n_entrada: int | None = None,
+        reranker_batch_size: int | None = None,
+    ) -> dict[str, Any]:
         """Devuelve fuentes ficticias tipo salida RAG densa."""
-        _ = consulta, filtros_tipo_pagina
+        _ = (
+            filtros_tipo_pagina,
+            top_k,
+            score_minimo,
+            top_k_inicial,
+            mmr_habilitado,
+            mmr_lambda,
+            reranker_habilitado,
+            reranker_modelo,
+            reranker_top_n_entrada,
+            reranker_batch_size,
+        )
         return {
             "respuesta_contexto": "[CHUNK 0] titulo: Politica\nURL: https://ejemplo.test/p\n\nTexto.",
             "fuentes": [

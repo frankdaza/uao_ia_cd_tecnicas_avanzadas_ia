@@ -8,6 +8,16 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from src.api._limites_rag import LIMITES_RAG, LIMITE_HISTORIAL_TURNOS_MAX
+
+_LTK = LIMITES_RAG["rag_top_k"]
+_LSM = LIMITES_RAG["rag_score_minimo"]
+_LTKI = LIMITES_RAG["rag_top_k_inicial"]
+_LML = LIMITES_RAG["rag_mmr_lambda"]
+_LRTE = LIMITES_RAG["rag_reranker_top_n_entrada"]
+_LRBS = LIMITES_RAG["rag_reranker_batch_size"]
+_LHTM = LIMITE_HISTORIAL_TURNOS_MAX
+
 
 class EstadoConfigAdminM2Respuesta(BaseModel):
     """Estado fusionado expuesto al panel (valores efectivos que usa el agente)."""
@@ -32,15 +42,19 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
     model_kwargs_compositor: dict[str, Any] = Field(default_factory=dict)
     meta_prompt: dict[str, Any]
     prompt_institucional: str
-    rag_top_k: int = Field(ge=1, le=50, description="Top-k efectivo del recuperador denso (Qdrant).")
+    rag_top_k: int = Field(
+        ge=int(_LTK.minimo),
+        le=int(_LTK.maximo),
+        description="Top-k efectivo del recuperador denso (Qdrant).",
+    )
     rag_score_minimo: float = Field(
-        ge=0.0,
-        le=1.0,
+        ge=float(_LSM.minimo),
+        le=float(_LSM.maximo),
         description="Umbral minimo de similitud para conservar fragmentos RAG.",
     )
     rag_top_k_inicial: int = Field(
-        ge=1,
-        le=200,
+        ge=int(_LTKI.minimo),
+        le=int(_LTKI.maximo),
         description=(
             "Candidatos que Qdrant devuelve antes de MMR/rerank (sobrerrecuperacion). "
             "Solo aplica si MMR o reranker estan activos."
@@ -52,8 +66,8 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
         ),
     )
     rag_mmr_lambda: float = Field(
-        ge=0.0,
-        le=1.0,
+        ge=float(_LML.minimo),
+        le=float(_LML.maximo),
         description="Peso relevancia vs diversidad en MMR (1.0 = solo similitud a la consulta).",
     )
     rag_reranker_habilitado: bool = Field(
@@ -66,20 +80,20 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
         description="Identificador HuggingFace o ruta del modelo CrossEncoder (p. ej. BAAI/bge-reranker-base).",
     )
     rag_reranker_top_n_entrada: int = Field(
-        ge=1,
-        le=50,
+        ge=int(_LRTE.minimo),
+        le=int(_LRTE.maximo),
         description="Maximo de fragmentos re-puntuados por el reranker tras MMR (o por similitud si MMR esta off).",
     )
     rag_reranker_batch_size: int = Field(
-        ge=1,
-        le=256,
+        ge=int(_LRBS.minimo),
+        le=int(_LRBS.maximo),
         description=(
             "Tamano de lote pasado a ``CrossEncoder.predict`` del reranker; afecta VRAM/RAM y latencia."
         ),
     )
     historial_turnos_max: int = Field(
-        ge=1,
-        le=200,
+        ge=int(_LHTM.minimo),
+        le=int(_LHTM.maximo),
         description=(
             "Tope de turnos (mensajes humano como ancla) cargados para router y compositor; "
             "columna admin o HISTORIAL_TURNOS_MAX en .env."
@@ -114,16 +128,36 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     model_kwargs_compositor: dict[str, Any] | None = None
     meta_prompt: dict[str, Any] | None = None
     prompt_institucional: str | None = None
-    rag_top_k: int | None = Field(default=None, ge=1, le=50)
-    rag_score_minimo: float | None = Field(default=None, ge=0.0, le=1.0)
-    rag_top_k_inicial: int | None = Field(default=None, ge=1, le=200)
+    rag_top_k: int | None = Field(default=None, ge=int(_LTK.minimo), le=int(_LTK.maximo))
+    rag_score_minimo: float | None = Field(
+        default=None,
+        ge=float(_LSM.minimo),
+        le=float(_LSM.maximo),
+    )
+    rag_top_k_inicial: int | None = Field(
+        default=None,
+        ge=int(_LTKI.minimo),
+        le=int(_LTKI.maximo),
+    )
     rag_mmr_habilitado: bool | None = None
-    rag_mmr_lambda: float | None = Field(default=None, ge=0.0, le=1.0)
+    rag_mmr_lambda: float | None = Field(default=None, ge=float(_LML.minimo), le=float(_LML.maximo))
     rag_reranker_habilitado: bool | None = None
     rag_reranker_modelo: str | None = Field(default=None, max_length=256)
-    rag_reranker_top_n_entrada: int | None = Field(default=None, ge=1, le=50)
-    rag_reranker_batch_size: int | None = Field(default=None, ge=1, le=256)
-    historial_turnos_max: int | None = Field(default=None, ge=1, le=200)
+    rag_reranker_top_n_entrada: int | None = Field(
+        default=None,
+        ge=int(_LRTE.minimo),
+        le=int(_LRTE.maximo),
+    )
+    rag_reranker_batch_size: int | None = Field(
+        default=None,
+        ge=int(_LRBS.minimo),
+        le=int(_LRBS.maximo),
+    )
+    historial_turnos_max: int | None = Field(
+        default=None,
+        ge=int(_LHTM.minimo),
+        le=int(_LHTM.maximo),
+    )
 
     @field_validator("rag_reranker_modelo")
     @classmethod

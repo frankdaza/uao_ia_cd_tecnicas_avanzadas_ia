@@ -7,14 +7,16 @@ from __future__ import annotations
 from typing import Any
 
 from langchain_core.tools import StructuredTool
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.rag.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
 
 
 class ArgsConsultaRagDenso(BaseModel):
-    """Entrada expuesta al modelo para recuperar contexto del corpus vectorizado."""
+    """Entrada de la tool: consulta del modelo mas parametros RAG inyectados por el router."""
+
+    model_config = ConfigDict(extra="ignore")
 
     consulta: str = Field(
         description=(
@@ -30,6 +32,42 @@ class ArgsConsultaRagDenso(BaseModel):
             "Opcional: acota la busqueda densa a estos valores de ``tipo_pagina`` en el payload "
             "(p. ej. ``institucional`` para mision/vision). Lista vacia se ignora."
         ),
+    )
+    top_k: int | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    score_minimo: float | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    top_k_inicial: int | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    mmr_habilitado: bool | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    mmr_lambda: float | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    reranker_habilitado: bool | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    reranker_modelo: str | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    reranker_top_n_entrada: int | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
+    )
+    reranker_batch_size: int | None = Field(
+        default=None,
+        description="Interno: el servidor completa desde RuntimeAgenteBundle.",
     )
 
 
@@ -76,22 +114,32 @@ def ejecutar_rag_denso_sync(
 
 def crear_rag_tool(
     *,
-    configuracion: Configuracion | None = None,
+    configuracion_motor: Configuracion | None = None,
     recuperador: RecuperadorDenso | None = None,
 ) -> StructuredTool:
     """
     Construye la ``StructuredTool`` ``rag_denso`` (binding con LangGraph / tool-calling).
 
-    Por defecto usa ``obtener_vector_store``, ``obtener_embeddings`` y los umbrales
-    ``RAG_TOP_K`` / ``RAG_SCORE_MINIMO`` de settings. En pruebas puede inyectarse un
-    ``RecuperadorDenso`` ya configurado.
+    Los umbrales RAG no se leen de ``configuracion_motor`` en cada invocacion: deben llegar
+    explicitamente en los argumentos (el router los toma de :class:`~src.agentes.runtime_agente.RuntimeAgenteBundle`).
+    ``configuracion_motor`` solo orienta URLs/claves de Qdrant y embeddings al construir el recuperador.
+
+    En pruebas puede inyectarse un ``RecuperadorDenso`` ya configurado (solo se usa ``consulta`` / filtros).
     """
-    cfg = configuracion or obtener_configuracion()
     rec_inyectado = recuperador
 
     def _ejecutar(
         consulta: str,
         filtros_tipo_pagina: list[str] | None = None,
+        top_k: int | None = None,
+        score_minimo: float | None = None,
+        top_k_inicial: int | None = None,
+        mmr_habilitado: bool | None = None,
+        mmr_lambda: float | None = None,
+        reranker_habilitado: bool | None = None,
+        reranker_modelo: str | None = None,
+        reranker_top_n_entrada: int | None = None,
+        reranker_batch_size: int | None = None,
     ) -> dict[str, Any]:
         if rec_inyectado is not None:
             salida: SalidaRecuperacionRagDenso = rec_inyectado.consultar(
@@ -99,12 +147,41 @@ def crear_rag_tool(
                 filtros_tipo_pagina=filtros_tipo_pagina,
             )
             return salida.model_dump(mode="json")
+        faltan = [
+            nombre
+            for nombre, val in (
+                ("top_k", top_k),
+                ("score_minimo", score_minimo),
+                ("top_k_inicial", top_k_inicial),
+                ("mmr_habilitado", mmr_habilitado),
+                ("mmr_lambda", mmr_lambda),
+                ("reranker_habilitado", reranker_habilitado),
+                ("reranker_modelo", reranker_modelo),
+                ("reranker_top_n_entrada", reranker_top_n_entrada),
+                ("reranker_batch_size", reranker_batch_size),
+            )
+            if val is None
+        ]
+        if faltan:
+            msg = (
+                "rag_denso requiere parametros RAG explicitos en cada invocacion "
+                f"(faltan: {', '.join(faltan)})."
+            )
+            raise ValueError(msg)
+        cfg_motor = configuracion_motor or obtener_configuracion()
         return ejecutar_rag_denso_sync(
-            configuracion=cfg,
+            configuracion=cfg_motor,
             consulta=consulta,
-            top_k=cfg.rag_top_k,
-            score_minimo=cfg.rag_score_minimo,
+            top_k=int(top_k),
+            score_minimo=float(score_minimo),
             filtros_tipo_pagina=filtros_tipo_pagina,
+            top_k_inicial=int(top_k_inicial),
+            mmr_habilitado=bool(mmr_habilitado),
+            mmr_lambda=float(mmr_lambda),
+            reranker_habilitado=bool(reranker_habilitado),
+            reranker_modelo=str(reranker_modelo).strip(),
+            reranker_top_n_entrada=int(reranker_top_n_entrada),
+            reranker_batch_size=int(reranker_batch_size),
         )
 
     return StructuredTool.from_function(
@@ -122,3 +199,4 @@ def crear_rag_tool(
         args_schema=ArgsConsultaRagDenso,
         infer_schema=False,
     )
+

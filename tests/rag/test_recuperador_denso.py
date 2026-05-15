@@ -291,7 +291,7 @@ def test_crear_rag_tool_structured_tool(limpiar_singletons_qdrant: None) -> None
         score_minimo=0.2,
     )
     tool = crear_rag_tool(
-        configuracion=Configuracion(qdrant_url=":memory:"),
+        configuracion_motor=Configuracion(qdrant_url=":memory:"),
         recuperador=rec,
     )
     assert tool.name == "rag_denso"

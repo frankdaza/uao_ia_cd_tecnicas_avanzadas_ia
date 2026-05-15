@@ -3,11 +3,11 @@ id: TASK-82
 title: >-
   Eval RAG multi-config en una corrida + guardarrailes (fail-if-empty, git rev,
   umbrales recall/nDCG)
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:31'
-updated_date: '2026-05-14 23:31'
+updated_date: '2026-05-15 00:38'
 labels:
   - rag
   - evaluation
@@ -30,7 +30,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: medium
-ordinal: 10000
+ordinal: 1000
 ---
 
 ## Description

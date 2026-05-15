@@ -79,7 +79,7 @@ def construir_grafo_agente_mock_llm(cfg: Configuracion) -> CompiledStateGraph:
     meta = cargar_meta_prompt_config(ruta_meta)
     herramientas = [
         crear_faq_tool(configuracion=cfg),
-        crear_rag_tool(configuracion=cfg),
+        crear_rag_tool(configuracion_motor=cfg),
         crear_listar_estructurado_tool(configuracion=cfg),
     ]
     grafo = crear_grafo_agente(

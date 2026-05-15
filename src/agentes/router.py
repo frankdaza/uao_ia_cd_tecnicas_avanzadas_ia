@@ -20,24 +20,31 @@ from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.runtime_agente import RuntimeAgenteBundle
-from src.api.configuracion import Configuracion, obtener_configuracion
+from src.api.configuracion import obtener_configuracion
 
 logger = logging.getLogger(__name__)
 
 
-def _parametros_rag_bundle_iguales_a_configuracion(bundle: RuntimeAgenteBundle, cfg: Configuracion) -> bool:
-    """True si el bundle no altera el pipeline RAG respecto a ``cfg`` (se puede usar ``tool.invoke``)."""
-    return (
-        bundle.rag_top_k == int(cfg.rag_top_k)
-        and abs(bundle.rag_score_minimo - float(cfg.rag_score_minimo)) <= 1e-9
-        and bundle.rag_top_k_inicial == int(cfg.rag_top_k_inicial)
-        and bundle.rag_mmr_habilitado == bool(cfg.rag_mmr_habilitado)
-        and abs(bundle.rag_mmr_lambda - float(cfg.rag_mmr_lambda)) <= 1e-9
-        and bundle.rag_reranker_habilitado == bool(cfg.rag_reranker_habilitado)
-        and bundle.rag_reranker_modelo == str(cfg.rag_reranker_modelo).strip()
-        and bundle.rag_reranker_top_n_entrada == int(cfg.rag_reranker_top_n_entrada)
-        and bundle.rag_reranker_batch_size == int(cfg.rag_reranker_batch_size)
-    )
+def _argumentos_invocacion_rag_denso(
+    args_tool: dict[str, Any],
+    bundle: RuntimeAgenteBundle,
+) -> dict[str, Any]:
+    """Arma la entrada completa de ``rag_denso`` desde el bundle (un solo camino de parametros RAG)."""
+    ft = args_tool.get("filtros_tipo_pagina")
+    return {
+        "consulta": str(args_tool.get("consulta") or ""),
+        "filtros_tipo_pagina": ft if isinstance(ft, list) else None,
+        "top_k": bundle.rag_top_k,
+        "score_minimo": bundle.rag_score_minimo,
+        "top_k_inicial": bundle.rag_top_k_inicial,
+        "mmr_habilitado": bundle.rag_mmr_habilitado,
+        "mmr_lambda": bundle.rag_mmr_lambda,
+        "reranker_habilitado": bundle.rag_reranker_habilitado,
+        "reranker_modelo": bundle.rag_reranker_modelo,
+        "reranker_top_n_entrada": bundle.rag_reranker_top_n_entrada,
+        "reranker_batch_size": bundle.rag_reranker_batch_size,
+    }
+
 
 CLAVE_MEMORIA_EN_CONFIG: str = "memoria"
 
@@ -362,28 +369,7 @@ def crear_grafo_agente(
             return {"resultado_tool": resultado, "fuentes": []}
         try:
             if nombre_tool == "rag_denso":
-                from src.agentes.herramientas.rag_tool import ejecutar_rag_denso_sync
-
-                cfg = obtener_configuracion()
-                if _parametros_rag_bundle_iguales_a_configuracion(bundle, cfg):
-                    salida_tool = tool.invoke(args_invocacion)
-                else:
-                    consulta_txt = str(args_invocacion.get("consulta") or "")
-                    ft = args_invocacion.get("filtros_tipo_pagina")
-                    salida_tool = ejecutar_rag_denso_sync(
-                        configuracion=cfg,
-                        consulta=consulta_txt,
-                        top_k=bundle.rag_top_k,
-                        score_minimo=bundle.rag_score_minimo,
-                        filtros_tipo_pagina=ft if isinstance(ft, list) else None,
-                        top_k_inicial=bundle.rag_top_k_inicial,
-                        mmr_habilitado=bundle.rag_mmr_habilitado,
-                        mmr_lambda=bundle.rag_mmr_lambda,
-                        reranker_habilitado=bundle.rag_reranker_habilitado,
-                        reranker_modelo=bundle.rag_reranker_modelo,
-                        reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
-                        reranker_batch_size=bundle.rag_reranker_batch_size,
-                    )
+                salida_tool = tool.invoke(_argumentos_invocacion_rag_denso(args_invocacion, bundle))
             else:
                 salida_tool = tool.invoke(args_invocacion)
         except Exception as exc:  # noqa: BLE001 — aislar fallos de tool en respuesta trazable
@@ -403,24 +389,15 @@ def crear_grafo_agente(
             salida_tool = {"resultado": salida_tool}
         nombre_efectivo = str(nombre_tool or "")
         if nombre_efectivo == "listar_estructurado" and int(salida_tool.get("conteo") or 0) == 0:
-            from src.agentes.herramientas.rag_tool import ejecutar_rag_denso_sync
             from src.rag.intencion import inferir_filtros_tipo_pagina_para_rag
 
-            cfg = obtener_configuracion()
             fj = inferir_filtros_tipo_pagina_para_rag(str(state.get("pregunta") or ""))
-            salida_tool = ejecutar_rag_denso_sync(
-                configuracion=cfg,
-                consulta=str(state.get("pregunta") or "").strip(),
-                top_k=bundle.rag_top_k,
-                score_minimo=bundle.rag_score_minimo,
-                filtros_tipo_pagina=fj,
-                top_k_inicial=bundle.rag_top_k_inicial,
-                mmr_habilitado=bundle.rag_mmr_habilitado,
-                mmr_lambda=bundle.rag_mmr_lambda,
-                reranker_habilitado=bundle.rag_reranker_habilitado,
-                reranker_modelo=bundle.rag_reranker_modelo,
-                reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
-                reranker_batch_size=bundle.rag_reranker_batch_size,
+            tool_rag = tools_por_nombre["rag_denso"]
+            salida_tool = tool_rag.invoke(
+                _argumentos_invocacion_rag_denso(
+                    {"consulta": str(state.get("pregunta") or "").strip(), "filtros_tipo_pagina": fj},
+                    bundle,
+                )
             )
             nombre_efectivo = "rag_denso"
         fuentes: list[dict[str, Any]] = []
