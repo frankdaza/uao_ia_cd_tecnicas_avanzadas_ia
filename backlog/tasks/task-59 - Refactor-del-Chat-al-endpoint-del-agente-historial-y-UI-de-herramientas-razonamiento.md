@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - frontend
   - chat
@@ -23,7 +23,7 @@ references:
 documentation:
   - .claude/skills/react-vite-qa-ui/SKILL.md
 priority: medium
-ordinal: 14000
+ordinal: 19000
 ---
 
 ## Description

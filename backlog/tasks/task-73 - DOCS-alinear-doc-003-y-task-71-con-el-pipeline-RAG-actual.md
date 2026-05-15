@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:24'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - rag
   - documentation
@@ -23,7 +23,7 @@ documentation:
   - .claude/skills/backlog-docs/SKILL.md
   - .cursor/rules/backlog-docs-format.mdc
 priority: medium
-ordinal: 4000
+ordinal: 9000
 ---
 
 ## Description

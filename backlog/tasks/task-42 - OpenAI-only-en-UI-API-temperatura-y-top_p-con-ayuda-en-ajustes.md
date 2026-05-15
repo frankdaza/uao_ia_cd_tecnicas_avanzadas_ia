@@ -4,7 +4,7 @@ title: OpenAI-only en UI/API; temperatura y top_p con ayuda en ajustes
 status: Done
 assignee: []
 created_date: '2026-05-12 03:53'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - frontend
   - api
@@ -42,7 +42,7 @@ modified_files:
   - frontend/tests/unit/Chat.test.tsx
   - frontend/tests/unit/SettingsPersistence.test.tsx
 priority: high
-ordinal: 31000
+ordinal: 36000
 ---
 
 ## Description

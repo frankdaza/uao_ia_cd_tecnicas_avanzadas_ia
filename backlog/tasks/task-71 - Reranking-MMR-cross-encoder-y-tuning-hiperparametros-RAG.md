@@ -8,7 +8,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - rag
   - qdrant
@@ -26,7 +26,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 5000
+ordinal: 10000
 ---
 
 ## Description

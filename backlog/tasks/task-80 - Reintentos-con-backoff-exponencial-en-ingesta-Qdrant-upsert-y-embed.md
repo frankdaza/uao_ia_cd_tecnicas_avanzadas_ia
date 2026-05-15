@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:29'
-updated_date: '2026-05-15 00:28'
+updated_date: '2026-05-15 01:01'
 labels:
   - rag
   - qdrant
@@ -25,7 +25,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - .claude/skills/uv-python-env/SKILL.md
 priority: medium
-ordinal: 1000
+ordinal: 58.59375
 ---
 
 ## Description

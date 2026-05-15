@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - langgraph
   - agente
@@ -30,7 +30,7 @@ modified_files:
   - src/qa/__init__.py
   - tests/agentes/test_router_grafo.py
 priority: high
-ordinal: 17000
+ordinal: 22000
 ---
 
 ## Description

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:26'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - rag
   - performance
@@ -19,7 +19,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: high
-ordinal: 2000
+ordinal: 7000
 ---
 
 ## Description

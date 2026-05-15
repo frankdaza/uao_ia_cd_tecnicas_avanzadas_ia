@@ -4,7 +4,7 @@ title: Suite E2E de los 4 escenarios del PDF (pytest + httpx y Playwright fronte
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - e2e
   - docker
@@ -22,7 +22,7 @@ documentation:
     backlog/docs/actividades/Técnicas Avanzadas de IA en Modelos de Lenguaje -
     Actividad del Módulo 2.pdf
 priority: high
-ordinal: 12000
+ordinal: 17000
 ---
 
 ## Description

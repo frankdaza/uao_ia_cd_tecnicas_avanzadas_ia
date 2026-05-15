@@ -25,7 +25,9 @@ class _EmbFijo:
 
 
 class _RerankFijo:
-    def puntuar(self, consulta: str, textos: list[str], **_kwargs: object) -> list[float]:
+    def puntuar(
+        self, consulta: str, textos: list[str], **_kwargs: object
+    ) -> list[float]:
         # Invierte la preferencia por longitud para alterar el orden respecto a similitud.
         return [float(100 - len(t)) for t in textos]
 
@@ -33,18 +35,23 @@ class _RerankFijo:
 class _RerankIndiceAscendente:
     """Prefiere el ultimo texto del prefijo denso (orden de entrada = orden denso)."""
 
-    def puntuar(self, consulta: str, textos: list[str], **_kwargs: object) -> list[float]:
+    def puntuar(
+        self, consulta: str, textos: list[str], **_kwargs: object
+    ) -> list[float]:
         return [float(i) for i in range(len(textos))]
 
 
 def _payload(**kwargs: Any) -> dict[str, Any]:
-    return {
+    out: dict[str, Any] = {
         "archivo": kwargs["archivo"],
         "titulo": kwargs["titulo"],
         "source_url": kwargs.get("source_url", ""),
         "chunk_index": kwargs.get("chunk_index", 0),
         "texto": kwargs["texto"],
     }
+    if kwargs.get("tipo_pagina") is not None:
+        out["tipo_pagina"] = str(kwargs["tipo_pagina"])
+    return out
 
 
 @pytest.fixture
@@ -160,7 +167,9 @@ def test_consultar_embeddea_consulta_una_sola_vez(limpiar_qdrant: None) -> None:
             **extra,
         )
         rec.consultar("que es la fundacion?")
-        assert emb.get_query_embedding.call_count == 1, f"mmr_habilitado={mmr_habilitado}"
+        assert emb.get_query_embedding.call_count == 1, (
+            f"mmr_habilitado={mmr_habilitado}"
+        )
 
 
 def test_pipeline_solo_mmr(limpiar_qdrant: None) -> None:
@@ -220,7 +229,9 @@ def test_pipeline_mmr_y_reranker(limpiar_qdrant: None) -> None:
     assert len(out.fuentes) == 2
 
 
-def test_reranker_falla_degrada_sin_excepcion(monkeypatch: pytest.MonkeyPatch, limpiar_qdrant: None) -> None:
+def test_reranker_falla_degrada_sin_excepcion(
+    monkeypatch: pytest.MonkeyPatch, limpiar_qdrant: None
+) -> None:
     vs = _coleccion_y_vs(limpiar_qdrant)
 
     class _Mal:
@@ -272,10 +283,20 @@ def test_consultar_embeddings_fallo() -> None:
 def test_consultar_zip_mismatch() -> None:
     n_a = MagicMock()
     n_a.get_content = MagicMock(return_value="texto a")
-    n_a.metadata = {"archivo": "a.md", "titulo": "A", "source_url": "", "chunk_index": 0}
+    n_a.metadata = {
+        "archivo": "a.md",
+        "titulo": "A",
+        "source_url": "",
+        "chunk_index": 0,
+    }
     n_b = MagicMock()
     n_b.get_content = MagicMock(return_value="texto b")
-    n_b.metadata = {"archivo": "b.md", "titulo": "B", "source_url": "", "chunk_index": 0}
+    n_b.metadata = {
+        "archivo": "b.md",
+        "titulo": "B",
+        "source_url": "",
+        "chunk_index": 0,
+    }
     resultado = MagicMock()
     resultado.nodes = [n_a, n_b]
     resultado.similarities = [0.99]
@@ -302,12 +323,16 @@ def test_desde_configuracion_respeta_flags(limpiar_qdrant: None) -> None:
         rag_mmr_habilitado=False,
         rag_reranker_habilitado=False,
     )
-    rec = RecuperadorDenso.desde_configuracion(cfg, vector_store=vs, embeddings=_EmbFijo([1.0, 0.0, 0.0, 0.0]))
+    rec = RecuperadorDenso.desde_configuracion(
+        cfg, vector_store=vs, embeddings=_EmbFijo([1.0, 0.0, 0.0, 0.0])
+    )
     out = rec.consultar("x")
     assert out.fuentes[0].archivo == "a.md"
 
 
-def test_pipeline_opcion_b_rerank_sobre_prefijo_denso_cinco_candidatos(limpiar_qdrant: None) -> None:
+def test_pipeline_opcion_b_rerank_sobre_prefijo_denso_cinco_candidatos(
+    limpiar_qdrant: None,
+) -> None:
     """
     Cinco puntos; el reranker mock asigna score creciente con el indice del prefijo denso
     (orden de ``candidatos_ns``). El ganador es siempre el ultimo de ese prefijo.
@@ -366,3 +391,237 @@ def test_pipeline_opcion_b_campos_score_mmr_y_rerank(limpiar_qdrant: None) -> No
         assert 0.5 <= f.score_denso <= 1.0
     # El reranker mock no devuelve similitud coseno; debe diferir del denso al menos en un tope
     assert any(abs(f.score_final - f.score_denso) > 0.05 for f in out.fuentes)
+
+
+def _coleccion_mmr_cinco_angulos(limpiar_qdrant: None) -> QdrantVectorStore:
+    """Cinco puntos: tres casi alineados al eje X y dos mas diversos (Y/Z)."""
+    cliente = QdrantClient(location=":memory:")
+    nombre = "col_mmr_div"
+    cliente.create_collection(
+        nombre,
+        vectors_config=VectorParams(size=4, distance=Distance.COSINE),
+    )
+    ids_uuid = (
+        "10000001-0001-4001-8001-000000000001",
+        "10000002-0002-4002-8002-000000000002",
+        "10000003-0003-4003-8003-000000000003",
+        "10000004-0004-4004-8004-000000000004",
+        "10000005-0005-4005-8005-000000000005",
+    )
+    angulos_grados = (0.0, 3.0, 6.0, 42.0, 78.0)
+    puntos: list[PointStruct] = []
+    for i, ang in enumerate(angulos_grados):
+        rad = math.radians(ang)
+        v = [math.cos(rad), math.sin(rad), 0.0, 0.0]
+        puntos.append(
+            PointStruct(
+                id=ids_uuid[i],
+                vector=v,
+                payload=_payload(
+                    archivo=f"cl{i}.md",
+                    titulo=f"C{i}",
+                    texto=f"bloque{i}",
+                ),
+            )
+        )
+    cliente.upsert(collection_name=nombre, points=puntos)
+    return QdrantVectorStore(collection_name=nombre, client=cliente, text_key="texto")
+
+
+def _coleccion_tres_duplicados_denso_y_dos_diversos(
+    limpiar_qdrant: None,
+) -> QdrantVectorStore:
+    """
+    Tres puntos con vector identico (maxima similitud) y dos con direcciones distintas
+    pero aun por encima del umbral; MMR con lambda=0.5 debe mezclar clusters.
+    """
+    cliente = QdrantClient(location=":memory:")
+    nombre = "col_mmr_dup"
+    cliente.create_collection(
+        nombre,
+        vectors_config=VectorParams(size=4, distance=Distance.COSINE),
+    )
+    v_dup = [1.0, 0.0, 0.0, 0.0]
+    v_div_a = [0.82, 0.57, 0.0, 0.0]
+    v_div_b = [0.50, 0.87, 0.0, 0.0]
+    ids_uuid = (
+        "30000001-0001-4001-8001-000000000001",
+        "30000002-0002-4002-8002-000000000002",
+        "30000003-0003-4003-8003-000000000003",
+        "30000004-0004-4004-8004-000000000004",
+        "30000005-0005-4005-8005-000000000005",
+    )
+    archivos = ("dupa.md", "dupb.md", "dupc.md", "diva.md", "divb.md")
+    vectores = (v_dup, v_dup, v_dup, v_div_a, v_div_b)
+    puntos = [
+        PointStruct(
+            id=ids_uuid[i],
+            vector=vectores[i],
+            payload=_payload(archivo=archivos[i], titulo=str(i), texto=f"t{i}"),
+        )
+        for i in range(5)
+    ]
+    cliente.upsert(collection_name=nombre, points=puntos)
+    return QdrantVectorStore(collection_name=nombre, client=cliente, text_key="texto")
+
+
+def _coleccion_tipo_pagina_mixta(limpiar_qdrant: None) -> QdrantVectorStore:
+    """Cuatro puntos con mismo vector; se distinguen por ``tipo_pagina`` en payload."""
+    cliente = QdrantClient(location=":memory:")
+    nombre = "col_tipo_pagina"
+    cliente.create_collection(
+        nombre,
+        vectors_config=VectorParams(size=4, distance=Distance.COSINE),
+    )
+    v = [1.0, 0.0, 0.0, 0.0]
+    puntos = [
+        PointStruct(
+            id="20000001-0001-4001-8001-000000000001",
+            vector=v,
+            payload=_payload(
+                archivo="inst1.md",
+                titulo="I1",
+                texto="contenido institucional uno",
+                tipo_pagina="institucional",
+            ),
+        ),
+        PointStruct(
+            id="20000002-0002-4002-8002-000000000002",
+            vector=v,
+            payload=_payload(
+                archivo="inst2.md",
+                titulo="I2",
+                texto="contenido institucional dos",
+                tipo_pagina="institucional",
+            ),
+        ),
+        PointStruct(
+            id="20000003-0003-4003-8003-000000000003",
+            vector=v,
+            payload=_payload(
+                archivo="bl1.md",
+                titulo="B1",
+                texto="post blog uno",
+                tipo_pagina="blog",
+            ),
+        ),
+        PointStruct(
+            id="20000004-0004-4004-8004-000000000004",
+            vector=v,
+            payload=_payload(
+                archivo="bl2.md",
+                titulo="B2",
+                texto="post blog dos",
+                tipo_pagina="blog",
+            ),
+        ),
+    ]
+    cliente.upsert(collection_name=nombre, points=puntos)
+    return QdrantVectorStore(collection_name=nombre, client=cliente, text_key="texto")
+
+
+class _RerankPromueveCuartoDenso:
+    """Eleva el cuarto candidato del orden denso (indice 3) a maximo score."""
+
+    def puntuar(
+        self, consulta: str, textos: list[str], **_kwargs: object
+    ) -> list[float]:
+        _ = consulta
+        n = len(textos)
+        scores = [10.0] * n
+        if n >= 4:
+            scores[3] = 1000.0
+        return scores
+
+
+def test_pipeline_mmr_diversifica_resultados(limpiar_qdrant: None) -> None:
+    """
+    Con MMR activo y lambda moderado, no se devuelven solo los tres duplicados densos:
+    entran fragmentos con vector distinto (``diva`` / ``divb``).
+    """
+    vs = _coleccion_tres_duplicados_denso_y_dos_diversos(limpiar_qdrant)
+    emb = _EmbFijo([1.0, 0.0, 0.0, 0.0])
+    rec = RecuperadorDenso(
+        vs,
+        emb,
+        top_k=3,
+        score_minimo=0.45,
+        top_k_inicial=10,
+        mmr_habilitado=True,
+        mmr_lambda=0.2,
+        reranker_habilitado=False,
+    )
+    out = rec.consultar("consulta")
+    assert len(out.fuentes) == 3
+    archivos = {f.archivo for f in out.fuentes}
+    assert archivos & {"diva.md", "divb.md"}
+
+
+def test_pipeline_rerank_promueve_relevante(limpiar_qdrant: None) -> None:
+    """El reranker puede subir al tope un candidato que iba cuarto en similitud densa."""
+    vs = _coleccion_cinco_angulos(limpiar_qdrant)
+    emb = _EmbFijo([1.0, 0.0, 0.0, 0.0])
+    rec_denso = RecuperadorDenso(
+        vs,
+        emb,
+        top_k=5,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=False,
+        reranker_habilitado=False,
+    )
+    orden_denso = [f.archivo for f in rec_denso.consultar("x").fuentes]
+    assert len(orden_denso) == 5
+
+    rec = RecuperadorDenso(
+        vs,
+        emb,
+        top_k=1,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=False,
+        reranker_habilitado=True,
+        reranker_top_n_entrada=5,
+        reranker_instancia=_RerankPromueveCuartoDenso(),
+    )
+    out = rec.consultar("x")
+    assert len(out.fuentes) == 1
+    assert out.fuentes[0].archivo == orden_denso[3]
+    assert out.fuentes[0].score_final == pytest.approx(1000.0)
+
+
+def test_recuperador_filtra_por_tipo_pagina(limpiar_qdrant: None) -> None:
+    vs = _coleccion_tipo_pagina_mixta(limpiar_qdrant)
+    rec = RecuperadorDenso(
+        vs,
+        _EmbFijo([1.0, 0.0, 0.0, 0.0]),
+        top_k=10,
+        score_minimo=0.5,
+        mmr_habilitado=False,
+        reranker_habilitado=False,
+    )
+    out = rec.consultar("busqueda", filtros_tipo_pagina=["institucional"])
+    assert len(out.fuentes) == 2
+    assert {f.archivo for f in out.fuentes} == {"inst1.md", "inst2.md"}
+    for f in out.fuentes:
+        assert f.archivo.startswith("inst")
+
+
+def test_pipeline_solo_mmr_prioriza_diversidad_sobre_duplicados_cercanos(
+    limpiar_qdrant: None,
+) -> None:
+    """Con lambda bajo, MMR tiende a incluir ``m.md`` (texto distinto) frente a dos casi duplicados."""
+    vs = _coleccion_y_vs(limpiar_qdrant)
+    rec = RecuperadorDenso(
+        vs,
+        _EmbFijo([1.0, 0.0, 0.0, 0.0]),
+        top_k=2,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=True,
+        mmr_lambda=0.02,
+        reranker_habilitado=False,
+    )
+    out = rec.consultar("x")
+    assert len(out.fuentes) == 2
+    assert any(f.archivo == "m.md" for f in out.fuentes)

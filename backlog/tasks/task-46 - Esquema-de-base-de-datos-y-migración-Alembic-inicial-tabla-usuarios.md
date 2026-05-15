@@ -4,7 +4,7 @@ title: Esquema de base de datos y migración Alembic inicial (tabla usuarios)
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 01:01'
 labels:
   - postgres
   - alembic
@@ -20,7 +20,7 @@ references:
 documentation:
   - .claude/skills/uv-python-env/SKILL.md
 priority: high
-ordinal: 27000
+ordinal: 32000
 ---
 
 ## Description

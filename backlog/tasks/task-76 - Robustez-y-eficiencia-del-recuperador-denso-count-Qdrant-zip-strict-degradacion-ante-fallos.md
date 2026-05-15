@@ -7,7 +7,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:26'
-updated_date: '2026-05-15 00:00'
+updated_date: '2026-05-15 01:01'
 labels:
   - rag
   - robustness
@@ -23,7 +23,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: medium
-ordinal: 1000
+ordinal: 6000
 ---
 
 ## Description
