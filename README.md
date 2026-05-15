@@ -6,7 +6,7 @@ El **producto actual** es un agente conversacional con **memoria en PostgreSQL**
 
 La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume **`POST /api/agente/stream`** (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, entre otros). **No** sustituye canales oficiales ni garantiza vigencia de datos.
 
-**Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+**Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). **Resumen del grafo LangGraph** (orden de nodos, tres herramientas, heurísticas y *fallbacks*): [RESUMEN.md](RESUMEN.md).
 
 **Colaboración y tareas:** el flujo con Backlog.md (MCP) y convenciones del repo están en [AGENTS.md](AGENTS.md).
 
@@ -14,6 +14,7 @@ La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume
 
 - [Flujo principal (Módulo 2)](#flujo-principal-módulo-2)
 - [Arquitectura del agente (detalle)](#arquitectura-del-agente-detalle)
+- [Resumen del grafo del agente (RESUMEN.md)](RESUMEN.md)
 - [Pipeline de datos](#pipeline-de-datos)
 - [Estructura del repositorio](#estructura-del-repositorio)
 - [Stack del Módulo 2](#stack-del-módulo-2)
@@ -57,7 +58,7 @@ flowchart TB
 
 ## Arquitectura del agente (detalle)
 
-Vista ampliada del camino de inferencia (memoria, tool-calling y almacenes). Diagrama alineado con [doc-003 §1](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md); allí hay matices operativos adicionales.
+Vista ampliada del camino de inferencia (memoria, decisión de herramienta, ejecución, composición final y almacenes). El orden exacto de nodos del grafo, los *fallbacks* y el papel del LLM **compositor** frente al LLM **router** están resumidos en [RESUMEN.md](RESUMEN.md). Para matices operativos adicionales ver [doc-003 §1](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md).
 
 ```mermaid
 flowchart TB
@@ -68,31 +69,39 @@ flowchart TB
     S["POST /api/sesiones"]
     A["POST /api/agente/stream SSE"]
   end
-  subgraph nucleo["Agente M2"]
-    RG["Router LangGraph"]
-    LLM["LLM con tools"]
-    H{"Tool elegida"}
-    FAQ["StructuredTool faq_estructurada"]
-    RAG["rag_denso LlamaIndex"]
+  subgraph grafo["LangGraph src/agentes/router.py"]
+    M["cargar_memoria"]
+    I["inferir_intencion"]
+    D["decidir_tool<br/>(LLM router + heurística)"]
+    E["ejecutar_tool"]
+    CP["componer_respuesta<br/>(LLM compositor)"]
+    PS["persistir_turno"]
+    M --> I --> D --> E --> CP --> PS
+  end
+  subgraph tools["StructuredTool"]
+    FAQ["faq_estructurada"]
+    RAG["rag_denso"]
+    LST["listar_estructurado"]
   end
   PG[("PostgreSQL usuarios + chat_history")]
   QD[("Qdrant corpus indexado")]
-  EMB["Embeddings configurados"]
+  FAQjson[("data/structured/faqs.json")]
+  EMB["Embeddings RAG"]
 
   FE --> S
   FE --> A
   S --> PG
-  A --> RG
-  RG --> PG
-  RG --> LLM
-  LLM --> H
-  H --> FAQ
-  H --> RAG
+  A --> M
+  M --> PG
+  E --> FAQ
+  E --> RAG
+  E --> LST
+  FAQ --> FAQjson
   RAG --> QD
   RAG --> EMB
-  FAQ --> RG
-  RAG --> RG
-  LLM --> A
+  LST --> QD
+  PS --> PG
+  CP --> A
   A --> FE
 ```
 
@@ -102,7 +111,7 @@ flowchart TB
 2. **Canon textual:** `scripts.export_markdown` → `data/markdown/` con front matter YAML.
 3. **Vectores:** `scripts.indexar_corpus_qdrant` (o módulo equivalente) → embeddings y puntos en **Qdrant** (alineados con `EMBEDDING_*` y chunking).
 4. **FAQs fijas:** `data/structured/faqs.json` validado contra schema; consumo por la tool `faq_estructurada` sin pasar por Qdrant.
-5. **Producto:** el usuario abre sesión (`POST /api/sesiones`); cada mensaje va a `POST /api/agente/stream`, que ejecuta el grafo y puede invocar **Postgres** (memoria), **Qdrant** (`rag_denso`) y el JSON de FAQs.
+5. **Producto:** el usuario abre sesión (`POST /api/sesiones`); cada mensaje va a `POST /api/agente/stream`, que ejecuta el grafo y puede invocar **Postgres** (memoria), **Qdrant** (`rag_denso` y `listar_estructurado`) y el JSON de FAQs (`faq_estructurada`).
 
 ```mermaid
 flowchart LR
@@ -119,7 +128,7 @@ flowchart LR
 | --- | --- |
 | [`src/api/`](src/api/) | FastAPI (`main`, lifespan), routers (`sesiones`, `agente`, `salud`, `admin`), SSE, esquemas Pydantic, configuración (`configuracion.py`), dependencias. |
 | [`src/agentes/`](src/agentes/) | Grafo LangGraph, estado, meta-prompt, herramientas LangChain, memoria, runtime del agente. |
-| [`src/rag/`](src/rag/) | Embeddings, cliente Qdrant, recuperador denso para la tool `rag_denso`. |
+| [`src/rag/`](src/rag/) | Embeddings, cliente Qdrant, recuperador denso (`rag_denso`) y listados estructurados sobre Qdrant (`listar_estructurado`). |
 | [`src/persistencia/`](src/persistencia/) | Motor SQLAlchemy async, modelos y repositorios (usuarios, sesiones, `config_admin_m2`). |
 | [`src/scraping/`](src/scraping/) | Descarga ética y registro de adquisición hacia `data/raw/`. |
 | [`src/markdown_export/`](src/markdown_export/) | Conversión de crudo a Markdown con front matter. |
@@ -145,7 +154,7 @@ flowchart LR
 | Streaming al chat | Cliente propio en [`frontend/src/lib/sseClient.ts`](frontend/src/lib/sseClient.ts): **`fetch`** + **`ReadableStream`** / **`TextDecoderStream`** + validación con **Zod** (POST con cuerpo JSON; el `EventSource` del navegador no lo permite). |
 | Pruebas frontend | **Vitest** (`pnpm --dir frontend test`), **Playwright** (`pnpm --dir frontend test:e2e`). |
 
-Herramientas expuestas al modelo (identificador `name` en inglés por contrato de tool-calling): **`faq_estructurada`** (sobre `data/structured/faqs.json` validado con schema) y **`rag_denso`** (recuperación por similitud en Qdrant).
+Herramientas expuestas al modelo (identificador `name` en inglés por contrato de tool-calling): **`faq_estructurada`** (`data/structured/faqs.json` validado con schema), **`rag_denso`** (similitud densa en Qdrant vía LlamaIndex) y **`listar_estructurado`** (listados y conteos por *scroll* y filtros de payload en Qdrant). Detalle de decisión y *fallbacks*: [RESUMEN.md](RESUMEN.md).
 
 ## Patrones de diseño en el código
 
@@ -154,7 +163,7 @@ Herramientas expuestas al modelo (identificador `name` en inglés por contrato d
 - **Factory del grafo:** construcción y opciones del grafo LangGraph en [`src/api/factoria_grafo_agente.py`](src/api/factoria_grafo_agente.py).
 - **Repositorio:** acceso a tablas OLTP encapsulado en [`src/persistencia/repositorios/`](src/persistencia/repositorios/) (usuarios, sesiones, configuración admin).
 - **Strategy / configuración por proveedor:** selección de embeddings (OpenAI, HuggingFace, etc.) en [`src/rag/embeddings.py`](src/rag/embeddings.py) según variables `EMBEDDING_*`.
-- **Tool-calling (LangChain):** el router obliga las dos `StructuredTool` (`faq_estructurada`, `rag_denso`) en [`src/agentes/router.py`](src/agentes/router.py).
+- **Tool-calling (LangChain):** el grafo enlaza por defecto tres `StructuredTool` (`faq_estructurada`, `rag_denso`, `listar_estructurado`) en [`src/agentes/router.py`](src/agentes/router.py); la elección puede combinar heurísticas locales y el LLM router (ver [RESUMEN.md](RESUMEN.md)).
 - **Hot reload de parámetros admin:** tras `PATCH /api/admin/config`, el siguiente stream usa un snapshot actualizado del bundle en [`src/agentes/runtime_agente.py`](src/agentes/runtime_agente.py), orquestado por [`src/api/servicios/agente_m2_config.py`](src/api/servicios/agente_m2_config.py) (ver [Panel administrativo](#panel-administrativo-admin-m2)).
 
 ## Variables de entorno (agrupadas)
