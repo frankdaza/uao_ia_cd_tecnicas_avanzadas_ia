@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/cn'
 import type { ListadoItem } from '@/lib/schemas'
+import { MarkdownCodeBlock } from './MarkdownCodeBlock'
 
 export interface Message {
   id: string

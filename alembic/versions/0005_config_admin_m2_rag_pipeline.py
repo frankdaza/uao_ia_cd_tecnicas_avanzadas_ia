@@ -1,7 +1,7 @@
 """Columnas RAG extendidas (MMR y reranker) en config_admin_m2.
 
 Revision ID: 0005_config_admin_m2_rag_pipeline
-Revises: 0004_m2_hist_turnos_max
+Revises: 0004a_alembic_vnum_128
 Create Date: 2026-05-14
 
 """
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 revision: str = "0005_config_admin_m2_rag_pipeline"
-down_revision: Union[str, Sequence[str], None] = "0004_m2_hist_turnos_max"
+down_revision: Union[str, Sequence[str], None] = "0004a_alembic_vnum_128"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
