@@ -13,7 +13,7 @@ from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.api.configuracion import Configuracion
 from src.rag.qdrant_store import reiniciar_cliente_qdrant
-from src.rag.recuperador_denso import RecuperadorDenso
+from src.rag.recuperador_denso import MENSAJE_SIN_RESULTADOS, RecuperadorDenso
 
 
 class _EmbFijo:
@@ -195,6 +195,57 @@ def test_reranker_falla_degrada_sin_excepcion(monkeypatch: pytest.MonkeyPatch, l
     )
     out = rec.consultar("x")
     assert len(out.fuentes) == 2
+
+
+def test_consultar_qdrant_fallo() -> None:
+    vs = MagicMock()
+    vs.collection_name = "mock_col"
+    vs.query.side_effect = RuntimeError("qdrant no disponible")
+    rec = RecuperadorDenso(
+        vs,
+        _EmbFijo([1.0, 0.0, 0.0, 0.0]),
+        top_k=2,
+        score_minimo=0.5,
+    )
+    out = rec.consultar("pregunta")
+    assert out.fuentes == []
+    assert out.razon == "qdrant_fallo"
+    assert MENSAJE_SIN_RESULTADOS in out.respuesta_contexto
+
+
+def test_consultar_embeddings_fallo() -> None:
+    vs = MagicMock()
+    vs.collection_name = "mock_col"
+    emb = MagicMock()
+    emb.get_query_embedding = MagicMock(side_effect=ConnectionError("offline"))
+    rec = RecuperadorDenso(vs, emb, top_k=2, score_minimo=0.5)
+    out = rec.consultar("pregunta")
+    assert out.fuentes == []
+    assert out.razon == "embeddings_fallo"
+
+
+def test_consultar_zip_mismatch() -> None:
+    n_a = MagicMock()
+    n_a.get_content = MagicMock(return_value="texto a")
+    n_a.metadata = {"archivo": "a.md", "titulo": "A", "source_url": "", "chunk_index": 0}
+    n_b = MagicMock()
+    n_b.get_content = MagicMock(return_value="texto b")
+    n_b.metadata = {"archivo": "b.md", "titulo": "B", "source_url": "", "chunk_index": 0}
+    resultado = MagicMock()
+    resultado.nodes = [n_a, n_b]
+    resultado.similarities = [0.99]
+    vs = MagicMock()
+    vs.collection_name = "mock_col"
+    vs.query = MagicMock(return_value=resultado)
+    rec = RecuperadorDenso(
+        vs,
+        _EmbFijo([1.0, 0.0, 0.0, 0.0]),
+        top_k=2,
+        score_minimo=0.1,
+    )
+    out = rec.consultar("pregunta")
+    assert out.fuentes == []
+    assert out.razon == "qdrant_response_mismatch"
 
 
 def test_desde_configuracion_respeta_flags(limpiar_qdrant: None) -> None:

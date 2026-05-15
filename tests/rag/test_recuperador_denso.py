@@ -91,6 +91,7 @@ def test_recuperador_coleccion_vacia(limpiar_singletons_qdrant: None) -> None:
     out = rec.consultar("cualquier cosa")
     assert out.fuentes == []
     assert MENSAJE_COLECCION_VACIA in out.respuesta_contexto
+    assert out.razon == "coleccion_vacia"
 
 
 def test_recuperador_umbral_filtra_y_ordena_desc(limpiar_singletons_qdrant: None) -> None:

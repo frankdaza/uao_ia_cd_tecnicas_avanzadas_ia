@@ -3,11 +3,11 @@ id: TASK-77
 title: >-
   Coherencia metrica Qdrant/MMR y robustez del diversificador (dims, normas casi
   cero, contrato k_final)
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:27'
-updated_date: '2026-05-14 23:27'
+updated_date: '2026-05-15 00:01'
 labels:
   - rag
   - mmr
@@ -27,7 +27,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 5000
+ordinal: 1000
 ---
 
 ## Description

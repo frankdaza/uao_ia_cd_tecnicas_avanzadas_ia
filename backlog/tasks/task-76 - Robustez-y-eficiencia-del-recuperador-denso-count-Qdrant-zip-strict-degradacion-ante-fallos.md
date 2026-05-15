@@ -3,11 +3,11 @@ id: TASK-76
 title: >-
   Robustez y eficiencia del recuperador denso (count Qdrant, zip strict,
   degradacion ante fallos)
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:26'
-updated_date: '2026-05-14 23:57'
+updated_date: '2026-05-15 00:00'
 labels:
   - rag
   - robustness
@@ -63,12 +63,12 @@ Solo `src/rag/recuperador_denso.py`, su test asociado y posiblemente `src/rag/qd
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 El count(..., exact=True) por consulta queda eliminado. Alternativa documentada: (a) flag cacheado coleccion_vacia: bool | None en RecuperadorDenso, o (b) inferir vacia si la primera query devuelve 0 resultados.
-- [ ] #2 El zip(nodos, sims, strict=True) ahora maneja ValueError: devuelve SalidaRecuperacionRagDenso(fuentes=[], razon='qdrant_response_mismatch') y emite log con exc_info.
-- [ ] #3 Excepciones de get_query_embedding y de vector_store.query se capturan en consultar con degradacion estructurada: SalidaRecuperacionRagDenso vacio + log estructurado con categoria, consulta_hash truncado, tipo de excepcion.
-- [ ] #4 Tests mock-driven nuevos en tests/rag/test_recuperador_denso_pipeline.py: (a) FakeVectorStore.query lanza RuntimeError -> consultar no propaga; (b) embeddings.get_query_embedding lanza Exception -> consultar no propaga; (c) zip mismatch -> razon='qdrant_response_mismatch'.
-- [ ] #5 Bench manual: latencia p50 (50 consultas) menor o igual a la baseline previa (sin el count por consulta).
-- [ ] #6 SalidaRecuperacionRagDenso documenta el campo razon en docstring.
+- [x] #1 El count(..., exact=True) por consulta queda eliminado. Alternativa documentada: (a) flag cacheado coleccion_vacia: bool | None en RecuperadorDenso, o (b) inferir vacia si la primera query devuelve 0 resultados.
+- [x] #2 El zip(nodos, sims, strict=True) ahora maneja ValueError: devuelve SalidaRecuperacionRagDenso(fuentes=[], razon='qdrant_response_mismatch') y emite log con exc_info.
+- [x] #3 Excepciones de get_query_embedding y de vector_store.query se capturan en consultar con degradacion estructurada: SalidaRecuperacionRagDenso vacio + log estructurado con categoria, consulta_hash truncado, tipo de excepcion.
+- [x] #4 Tests mock-driven nuevos en tests/rag/test_recuperador_denso_pipeline.py: (a) FakeVectorStore.query lanza RuntimeError -> consultar no propaga; (b) embeddings.get_query_embedding lanza Exception -> consultar no propaga; (c) zip mismatch -> razon='qdrant_response_mismatch'.
+- [x] #5 Bench manual: latencia p50 (50 consultas) menor o igual a la baseline previa (sin el count por consulta).
+- [x] #6 SalidaRecuperacionRagDenso documenta el campo razon en docstring.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -115,11 +115,19 @@ Solo `src/rag/recuperador_denso.py`, su test asociado y posiblemente `src/rag/qd
 
 <!-- SECTION:NOTES:BEGIN -->
 Capturas finas primero (excepciones especificas de Qdrant/OpenAI cuando se conozcan), luego `Exception` como red de seguridad. Usar `logger.exception(..., extra={...})` para conservar traceback. No silenciar logs: el operador debe poder ver el contexto. Considerar incluir mensaje user-friendly en `razon` (string corto, snake_case) que la TASK-81 pueda exponer al modelo del agente como contexto. La degradacion estructurada permite a la tool `rag_denso` (TASK-81) generar un mensaje de cara al usuario sin tracebacks. Conservar back-compat: el campo `razon` es opcional y default `None` para no romper consumidores.
+
+Bench manual local (:memory:, 50 llamadas a consultar con 1 punto en coleccion): p50 ~0.055 ms, min ~0.048 ms, max ~0.302 ms (embeddings mock). Se elimino un count(exact=True) por consulta; en colecciones grandes el ahorro es un RTT menos el coste O(n) del count exacto en Qdrant.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se elimino el count(exact=True) por consulta y se reemplazo por inferencia de coleccion vacia (0 nodos sin filtros de metadata) mas cache `_coleccion_vacia` para consultas sin filtros. Se anadio el campo opcional `razon` en `SalidaRecuperacionRagDenso` (documentado en docstring) y degradacion con logs estructurados (`categoria`, `consulta_hash` truncado SHA-256, `exc_type`) para fallos de embeddings, fallos de Qdrant y mismatch nodos/similitudes (`zip` strict). Tests mock-driven nuevos en `tests/rag/test_recuperador_denso_pipeline.py`. Bench manual: 50 consultas en :memory: con p50 ~0.055 ms (sin count por peticion).
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
-- [ ] #2 ReadLints sobre archivos modificados sin nuevos errores.
-- [ ] #3 Tarea con status: Done sin archivar.
+- [x] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
+- [x] #2 ReadLints sobre archivos modificados sin nuevos errores.
+- [x] #3 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

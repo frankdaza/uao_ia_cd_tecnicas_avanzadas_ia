@@ -4,6 +4,7 @@ Recuperacion densa sobre Qdrant usando LlamaIndex (sin BM25 ni lectura de Markdo
 
 from __future__ import annotations
 
+import hashlib
 import logging
 from typing import TYPE_CHECKING, cast
 
@@ -53,7 +54,16 @@ class FuenteRagDenso(BaseModel):
 
 
 class SalidaRecuperacionRagDenso(BaseModel):
-    """Contrato estable hacia el LLM compositor."""
+    """
+    Contrato estable hacia el LLM compositor.
+
+    El campo ``razon`` es opcional: indica por que no hay fragmentos utiles cuando
+    ``fuentes`` esta vacia. Valores posibles (snake_case): ``coleccion_vacia`` (sin
+    puntos indexados en la consulta sin filtros), ``embeddings_fallo`` (proveedor de
+    embeddings indisponible o error), ``qdrant_fallo`` (error al consultar el vector
+    store) y ``qdrant_response_mismatch`` (cardinalidad inconsistente entre nodos y
+    similitudes devueltas por el backend).
+    """
 
     respuesta_contexto: str = Field(
         description=(
@@ -62,6 +72,10 @@ class SalidaRecuperacionRagDenso(BaseModel):
         ),
     )
     fuentes: list[FuenteRagDenso] = Field(default_factory=list)
+    razon: str | None = Field(
+        default=None,
+        description="Causa de degradacion cuando no hay fuentes recuperadas.",
+    )
 
 
 class RecuperadorDenso:
@@ -97,6 +111,7 @@ class RecuperadorDenso:
         self._reranker_modelo = str(reranker_modelo).strip() or "BAAI/bge-reranker-base"
         self._reranker_top_n_entrada = max(1, int(reranker_top_n_entrada))
         self._reranker_instancia = reranker_instancia
+        self._coleccion_vacia: bool | None = None
 
     @classmethod
     def desde_configuracion(
@@ -150,13 +165,9 @@ class RecuperadorDenso:
             n = max(n, self._reranker_top_n_entrada)
         return max(1, n)
 
-    def _contar_puntos(self) -> int:
-        cliente = self._vector_store.client
-        return int(
-            cliente.count(
-                collection_name=self._vector_store.collection_name, exact=True
-            ).count
-        )
+    @staticmethod
+    def _consulta_hash_truncada(consulta: str) -> str:
+        return hashlib.sha256(consulta.encode("utf-8")).hexdigest()[:16]
 
     @staticmethod
     def _filtros_tipo_pagina(
@@ -179,43 +190,73 @@ class RecuperadorDenso:
 
     def _pares_filtrados(
         self,
+        consulta: str,
         consulta_limpia: str,
         *,
         top_k: int | None = None,
         filtros_tipo_pagina: list[str] | None = None,
-        query_embedding: list[float] | None = None,
-    ) -> list[tuple[float, object]]:
+        query_embedding: list[float],
+    ) -> tuple[list[tuple[float, object]], str | None]:
         k = self._limite_qdrant(self._top_k if top_k is None else max(1, int(top_k)))
-        emb_consulta = (
-            list(query_embedding)
-            if query_embedding is not None
-            else list(self._embeddings.get_query_embedding(consulta_limpia))
-        )
+        emb_consulta = list(query_embedding)
         filtros_meta = self._filtros_tipo_pagina(filtros_tipo_pagina)
         consulta_vs = VectorStoreQuery(
             query_embedding=emb_consulta,
             similarity_top_k=k,
             filters=filtros_meta,
         )
-        if self._necesita_vectores():
-            vs = self._vector_store
-            query_filter = cast(Filter, vs._build_query_filter(consulta_vs))
-            resp = vs.client.query_points(
-                collection_name=vs.collection_name,
-                query=emb_consulta,
-                using=vs.dense_vector_name,
-                limit=k,
-                query_filter=query_filter,
-                with_payload=True,
-                with_vectors=True,
+        try:
+            if self._necesita_vectores():
+                vs = self._vector_store
+                query_filter = cast(Filter, vs._build_query_filter(consulta_vs))
+                resp = vs.client.query_points(
+                    collection_name=vs.collection_name,
+                    query=emb_consulta,
+                    using=vs.dense_vector_name,
+                    limit=k,
+                    query_filter=query_filter,
+                    with_payload=True,
+                    with_vectors=True,
+                )
+                resultado_vs = vs.parse_to_query_result(resp.points)
+            else:
+                resultado_vs = self._vector_store.query(consulta_vs)
+        except Exception as exc:  # noqa: BLE001 — degradacion controlada hacia el agente
+            logger.exception(
+                "rag.consultar.qdrant_fallo",
+                extra={
+                    "categoria": "qdrant_fallo",
+                    "consulta_hash": self._consulta_hash_truncada(consulta),
+                    "exc_type": type(exc).__name__,
+                },
             )
-            resultado_vs = vs.parse_to_query_result(resp.points)
-        else:
-            resultado_vs = self._vector_store.query(consulta_vs)
+            return [], "qdrant_fallo"
+
         nodos = resultado_vs.nodes or []
         sims = resultado_vs.similarities or []
+        if nodos:
+            self._coleccion_vacia = False
+
+        if not nodos and filtros_meta is None:
+            return [], "coleccion_vacia_inferida"
+
+        try:
+            emparejados = list(zip(nodos, sims, strict=True))
+        except ValueError:
+            logger.exception(
+                "rag.consultar.qdrant_response_mismatch",
+                extra={
+                    "categoria": "qdrant_response_mismatch",
+                    "consulta_hash": self._consulta_hash_truncada(consulta),
+                    "nodos": len(nodos),
+                    "sims": len(sims),
+                    "exc_type": "ValueError",
+                },
+            )
+            return [], "qdrant_response_mismatch"
+
         pares: list[tuple[float, object]] = []
-        for nodo, sim in zip(nodos, sims, strict=True):
+        for nodo, sim in emparejados:
             if sim is None:
                 continue
             try:
@@ -225,7 +266,7 @@ class RecuperadorDenso:
             if s >= self._score_minimo:
                 pares.append((s, nodo))
         pares.sort(key=lambda t: t[0], reverse=True)
-        return pares
+        return pares, None
 
     @staticmethod
     def _meta_chunk(nodo: object) -> tuple[str, str, str, int]:
@@ -344,6 +385,8 @@ class RecuperadorDenso:
 
         Los resultados se ordenan por score descendente. Si la colección está vacía o
         ningún punto supera el umbral, se devuelve un mensaje claro y ``fuentes`` vacía.
+        Ante fallos de embeddings o de Qdrant, no se propaga la excepción: se devuelve
+        ``fuentes`` vacía y el campo opcional ``razon`` indica la causa (snake_case).
 
         Args:
             consulta: Texto de la pregunta.
@@ -359,23 +402,65 @@ class RecuperadorDenso:
 
         top_efectivo = self._top_k if top_k is None else max(1, int(top_k))
 
-        if self._contar_puntos() == 0:
+        tiene_filtros = self._filtros_tipo_pagina(filtros_tipo_pagina) is not None
+        if self._coleccion_vacia is True and not tiene_filtros:
             logger.info(
-                "RAG denso: coleccion %s vacia",
+                "RAG denso: coleccion %s vacia (cache sin count)",
                 self._vector_store.collection_name,
             )
             return SalidaRecuperacionRagDenso(
                 respuesta_contexto=MENSAJE_COLECCION_VACIA,
                 fuentes=[],
+                razon="coleccion_vacia",
             )
 
-        query_embedding = list(self._embeddings.get_query_embedding(consulta_limpia))
-        pares = self._pares_filtrados(
+        try:
+            query_embedding = list(self._embeddings.get_query_embedding(consulta_limpia))
+        except Exception as exc:  # noqa: BLE001 — degradacion controlada hacia el agente
+            logger.exception(
+                "rag.consultar.embeddings_fallo",
+                extra={
+                    "categoria": "embeddings_fallo",
+                    "consulta_hash": self._consulta_hash_truncada(consulta),
+                    "exc_type": type(exc).__name__,
+                },
+            )
+            return SalidaRecuperacionRagDenso(
+                respuesta_contexto=MENSAJE_SIN_RESULTADOS,
+                fuentes=[],
+                razon="embeddings_fallo",
+            )
+
+        pares, fatal = self._pares_filtrados(
+            consulta,
             consulta_limpia,
             top_k=top_efectivo,
             filtros_tipo_pagina=filtros_tipo_pagina,
             query_embedding=query_embedding,
         )
+        if fatal == "coleccion_vacia_inferida":
+            self._coleccion_vacia = True
+            logger.info(
+                "RAG denso: coleccion %s vacia (inferida sin count)",
+                self._vector_store.collection_name,
+            )
+            return SalidaRecuperacionRagDenso(
+                respuesta_contexto=MENSAJE_COLECCION_VACIA,
+                fuentes=[],
+                razon="coleccion_vacia",
+            )
+        if fatal == "qdrant_response_mismatch":
+            return SalidaRecuperacionRagDenso(
+                respuesta_contexto=MENSAJE_SIN_RESULTADOS,
+                fuentes=[],
+                razon="qdrant_response_mismatch",
+            )
+        if fatal == "qdrant_fallo":
+            return SalidaRecuperacionRagDenso(
+                respuesta_contexto=MENSAJE_SIN_RESULTADOS,
+                fuentes=[],
+                razon="qdrant_fallo",
+            )
         if not pares:
             return SalidaRecuperacionRagDenso(
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,
