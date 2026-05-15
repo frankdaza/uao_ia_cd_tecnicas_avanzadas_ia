@@ -3,11 +3,11 @@ id: TASK-82
 title: >-
   Eval RAG multi-config en una corrida + guardarrailes (fail-if-empty, git rev,
   umbrales recall/nDCG)
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:31'
-updated_date: '2026-05-15 00:38'
+updated_date: '2026-05-15 00:44'
 labels:
   - rag
   - evaluation
@@ -65,13 +65,13 @@ Se tocan `scripts/eval_metricas_rag.py` (logica multi-config, guardarrailes, con
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 uv run scripts/eval_metricas_rag.py --config todas ejecuta los 4 presets en una sola corrida y escribe: (a) reporte consolidado en reportes/eval_rag_<timestamp>.md; (b) CSV con metricas comparables por preset (reportes/eval_rag_<timestamp>.csv).
-- [ ] #2 Flag --fail-if-empty aborta con exit code distinto de 0 si la coleccion Qdrant esta vacia o no existe. Validar via cliente.count(collection_name=..., exact=False).
-- [ ] #3 --comparar admite umbrales: --umbral-mrr (default 0.0), --umbral-recall-k (default 0.0), --umbral-ndcg-k (default 0.0); falla si cualquiera regresa por debajo del umbral.
-- [ ] #4 Seccion 'Contexto de ejecucion' del reporte incluye: commit git (subprocess git rev-parse HEAD), timestamp UTC, modelo embeddings (provider + nombre), modelo reranker (si activo), defaults Configuracion relevantes (top_k, mmr_lambda, etc.), SHA256 del golden file.
-- [ ] #5 Tests de pytest con tmp_path y mocks: (a) --config todas produce reporte; (b) --fail-if-empty con coleccion vacia exit 1; (c) --comparar con regresion sobre umbral falla.
-- [ ] #6 Back-compat: --config baseline (y otros presets individuales) siguen funcionando para no romper scripts/Makefile existentes.
-- [ ] #7 El CSV es UTF-8 sin BOM (o con BOM opcional) y se abre limpio en pandas/Excel.
+- [x] #1 uv run scripts/eval_metricas_rag.py --config todas ejecuta los 4 presets en una sola corrida y escribe: (a) reporte consolidado en reportes/eval_rag_<timestamp>.md; (b) CSV con metricas comparables por preset (reportes/eval_rag_<timestamp>.csv).
+- [x] #2 Flag --fail-if-empty aborta con exit code distinto de 0 si la coleccion Qdrant esta vacia o no existe. Validar via cliente.count(collection_name=..., exact=False).
+- [x] #3 --comparar admite umbrales: --umbral-mrr (default 0.0), --umbral-recall-k (default 0.0), --umbral-ndcg-k (default 0.0); falla si cualquiera regresa por debajo del umbral.
+- [x] #4 Seccion 'Contexto de ejecucion' del reporte incluye: commit git (subprocess git rev-parse HEAD), timestamp UTC, modelo embeddings (provider + nombre), modelo reranker (si activo), defaults Configuracion relevantes (top_k, mmr_lambda, etc.), SHA256 del golden file.
+- [x] #5 Tests de pytest con tmp_path y mocks: (a) --config todas produce reporte; (b) --fail-if-empty con coleccion vacia exit 1; (c) --comparar con regresion sobre umbral falla.
+- [x] #6 Back-compat: --config baseline (y otros presets individuales) siguen funcionando para no romper scripts/Makefile existentes.
+- [x] #7 El CSV es UTF-8 sin BOM (o con BOM opcional) y se abre limpio en pandas/Excel.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -112,10 +112,16 @@ Se tocan `scripts/eval_metricas_rag.py` (logica multi-config, guardarrailes, con
 Mantener back-compat: `--config baseline` sigue funcionando para evitar romper scripts existentes. El CSV debe permitir abrir limpio en pandas/Excel; UTF-8 BOM opcional (Excel lo prefiere para acentos). Si se anade dependencia para tablas (p. ej. `tabulate`), declararla con `uv add`. Considerar generar grafico simple (matplotlib) opcional con `--grafico`, pero queda fuera del alcance estricto. El golden hash SHA256 da trazabilidad de que set se uso. TASK-83 anadira tests de regresion mas amplios; aqui solo los del propio script.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado: (1) --config todas ejecuta baseline/mmr/reranker/combinado y escribe data/eval/reportes/eval_rag_<timestampUTC>.{md,csv,results.jsonl} con columna preset en CSV/JSONL; (2) contar_puntos_en_coleccion en qdrant_store + --fail-if-empty con exit 1 si coleccion ausente o vacia; (3) --comparar con --umbral-mrr, --umbral-recall-k, --umbral-ndcg-k (default 0) y compatibilidad --umbral-regresion-mrr (equivale a umbral MRR negado); (4) contexto de reporte enriquecido con commit git, SHA256 del golden, embeddings/reranker y defaults; (5) tests en tests/scripts/test_eval_metricas_rag.py; (6) presets individuales sin cambio de contrato; (7) CSV UTF-8 sin BOM. Documentacion actualizada en scripts/README.md.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/scripts/test_eval_metricas_rag.py -v en verde.
-- [ ] #2 Corrida manual uv run scripts/eval_metricas_rag.py --config todas produce reporte + CSV.
-- [ ] #3 Corrida manual con coleccion vacia y --fail-if-empty exit 1.
-- [ ] #4 Tarea con status: Done sin archivar.
+- [x] #1 uv run pytest tests/scripts/test_eval_metricas_rag.py -v en verde.
+- [x] #2 Corrida manual uv run scripts/eval_metricas_rag.py --config todas produce reporte + CSV.
+- [x] #3 Corrida manual con coleccion vacia y --fail-if-empty exit 1.
+- [x] #4 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

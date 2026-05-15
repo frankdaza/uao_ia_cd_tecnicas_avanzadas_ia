@@ -92,6 +92,20 @@ def obtener_qdrant_client(
         return _cliente_qdrant
 
 
+def contar_puntos_en_coleccion(cliente: QdrantClient, nombre: str) -> int | None:
+    """
+    Cuenta puntos indexados **sin** crear la coleccion.
+
+    Returns:
+        ``None`` si la coleccion no existe; si existe, el conteo devuelto por el
+        cliente (``exact=False`` para un coste acotado en colecciones grandes).
+    """
+    if not cliente.collection_exists(nombre):
+        return None
+    res = cliente.count(collection_name=nombre, exact=False)
+    return int(res.count)
+
+
 def _vector_params_desde_coleccion(info: object) -> VectorParams | None:
     """Extrae ``VectorParams`` principal de la respuesta ``get_collection``."""
     params = getattr(info.config, "params", None)

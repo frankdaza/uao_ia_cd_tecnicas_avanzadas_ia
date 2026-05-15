@@ -263,12 +263,18 @@ QDRANT_URL=http://127.0.0.1:6333 QDRANT_COLLECTION=corpus_fvl_eval_hf_baseline \
 uv run python -m scripts.eval_metricas_rag \
   --comparar data/eval/reportes/eval-baseline-2026-05-14.results.jsonl \
             data/eval/reportes/eval-limpio-2026-05-20.results.jsonl \
-  --umbral-regresion-mrr 0.05
+  --umbral-mrr -0.05 --umbral-recall-k 0.0 --umbral-ndcg-k 0.0
 ```
 
-Código de salida `1` si el **MRR medio** de B cae más de `--umbral-regresion-mrr` respecto a A.
+Código de salida `1` si el delta **B − A** de alguna métrica vigilada cae por debajo del umbral correspondiente (por defecto `--umbral-mrr`, `--umbral-recall-k` y `--umbral-ndcg-k` son `0.0`, es decir sin regresión). El flag obsoleto `--umbral-regresion-mrr 0.05` equivale a `--umbral-mrr=-0.05` solo para MRR.
 
-**Flags útiles:** `--golden`, `--config baseline|limpio|markdown|mmr|reranker|adaptativo`, `--collection`, `--reporte-out`, `--comparar`, `--solo-validar-golden`.
+**Cuatro presets en una corrida (baseline, mmr, reranker, combinado):** escribe `data/eval/reportes/eval_rag_<timestamp>.md`, `.csv` y `.results.jsonl` con columna `preset`.
+
+```bash
+uv run python -m scripts.eval_metricas_rag --config todas --fail-if-empty
+```
+
+**Flags útiles:** `--golden`, `--config baseline|limpio|markdown|mmr|reranker|combinado|adaptativo|todas`, `--collection`, `--reporte-out`, `--fail-if-empty`, `--comparar`, `--umbral-mrr`, `--umbral-recall-k`, `--umbral-ndcg-k`, `--solo-validar-golden`.
 
 **Métricas en código:** [`src/rag/metricas_eval.py`](../src/rag/metricas_eval.py) y pruebas en `tests/rag/test_metricas_eval.py`.
 

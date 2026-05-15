@@ -3,11 +3,11 @@ id: TASK-83
 title: >-
   Ampliar suite de tests del pipeline RAG y admin (integradores + regresiones
   consolidadas)
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:32'
-updated_date: '2026-05-14 23:32'
+updated_date: '2026-05-15 00:45'
 labels:
   - rag
   - tests
@@ -38,7 +38,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - .claude/skills/fastapi-sse-api/SKILL.md
 priority: medium
-ordinal: 11000
+ordinal: 1000
 ---
 
 ## Description
