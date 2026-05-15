@@ -308,6 +308,14 @@ uv run python -m scripts.indexar_corpus_qdrant \
 | `--limit` | Máximo de archivos `.md` a procesar (orden por ruta). |
 | `--collection` | Sobrescribe el nombre de la colección Qdrant. |
 | `--batch-size` | Lote para embeddings y upsert. |
+| `--reintentos` | Intentos máximos por llamada a embeddings y a `upsert` ante fallos transitorios (defecto: 3). No reintenta HTTP 400/401/403. |
+| `--backoff-max` | Segundos máximos de espera entre reintentos; backoff exponencial en base 2 (defecto: 30). |
+
+Ante cortes de red, timeouts o errores 5xx, cada lote puede reintentarse sin reiniciar toda la ingesta. Ejemplo:
+
+```bash
+uv run python -m scripts.indexar_corpus_qdrant --reintentos 5 --backoff-max 30
+```
 
 **Salida.** Resumen en consola: estrategia activa, archivos considerados, chunks totales, cuántos se omitieron por hash, upserts, tiempos y **conteo por `tipo_pagina`**.
 

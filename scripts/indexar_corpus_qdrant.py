@@ -30,6 +30,7 @@ from llama_index.core import Document
 from llama_index.core.node_parser import MarkdownNodeParser, SentenceSplitter
 from qdrant_client.models import PointIdsList, PointStruct
 
+from scripts._utiles_retry import ejecutar_con_reintentos
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.rag.embeddings import obtener_embeddings
 from src.rag.extractor_metadata import (
@@ -128,7 +129,9 @@ def encontrar_raiz_repo(inicio: Path | None = None) -> Path:
     return p
 
 
-def parsear_front_matter_yaml(texto_completo: str) -> tuple[dict | None, str, str | None]:
+def parsear_front_matter_yaml(
+    texto_completo: str,
+) -> tuple[dict | None, str, str | None]:
     """
     Parser minimo de front matter entre delimitadores ``---``.
 
@@ -201,9 +204,7 @@ def construir_trabajos(
     Retorna ``(trabajos, archivos_omitidos, advertencias)``.
     """
     if chunk_strategy == "markdown":
-        return construir_trabajos_markdown(
-            rutas_md, raiz, chunk_size, chunk_overlap
-        )
+        return construir_trabajos_markdown(rutas_md, raiz, chunk_size, chunk_overlap)
     return construir_trabajos_sentence(rutas_md, raiz, chunk_size, chunk_overlap)
 
 
@@ -430,15 +431,15 @@ def ejecutar_indexacion(
     limite_archivos: int | None,
     tam_lote_embed: int,
     tam_lote_retrieve: int,
+    reintentos: int = 3,
+    backoff_max_seg: float = 30.0,
 ) -> EstadisticasIndexacion:
     """Pipeline principal: chunks, embeddings selectivos, upsert y purga opcional."""
     t0 = time.perf_counter()
     stats = EstadisticasIndexacion()
 
     if not markdown_dir.is_dir():
-        raise FileNotFoundError(
-            f"No existe el directorio de Markdown: {markdown_dir}"
-        )
+        raise FileNotFoundError(f"No existe el directorio de Markdown: {markdown_dir}")
 
     rutas = sorted(markdown_dir.glob(patron_glob))
     rutas = [p for p in rutas if p.is_file()]
@@ -491,7 +492,16 @@ def ejecutar_indexacion(
     for i in range(0, len(pendientes), tam_lote_embed):
         lote = pendientes[i : i + tam_lote_embed]
         textos = [x.texto for x in lote]
-        vectores = embedder.get_text_embedding_batch(textos)
+        indice_lote = i // tam_lote_embed
+        etiqueta_lote = f"lote_embed_{indice_lote}"
+        vectores = ejecutar_con_reintentos(
+            lambda: embedder.get_text_embedding_batch(textos),
+            intentos=reintentos,
+            espera_max_seg=backoff_max_seg,
+            log=logger,
+            operacion="embed_batch",
+            etiqueta_lote=etiqueta_lote,
+        )
         if not stats.dimension_vector and vectores:
             stats.dimension_vector = len(vectores[0])
         puntos = [
@@ -502,7 +512,16 @@ def ejecutar_indexacion(
             )
             for t, vec in zip(lote, vectores, strict=True)
         ]
-        cliente.upsert(collection_name=cfg.qdrant_collection, points=puntos)
+        ejecutar_con_reintentos(
+            lambda: cliente.upsert(
+                collection_name=cfg.qdrant_collection, points=puntos
+            ),
+            intentos=reintentos,
+            espera_max_seg=backoff_max_seg,
+            log=logger,
+            operacion="qdrant_upsert",
+            etiqueta_lote=f"lote_upsert_{indice_lote}",
+        )
         stats.chunks_upsert += len(puntos)
     stats.segundos_embeddings = time.perf_counter() - t_embed0
 
@@ -640,12 +659,37 @@ def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
         help="Tamano de lote para embeddings y upsert (defecto: 32).",
     )
     p.add_argument(
+        "--reintentos",
+        type=int,
+        default=3,
+        metavar="N",
+        help=(
+            "Intentos maximos por llamada a embed/upsert ante errores transitorios "
+            "(defecto: 3). HTTP 400/401/403 no se reintentan."
+        ),
+    )
+    p.add_argument(
+        "--backoff-max",
+        type=float,
+        default=30.0,
+        metavar="SEC",
+        help=(
+            "Espera maxima entre reintentos en segundos; backoff exponencial en base 2 "
+            "(defecto: 30)."
+        ),
+    )
+    p.add_argument(
         "-v",
         "--verbose",
         action="store_true",
         help="Activa logs de depuracion en stderr.",
     )
-    return p.parse_args(argv)
+    args = p.parse_args(argv)
+    if args.reintentos < 1:
+        p.error("--reintentos debe ser >= 1")
+    if args.backoff_max <= 0:
+        p.error("--backoff-max debe ser > 0")
+    return args
 
 
 def _imprimir_resumen(stats: EstadisticasIndexacion, cfg: Configuracion) -> None:
@@ -658,7 +702,9 @@ def _imprimir_resumen(stats: EstadisticasIndexacion, cfg: Configuracion) -> None
     print(f"  Chunks upsert (nuevo/cambio):   {stats.chunks_upsert}")
     print(f"  Chunks omitidos (sin cambio):   {stats.chunks_omitidos_sin_cambio}")
     print(f"  Puntos purgados:                {stats.puntos_purgados}")
-    print(f"  Dimension vector informada:   {stats.dimension_vector or cfg.embedding_dims}")
+    print(
+        f"  Dimension vector informada:   {stats.dimension_vector or cfg.embedding_dims}"
+    )
     print(f"  Tiempo embeddings + upsert:   {stats.segundos_embeddings:.2f} s")
     print(f"  Tiempo total:                   {stats.segundos_ingesta:.2f} s")
     if stats.chunks_por_tipo_pagina:
@@ -696,16 +742,22 @@ def main(argv: list[str] | None = None) -> int:
         cfg = cfg_base
 
     reiniciar_cliente_qdrant()
-    stats = ejecutar_indexacion(
-        raiz,
-        cfg,
-        markdown_dir,
-        args.patron_glob,
-        purgar=args.purgar,
-        limite_archivos=args.limit,
-        tam_lote_embed=max(1, args.batch_size),
-        tam_lote_retrieve=max(1, min(128, args.batch_size * 4)),
-    )
+    try:
+        stats = ejecutar_indexacion(
+            raiz,
+            cfg,
+            markdown_dir,
+            args.patron_glob,
+            purgar=args.purgar,
+            limite_archivos=args.limit,
+            tam_lote_embed=max(1, args.batch_size),
+            tam_lote_retrieve=max(1, min(128, args.batch_size * 4)),
+            reintentos=args.reintentos,
+            backoff_max_seg=args.backoff_max,
+        )
+    except Exception as exc:
+        logger.error("Indexacion abortada: %s", exc, exc_info=True)
+        return 1
 
     _imprimir_resumen(stats, cfg)
     return 0

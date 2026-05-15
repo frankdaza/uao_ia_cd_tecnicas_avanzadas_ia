@@ -1,11 +1,11 @@
 ---
 id: TASK-80
 title: Reintentos con backoff exponencial en ingesta Qdrant (upsert y embed)
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:29'
-updated_date: '2026-05-15 00:24'
+updated_date: '2026-05-15 00:28'
 labels:
   - rag
   - qdrant
@@ -19,6 +19,8 @@ references:
   - src/rag/embeddings.py
   - pyproject.toml
   - uv.lock
+  - scripts/_utiles_retry.py
+  - tests/scripts/test_ingesta_retry.py
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - .claude/skills/uv-python-env/SKILL.md
@@ -55,15 +57,15 @@ Se tocan `scripts/indexar_corpus_qdrant.py`, posiblemente un nuevo modulo helper
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 pyproject.toml lista tenacity (o equivalente) como dependencia; uv.lock actualizado via uv add tenacity.
-- [ ] #2 Helper _con_reintentos(callable, intentos, espera_max) o equivalente aplica backoff exponencial (intentos default 3, factor 2, espera maxima 30s).
-- [ ] #3 Las llamadas a cliente.upsert(...) y embeddings.get_text_embedding_batch(...) usan el helper.
-- [ ] #4 Nuevo flag CLI --reintentos N (default 3) y --backoff-max SEC (default 30) en indexar_corpus_qdrant.py.
-- [ ] #5 Log estructurado por reintento: intento, tipo_excepcion, lote_id o indice del lote, espera_segundos.
-- [ ] #6 Errores 4xx no transitorios (autenticacion 401/403, payload invalido 400) NO se reintentan: aborta con log de error claro.
-- [ ] #7 Test unitario con FakeCliente que falla 2 veces antes de tener exito; ingesta completa con exit code 0.
-- [ ] #8 Test unitario con FakeCliente que devuelve 401 -> aborta sin reintentar.
-- [ ] #9 README de scripts (o seccion en README principal) documenta el flag y comportamiento.
+- [x] #1 pyproject.toml lista tenacity (o equivalente) como dependencia; uv.lock actualizado via uv add tenacity.
+- [x] #2 Helper _con_reintentos(callable, intentos, espera_max) o equivalente aplica backoff exponencial (intentos default 3, factor 2, espera maxima 30s).
+- [x] #3 Las llamadas a cliente.upsert(...) y embeddings.get_text_embedding_batch(...) usan el helper.
+- [x] #4 Nuevo flag CLI --reintentos N (default 3) y --backoff-max SEC (default 30) en indexar_corpus_qdrant.py.
+- [x] #5 Log estructurado por reintento: intento, tipo_excepcion, lote_id o indice del lote, espera_segundos.
+- [x] #6 Errores 4xx no transitorios (autenticacion 401/403, payload invalido 400) NO se reintentan: aborta con log de error claro.
+- [x] #7 Test unitario con FakeCliente que falla 2 veces antes de tener exito; ingesta completa con exit code 0.
+- [x] #8 Test unitario con FakeCliente que devuelve 401 -> aborta sin reintentar.
+- [x] #9 README de scripts (o seccion en README principal) documenta el flag y comportamiento.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -107,10 +109,16 @@ Se tocan `scripts/indexar_corpus_qdrant.py`, posiblemente un nuevo modulo helper
 Distinguir transitorios vs no transitorios es clave: 4xx no se debe reintentar (gasta cuota); 5xx, ConnectionError, TimeoutError si. La libreria `tenacity` permite combinar `retry_if_exception_type` con un predicado custom. Si la libreria `qdrant-client` ya tiene reintentos internos, configurar este wrapper para no duplicar (revisar `QdrantClient(timeout=...)`). La reanudacion desde el ultimo lote exitoso se deja como follow-up (TASK futura). TASK-82 anadira `--fail-if-empty` a la eval; mantener coherencia de flags entre scripts.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se añadió la dependencia tenacity y el helper scripts/_utiles_retry.py (ejecutar_con_reintentos con backoff exponencial base 2, tope configurable, logs por reintento y sin reintentos en HTTP 400/401/403). scripts/indexar_corpus_qdrant.py envuelve get_text_embedding_batch y cliente.upsert; CLI --reintentos y --backoff-max; main() devuelve 1 ante fallo. Documentación en scripts/README.md. Pruebas en tests/scripts/test_ingesta_retry.py (upsert con ConnectionError, 401 sin reintentos, embed con TimeoutError).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv sync instala tenacity sin errores.
-- [ ] #2 uv run pytest tests/scripts/test_ingesta_retry.py -v en verde.
-- [ ] #3 Ingesta manual contra Qdrant local exitosa con --reintentos 3.
-- [ ] #4 Tarea con status: Done sin archivar.
+- [x] #1 uv sync instala tenacity sin errores.
+- [x] #2 uv run pytest tests/scripts/test_ingesta_retry.py -v en verde.
+- [x] #3 Ingesta manual contra Qdrant local exitosa con --reintentos 3.
+- [x] #4 Tarea con status: Done sin archivar.
 <!-- DOD:END -->
