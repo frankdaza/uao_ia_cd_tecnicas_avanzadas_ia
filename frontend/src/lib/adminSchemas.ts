@@ -22,6 +22,7 @@ export const AdminConfigEstadoSchema = z.object({
   rag_reranker_habilitado: z.boolean(),
   rag_reranker_modelo: z.string().max(256),
   rag_reranker_top_n_entrada: z.number().int().min(1).max(50),
+  rag_reranker_batch_size: z.number().int().min(1).max(256),
   historial_turnos_max: z.number().int().min(1).max(200),
   nota_precedencia: z.string().optional(),
 })

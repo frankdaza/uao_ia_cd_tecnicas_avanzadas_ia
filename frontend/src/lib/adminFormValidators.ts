@@ -78,6 +78,15 @@ export function validarRagRerankerTopNEntrada(valor: string): string | null {
   return null
 }
 
+/** Entero 1–256 alineado a ``RAG_RERANKER_BATCH_SIZE`` (lotes de ``CrossEncoder.predict``). */
+export function validarRagRerankerBatchSize(valor: string): string | null {
+  const t = valor.trim()
+  const n = Number.parseInt(t, 10)
+  if (!Number.isFinite(n) || String(n) !== t) return 'Ingrese un entero válido entre 1 y 256.'
+  if (n < 1 || n > 256) return 'rag_reranker_batch_size debe estar entre 1 y 256.'
+  return null
+}
+
 /** Entero 1–200 alineado a ``HISTORIAL_TURNOS_MAX`` / columna admin. */
 export function validarHistorialTurnosMax(valor: string): string | null {
   const t = valor.trim()

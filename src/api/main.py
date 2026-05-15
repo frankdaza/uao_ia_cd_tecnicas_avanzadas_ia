@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -19,7 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from psycopg_pool import ConnectionPool
 
 from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
-from src.api.configuracion import obtener_configuracion
+from src.api.configuracion import Configuracion, obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
 from src.api.routers import admin, agente, salud, sesiones
@@ -33,6 +34,16 @@ from src.persistencia.motor import (
 logger = logging.getLogger(__name__)
 
 _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+
+
+def _warmup_reranker(cfg: Configuracion) -> None:
+    """Carga el cross-encoder y ejecuta un predict minimo; solo para arranque (thread pool)."""
+    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+
+    rnk = RerankerCrossEncoder(str(cfg.rag_reranker_modelo).strip())
+    t0 = time.perf_counter()
+    rnk.puntuar("warmup", ["warmup"], batch_size=cfg.rag_reranker_batch_size)
+    logger.info("reranker.warmup_ok duracion_s=%.3f", time.perf_counter() - t0)
 
 
 @asynccontextmanager
@@ -53,6 +64,18 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         cfg.qdrant_distance,
         cfg.embedding_dims,
     )
+    if cfg.rag_reranker_habilitado:
+        try:
+            await asyncio.wait_for(
+                asyncio.to_thread(_warmup_reranker, cfg),
+                timeout=5.0,
+            )
+        except TimeoutError:
+            logger.warning(
+                "reranker.warmup_timeout: supero 5 s; el arranque continua sin bloquear."
+            )
+        except Exception:
+            logger.exception("reranker.warmup_fallo")
     app.state.grafo_agente = construir_grafo_agente_produccion_o_none(cfg)
 
     pool_pg = ConnectionPool(

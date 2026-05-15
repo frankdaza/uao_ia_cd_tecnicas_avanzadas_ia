@@ -150,6 +150,11 @@ class ServicioAgenteM2Config:
             return int(fila.rag_reranker_top_n_entrada)
         return int(self._cfg.rag_reranker_top_n_entrada)
 
+    def rag_reranker_batch_size_efectivo(self, fila: ConfigAdminM2 | None) -> int:
+        if fila is not None and fila.rag_reranker_batch_size is not None:
+            return int(fila.rag_reranker_batch_size)
+        return int(self._cfg.rag_reranker_batch_size)
+
     def historial_turnos_max_efectivo(self, fila: ConfigAdminM2 | None) -> int:
         if fila is not None and fila.historial_turnos_max is not None:
             return int(fila.historial_turnos_max)
@@ -220,6 +225,7 @@ class ServicioAgenteM2Config:
                 rag_reranker_habilitado=self.rag_reranker_habilitado_efectivo(fila),
                 rag_reranker_modelo=self.rag_reranker_modelo_efectivo(fila),
                 rag_reranker_top_n_entrada=self.rag_reranker_top_n_entrada_efectivo(fila),
+                rag_reranker_batch_size=self.rag_reranker_batch_size_efectivo(fila),
             )
 
         if not (self._cfg.openai_api_key and str(self._cfg.openai_api_key).strip()):
@@ -241,6 +247,7 @@ class ServicioAgenteM2Config:
             rag_reranker_habilitado=self.rag_reranker_habilitado_efectivo(fila),
             rag_reranker_modelo=self.rag_reranker_modelo_efectivo(fila),
             rag_reranker_top_n_entrada=self.rag_reranker_top_n_entrada_efectivo(fila),
+            rag_reranker_batch_size=self.rag_reranker_batch_size_efectivo(fila),
         )
 
     async def aplicar_parche(
@@ -265,6 +272,7 @@ class ServicioAgenteM2Config:
         rag_reranker_habilitado: bool | None = None,
         rag_reranker_modelo: str | None = None,
         rag_reranker_top_n_entrada: int | None = None,
+        rag_reranker_batch_size: int | None = None,
         historial_turnos_max: int | None = None,
     ) -> ConfigAdminM2:
         """Persiste cambios parciales con control optimista de ``version``."""
@@ -366,6 +374,12 @@ class ServicioAgenteM2Config:
                 msg = "rag_reranker_top_n_entrada debe estar entre 1 y 50."
                 raise ValueError(msg)
             fila.rag_reranker_top_n_entrada = rtn
+        if rag_reranker_batch_size is not None:
+            rbs = int(rag_reranker_batch_size)
+            if not (1 <= rbs <= 256):
+                msg = "rag_reranker_batch_size debe estar entre 1 y 256."
+                raise ValueError(msg)
+            fila.rag_reranker_batch_size = rbs
         if historial_turnos_max is not None:
             ht = int(historial_turnos_max)
             if not (1 <= ht <= 200):

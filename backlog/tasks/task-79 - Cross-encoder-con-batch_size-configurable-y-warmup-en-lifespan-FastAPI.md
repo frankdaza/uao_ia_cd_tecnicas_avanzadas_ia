@@ -1,11 +1,11 @@
 ---
 id: TASK-79
 title: Cross-encoder con batch_size configurable y warmup en lifespan FastAPI
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:28'
-updated_date: '2026-05-15 00:17'
+updated_date: '2026-05-15 00:23'
 labels:
   - rag
   - reranker
@@ -20,6 +20,11 @@ references:
   - src/api/servicios/agente_m2_config.py
   - src/api/main.py
   - src/persistencia/modelos.py
+  - tests/api/test_lifespan.py
+  - alembic/versions/0006_config_admin_m2_reranker_batch_size.py
+  - frontend/src/lib/adminSchemas.ts
+  - frontend/src/features/admin/AdminModelPage.tsx
+  - frontend/src/lib/adminFormValidators.ts
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - .claude/skills/fastapi-sse-api/SKILL.md
@@ -53,13 +58,13 @@ Se tocan `src/rag/reranker_cross_encoder.py`, `src/api/configuracion.py`, `src/a
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Nuevo setting rag_reranker_batch_size: int en src/api/configuracion.py (default 16, rango [1, 256]) con docstring y validador Pydantic.
-- [ ] #2 Setting expuesto en panel admin (Pydantic en esquemas_admin.py + servicio en agente_m2_config.py); si requiere persistencia, migracion Alembic 0006_*.py con columna nueva y downgrade reversible.
-- [ ] #3 src/rag/reranker_cross_encoder.py.puntuar(...) pasa batch_size=cfg.rag_reranker_batch_size a CrossEncoder.predict.
-- [ ] #4 Hook de warmup opcional en lifespan de src/api/main.py: si rag_reranker_habilitado=True, ejecuta puntuar('warmup', ['warmup']) ignorando errores y registra latencia.
-- [ ] #5 Items no convertibles a float en predict se descartan del candidato con log warning (no se sustituyen por 0.0 que contamine el orden).
-- [ ] #6 Tests en tests/rag/test_reranker_cross_encoder.py: (a) tamano de lote respetado (mock predict que registra batches); (b) salida con cardinalidad distinta no rompe el caller; (c) item NaN/None descartado con log.
-- [ ] #7 Lifespan FastAPI no bloquea > 5s en el warmup; si HF Hub esta caido, log y continua.
+- [x] #1 Nuevo setting rag_reranker_batch_size: int en src/api/configuracion.py (default 16, rango [1, 256]) con docstring y validador Pydantic.
+- [x] #2 Setting expuesto en panel admin (Pydantic en esquemas_admin.py + servicio en agente_m2_config.py); si requiere persistencia, migracion Alembic 0006_*.py con columna nueva y downgrade reversible.
+- [x] #3 src/rag/reranker_cross_encoder.py.puntuar(...) pasa batch_size=cfg.rag_reranker_batch_size a CrossEncoder.predict.
+- [x] #4 Hook de warmup opcional en lifespan de src/api/main.py: si rag_reranker_habilitado=True, ejecuta puntuar('warmup', ['warmup']) ignorando errores y registra latencia.
+- [x] #5 Items no convertibles a float en predict se descartan del candidato con log warning (no se sustituyen por 0.0 que contamine el orden).
+- [x] #6 Tests en tests/rag/test_reranker_cross_encoder.py: (a) tamano de lote respetado (mock predict que registra batches); (b) salida con cardinalidad distinta no rompe el caller; (c) item NaN/None descartado con log.
+- [x] #7 Lifespan FastAPI no bloquea > 5s en el warmup; si HF Hub esta caido, log y continua.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -105,10 +110,18 @@ Se tocan `src/rag/reranker_cross_encoder.py`, `src/api/configuracion.py`, `src/a
 Evitar que el warmup bloquee el arranque > 5s; si HF Hub esta caido, log y continuar (no fallar el arranque). Para CPU-only, batch 8-16 suele ser optimo; documentar en doc-003 con tabla `cpu | gpu | batch sugerido`. La migracion Alembic puede ser numero `0006` o posterior segun el estado al implementar. La TASK-81 anadira clamp defensivo en lectura para este y otros parametros. Si se opta por NO persistir el batch_size en BD (solo settings .env), la tarea es mas corta; aclarar en Implementation Notes la decision.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado rag_reranker_batch_size (env RAG_RERANKER_BATCH_SIZE, default 16, rango 1-256) en Configuracion; columna admin + migracion Alembic 0006; panel admin y ServicioAgenteM2Config (efectivo + PATCH). RerankerCrossEncoder.puntuar usa batch_size en predict, devuelve list[float|None] descartando no finitos con warning. RecuperadorDenso pasa batch_size y filtra None. RuntimeAgenteBundle y router/rag_tool alineados. Lifespan FastAPI: warmup opcional con asyncio.wait_for 5s, errores/timeout solo log. Tests: test_reranker_cross_encoder, test_admin_router, test_lifespan (TestClient), mocks pipeline con **kwargs. doc-003 actualizado. Alembic upgrade/downgrade no ejecutado aqui (PostgreSQL no disponible en el entorno); validar en CI o local con DB.
+
+Panel React admin: schema Zod, validador y campo rag_reranker_batch_size en AdminModelPage.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_reranker_cross_encoder.py tests/api/test_admin.py -v en verde.
+- [x] #1 uv run pytest tests/rag/test_reranker_cross_encoder.py tests/api/test_admin.py -v en verde.
 - [ ] #2 uv run alembic upgrade head y downgrade -1 simetricos (si se anadio migracion).
-- [ ] #3 doc-003 documenta el nuevo flag y el warmup.
-- [ ] #4 Tarea con status: Done sin archivar.
+- [x] #3 doc-003 documenta el nuevo flag y el warmup.
+- [x] #4 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

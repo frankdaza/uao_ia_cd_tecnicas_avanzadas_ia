@@ -37,6 +37,7 @@ class RuntimeAgenteBundle:
     rag_reranker_habilitado: bool = False
     rag_reranker_modelo: str = "BAAI/bge-reranker-base"
     rag_reranker_top_n_entrada: int = 10
+    rag_reranker_batch_size: int = 16
 
 
 __all__ = ["RuntimeAgenteBundle"]

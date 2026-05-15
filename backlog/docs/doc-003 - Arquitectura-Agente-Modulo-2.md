@@ -195,10 +195,13 @@ Con **`RAG_MMR_HABILITADO=true`**, el MMR implementado asume **similitud coseno*
 | `RAG_RERANKER_HABILITADO` | `false` | Activa `CrossEncoder` local; coste CPU/memoria adicional. |
 | `RAG_RERANKER_MODELO` | `BAAI/bge-reranker-base` | Id HuggingFace o ruta compatible. Alternativa ligera documentada: `cross-encoder/ms-marco-MiniLM-L-6-v2`. |
 | `RAG_RERANKER_TOP_N_ENTRADA` | `10` | Tamano del prefijo **ordenado por similitud densa** que entra al cross-encoder antes del MMR final (TASK-78); se usa ``max(RAG_RERANKER_TOP_N_ENTRADA, RAG_TOP_K)`` al recortar el prefijo. |
+| `RAG_RERANKER_BATCH_SIZE` | `16` | Tamano de lote para ``CrossEncoder.predict`` (VRAM/RAM y latencia; rango 1–256). Persistible en panel admin (columna ``rag_reranker_batch_size``). |
 
 **Orden del pipeline (TASK-78, opcion B):** primero **similitud densa** y filtro ``RAG_SCORE_MINIMO`` sobre ese score; si el reranker y el MMR estan activos, a continuacion **rerank** sobre el prefijo denso y **MMR** al final sobre el pool ya rerankeado. Si solo uno de los dos esta activo, se aplica esa etapa sobre los candidatos densos. Los fragmentos expuestos al compositor/UI llevan ``score_denso`` (Qdrant), ``score_final`` (cross-encoder si hubo rerank; si no, igual al denso) y ``score`` como alias de ``score_final``.
 
-**Latencia orientativa (CPU tipo laptop):** MMR sobre ~20 vectores suele ser del orden de **unos pocos ms**; el cross-encoder `bge-reranker-base` sobre ~10 pares puede sumar del orden de **decenas a ~100 ms por par** segun hardware (orden de magnitud similar a una llamada extra ligera al LLM). Si el reranker no puede cargarse (dependencia ausente u offline), el recuperador **degrada con advertencia** y sigue solo con MMR/similitud densa.
+**Warmup al arranque (TASK-79):** si ``RAG_RERANKER_HABILITADO=true``, el ``lifespan`` de FastAPI ejecuta una pasada minima ``puntuar('warmup', ['warmup'])`` en un hilo con **tope de 5 s** (``asyncio.wait_for``). Errores o timeout solo dejan traza en log; el servidor sigue levantando. Asi se reduce el *cold start* del primer usuario. Los scores no finitos o no numericos del modelo se **descartan** con ``warning`` (no se fuerzan a ``0.0``) y el recuperador cae a similitud densa/MMR si todos los candidatos quedan sin score util.
+
+**Latencia orientativa (CPU tipo laptop):** MMR sobre ~20 vectores suele ser del orden de **unos pocos ms**; el cross-encoder `bge-reranker-base` sobre ~10 pares puede sumar del orden de **decenas a ~100 ms por par** segun hardware (orden de magnitud similar a una llamada extra ligera al LLM). Si el reranker no puede cargarse (dependencia ausente u offline), el recuperador **degrada con advertencia** y sigue solo con MMR/similitud densa. En **GPU** suelen tolerarse lotes mayores; en **CPU** lotes 8–16 suelen ser un punto medio razonable frente a picos de memoria con lotes muy grandes.
 
 ```mermaid
 flowchart LR

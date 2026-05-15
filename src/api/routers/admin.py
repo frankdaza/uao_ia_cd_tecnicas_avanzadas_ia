@@ -87,6 +87,7 @@ async def _construir_estado_config_respuesta(
         rag_reranker_habilitado=svc.rag_reranker_habilitado_efectivo(fila),
         rag_reranker_modelo=svc.rag_reranker_modelo_efectivo(fila),
         rag_reranker_top_n_entrada=svc.rag_reranker_top_n_entrada_efectivo(fila),
+        rag_reranker_batch_size=svc.rag_reranker_batch_size_efectivo(fila),
         historial_turnos_max=svc.historial_turnos_max_efectivo(fila),
     )
 

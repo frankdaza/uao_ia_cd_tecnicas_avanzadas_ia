@@ -78,6 +78,7 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
     assert cuerpo["rag_reranker_habilitado"] == cfg.rag_reranker_habilitado
     assert cuerpo["rag_reranker_modelo"] == cfg.rag_reranker_modelo
     assert cuerpo["rag_reranker_top_n_entrada"] == cfg.rag_reranker_top_n_entrada
+    assert cuerpo["rag_reranker_batch_size"] == cfg.rag_reranker_batch_size
     assert cuerpo["historial_turnos_max"] == cfg.historial_turnos_max
 
 
@@ -214,6 +215,7 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
                     "rag_reranker_habilitado": True,
                     "rag_reranker_modelo": "cross-encoder/ms-marco-MiniLM-L-6-v2",
                     "rag_reranker_top_n_entrada": 8,
+                    "rag_reranker_batch_size": 32,
                 },
             )
             assert r7.status_code == 200
@@ -223,6 +225,7 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             assert r7.json()["rag_reranker_habilitado"] is True
             assert r7.json()["rag_reranker_modelo"] == "cross-encoder/ms-marco-MiniLM-L-6-v2"
             assert r7.json()["rag_reranker_top_n_entrada"] == 8
+            assert r7.json()["rag_reranker_batch_size"] == 32
             r_bad = await client.patch(
                 "/api/admin/config",
                 headers=headers,

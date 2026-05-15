@@ -46,6 +46,7 @@ def ejecutar_rag_denso_sync(
     reranker_habilitado: bool | None = None,
     reranker_modelo: str | None = None,
     reranker_top_n_entrada: int | None = None,
+    reranker_batch_size: int | None = None,
 ) -> dict[str, Any]:
     """
     Ejecuta la recuperacion densa con umbrales explicitos (p. ej. desde RuntimeAgenteBundle).
@@ -64,6 +65,7 @@ def ejecutar_rag_denso_sync(
         reranker_habilitado=reranker_habilitado,
         reranker_modelo=reranker_modelo,
         reranker_top_n_entrada=reranker_top_n_entrada,
+        reranker_batch_size=reranker_batch_size,
     )
     salida: SalidaRecuperacionRagDenso = rec.consultar(
         consulta,

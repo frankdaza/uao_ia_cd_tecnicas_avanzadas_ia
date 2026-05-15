@@ -14,6 +14,7 @@ import {
   validarHistorialTurnosMax,
   validarIdentificadorModelo,
   validarRagMmrLambda,
+  validarRagRerankerBatchSize,
   validarRagRerankerModelo,
   validarRagRerankerTopNEntrada,
   validarRagScoreMinimo,
@@ -120,6 +121,7 @@ function AdminModelFormInner({
   const [ragRerankerHabilitado, setRagRerankerHabilitado] = useState(data.rag_reranker_habilitado)
   const [ragRerankerModelo, setRagRerankerModelo] = useState(data.rag_reranker_modelo)
   const [ragRerankerTopNEntrada, setRagRerankerTopNEntrada] = useState(String(data.rag_reranker_top_n_entrada))
+  const [ragRerankerBatchSize, setRagRerankerBatchSize] = useState(String(data.rag_reranker_batch_size))
   const [historialTurnosMax, setHistorialTurnosMax] = useState(String(data.historial_turnos_max))
   const [errores, setErrores] = useState<Record<string, string>>({})
 
@@ -149,6 +151,8 @@ function AdminModelFormInner({
     if (eRrm) next.ragRerankerModelo = eRrm
     const eRtn = validarRagRerankerTopNEntrada(ragRerankerTopNEntrada)
     if (eRtn) next.ragRerankerTopNEntrada = eRtn
+    const eRbs = validarRagRerankerBatchSize(ragRerankerBatchSize)
+    if (eRbs) next.ragRerankerBatchSize = eRbs
     const eHt = validarHistorialTurnosMax(historialTurnosMax)
     if (eHt) next.historialTurnosMax = eHt
     setErrores(next)
@@ -183,6 +187,7 @@ function AdminModelFormInner({
       rag_reranker_habilitado: ragRerankerHabilitado,
       rag_reranker_modelo: ragRerankerModelo.trim(),
       rag_reranker_top_n_entrada: Number.parseInt(ragRerankerTopNEntrada, 10),
+      rag_reranker_batch_size: Number.parseInt(ragRerankerBatchSize, 10),
       historial_turnos_max: Number.parseInt(historialTurnosMax, 10),
     }
     if (topPRouter.trim() !== '') body.top_p_router = Number.parseFloat(topPRouter)
@@ -232,7 +237,8 @@ function AdminModelFormInner({
           <code className="text-xs">RAG_TOP_K</code>, <code className="text-xs">RAG_SCORE_MINIMO</code>,{' '}
           <code className="text-xs">RAG_TOP_K_INICIAL</code>, <code className="text-xs">RAG_MMR_HABILITADO</code>,{' '}
           <code className="text-xs">RAG_MMR_LAMBDA</code>, <code className="text-xs">RAG_RERANKER_HABILITADO</code>,{' '}
-          <code className="text-xs">RAG_RERANKER_MODELO</code>, <code className="text-xs">RAG_RERANKER_TOP_N_ENTRADA</code>.
+          <code className="text-xs">RAG_RERANKER_MODELO</code>,           <code className="text-xs">RAG_RERANKER_TOP_N_ENTRADA</code>,{' '}
+          <code className="text-xs">RAG_RERANKER_BATCH_SIZE</code>.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
@@ -423,6 +429,31 @@ function AdminModelFormInner({
           {errores.ragRerankerTopNEntrada ? (
             <p id="err-rag-rtn" className="text-sm text-destructive" role="alert">
               {errores.ragRerankerTopNEntrada}
+            </p>
+          ) : null}
+        </div>
+        <div className="space-y-2 max-w-xs">
+          <EtiquetaConAyudaRag
+            htmlFor="rag-rerank-batch"
+            etiqueta="rag_reranker_batch_size"
+            lineasAyuda={[
+              'Tamaño de lote para CrossEncoder.predict: controla picos de VRAM/RAM y latencia al reordenar muchos pares (consulta, fragmento). Valores típicos en CPU: 8–16.',
+            ]}
+          />
+          <Input
+            id="rag-rerank-batch"
+            type="number"
+            min={1}
+            max={256}
+            step={1}
+            value={ragRerankerBatchSize}
+            onChange={(e) => setRagRerankerBatchSize(e.target.value)}
+            aria-invalid={errores.ragRerankerBatchSize ? true : undefined}
+            aria-describedby={errores.ragRerankerBatchSize ? 'err-rag-rbs' : undefined}
+          />
+          {errores.ragRerankerBatchSize ? (
+            <p id="err-rag-rbs" className="text-sm text-destructive" role="alert">
+              {errores.ragRerankerBatchSize}
             </p>
           ) : null}
         </div>

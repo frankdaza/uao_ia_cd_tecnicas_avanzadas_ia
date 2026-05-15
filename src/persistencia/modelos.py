@@ -84,6 +84,7 @@ class ConfigAdminM2(Base):
     rag_reranker_habilitado: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     rag_reranker_modelo: Mapped[str | None] = mapped_column(String(256), nullable=True)
     rag_reranker_top_n_entrada: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    rag_reranker_batch_size: Mapped[int | None] = mapped_column(Integer, nullable=True)
     historial_turnos_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

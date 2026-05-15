@@ -108,6 +108,7 @@ class RecuperadorDenso:
         reranker_habilitado: bool = False,
         reranker_modelo: str = "BAAI/bge-reranker-base",
         reranker_top_n_entrada: int = 10,
+        reranker_batch_size: int = 16,
         reranker_instancia: object | None = None,
     ) -> None:
         self._vector_store = vector_store
@@ -120,6 +121,7 @@ class RecuperadorDenso:
         self._reranker_habilitado = bool(reranker_habilitado)
         self._reranker_modelo = str(reranker_modelo).strip() or "BAAI/bge-reranker-base"
         self._reranker_top_n_entrada = max(1, int(reranker_top_n_entrada))
+        self._reranker_batch_size = max(1, min(256, int(reranker_batch_size)))
         self._reranker_instancia = reranker_instancia
         self._coleccion_vacia: bool | None = None
 
@@ -138,6 +140,7 @@ class RecuperadorDenso:
         reranker_habilitado: bool | None = None,
         reranker_modelo: str | None = None,
         reranker_top_n_entrada: int | None = None,
+        reranker_batch_size: int | None = None,
     ) -> RecuperadorDenso:
         """Carga vector store y embeddings desde ``cfg`` salvo que se inyecten."""
         from src.rag.embeddings import obtener_embeddings
@@ -159,6 +162,9 @@ class RecuperadorDenso:
             reranker_modelo=str(cfg.rag_reranker_modelo if reranker_modelo is None else reranker_modelo).strip(),
             reranker_top_n_entrada=int(
                 cfg.rag_reranker_top_n_entrada if reranker_top_n_entrada is None else reranker_top_n_entrada
+            ),
+            reranker_batch_size=int(
+                cfg.rag_reranker_batch_size if reranker_batch_size is None else reranker_batch_size
             ),
         )
 
@@ -394,7 +400,7 @@ class RecuperadorDenso:
                     from src.rag.reranker_cross_encoder import RerankerCrossEncoder
 
                     rnk = RerankerCrossEncoder(self._reranker_modelo)
-                scores_r = rnk.puntuar(consulta_limpia, textos)
+                scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
             except Exception as exc:  # noqa: BLE001
                 logger.warning(
                     "Reranker RAG no disponible (%s); se continua solo con similitud densa.",
@@ -402,8 +408,15 @@ class RecuperadorDenso:
                 )
                 return triples_desde_pares_similitud(pares_desde_candidatos_mmr(sub)[:top_ef])
 
+            pares_sc = [(float(s), c) for s, c in zip(scores_r, sub, strict=True) if s is not None]
+            if not pares_sc:
+                logger.warning(
+                    "Reranker RAG: todos los scores fueron descartados; se continua con similitud densa."
+                )
+                return triples_desde_pares_similitud(pares_desde_candidatos_mmr(sub)[:top_ef])
+
             ordenados = sorted(
-                zip(scores_r, sub, strict=True),
+                pares_sc,
                 key=lambda t: t[0],
                 reverse=True,
             )
@@ -429,7 +442,7 @@ class RecuperadorDenso:
                 from src.rag.reranker_cross_encoder import RerankerCrossEncoder
 
                 rnk = RerankerCrossEncoder(self._reranker_modelo)
-            scores_r = rnk.puntuar(consulta_limpia, textos)
+            scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
         except Exception as exc:  # noqa: BLE001
             logger.warning(
                 "Reranker RAG no disponible (%s); se continua con MMR sobre similitud densa.",
@@ -438,8 +451,16 @@ class RecuperadorDenso:
             mmr_sel = mmr_sobre_candidatos(candidatos_ns, k=top_ef)
             return triples_desde_mmr_nodes(mmr_sel)
 
+        pares_sc = [(float(s), c) for s, c in zip(scores_r, sub, strict=True) if s is not None]
+        if not pares_sc:
+            logger.warning(
+                "Reranker RAG: todos los scores fueron descartados; se continua con MMR sobre similitud densa."
+            )
+            mmr_sel = mmr_sobre_candidatos(candidatos_ns, k=top_ef)
+            return triples_desde_mmr_nodes(mmr_sel)
+
         ordenados = sorted(
-            zip(scores_r, sub, strict=True),
+            pares_sc,
             key=lambda t: t[0],
             reverse=True,
         )

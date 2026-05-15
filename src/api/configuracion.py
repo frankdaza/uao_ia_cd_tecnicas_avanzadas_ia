@@ -172,6 +172,15 @@ class Configuracion(BaseSettings):
             "si MMR esta desactivado). Env: RAG_RERANKER_TOP_N_ENTRADA."
         ),
     )
+    rag_reranker_batch_size: int = Field(
+        default=16,
+        ge=1,
+        le=256,
+        description=(
+            "Tamano de lote para ``CrossEncoder.predict`` del reranker (memoria VRAM/RAM y "
+            "latencia). Env: RAG_RERANKER_BATCH_SIZE. Reiniciar el proceso si se cambia solo en .env."
+        ),
+    )
 
     # --- Modulo 2: memoria conversacional ---
     historial_dias_max: int = Field(default=7, ge=1, le=365)

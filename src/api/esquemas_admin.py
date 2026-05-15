@@ -70,6 +70,13 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
         le=50,
         description="Maximo de fragmentos re-puntuados por el reranker tras MMR (o por similitud si MMR esta off).",
     )
+    rag_reranker_batch_size: int = Field(
+        ge=1,
+        le=256,
+        description=(
+            "Tamano de lote pasado a ``CrossEncoder.predict`` del reranker; afecta VRAM/RAM y latencia."
+        ),
+    )
     historial_turnos_max: int = Field(
         ge=1,
         le=200,
@@ -115,6 +122,7 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     rag_reranker_habilitado: bool | None = None
     rag_reranker_modelo: str | None = Field(default=None, max_length=256)
     rag_reranker_top_n_entrada: int | None = Field(default=None, ge=1, le=50)
+    rag_reranker_batch_size: int | None = Field(default=None, ge=1, le=256)
     historial_turnos_max: int | None = Field(default=None, ge=1, le=200)
 
     @field_validator("rag_reranker_modelo")

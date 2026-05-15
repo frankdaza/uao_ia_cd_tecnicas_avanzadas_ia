@@ -17,6 +17,7 @@ describe('AdminConfigEstadoSchema', () => {
       rag_reranker_habilitado: false,
       rag_reranker_modelo: 'BAAI/bge-reranker-base',
       rag_reranker_top_n_entrada: 10,
+      rag_reranker_batch_size: 16,
       historial_turnos_max: 20,
       meta_prompt: { version: 1 },
       prompt_institucional: 'x'.repeat(80),

@@ -25,7 +25,7 @@ class _EmbFijo:
 
 
 class _RerankFijo:
-    def puntuar(self, consulta: str, textos: list[str]) -> list[float]:
+    def puntuar(self, consulta: str, textos: list[str], **_kwargs: object) -> list[float]:
         # Invierte la preferencia por longitud para alterar el orden respecto a similitud.
         return [float(100 - len(t)) for t in textos]
 
@@ -33,7 +33,7 @@ class _RerankFijo:
 class _RerankIndiceAscendente:
     """Prefiere el ultimo texto del prefijo denso (orden de entrada = orden denso)."""
 
-    def puntuar(self, consulta: str, textos: list[str]) -> list[float]:
+    def puntuar(self, consulta: str, textos: list[str], **_kwargs: object) -> list[float]:
         return [float(i) for i in range(len(textos))]
 
 

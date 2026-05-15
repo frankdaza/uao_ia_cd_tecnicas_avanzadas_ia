@@ -36,6 +36,7 @@ def _parametros_rag_bundle_iguales_a_configuracion(bundle: RuntimeAgenteBundle, 
         and bundle.rag_reranker_habilitado == bool(cfg.rag_reranker_habilitado)
         and bundle.rag_reranker_modelo == str(cfg.rag_reranker_modelo).strip()
         and bundle.rag_reranker_top_n_entrada == int(cfg.rag_reranker_top_n_entrada)
+        and bundle.rag_reranker_batch_size == int(cfg.rag_reranker_batch_size)
     )
 
 CLAVE_MEMORIA_EN_CONFIG: str = "memoria"
@@ -231,6 +232,7 @@ def crear_grafo_agente(
         rag_reranker_habilitado=bool(cfg_rag.rag_reranker_habilitado),
         rag_reranker_modelo=str(cfg_rag.rag_reranker_modelo).strip(),
         rag_reranker_top_n_entrada=int(cfg_rag.rag_reranker_top_n_entrada),
+        rag_reranker_batch_size=int(cfg_rag.rag_reranker_batch_size),
     )
 
     def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
@@ -380,6 +382,7 @@ def crear_grafo_agente(
                         reranker_habilitado=bundle.rag_reranker_habilitado,
                         reranker_modelo=bundle.rag_reranker_modelo,
                         reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
+                        reranker_batch_size=bundle.rag_reranker_batch_size,
                     )
             else:
                 salida_tool = tool.invoke(args_invocacion)
@@ -417,6 +420,7 @@ def crear_grafo_agente(
                 reranker_habilitado=bundle.rag_reranker_habilitado,
                 reranker_modelo=bundle.rag_reranker_modelo,
                 reranker_top_n_entrada=bundle.rag_reranker_top_n_entrada,
+                reranker_batch_size=bundle.rag_reranker_batch_size,
             )
             nombre_efectivo = "rag_denso"
         fuentes: list[dict[str, Any]] = []
