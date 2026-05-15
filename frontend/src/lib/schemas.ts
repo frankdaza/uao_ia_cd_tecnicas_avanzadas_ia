@@ -18,6 +18,8 @@ export const RagChunkSchema = z
     titulo: z.string().optional(),
     source_url: z.string().optional(),
     score: z.coerce.number().optional(),
+    score_denso: z.coerce.number().optional(),
+    score_final: z.coerce.number().optional(),
     chunk_index: z.coerce.number().optional(),
   })
   .passthrough()

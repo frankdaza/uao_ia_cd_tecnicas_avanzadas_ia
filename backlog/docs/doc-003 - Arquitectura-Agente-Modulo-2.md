@@ -181,7 +181,7 @@ flowchart LR
 
 ### Reranking y diversidad (RAG denso, TASK-71)
 
-El recuperador `RecuperadorDenso` puede **sobrerrecuperar** en Qdrant, filtrar por umbral de similitud, aplicar **MMR** (diversidad) y, opcionalmente, un **cross-encoder** local (`sentence-transformers`) para reordenar los fragmentos enviados al compositor. La tool `listar_estructurado` **no** usa reranker.
+El recuperador `RecuperadorDenso` puede **sobrerrecuperar** en Qdrant, filtrar por umbral sobre la **similitud densa**, aplicar opcionalmente un **cross-encoder** sobre un prefijo de candidatos densos y, al final, **MMR** (diversidad) cuando ambos estan activos (orden B, TASK-78). La tool `listar_estructurado` **no** usa reranker.
 
 Con **`RAG_MMR_HABILITADO=true`**, el MMR implementado asume **similitud coseno** alineada con Qdrant: `asegurar_coleccion` valida que `QDRANT_DISTANCE` sea `Cosine` y, si no, levanta `ValueError` con mensaje orientativo (alternativa: desactivar MMR o implementar un MMR generico por metrica, fuera del alcance actual). La ingesta en `scripts.indexar_corpus_qdrant` **normaliza L2** los vectores antes del upsert (idempotente si el embedder ya devuelve vectores unitarios, p. ej. OpenAI `text-embedding-3-*`).
 
@@ -194,22 +194,36 @@ Con **`RAG_MMR_HABILITADO=true`**, el MMR implementado asume **similitud coseno*
 | `RAG_MMR_LAMBDA` | `0.5` | Trade-off relevancia vs diversidad (`1.0` = equivalente a ordenar solo por similitud a la consulta). |
 | `RAG_RERANKER_HABILITADO` | `false` | Activa `CrossEncoder` local; coste CPU/memoria adicional. |
 | `RAG_RERANKER_MODELO` | `BAAI/bge-reranker-base` | Id HuggingFace o ruta compatible. Alternativa ligera documentada: `cross-encoder/ms-marco-MiniLM-L-6-v2`. |
-| `RAG_RERANKER_TOP_N_ENTRADA` | `10` | Maximo de pares (consulta, fragmento) evaluados por el reranker tras MMR (o por similitud si MMR esta desactivado). |
+| `RAG_RERANKER_TOP_N_ENTRADA` | `10` | Tamano del prefijo **ordenado por similitud densa** que entra al cross-encoder antes del MMR final (TASK-78); se usa ``max(RAG_RERANKER_TOP_N_ENTRADA, RAG_TOP_K)`` al recortar el prefijo. |
 
-**Latencia orientativa (CPU tipo laptop):** MMR sobre ~20 vectores suele ser del orden de **unos pocos ms**; el cross-encoder `bge-reranker-base` sobre ~10 pares puede sumar del orden de **decenas a ~100 ms por par** segun hardware (orden de magnitud similar a una llamada extra ligera al LLM). Si el reranker no puede cargarse (dependencia ausente u offline), el recuperador **degrada con advertencia** y sigue solo con MMR/similitud.
+**Orden del pipeline (TASK-78, opcion B):** primero **similitud densa** y filtro ``RAG_SCORE_MINIMO`` sobre ese score; si el reranker y el MMR estan activos, a continuacion **rerank** sobre el prefijo denso y **MMR** al final sobre el pool ya rerankeado. Si solo uno de los dos esta activo, se aplica esa etapa sobre los candidatos densos. Los fragmentos expuestos al compositor/UI llevan ``score_denso`` (Qdrant), ``score_final`` (cross-encoder si hubo rerank; si no, igual al denso) y ``score`` como alias de ``score_final``.
+
+**Latencia orientativa (CPU tipo laptop):** MMR sobre ~20 vectores suele ser del orden de **unos pocos ms**; el cross-encoder `bge-reranker-base` sobre ~10 pares puede sumar del orden de **decenas a ~100 ms por par** segun hardware (orden de magnitud similar a una llamada extra ligera al LLM). Si el reranker no puede cargarse (dependencia ausente u offline), el recuperador **degrada con advertencia** y sigue solo con MMR/similitud densa.
 
 ```mermaid
 flowchart LR
-  q[consulta] --> emb[embedding]
+  q[consulta] --> emb[embedding consulta]
   emb --> qdrant[Qdrant top_k_inicial]
-  qdrant --> filtro[umbral score_minimo]
-  filtro --> mmr[MMR opcional]
-  mmr --> salida[fuentes top_k]
-  mmr --> rerank[cross-encoder opcional]
-  rerank --> salida
+  qdrant --> filtro[umbral RAG_SCORE_MINIMO sobre score_denso]
+  filtro --> rr{cross-encoder activo?}
+  rr -->|si| rerank[rerank sobre prefijo denso]
+  rr -->|no| mmr0{MMR activo?}
+  rerank --> mmr1{MMR activo?}
+  mmr0 -->|si| mmrS[MMR sobre candidatos densos]
+  mmr0 -->|no| salida[fuentes top_k]
+  mmr1 -->|si| mmrR[MMR sobre pool rerankeado]
+  mmr1 -->|no| salida
+  mmrS --> salida
+  mmrR --> salida
 ```
 
-### Evaluacion cuantitativa del RAG (golden set, TASK-72)
+| Etapa | Entrada | Salida | Filtro / score |
+| --- | --- | --- | --- |
+| Qdrant | embedding consulta | lista de nodos con similitud | ninguno aqui |
+| Umbral denso | nodos + similitud Qdrant | candidatos con ``sim >= RAG_SCORE_MINIMO`` | **solo** similitud densa |
+| Reranker (opcional) | prefijo denso top-N, N >= top_k | mismos nodos con score cross-encoder | no aplica umbral a logits CE |
+| MMR (opcional) | pool de nodos con embeddings | hasta ``RAG_TOP_K`` fragmentos | diversidad por coseno en embeddings |
+| Serializacion | lista final | ``FuenteRagDenso`` | ``score_denso`` y ``score_final`` (+ alias ``score``) |
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.
 - **Script**: `uv run python -m scripts.eval_metricas_rag` — validacion local sin red (`--solo-validar-golden`), corrida completa contra Qdrant y reporte Markdown + `*.results.jsonl` en `data/eval/reportes/`.

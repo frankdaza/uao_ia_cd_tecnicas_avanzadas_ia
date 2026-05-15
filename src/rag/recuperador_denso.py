@@ -14,7 +14,7 @@ from llama_index.core.vector_stores.types import (
     MetadataFilters,
     VectorStoreQuery,
 )
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from qdrant_client.http.models import Filter
 
 from src.api.configuracion import Configuracion
@@ -40,17 +40,27 @@ MENSAJE_COLECCION_VACIA = (
 class FuenteRagDenso(BaseModel):
     """Metadatos de un chunk devuelto al compositor o a la UI."""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     archivo: str = Field(description="Ruta relativa del Markdown de origen.")
     titulo: str = Field(description="Titulo declarado en front matter.")
     source_url: str = Field(description="URL publica asociada al documento, si existe.")
-    score: float = Field(
+    score_denso: float = Field(
         description=(
-            "Score de similitud devuelto por Qdrant/LlamaIndex (mayor suele indicar "
-            "mayor cercania cuando la metrica es Cosine o Dot; ajustar RAG_SCORE_MINIMO "
-            "si se usa otra distancia en QDRANT_DISTANCE)."
+            "Similitud densa del vector store (Qdrant/LlamaIndex). Es el valor contra el que "
+            "se aplica RAG_SCORE_MINIMO antes de MMR/rerank; no se sustituye por el reranker."
+        ),
+    )
+    score_final: float = Field(
+        description=(
+            "Score visible al consumidor: igual a score_denso si no hubo reranker; "
+            "valor del cross-encoder si hubo reranker."
         ),
     )
     chunk_index: int = Field(ge=0, description="Indice del fragmento dentro del archivo.")
+    score: float = Field(
+        description="Alias retrocompatible de score_final (mismo valor numerico).",
+    )
 
 
 class SalidaRecuperacionRagDenso(BaseModel):
@@ -281,10 +291,18 @@ class RecuperadorDenso:
             chunk_index = 0
         return archivo, titulo, source_url, chunk_index
 
-    def _salida_desde_pares(self, pares: list[tuple[float, object]]) -> SalidaRecuperacionRagDenso:
+    @staticmethod
+    def _mapa_score_denso_por_nodo(pares: list[tuple[float, object]]) -> dict[int, float]:
+        return {id(nodo): float(sim) for sim, nodo in pares}
+
+    def _salida_desde_triples(
+        self,
+        triples: list[tuple[float, float, object]],
+    ) -> SalidaRecuperacionRagDenso:
+        """Construye salida con score_denso / score_final y alias ``score``."""
         bloques: list[str] = []
         fuentes: list[FuenteRagDenso] = []
-        for i, (score, nodo) in enumerate(pares, start=1):
+        for i, (score_denso, score_final, nodo) in enumerate(triples, start=1):
             archivo, titulo, source_url, chunk_index = self._meta_chunk(nodo)
             texto = (nodo.get_content() or "").strip()
             ref_url = source_url if source_url else "(sin URL)"
@@ -295,7 +313,9 @@ class RecuperadorDenso:
                     archivo=archivo,
                     titulo=titulo,
                     source_url=source_url,
-                    score=score,
+                    score_denso=score_denso,
+                    score_final=score_final,
+                    score=score_final,
                     chunk_index=chunk_index,
                 )
             )
@@ -310,13 +330,21 @@ class RecuperadorDenso:
         consulta_limpia: str,
         top_efectivo: int,
         query_embedding: list[float],
-    ) -> list[tuple[float, object]]:
-        """MMR opcional, reranker opcional; sin flags devuelve los ``top_efectivo`` mejores."""
+    ) -> list[tuple[float, float, object]]:
+        """
+        Post-proceso tras filtrar por umbral denso.
+
+        Orden implementado (TASK-78, opcion B si MMR y reranker activos):
+        similitud densa -> reranker sobre prefijo amplio -> MMR final.
+        Solo MMR: MMR sobre candidatos densos. Solo reranker: rerank sobre prefijo denso.
+        """
+        top_ef = max(1, int(top_efectivo))
+        mapa_denso = self._mapa_score_denso_por_nodo(pares)
         if not pares:
             return []
 
         if not self._mmr_habilitado and not self._reranker_habilitado:
-            return pares[: max(1, int(top_efectivo))]
+            return [(float(s), float(s), n) for s, n in pares[:top_ef]]
 
         from llama_index.core.schema import NodeWithScore
 
@@ -327,26 +355,73 @@ class RecuperadorDenso:
         )
 
         candidatos_ns = candidatos_desde_pares_similitud(pares)
-        if self._mmr_habilitado:
+
+        def triples_desde_pares_similitud(p: list[tuple[float, object]]) -> list[tuple[float, float, object]]:
+            return [(float(s), float(s), n) for s, n in p]
+
+        def triples_desde_mmr_nodes(seleccion: list[NodeWithScore]) -> list[tuple[float, float, object]]:
+            salida: list[tuple[float, float, object]] = []
+            for c in seleccion:
+                n = c.node
+                sd = mapa_denso.get(id(n), float(c.score))
+                salida.append((sd, sd, n))
+            return salida
+
+        def mmr_sobre_candidatos(
+            pool: list[NodeWithScore],
+            *,
+            k: int,
+        ) -> list[NodeWithScore]:
             try:
-                mmr_sel = aplicar_mmr(
-                    candidatos_ns,
+                return aplicar_mmr(
+                    pool,
                     query_embedding,
                     self._mmr_lambda,
-                    max(1, int(top_efectivo)),
+                    k,
                 )
             except ValueError as exc:
                 logger.warning("MMR omitido (sin embeddings en nodos): %s", exc)
-                mmr_sel = candidatos_ns[: max(1, int(top_efectivo))]
-        else:
-            # Sin MMR: se conserva el orden por similitud; el reranker opera sobre el prefijo.
-            mmr_sel = candidatos_ns
+                return pool[:k]
 
-        if not self._reranker_habilitado:
-            return pares_desde_candidatos_mmr(mmr_sel)
+        # Solo reranker: denso -> rerank -> top_k
+        if self._reranker_habilitado and not self._mmr_habilitado:
+            n_toma = min(max(self._reranker_top_n_entrada, top_ef), len(candidatos_ns))
+            sub = candidatos_ns[:n_toma]
+            textos = [(c.node.get_content() or "").strip() for c in sub]
+            try:
+                rnk = self._reranker_instancia
+                if rnk is None:
+                    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
 
-        n_toma = min(self._reranker_top_n_entrada, len(mmr_sel))
-        sub = mmr_sel[:n_toma]
+                    rnk = RerankerCrossEncoder(self._reranker_modelo)
+                scores_r = rnk.puntuar(consulta_limpia, textos)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning(
+                    "Reranker RAG no disponible (%s); se continua solo con similitud densa.",
+                    exc,
+                )
+                return triples_desde_pares_similitud(pares_desde_candidatos_mmr(sub)[:top_ef])
+
+            ordenados = sorted(
+                zip(scores_r, sub, strict=True),
+                key=lambda t: t[0],
+                reverse=True,
+            )
+            salida: list[tuple[float, float, object]] = []
+            for scr, c in ordenados[:top_ef]:
+                n = c.node
+                sd = mapa_denso.get(id(n), float(c.score))
+                salida.append((sd, float(scr), n))
+            return salida
+
+        # Solo MMR
+        if self._mmr_habilitado and not self._reranker_habilitado:
+            mmr_sel = mmr_sobre_candidatos(candidatos_ns, k=top_ef)
+            return triples_desde_mmr_nodes(mmr_sel)
+
+        # MMR + reranker (B): rerank sobre prefijo denso, luego MMR
+        n_toma = min(max(self._reranker_top_n_entrada, top_ef), len(candidatos_ns))
+        sub = candidatos_ns[:n_toma]
         textos = [(c.node.get_content() or "").strip() for c in sub]
         try:
             rnk = self._reranker_instancia
@@ -355,23 +430,29 @@ class RecuperadorDenso:
 
                 rnk = RerankerCrossEncoder(self._reranker_modelo)
             scores_r = rnk.puntuar(consulta_limpia, textos)
-        except Exception as exc:  # noqa: BLE001 — degradar sin tumbar la peticion
+        except Exception as exc:  # noqa: BLE001
             logger.warning(
-                "Reranker RAG no disponible (%s); se continua solo con orden post-MMR/similitud.",
+                "Reranker RAG no disponible (%s); se continua con MMR sobre similitud densa.",
                 exc,
             )
-            return pares_desde_candidatos_mmr(mmr_sel)
+            mmr_sel = mmr_sobre_candidatos(candidatos_ns, k=top_ef)
+            return triples_desde_mmr_nodes(mmr_sel)
 
         ordenados = sorted(
             zip(scores_r, sub, strict=True),
             key=lambda t: t[0],
             reverse=True,
         )
-        top_n = max(1, int(top_efectivo))
-        salida_c: list[NodeWithScore] = []
-        for scr, c in ordenados[:top_n]:
-            salida_c.append(NodeWithScore(node=c.node, score=float(scr)))
-        return pares_desde_candidatos_mmr(salida_c)
+        reranked: list[NodeWithScore] = [
+            NodeWithScore(node=c.node, score=float(scr)) for scr, c in ordenados
+        ]
+        mmr_sel = mmr_sobre_candidatos(reranked, k=top_ef)
+        salida_b: list[tuple[float, float, object]] = []
+        for c in mmr_sel:
+            n = c.node
+            sd = mapa_denso.get(id(n), 0.0)
+            salida_b.append((sd, float(c.score), n))
+        return salida_b
 
     def consultar(
         self,
@@ -381,12 +462,15 @@ class RecuperadorDenso:
         filtros_tipo_pagina: list[str] | None = None,
     ) -> SalidaRecuperacionRagDenso:
         """
-        Embedea ``consulta``, consulta el vector store y filtra por ``score_minimo``.
+        Embedea ``consulta``, consulta el vector store y filtra por ``score_minimo`` **solo**
+        sobre la similitud densa (Qdrant). Opcionalmente aplica reranker y/o MMR segun
+        configuracion (orden B cuando ambos activos: denso -> rerank -> MMR).
 
-        Los resultados se ordenan por score descendente. Si la colección está vacía o
-        ningún punto supera el umbral, se devuelve un mensaje claro y ``fuentes`` vacía.
-        Ante fallos de embeddings o de Qdrant, no se propaga la excepción: se devuelve
-        ``fuentes`` vacía y el campo opcional ``razon`` indica la causa (snake_case).
+        Los resultados exponen ``score_denso`` y ``score_final`` (y ``score`` como alias
+        de ``score_final``). Si la colección está vacía o ningún punto supera el umbral
+        denso, se devuelve un mensaje claro y ``fuentes`` vacía. Ante fallos de embeddings
+        o de Qdrant, no se propaga la excepción: se devuelve ``fuentes`` vacía y el campo
+        opcional ``razon`` indica la causa (snake_case).
 
         Args:
             consulta: Texto de la pregunta.
@@ -466,10 +550,10 @@ class RecuperadorDenso:
                 respuesta_contexto=MENSAJE_SIN_RESULTADOS,
                 fuentes=[],
             )
-        pares_finales = self._pipeline_post_filtrado(
+        triples_finales = self._pipeline_post_filtrado(
             pares,
             consulta_limpia,
             top_efectivo,
             query_embedding,
         )
-        return self._salida_desde_pares(pares_finales)
+        return self._salida_desde_triples(triples_finales)

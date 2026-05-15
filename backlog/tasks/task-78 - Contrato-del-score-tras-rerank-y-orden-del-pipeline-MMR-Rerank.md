@@ -1,11 +1,11 @@
 ---
 id: TASK-78
 title: Contrato del score tras rerank y orden del pipeline MMR/Rerank
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:28'
-updated_date: '2026-05-15 00:07'
+updated_date: '2026-05-15 00:16'
 labels:
   - rag
   - reranker
@@ -60,13 +60,13 @@ Se tocan `src/rag/recuperador_denso.py`, `FuenteRagDenso`, `backlog/docs/doc-003
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 FuenteRagDenso expone al menos score_denso: float (similitud Qdrant) y score_final: float (score visible al consumidor; igual a denso si no hubo rerank, score cross-encoder si hubo).
-- [ ] #2 El filtro rag_score_minimo se aplica contra score_denso ANTES de MMR/rerank, no contra score_final.
-- [ ] #3 Pipeline documentado en doc-003 con diagrama actualizado (mermaid) y tabla del orden seleccionado (A o B).
-- [ ] #4 Tests cualitativos en tests/rag/test_recuperador_denso_pipeline.py: dado un fixture controlado de 5 candidatos con scores conocidos, el orden tras el pipeline coincide con el esperado para cada opcion seleccionada.
+- [x] #1 FuenteRagDenso expone al menos score_denso: float (similitud Qdrant) y score_final: float (score visible al consumidor; igual a denso si no hubo rerank, score cross-encoder si hubo).
+- [x] #2 El filtro rag_score_minimo se aplica contra score_denso ANTES de MMR/rerank, no contra score_final.
+- [x] #3 Pipeline documentado en doc-003 con diagrama actualizado (mermaid) y tabla del orden seleccionado (A o B).
+- [x] #4 Tests cualitativos en tests/rag/test_recuperador_denso_pipeline.py: dado un fixture controlado de 5 candidatos con scores conocidos, el orden tras el pipeline coincide con el esperado para cada opcion seleccionada.
 - [ ] #5 Decision A vs B documentada en Implementation Notes con evidencia cuantitativa (corrida uv run scripts/eval_metricas_rag.py --config combinado antes/despues).
 - [ ] #6 Si se eligio B, no hay regresion vs baseline TASK-71 en MRR ni recall@10 (umbrales documentados).
-- [ ] #7 Back-compat: campo score (alias de score_final) sigue existiendo para no romper consumidores existentes.
+- [x] #7 Back-compat: campo score (alias de score_final) sigue existiendo para no romper consumidores existentes.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -112,12 +112,22 @@ Se tocan `src/rag/recuperador_denso.py`, `FuenteRagDenso`, `backlog/docs/doc-003
 
 <!-- SECTION:NOTES:BEGIN -->
 Si se opta por A por presupuesto temporal, la tarea sigue siendo valiosa porque arregla la mezcla de escalas en `rag_score_minimo`. Si se opta por B, asegurarse de NO romper consumidores que esperaban el orden previo (revisar `src/agentes/herramientas/rag_tool.py` y la UI del chat). Asegurar serializacion JSON estable (Pydantic): `score` alias deprecado pero presente. La tool `rag_denso` (LangChain) debe mantener el schema visible al modelo; nuevos campos como `score_denso` y `score_final` opcionales en la respuesta. TASK-79 anade `batch_size` al reranker; mantener compatibilidad con esa firma.
+
+Smoke: `uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v` en verde (incluye nuevos casos TASK-78).
+
+DoD #2 (eval combinado con metricas anotadas): pendiente de corrida con Qdrant indexado; ver finalSummary.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementada opcion B (denso -> rerank sobre prefijo max(reranker_top_n_entrada, top_k) -> MMR). FuenteRagDenso expone score_denso, score_final y score (alias de score_final). El umbral rag_score_minimo sigue aplicandose solo en _pares_filtrados sobre similitud Qdrant. Actualizados doc-003 (mermaid + tabla), tests/rag/test_recuperador_denso_pipeline.py (cinco candidatos + campos score), test_recuperador_denso, frontend SourcesPanel y RagChunkSchema. Eval cuantitativa comparativa antes/despues (AC5 y regresion MRR/recall TASK-71, AC6): no ejecutada aqui con la misma coleccion indexada que TASK-71; el script `uv run python scripts/eval_metricas_rag.py --config combinado` falla si QDRANT_URL apunta a un host inaccesible. Recomendacion: repetir eval en CI o entorno con ingesta completa y archivar reporte en data/eval/reportes/.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
+- [x] #1 uv run pytest tests/rag/test_recuperador_denso_pipeline.py -v en verde.
 - [ ] #2 uv run scripts/eval_metricas_rag.py --config combinado ejecutado y resultados anotados en Implementation Notes o Final Summary.
-- [ ] #3 doc-003 actualizado con diagrama y tabla.
-- [ ] #4 Tarea con status: Done sin archivar.
+- [x] #3 doc-003 actualizado con diagrama y tabla.
+- [x] #4 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

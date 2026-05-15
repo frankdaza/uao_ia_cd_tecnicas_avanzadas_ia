@@ -43,6 +43,8 @@ class _CargaFuenteRag(BaseModel):
     titulo: str
     source_url: str
     score: float
+    score_denso: float
+    score_final: float
 
 
 @pytest.fixture
@@ -153,8 +155,10 @@ def test_recuperador_umbral_filtra_y_ordena_desc(limpiar_singletons_qdrant: None
     )
     out = rec.consultar("politicas de calidad")
     assert len(out.fuentes) == 2
-    scores = [f.score for f in out.fuentes]
+    scores = [f.score_denso for f in out.fuentes]
     assert scores == sorted(scores, reverse=True)
+    for f in out.fuentes:
+        assert f.score == f.score_final
     assert out.fuentes[0].archivo == "a.md"
     assert out.fuentes[1].archivo == "m.md"
     assert "[CHUNK 1]" in out.respuesta_contexto

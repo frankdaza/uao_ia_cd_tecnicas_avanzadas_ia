@@ -1,11 +1,11 @@
 ---
 id: TASK-79
 title: Cross-encoder con batch_size configurable y warmup en lifespan FastAPI
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:28'
-updated_date: '2026-05-14 23:29'
+updated_date: '2026-05-15 00:17'
 labels:
   - rag
   - reranker
@@ -25,7 +25,7 @@ documentation:
   - .claude/skills/fastapi-sse-api/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 7000
+ordinal: 1000
 ---
 
 ## Description

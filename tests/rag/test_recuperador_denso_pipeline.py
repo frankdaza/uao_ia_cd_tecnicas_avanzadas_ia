@@ -30,6 +30,13 @@ class _RerankFijo:
         return [float(100 - len(t)) for t in textos]
 
 
+class _RerankIndiceAscendente:
+    """Prefiere el ultimo texto del prefijo denso (orden de entrada = orden denso)."""
+
+    def puntuar(self, consulta: str, textos: list[str]) -> list[float]:
+        return [float(i) for i in range(len(textos))]
+
+
 def _payload(**kwargs: Any) -> dict[str, Any]:
     return {
         "archivo": kwargs["archivo"],
@@ -82,6 +89,40 @@ def _coleccion_y_vs(limpiar_qdrant: None) -> QdrantVectorStore:
             ),
         ],
     )
+    return QdrantVectorStore(collection_name=nombre, client=cliente, text_key="texto")
+
+
+def _coleccion_cinco_angulos(limpiar_qdrant: None) -> QdrantVectorStore:
+    """Cinco vectores en el plano XY con similitud coseno decreciente respecto a [1,0,0,0]."""
+    cliente = QdrantClient(location=":memory:")
+    nombre = "col_cinco"
+    cliente.create_collection(
+        nombre,
+        vectors_config=VectorParams(size=4, distance=Distance.COSINE),
+    )
+    puntos: list[PointStruct] = []
+    ids_uuid = (
+        "00000001-0001-4001-8001-000000000001",
+        "00000002-0002-4002-8002-000000000002",
+        "00000003-0003-4003-8003-000000000003",
+        "00000004-0004-4004-8004-000000000004",
+        "00000005-0005-4005-8005-000000000005",
+    )
+    for i, ang in enumerate((0.0, 12.0, 24.0, 36.0, 48.0)):
+        rad = math.radians(ang)
+        v = [math.cos(rad), math.sin(rad), 0.0, 0.0]
+        puntos.append(
+            PointStruct(
+                id=ids_uuid[i],
+                vector=v,
+                payload=_payload(
+                    archivo=f"e{i}.md",
+                    titulo=f"E{i}",
+                    texto=f"t{i}",
+                ),
+            )
+        )
+    cliente.upsert(collection_name=nombre, points=puntos)
     return QdrantVectorStore(collection_name=nombre, client=cliente, text_key="texto")
 
 
@@ -155,6 +196,10 @@ def test_pipeline_solo_reranker(limpiar_qdrant: None) -> None:
     assert len(out.fuentes) == 2
     # El mock favorece textos cortos: "corto" gana sobre "muy largo texto"
     assert out.fuentes[0].archivo == "a.md"
+    for f in out.fuentes:
+        assert f.score == f.score_final
+    assert out.fuentes[0].score_final == pytest.approx(100.0 - len("corto"))
+    assert out.fuentes[0].score_denso == pytest.approx(1.0, abs=0.02)
 
 
 def test_pipeline_mmr_y_reranker(limpiar_qdrant: None) -> None:
@@ -260,3 +305,64 @@ def test_desde_configuracion_respeta_flags(limpiar_qdrant: None) -> None:
     rec = RecuperadorDenso.desde_configuracion(cfg, vector_store=vs, embeddings=_EmbFijo([1.0, 0.0, 0.0, 0.0]))
     out = rec.consultar("x")
     assert out.fuentes[0].archivo == "a.md"
+
+
+def test_pipeline_opcion_b_rerank_sobre_prefijo_denso_cinco_candidatos(limpiar_qdrant: None) -> None:
+    """
+    Cinco puntos; el reranker mock asigna score creciente con el indice del prefijo denso
+    (orden de ``candidatos_ns``). El ganador es siempre el ultimo de ese prefijo.
+    """
+    vs = _coleccion_cinco_angulos(limpiar_qdrant)
+    emb = _EmbFijo([1.0, 0.0, 0.0, 0.0])
+    rec_denso = RecuperadorDenso(
+        vs,
+        emb,
+        top_k=5,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=False,
+        reranker_habilitado=False,
+    )
+    orden_prefijo = [f.archivo for f in rec_denso.consultar("x").fuentes]
+    assert len(orden_prefijo) == 5
+
+    rec = RecuperadorDenso(
+        vs,
+        emb,
+        top_k=3,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=False,
+        reranker_habilitado=True,
+        reranker_top_n_entrada=5,
+        reranker_instancia=_RerankIndiceAscendente(),
+    )
+    out = rec.consultar("x")
+    esperado = [orden_prefijo[-1], orden_prefijo[-2], orden_prefijo[-3]]
+    assert [f.archivo for f in out.fuentes] == esperado
+    assert out.fuentes[0].score_final == pytest.approx(4.0)
+    assert out.fuentes[0].score_denso < out.fuentes[1].score_denso
+
+
+def test_pipeline_opcion_b_campos_score_mmr_y_rerank(limpiar_qdrant: None) -> None:
+    """Con opcion B, score_denso conserva la similitud Qdrant y score_final el cross-encoder."""
+    vs = _coleccion_y_vs(limpiar_qdrant)
+    rec = RecuperadorDenso(
+        vs,
+        _EmbFijo([1.0, 0.0, 0.0, 0.0]),
+        top_k=2,
+        score_minimo=0.5,
+        top_k_inicial=10,
+        mmr_habilitado=True,
+        mmr_lambda=0.5,
+        reranker_habilitado=True,
+        reranker_top_n_entrada=3,
+        reranker_instancia=_RerankFijo(),
+    )
+    out = rec.consultar("x")
+    assert len(out.fuentes) == 2
+    for f in out.fuentes:
+        assert f.score == f.score_final
+        assert 0.5 <= f.score_denso <= 1.0
+    # El reranker mock no devuelve similitud coseno; debe diferir del denso al menos en un tope
+    assert any(abs(f.score_final - f.score_denso) > 0.05 for f in out.fuentes)

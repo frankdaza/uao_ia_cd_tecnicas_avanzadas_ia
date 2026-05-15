@@ -13,8 +13,11 @@ function tituloChunk(c: RagChunk): string {
 }
 
 function scoreChunk(c: RagChunk): number | null {
-  const s = c.score
-  return typeof s === 'number' && Number.isFinite(s) ? s : null
+  const raw =
+    typeof c.score_final === 'number' && Number.isFinite(c.score_final)
+      ? c.score_final
+      : c.score
+  return typeof raw === 'number' && Number.isFinite(raw) ? raw : null
 }
 
 /** Panel de fragmentos RAG (Qdrant) con enlaces cuando hay `source_url`. */
