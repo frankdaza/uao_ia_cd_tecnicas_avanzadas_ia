@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:25'
-updated_date: '2026-05-14 23:53'
+updated_date: '2026-05-15 00:07'
 labels:
   - rag
   - evaluation
@@ -25,7 +25,7 @@ modified_files:
   - tests/rag/test_metricas_eval.py
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
-ordinal: 1000
+ordinal: 3000
 ---
 
 ## Description

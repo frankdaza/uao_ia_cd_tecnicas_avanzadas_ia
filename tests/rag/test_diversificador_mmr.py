@@ -65,6 +65,54 @@ def test_mmr_k_final_mayor_que_pool_devuelve_todos() -> None:
     assert len(out) == 2
 
 
+def test_aplicar_mmr_pool_unico_con_k_mayor() -> None:
+    q = [1.0, 0.0]
+    solo = _nodo_con_emb("solo", [1.0, 0.0])
+    out = aplicar_mmr([solo], q, lambda_mult=0.5, k_final=3)
+    assert len(out) == 1
+    assert out[0].node.text == "solo"
+
+
+def test_aplicar_mmr_dim_mismatch_levanta() -> None:
+    q = [1.0, 0.0, 0.0, 0.0]
+    ok = _nodo_con_emb("ok", [1.0, 0.0, 0.0, 0.0])
+    mal = _nodo_con_emb("mal", [1.0, 0.0, 0.0])
+    with pytest.raises(ValueError, match="mmr_dim_mismatch"):
+        aplicar_mmr([ok, mal], q, lambda_mult=0.5, k_final=2)
+
+
+def test_aplicar_mmr_norma_casi_cero_omite_candidato() -> None:
+    q = [1.0, 0.0, 0.0]
+    casi_nulo = _nodo_con_emb("n", [1e-15, 0.0, 0.0])
+    a = _nodo_con_emb("a", [1.0, 0.0, 0.0])
+    b = _nodo_con_emb("b", [0.0, 1.0, 0.0])
+    out = aplicar_mmr([casi_nulo, a, b], q, lambda_mult=0.5, k_final=2)
+    assert len(out) == 2
+    assert {c.node.text for c in out} == {"a", "b"}
+
+
+def test_aplicar_mmr_lambda_extremos() -> None:
+    """Lambda 1.0 = orden por similitud a q; lambda 0.0 = diversidad pura en el top-k."""
+    q = [1.0, 0.0, 0.0]
+    pool_desordenado = [
+        _nodo_con_emb("z", [0.0, 0.0, 1.0]),
+        _nodo_con_emb("y", [0.0, 1.0, 0.0]),
+        _nodo_con_emb("x", [1.0, 0.0, 0.0]),
+    ]
+    out_uno = aplicar_mmr(pool_desordenado, q, lambda_mult=1.0, k_final=3)
+    assert out_uno[0].node.text == "x"
+    assert {c.node.text for c in out_uno} == {"x", "y", "z"}
+
+    dup1 = _nodo_con_emb("d1", [1.0, 0.01, 0.0])
+    dup2 = _nodo_con_emb("d2", [0.99, 0.01, 0.0])
+    ort = _nodo_con_emb("ort", [0.0, 1.0, 0.0])
+    pool_dup = [dup1, dup2, ort]
+    out_cero = aplicar_mmr(pool_dup, q, lambda_mult=0.0, k_final=2)
+    assert len(out_cero) == 2
+    assert out_cero[0].node.text in {"d1", "d2"}
+    assert "ort" in {c.node.text for c in out_cero}
+
+
 def test_mmr_sin_embedding_lanza() -> None:
     n = TextNode(text="sin", embedding=None)
     c = NodeWithScore(node=n, score=1.0)

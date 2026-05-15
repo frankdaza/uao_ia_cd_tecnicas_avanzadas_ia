@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-14 19:32'
+updated_date: '2026-05-15 00:07'
 labels:
   - frontend
   - auth
@@ -22,7 +22,7 @@ references:
 documentation:
   - .claude/skills/react-vite-qa-ui/SKILL.md
 priority: medium
-ordinal: 7000
+ordinal: 15000
 ---
 
 ## Description

@@ -3,7 +3,7 @@ id: doc-003
 title: Arquitectura operativa del agente conversacional (Modulo 2)
 type: architecture
 created_date: '2026-05-12'
-updated_date: '2026-05-14'
+updated_date: '2026-05-15'
 status: vigente
 modulo: 2
 ---
@@ -182,6 +182,8 @@ flowchart LR
 ### Reranking y diversidad (RAG denso, TASK-71)
 
 El recuperador `RecuperadorDenso` puede **sobrerrecuperar** en Qdrant, filtrar por umbral de similitud, aplicar **MMR** (diversidad) y, opcionalmente, un **cross-encoder** local (`sentence-transformers`) para reordenar los fragmentos enviados al compositor. La tool `listar_estructurado` **no** usa reranker.
+
+Con **`RAG_MMR_HABILITADO=true`**, el MMR implementado asume **similitud coseno** alineada con Qdrant: `asegurar_coleccion` valida que `QDRANT_DISTANCE` sea `Cosine` y, si no, levanta `ValueError` con mensaje orientativo (alternativa: desactivar MMR o implementar un MMR generico por metrica, fuera del alcance actual). La ingesta en `scripts.indexar_corpus_qdrant` **normaliza L2** los vectores antes del upsert (idempotente si el embedder ya devuelve vectores unitarios, p. ej. OpenAI `text-embedding-3-*`).
 
 | Parametro (`.env` / `Configuracion`) | Default | Notas |
 | --- | --- | --- |

@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-14 19:32'
+updated_date: '2026-05-15 00:07'
 labels:
   - docs
   - modulo-2
@@ -19,7 +19,7 @@ references:
 documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
 priority: medium
-ordinal: 3000
+ordinal: 11000
 ---
 
 ## Description

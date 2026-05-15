@@ -4,11 +4,14 @@ Diversificacion MMR (Maximal Marginal Relevance) sobre candidatos con embeddings
 
 from __future__ import annotations
 
+import logging
 import math
 from collections.abc import Sequence
 
 import numpy as np
 from llama_index.core.schema import NodeWithScore
+
+logger = logging.getLogger(__name__)
 
 EPS_NORM = 1e-12
 
@@ -47,13 +50,18 @@ def aplicar_mmr(
     Selecciona hasta ``k_final`` nodos maximizando relevancia frente a la consulta
     y penalizando redundancia respecto a los ya elegidos (MMR clasico).
 
+    Contrato ``k_final``: si ``k_final`` es mayor que la cantidad de candidatos
+    validos tras validar dimensiones y filtrar normas casi nulas, se devuelven
+    todos los disponibles (a lo sumo ``len(pool)``). En ese caso se registra un
+    mensaje ``INFO`` en el log.
+
     Args:
         candidatos: ``NodeWithScore`` con ``node.embedding`` poblado (misma dimension
             que ``embedding_consulta``).
         embedding_consulta: Vector de la consulta (no tiene que estar normalizado).
         lambda_mult: Peso de relevancia frente a diversidad; en 1.0 equivale a orden
             puramente por similitud con la consulta; en 0.0 solo se evita redundancia.
-        k_final: Tamano del conjunto de salida.
+        k_final: Tamano deseado del conjunto de salida (puede superar al pool; se trunca).
 
     Returns:
         Lista ordenada por el orden de inclusion MMR (no por score original).
@@ -64,16 +72,52 @@ def aplicar_mmr(
         return []
 
     lam = float(np.clip(lambda_mult, 0.0, 1.0))
-    q = _normalizar_unidad(np.asarray(list(embedding_consulta), dtype=np.float64).ravel())
+    q = np.asarray(list(embedding_consulta), dtype=np.float64).ravel()
+    if q.size == 0:
+        msg = "embedding_consulta vacio."
+        raise ValueError(msg)
+    dim_q = int(q.size)
+    q = _normalizar_unidad(q)
 
+    filtrados: list[NodeWithScore] = []
     vecs: list[np.ndarray] = []
     sims_q: list[float] = []
+
     for c in candidatos:
-        v = _normalizar_unidad(_vector_nodo_a_numpy(c.node))
+        raw = _vector_nodo_a_numpy(c.node)
+        if int(raw.size) != dim_q:
+            raise ValueError(
+                "mmr_dim_mismatch: la consulta tiene "
+                f"{dim_q} dimensiones y un candidato tiene {int(raw.size)}; "
+                "revisa modelo de embedding y coleccion Qdrant."
+            )
+        n = float(np.linalg.norm(raw))
+        if n < EPS_NORM:
+            etiqueta = getattr(c.node, "id_", None) or getattr(c.node, "node_id", None)
+            logger.warning(
+                "MMR: se omite candidato con norma casi cero (< %.1e); nodo=%r",
+                EPS_NORM,
+                etiqueta,
+            )
+            continue
+        v = raw / n
+        filtrados.append(c)
         vecs.append(v)
         sims_q.append(_similitud_coseno(q, v))
 
-    indices_restantes: list[int] = list(range(len(candidatos)))
+    if not filtrados:
+        return []
+
+    pool_size = len(filtrados)
+    if k_final > pool_size:
+        logger.info(
+            "MMR: k_final=%d supera candidatos validos (%d); se devuelven %d.",
+            k_final,
+            pool_size,
+            pool_size,
+        )
+
+    indices_restantes: list[int] = list(range(pool_size))
     seleccion: list[int] = []
 
     while indices_restantes and len(seleccion) < k_final:
@@ -97,7 +141,7 @@ def aplicar_mmr(
         seleccion.append(mejor_i)
         indices_restantes.remove(mejor_i)
 
-    return [candidatos[i] for i in seleccion]
+    return [filtrados[i] for i in seleccion]
 
 
 def candidatos_desde_pares_similitud(

@@ -3,11 +3,11 @@ id: TASK-77
 title: >-
   Coherencia metrica Qdrant/MMR y robustez del diversificador (dims, normas casi
   cero, contrato k_final)
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:27'
-updated_date: '2026-05-15 00:01'
+updated_date: '2026-05-15 00:07'
 labels:
   - rag
   - mmr
@@ -27,7 +27,7 @@ documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 1000
+ordinal: 62.5
 ---
 
 ## Description
@@ -56,12 +56,12 @@ Se tocan `src/rag/diversificador_mmr.py`, `src/rag/qdrant_store.py` (validacion 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 asegurar_coleccion en src/rag/qdrant_store.py valida la combinacion metrica + flag MMR: si qdrant_distance != Cosine y rag_mmr_habilitado=True, levanta ValueError con mensaje claro al iniciar la app o al primer uso de la coleccion.
-- [ ] #2 scripts/indexar_corpus_qdrant.py normaliza vectores antes del upsert (norma 1) o documenta que el embedder ya lo hace (assert al inicio si no se cumple). Verificable consultando un punto via qdrant-client y midiendo la norma.
-- [ ] #3 diversificador_mmr.py valida len(embedding_consulta) == len(vector_chunk) al inicio del bucle y levanta ValueError('mmr_dim_mismatch') con mensaje claro.
-- [ ] #4 Vectores con norma < EPS_NORM se descartan del candidato con log warning; no rompen MMR.
-- [ ] #5 Tests nuevos en tests/rag/test_diversificador_mmr.py: (a) pool con 1 solo candidato y k_final=3 -> devuelve 1; (b) dimensiones mismatch -> ValueError; (c) vector de norma casi cero -> omitido del resultado; (d) lambda extremos 0.0 y 1.0 confirman extremos puros (refuerzo).
-- [ ] #6 Docstring de aplicar_mmr explica el contrato cuando k_final > len(pool).
+- [x] #1 asegurar_coleccion en src/rag/qdrant_store.py valida la combinacion metrica + flag MMR: si qdrant_distance != Cosine y rag_mmr_habilitado=True, levanta ValueError con mensaje claro al iniciar la app o al primer uso de la coleccion.
+- [x] #2 scripts/indexar_corpus_qdrant.py normaliza vectores antes del upsert (norma 1) o documenta que el embedder ya lo hace (assert al inicio si no se cumple). Verificable consultando un punto via qdrant-client y midiendo la norma.
+- [x] #3 diversificador_mmr.py valida len(embedding_consulta) == len(vector_chunk) al inicio del bucle y levanta ValueError('mmr_dim_mismatch') con mensaje claro.
+- [x] #4 Vectores con norma < EPS_NORM se descartan del candidato con log warning; no rompen MMR.
+- [x] #5 Tests nuevos en tests/rag/test_diversificador_mmr.py: (a) pool con 1 solo candidato y k_final=3 -> devuelve 1; (b) dimensiones mismatch -> ValueError; (c) vector de norma casi cero -> omitido del resultado; (d) lambda extremos 0.0 y 1.0 confirman extremos puros (refuerzo).
+- [x] #6 Docstring de aplicar_mmr explica el contrato cuando k_final > len(pool).
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -92,9 +92,15 @@ Se tocan `src/rag/diversificador_mmr.py`, `src/rag/qdrant_store.py` (validacion 
 OpenAI `text-embedding-3-small/large` ya devuelve vectores normalizados; modelos HuggingFace locales no siempre. La normalizacion en `indexar_corpus_qdrant.py` es idempotente y segura. Si el equipo prefiere mantener flexibilidad de metrica, alternativa: implementar MMR generico usando la misma metrica que Qdrant (mas invasivo y fuera de alcance aqui). Documentar la decision elegida en doc-003. Mantener EPS_NORM como constante del modulo para que tests puedan importarla. TASK-83 anadira tests de integracion adicionales que cubren ingesta + recuperacion.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Validacion MMR+Cosine en asegurar_coleccion (ValueError mmr_requires_cosine). Ingesta normaliza L2 antes de upsert (_normalizar_l2_lista). diversificador_mmr: mmr_dim_mismatch, omision de vectores con norma < EPS_NORM con warning, log INFO si k_final > pool, docstring del contrato k_final. Tests en test_diversificador_mmr, test_qdrant_store, verificacion de norma en test_indexar. doc-003 actualizado (TASK-77).
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 uv run pytest tests/rag/test_diversificador_mmr.py -v en verde.
-- [ ] #2 Ingesta end-to-end con uv run scripts/indexar_corpus_qdrant.py produce vectores normalizados (verificable con qdrant-client).
-- [ ] #3 Tarea con status: Done sin archivar.
+- [x] #1 uv run pytest tests/rag/test_diversificador_mmr.py -v en verde.
+- [x] #2 Ingesta end-to-end con uv run scripts/indexar_corpus_qdrant.py produce vectores normalizados (verificable con qdrant-client).
+- [x] #3 Tarea con status: Done sin archivar.
 <!-- DOD:END -->

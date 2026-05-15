@@ -52,6 +52,33 @@ def test_asegurar_coleccion_falla_si_distancia_distinta(qdrant_memoria: None) ->
         asegurar_coleccion(cliente, "col_dist", 4, Distance.DOT)
 
 
+def test_asegurar_coleccion_exige_cosine_si_mmr_activo(
+    qdrant_memoria: None, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("QDRANT_DISTANCE", "Dot")
+    obtener_configuracion.cache_clear()
+    cfg = obtener_configuracion()
+    assert cfg.rag_mmr_habilitado is True
+    cliente = obtener_qdrant_client()
+    with pytest.raises(ValueError, match="mmr_requires_cosine"):
+        asegurar_coleccion(
+            cliente, "col_mmr_metrica", 8, Distance.DOT, configuracion=cfg
+        )
+
+
+def test_asegurar_coleccion_permite_dot_si_mmr_desactivado(
+    qdrant_memoria: None, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("QDRANT_DISTANCE", "Dot")
+    monkeypatch.setenv("RAG_MMR_HABILITADO", "0")
+    obtener_configuracion.cache_clear()
+    cfg = obtener_configuracion()
+    cliente = obtener_qdrant_client()
+    asegurar_coleccion(
+        cliente, "col_dot_sin_mmr", 8, Distance.DOT, configuracion=cfg
+    )
+
+
 def test_obtener_vector_store_memoria(
     qdrant_memoria: None, monkeypatch: pytest.MonkeyPatch
 ) -> None:

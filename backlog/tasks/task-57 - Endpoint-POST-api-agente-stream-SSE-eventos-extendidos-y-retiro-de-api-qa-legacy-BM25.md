@@ -6,7 +6,7 @@ title: >-
 status: Done
 assignee: []
 created_date: '2026-05-11 00:00'
-updated_date: '2026-05-14 19:32'
+updated_date: '2026-05-15 00:07'
 labels:
   - fastapi
   - sse
@@ -27,7 +27,7 @@ references:
 documentation:
   - .claude/skills/fastapi-sse-api/SKILL.md
 priority: high
-ordinal: 8000
+ordinal: 16000
 ---
 
 ## Description

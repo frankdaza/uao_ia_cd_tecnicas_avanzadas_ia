@@ -8,7 +8,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-14 16:30'
-updated_date: '2026-05-14 22:24'
+updated_date: '2026-05-15 00:07'
 labels:
   - rag
   - qdrant
@@ -30,7 +30,7 @@ documentation:
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: high
-ordinal: 1000
+ordinal: 7000
 ---
 
 ## Description

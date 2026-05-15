@@ -3,6 +3,9 @@ Ingesta del corpus Markdown hacia Qdrant: chunking con LlamaIndex
 (SentenceSplitter o MarkdownNodeParser segun ``CHUNK_STRATEGY``)
 e upsert idempotente por hash de contenido.
 
+Los vectores se **normalizan L2 a norma 1** antes del upsert (idempotente si el
+embedder ya los entrega unitarios, p. ej. OpenAI ``text-embedding-3-*``).
+
 Ejecucion desde la raiz del repositorio:
 
     uv run python scripts/indexar_corpus_qdrant.py
@@ -21,6 +24,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 
+import numpy as np
 import yaml
 from llama_index.core import Document
 from llama_index.core.node_parser import MarkdownNodeParser, SentenceSplitter
@@ -46,6 +50,28 @@ from src.rag.qdrant_store import (
 )
 
 logger = logging.getLogger(__name__)
+
+_EPS_NORM_VECTOR = 1e-12
+
+
+def _normalizar_l2_lista(vec: list[float]) -> list[float]:
+    """
+    Normaliza el vector denso a norma euclidea 1.
+
+    Es idempotente salvo error numerico si el modelo ya devuelve vectores
+    unitarios. Vectores casi nulos se dejan sin escalar y se registra advertencia.
+    """
+    arr = np.asarray(vec, dtype=np.float64).ravel()
+    n = float(np.linalg.norm(arr))
+    if n < _EPS_NORM_VECTOR:
+        logger.warning(
+            "Embedding con norma casi cero (<%s) antes de upsert; se omite normalizar.",
+            _EPS_NORM_VECTOR,
+        )
+        return [float(x) for x in arr.tolist()]
+    salida = (arr / n).astype(np.float64)
+    return [float(x) for x in salida.tolist()]
+
 
 # Namespace fija para mapear el hash hex a UUID (Qdrant en memoria exige UUID).
 _NAMESPACE_ID_CHUNK = uuid.UUID("00000000-0000-5000-8000-000000000001")
@@ -440,6 +466,7 @@ def ejecutar_indexacion(
         cfg.qdrant_collection,
         cfg.embedding_dims,
         distancia,
+        configuracion=cfg,
     )
 
     embedder = obtener_embeddings(cfg)
@@ -470,7 +497,7 @@ def ejecutar_indexacion(
         puntos = [
             PointStruct(
                 id=t.id_punto_qdrant,
-                vector=vec,
+                vector=_normalizar_l2_lista(vec),
                 payload=_payload_desde_trabajo(t),
             )
             for t, vec in zip(lote, vectores, strict=True)

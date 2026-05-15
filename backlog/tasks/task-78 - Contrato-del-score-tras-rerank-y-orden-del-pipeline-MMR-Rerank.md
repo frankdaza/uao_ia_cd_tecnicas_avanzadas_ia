@@ -1,11 +1,11 @@
 ---
 id: TASK-78
 title: Contrato del score tras rerank y orden del pipeline MMR/Rerank
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-14 23:28'
-updated_date: '2026-05-14 23:28'
+updated_date: '2026-05-15 00:07'
 labels:
   - rag
   - reranker
@@ -26,7 +26,7 @@ references:
 documentation:
   - .claude/skills/agente-modulo-2/SKILL.md
 priority: medium
-ordinal: 6000
+ordinal: 1000
 ---
 
 ## Description

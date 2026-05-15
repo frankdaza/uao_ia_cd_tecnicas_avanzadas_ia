@@ -115,13 +115,25 @@ def asegurar_coleccion(
     nombre: str,
     dims: int,
     distancia: Distance,
+    configuracion: Configuracion | None = None,
 ) -> None:
     """
     Crea la coleccion si no existe; si existe, valida dimensiones y distancia.
 
+    Si ``rag_mmr_habilitado`` en configuracion es verdadero, exige metrica **Cosine**
+    en settings (``QDRANT_DISTANCE=Cosine``), coherente con ``diversificador_mmr``.
+
     Raises:
-        ValueError: si la coleccion existe pero ``size`` o ``distance`` no coinciden.
+        ValueError: si la coleccion existe pero ``size`` o ``distance`` no coinciden;
+            o si MMR esta activo con metrica distinta de coseno.
     """
+    cfg = configuracion or obtener_configuracion()
+    if cfg.rag_mmr_habilitado and cfg.qdrant_distance != "Cosine":
+        raise ValueError(
+            "mmr_requires_cosine: configura QDRANT_DISTANCE=Cosine o desactiva "
+            "RAG_MMR_HABILITADO."
+        )
+
     if not cliente.collection_exists(nombre):
         cliente.create_collection(
             collection_name=nombre,
@@ -198,7 +210,9 @@ def obtener_vector_store(
     cfg = configuracion or obtener_configuracion()
     cliente = obtener_qdrant_client(cfg)
     distancia = distancia_desde_settings(cfg.qdrant_distance)
-    asegurar_coleccion(cliente, cfg.qdrant_collection, cfg.embedding_dims, distancia)
+    asegurar_coleccion(
+        cliente, cfg.qdrant_collection, cfg.embedding_dims, distancia, configuracion=cfg
+    )
     return QdrantVectorStore(
         collection_name=cfg.qdrant_collection,
         client=cliente,

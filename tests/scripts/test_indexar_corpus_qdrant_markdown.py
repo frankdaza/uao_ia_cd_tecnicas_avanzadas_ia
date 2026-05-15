@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import MagicMock
 
+import numpy as np
 import pytest
 
 from scripts import indexar_corpus_qdrant as idx
@@ -140,6 +141,18 @@ def test_markdown_tres_archivos_payload_e_idempotencia(
     assert pl.get("nombre_medico") == "Juan Perez"
     assert "Pediatria" in (pl.get("especialidad") or [])
 
+    puntos_vec, _ = cliente.scroll(
+        collection_name=cfg.qdrant_collection,
+        limit=32,
+        with_vectors=True,
+    )
+    for p in puntos_vec:
+        raw = p.vector
+        if isinstance(raw, dict):
+            raw = next(iter(raw.values()))
+        arr = np.asarray(raw, dtype=np.float64)
+        assert abs(float(np.linalg.norm(arr)) - 1.0) < 1e-5
+
     s2 = idx.ejecutar_indexacion(
         raiz,
         cfg,
@@ -221,4 +234,5 @@ def test_asegurar_coleccion_dispara_indices_sin_excepcion_memoria(
         "col_payload_idx",
         8,
         distancia_desde_settings(cfg.qdrant_distance),
+        configuracion=cfg,
     )
