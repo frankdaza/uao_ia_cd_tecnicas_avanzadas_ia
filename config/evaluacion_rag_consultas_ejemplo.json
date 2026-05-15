@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "descripcion": "Consultas de ejemplo para comparar recuperacion RAG antes y despues de agrupar el corpus (revision manual o con scripts/eval_recuperacion_consultas.py).",
+  "consultas": [
+    "¿Cómo agendo una cita médica en la Fundación Valle del Lili?",
+    "¿Dónde encuentro el directorio médico de especialistas?",
+    "¿Qué servicios ofrece la fundación para pacientes externos?",
+    "¿Cómo accedo al buscador integral de contenidos?",
+    "Información sobre preparación para exámenes médicos",
+    "¿Dónde veo resultados de laboratorio o imágenes?",
+    "¿Qué es el programa Hospital Padrino?",
+    "¿Cómo contactar a un médico de cardiología en el Valle del Lili?",
+    "Horarios de atención o información de urgencias",
+    "Biblioteca o educación para pacientes",
+    "Chequeo médico preventivo",
+    "¿Qué especialidades quirúrgicas están disponibles?"
+  ]
+}

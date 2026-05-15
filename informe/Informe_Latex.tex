@@ -155,11 +155,17 @@ editar el \textit{prompt} de sistema sin modificar el código fuente. Se
 diseñó un protocolo de evaluación reproducible con 23 preguntas de
 referencia distribuidas en cinco categorías temáticas, con métricas de
 precisión de recuperación, Recall@3, tasa de abstención y latencia media
-por modelo.
+por modelo. En una extensión documentada en la Sección~\ref{sec:m2_agente},
+el \textbf{Módulo~2} incorpora un agente conversacional con memoria en
+PostgreSQL, recuperación \textbf{densa exclusiva} en Qdrant (sin BM25 en
+inferencia del producto) y orquestación LangGraph/LangChain/LlamaIndex,
+validado con pruebas E2E reproducibles del repositorio~\cite{e2em2tests,
+doc003m2,decision3m2}.
 \end{abstract}
 
 \begin{IEEEkeywords}
-recuperación aumentada por generación, BM25, \textit{web scraping}, modelos
+recuperación aumentada por generación, BM25, LangGraph, PostgreSQL, Qdrant,
+LlamaIndex, \textit{web scraping}, modelos
 de lenguaje grandes, FastAPI, \textit{Server-Sent Events}, React, Vite,
 Ollama, OpenAI, procesamiento de lenguaje natural, inteligencia artificial
 \end{IEEEkeywords}
@@ -195,19 +201,24 @@ contexto único. Estos documentos se presentan al LLM junto con un
 
 La contribución principal de este trabajo consiste en demostrar que es
 posible construir un sistema RAG funcional, trazable y libre de alucinaciones
-sin recurrir a bases de datos vectoriales ni a modelos de \textit{embedding},
-lo que simplifica el despliegue y reduce los requisitos computacionales en
-la fase inicial del proyecto. Como contribución adicional de la fase 2, el
-sistema se desacopla en un \textit{backend} HTTP con FastAPI + SSE y un
-\textit{frontend} SPA construido con React 19 + Vite 7 + Tailwind CSS v4 +
-\textit{shadcn/ui}, lo que habilita interfaces de alto impacto visual,
-modo dual de comparación entre modelos locales y en la nube, y reutilización
-del API por scripts de evaluación y por los módulos posteriores del curso.
+inicialmente \textbf{sin} bases de datos vectoriales ni modelos de
+\textit{embedding} en el camino de recuperación BM25 (Módulo~1), lo que
+simplifica el despliegue inicial y reduce requisitos computacionales. En una
+extensión posterior (Módulo~2, Sección~\ref{sec:m2_agente}), el producto
+incorpora recuperación densa en Qdrant y memoria persistente, manteniendo el
+corpus Markdown como fuente de verdad textual. Como contribución adicional
+de la fase 2, el sistema se desacopla en un \textit{backend} HTTP con
+FastAPI + SSE y un \textit{frontend} SPA construido con React 19 + Vite 7 +
+Tailwind CSS v4 + \textit{shadcn/ui}, lo que habilita interfaces de alto
+impacto visual, modo dual de comparación entre modelos locales y en la nube
+en el pipeline BM25, y reutilización del API por scripts de evaluación y por
+los módulos posteriores del curso.
 
 El artículo se organiza de la siguiente manera: la Sección~\ref{sec:arq}
 describe la arquitectura general; las Secciones~\ref{sec:scraping}
-a~\ref{sec:api_ui} detallan cada módulo; la Sección~\ref{sec:eval} presenta
-el protocolo de evaluación y los resultados; finalmente, las
+a~\ref{sec:api_ui} detallan cada módulo; la Sección~\ref{sec:m2_agente}
+documenta el agente conversacional del Módulo~2; la Sección~\ref{sec:eval}
+presenta el protocolo de evaluación y los resultados; finalmente, las
 Secciones~\ref{sec:disc} y~\ref{sec:conc} ofrecen la discusión y las
 conclusiones.
 
@@ -752,8 +763,8 @@ como servicio REST con \textit{streaming} SSE, y un \textit{frontend}
 \textit{single page application} desarrollado en \code{frontend/}. Esta
 separación, discutida con mayor detalle en~\cite{decision_fvl_fase2}, permite
 reutilizar el API desde \textit{scripts} de evaluación, cuadernos de
-experimentación y futuros módulos del curso sin acoplarse a la capa de
-presentación.
+experimentación y el agente conversacional del Módulo~2 sin acoplarse a la
+capa de presentación.
 
 \subsection{Backend HTTP FastAPI}
 
@@ -914,6 +925,127 @@ build} genera \code{frontend/dist/}, que FastAPI sirve como
 \code{StaticFiles} desde el mismo proceso.
 
 % ============================================================
+\section{Módulo 2: agente conversacional}
+\label{sec:m2_agente}
+% ============================================================
+
+Además del pipeline de preguntas y respuestas con BM25 descrito en las
+secciones anteriores, el repositorio incorpora un \textit{agente
+conversacional} de referencia para el curso (Módulo~2): el usuario se
+identifica con \code{POST /api/sesiones}, el chat consume
+\code{POST /api/agente/stream} con \textit{Server-Sent Events} extendidos y
+el servidor orquesta un grafo \textbf{LangGraph} con \textit{tool-calling}
+sobre \textbf{PostgreSQL} (memoria e identidad) y \textbf{Qdrant} (vectores
+del corpus). La guía operativa y los escenarios de prueba están en la
+documentación interna~\cite{doc003m2}; el registro de decisión del stack y
+sus consecuencias se encuentra en~\cite{decision3m2}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    node distance=0.35cm and 0.45cm,
+    box/.style={rectangle, rounded corners=3pt, draw=black!55,
+        fill=purple!6, font=\scriptsize\sffamily, inner sep=2.6pt, align=center,
+        minimum height=0.68cm, minimum width=2.05cm},
+    arr/.style={-Stealth, thick, draw=black!55}
+]
+    \node[box] (fe) {SPA React\\SSE};
+    \node[box, right=of fe] (api) {FastAPI};
+    \node[box, right=of api] (rg) {LangGraph};
+    \node[box, below=of rg] (mem) {PostgreSQL};
+    \node[box, right=of mem] (qd) {Qdrant};
+    \draw[arr] (fe) -- (api);
+    \draw[arr] (api) -- (rg);
+    \draw[arr] (rg) -- (mem);
+    \draw[arr] (rg) -- (qd);
+\end{tikzpicture}
+\caption{Referencia de despliegue del Módulo~2: cliente web con SSE, API
+FastAPI, grafo de enrutamiento y almacenes PostgreSQL (OLTP y memoria) y
+Qdrant (vectores del corpus indexado).}
+\label{fig:m2_arq}
+\end{figure}
+
+La Figura~\ref{fig:m2_arq} resume la separación de responsabilidades
+aprobada en~\cite{decision3m2}: el texto canónico permanece en Markdown bajo
+\code{data/markdown/}, pero la inferencia del agente \textbf{no} usa BM25
+como recuperador en el producto M2; solo \textbf{similitud densa} sobre
+vectores en Qdrant, con ingesta previa idempotente mediante
+\code{scripts.indexar\_corpus\_qdrant}.
+
+\subsection{Diseño de herramientas y memoria}
+
+La herramienta \code{faq\_estructurada} consulta \code{data/structured/faqs.json}
+(validado con esquema JSON) para respuestas deterministas en datos
+tabulares (horarios, PBX, identificación tributaria). La herramienta
+\code{rag\_denso} ejecuta recuperación semántica con LlamaIndex y el cliente
+\texttt{qdrant-client}. La memoria conversacional persiste con
+\texttt{PostgresChatMessageHistory} de \texttt{langchain-postgres}; el
+contexto inyectado respeta una ventana temporal configurable
+(\code{HISTORIAL\_DIAS\_MAX}, valor por defecto siete días) y un tope de
+turnos (\code{HISTORIAL\_TURNOS\_MAX}).
+
+\subsection{Recuperación densa frente a BM25 e híbridos}
+
+La decisión arquitectónica descarta BM25, fusión híbrida y RRF en el
+\textit{runtime} del producto M2~\cite{decision3m2}. Entre los motivos
+figuran un único flujo de recuperación (menos acople sparse/denso),
+ausencia de ajuste de pesos híbridos en producción y retiro de dependencias
+léxicas del camino caliente del agente. El BM25 de la Sección~\ref{sec:bm25}
+conserva valor como línea base histórica y como motor del protocolo de
+evaluación documentado (\code{scripts/evaluar\_qa.py}), no como recuperador
+del Módulo~2.
+
+\subsection{Validación automatizada (E2E)}
+
+La tarea interna TASK-61 consolidó una suite reproducible en
+\code{tests/e2e/test\_escenarios\_modulo2.py} con cuatro escenarios del PDF
+de la actividad: (a)~RAG denso con verificación de fuentes o metadatos
+coherentes; (b)~memoria en dos turnos; (c)~FAQ estructurada; (d)~sesión mixta
+con más de una herramienta~\cite{e2em2tests}. Con \code{MOCK\_LLM=1} en el
+servidor, el router y el compositor se vuelven deterministas y se emplean
+tokens \code{e2e7001}, \code{e2e7002} y \code{e2e7003} en el texto de la
+pregunta para forzar \code{rag\_denso}, \code{faq\_estructurada} y
+continuación de diálogo sin llamadas reales a OpenAI. El endpoint
+\code{GET /api/salud} expone \code{agente\_mock\_llm} para comprobar el modo
+laboratorio.
+
+La Tabla~\ref{tab:e2e_m2} resume los escenarios; los tests se omiten con
+mensaje explícito cuando faltan servicios o la variable
+\code{EJECUTAR\_E2E\_MODULO2} no está definida.
+
+\begin{table}[ht]
+\centering
+\caption{Escenarios E2E del Módulo~2 (resumen TASK-61)}
+\label{tab:e2e_m2}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}cp{0.62\columnwidth}@{}}
+\toprule
+\textbf{ID} & \textbf{Objetivo de la prueba automatizada} \\
+\midrule
+(a) & Forzar \code{rag\_denso} y validar eventos de fuentes o coherencia de metadatos. \\
+(b) & Segundo turno con referencia al primero (\code{e2e7003} en modo mock). \\
+(c) & Datos de contacto u horarios vía \code{faq\_estructurada} (\code{e2e7002}). \\
+(d) & Conversación en un mismo \code{session\_id} alternando intenciones. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Transcripción anónima de eventos SSE}
+
+El listado~\ref{lst:sse_m2} muestra la forma de los eventos (payloads
+abreviados, sin datos personales). Los tipos \code{pensamiento} y
+\code{herramienta} habilitan trazabilidad del router en la interfaz.
+
+\begin{lstlisting}[caption={Secuencia SSE ilustrativa del agente (campos
+abreviados)}, label={lst:sse_m2}]
+data: {"tipo":"pensamiento","herramienta_candidata":"rag_denso"}
+data: {"tipo":"herramienta","nombre":"rag_denso"}
+data: {"tipo":"token","texto":"La "}
+data: {"tipo":"fuentes","fragmentos":[{"texto":"...","score":0.41}]}
+data: {"tipo":"final","latencia_ms":842}
+\end{lstlisting}
+
+% ============================================================
 \section{Evaluación}
 \label{sec:eval}
 % ============================================================
@@ -1029,9 +1161,8 @@ LLM sintetice información distribuida en varias páginas del sitio web.
 La arquitectura FastAPI + SSE desacoplada del consumidor web introduce
 ventajas prácticas frente al monolito Gradio del MVP. El mismo API HTTP
 puede ser invocado por el \textit{frontend} React, por los \textit{scripts}
-de evaluación (\code{scripts/evaluar\_qa.py}) o por futuros clientes
-—incluidos los experimentos del módulo 2 sobre \textit{chunking} semántico
-y recuperación densa— sin duplicar la lógica de orquestación del
+de evaluación (\code{scripts/evaluar\_qa.py}) o por el agente M2 de la
+Sección~\ref{sec:m2_agente} sin duplicar la lógica de orquestación del
 \code{PipelineQa}. El \textit{frontend}, al consumir un contrato JSON/SSE
 estable, evoluciona con ciclos de iteración propios (diseño,
 accesibilidad, branding) sin bloquearse en la capa Python. Finalmente, la
@@ -1072,11 +1203,11 @@ directas entre modelos locales y en la nube.
 
 \subsection{Trabajo Futuro}
 
-Para la siguiente fase del proyecto se contempla migrar a una arquitectura
-basada en \textit{chunking} semántico, modelos de \textit{embedding} y una
-base de datos vectorial (Chroma o FAISS), lo que permitirá superar las
-limitaciones léxicas de BM25 y manejar documentos de mayor longitud sin
-riesgo de truncamiento.
+Tras cerrar el Módulo~2 con Qdrant y \textit{chunking} de ingesta, el trabajo
+futuro se orienta a explorar mitigaciones de costo (embeddings locales o
+\textit{caching}), afinar hiperparámetros del router y evaluar políticas de
+retención del historial, manteniendo la disciplina de un único flujo denso
+en el producto principal~\cite{decision3m2}.
 
 % ============================================================
 \section{Conclusiones}
@@ -1117,16 +1248,18 @@ de consumo sin necesidad de GPU. Los aportes principales son:
           referencia y cuatro métricas de calidad de recuperación y
           generación, ejecutable contra cualquier subconjunto de los ocho
           modelos integrados.
+    \item Un agente conversacional (Módulo~2) con router LangGraph,
+          herramientas LangChain, memoria PostgreSQL y RAG exclusivamente
+          denso en Qdrant, documentado operativamente en~\cite{doc003m2}
+          y con pruebas E2E en~\cite{e2em2tests}.
 \end{enumerate}
 
 Los resultados de la evaluación (Tabla~\ref{tab:resultados}) permitirán
 comparar objetivamente el comportamiento de los ocho modelos y confirmar la
 hipótesis de que BM25 constituye una base sólida para un sistema RAG de
-primera fase antes de incorporar técnicas de recuperación densa. La
-separación \textit{backend}/\textit{frontend} introducida en la fase 2
-deja lista la infraestructura para reutilizar el API desde los experimentos
-del módulo 2 sobre \textit{chunking} semántico, \textit{embeddings} y
-bases de datos vectoriales.
+primera fase. La separación \textit{backend}/\textit{frontend} y el módulo
+conversacional de la Sección~\ref{sec:m2_agente} consolidan la recuperación
+densa operativa con memoria persistente~\cite{decision3m2,doc003m2}.
 
 % ============================================================
 \begin{thebibliography}{00}
@@ -1239,6 +1372,21 @@ Vercel,
 ``Vercel AI SDK,''
 \textit{GitHub repository}, 2024.
 [En línea]. Disponible en: \url{https://sdk.vercel.ai/docs}
+
+\bibitem{decision3m2}
+F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
+``ADR decision-3: Arquitectura del agente M2 con router LangGraph, memoria PostgreSQL y RAG denso en Qdrant,''
+repositorio UAO, 2026.
+
+\bibitem{doc003m2}
+F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
+``doc-003: Arquitectura operativa del agente (Módulo 2),''
+repositorio UAO, 2026.
+
+\bibitem{e2em2tests}
+F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,
+``tests/e2e/test\_escenarios\_modulo2.py (suite E2E del Módulo 2),''
+repositorio UAO, 2026.
 
 \bibitem{decision_fvl_fase2}
 F.~E.~Daza, A.~F.~López, V.~Valle Fernández y Á.~J.~Barco,

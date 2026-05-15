@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import type { FuenteBm25 } from '@/lib/schemas'
+import type { RagChunk } from '@/lib/schemas'
 import { SourcesPanel } from '@/features/chat/SourcesPanel'
 
-const fuentes: FuenteBm25[] = [
+const chunks: RagChunk[] = [
   {
     archivo: 'a.md',
     titulo: 'Titulo demo',
@@ -13,8 +13,8 @@ const fuentes: FuenteBm25[] = [
 ]
 
 describe('SourcesPanel', () => {
-  it('renderiza fichas de fuentes y enlace externo', () => {
-    render(<SourcesPanel fuentes={fuentes} />)
+  it('renderiza fichas RAG y enlace externo cuando hay source_url', () => {
+    render(<SourcesPanel chunks={chunks} />)
     expect(screen.getByText(/Titulo demo/)).toBeInTheDocument()
     const link = document.querySelector(`a[href='https://demo.test/a']`)
     expect(link).not.toBeNull()

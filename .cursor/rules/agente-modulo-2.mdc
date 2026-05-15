@@ -1,0 +1,28 @@
+---
+description: Buenas practicas Modulo 2 agente LangGraph RAG Qdrant Postgres ingesta
+globs:
+  - "src/agentes/**/*.py"
+  - "src/rag/**/*.py"
+  - "src/persistencia/**/*.py"
+  - "scripts/indexar_corpus_qdrant.py"
+alwaysApply: false
+---
+
+# Agente Modulo 2 (regla acotada)
+
+Esta regla aplica a codigo del **agente**, **RAG vectorial**, **persistencia** e **ingesta Qdrant**. Para convenciones FastAPI globales ver `api-fastapi.mdc`; para skill detallada ver **`agente-modulo-2`** en `.cursor/skills/`.
+
+## Principios
+
+1. **Separar capas**: router (`src/agentes/`), recuperacion densa (`src/rag/`), acceso a datos (`src/persistencia/`), HTTP (`src/api/`).
+2. **Sin secretos** en JSON de configuracion (`config/router_meta_prompt.json`, `data/structured/faqs.json`).
+3. **RAG M2**: solo **Qdrant** en runtime productivo; no reintroducir BM25 en el camino del agente.
+4. **Sync vs async**: SQLAlchemy **async** para dominio; si una libreria de LangChain requiere conexion **sync** (`psycopg`), aislarla y evitar bloquear el loop largo (`asyncio.to_thread` o diseno documentado).
+5. **Tools LangChain**: `name` de tool en **ingles estable** si el contrato del proveedor lo exige; descripciones y docstrings en espanol latinoamericano.
+6. **Idempotencia**: ingesta Qdrant con ids deterministas; `asegurar_coleccion` no debe corromper coleccion existente con dimensiones distintas sin error claro.
+7. **Pruebas**: `FakeListChatModel`, Qdrant `:memory:`, markers `integration_postgres` / `integration_qdrant` con skip documentado.
+
+## Referencias
+
+- ADR (cuando exista): `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md`
+- Doc guia (cuando exista): `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md`

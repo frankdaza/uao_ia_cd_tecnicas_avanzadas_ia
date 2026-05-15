@@ -1,0 +1,32 @@
+# Reglas de limpieza determinista del corpus Markdown (valledellili-org).
+# Ver scripts/limpiar_corpus_markdown.py y scripts/README.md.
+
+version: 1
+
+excluir_archivos:
+  - "buscador-integral-q-*.md"
+
+remover_bloques:
+  - nombre: navegacion_encuentra_hasta_titulo_principal
+    regex_inicio: '^###\s+Encuentra\b.*$'
+    regex_fin: '^#\s+'
+  - nombre: otros_especialistas_hasta_siguiente_h2
+    regex_inicio: '^#{1,6}\s+Otros especialistas\b.*$'
+    hasta_proximo_h2: true
+  - nombre: autorizacion_datos_hasta_eof
+    regex_inicio: '^###\s+Autorización datos personales\b.*$'
+    hasta_eof: true
+
+remover_lineas:
+  - nombre: redes_sociales_enlace_unico
+    regex: '^\s*\[.*\]\(https://(www\.)?(facebook|instagram|youtube|twitter|x)\.com/.*\)\s*$'
+  - nombre: linkedin_enlace_unico
+    regex: '^\s*\[.*\]\(.*linkedin\.com/.*\)\s*$'
+  - nombre: spotify_open_enlace
+    regex: '^\s*\[.*\]\(.*open\.spotify\.com/.*\)\s*$'
+  - nombre: volver_al_inicio
+    regex: '(?i)^\s*volver al inicio\s*$'
+  - nombre: linea_tag_buscador_integral
+    regex: '.*buscador-integral/\?by_tag=.*'
+
+minimo_caracteres_utiles: 200

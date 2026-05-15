@@ -1,0 +1,133 @@
+# Reglas de agrupacion previas a la ingesta Qdrant (corpus valledellili-org).
+# Orden: el primer grupo cuyo patron_nombre coincida (fnmatch sobre el nombre del archivo) gana.
+# patron_nombre puede ser una cadena o una lista de cadenas (cualquier patron coincide).
+# archivo_salida es relativo a la raiz de salida del script (p. ej. valledellili-org/agrupado/...).
+
+version: 1
+
+grupos:
+  - id: buscador_integral
+    patron_nombre: "buscador-integral-q-*.md"
+    archivo_salida: "agrupado/buscador-integral-consolidado.md"
+    titulo: "Buscador integral de contenidos (fuentes consolidadas)"
+    seccion: buscador-integral
+    source_url_canonica: "https://valledellili.org/buscador-integral/"
+
+  # Incluye fichas directorio-medico-*.md y la landing directorio-medico.md (sin sufijo de medico).
+  - id: directorio_medico
+    patron_nombre:
+      - "directorio-medico-*.md"
+      - "directorio-medico.md"
+    archivo_salida: "agrupado/directorio-medico.md"
+    titulo: "Directorio médico (fuentes consolidadas)"
+    seccion: directorio-medico
+    source_url_canonica: "https://valledellili.org/directorio-medico/"
+
+  # Listados dinamicos (id opaco) antes del resto de servicios-*.
+  - id: servicios_listados_q
+    patron_nombre: "servicios-q-*.md"
+    archivo_salida: "agrupado/servicios-listados-q-consolidado.md"
+    titulo: "Servicios - listados dinámicos (fuentes consolidadas)"
+    seccion: servicios-listados-q
+    source_url_canonica: "https://valledellili.org/servicios/"
+
+  - id: servicios
+    patron_nombre:
+      - "servicios-*.md"
+      - "servicios.md"
+    archivo_salida: "agrupado/servicios-consolidado.md"
+    titulo: "Servicios clínicos y unidades (fuentes consolidadas)"
+    seccion: servicios
+    source_url_canonica: "https://valledellili.org/servicios/"
+
+  - id: programa
+    patron_nombre: "programa-*.md"
+    archivo_salida: "agrupado/programa-consolidado.md"
+    titulo: "Programas institucionales (fuentes consolidadas)"
+    seccion: programa
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: eventos
+    patron_nombre:
+      - "eventos-*.md"
+      - "eventos.md"
+    archivo_salida: "agrupado/eventos-consolidado.md"
+    titulo: "Eventos y congresos (fuentes consolidadas)"
+    seccion: eventos
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: revista
+    patron_nombre: "revista-*.md"
+    archivo_salida: "agrupado/revista-consolidado.md"
+    titulo: "Revista institucional (fuentes consolidadas)"
+    seccion: revista
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: fvl
+    patron_nombre: "fvl-*.md"
+    archivo_salida: "agrupado/fvl-consolidado.md"
+    titulo: "FVL al día y notas institucionales (fuentes consolidadas)"
+    seccion: fvl
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: impacto_social
+    patron_nombre:
+      - "impacto-social-*.md"
+      - "impacto-social.md"
+    archivo_salida: "agrupado/impacto-social-consolidado.md"
+    titulo: "Impacto social (fuentes consolidadas)"
+    seccion: impacto-social
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: investigacion
+    patron_nombre:
+      - "investigacion-*.md"
+      - "investigacion.md"
+    archivo_salida: "agrupado/investigacion-consolidado.md"
+    titulo: "Investigación clínica y estudios (fuentes consolidadas)"
+    seccion: investigacion
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: educacion
+    patron_nombre:
+      - "educacion-*.md"
+      - "educacion.md"
+    archivo_salida: "agrupado/educacion-consolidado.md"
+    titulo: "Educación al paciente y bienestar (fuentes consolidadas)"
+    seccion: educacion
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: fundacion
+    patron_nombre: "fundacion-*.md"
+    archivo_salida: "agrupado/fundacion-consolidado.md"
+    titulo: "Fundación Valle del Lili - notas (fuentes consolidadas)"
+    seccion: fundacion
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: la_fundacion
+    patron_nombre: "la-fundacion-*.md"
+    archivo_salida: "agrupado/la-fundacion-consolidado.md"
+    titulo: "La Fundación - comunicados (fuentes consolidadas)"
+    seccion: la-fundacion
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: hospital_padrino
+    patron_nombre: "hospital-*.md"
+    archivo_salida: "agrupado/hospital-consolidado.md"
+    titulo: "Hospital padrino y extensión territorial (fuentes consolidadas)"
+    seccion: hospital
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: sedes
+    patron_nombre: "sedes-*.md"
+    archivo_salida: "agrupado/sedes-consolidado.md"
+    titulo: "Sedes institucionales (fuentes consolidadas)"
+    seccion: sedes
+    source_url_canonica: "https://valledellili.org/"
+
+  - id: sede
+    patron_nombre: "sede-*.md"
+    archivo_salida: "agrupado/sede-consolidado.md"
+    titulo: "Sede y experiencia de cuidado (fuentes consolidadas)"
+    seccion: sede
+    source_url_canonica: "https://valledellili.org/"

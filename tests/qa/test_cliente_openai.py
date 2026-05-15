@@ -182,14 +182,32 @@ def test_max_completion_tokens_argumento_tiene_prioridad_sobre_config() -> None:
 
 
 def test_max_completion_tokens_env_invalido_es_none(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("OPENAI_MAX_COMPLETION_TOKENS", "foo")
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    from types import SimpleNamespace
+
+    monkeypatch.setattr(
+        "src.api.configuracion.obtener_configuracion",
+        lambda: SimpleNamespace(
+            openai_api_key=None,
+            openai_base_url=None,
+            openai_timeout_segundos=180.0,
+            openai_max_completion_tokens=None,
+        ),
+    )
     cfg = ConfiguracionOpenai.desde_variables_entorno()
     assert cfg.max_completion_tokens is None
 
 
 def test_openai_max_completion_tokens_desde_entorno(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("OPENAI_MAX_COMPLETION_TOKENS", "2048")
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    from types import SimpleNamespace
+
+    monkeypatch.setattr(
+        "src.api.configuracion.obtener_configuracion",
+        lambda: SimpleNamespace(
+            openai_api_key=None,
+            openai_base_url=None,
+            openai_timeout_segundos=180.0,
+            openai_max_completion_tokens=2048,
+        ),
+    )
     cfg = ConfiguracionOpenai.desde_variables_entorno()
     assert cfg.max_completion_tokens == 2048

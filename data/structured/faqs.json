@@ -1,0 +1,149 @@
+{
+  "faqs": [
+    {
+      "id": "fvl-linea-pbx-general",
+      "intent": "linea_telefonica_pbx",
+      "keywords": [
+        "telefono",
+        "PBX",
+        "linea",
+        "contacto"
+      ],
+      "pregunta_canonica": "¿Cuál es el teléfono principal de la Fundación Valle del Lili?",
+      "respuesta": "La línea de atención general (PBX) es (+57) 602 331 9090. Algunas especialidades publican extensiones específicas en el sitio web oficial.",
+      "source_url": "https://valledellili.org/contactenos/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-siau-pqrs-horario",
+      "intent": "horario_atencion_siau_pqrs",
+      "keywords": [
+        "horas",
+        "servicio",
+        "atencion usuario",
+        "atencion",
+        "usuario",
+        "jornada",
+        "queja",
+        "sugerencia",
+        "PQRS",
+        "SIAU"
+      ],
+      "pregunta_canonica": "¿En qué horario atiende el SIAU (PQRS) de la Fundación Valle del Lili?",
+      "respuesta": "El Servicio de Información y Atención al Usuario (SIAU) – PQRS atiende por la línea (+57) 602 331 90 90, extensión 4190, de lunes a viernes de 7:00 a. m. a 5:00 p. m. Además hay un celular solo para llamadas (+57) 320 880 28 30 con atención 24/7. Correo: siau@fvl.org.co. Atención presencial en sedes Principal y Limonar.",
+      "source_url": "https://valledellili.org/marco-legal/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-nit-razon-social",
+      "intent": "nit_razon_social",
+      "keywords": [
+        "NIT",
+        "identificacion",
+        "tributaria",
+        "890324177",
+        "razon social",
+        "nombre legal",
+        "institucion"
+      ],
+      "pregunta_canonica": "¿Cuál es el NIT y la razón social de la Fundación Valle del Lili?",
+      "respuesta": "La institución figura como Fundación Valle del Lili, identificada con NIT 890324177-5, con domicilio en la Cra. 98 #18-49, Cali (Colombia), según la información institucional publicada en el sitio web.",
+      "source_url": "https://valledellili.org/contactenos/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-direccion-domicilio-cali",
+      "intent": "direccion_sede_principal",
+      "keywords": [
+        "direccion",
+        "domicilio",
+        "Cali",
+        "Cra",
+        "98",
+        "18-49",
+        "ubicacion",
+        "sede",
+        "sedes",
+        "principal",
+        "Valle del Cauca"
+      ],
+      "pregunta_canonica": "¿Dónde queda la sede principal / el domicilio principal de la Fundación Valle del Lili en Cali?",
+      "respuesta": "La fundación tiene 5 sedes. El domicilio principal informado en canales oficiales es Cra. 98 #18-49, Cali (Colombia). La institución cuenta además con otras sedes (p. ej. Limonar, Tequendama, Av. Estación, Alfaguara); consulte la sección «Sedes» en el sitio web para detalle y cómo llegar.",
+      "source_url": "https://valledellili.org/sedes/sede-principal/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-correo-siau",
+      "intent": "correo_contacto_pqrs",
+      "keywords": [
+        "correo",
+        "email",
+        "siau",
+        "PQRS",
+        "escribir",
+        "contacto",
+        "electronico"
+      ],
+      "pregunta_canonica": "¿Cuál es el correo del SIAU (PQRS) de la Fundación Valle del Lili?",
+      "respuesta": "Para el Servicio de Información y Atención al Usuario (SIAU) – PQRS se publica el correo siau@fvl.org.co. Para derechos sobre datos personales se indica datospersonales@fvl.org.co en la política publicada en el sitio.",
+      "source_url": "https://valledellili.org/marco-legal/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-sitio-web-oficial",
+      "intent": "sitio_web_oficial",
+      "keywords": [
+        "pagina",
+        "web",
+        "sitio",
+        "internet",
+        "oficial",
+        "valledellili",
+        "URL",
+        "enlace"
+      ],
+      "pregunta_canonica": "¿Cuál es el sitio web oficial de la Fundación Valle del Lili?",
+      "respuesta": "El sitio web oficial es https://valledellili.org/ (Fundación Valle del Lili). Allí se encuentran servicios, sedes, agendamiento y demás información institucional.",
+      "source_url": "https://valledellili.org/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-urgencias-pediatricas-continua",
+      "intent": "urgencias_pediatricas_disponibilidad",
+      "keywords": [
+        "urgencias",
+        "emergencias",
+        "pediatricas",
+        "24 horas",
+        "nino",
+        "todo el dia",
+        "toda la noche",
+        "servicio emergencias",
+        "madrugada",
+        "dia del ano"
+      ],
+      "pregunta_canonica": "¿Las urgencias pediátricas de la Fundación Valle del Lili atienden las 24 horas?",
+      "respuesta": "Según la información del servicio de urgencias pediátricas publicada por la institución, la atención está disponible de forma continua las 24 horas del día, los 365 días del año. Para coordinación general también se usa la línea (+57) 602 331 9090.",
+      "source_url": "https://valledellili.org/servicios/urgencias-pediatricas/",
+      "actualizado_el": "2026-05-14"
+    },
+    {
+      "id": "fvl-portal-paciente-resultados",
+      "intent": "portal_paciente_resultados",
+      "keywords": [
+        "ver",
+        "resultados",
+        "examenes",
+        "en linea",
+        "pruebas",
+        "laboratorio",
+        "plataforma",
+        "descargo"
+      ],
+      "pregunta_canonica": "¿Dónde consulto resultados médicos o laboratorio como paciente?",
+      "respuesta": "En el sitio oficial se enlaza el acceso «Ver resultados médicos» hacia el portal del paciente en https://mifundacion.fvl.org.co/portal-client/ (Mi Fundación). Use siempre los canales oficiales y evite enlaces no verificados.",
+      "source_url": "https://valledellili.org/contactenos/",
+      "actualizado_el": "2026-05-14"
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+"""Esquemas Pydantic del panel administrativo M2 (API ``/api/admin``)."""
+
+from __future__ import annotations
+
+import uuid
+from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from src.api._limites_rag import LIMITES_RAG, LIMITE_HISTORIAL_TURNOS_MAX
+
+_LTK = LIMITES_RAG["rag_top_k"]
+_LSM = LIMITES_RAG["rag_score_minimo"]
+_LTKI = LIMITES_RAG["rag_top_k_inicial"]
+_LML = LIMITES_RAG["rag_mmr_lambda"]
+_LRTE = LIMITES_RAG["rag_reranker_top_n_entrada"]
+_LRBS = LIMITES_RAG["rag_reranker_batch_size"]
+_LHTM = LIMITE_HISTORIAL_TURNOS_MAX
+
+
+class EstadoConfigAdminM2Respuesta(BaseModel):
+    """Estado fusionado expuesto al panel (valores efectivos que usa el agente)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    version: int = Field(ge=0, description="Version optimista para PATCH (0 si no hay fila).")
+    updated_at: datetime | None = Field(
+        default=None,
+        description="Ultima actualizacion de overrides en base de datos, si existe fila.",
+    )
+    modelo_llm_router: str
+    modelo_llm_compositor: str
+    temperatura_router: float
+    temperatura_compositor: float
+    top_p_router: float | None = Field(
+        default=None,
+        description="Si es null, el cliente OpenAI usa su valor por defecto del modelo.",
+    )
+    top_p_compositor: float | None = None
+    model_kwargs_router: dict[str, Any] = Field(default_factory=dict)
+    model_kwargs_compositor: dict[str, Any] = Field(default_factory=dict)
+    meta_prompt: dict[str, Any]
+    prompt_institucional: str
+    rag_top_k: int = Field(
+        ge=int(_LTK.minimo),
+        le=int(_LTK.maximo),
+        description="Top-k efectivo del recuperador denso (Qdrant).",
+    )
+    rag_score_minimo: float = Field(
+        ge=float(_LSM.minimo),
+        le=float(_LSM.maximo),
+        description="Umbral minimo de similitud para conservar fragmentos RAG.",
+    )
+    rag_top_k_inicial: int = Field(
+        ge=int(_LTKI.minimo),
+        le=int(_LTKI.maximo),
+        description=(
+            "Candidatos que Qdrant devuelve antes de MMR/rerank (sobrerrecuperacion). "
+            "Solo aplica si MMR o reranker estan activos."
+        ),
+    )
+    rag_mmr_habilitado: bool = Field(
+        description=(
+            "Activa MMR (diversidad) sobre candidatos recuperados para reducir fragmentos casi duplicados."
+        ),
+    )
+    rag_mmr_lambda: float = Field(
+        ge=float(_LML.minimo),
+        le=float(_LML.maximo),
+        description="Peso relevancia vs diversidad en MMR (1.0 = solo similitud a la consulta).",
+    )
+    rag_reranker_habilitado: bool = Field(
+        description=(
+            "Activa reranking local con cross-encoder (sentence-transformers); aumenta latencia en CPU."
+        ),
+    )
+    rag_reranker_modelo: str = Field(
+        max_length=256,
+        description="Identificador HuggingFace o ruta del modelo CrossEncoder (p. ej. BAAI/bge-reranker-base).",
+    )
+    rag_reranker_top_n_entrada: int = Field(
+        ge=int(_LRTE.minimo),
+        le=int(_LRTE.maximo),
+        description="Maximo de fragmentos re-puntuados por el reranker tras MMR (o por similitud si MMR esta off).",
+    )
+    rag_reranker_batch_size: int = Field(
+        ge=int(_LRBS.minimo),
+        le=int(_LRBS.maximo),
+        description=(
+            "Tamano de lote pasado a ``CrossEncoder.predict`` del reranker; afecta VRAM/RAM y latencia."
+        ),
+    )
+    historial_turnos_max: int = Field(
+        ge=int(_LHTM.minimo),
+        le=int(_LHTM.maximo),
+        description=(
+            "Tope de turnos (mensajes humano como ancla) cargados para router y compositor; "
+            "columna admin o HISTORIAL_TURNOS_MAX en .env."
+        ),
+    )
+    nota_precedencia: str = Field(
+        default=(
+            "Valores mostrados son los efectivos al atender peticiones: overrides en "
+            "PostgreSQL (tabla config_admin_m2) sustituyen al archivo config/router_meta_prompt.json, "
+            "a su vez sobre valores por defecto de variables de entorno y constantes de codigo "
+            "(temperaturas 0.0 router / 0.2 compositor cuando no hay override en base de datos; "
+            "RAG_TOP_K, RAG_SCORE_MINIMO, RAG_TOP_K_INICIAL, MMR/reranker cuando las columnas "
+            "correspondientes estan en NULL)."
+        ),
+        description="Texto fijo de documentacion para operadores humanos.",
+    )
+
+
+class ParcheConfigAdminM2Cuerpo(BaseModel):
+    """Cuerpo PATCH: solo se actualizan campos presentes (no null en JSON)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    version: int = Field(ge=0)
+    modelo_llm_router: str | None = None
+    modelo_llm_compositor: str | None = None
+    temperatura_router: float | None = Field(default=None, ge=0.0, le=2.0)
+    temperatura_compositor: float | None = Field(default=None, ge=0.0, le=2.0)
+    top_p_router: float | None = Field(default=None, ge=0.0, le=1.0)
+    top_p_compositor: float | None = Field(default=None, ge=0.0, le=1.0)
+    model_kwargs_router: dict[str, Any] | None = None
+    model_kwargs_compositor: dict[str, Any] | None = None
+    meta_prompt: dict[str, Any] | None = None
+    prompt_institucional: str | None = None
+    rag_top_k: int | None = Field(default=None, ge=int(_LTK.minimo), le=int(_LTK.maximo))
+    rag_score_minimo: float | None = Field(
+        default=None,
+        ge=float(_LSM.minimo),
+        le=float(_LSM.maximo),
+    )
+    rag_top_k_inicial: int | None = Field(
+        default=None,
+        ge=int(_LTKI.minimo),
+        le=int(_LTKI.maximo),
+    )
+    rag_mmr_habilitado: bool | None = None
+    rag_mmr_lambda: float | None = Field(default=None, ge=float(_LML.minimo), le=float(_LML.maximo))
+    rag_reranker_habilitado: bool | None = None
+    rag_reranker_modelo: str | None = Field(default=None, max_length=256)
+    rag_reranker_top_n_entrada: int | None = Field(
+        default=None,
+        ge=int(_LRTE.minimo),
+        le=int(_LRTE.maximo),
+    )
+    rag_reranker_batch_size: int | None = Field(
+        default=None,
+        ge=int(_LRBS.minimo),
+        le=int(_LRBS.maximo),
+    )
+    historial_turnos_max: int | None = Field(
+        default=None,
+        ge=int(_LHTM.minimo),
+        le=int(_LHTM.maximo),
+    )
+
+    @field_validator("rag_reranker_modelo")
+    @classmethod
+    def validar_reranker_modelo_no_vacio_si_presente(cls, v: str | None) -> str | None:
+        if v is None:
+            return None
+        s = v.strip()
+        if not s:
+            msg = "rag_reranker_modelo no puede ser cadena vacia."
+            raise ValueError(msg)
+        return s
+
+    @field_validator("modelo_llm_router", "modelo_llm_compositor")
+    @classmethod
+    def validar_modelo_no_vacio_si_presente(cls, v: str | None) -> str | None:
+        """Si el campo viene en el JSON, no se acepta cadena vacía (solo omitir o texto no vacío)."""
+        if v is None:
+            return None
+        s = v.strip()
+        if not s:
+            msg = "Los identificadores de modelo no pueden ser cadenas vacias."
+            raise ValueError(msg)
+        return s
+
+
+class UsuarioAdminVista(BaseModel):
+    """Usuario listado en panel admin (PII minimizada)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: uuid.UUID
+    nombre: str
+    documento_identidad_enmascarado: str
+    created_at: datetime
+    updated_at: datetime
+    last_login_at: datetime | None
+
+
+class ListadoUsuariosAdminRespuesta(BaseModel):
+    """Paginacion por offset/limit acotada."""
+
+    model_config = ConfigDict(frozen=True)
+
+    items: list[UsuarioAdminVista]
+    total: int = Field(ge=0)
+    limit: int = Field(ge=1, le=200)
+    offset: int = Field(ge=0)
+
+
+class MetricasAdminResumen(BaseModel):
+    """Agregados ligeros para dashboard (consultas acotadas a conteos)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    usuarios_total: int = Field(ge=0)
+    usuarios_activos_ultimos_7_dias: int = Field(ge=0)
+    sesiones_estimadas: int = Field(
+        default=0,
+        description="Reservado: hoy no hay tabla de sesiones OLTP; se devuelve 0 documentado.",
+    )
+
+
+__all__ = [
+    "EstadoConfigAdminM2Respuesta",
+    "ListadoUsuariosAdminRespuesta",
+    "MetricasAdminResumen",
+    "ParcheConfigAdminM2Cuerpo",
+    "UsuarioAdminVista",
+]

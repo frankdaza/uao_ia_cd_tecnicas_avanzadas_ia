@@ -1,5 +1,5 @@
 ---
-description: Convencion de estilo para el frontend React 19 + Vite 7 + TypeScript + Tailwind v4 + shadcn/ui
+description: Convencion de estilo para el frontend React 19 + Vite 8 + TypeScript + Tailwind v4 + shadcn/ui
 globs: "frontend/**/*.{ts,tsx,js,jsx,css}"
 alwaysApply: false
 ---
@@ -9,8 +9,8 @@ alwaysApply: false
 ## Stack y versiones
 
 - **React 19** con hooks funcionales; sin componentes de clase.
-- **Vite 7** como bundler; alias `@/` apunta a `frontend/src/`.
-- **TypeScript 5** con `strict: true`; no usar `any` implicito.
+- **Vite 8** como bundler; alias `@/` apunta a `frontend/src/`.
+- **TypeScript 6** con `strict: true`; no usar `any` implicito.
 - **Tailwind CSS v4** con plugin Vite (`@tailwindcss/vite`); no usar `tailwind.config.ts` de v3.
 - **shadcn/ui** para componentes base; instalar con CLI (`npx shadcn@latest add <componente>`).
 - **lucide-react** para iconos.

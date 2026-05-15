@@ -7,7 +7,7 @@ WORKDIR /app/frontend
 
 # Copiar manifiestos y lockfile primero para cachear instalación
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
-RUN npm install -g pnpm@10 && pnpm install --frozen-lockfile
+RUN npm install -g pnpm@11.1.1 && pnpm install --frozen-lockfile
 
 # Copiar el resto del frontend y construir
 COPY frontend/ ./
@@ -18,26 +18,42 @@ RUN pnpm build
 # =============================================================================
 FROM python:3.12-slim AS backend
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 # Instalar uv para gestión de dependencias
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 WORKDIR /app
 
-# Copiar manifiestos de Python
+# Python gestionado por uv bajo /app: el venv apunta al intérprete; si queda en /root/.local, el usuario `app` no puede resolverlo.
+ENV UV_PYTHON_INSTALL_DIR=/app/.uv/python
+
+# Copiar manifiestos y codigo Python (uv_build requiere el modulo `src` en sync)
 COPY pyproject.toml uv.lock ./
+COPY src/ ./src/
 
 # Sincronizar dependencias (sin el grupo dev)
 RUN uv sync --frozen --no-dev
 
-# Copiar el código fuente Python
-COPY src/ ./src/
+# Alembic (migraciones DB) y rutas de lectura M2 montadas o copiadas en compose
+COPY alembic.ini ./
+COPY alembic/ ./alembic/
+COPY config/ ./config/
 
 # Copiar los estáticos del frontend generados en el stage anterior
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# Copiar datos (Markdown del corpus)
-# Los datos reales se montan como volumen en producción
-RUN mkdir -p data/markdown data/raw data/processed
+# Directorios de datos (Markdown del corpus opcional; structured/ FAQ en M2)
+RUN mkdir -p data/markdown data/raw data/processed data/structured \
+    && groupadd --system app \
+    && useradd --system --gid app --no-create-home --shell /usr/sbin/nologin app \
+    && mkdir -p /home/app \
+    && chown app:app /home/app \
+    && chown -R app:app /app
+
+USER app
 
 # Puerto de exposición
 EXPOSE 8000

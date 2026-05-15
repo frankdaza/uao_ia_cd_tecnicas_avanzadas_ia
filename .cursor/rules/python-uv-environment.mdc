@@ -19,7 +19,6 @@ uv sync
 uv add <paquete>
 uv lock
 uv run pytest
-uv run python -m src.app.app_gradio
 ```
 
 - Instalar dependencias y ejecutar scripts, tests y apps **siempre** con `uv run` (o `uv sync` + `uv run`).

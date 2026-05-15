@@ -4,22 +4,27 @@
  */
 
 import type {
-  ModelosRespuesta,
-  PromptDefecto,
-  QaPeticion,
-  QaRespuesta,
-  RecargaRespuesta,
+  HistorialSesionRespuesta,
   Salud,
+  SesionCierreRespuesta,
+  SesionPeticion,
+  SesionRespuesta,
+  BorradoUltimoTurnoRespuesta,
 } from './schemas'
 import {
-  ModelosRespuestaSchema,
-  PromptDefectoSchema,
-  QaRespuestaSchema,
-  RecargaRespuestaSchema,
+  HistorialSesionRespuestaSchema,
   SaludSchema,
+  SesionCierreRespuestaSchema,
+  SesionRespuestaSchema,
+  BorradoUltimoTurnoRespuestaSchema,
 } from './schemas'
 
 const BASE = '/api'
+
+/** Cabecera opcional alineada con `src/api/dependencias.py` (`X-Session-Id`). */
+export const SESSION_HEADER_NAME = 'X-Session-Id'
+
+const DEFAULT_CREDENTIALS: RequestCredentials = 'include'
 
 class ApiError extends Error {
   readonly status: number
@@ -58,32 +63,49 @@ export async function getSalud(): Promise<Salud> {
   return parseJson(res, SaludSchema)
 }
 
-/** Lista los modelos disponibles por motor. */
-export async function getModelos(): Promise<ModelosRespuesta> {
-  const res = await fetch(`${BASE}/modelos`)
-  return parseJson(res, ModelosRespuestaSchema)
-}
-
-/** Obtiene el prompt de sistema predeterminado. */
-export async function getPromptDefecto(): Promise<PromptDefecto> {
-  const res = await fetch(`${BASE}/prompt-defecto`)
-  return parseJson(res, PromptDefectoSchema)
-}
-
-/** Recarga el índice BM25. */
-export async function postRecargarCorpus(): Promise<RecargaRespuesta> {
-  const res = await fetch(`${BASE}/recargar-corpus`, { method: 'POST' })
-  return parseJson(res, RecargaRespuestaSchema)
-}
-
-/** Consulta sincrónica al pipeline Q&A. */
-export async function postQa(peticion: QaPeticion): Promise<QaRespuesta> {
-  const res = await fetch(`${BASE}/qa`, {
+/**
+ * Inicia sesión M2: envía documento y nombre; el servidor fija cookie HTTP-only `fvl_session_id`.
+ */
+export async function postIniciarSesion(peticion: SesionPeticion): Promise<SesionRespuesta> {
+  const res = await fetch(`${BASE}/sesiones`, {
     method: 'POST',
+    credentials: DEFAULT_CREDENTIALS,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(peticion),
   })
-  return parseJson(res, QaRespuestaSchema)
+  return parseJson(res, SesionRespuestaSchema)
+}
+
+/**
+ * Historial de la sesión actual (cookie o cabecera `X-Session-Id`).
+ */
+export async function getHistorialSesion(sessionId?: string): Promise<HistorialSesionRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/actual/historial`, {
+    method: 'GET',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, HistorialSesionRespuestaSchema)
+}
+
+/** Elimina el último turno persistido (human + ai) antes de regenerar en el cliente. */
+export async function deleteUltimoTurno(sessionId?: string): Promise<BorradoUltimoTurnoRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/actual/ultimo-turno`, {
+    method: 'DELETE',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, BorradoUltimoTurnoRespuestaSchema)
+}
+
+/** Cierra sesión en el servidor (borra cookie en la respuesta). */
+export async function postCerrarSesion(sessionId?: string): Promise<SesionCierreRespuesta> {
+  const res = await fetch(`${BASE}/sesiones/cerrar`, {
+    method: 'POST',
+    credentials: DEFAULT_CREDENTIALS,
+    headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
+  })
+  return parseJson(res, SesionCierreRespuestaSchema)
 }
 
 export { ApiError }

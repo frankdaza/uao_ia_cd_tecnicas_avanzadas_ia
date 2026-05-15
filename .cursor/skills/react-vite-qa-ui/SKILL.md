@@ -1,9 +1,9 @@
 ---
 name: react-vite-qa-ui
-description: Construye la interfaz web Q&A de alto impacto visual con React 19 + Vite 7 + TypeScript + Tailwind v4 + shadcn/ui + SSE streaming. Usar al crear o modificar frontend/ o cuando se necesite integrar el frontend con el backend FastAPI.
+description: Construye la interfaz web Q&A (M1) y agente M2 (auth, SSE /api/agente/stream) con React 19 + Vite 8 + TypeScript 6 + Tailwind v4 + shadcn/ui + streaming. Usar al crear o modificar frontend/ o integracion con FastAPI.
 ---
 
-# Interfaz Q&A con React 19 + Vite 7 + shadcn/ui
+# Interfaz Q&A con React 19 + Vite 8 + shadcn/ui
 
 > Mantener el mismo contenido en `.cursor/skills/react-vite-qa-ui/` y `.claude/skills/react-vite-qa-ui/`.
 
@@ -11,8 +11,8 @@ description: Construye la interfaz web Q&A de alto impacto visual con React 19 +
 
 | Capa | Tecnologia | Rol |
 | --- | --- | --- |
-| Build | Vite 7 + pnpm 10 | Bundler y gestor de paquetes |
-| UI framework | React 19 + TypeScript 5 strict | Componentes y logica |
+| Build | Vite 8 + pnpm 11.1.1 | Bundler y gestor de paquetes |
+| UI framework | React 19 + TypeScript 6 strict | Componentes y logica |
 | Estilos | Tailwind CSS v4 + tailwindcss-animate | Utilidades CSS y animaciones |
 | Componentes | shadcn/ui (Radix UI + lucide-react) | Sistema de diseno accesible |
 | Datos del servidor | @tanstack/react-query v5 | Cache y sincronizacion |
@@ -183,11 +183,18 @@ import { createHighlighter } from 'shiki'
 </ReactMarkdown>
 ```
 
-## Modo dual (DualResponseView)
+## Modo dual (DualResponseView) — historico M1
 
-- Activo cuando `settings.usarOllama && settings.usarOpenAI`.
+- Si aun existe en el codigo: activo cuando `settings.usarOllama && settings.usarOpenAI`.
 - Consume `POST /api/qa/dual/stream`; eventos SSE distinguen `motor: 'ollama'` y `motor: 'openai'`.
 - Layout: dos columnas CSS Grid `grid-cols-2 gap-4` cada una con su `MessageBubble` y badge de latencia.
+
+## Modulo 2 — identificacion y agente
+
+- **Auth**: carpeta `frontend/src/features/auth/` (`AuthScreen`, `AuthContext`): formulario documento + nombre; `POST /api/sesiones`; persistencia local acordada con backend (cookie HTTP-only y/o `X-Session-Id` + `localStorage` para flags, sin secretos en claro).
+- **Chat**: transporte SSE hacia **`/api/agente/stream`** (no `EventSource` con POST; usar `fetch` + stream como en `streamQa`); handlers adicionales `onRouterThought` / `onTool` (o nombres en ingles en codigo: `onPensamiento`, `onHerramienta`) ademas de `onToken`, `onFuentes`, `onFinal`, `onError`.
+- **Fuentes RAG**: panel de fuentes con `archivo`, `titulo`, `sourceUrl`, `score` (Qdrant), distinto de fuentes BM25 del M1.
+- Backend y contrato SSE: skill **`fastapi-sse-api`** + **`agente-modulo-2`**.
 
 ## Textos de UI
 

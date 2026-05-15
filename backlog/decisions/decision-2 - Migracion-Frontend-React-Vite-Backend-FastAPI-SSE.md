@@ -40,7 +40,7 @@ Reemplazar `src/app/app_gradio.py` por una SPA en `frontend/` con:
 - **@tanstack/react-query v5** — cache y sincronización de datos del backend.
 - **next-themes** — modo oscuro persistente.
 - **react-markdown** + **remark-gfm** + **shiki** — render de Markdown enriquecido con syntax highlighting.
-- **pnpm 10.x** como gestor de paquetes del frontend.
+- **pnpm 11.1.1** (pin en `packageManager` de `frontend/package.json`) como gestor de paquetes del frontend.
 
 ### Estrategia de streaming
 

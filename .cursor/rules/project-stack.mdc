@@ -1,9 +1,9 @@
 ---
-description: Stack permitido para la actividad del modulo 1 (scraping, LLM, UI, API)
+description: Stack permitido Modulos 1 y 2 (scraping, LLM, agente LangGraph, RAG Qdrant, UI, API)
 alwaysApply: true
 ---
 
-# Stack del proyecto (Modulo 1)
+# Stack del proyecto (Modulos 1 y 2)
 
 ## Scraping y HTTP
 
@@ -19,7 +19,7 @@ alwaysApply: true
 
 ## Orquestacion LLM
 
-- **Uno** de: `langchain` **o** `llama-index` (decision documentada en el repo).
+- **Modulo 2 (agente conversacional)**: stack **combinado** segun ADR `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md`: **LangGraph** (router), **LangChain** (tools, memoria con `langchain-postgres`), **LlamaIndex** (RAG denso sobre **Qdrant**). Ver skill **`agente-modulo-2`**.
 
 ## Modelos
 
@@ -31,12 +31,21 @@ alwaysApply: true
 - **FastAPI** + **Uvicorn** (servidor ASGI) en `src/api/`.
 - **sse-starlette** para endpoints de streaming token a token (Server-Sent Events).
 - **pydantic-settings** para cargar configuracion desde `.env`.
-- Expone REST + SSE al frontend React; reutiliza `PipelineQa` de `src/qa/pipeline.py`.
-- Comandos: `uv add fastapi uvicorn[standard] sse-starlette pydantic-settings`.
+- **M2**: sesiones (`POST /api/sesiones`, historial) y agente (`POST /api/agente/stream`) con SSE multi-evento; persistencia **PostgreSQL** + vectores **Qdrant**; detalle en skill `agente-modulo-2` y `fastapi-sse-api`.
+- Comandos base: `uv add fastapi uvicorn[standard] sse-starlette pydantic-settings`.
+
+## Modulo 2 — dependencias tipicas (agente + RAG + datos)
+
+Instalar con `uv add` segun implementacion (ver `pyproject.toml` / ADR): `langgraph`, `langchain-core`, `langchain-openai`, `langchain-postgres`, `llama-index-core`, `llama-index-vector-stores-qdrant`, `llama-index-embeddings-openai`, `qdrant-client`, `sqlalchemy[asyncio]`, `asyncpg`, `psycopg[binary]`, `alembic`. Embeddings locales opcionales: paquetes HuggingFace de LlamaIndex segun `.env`.
+
+## Modulo 2 — modelo y RAG
+
+- Camino principal del **agente**: API compatible (p. ej. **OpenAI**) para router y composicion salvo que el ADR indique otro proveedor.
+- **RAG en runtime**: solo **Qdrant** (similitud densa); **sin BM25** ni fusion hibrida en el producto M2. El corpus en `data/markdown/` alimenta **ingesta** hacia Qdrant, no sustituye al vector store en cada consulta.
 
 ## Interfaz de usuario (frontend)
 
-- **React 19** + **Vite 7** + **TypeScript 5** (strict) en `frontend/`.
+- **React 19** + **Vite 8** + **TypeScript 6** (strict) en `frontend/`.
 - **Tailwind CSS v4** con plugin Vite (`@tailwindcss/vite`).
 - **shadcn/ui** (Radix UI + lucide-react) para componentes de alto impacto visual.
 - **Vercel AI SDK** (`ai`, `@ai-sdk/react`) con custom transport SSE para streaming token a token.
@@ -44,7 +53,7 @@ alwaysApply: true
 - **next-themes** para modo claro/oscuro persistente.
 - **sonner** para notificaciones toast.
 - **react-markdown** + **remark-gfm** + **shiki** para render de Markdown enriquecido.
-- Node 22 LTS, pnpm 10.x como gestor de paquetes del frontend.
+- Node 22 LTS, pnpm 11.x (pin 11.1.1 en `frontend/package.json` → `packageManager`) como gestor de paquetes del frontend.
 - Identificadores en `frontend/**/*.{ts,tsx,js,jsx}` en **ingles** (convencion del ecosistema React/TS); textos de UI y comentarios en espanol latinoamericano.
 
 ## Configuracion y secretos

@@ -23,8 +23,7 @@ description: Configura y mantiene el proyecto con Python 3.12.12 exacto y uv. Us
 ## Dependencias por area
 
 - Scraping: `uv add requests beautifulsoup4 selenium`
-- App: `uv add gradio`
-- LLM: `uv add langchain` **o** `uv add llama-index` (uno solo, segun decision del equipo).
+- LLM **M2** (agente + RAG): ver `pyproject.toml` / ADR `decision-3`; tipicamente `langgraph`, `langchain-core`, `langchain-openai`, `langchain-postgres`, `llama-index-core`, `llama-index-vector-stores-qdrant`, `llama-index-embeddings-openai`, `qdrant-client`, `sqlalchemy[asyncio]`, `asyncpg`, `psycopg[binary]`, `alembic`. Embeddings HuggingFace opcionales pueden ser pesados: instalar solo si `EMBEDDING_PROVIDER=huggingface` y documentar RAM.
 - API: `uv add openai` si aplica; Ollama suele ser servicio externo + cliente HTTP segun stack.
 
 ## Ejecucion

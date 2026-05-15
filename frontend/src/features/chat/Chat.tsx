@@ -1,125 +1,310 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { useSettings } from '@/features/settings/SettingsContext'
-import { streamQa } from '@/lib/sseClient'
-import type { FuenteBm25 } from '@/lib/schemas'
+import { useAuth } from '@/features/auth/AuthContext'
+import { deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
+import { respuestaFinalEsSinInformacion } from '@/lib/agenteRespuesta'
+import { streamAgente } from '@/lib/sseClient'
+import type { HistorialMensaje, ListadoItem, RagChunk, ResultadoListadoSse } from '@/lib/schemas'
+import { ListadoItemSchema } from '@/lib/schemas'
 import type { ChatTurn } from './MessageList'
 import { MessageList } from './MessageList'
 import { ChatInput } from './ChatInput'
 import type { Message } from './MessageBubble'
 
-let turnoCounter = 0
+function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
+  const out: ChatTurn[] = []
+  let i = 0
+  while (i < mensajes.length) {
+    const row = mensajes[i]
+    if (row.rol === 'system' || row.rol === 'tool') {
+      i += 1
+      continue
+    }
+    if (row.rol === 'human') {
+      const userMessage: Message = {
+        id: crypto.randomUUID(),
+        role: 'user',
+        content: row.contenido,
+      }
+      i += 1
+      let assistantContent = ''
+      let foundAi = false
+      while (i < mensajes.length) {
+        const next = mensajes[i]
+        if (next.rol === 'human') break
+        if (next.rol === 'ai') {
+          assistantContent = next.contenido
+          foundAi = true
+          i += 1
+          break
+        }
+        i += 1
+      }
+      const assistantMessage: Message | undefined = foundAi
+        ? {
+            id: crypto.randomUUID(),
+            role: 'assistant',
+            motor: 'agente',
+            content: assistantContent,
+            isStreaming: false,
+          }
+        : undefined
+      out.push({
+        id: `turn-${out.length}-${crypto.randomUUID()}`,
+        userMessage: userMessage,
+        assistantMessage,
+        ragSources: [],
+        routerThoughts: [],
+        toolUsed: null,
+        listadoItems: [],
+        listadoConteo: undefined,
+        listadoMuestraTruncada: undefined,
+      })
+      continue
+    }
+    i += 1
+  }
+  return out
+}
 
-/** Contenedor principal del chat: gestiona el estado y el streaming SSE (OpenAI). */
+function mergeRagSources(prev: RagChunk[], next: RagChunk[]): RagChunk[] {
+  if (next.length === 0) return prev
+  return [...prev, ...next]
+}
+
+function itemsDesdeResultadoListado(res: ResultadoListadoSse | null | undefined): ListadoItem[] {
+  if (!res?.items?.length) return []
+  return res.items
+    .map((x) => ListadoItemSchema.safeParse(x))
+    .flatMap((r) => (r.success ? [r.data] : []))
+}
+
+/** Contenedor principal del chat M2: historial, streaming SSE del agente y metadatos de tools. */
 export function Chat() {
+  const { sessionId } = useAuth()
   const [turns, setTurns] = useState<ChatTurn[]>([])
   const [isBusy, setIsBusy] = useState(false)
-  const { settings, toQaPeticion } = useSettings()
+  const [historialLoading, setHistorialLoading] = useState(true)
+  const [historialError, setHistorialError] = useState<string | null>(null)
   const abortRef = useRef<(() => void) | null>(null)
+  const turnsRef = useRef<ChatTurn[]>([])
+  /** Tras la primera carga: si no había mensajes, el primer envío usa `primer_turno: true`. */
+  const usarPrimerTurnoRef = useRef(false)
+
+  useEffect(() => {
+    turnsRef.current = turns
+  }, [turns])
+
+  useEffect(() => {
+    if (!sessionId) {
+      queueMicrotask(() => {
+        setTurns([])
+        setHistorialLoading(false)
+        setHistorialError(null)
+      })
+      return
+    }
+
+    let cancelado = false
+
+    void (async () => {
+      setHistorialLoading(true)
+      setHistorialError(null)
+      try {
+        const { mensajes } = await getHistorialSesion(sessionId)
+        if (cancelado) return
+        usarPrimerTurnoRef.current = mensajes.length === 0
+        setTurns(mapHistorialToTurns(mensajes))
+      } catch {
+        if (cancelado) return
+        usarPrimerTurnoRef.current = false
+        setHistorialError('No se pudo cargar el historial. Puede enviar mensajes, pero no verá conversaciones anteriores.')
+        toast.error('No se pudo cargar el historial de la sesión.')
+      } finally {
+        if (!cancelado) setHistorialLoading(false)
+      }
+    })()
+
+    return () => {
+      cancelado = true
+    }
+  }, [sessionId])
 
   const lanzarConsulta = useCallback(
     (pregunta: string) => {
+      if (!sessionId) {
+        toast.error('No hay sesión activa. Inicie sesión nuevamente.')
+        return
+      }
+
       const preguntaLimpia = pregunta.trim()
       if (!preguntaLimpia) return
 
-      const idTurno = `turno-${++turnoCounter}`
-      const idRespOpenai = `${idTurno}-openai`
+      const idTurno = `turn-${crypto.randomUUID()}`
+      const idResp = `${idTurno}-assistant`
 
-      const mensajePregunta: Message = {
-        id: `${idTurno}-pregunta`,
+      const userMessage: Message = {
+        id: `${idTurno}-user`,
         role: 'user',
         content: preguntaLimpia,
       }
 
-      const respOpenaiInicial: Message = {
-        id: idRespOpenai,
+      const assistantInicial: Message = {
+        id: idResp,
         role: 'assistant',
-        motor: 'openai',
+        motor: 'agente',
         content: '',
         isStreaming: true,
       }
 
       const nuevoTurno: ChatTurn = {
         id: idTurno,
-        pregunta: mensajePregunta,
-        respuestaOpenai: respOpenaiInicial,
-        fuentes: [],
-        modoDual: false,
+        userMessage,
+        assistantMessage: assistantInicial,
+        ragSources: [],
+        routerThoughts: [],
+        toolUsed: null,
+        listadoItems: [],
+        listadoConteo: undefined,
+        listadoMuestraTruncada: undefined,
       }
 
       setTurns((prev) => [...prev, nuevoTurno])
       setIsBusy(true)
 
-      const peticion = toQaPeticion(preguntaLimpia)
+      const primerTurno = usarPrimerTurnoRef.current
+      usarPrimerTurnoRef.current = false
 
-      const { abort } = streamQa('/api/qa/stream', peticion, {
-        onToken: (motor, texto) => {
-          setTurns((prev) =>
-            prev.map((t) => {
-              if (t.id !== idTurno) return t
-              if (motor !== 'openai') return t
-              return {
-                ...t,
-                respuestaOpenai: t.respuestaOpenai
-                  ? { ...t.respuestaOpenai, content: t.respuestaOpenai.content + texto }
-                  : undefined,
-              }
-            }),
-          )
+      const { abort } = streamAgente(
+        '/api/agente/stream',
+        {
+          session_id: sessionId,
+          pregunta: preguntaLimpia,
+          primer_turno: primerTurno,
         },
-        onFuentes: (fuentes: FuenteBm25[]) => {
-          setTurns((prev) =>
-            prev.map((t) => (t.id === idTurno ? { ...t, fuentes } : t)),
-          )
-        },
-        onFinal: (motor, meta) => {
-          setTurns((prev) =>
-            prev.map((t) => {
-              if (t.id !== idTurno) return t
-              if (motor !== 'openai') return t
-              return {
-                ...t,
-                respuestaOpenai: t.respuestaOpenai
+        {
+          onPensamiento: (herramientaCandidata, razon) => {
+            setTurns((prev) =>
+              prev.map((t) =>
+                t.id === idTurno
                   ? {
-                      ...t.respuestaOpenai,
-                      isStreaming: false,
-                      latencia_ms: meta.latencia_ms,
-                      modelo: meta.modelo,
+                      ...t,
+                      routerThoughts: [
+                        ...t.routerThoughts,
+                        { herramientaCandidata, razon },
+                      ],
                     }
-                  : undefined,
-              }
-            }),
-          )
-          setIsBusy(false)
+                  : t,
+              ),
+            )
+          },
+          onHerramienta: (nombre, _latenciaMs, resultadoListado) => {
+            setTurns((prev) =>
+              prev.map((t) => {
+                if (t.id !== idTurno) return t
+                const listadoItems =
+                  nombre === 'listar_estructurado'
+                    ? itemsDesdeResultadoListado(resultadoListado ?? null)
+                    : t.listadoItems
+                const listadoConteo =
+                  nombre === 'listar_estructurado'
+                    ? resultadoListado?.conteo
+                    : t.listadoConteo
+                const listadoMuestraTruncada =
+                  nombre === 'listar_estructurado'
+                    ? resultadoListado?.muestra_truncada
+                    : t.listadoMuestraTruncada
+                return {
+                  ...t,
+                  toolUsed: nombre,
+                  listadoItems,
+                  listadoConteo,
+                  listadoMuestraTruncada,
+                }
+              }),
+            )
+          },
+          onToken: (_motor, texto) => {
+            setTurns((prev) =>
+              prev.map((t) => {
+                if (t.id !== idTurno || !t.assistantMessage) return t
+                return {
+                  ...t,
+                  assistantMessage: {
+                    ...t.assistantMessage,
+                    content: t.assistantMessage.content + texto,
+                  },
+                }
+              }),
+            )
+          },
+          onFuentes: (chunks) => {
+            setTurns((prev) =>
+              prev.map((t) =>
+                t.id === idTurno ? { ...t, ragSources: mergeRagSources(t.ragSources, chunks) } : t,
+              ),
+            )
+          },
+          onFinal: (meta) => {
+            const sinInfo = respuestaFinalEsSinInformacion(meta.texto)
+            setTurns((prev) =>
+              prev.map((t) => {
+                if (t.id !== idTurno || !t.assistantMessage) return t
+                const limpiarListado = sinInfo && t.toolUsed === 'listar_estructurado'
+                return {
+                  ...t,
+                  ...(limpiarListado
+                    ? {
+                        listadoItems: [],
+                        listadoConteo: undefined,
+                        listadoMuestraTruncada: undefined,
+                      }
+                    : {}),
+                  assistantMessage: {
+                    ...t.assistantMessage,
+                    isStreaming: false,
+                    latencia_ms: meta.latencia_ms,
+                    modelo: meta.modelo,
+                  },
+                }
+              }),
+            )
+            setIsBusy(false)
+          },
+          onError: (motor, mensaje, codigo) => {
+            const detalle = codigo ? `${mensaje} (${codigo})` : mensaje
+            toast.error(`Error (${motor}): ${detalle}`)
+            setIsBusy(false)
+            setTurns((prev) =>
+              prev.map((t) => {
+                if (t.id !== idTurno || !t.assistantMessage) return t
+                return {
+                  ...t,
+                  assistantMessage: {
+                    ...t.assistantMessage,
+                    isStreaming: false,
+                    content:
+                      t.assistantMessage.content ||
+                      'No se pudo completar la respuesta. Intente de nuevo o reformule la pregunta.',
+                  },
+                }
+              }),
+            )
+          },
         },
-        onError: (motor, mensaje) => {
-          toast.error(`Error (${motor}): ${mensaje}`)
-          setIsBusy(false)
-          setTurns((prev) =>
-            prev.map((t) => {
-              if (t.id !== idTurno) return t
-              return {
-                ...t,
-                respuestaOpenai: t.respuestaOpenai
-                  ? { ...t.respuestaOpenai, isStreaming: false }
-                  : undefined,
-              }
-            }),
-          )
-        },
-      })
+      )
 
       abortRef.current = abort
     },
-    [settings, toQaPeticion],
+    [sessionId],
   )
 
   const handleIntentoEnviar = useCallback(
     (pregunta: string) => {
-      if (isBusy) return
+      if (isBusy || historialLoading) return
       lanzarConsulta(pregunta)
     },
-    [isBusy, lanzarConsulta],
+    [isBusy, historialLoading, lanzarConsulta],
   )
 
   const handleStop = useCallback(() => {
@@ -129,34 +314,57 @@ export function Chat() {
     setTurns((prev) =>
       prev.map((t) => ({
         ...t,
-        respuestaOpenai: t.respuestaOpenai
-          ? { ...t.respuestaOpenai, isStreaming: false }
+        assistantMessage: t.assistantMessage
+          ? { ...t.assistantMessage, isStreaming: false }
           : undefined,
       })),
     )
   }, [])
 
-  const handleRegenerateLast = useCallback(() => {
-    if (isBusy) return
-    setTurns((prev) => {
-      if (prev.length === 0) return prev
-      const q = prev[prev.length - 1].pregunta.content
-      const next = prev.slice(0, -1)
-      queueMicrotask(() => lanzarConsulta(q))
-      return next
-    })
-  }, [isBusy, lanzarConsulta])
+  const handleRegenerateLast = useCallback(async () => {
+    if (isBusy || historialLoading || !sessionId) return
+    const prev = turnsRef.current
+    if (prev.length === 0) return
+    const q = prev[prev.length - 1].userMessage.content.trim()
+    if (!q) return
+    try {
+      await deleteUltimoTurno(sessionId)
+    } catch {
+      toast.error('No se pudo eliminar el último turno en el servidor. Intente de nuevo.')
+      return
+    }
+    setTurns((p) => (p.length === 0 ? p : p.slice(0, -1)))
+    queueMicrotask(() => lanzarConsulta(q))
+  }, [isBusy, historialLoading, sessionId, lanzarConsulta])
+
+  if (!sessionId) {
+    return (
+      <div className="flex flex-col h-full items-center justify-center px-4 text-center text-sm text-[var(--color-text-muted)]">
+        Inicie sesión para usar el asistente.
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-full">
+      {historialError && (
+        <div
+          role="status"
+          className="shrink-0 mx-4 mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100"
+        >
+          {historialError}
+        </div>
+      )}
       <MessageList
         turns={turns}
+        historialLoading={historialLoading}
         onSelectSuggested={handleIntentoEnviar}
         onRegenerateLast={handleRegenerateLast}
       />
       <ChatInput
         onSubmit={handleIntentoEnviar}
         isBusy={isBusy}
+        historialLoading={historialLoading}
         onStop={handleStop}
       />
     </div>

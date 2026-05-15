@@ -1,1 +1,1 @@
-"""Interfaz web Gradio para el asistente Q&A."""
+"""Paquete de aplicacion (UI historica retirada; el producto usa frontend/ React y FastAPI)."""

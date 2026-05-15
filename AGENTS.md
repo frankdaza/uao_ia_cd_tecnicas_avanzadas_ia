@@ -30,7 +30,7 @@ You MUST read the overview resource to understand the complete workflow. The inf
 
 **Convención (este repositorio):** al finalizar el trabajo de una tarea, el agente debe poner su estado en **Done** (p. ej. con `task_edit` del MCP) y **no** invocar `task_complete` ni archivar. El movimiento a `backlog/completed/` es **siempre manual** y solo con instrucción expresa de la persona. Ver la regla `.cursor/rules/backlog-workflow.mdc` y la skill `backlog-md`.
 
-# Proyecto: técnicas avanzadas de IA (Módulo 1)
+# Proyecto: técnicas avanzadas de IA (Módulos 1 y 2)
 
 Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar o revisar código en el repositorio. Un resumen paralelo para agentes está en **[CLAUDE.md](CLAUDE.md)** (útil cuando el cliente no carga reglas `.mdc` de Cursor).
 
@@ -45,16 +45,24 @@ Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar 
 2. **`data/markdown/`**: corpus textual canónico en **Markdown con front matter YAML** (generado desde `raw/`).
 3. **`data/processed/`**: chunks (p. ej. JSONL) derivados de `markdown/` para Q&A.
 
-Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
+Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
+
+**Módulo 2 (agente):** `src/persistencia/` → `src/agentes/` (LangGraph + tools + memoria Postgres) → `src/rag/` (Qdrant denso) → `src/api/routers/sesiones.py` / `agente.py` → `frontend/` (`features/auth/`, chat con SSE extendido). Ingesta: `scripts/indexar_corpus_qdrant.py` desde `data/markdown/`. Decisiones: `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` (cuando exista); guía: `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` (cuando exista).
 
 ## Stack (Módulo 1)
 
 - Scraping: `requests`, `beautifulsoup4`, `selenium`.
 - Markdown: **`markdownify`** (por defecto) o **`html2text`** (alternativa); **`pyyaml`** para front matter; **`pdfplumber`** opcional para PDF.
-- Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo).
+- Orquestación LLM: **LangChain** o **LlamaIndex** (una opción por equipo en la cadena simple M1).
 - Modelo: **Ollama** (local) o **API** (p. ej. OpenAI).
-- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (expone `PipelineQa` vía REST + SSE).
-- Interfaz: **React 19** + **Vite 7** + **TypeScript** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
+- Backend HTTP: **FastAPI** + **Uvicorn** + **sse-starlette** en `src/api/` (sesiones y agente M2; sin pipeline BM25 retirado).
+- Interfaz: **React 19** + **Vite 8** + **TypeScript 6** + **Tailwind v4** + **shadcn/ui** + **Vercel AI SDK** en `frontend/`.
+
+## Stack (Módulo 2 — agente)
+
+- Orquestación: **LangGraph** (router) + **LangChain** (tools, `langchain-postgres` memoria) + **LlamaIndex** (RAG denso **Qdrant**). OpenAI (u compatible) como camino típico del agente.
+- Datos: **PostgreSQL** (usuarios + historial LangChain), **Qdrant** (vectores); **SQLAlchemy 2 async**, **Alembic**, `asyncpg`, `psycopg` según capa.
+- API: `POST /api/sesiones`, `GET` historial, `POST /api/agente/stream` (SSE multi-evento). Ver skills **`agente-modulo-2`** y **`fastapi-sse-api`**.
 
 ## Idioma y código
 
@@ -67,8 +75,9 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 | --- | --- |
 | `language-conventions.mdc` | Idioma; identificadores ASCII en español (Python) / inglés (TS/JS) |
 | `python-uv-environment.mdc` | Python 3.12.12 y `uv` |
-| `project-stack.mdc` | Stack completo: scraping, LLM, FastAPI, React+Vite+shadcn |
-| `project-structure.mdc` | Carpetas `data/`, `src/`, `frontend/` y flujo de petición |
+| `project-stack.mdc` | Stack completo: scraping, LLM, M2 agente Qdrant, FastAPI, React+Vite+shadcn |
+| `project-structure.mdc` | Carpetas `data/`, `src/`, `frontend/` y flujo M1/M2 |
+| `agente-modulo-2.mdc` | Buenas prácticas M2: `src/agentes/`, `src/rag/`, `src/persistencia/`, ingesta Qdrant |
 | `python-style.mdc` | Estilo en `**/*.py` |
 | `scraping-ethics.mdc` | Ética de scraping en `src/scraping/**` |
 | `frontend-style.mdc` | Estilo React+TS+Tailwind en `frontend/**` |
@@ -80,7 +89,7 @@ Código sugerido: `src/scraping/` (descarga) → `src/markdown_export/` (convers
 ### Indexación e ignores (Cursor y Claude Code)
 
 - **Cursor**: en la raíz del repo, [`.cursorignore`](.cursorignore) (exclusión fuerte para el agente, `@` y búsqueda semántica) y [`.cursorindexingignore`](.cursorindexingignore) (solo índice). Documentación: [Ignore file](https://cursor.com/docs/reference/ignore-file). La terminal y las herramientas MCP **no** quedan bloqueadas por `.cursorignore`.
-- **Corpus**: el índice del IDE **no** es el mismo contexto que el runtime del backend: `data/markdown/` puede figurar en `.cursorindexingignore` para aligerar búsquedas en el editor; la app sigue leyendo el corpus en disco para RAG.
+- **Corpus**: el índice del IDE **no** es el mismo contexto que el runtime del backend: `data/markdown/` puede figurar en `.cursorindexingignore` para aligerar búsquedas en el editor; el backend puede seguir usando el corpus en disco para **ingesta** (M2 → Qdrant) o lectura directa en fases M1.
 - **Claude Code**: no hay `.claudeignore` estándar en la raíz; lecturas sensibles compartidas vía [`.claude/settings.json`](.claude/settings.json) con `permissions.deny` y patrones `Read(/...)` (ver [sintaxis de permisos](https://code.claude.com/docs/en/permissions#permission-rule-syntax)). **No** incluir secretos en `backlog/tasks/` ni en comentarios. Referencia general: [Claude Code — configuración](https://code.claude.com/docs/en/configuration).
 
 ## Skills (`.cursor/skills/` y `.claude/skills/`)
@@ -94,9 +103,10 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | Ollama o API + framework LLM + exposición vía SSE |
+| `llm-backend` | Clientes Ollama/OpenAI en `src/qa`, agente M2 y RAG; ver `agente-modulo-2` |
+| `agente-modulo-2` | Agente M2: LangGraph, LangChain tools/memoria, LlamaIndex+Qdrant, persistencia |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
-| `react-vite-qa-ui` | Interfaz React 19 + Vite 7 + shadcn/ui en `frontend/` |
+| `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |
 | `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; código legacy en `src/app/legacy/` |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |

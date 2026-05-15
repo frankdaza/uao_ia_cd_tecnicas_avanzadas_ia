@@ -1,44 +1,25 @@
 ---
 name: llm-backend
-description: Orquesta llamadas LLM con Ollama local o API OpenAI y un framework (LangChain o LlamaIndex). Usar al disenar src/qa o integracion con modelos.
+description: LLM en el repo (clientes Ollama/OpenAI en src/qa, agente M2 LangGraph LangChain LlamaIndex Qdrant). Usar al disenar src/qa src/agentes src/rag o integracion con modelos.
 ---
 
 # Backend LLM
 
 > Mantener el mismo contenido en `.cursor/skills/llm-backend/` y `.claude/skills/llm-backend/`.
 
-## Eleccion de modelo
+## Modulo 1 (BM25 / PipelineQa)
 
-- **Ollama**: modelo open source local; sin costo por token; requiere Ollama instalado y modelo descargado.
-- **OpenAI (u otro API)**: requiere clave en `.env`; no commitear secretos.
+El pipeline BM25 + `PipelineQa` **se retiro del arbol de codigo**. El contexto historico vive en ADRs (`decision-1`, `decision-2`, `decision-3`) y en commits anteriores.
 
-## Framework
+## Modulo 2 (agente conversacional)
 
-- Elegir **uno**: LangChain **o** LlamaIndex; envolver la llamada al modelo en funciones con interfaces claras (`generar_respuesta`, `invocar_modelo`).
+- **Stack combinado**: **LangGraph** (router), **LangChain** (StructuredTool, memoria con `langchain-postgres`), **LlamaIndex** (RAG denso sobre **Qdrant**), **OpenAI** (u otro proveedor) segun configuracion.
+- **Detalle de implementacion**, pruebas con fakes, ingesta e idempotencia: skill **`agente-modulo-2`**.
+- **ADR**: `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md`.
 
-## Configuracion
+## Clientes y prompts en `src/qa`
 
-- Variables como `OLLAMA_BASE_URL`, `OPENAI_API_KEY`, `MODELO_LLM` en `.env.example` sin valores reales.
-- Cargar con `pydantic-settings` o equivalente si el proyecto lo define.
+- **Ollama** y **OpenAI**: modulos `cliente_ollama.py`, `cliente_openai.py`; variables `OLLAMA_BASE_URL`, `OPENAI_API_KEY`, modelos en `.env.example`.
+- **Prompt**: `prompt.py` con `PROMPT_SISTEMA_DEFECTO`, `componer_mensajes` / `componer_mensajes_multi` usando `DocumentoContexto` (sin acoplamiento a recuperadores retirados).
 
-## Identificadores
-
-- Modulos y funciones en espanol ASCII; nombres de clases descriptivos (`ClienteLlm`, `ConfiguracionModelo`).
-
-## Exposicion via HTTP y SSE (backend FastAPI)
-
-El `PipelineQa` de `src/qa/pipeline.py` expone sus capacidades al frontend React a traves de `src/api/` (FastAPI + sse-starlette). Los metodos clave son:
-
-- `responder(pregunta, modelo, prompt_sistema)` → sincrono, usado en `POST /api/qa`.
-- `responder_stream(pregunta, modelo, prompt_sistema)` → `Iterator[(str, RespuestaQa|None)]`, usado en `POST /api/qa/stream` via SSE.
-- `responder_openai_stream(pregunta, modelo_openai, ...)` → idem para OpenAI.
-- `preparar_contexto_inferencia(pregunta, prompt_sistema)` → una sola pasada BM25; resultado compartido por ambos motores en modo dual.
-- `stream_ollama_desde_contexto(ctx, modelo, t_inicio)` + `stream_openai_desde_contexto(ctx, modelo, t_inicio)` → streaming desde contexto pre-calculado; para el endpoint `POST /api/qa/dual/stream`.
-
-**Regla clave**: en modo dual, `preparar_contexto_inferencia` se llama **UNA sola vez** por peticion; los dos streams consumen el mismo `ContextoInferencia`.
-
-Ver skill `fastapi-sse-api` para patrones de implementacion SSE y tests.
-
-## Modulo 2 (anticipo)
-
-- El informe puede mencionar embeddings y base vectorial futura; en codigo del modulo 1 priorizar prompt + contexto textual segun la actividad.
+Ver skill `fastapi-sse-api` para patrones SSE del agente y tests.

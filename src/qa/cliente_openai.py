@@ -8,7 +8,6 @@ from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from typing import TypeVar
 
-from dotenv import load_dotenv
 from openai import (
     APIConnectionError,
     APITimeoutError,
@@ -179,24 +178,14 @@ class ConfiguracionOpenai:
 
     @classmethod
     def desde_variables_entorno(cls) -> ConfiguracionOpenai:
-        load_dotenv()
-        clave = os.environ.get("OPENAI_API_KEY")
-        api_key = (clave.strip() if isinstance(clave, str) else None) or None
-        base = os.environ.get("OPENAI_BASE_URL")
-        base_url = (base.strip() if base else None) or None
-        tiempo = os.environ.get("OPENAI_TIMEOUT")
-        timeout_segundos = 180.0
-        if tiempo and tiempo.strip():
-            try:
-                timeout_segundos = float(tiempo.strip())
-            except ValueError:
-                timeout_segundos = 180.0
-        max_cap = _max_completion_tokens_desde_entorno()
+        from src.api.configuracion import obtener_configuracion
+
+        cfg = obtener_configuracion()
         return cls(
-            api_key=api_key,
-            base_url=base_url,
-            timeout_segundos=timeout_segundos,
-            max_completion_tokens=max_cap,
+            api_key=cfg.openai_api_key,
+            base_url=cfg.openai_base_url,
+            timeout_segundos=cfg.openai_timeout_segundos,
+            max_completion_tokens=cfg.openai_max_completion_tokens,
         )
 
     def tiene_api_key(self) -> bool:

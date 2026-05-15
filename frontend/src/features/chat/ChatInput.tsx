@@ -8,11 +8,12 @@ const SESSION_DRAFT = 'fvl-draft-input'
 interface ChatInputProps {
   onSubmit: (pregunta: string) => void
   isBusy: boolean
+  historialLoading?: boolean
   onStop?: () => void
 }
 
 /** Área de entrada del chat: borrador persistente en sessionStorage y autoaltura. */
-export function ChatInput({ onSubmit, isBusy, onStop }: ChatInputProps) {
+export function ChatInput({ onSubmit, isBusy, historialLoading = false, onStop }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [draft, setDraft] = useState(() => {
     try {
@@ -44,7 +45,7 @@ export function ChatInput({ onSubmit, isBusy, onStop }: ChatInputProps) {
   const enviar = () => {
     const valor = draft.trim()
     if (!valor) return
-    if (isBusy) return
+    if (isBusy || historialLoading) return
     onSubmit(valor)
     setDraft('')
   }
@@ -62,9 +63,13 @@ export function ChatInput({ onSubmit, isBusy, onStop }: ChatInputProps) {
         <Textarea
           id="chat-principal-q"
           ref={textareaRef}
-          placeholder="¿Cuál es tu pregunta sobre la Fundación Valle del Lili?"
+          placeholder={
+            historialLoading
+              ? 'Cargando historial de la sesión…'
+              : '¿Cuál es tu pregunta sobre la Fundación Valle del Lili?'
+          }
           rows={2}
-          disabled={isBusy && !onStop}
+          disabled={historialLoading || (isBusy && !onStop)}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -83,7 +88,13 @@ export function ChatInput({ onSubmit, isBusy, onStop }: ChatInputProps) {
             <span className="hidden sm:inline text-xs">Detener</span>
           </Button>
         ) : (
-          <Button type="button" onClick={enviar} disabled={isBusy || !draft.trim()} aria-label="Enviar pregunta" className="shrink-0">
+          <Button
+            type="button"
+            onClick={enviar}
+            disabled={isBusy || historialLoading || !draft.trim()}
+            aria-label="Enviar pregunta"
+            className="shrink-0"
+          >
             <Send className="h-4 w-4" aria-hidden />
             <span className="sr-only">Enviar</span>
           </Button>

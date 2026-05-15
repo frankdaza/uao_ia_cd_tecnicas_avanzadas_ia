@@ -9,13 +9,15 @@ import { cn } from '@/lib/cn'
 interface AppShellProps {
   sidebar: ReactNode
   children: ReactNode
+  /** Contenido opcional junto al interruptor de tema (p. ej. usuario y cierre de sesión). */
+  headerExtras?: ReactNode
 }
 
 const SIDEBAR_KEY = 'fvl-sidebar-collapsed'
 const MAX_ANCHO_MOVIL = 767
 
 /** Layout principal: sidebar en escritorio y sheet deslizable en móvil. */
-export function AppShell({ sidebar, children }: AppShellProps) {
+export function AppShell({ sidebar, children, headerExtras }: AppShellProps) {
   const [esMovil, setEsMovil] = useState(false)
   const [sheetAbierto, setSheetAbierto] = useState(false)
   const [collapsed, setCollapsed] = useState(() => {
@@ -92,12 +94,13 @@ export function AppShell({ sidebar, children }: AppShellProps) {
               Q&A — Fundación Valle del Lili
             </span>
             <span className="text-[10px] text-[var(--color-text-muted)] hidden sm:block">
-              Asistente inteligente · BM25 + Ollama + OpenAI
+              Agente conversacional · LangGraph + RAG Qdrant
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
+          {headerExtras}
           <ThemeToggle />
         </div>
       </header>
@@ -128,7 +131,7 @@ export function AppShell({ sidebar, children }: AppShellProps) {
       <footer className="shrink-0 border-t border-[var(--border)] px-4 py-2 flex flex-col gap-1 bg-[var(--color-background)]">
         <ApiStatusFooter />
         <p className="text-[10px] text-center text-[var(--color-text-subtle)]">
-          Técnicas avanzadas de IA — Módulo 1 · Universidad Autónoma de Occidente
+          Técnicas avanzadas de IA — Módulo 2 · Universidad Autónoma de Occidente
         </p>
       </footer>
     </div>
