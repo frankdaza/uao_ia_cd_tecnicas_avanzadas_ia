@@ -6,6 +6,8 @@ El **producto actual** es un agente conversacional con **memoria en PostgreSQL**
 
 La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume **`POST /api/agente/stream`** (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, entre otros). **No** sustituye canales oficiales ni garantiza vigencia de datos.
 
+**UI Gradio retirada:** la interfaz web histórica basada en Gradio ya no forma parte del árbol de código; el historial de implementación permanece en el control de versiones y la narrativa de reemplazo por React y FastAPI está en [doc-002 — Migración frontend React + Vite y backend FastAPI](backlog/docs/doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md).
+
 **Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). **Resumen del grafo LangGraph** (orden de nodos, tres herramientas, heurísticas y *fallbacks*): [RESUMEN.md](RESUMEN.md).
 
 **Colaboración y tareas:** el flujo con Backlog.md (MCP) y convenciones del repo están en [AGENTS.md](AGENTS.md).

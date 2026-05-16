@@ -107,7 +107,7 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain tools/memoria, LlamaIndex+Qdrant, persistencia |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
 | `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |
-| `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; código legacy en `src/app/legacy/` |
+| `gradio-qa-ui` | **DEPRECADO** — reemplazado por `react-vite-qa-ui`; la UI Gradio se retiró del árbol de código (historial en git; ver [doc-002](backlog/docs/doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md)). |
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |
 | `cursor-ignore-files` | Ignores, secretos, indice vs runtime (`data/markdown/`), alinear con `.claude/settings.json` |

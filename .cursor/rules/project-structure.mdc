@@ -24,7 +24,6 @@ src/
       salud.py       # GET /api/salud
       sesiones.py    # M2: POST /api/sesiones, historial, borrar ultimo turno, cerrar sesion
       agente.py      # M2: POST /api/agente/stream (SSE agente)
-  app/               # paquete reservado (sin UI legacy; producto en frontend/)
 config/              # M2: router_meta_prompt.json (sin secretos)
 alembic/             # M2: migraciones esquema app (p. ej. usuarios)
 scripts/

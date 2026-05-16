@@ -3,6 +3,7 @@ id: doc-005
 title: Auditoria de imports hacia src/rag, src/qa y src/app (baseline migracion clean-enough M2)
 type: reference
 created_date: '2026-05-16'
+updated_date: '2026-05-16'
 modulo: 2
 status: vigente
 ---
@@ -17,7 +18,7 @@ Este documento cumple la tarea **TASK-85**: inventario reproducible de quien ref
 | --- | --- | --- | --- | --- |
 | `src.rag` | Si: herramientas RAG/listados, router (imports diferidos), `main.py` (reranker) | Si (ingesta y eval) | Amplio | `src.rag` **importa** `src.api.configuracion` (dependencia hacia la capa HTTP de settings). |
 | `src.qa` | No hay imports directos en `src/agentes` ni `src/api` | No | Si (`tests/qa`, prueba de router con `importlib`) | Paquete acotado a laboratorio M1 y pruebas; el runtime del agente M2 no lo importa por ruta estable actual. |
-| `src.app` | Ninguno con patron `from src.app` / `import src.app` | No | No | Arbol residual (`__init__.py` en `src/app/` y `src/app/legacy/`); retiro previsto en TASK-87. |
+| `src.app` | Ninguno con patron `from src.app` / `import src.app` | No | No | Paquete **eliminado** (TASK-87); sin arbol bajo `src/app/`; ver README raiz y [doc-002](doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md). |
 
 **Notebooks:** no hay `.ipynb` en el repositorio (busqueda `**/*.ipynb` vacia).
 
@@ -65,9 +66,9 @@ Estos patrones **no aparecen** con una simple busqueda estatica de dependencias 
 | Area consumidora | Patron `from src.app` / `import src.app` |
 | --- | --- |
 | Codigo Python (`src/`, `scripts/`, `tests/`) | **Ninguno** |
-| Estado del arbol | `src/app/__init__.py`, `src/app/legacy/__init__.py` (paquetes vacios de codigo ejecutable) |
+| Estado del arbol (post TASK-87) | Carpetas `src/app/` y `src/app/legacy/` **eliminadas**; sin codigo ejecutable ni imports en producto, scripts ni tests. |
 
-Referencias historicas en **documentacion y backlog** (comandos `python -m src.app.app_gradio`, tareas completadas) no constituyen imports de runtime; TASK-87 cubre retiro y alineacion documental.
+Referencias historicas en **documentacion y backlog** (comandos `python -m src.app.app_gradio`, tareas completadas) aparecen como texto; no constituyen imports de runtime.
 
 ## 5. Riesgos para TASK-86 y siguientes
 

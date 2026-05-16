@@ -3,6 +3,7 @@ id: doc-004
 title: Estudio de migración hacia una arquitectura en capas tipo Clean Architecture
 type: architecture
 created_date: '2026-05-16'
+updated_date: '2026-05-16'
 status: borrador
 modulo: 2
 ---
@@ -126,9 +127,9 @@ src/
 
 Toda eliminación debería ir precedida de **búsqueda de referencias** (`import`, documentación, CI) y de **suite verde** (`uv run pytest`). Lo siguiente son **candidatos**, no órdenes.
 
-### 5.1. `src/app/` y `src/app/legacy/`
+### 5.1. `src/app/` y `src/app/legacy/` (cerrado en TASK-87)
 
-El paquete `src/app` está documentado como reemplazado por el frontend React y FastAPI. En el estado reciente del repositorio, `src/app/legacy/` puede ser **un paquete casi vacío** (solo `__init__.py`). Es **candidato a retirar** del árbol de código si no existe código ejecutable ni imports desde tests; alternativa conservadora: una nota en el README raíz que indique “UI Gradio retirada; historial en git o doc-002” y eliminar carpetas vacías en una tarea dedicada.
+El paquete `src/app` fue **retirado del arbol** en la TASK-87: la UI Gradio ya no se distribuye en este repositorio. El contexto de la migración a React y FastAPI está en [doc-002](doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md); el historial de código permanece en git. El README raíz incluye una nota visible al respecto.
 
 ### 5.2. `src/qa/`
 
