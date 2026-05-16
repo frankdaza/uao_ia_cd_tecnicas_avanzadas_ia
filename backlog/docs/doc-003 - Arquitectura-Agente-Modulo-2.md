@@ -3,7 +3,7 @@ id: doc-003
 title: Arquitectura operativa del agente conversacional (Modulo 2)
 type: architecture
 created_date: '2026-05-12'
-updated_date: '2026-05-15'
+updated_date: '2026-05-16'
 status: vigente
 modulo: 2
 ---
@@ -312,8 +312,39 @@ uv run pytest tests/e2e/test_escenarios_modulo2.py -v
 4. **Verificar salud**: `GET ${BASE_URL}/api/salud`; comprobar conectividad a Postgres y Qdrant según despliegue; opcionalmente una pregunta con `e2e7001` en entorno mock para confirmar eventos `herramienta` / `fuentes`.
 5. **Frontend**: el chat productivo consume `/api/agente/stream`; el flujo BM25 de `POST /api/qa/stream` queda como legado M1 según evolución del repo.
 
+## 8. Capa de servicio router → grafo (condicional)
+
+Hoy el camino productivo es: **FastAPI** (`src/api/routers/agente.py`) → **factoría del grafo** (p. ej. `src/api/factoria_grafo_agente.py`) → **LangGraph** en `src/agentes/`. La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija que una **capa de servicio delgada** entre el router HTTP y el grafo **solo** tiene sentido si el router empieza a **acumular lógica de negocio**; mientras no pase, puede invocarse la factoría **directamente**. El marco de trade-offs y la “Opción A / clean enough” frente a capas completas está en [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md).
+
+### 8.1 Síntomas disparadores (cuándo extraer un módulo tipo `agente_servicio`)
+
+Se buscan señales **objetivas** (no “por estética de carpetas”). Ejemplos concretos:
+
+1. **Acumulación de lógica en el router**: ramas largas por flags de configuración, ensamblado de estado del grafo, reglas de autorización o cuotas que ya no caben en unas pocas llamadas a dependencias y se leen como “caso de uso” en sí mismo.
+2. **Varios consumidores del mismo flujo**: además de `POST /api/agente/stream`, aparece un **segundo entrypoint** (CLI interna, worker, otro transporte) que debe ejecutar **el mismo** orquestado previo al grafo sin copiar código desde el router.
+3. **Validaciones o normalizaciones complejas en la frontera HTTP**: reglas que mezclan sesión, límites de RAG/memoria, bundles administrativos y coherencia de payload; si crecen y se vuelven difíciles de testear aisladas del grafo, conviene centralizarlas fuera del handler SSE.
+4. **Duplicación de mapping DTO ↔ estado del agente**: construcción repetida de dicts/estructuras para LangGraph, serialización de eventos o adaptación de errores en más de un sitio (router + tests + scripts) con riesgo de divergencia.
+
+Si solo una de estas aparece de forma leve, suele bastar con **extraer funciones** en el mismo paquete `src/api/` o en módulos ya existentes (`dependencias`, configuración) sin crear un paquete `aplicacion/` nuevo.
+
+### 8.2 Anti-patrones (qué no hacer)
+
+- **Scaffolding vacío**: crear `src/aplicacion/` (o muchos archivos “de capa”) sin caso de uso real duplicado; eso **viola** la regla de stop del ADR (ver §8.3).
+- **Duplicar el contrato HTTP/SSE**: mover a “servicio” textos de eventos, códigos o formas de stream que ya son responsabilidad del contrato fijado en la [decision-2](../decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md); la capa delgada no debe sustituir ni bifurcar la especificación del API.
+- **Reimplementar el grafo**: empujar decisiones de tool-calling o nodos LangGraph al servicio solo para “parecer más limpio”; el motor sigue siendo el grafo en `src/agentes/`.
+
+### 8.3 Regla de stop (decision-6)
+
+Para frenar abstracción prematura, la [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) establece explícitamente:
+
+> Si no hay un segundo consumidor del mismo caso de uso fuera de FastAPI, no crear un paquete `aplicacion/` genérico con más de una docena de archivos vacíos o triviales.
+
+En la práctica: **no** introducir `src/aplicacion/agente_servicio.py` (u homónimo) hasta que haya **dolor medible** (síntomas de §8.1) **o** un segundo consumidor que justifique compartir el mismo orquestado.
+
 ## Referencias internas
 
 - [decision-3 — Arquitectura agente, memoria, RAG, Qdrant (M2)](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
+- [decision-6 — Migración incremental “clean enough” (M2)](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md)
+- [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
 - [scripts/README.md — ingesta Qdrant y E2E](../../scripts/README.md)
 - Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/`

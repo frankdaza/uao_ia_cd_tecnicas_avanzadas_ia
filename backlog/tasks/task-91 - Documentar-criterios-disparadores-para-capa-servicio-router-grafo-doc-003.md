@@ -1,11 +1,11 @@
 ---
 id: TASK-91
 title: Documentar criterios disparadores para capa servicio router-grafo (doc-003)
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:50'
-updated_date: '2026-05-16 16:50'
+updated_date: '2026-05-16 17:26'
 labels:
   - migracion
   - clean-architecture
@@ -23,7 +23,7 @@ documentation:
     Migracion-Incremental-Clean-Architecture-M2.md
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
 priority: low
-ordinal: 91000
+ordinal: 0.1220703125
 ---
 
 ## Description
@@ -48,11 +48,11 @@ Seccion "Criterio de cierre (regla de stop)" en decision-6.
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 En doc-003 existe seccion dedicada (encabezado explicito) sobre cuando introducir capa de servicio delgada entre FastAPI y la factoria del grafo.
-- [ ] #2 La seccion lista al menos 4 sintomas disparadores concretos (ej. acumulacion de logica en router, multiples consumidores HTTP/CLI, validaciones complejas, duplicacion de mapping DTO).
-- [ ] #3 Se cita textualmente o parafrasea el criterio de stop de decision-6 (no crear aplicacion/ generica sin segundo consumidor).
-- [ ] #4 Se enlaza decision-6 y doc-004.
-- [ ] #5 No hay cambios en archivos .py del backend (solo Markdown en backlog/docs).
+- [x] #1 En doc-003 existe seccion dedicada (encabezado explicito) sobre cuando introducir capa de servicio delgada entre FastAPI y la factoria del grafo.
+- [x] #2 La seccion lista al menos 4 sintomas disparadores concretos (ej. acumulacion de logica en router, multiples consumidores HTTP/CLI, validaciones complejas, duplicacion de mapping DTO).
+- [x] #3 Se cita textualmente o parafrasea el criterio de stop de decision-6 (no crear aplicacion/ generica sin segundo consumidor).
+- [x] #4 Se enlaza decision-6 y doc-004.
+- [x] #5 No hay cambios en archivos .py del backend (solo Markdown en backlog/docs).
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -75,8 +75,14 @@ Seccion "Criterio de cierre (regla de stop)" en decision-6.
 - task-91 puede ejecutarse en paralelo a codigo pero conviene leer doc-003 actual antes de editar.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se anadio la seccion 8 en doc-003 (Capa de servicio router a grafo, condicional) con cuatro sintomas disparadores, anti-patrones, cita de la regla de stop de decision-6 y enlaces a decision-6 y doc-004. Se actualizo updated_date del documento y la lista de referencias internas.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Actualizar updated_date en front matter de doc-003 si la regla backlog-docs lo requiere.
-- [ ] #2 Revision de enlaces relativos rotos.
+- [x] #1 Actualizar updated_date en front matter de doc-003 si la regla backlog-docs lo requiere.
+- [x] #2 Revision de enlaces relativos rotos.
 <!-- DOD:END -->
