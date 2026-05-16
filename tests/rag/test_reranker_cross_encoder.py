@@ -6,7 +6,7 @@ import logging
 
 import pytest
 
-from src.rag import reranker_cross_encoder as mod
+from src.rag.runtime import reranker_cross_encoder as mod
 
 
 class _CrossEncoderFalso:

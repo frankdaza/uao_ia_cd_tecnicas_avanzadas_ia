@@ -23,9 +23,9 @@ import logging
 from pathlib import Path
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.qdrant_store import obtener_vector_store, reiniciar_cliente_qdrant
-from src.rag.recuperador_denso import RecuperadorDenso
+from src.rag.runtime.embeddings import obtener_embeddings
+from src.rag.runtime.qdrant_store import obtener_vector_store, reiniciar_cliente_qdrant
+from src.rag.runtime.recuperador_denso import RecuperadorDenso
 
 logger = logging.getLogger(__name__)
 

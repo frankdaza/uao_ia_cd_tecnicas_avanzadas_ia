@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
+from src.rag.runtime.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
 
 
 @pytest.mark.parametrize(

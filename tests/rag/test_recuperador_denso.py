@@ -13,8 +13,8 @@ from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.agentes.herramientas.rag_tool import crear_rag_tool
 from src.api.configuracion import Configuracion
-from src.rag.qdrant_store import reiniciar_cliente_qdrant
-from src.rag.recuperador_denso import (
+from src.rag.runtime.qdrant_store import reiniciar_cliente_qdrant
+from src.rag.runtime.recuperador_denso import (
     MENSAJE_COLECCION_VACIA,
     MENSAJE_SIN_RESULTADOS,
     RecuperadorDenso,

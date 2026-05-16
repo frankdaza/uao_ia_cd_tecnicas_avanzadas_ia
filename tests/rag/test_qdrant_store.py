@@ -7,7 +7,7 @@ from pydantic import ValidationError
 from qdrant_client.models import Distance
 
 from src.api.configuracion import obtener_configuracion
-from src.rag.qdrant_store import (
+from src.rag.runtime.qdrant_store import (
     asegurar_coleccion,
     distancia_desde_settings,
     obtener_qdrant_client,

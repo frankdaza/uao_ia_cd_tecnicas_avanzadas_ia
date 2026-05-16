@@ -13,8 +13,8 @@ import argparse
 from collections import Counter
 
 from src.api.configuracion import obtener_configuracion
-from src.rag.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
-from src.rag.recuperador_listados import RecuperadorListados
+from src.rag.runtime.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
+from src.rag.runtime.recuperador_listados import RecuperadorListados
 
 
 def main() -> int:

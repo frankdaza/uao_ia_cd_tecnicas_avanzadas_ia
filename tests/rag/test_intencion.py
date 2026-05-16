@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.intencion import inferir_filtros_tipo_pagina_para_rag, inferir_intencion
+from src.rag.runtime.intencion import inferir_filtros_tipo_pagina_para_rag, inferir_intencion
 
 
 @pytest.mark.parametrize(

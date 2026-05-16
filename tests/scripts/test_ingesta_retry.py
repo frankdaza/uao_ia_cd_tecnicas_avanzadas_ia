@@ -10,8 +10,8 @@ from unittest.mock import MagicMock
 
 from scripts import indexar_corpus_qdrant as idx
 from src.api.configuracion import obtener_configuracion
-from src.rag import qdrant_store as qs
-from src.rag.qdrant_store import reiniciar_cliente_qdrant
+from src.rag.runtime import qdrant_store as qs
+from src.rag.runtime.qdrant_store import reiniciar_cliente_qdrant
 
 
 @pytest.fixture

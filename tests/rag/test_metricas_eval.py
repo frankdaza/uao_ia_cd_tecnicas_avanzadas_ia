@@ -6,7 +6,7 @@ import math
 
 import pytest
 
-from src.rag.metricas_eval import (
+from src.rag.evaluacion.metricas_eval import (
     archivos_desde_chunks_rankeados,
     conjunto_archivos_unicos_en_primeros_k,
     hit_at_k,

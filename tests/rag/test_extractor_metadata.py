@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from src.rag import extractor_metadata as em
+from src.rag.runtime import extractor_metadata as em
 
 
 @dataclass

@@ -8,7 +8,7 @@ entre vectores de consulta y de fragmentos. Un cross-encoder vuelve a evaluar ca
 **(consulta, fragmento)** en un solo modelo secuencial, lo que suele correlacionar mejor
 con relevancia que la mera proximidad vectorial, a costa de mayor latencia y RAM.
 
-Este módulo no orquesta el pipeline completo: ``RecuperadorDenso`` (``src/rag/recuperador_denso.py``)
+Este módulo no orquesta el pipeline completo: ``RecuperadorDenso`` (``src/rag/runtime/recuperador_denso.py``)
 instancia ``RerankerCrossEncoder`` cuando el reranker está habilitado en configuración. El
 lifespan de FastAPI puede hacer *warmup* del modelo al arrancar (ver ``src/api/main.py``).
 

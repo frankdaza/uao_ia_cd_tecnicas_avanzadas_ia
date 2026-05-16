@@ -36,21 +36,21 @@ from typing import Any, Literal, cast
 from jsonschema import Draft7Validator
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.metricas_eval import (
+from src.rag.runtime.embeddings import obtener_embeddings
+from src.rag.evaluacion.metricas_eval import (
     hit_at_k,
     mrr,
     ndcg_at_k,
     precision_at_k,
     recall_at_k,
 )
-from src.rag.qdrant_store import (
+from src.rag.runtime.qdrant_store import (
     contar_puntos_en_coleccion,
     obtener_qdrant_client,
     obtener_vector_store,
     reiniciar_cliente_qdrant,
 )
-from src.rag.recuperador_denso import RecuperadorDenso
+from src.rag.runtime.recuperador_denso import RecuperadorDenso
 
 logger = logging.getLogger(__name__)
 

@@ -32,8 +32,8 @@ from qdrant_client.models import PointIdsList, PointStruct
 
 from scripts._utiles_retry import ejecutar_con_reintentos
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.extractor_metadata import (
+from src.rag.runtime.embeddings import obtener_embeddings
+from src.rag.runtime.extractor_metadata import (
     construir_headings_path,
     extraer_especialidades,
     extraer_h1_h2_h3_desde_nodo,
@@ -43,7 +43,7 @@ from src.rag.extractor_metadata import (
     inferir_subtipo,
     inferir_tipo_pagina,
 )
-from src.rag.qdrant_store import (
+from src.rag.runtime.qdrant_store import (
     asegurar_coleccion,
     distancia_desde_settings,
     obtener_qdrant_client,

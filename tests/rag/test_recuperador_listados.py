@@ -8,7 +8,7 @@ import pytest
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-from src.rag.recuperador_listados import RecuperadorListados, _construir_filtro
+from src.rag.runtime.recuperador_listados import RecuperadorListados, _construir_filtro
 
 
 def _coleccion_vacia(cliente: QdrantClient, nombre: str) -> None:

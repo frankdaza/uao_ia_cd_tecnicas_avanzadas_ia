@@ -7,8 +7,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from src.api.configuracion import obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.qdrant_store import reiniciar_cliente_qdrant
+from src.rag.runtime.embeddings import obtener_embeddings
+from src.rag.runtime.qdrant_store import reiniciar_cliente_qdrant
 
 
 @pytest.fixture(autouse=True)

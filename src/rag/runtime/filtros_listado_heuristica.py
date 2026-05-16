@@ -11,9 +11,9 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from src.rag.intencion import texto_sugiere_foco_sedes_institucional
+from src.rag.runtime.intencion import texto_sugiere_foco_sedes_institucional
 
-# Alineado con ``src.rag.extractor_metadata`` (sedes conocidas en el sitio).
+# Alineado con ``src.rag.runtime.extractor_metadata`` (sedes conocidas en el sitio).
 _SEDES_ORDENADAS: tuple[str, ...] = (
     "Sede Valle del Lili",
     "Sede Av. Estación",
@@ -99,7 +99,7 @@ def _detectar_especialidad_por_alias(pregunta: str) -> str | None:
 
 def extraer_filtros_listado_desde_pregunta(pregunta: str) -> dict[str, Any]:
     """
-    Construye un dict de filtros para :class:`src.rag.recuperador_listados.RecuperadorListados`.
+    Construye un dict de filtros para :class:`src.rag.runtime.recuperador_listados.RecuperadorListados`.
 
     Claves posibles: ``tipo_pagina`` (str), ``especialidad`` (str), ``sedes`` (list[str]),
     ``especialidad_contains`` (str). Puede quedar vacio si no hay señales claras.

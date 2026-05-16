@@ -10,7 +10,7 @@ import pytest
 
 from scripts import indexar_corpus_qdrant as idx
 from src.api.configuracion import obtener_configuracion
-from src.rag.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
+from src.rag.runtime.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
 
 
 @pytest.fixture
@@ -226,7 +226,7 @@ def test_asegurar_coleccion_dispara_indices_sin_excepcion_memoria(
     reiniciar_cliente_qdrant()
     obtener_configuracion.cache_clear()
     cfg = obtener_configuracion()
-    from src.rag.qdrant_store import asegurar_coleccion, distancia_desde_settings
+    from src.rag.runtime.qdrant_store import asegurar_coleccion, distancia_desde_settings
 
     cliente = obtener_qdrant_client(cfg)
     asegurar_coleccion(

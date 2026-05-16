@@ -12,7 +12,7 @@ from typing import Any
 from pydantic import BaseModel, Field
 from qdrant_client import QdrantClient, models
 
-from src.rag.filtros_listado_heuristica import especialidades_que_contienen
+from src.rag.runtime.filtros_listado_heuristica import especialidades_que_contienen
 
 logger = logging.getLogger(__name__)
 

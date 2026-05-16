@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from datetime import UTC, datetime
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -12,6 +13,7 @@ from httpx import ASGITransport, AsyncClient
 from src.api.configuracion import obtener_configuracion
 from src.api.dependencias import obtener_sesion_db
 from src.api.main import crear_app
+from src.api.routers import admin as admin_router
 from src.persistencia.modelos import ConfigAdminM2
 
 
@@ -27,6 +29,13 @@ def limpiar_cache_config() -> None:
 async def test_admin_config_503_cuando_no_hay_clave(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "")
     obtener_configuracion.cache_clear()
+    # Con env_ignore_empty en Configuracion, '' no pisa valores del .env; la dependencia
+    # admin debe ver clave ausente para esperar 503.
+    monkeypatch.setattr(
+        admin_router,
+        "obtener_configuracion",
+        lambda: SimpleNamespace(admin_api_key=None),
+    )
     app = crear_app()
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.get("/api/admin/config", headers={"X-Admin-Key": "cualquiera"})

@@ -370,12 +370,12 @@ def crear_grafo_agente(
 
         Pasos:
         1. Ignora ``config`` (firma uniforme de nodos LangGraph).
-        2. Llama :func:`src.rag.intencion.inferir_intencion` con el texto de ``state["pregunta"]``.
+        2. Llama :func:`src.rag.runtime.intencion.inferir_intencion` con el texto de ``state["pregunta"]``.
         3. Escribe el label resultante en ``intencion`` del estado (p. ej. para ramificar decision
            de tool en el siguiente nodo).
         """
         _ = config
-        from src.rag.intencion import inferir_intencion
+        from src.rag.runtime.intencion import inferir_intencion
 
         intencion = inferir_intencion(str(state.get("pregunta") or ""))
         return {"intencion": intencion}
@@ -397,7 +397,7 @@ def crear_grafo_agente(
         5. Si el router devuelve ``tool_calls``, toma el primero (nombre y args); si no, registra
            warning y hace **fallback** a ``rag_denso`` con ``consulta`` = pregunta.
         6. Para ``rag_denso``, si faltan ``filtros_tipo_pagina``, puede sugerirlos con
-           :func:`src.rag.intencion.inferir_filtros_tipo_pagina_para_rag`.
+           :func:`src.rag.runtime.intencion.inferir_filtros_tipo_pagina_para_rag`.
         7. Arma un dict ``pensamiento`` de tipo ``decision_router`` y devuelve ``mensaje_router``,
            ``tool_decidida``, ``argumentos_tool`` y ``pensamientos``.
         """
@@ -407,7 +407,7 @@ def crear_grafo_agente(
         intencion = str(state.get("intencion") or "factual")
 
         if intencion in ("listado", "conteo"):
-            from src.rag.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
+            from src.rag.runtime.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
 
             filtros_h = extraer_filtros_listado_desde_pregunta(pregunta)
             if filtros_h:
@@ -464,7 +464,7 @@ def crear_grafo_agente(
             argumentos_tool = {"consulta": state["pregunta"]}
             razon_breve = "Router sin tool_calls; fallback a rag_denso."
         if tool_decidida == "rag_denso":
-            from src.rag.intencion import inferir_filtros_tipo_pagina_para_rag
+            from src.rag.runtime.intencion import inferir_filtros_tipo_pagina_para_rag
 
             sugeridos = inferir_filtros_tipo_pagina_para_rag(pregunta)
             if sugeridos and not argumentos_tool.get("filtros_tipo_pagina"):
@@ -542,7 +542,7 @@ def crear_grafo_agente(
             salida_tool = {"resultado": salida_tool}
         nombre_efectivo = str(nombre_tool or "")
         if nombre_efectivo == "listar_estructurado" and int(salida_tool.get("conteo") or 0) == 0:
-            from src.rag.intencion import inferir_filtros_tipo_pagina_para_rag
+            from src.rag.runtime.intencion import inferir_filtros_tipo_pagina_para_rag
 
             fj = inferir_filtros_tipo_pagina_para_rag(str(state.get("pregunta") or ""))
             tool_rag = tools_por_nombre["rag_denso"]

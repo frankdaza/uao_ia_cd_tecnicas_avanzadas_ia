@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 from llama_index.core.schema import NodeWithScore, TextNode
 
-from src.rag.diversificador_mmr import aplicar_mmr
+from src.rag.runtime.diversificador_mmr import aplicar_mmr
 
 
 def _nodo_con_emb(texto: str, vec: list[float]) -> NodeWithScore:

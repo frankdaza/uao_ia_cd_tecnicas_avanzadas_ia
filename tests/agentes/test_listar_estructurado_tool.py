@@ -9,7 +9,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.agentes.herramientas.listar_estructurado_tool import crear_listar_estructurado_tool
-from src.rag.recuperador_listados import RecuperadorListados
+from src.rag.runtime.recuperador_listados import RecuperadorListados
 
 
 def test_tool_invoke_con_recuperador_inyectado() -> None:

@@ -12,8 +12,8 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.api.configuracion import Configuracion
-from src.rag.qdrant_store import reiniciar_cliente_qdrant
-from src.rag.recuperador_denso import MENSAJE_SIN_RESULTADOS, RecuperadorDenso
+from src.rag.runtime.qdrant_store import reiniciar_cliente_qdrant
+from src.rag.runtime.recuperador_denso import MENSAJE_SIN_RESULTADOS, RecuperadorDenso
 
 
 class _EmbFijo:

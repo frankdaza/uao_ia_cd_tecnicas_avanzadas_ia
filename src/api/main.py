@@ -39,7 +39,7 @@ _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
 def _warmup_reranker(cfg: Configuracion) -> None:
     """Carga el cross-encoder y ejecuta un predict minimo; solo para arranque (thread pool)."""
-    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+    from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
     rnk = RerankerCrossEncoder(str(cfg.rag_reranker_modelo).strip())
     t0 = time.perf_counter()

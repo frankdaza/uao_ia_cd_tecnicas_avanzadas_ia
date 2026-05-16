@@ -10,7 +10,7 @@ from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, ConfigDict, Field
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
+from src.rag.runtime.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
 
 
 class ArgsConsultaRagDenso(BaseModel):

@@ -11,7 +11,7 @@ from qdrant_client.models import PointStruct
 
 from scripts import indexar_corpus_qdrant as idx
 from src.api.configuracion import obtener_configuracion
-from src.rag.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
+from src.rag.runtime.qdrant_store import obtener_qdrant_client, reiniciar_cliente_qdrant
 
 
 @pytest.fixture

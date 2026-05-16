@@ -143,8 +143,8 @@ class RecuperadorDenso:
         reranker_batch_size: int | None = None,
     ) -> RecuperadorDenso:
         """Carga vector store y embeddings desde ``cfg`` salvo que se inyecten."""
-        from src.rag.embeddings import obtener_embeddings
-        from src.rag.qdrant_store import obtener_vector_store
+        from src.rag.runtime.embeddings import obtener_embeddings
+        from src.rag.runtime.qdrant_store import obtener_vector_store
 
         vs = vector_store or obtener_vector_store(cfg)
         emb = embeddings or obtener_embeddings(cfg)
@@ -354,7 +354,7 @@ class RecuperadorDenso:
 
         from llama_index.core.schema import NodeWithScore
 
-        from src.rag.diversificador_mmr import (
+        from src.rag.runtime.diversificador_mmr import (
             aplicar_mmr,
             candidatos_desde_pares_similitud,
             pares_desde_candidatos_mmr,
@@ -397,7 +397,7 @@ class RecuperadorDenso:
             try:
                 rnk = self._reranker_instancia
                 if rnk is None:
-                    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+                    from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
                     rnk = RerankerCrossEncoder(self._reranker_modelo)
                 scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
@@ -439,7 +439,7 @@ class RecuperadorDenso:
         try:
             rnk = self._reranker_instancia
             if rnk is None:
-                from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+                from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
                 rnk = RerankerCrossEncoder(self._reranker_modelo)
             scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
