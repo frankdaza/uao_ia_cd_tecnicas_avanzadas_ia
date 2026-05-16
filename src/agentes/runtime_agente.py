@@ -17,7 +17,8 @@ class RuntimeAgenteBundle:
 
     Se pasa por ``RunnableConfig['configurable']['runtime_agente']`` para que los
     nodos tomen valores actualizados sin recompilar el grafo compilado al boot.
-    ``historial_turnos_max`` acota los turnos cargados desde Postgres para router y compositor.
+    ``historial_dias_max`` y ``historial_turnos_max`` acotan la ventana temporal y la
+    cantidad de turnos humanos cargados desde Postgres para router y compositor.
 
     Los campos ``rag_*`` adicionales alinean la tool ``rag_denso`` con overrides admin
     o valores de :class:`~src.api.configuracion.Configuracion`.
@@ -31,6 +32,7 @@ class RuntimeAgenteBundle:
     rag_top_k: int = 5
     rag_score_minimo: float = 0.25
     historial_turnos_max: int = 20
+    historial_dias_max: int = 7
     rag_top_k_inicial: int = 20
     rag_mmr_habilitado: bool = True
     rag_mmr_lambda: float = 0.5

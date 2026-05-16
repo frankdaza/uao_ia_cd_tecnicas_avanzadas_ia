@@ -11,7 +11,7 @@ from langgraph.graph.state import CompiledStateGraph
 from psycopg_pool import ConnectionPool
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.agentes.memoria.historial import normalizar_session_id_postgres_langchain
+from src.agentes.reglas import normalizar_session_id
 from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api.configuracion import obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
@@ -105,7 +105,7 @@ async def obtener_usuario_actual(
             detail="Sesion no indicada o invalida.",
         )
     try:
-        uuid_txt = normalizar_session_id_postgres_langchain(crudo.strip())
+        uuid_txt = normalizar_session_id(crudo.strip())
         usuario_id = uuid.UUID(uuid_txt)
     except ValueError:
         raise HTTPException(

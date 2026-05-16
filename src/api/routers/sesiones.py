@@ -17,6 +17,8 @@ from src.agentes.memoria.historial import (
     consultar_max_created_at_chat_pool,
     normalizar_session_id_postgres_langchain,
 )
+from src.agentes.reglas import construir_limites_historial
+from src.api.configuracion import obtener_configuracion
 from src.api.dependencias import (
     NOMBRE_COOKIE_SESION,
     obtener_pool_memoria_psycopg,
@@ -60,8 +62,15 @@ async def _cargar_mensajes_desde_memoria(
     pool: ConnectionPool,
 ) -> list[MensajeHistorialItem]:
     def _sync_load() -> list[MensajeHistorialItem]:
+        cfg = obtener_configuracion()
+        limites_hist = construir_limites_historial(cfg.historial_dias_max, cfg.historial_turnos_max)
         with pool.connection() as conn:
-            memoria = MemoriaUsuario(session_id_canonico, conn, cerrar_conexion_al_salir=False)
+            memoria = MemoriaUsuario(
+                session_id_canonico,
+                conn,
+                cerrar_conexion_al_salir=False,
+                limites=limites_hist,
+            )
             mensajes_lc = memoria.cargar_ventana()
             return [_serializar_mensaje_lc(m) for m in mensajes_lc]
 

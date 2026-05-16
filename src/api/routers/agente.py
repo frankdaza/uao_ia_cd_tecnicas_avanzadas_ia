@@ -18,6 +18,7 @@ from sse_starlette.sse import EventSourceResponse
 from psycopg_pool import ConnectionPool
 
 from src.agentes.memoria.historial import MemoriaConexionError, MemoriaUsuario, normalizar_session_id_postgres_langchain
+from src.agentes.reglas import construir_limites_historial
 from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api.dependencias import (
     obtener_bundle_runtime_agente,
@@ -121,10 +122,15 @@ async def _generador_eventos_sse(
     try:
         try:
             with pool.connection() as conn:
+                limites_hist = construir_limites_historial(
+                    bundle.historial_dias_max,
+                    bundle.historial_turnos_max,
+                )
                 memoria = MemoriaUsuario(
                     peticion.session_id.strip(),
                     conn,
                     cerrar_conexion_al_salir=False,
+                    limites=limites_hist,
                 )
                 entrada: dict[str, Any] = {
                     "pregunta": peticion.pregunta.strip(),

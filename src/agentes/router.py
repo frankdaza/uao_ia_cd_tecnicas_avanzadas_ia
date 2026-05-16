@@ -24,6 +24,12 @@ from langgraph.graph.state import CompiledStateGraph
 from src.agentes.estado import EstadoAgente
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+from src.agentes.reglas import (
+    coercionar_historial_dias_max,
+    coercionar_historial_turnos_max,
+    coercionar_top_k_final,
+    coercionar_top_k_inicial,
+)
 from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api.configuracion import obtener_configuracion
 
@@ -315,10 +321,11 @@ def crear_grafo_agente(
         meta_prompt=meta_prompt,
         prompt_institucional=texto_institucional,
         etiqueta_modelo_compositor=etiqueta_mc,
-        rag_top_k=int(cfg_rag.rag_top_k),
+        rag_top_k=coercionar_top_k_final(int(cfg_rag.rag_top_k)),
         rag_score_minimo=float(cfg_rag.rag_score_minimo),
-        historial_turnos_max=int(cfg_rag.historial_turnos_max),
-        rag_top_k_inicial=int(cfg_rag.rag_top_k_inicial),
+        historial_turnos_max=coercionar_historial_turnos_max(int(cfg_rag.historial_turnos_max)),
+        historial_dias_max=coercionar_historial_dias_max(int(cfg_rag.historial_dias_max)),
+        rag_top_k_inicial=coercionar_top_k_inicial(int(cfg_rag.rag_top_k_inicial)),
         rag_mmr_habilitado=bool(cfg_rag.rag_mmr_habilitado),
         rag_mmr_lambda=float(cfg_rag.rag_mmr_lambda),
         rag_reranker_habilitado=bool(cfg_rag.rag_reranker_habilitado),

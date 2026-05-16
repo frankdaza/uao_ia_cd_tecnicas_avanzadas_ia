@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+
+from src.agentes.reglas import (
+    HISTORIAL_TURNOS_MAX,
+    HISTORIAL_TURNOS_MIN,
+    RAG_TOP_K_FINAL_MAX,
+    RAG_TOP_K_FINAL_MIN,
+    RAG_TOP_K_INICIAL_MAX,
+    RAG_TOP_K_INICIAL_MIN,
+)
 
 
 @dataclass(frozen=True)
@@ -16,15 +24,15 @@ class LimiteRag:
 
 
 LIMITES_RAG: dict[str, LimiteRag] = {
-    "rag_top_k": LimiteRag(1, 50, 5),
-    "rag_top_k_inicial": LimiteRag(1, 200, 20),
+    "rag_top_k": LimiteRag(RAG_TOP_K_FINAL_MIN, RAG_TOP_K_FINAL_MAX, 5),
+    "rag_top_k_inicial": LimiteRag(RAG_TOP_K_INICIAL_MIN, RAG_TOP_K_INICIAL_MAX, 20),
     "rag_score_minimo": LimiteRag(0.0, 1.0, 0.25),
     "rag_mmr_lambda": LimiteRag(0.0, 1.0, 0.5),
     "rag_reranker_top_n_entrada": LimiteRag(1, 50, 10),
     "rag_reranker_batch_size": LimiteRag(1, 256, 16),
 }
 
-LIMITE_HISTORIAL_TURNOS_MAX = LimiteRag(1, 200, 20)
+LIMITE_HISTORIAL_TURNOS_MAX = LimiteRag(HISTORIAL_TURNOS_MIN, HISTORIAL_TURNOS_MAX, 20)
 
 LIMITES_CONFIG_ADMIN_NUMERICOS: dict[str, LimiteRag] = {
     **LIMITES_RAG,

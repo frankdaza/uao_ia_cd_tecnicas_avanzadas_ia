@@ -9,6 +9,7 @@ from typing import Any
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, ConfigDict, Field
 
+from src.agentes.reglas import coercionar_top_k_final, coercionar_top_k_inicial
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.rag.runtime.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
 
@@ -95,9 +96,11 @@ def ejecutar_rag_denso_sync(
     cfg = configuracion or obtener_configuracion()
     rec = RecuperadorDenso.desde_configuracion(
         cfg,
-        top_k=top_k,
+        top_k=coercionar_top_k_final(int(top_k)),
         score_minimo=score_minimo,
-        top_k_inicial=top_k_inicial,
+        top_k_inicial=(
+            coercionar_top_k_inicial(int(top_k_inicial)) if top_k_inicial is not None else None
+        ),
         mmr_habilitado=mmr_habilitado,
         mmr_lambda=mmr_lambda,
         reranker_habilitado=reranker_habilitado,
@@ -172,10 +175,10 @@ def crear_rag_tool(
         return ejecutar_rag_denso_sync(
             configuracion=cfg_motor,
             consulta=consulta,
-            top_k=int(top_k),
+            top_k=coercionar_top_k_final(int(top_k)),
             score_minimo=float(score_minimo),
             filtros_tipo_pagina=filtros_tipo_pagina,
-            top_k_inicial=int(top_k_inicial),
+            top_k_inicial=coercionar_top_k_inicial(int(top_k_inicial)),
             mmr_habilitado=bool(mmr_habilitado),
             mmr_lambda=float(mmr_lambda),
             reranker_habilitado=bool(reranker_habilitado),

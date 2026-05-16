@@ -11,7 +11,7 @@ Flujo resumido (historial + PostgreSQL):
    migraciones Alembic del dominio de usuarios.
 
 2. **Identificador de sesion**: el producto usa ``user:{uuid}`` (ver
-   ``sesion_id_memoria_langchain``). ``normalizar_session_id_postgres_langchain``
+   ``sesion_id_memoria_langchain``). :func:`src.agentes.reglas.normalizar_session_id`
    lo reduce al UUID en texto porque LangChain valida y persiste ``session_id``
    como UUID en Postgres.
 
@@ -44,7 +44,6 @@ from __future__ import annotations
 
 import logging
 import re
-import uuid
 from datetime import UTC, datetime, timedelta
 
 import psycopg
@@ -53,7 +52,13 @@ from langchain_postgres import PostgresChatMessageHistory
 from psycopg import sql
 from psycopg_pool import ConnectionPool
 
-from src.api.configuracion import obtener_configuracion
+from src.agentes.reglas import (
+    LIMITES_HISTORIAL_POR_DEFECTO,
+    LimitesHistorial,
+    construir_limites_historial,
+    normalizar_session_id,
+    normalizar_session_id_postgres_langchain,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -62,26 +67,6 @@ TABLA_HISTORIAL_CHAT_DEFECTO = "chat_history"
 
 class MemoriaConexionError(RuntimeError):
     """Fallo al abrir PostgreSQL para la memoria conversacional."""
-
-
-def normalizar_session_id_postgres_langchain(session_id: str) -> str:
-    """
-    Convierte el identificador de sesion al UUID en texto exigido por LangChain.
-
-    ``PostgresChatMessageHistory`` (langchain-postgres 0.0.17) valida que
-    ``session_id`` sea un UUID parseable. El helper ``sesion_id_memoria_langchain``
-    devuelve ``user:{uuid}``; aqui se acepta ese formato o el UUID solo.
-    """
-    s = session_id.strip()
-    if s.lower().startswith("user:"):
-        s = s[5:].strip()
-    try:
-        return str(uuid.UUID(s))
-    except ValueError as exc:
-        raise ValueError(
-            "session_id debe ser un UUID valido o el formato canonico user:{uuid} "
-            f"(task-47). Valor recibido no parseable: {session_id!r}"
-        ) from exc
 
 
 def conectar_memoria_sync(conninfo: str) -> psycopg.Connection:
@@ -215,23 +200,19 @@ class MemoriaUsuario:
         sync_connection: psycopg.Connection,
         *,
         tabla: str = TABLA_HISTORIAL_CHAT_DEFECTO,
+        limites: LimitesHistorial | None = None,
         dias_max_defecto: int | None = None,
         turnos_max_defecto: int | None = None,
         cerrar_conexion_al_salir: bool = False,
     ) -> None:
-        self._session_uuid_txt = normalizar_session_id_postgres_langchain(session_id)
+        self._session_uuid_txt = normalizar_session_id(session_id)
         self._conn = sync_connection
         self._tabla = tabla
         self._cerrar_conn = cerrar_conexion_al_salir
-        cfg = obtener_configuracion()
-        self._dias_max_defecto = (
-            dias_max_defecto if dias_max_defecto is not None else cfg.historial_dias_max
-        )
-        self._turnos_max_defecto = (
-            turnos_max_defecto
-            if turnos_max_defecto is not None
-            else cfg.historial_turnos_max
-        )
+        base = limites or LIMITES_HISTORIAL_POR_DEFECTO
+        d = base.dias_max if dias_max_defecto is None else dias_max_defecto
+        t = base.turnos_max if turnos_max_defecto is None else turnos_max_defecto
+        self._limites = construir_limites_historial(d, t)
         self._lc = PostgresChatMessageHistory(
             tabla,
             self._session_uuid_txt,
@@ -260,12 +241,10 @@ class MemoriaUsuario:
         Filtra por ``created_at >= ahora_utc - dias_max`` usando la columna que
         define el esquema de LangChain (no expuesta en ``get_messages``).
         """
-        dias = self._dias_max_defecto if dias_max is None else dias_max
-        turnos = self._turnos_max_defecto if turnos_max is None else turnos_max
-        if dias < 1:
-            dias = 1
-        if turnos < 1:
-            turnos = 1
+        dias = self._limites.dias_max if dias_max is None else dias_max
+        turnos = self._limites.turnos_max if turnos_max is None else turnos_max
+        lim = construir_limites_historial(dias, turnos)
+        dias, turnos = lim.dias_max, lim.turnos_max
         cutoff = datetime.now(tz=UTC) - timedelta(days=dias)
         query = sql.SQL(
             "SELECT message FROM {tbl} WHERE session_id = %s "

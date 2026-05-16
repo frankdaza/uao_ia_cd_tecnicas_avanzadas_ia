@@ -17,6 +17,7 @@ from llama_index.core.vector_stores.types import (
 from pydantic import BaseModel, ConfigDict, Field
 from qdrant_client.http.models import Filter
 
+from src.agentes.reglas import coercionar_top_k_final, coercionar_top_k_inicial
 from src.api.configuracion import Configuracion
 
 if TYPE_CHECKING:
@@ -113,9 +114,9 @@ class RecuperadorDenso:
     ) -> None:
         self._vector_store = vector_store
         self._embeddings = embeddings
-        self._top_k = top_k
+        self._top_k = coercionar_top_k_final(int(top_k))
         self._score_minimo = score_minimo
-        self._top_k_inicial = max(1, int(top_k_inicial))
+        self._top_k_inicial = coercionar_top_k_inicial(int(top_k_inicial))
         self._mmr_habilitado = bool(mmr_habilitado)
         self._mmr_lambda = float(mmr_lambda)
         self._reranker_habilitado = bool(reranker_habilitado)
@@ -151,9 +152,11 @@ class RecuperadorDenso:
         return cls(
             vector_store=vs,
             embeddings=emb,
-            top_k=int(cfg.rag_top_k if top_k is None else top_k),
+            top_k=coercionar_top_k_final(int(cfg.rag_top_k if top_k is None else top_k)),
             score_minimo=float(cfg.rag_score_minimo if score_minimo is None else score_minimo),
-            top_k_inicial=int(cfg.rag_top_k_inicial if top_k_inicial is None else top_k_inicial),
+            top_k_inicial=coercionar_top_k_inicial(
+                int(cfg.rag_top_k_inicial if top_k_inicial is None else top_k_inicial)
+            ),
             mmr_habilitado=bool(cfg.rag_mmr_habilitado if mmr_habilitado is None else mmr_habilitado),
             mmr_lambda=float(cfg.rag_mmr_lambda if mmr_lambda is None else mmr_lambda),
             reranker_habilitado=bool(
@@ -173,7 +176,7 @@ class RecuperadorDenso:
 
     def _limite_qdrant(self, top_efectivo: int) -> int:
         """Candidatos pedidos a Qdrant antes de MMR/rerank (retrocompatible si ambos off)."""
-        te = max(1, int(top_efectivo))
+        te = coercionar_top_k_final(int(top_efectivo))
         if not self._mmr_habilitado and not self._reranker_habilitado:
             return te
         n = max(self._top_k_inicial, te)
@@ -213,7 +216,7 @@ class RecuperadorDenso:
         filtros_tipo_pagina: list[str] | None = None,
         query_embedding: list[float],
     ) -> tuple[list[tuple[float, object]], str | None]:
-        k = self._limite_qdrant(self._top_k if top_k is None else max(1, int(top_k)))
+        k = self._limite_qdrant(self._top_k if top_k is None else coercionar_top_k_final(int(top_k)))
         emb_consulta = list(query_embedding)
         filtros_meta = self._filtros_tipo_pagina(filtros_tipo_pagina)
         consulta_vs = VectorStoreQuery(
@@ -344,7 +347,7 @@ class RecuperadorDenso:
         similitud densa -> reranker sobre prefijo amplio -> MMR final.
         Solo MMR: MMR sobre candidatos densos. Solo reranker: rerank sobre prefijo denso.
         """
-        top_ef = max(1, int(top_efectivo))
+        top_ef = coercionar_top_k_final(int(top_efectivo))
         mapa_denso = self._mapa_score_denso_por_nodo(pares)
         if not pares:
             return []
@@ -505,7 +508,7 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
-        top_efectivo = self._top_k if top_k is None else max(1, int(top_k))
+        top_efectivo = self._top_k if top_k is None else coercionar_top_k_final(int(top_k))
 
         tiene_filtros = self._filtros_tipo_pagina(filtros_tipo_pagina) is not None
         if self._coleccion_vacia is True and not tiene_filtros:

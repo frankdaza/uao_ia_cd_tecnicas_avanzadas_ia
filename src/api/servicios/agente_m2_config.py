@@ -16,6 +16,7 @@ from src.agentes.llm_deterministico_modulo2 import (
 )
 from src.agentes.meta_prompt import MetaPromptConfig, cargar_meta_prompt_config, meta_prompt_desde_dict
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
+from src.agentes.reglas import coercionar_historial_dias_max
 from src.agentes.runtime_agente import RuntimeAgenteBundle
 from src.api._limites_rag import asegurar_rango_parche_numerico, clamp_valor_admin_numerico
 from src.api.configuracion import Configuracion, obtener_configuracion
@@ -248,6 +249,7 @@ class ServicioAgenteM2Config:
                 rag_top_k=self.rag_top_k_efectivo(fila),
                 rag_score_minimo=self.rag_score_minimo_efectivo(fila),
                 historial_turnos_max=self.historial_turnos_max_efectivo(fila),
+                historial_dias_max=coercionar_historial_dias_max(int(self._cfg.historial_dias_max)),
                 rag_top_k_inicial=self.rag_top_k_inicial_efectivo(fila),
                 rag_mmr_habilitado=self.rag_mmr_habilitado_efectivo(fila),
                 rag_mmr_lambda=self.rag_mmr_lambda_efectivo(fila),
@@ -270,6 +272,7 @@ class ServicioAgenteM2Config:
             rag_top_k=self.rag_top_k_efectivo(fila),
             rag_score_minimo=self.rag_score_minimo_efectivo(fila),
             historial_turnos_max=self.historial_turnos_max_efectivo(fila),
+            historial_dias_max=coercionar_historial_dias_max(int(self._cfg.historial_dias_max)),
             rag_top_k_inicial=self.rag_top_k_inicial_efectivo(fila),
             rag_mmr_habilitado=self.rag_mmr_habilitado_efectivo(fila),
             rag_mmr_lambda=self.rag_mmr_lambda_efectivo(fila),
