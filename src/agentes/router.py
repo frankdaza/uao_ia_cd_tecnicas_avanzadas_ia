@@ -9,6 +9,7 @@ invocacion de RAG con parametros del bundle de runtime.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 from collections.abc import Sequence
@@ -89,7 +90,9 @@ def _texto_mensaje(mensaje: BaseMessage) -> str:
     return str(contenido)
 
 
-def _historial_a_texto_router(mensajes: list[BaseMessage], *, max_bloques: int | None = None) -> str:
+def _historial_a_texto_router(
+    mensajes: list[BaseMessage], *, max_bloques: int | None = None
+) -> str:
     """
     Convierte una lista de mensajes en un bloque de texto etiquetado (usuario / asistente).
 
@@ -166,11 +169,14 @@ def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
     4. Concatena secciones separadas por ``\\n\\n---\\n\\n`` para delimitar contexto.
     """
     partes: list[str] = [meta.system_prompt.rstrip()]
-    lineas_reglas = [r.strip() for r in meta.reglas_decision if isinstance(r, str) and r.strip()]
+    lineas_reglas = [
+        r.strip() for r in meta.reglas_decision if isinstance(r, str) and r.strip()
+    ]
     if lineas_reglas:
         bloque_reglas = "\n".join(f"- {linea}" for linea in lineas_reglas)
         partes.append(
-            "Reglas de decision (priorizar segun el enunciado y el contexto de la consulta):\n" + bloque_reglas
+            "Reglas de decision (priorizar segun el enunciado y el contexto de la consulta):\n"
+            + bloque_reglas
         )
     bloques_h: list[str] = []
     for h in meta.herramientas:
@@ -180,7 +186,9 @@ def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
             f"Cuando usar: {h.when_to_use.strip()}"
         )
         if h.ejemplos:
-            sub += "\nEjemplos de consultas:\n" + "\n".join(f"- {ej}" for ej in h.ejemplos if str(ej).strip())
+            sub += "\nEjemplos de consultas:\n" + "\n".join(
+                f"- {ej}" for ej in h.ejemplos if str(ej).strip()
+            )
         bloques_h.append(sub)
     if bloques_h:
         partes.append(
@@ -190,7 +198,9 @@ def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
     return "\n\n---\n\n".join(partes)
 
 
-def _descripcion_tool_desde_meta(meta: MetaPromptConfig, nombre_tool: str) -> str | None:
+def _descripcion_tool_desde_meta(
+    meta: MetaPromptConfig, nombre_tool: str
+) -> str | None:
     """
     Busca en el meta-prompt la definicion pedagogica de una tool por su ``name``.
 
@@ -201,10 +211,16 @@ def _descripcion_tool_desde_meta(meta: MetaPromptConfig, nombre_tool: str) -> st
     """
     for h in meta.herramientas:
         if h.name == nombre_tool:
-            bloques = [h.description.strip(), f"Criterio de uso: {h.when_to_use.strip()}"]
+            bloques = [
+                h.description.strip(),
+                f"Criterio de uso: {h.when_to_use.strip()}",
+            ]
             ejemplos_txt = [str(e).strip() for e in h.ejemplos if str(e).strip()]
             if ejemplos_txt:
-                bloques.append("Ejemplos de consultas:\n" + "\n".join(f"- {ej}" for ej in ejemplos_txt))
+                bloques.append(
+                    "Ejemplos de consultas:\n"
+                    + "\n".join(f"- {ej}" for ej in ejemplos_txt)
+                )
             return "\n\n".join(bloques)
     return None
 
@@ -278,9 +294,9 @@ def crear_grafo_agente(
     Returns
     -------
     CompiledStateGraph
-        Grafo compilado. Invocacion tipica::
+        Grafo compilado. Invocacion tipica (API async; los nodos son ``async``)::
 
-            grafo.invoke(
+            await grafo.ainvoke(
                 {
                     "pregunta": "...",
                     "session_id": "user:...",
@@ -300,7 +316,9 @@ def crear_grafo_agente(
         tools = list(herramientas)
     else:
         from src.agentes.herramientas.faq_tool import crear_faq_tool
-        from src.agentes.herramientas.listar_estructurado_tool import crear_listar_estructurado_tool
+        from src.agentes.herramientas.listar_estructurado_tool import (
+            crear_listar_estructurado_tool,
+        )
         from src.agentes.herramientas.rag_tool import crear_rag_tool
 
         tools = [crear_faq_tool(), crear_rag_tool(), crear_listar_estructurado_tool()]
@@ -312,7 +330,9 @@ def crear_grafo_agente(
         )
         raise ValueError(msg)
     tools_por_nombre: dict[str, StructuredTool] = {t.name: t for t in tools}
-    texto_institucional = (prompt_sistema_institucional or PROMPT_SISTEMA_DEFECTO).rstrip()
+    texto_institucional = (
+        prompt_sistema_institucional or PROMPT_SISTEMA_DEFECTO
+    ).rstrip()
     etiqueta_mc = (etiqueta_modelo_compositor or "agente").strip() or "agente"
     cfg_rag = obtener_configuracion()
     bundle_defecto = RuntimeAgenteBundle(
@@ -323,8 +343,12 @@ def crear_grafo_agente(
         etiqueta_modelo_compositor=etiqueta_mc,
         rag_top_k=coercionar_top_k_final(int(cfg_rag.rag_top_k)),
         rag_score_minimo=float(cfg_rag.rag_score_minimo),
-        historial_turnos_max=coercionar_historial_turnos_max(int(cfg_rag.historial_turnos_max)),
-        historial_dias_max=coercionar_historial_dias_max(int(cfg_rag.historial_dias_max)),
+        historial_turnos_max=coercionar_historial_turnos_max(
+            int(cfg_rag.historial_turnos_max)
+        ),
+        historial_dias_max=coercionar_historial_dias_max(
+            int(cfg_rag.historial_dias_max)
+        ),
         rag_top_k_inicial=coercionar_top_k_inicial(int(cfg_rag.rag_top_k_inicial)),
         rag_mmr_habilitado=bool(cfg_rag.rag_mmr_habilitado),
         rag_mmr_lambda=float(cfg_rag.rag_mmr_lambda),
@@ -351,7 +375,9 @@ def crear_grafo_agente(
             return rt
         return bundle_defecto
 
-    def nodo_cargar_memoria(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_cargar_memoria(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Nodo inicial: hidrata el estado con el historial persistido del usuario.
 
@@ -364,14 +390,22 @@ def crear_grafo_agente(
         """
         memoria = _obtener_memoria_desde_config(config)
         bundle_rt = _bundle_desde_config(config)
-        mensajes = memoria.cargar_ventana(turnos_max=bundle_rt.historial_turnos_max)
-        historial_previo_vacio = len(mensajes) == 0
+
+        def _cargar() -> tuple[list[BaseMessage], bool]:
+            mensajes_loc = memoria.cargar_ventana(
+                turnos_max=bundle_rt.historial_turnos_max
+            )
+            return mensajes_loc, len(mensajes_loc) == 0
+
+        mensajes, historial_previo_vacio = await asyncio.to_thread(_cargar)
         return {
             "mensajes_historial": mensajes,
             "historial_previo_vacio": historial_previo_vacio,
         }
 
-    def nodo_inferir_intencion(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_inferir_intencion(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Clasifica la intencion de la pregunta actual sin llamar al LLM del router.
 
@@ -387,7 +421,9 @@ def crear_grafo_agente(
         intencion = inferir_intencion(str(state.get("pregunta") or ""))
         return {"intencion": intencion}
 
-    def nodo_decidir_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_decidir_tool(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Elige que tool ejecutar y con que argumentos, usando heuristica o LLM router.
 
@@ -414,7 +450,9 @@ def crear_grafo_agente(
         intencion = str(state.get("intencion") or "factual")
 
         if intencion in ("listado", "conteo"):
-            from src.rag.runtime.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
+            from src.rag.runtime.filtros_listado_heuristica import (
+                extraer_filtros_listado_desde_pregunta,
+            )
 
             filtros_h = extraer_filtros_listado_desde_pregunta(pregunta)
             if filtros_h:
@@ -446,7 +484,9 @@ def crear_grafo_agente(
                     "pensamientos": [pensamiento],
                 }
 
-        historial_txt = _historial_a_texto_router(state.get("mensajes_historial") or [], max_bloques=None)
+        historial_txt = _historial_a_texto_router(
+            state.get("mensajes_historial") or [], max_bloques=None
+        )
         contenido_humano = f"{historial_txt}\n\n---\n\nConsulta actual del usuario:\n{state['pregunta']}"
         texto_sistema = _construir_texto_sistema_router(meta)
         mensajes_router: list[BaseMessage] = [
@@ -455,14 +495,25 @@ def crear_grafo_agente(
         ]
         tools_router = _tools_con_descripciones_de_meta(tools, meta)
         enlazado = bundle.llm_router.bind_tools(tools_router)
-        mensaje_ai: AIMessage = enlazado.invoke(mensajes_router)
+        mensaje_ai: AIMessage
+        if hasattr(enlazado, "ainvoke"):
+            mensaje_ai = await enlazado.ainvoke(mensajes_router)
+        else:
+            mensaje_ai = await asyncio.to_thread(enlazado.invoke, mensajes_router)
         tool_decidida: str | None = None
         argumentos_tool: dict[str, Any] = {}
         if mensaje_ai.tool_calls:
+            if len(mensaje_ai.tool_calls) > 1:
+                logger.warning(
+                    "El router devolvio %s tool_calls; solo se procesa la primera.",
+                    len(mensaje_ai.tool_calls),
+                )
             principal = mensaje_ai.tool_calls[0]
             tool_decidida = principal["name"]
             argumentos_tool = dict(principal.get("args") or {})
-            razon_breve = "Seleccion vía tool binding del LLM del router segun meta-prompt."
+            razon_breve = (
+                "Seleccion vía tool binding del LLM del router segun meta-prompt."
+            )
         else:
             logger.warning(
                 "El router no devolvio tool_calls; se usa rag_denso como respaldo deterministico."
@@ -489,7 +540,9 @@ def crear_grafo_agente(
             "pensamientos": [pensamiento],
         }
 
-    def nodo_ejecutar_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_ejecutar_tool(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Ejecuta la tool seleccionada y normaliza salida, fuentes y trazabilidad.
 
@@ -517,8 +570,7 @@ def crear_grafo_agente(
             pregunta_txt = str(state.get("pregunta") or "").strip()
             cq = str(args_invocacion.get("consulta") or "").strip()
             if not cq or (
-                pregunta_txt
-                and len(cq) < max(24, int(len(pregunta_txt) * 0.5))
+                pregunta_txt and len(cq) < max(24, int(len(pregunta_txt) * 0.5))
             ):
                 args_invocacion["consulta"] = pregunta_txt or cq
         tool = tools_por_nombre.get(nombre_tool)
@@ -529,9 +581,15 @@ def crear_grafo_agente(
             return {"resultado_tool": resultado, "fuentes": []}
         try:
             if nombre_tool == "rag_denso":
-                salida_tool = tool.invoke(_argumentos_invocacion_rag_denso(args_invocacion, bundle))
+                args_rag = _argumentos_invocacion_rag_denso(args_invocacion, bundle)
+                if hasattr(tool, "ainvoke"):
+                    salida_tool = await tool.ainvoke(args_rag)
+                else:
+                    salida_tool = await asyncio.to_thread(tool.invoke, args_rag)
+            elif hasattr(tool, "ainvoke"):
+                salida_tool = await tool.ainvoke(args_invocacion)
             else:
-                salida_tool = tool.invoke(args_invocacion)
+                salida_tool = await asyncio.to_thread(tool.invoke, args_invocacion)
         except Exception as exc:  # noqa: BLE001 — aislar fallos de tool en respuesta trazable
             logger.exception("Fallo al ejecutar la tool %s", nombre_tool)
             return {
@@ -548,17 +606,25 @@ def crear_grafo_agente(
         if not isinstance(salida_tool, dict):
             salida_tool = {"resultado": salida_tool}
         nombre_efectivo = str(nombre_tool or "")
-        if nombre_efectivo == "listar_estructurado" and int(salida_tool.get("conteo") or 0) == 0:
+        if (
+            nombre_efectivo == "listar_estructurado"
+            and int(salida_tool.get("conteo") or 0) == 0
+        ):
             from src.rag.runtime.intencion import inferir_filtros_tipo_pagina_para_rag
 
             fj = inferir_filtros_tipo_pagina_para_rag(str(state.get("pregunta") or ""))
             tool_rag = tools_por_nombre["rag_denso"]
-            salida_tool = tool_rag.invoke(
-                _argumentos_invocacion_rag_denso(
-                    {"consulta": str(state.get("pregunta") or "").strip(), "filtros_tipo_pagina": fj},
-                    bundle,
-                )
+            args_fb = _argumentos_invocacion_rag_denso(
+                {
+                    "consulta": str(state.get("pregunta") or "").strip(),
+                    "filtros_tipo_pagina": fj,
+                },
+                bundle,
             )
+            if hasattr(tool_rag, "ainvoke"):
+                salida_tool = await tool_rag.ainvoke(args_fb)
+            else:
+                salida_tool = await asyncio.to_thread(tool_rag.invoke, args_fb)
             nombre_efectivo = "rag_denso"
         fuentes: list[dict[str, Any]] = []
         if nombre_efectivo == "rag_denso":
@@ -566,10 +632,11 @@ def crear_grafo_agente(
             if isinstance(raw, list):
                 fuentes = [f for f in raw if isinstance(f, dict)]
         razon_ejec = "Tool ejecutada; resultado disponible para el compositor."
-        if str(nombre_tool or "") == "listar_estructurado" and nombre_efectivo == "rag_denso":
-            razon_ejec = (
-                "listar_estructurado sin coincidencias; respaldo a rag_denso con la consulta original."
-            )
+        if (
+            str(nombre_tool or "") == "listar_estructurado"
+            and nombre_efectivo == "rag_denso"
+        ):
+            razon_ejec = "listar_estructurado sin coincidencias; respaldo a rag_denso con la consulta original."
         pensamiento_ejec: dict[str, Any] = {
             "tipo": "ejecucion_tool",
             "herramienta": nombre_efectivo,
@@ -579,7 +646,9 @@ def crear_grafo_agente(
             um_faq = float(obtener_configuracion().faq_umbral_match)
             cq_ej = str(args_invocacion.get("consulta") or "")
             pensamiento_ejec["faq_umbral_match"] = um_faq
-            pensamiento_ejec["faq_match_encontrado"] = bool(salida_tool.get("encontrado"))
+            pensamiento_ejec["faq_match_encontrado"] = bool(
+                salida_tool.get("encontrado")
+            )
             pensamiento_ejec["faq_consulta_ejecutada"] = (
                 cq_ej if len(cq_ej) <= 400 else cq_ej[:400] + "…"
             )
@@ -592,7 +661,9 @@ def crear_grafo_agente(
             salida_estado["tool_decidida"] = nombre_efectivo
         return salida_estado
 
-    def nodo_componer_respuesta(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_componer_respuesta(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Genera la respuesta final al usuario con el LLM compositor (politica institucional Lili).
 
@@ -604,8 +675,8 @@ def crear_grafo_agente(
         4. Si hay mensajes previos cargados, agrega bloque de historial reciente en texto plano.
         5. Serializa ``resultado_tool`` a JSON UTF-8 como ``CONTEXTO DE HERRAMIENTA`` en el system.
         6. Arma mensajes ``SystemMessage`` + ``HumanMessage`` con la pregunta actual y hace
-           **stream** del compositor, acumulando texto de chunks ``AIMessage`` o bloques tipo texto.
-        7. Si el stream no produjo texto, hace ``invoke`` de respaldo y exige ``AIMessage``.
+           **stream** asincrono del compositor cuando esta disponible.
+        7. Si el stream no produjo texto, hace ``ainvoke`` de respaldo y exige ``AIMessage``.
         8. Devuelve ``respuesta_final`` como string unico.
         """
         bundle = _bundle_desde_config(config)
@@ -613,9 +684,7 @@ def crear_grafo_agente(
         usuario = state.get("usuario") or {}
         nombre = str(usuario.get("nombre") or "").strip()
         usar_saludo = bool(
-            state.get("primer_turno")
-            and state.get("historial_previo_vacio")
-            and nombre
+            state.get("primer_turno") and state.get("historial_previo_vacio") and nombre
         )
         bloques_sistema: list[str] = [bundle.prompt_institucional]
         if nombre:
@@ -654,21 +723,40 @@ def crear_grafo_agente(
             HumanMessage(content=state["pregunta"]),
         ]
         texto = ""
-        for trozo in bundle.llm_compositor.stream(mensajes_compositor):
-            if isinstance(trozo, AIMessage):
-                c = trozo.content
-            else:
-                c = getattr(trozo, "content", trozo)
-            if isinstance(c, str) and c:
-                texto += c
-            elif isinstance(c, list):
-                for bloque in c:
-                    if isinstance(bloque, dict) and bloque.get("type") == "text":
-                        t = bloque.get("text")
-                        if isinstance(t, str):
-                            texto += t
+        llm_c = bundle.llm_compositor
+        if hasattr(llm_c, "astream"):
+            async for trozo in llm_c.astream(mensajes_compositor):
+                if isinstance(trozo, AIMessage):
+                    c = trozo.content
+                else:
+                    c = getattr(trozo, "content", trozo)
+                if isinstance(c, str) and c:
+                    texto += c
+                elif isinstance(c, list):
+                    for bloque in c:
+                        if isinstance(bloque, dict) and bloque.get("type") == "text":
+                            t = bloque.get("text")
+                            if isinstance(t, str):
+                                texto += t
+        else:
+            for trozo in llm_c.stream(mensajes_compositor):
+                if isinstance(trozo, AIMessage):
+                    c = trozo.content
+                else:
+                    c = getattr(trozo, "content", trozo)
+                if isinstance(c, str) and c:
+                    texto += c
+                elif isinstance(c, list):
+                    for bloque in c:
+                        if isinstance(bloque, dict) and bloque.get("type") == "text":
+                            t = bloque.get("text")
+                            if isinstance(t, str):
+                                texto += t
         if not texto.strip():
-            salida = bundle.llm_compositor.invoke(mensajes_compositor)
+            if hasattr(llm_c, "ainvoke"):
+                salida = await llm_c.ainvoke(mensajes_compositor)
+            else:
+                salida = await asyncio.to_thread(llm_c.invoke, mensajes_compositor)
             if not isinstance(salida, AIMessage):
                 msg = f"El compositor debio devolver AIMessage; se obtuvo {type(salida)!r}."
                 raise TypeError(msg)
@@ -676,7 +764,9 @@ def crear_grafo_agente(
             texto = cfinal if isinstance(cfinal, str) else str(cfinal)
         return {"respuesta_final": texto}
 
-    def nodo_persistir_turno(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+    async def nodo_persistir_turno(
+        state: EstadoAgente, config: RunnableConfig
+    ) -> dict[str, Any]:
         """
         Persiste en memoria el turno humano y la respuesta del asistente con metadata.
 
@@ -688,12 +778,18 @@ def crear_grafo_agente(
         5. Devuelve dict vacio (no muta mas campos del estado del grafo).
         """
         memoria = _obtener_memoria_desde_config(config)
-        memoria.agregar_humano(state["pregunta"])
-        meta_respuesta: dict[str, Any] = {
-            "tool": state.get("tool_decidida"),
-            "fuentes": state.get("fuentes") or [],
-        }
-        memoria.agregar_ai(state.get("respuesta_final") or "", metadata=meta_respuesta)
+
+        def _persistir() -> None:
+            memoria.agregar_humano(state["pregunta"])
+            meta_respuesta: dict[str, Any] = {
+                "tool": state.get("tool_decidida"),
+                "fuentes": state.get("fuentes") or [],
+            }
+            memoria.agregar_ai(
+                state.get("respuesta_final") or "", metadata=meta_respuesta
+            )
+
+        await asyncio.to_thread(_persistir)
         return {}
 
     grafo = StateGraph(EstadoAgente)

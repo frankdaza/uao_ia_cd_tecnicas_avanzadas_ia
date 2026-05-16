@@ -14,9 +14,9 @@ COPY frontend/ ./
 RUN pnpm build
 
 # =============================================================================
-# Stage 2: Backend Python con FastAPI (Python 3.12 Slim)
+# Stage 2: Backend Python con FastAPI (Python 3.12.12 Slim, alineado con pyproject)
 # =============================================================================
-FROM python:3.12-slim AS backend
+FROM python:3.12.12-slim-bookworm AS backend
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl ca-certificates \
@@ -33,6 +33,7 @@ ENV UV_PYTHON_INSTALL_DIR=/app/.uv/python
 # Copiar manifiestos y codigo Python (uv_build requiere el modulo `src` en sync)
 COPY pyproject.toml uv.lock ./
 COPY src/ ./src/
+COPY scripts/ ./scripts/
 
 # Sincronizar dependencias (sin el grupo dev)
 RUN uv sync --frozen --no-dev

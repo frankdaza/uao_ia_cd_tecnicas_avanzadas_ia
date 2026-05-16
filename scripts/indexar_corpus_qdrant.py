@@ -52,6 +52,17 @@ from src.rag.runtime.qdrant_store import (
 
 logger = logging.getLogger(__name__)
 
+
+def _posix_rel_seguro(hijo: Path, raiz: Path) -> str:
+    """Ruta POSIX relativa al repo si aplica; si ``hijo`` queda fuera de ``raiz``, devuelve absoluta."""
+    hr = hijo.resolve()
+    rr = raiz.resolve()
+    try:
+        return hr.relative_to(rr).as_posix()
+    except ValueError:
+        return hr.as_posix()
+
+
 _EPS_NORM_VECTOR = 1e-12
 
 
@@ -221,7 +232,7 @@ def construir_trabajos_sentence(
     advertencias: list[str] = []
 
     for ruta in rutas_md:
-        archivo_posix = ruta.resolve().relative_to(raiz).as_posix()
+        archivo_posix = _posix_rel_seguro(ruta, raiz)
         try:
             texto_completo = ruta.read_text(encoding="utf-8")
         except OSError as exc:
@@ -299,7 +310,7 @@ def construir_trabajos_markdown(
     advertencias: list[str] = []
 
     for ruta in rutas_md:
-        archivo_posix = ruta.resolve().relative_to(raiz).as_posix()
+        archivo_posix = _posix_rel_seguro(ruta, raiz)
         try:
             texto_completo = ruta.read_text(encoding="utf-8")
         except OSError as exc:
@@ -525,7 +536,7 @@ def ejecutar_indexacion(
         stats.chunks_upsert += len(puntos)
     stats.segundos_embeddings = time.perf_counter() - t_embed0
 
-    prefijo_corpus = markdown_dir.resolve().relative_to(raiz).as_posix()
+    prefijo_corpus = _posix_rel_seguro(markdown_dir, raiz)
     ids_esperados = {t.id_punto_qdrant for t in trabajos}
 
     if purgar:

@@ -51,7 +51,9 @@ def test_conteo_simple(cliente_memoria: QdrantClient) -> None:
         )
     cliente_memoria.upsert(collection_name=col, points=puntos)
     rec = RecuperadorListados(cliente_memoria, col)
-    res = rec.listar({"tipo_pagina": "ficha_medico", "especialidad": "Pediatria"}, limite=10)
+    res = rec.listar(
+        {"tipo_pagina": "ficha_medico", "especialidad": "Pediatria"}, limite=10
+    )
     assert res.conteo == 3
     assert not res.muestra_truncada
 
@@ -90,7 +92,11 @@ def test_listado_por_sede(cliente_memoria: QdrantClient) -> None:
     )
     rec = RecuperadorListados(cliente_memoria, col)
     res = rec.listar(
-        {"tipo_pagina": "ficha_medico", "especialidad": "Pediatria", "sedes": ["Sede Valle del Lili"]},
+        {
+            "tipo_pagina": "ficha_medico",
+            "especialidad": "Pediatria",
+            "sedes": ["Sede Valle del Lili"],
+        },
         limite=10,
     )
     assert res.conteo == 1
@@ -144,7 +150,9 @@ def test_muestra_truncada(cliente_memoria: QdrantClient) -> None:
     ]
     cliente_memoria.upsert(collection_name=col, points=pts)
     rec = RecuperadorListados(cliente_memoria, col)
-    res = rec.listar({"tipo_pagina": "ficha_medico", "especialidad": "Cardiologia"}, limite=2)
+    res = rec.listar(
+        {"tipo_pagina": "ficha_medico", "especialidad": "Cardiologia"}, limite=2
+    )
     assert res.conteo == 5
     assert res.muestra_truncada
     assert len(res.items) == 2

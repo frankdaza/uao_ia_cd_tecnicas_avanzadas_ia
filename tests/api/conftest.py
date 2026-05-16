@@ -8,6 +8,7 @@ import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 
 from src.api.main import crear_app
+from tests.stream_mock_agente_m2 import astream_eventos_agente_minimos
 
 
 @pytest_asyncio.fixture
@@ -16,11 +17,9 @@ async def async_client():
     app = crear_app()
     grafo = MagicMock()
 
-    async def _stream_vacio(*_a: object, **_k: object):
-        if False:
-            yield {}
-
-    grafo.astream_events = MagicMock(side_effect=lambda *a, **k: _stream_vacio())
+    grafo.astream_events = MagicMock(
+        side_effect=lambda *a, **k: astream_eventos_agente_minimos(*a, **k)
+    )
     app.state.grafo_agente = grafo
     async with AsyncClient(
         transport=ASGITransport(app=app),

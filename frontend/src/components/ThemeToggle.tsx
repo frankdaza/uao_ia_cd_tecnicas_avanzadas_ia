@@ -1,15 +1,31 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 /** Alterna entre tema claro y oscuro. */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon" disabled aria-hidden className="relative">
+        <Sun className="h-5 w-5 opacity-40" />
+        <span className="sr-only">Cargando preferencia de tema</span>
+      </Button>
+    )
+  }
 
   return (
     <Button
       variant="ghost"
       size="icon"
+      className="relative"
       onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
       aria-label={resolvedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
     >

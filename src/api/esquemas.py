@@ -81,7 +81,11 @@ class RespuestaHistorialSesion(BaseModel):
                 {
                     "mensajes": [
                         {"rol": "human", "contenido": "Hola", "creado_en": None},
-                        {"rol": "ai", "contenido": "Hola, ¿en qué puedo ayudarte?", "creado_en": None},
+                        {
+                            "rol": "ai",
+                            "contenido": "Hola, ¿en qué puedo ayudarte?",
+                            "creado_en": None,
+                        },
                     ],
                 },
             ]
@@ -97,7 +101,9 @@ class RespuestaCierreSesion(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     ok: bool = True
-    mensaje: str = "Sesion cerrada en el cliente; la cookie de sesion se elimino si existia."
+    mensaje: str = (
+        "Sesion cerrada en el cliente; la cookie de sesion se elimino si existia."
+    )
 
 
 class RespuestaBorradoUltimoTurno(BaseModel):
@@ -131,7 +137,9 @@ class PeticionAgente(BaseModel):
         max_length=256,
         description="Identificador canonico de sesion (alineado con POST /api/sesiones).",
     )
-    pregunta: str = Field(..., min_length=1, description="Texto de la consulta del usuario.")
+    pregunta: str = Field(
+        ..., min_length=1, description="Texto de la consulta del usuario."
+    )
     primer_turno: bool = Field(
         default=False,
         description="True si el cliente considera este el primer turno (saludo institucional).",
@@ -167,8 +175,12 @@ class EventoPensamiento(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     tipo: Literal["pensamiento"] = "pensamiento"
-    herramienta_candidata: str = Field(..., description="Nombre de la tool elegida o considerada.")
-    razon: str = Field(default="", description="Justificacion corta y segura para el cliente.")
+    herramienta_candidata: str = Field(
+        ..., description="Nombre de la tool elegida o considerada."
+    )
+    razon: str = Field(
+        default="", description="Justificacion corta y segura para el cliente."
+    )
     argumentos_resumidos: dict[str, Any] | None = Field(
         default=None,
         description="Argumentos del tool-call del router (p. ej. consulta truncada), sin secretos.",
@@ -181,8 +193,12 @@ class EventoHerramienta(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     tipo: Literal["herramienta"] = "herramienta"
-    nombre: str = Field(..., description="Nombre estable de la tool (contrato LangChain).")
-    latencia_ms: int = Field(..., ge=0, description="Tiempo aproximado de ejecucion en milisegundos.")
+    nombre: str = Field(
+        ..., description="Nombre estable de la tool (contrato LangChain)."
+    )
+    latencia_ms: int = Field(
+        ..., ge=0, description="Tiempo aproximado de ejecucion en milisegundos."
+    )
     faq_match_encontrado: bool | None = Field(
         default=None,
         description="Solo FAQ: True si el JSON devolvio match por umbral.",
@@ -210,7 +226,9 @@ class EventoToken(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     tipo: Literal["token"] = "token"
-    motor: str = Field(default="agente", description="Motor logico del token (producto M2: agente).")
+    motor: str = Field(
+        default="agente", description="Motor logico del token (producto M2: agente)."
+    )
     texto: str
 
 
@@ -248,6 +266,8 @@ class EventoError(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     tipo: Literal["error"] = "error"
-    codigo: str = Field(default="error", description="Codigo estable para manejo en cliente.")
+    codigo: str = Field(
+        default="error", description="Codigo estable para manejo en cliente."
+    )
     mensaje: str
     motor: str = Field(default="agente")

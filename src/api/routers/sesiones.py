@@ -18,13 +18,13 @@ from src.agentes.memoria.historial import (
     normalizar_session_id_postgres_langchain,
 )
 from src.agentes.reglas import construir_limites_historial
-from src.api.configuracion import obtener_configuracion
 from src.api.dependencias import (
     NOMBRE_COOKIE_SESION,
     obtener_pool_memoria_psycopg,
     obtener_sesion_db,
     obtener_usuario_actual,
 )
+from src.api.servicios.agente_m2_config import ServicioAgenteM2Config
 from src.api.esquemas import (
     MensajeHistorialItem,
     PeticionInicioSesion,
@@ -53,17 +53,20 @@ def _serializar_mensaje_lc(mensaje: BaseMessage) -> MensajeHistorialItem:
         rol = "system"
     else:
         rol = "tool"
-    contenido = mensaje.content if isinstance(mensaje.content, str) else str(mensaje.content)
+    contenido = (
+        mensaje.content if isinstance(mensaje.content, str) else str(mensaje.content)
+    )
     return MensajeHistorialItem(rol=rol, contenido=contenido, creado_en=None)
 
 
 async def _cargar_mensajes_desde_memoria(
     session_id_canonico: str,
     pool: ConnectionPool,
+    dias_max: int,
+    turnos_max: int,
 ) -> list[MensajeHistorialItem]:
     def _sync_load() -> list[MensajeHistorialItem]:
-        cfg = obtener_configuracion()
-        limites_hist = construir_limites_historial(cfg.historial_dias_max, cfg.historial_turnos_max)
+        limites_hist = construir_limites_historial(dias_max, turnos_max)
         with pool.connection() as conn:
             memoria = MemoriaUsuario(
                 session_id_canonico,
@@ -122,7 +125,9 @@ async def iniciar_sesion(
     )
 
 
-@router.delete("/sesiones/actual/ultimo-turno", response_model=RespuestaBorradoUltimoTurno)
+@router.delete(
+    "/sesiones/actual/ultimo-turno", response_model=RespuestaBorradoUltimoTurno
+)
 async def borrar_ultimo_turno_sesion_actual(
     usuario: Usuario = Depends(obtener_usuario_actual),
     pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
@@ -145,19 +150,34 @@ async def borrar_ultimo_turno_sesion_actual(
 async def historial_sesion_actual(
     usuario: Usuario = Depends(obtener_usuario_actual),
     pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
+    sesion: AsyncSession = Depends(obtener_sesion_db),
 ) -> RespuestaHistorialSesion:
     """Devuelve mensajes persistidos en orden cronologico para repintar el chat."""
     session_id = sesion_id_memoria_langchain(usuario.id)
-    mensajes = await _cargar_mensajes_desde_memoria(session_id, pool)
+    svc = ServicioAgenteM2Config(sesion)
+    fila = await svc.obtener_fila()
+    dias = svc.historial_dias_max_efectivo(fila)
+    turnos = svc.historial_turnos_max_efectivo(fila)
+    mensajes = await _cargar_mensajes_desde_memoria(session_id, pool, dias, turnos)
     return RespuestaHistorialSesion(mensajes=mensajes)
 
 
-@router.post("/sesiones/cerrar", response_model=RespuestaCierreSesion)
+@router.post(
+    "/sesiones/cerrar",
+    response_model=RespuestaCierreSesion,
+    summary="Cerrar sesion (cookie)",
+    description=(
+        "Elimina la cookie HTTP-only de sesion en la respuesta. No borra usuarios ni historial. "
+        "No revoca sesiones enviadas por cabecera `X-Session-Id` u otros canales paralelos a la cookie."
+    ),
+)
 async def cerrar_sesion(respuesta: Response) -> RespuestaCierreSesion:
     """
     Operacion idempotente: elimina la cookie de sesion en la respuesta.
 
-    No invalida filas en base de datos; el frontend deja de enviar credenciales.
+    No invalida filas en base de datos. Tampoco revoca credenciales enviadas por cabecera
+    ``X-Session-Id`` ni por parametros de consulta: un cliente que siga enviando esos
+    valores puede permanecer autenticado mientras el servidor los acepte.
     """
     logger.info("Solicitud de cierre de sesion registrada.")
     respuesta.delete_cookie(key=NOMBRE_COOKIE_SESION, path="/")

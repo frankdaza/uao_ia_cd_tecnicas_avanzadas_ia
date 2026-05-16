@@ -28,7 +28,9 @@ def async_iter_desde_factory(
     Si el iterador síncrono lanza, se propagará esa excepción como siguiente elemento antes de cerrar.
     """
     loop = asyncio.get_running_loop()
-    queue: asyncio.Queue[T | BaseException | _StreamFinSentinela] = asyncio.Queue(maxsize=64)
+    queue: asyncio.Queue[T | BaseException | _StreamFinSentinela] = asyncio.Queue(
+        maxsize=64
+    )
     shutdown = threading.Event()
 
     def ejecutor_sync() -> None:

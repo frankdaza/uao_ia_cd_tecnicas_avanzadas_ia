@@ -285,7 +285,7 @@ docker compose up --build -d
 curl -fsS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
 ```
 
-El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Tras el primer arranque, ejecute la **ingesta** a Qdrant (sección anterior) si la colección está vacía.
+El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. El servicio `api` monta `./data/markdown` como solo lectura y la imagen incluye `scripts/`; tras el primer arranque puede ejecutar la **ingesta** dentro del contenedor, por ejemplo `docker compose exec api uv run python -m scripts.indexar_corpus_qdrant`, o indexar desde el host (sección anterior) si la colección está vacía.
 
 Las migraciones **Alembic** (`alembic/`) crean el esquema de aplicación (p. ej. tabla **`usuarios`**). La tabla **`chat_history`** usada por la memoria LangChain **no** se versiona con Alembic: se crea en runtime (`PostgresChatMessageHistory.create_tables` en el lifespan de la API).
 

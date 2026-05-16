@@ -14,11 +14,18 @@ from src.agentes.llm_deterministico_modulo2 import (
     CompositorDeterministicoModulo2E2e,
     RouterDeterministicoModulo2E2e,
 )
-from src.agentes.meta_prompt import MetaPromptConfig, cargar_meta_prompt_config, meta_prompt_desde_dict
+from src.agentes.meta_prompt import (
+    MetaPromptConfig,
+    cargar_meta_prompt_config,
+    meta_prompt_desde_dict,
+)
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.reglas import coercionar_historial_dias_max
 from src.agentes.runtime_agente import RuntimeAgenteBundle
-from src.api._limites_rag import asegurar_rango_parche_numerico, clamp_valor_admin_numerico
+from src.api._limites_rag import (
+    asegurar_rango_parche_numerico,
+    clamp_valor_admin_numerico,
+)
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.persistencia.modelos import ConfigAdminM2
 from src.persistencia.repositorios.config_admin_m2 import RepositorioConfigAdminM2
@@ -66,12 +73,20 @@ class ServicioAgenteM2Config:
         return self._meta_desde_archivo()
 
     def modelo_router_efectivo(self, fila: ConfigAdminM2 | None) -> str:
-        if fila is not None and fila.modelo_llm_router and str(fila.modelo_llm_router).strip():
+        if (
+            fila is not None
+            and fila.modelo_llm_router
+            and str(fila.modelo_llm_router).strip()
+        ):
             return str(fila.modelo_llm_router).strip()
         return self._cfg.router_llm_model.strip()
 
     def modelo_compositor_efectivo(self, fila: ConfigAdminM2 | None) -> str:
-        if fila is not None and fila.modelo_llm_compositor and str(fila.modelo_llm_compositor).strip():
+        if (
+            fila is not None
+            and fila.modelo_llm_compositor
+            and str(fila.modelo_llm_compositor).strip()
+        ):
             return str(fila.modelo_llm_compositor).strip()
         return (self._cfg.compositor_llm_model or self._cfg.router_llm_model).strip()
 
@@ -110,7 +125,11 @@ class ServicioAgenteM2Config:
         return {}
 
     def prompt_institucional_efectivo(self, fila: ConfigAdminM2 | None) -> str:
-        if fila is not None and fila.prompt_institucional and str(fila.prompt_institucional).strip():
+        if (
+            fila is not None
+            and fila.prompt_institucional
+            and str(fila.prompt_institucional).strip()
+        ):
             return str(fila.prompt_institucional).strip()
         return PROMPT_SISTEMA_DEFECTO.rstrip()
 
@@ -137,13 +156,25 @@ class ServicioAgenteM2Config:
         return acotado
 
     def rag_top_k_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        return int(self._leer_columna_numerica_admin("rag_top_k", fila, int(self._cfg.rag_top_k)))
+        return int(
+            self._leer_columna_numerica_admin(
+                "rag_top_k", fila, int(self._cfg.rag_top_k)
+            )
+        )
 
     def rag_score_minimo_efectivo(self, fila: ConfigAdminM2 | None) -> float:
-        return float(self._leer_columna_numerica_admin("rag_score_minimo", fila, float(self._cfg.rag_score_minimo)))
+        return float(
+            self._leer_columna_numerica_admin(
+                "rag_score_minimo", fila, float(self._cfg.rag_score_minimo)
+            )
+        )
 
     def rag_top_k_inicial_efectivo(self, fila: ConfigAdminM2 | None) -> int:
-        return int(self._leer_columna_numerica_admin("rag_top_k_inicial", fila, int(self._cfg.rag_top_k_inicial)))
+        return int(
+            self._leer_columna_numerica_admin(
+                "rag_top_k_inicial", fila, int(self._cfg.rag_top_k_inicial)
+            )
+        )
 
     def rag_mmr_habilitado_efectivo(self, fila: ConfigAdminM2 | None) -> bool:
         if fila is not None and fila.rag_mmr_habilitado is not None:
@@ -151,7 +182,11 @@ class ServicioAgenteM2Config:
         return bool(self._cfg.rag_mmr_habilitado)
 
     def rag_mmr_lambda_efectivo(self, fila: ConfigAdminM2 | None) -> float:
-        return float(self._leer_columna_numerica_admin("rag_mmr_lambda", fila, float(self._cfg.rag_mmr_lambda)))
+        return float(
+            self._leer_columna_numerica_admin(
+                "rag_mmr_lambda", fila, float(self._cfg.rag_mmr_lambda)
+            )
+        )
 
     def rag_reranker_habilitado_efectivo(self, fila: ConfigAdminM2 | None) -> bool:
         if fila is not None and fila.rag_reranker_habilitado is not None:
@@ -159,7 +194,11 @@ class ServicioAgenteM2Config:
         return bool(self._cfg.rag_reranker_habilitado)
 
     def rag_reranker_modelo_efectivo(self, fila: ConfigAdminM2 | None) -> str:
-        if fila is not None and fila.rag_reranker_modelo and str(fila.rag_reranker_modelo).strip():
+        if (
+            fila is not None
+            and fila.rag_reranker_modelo
+            and str(fila.rag_reranker_modelo).strip()
+        ):
             return str(fila.rag_reranker_modelo).strip()
         return str(self._cfg.rag_reranker_modelo).strip()
 
@@ -187,6 +226,17 @@ class ServicioAgenteM2Config:
                 "historial_turnos_max",
                 fila,
                 int(self._cfg.historial_turnos_max),
+            )
+        )
+
+    def historial_dias_max_efectivo(self, fila: ConfigAdminM2 | None) -> int:
+        return coercionar_historial_dias_max(
+            int(
+                self._leer_columna_numerica_admin(
+                    "historial_dias_max",
+                    fila,
+                    int(self._cfg.historial_dias_max),
+                )
             )
         )
 
@@ -249,13 +299,15 @@ class ServicioAgenteM2Config:
                 rag_top_k=self.rag_top_k_efectivo(fila),
                 rag_score_minimo=self.rag_score_minimo_efectivo(fila),
                 historial_turnos_max=self.historial_turnos_max_efectivo(fila),
-                historial_dias_max=coercionar_historial_dias_max(int(self._cfg.historial_dias_max)),
+                historial_dias_max=self.historial_dias_max_efectivo(fila),
                 rag_top_k_inicial=self.rag_top_k_inicial_efectivo(fila),
                 rag_mmr_habilitado=self.rag_mmr_habilitado_efectivo(fila),
                 rag_mmr_lambda=self.rag_mmr_lambda_efectivo(fila),
                 rag_reranker_habilitado=self.rag_reranker_habilitado_efectivo(fila),
                 rag_reranker_modelo=self.rag_reranker_modelo_efectivo(fila),
-                rag_reranker_top_n_entrada=self.rag_reranker_top_n_entrada_efectivo(fila),
+                rag_reranker_top_n_entrada=self.rag_reranker_top_n_entrada_efectivo(
+                    fila
+                ),
                 rag_reranker_batch_size=self.rag_reranker_batch_size_efectivo(fila),
             )
 
@@ -272,7 +324,7 @@ class ServicioAgenteM2Config:
             rag_top_k=self.rag_top_k_efectivo(fila),
             rag_score_minimo=self.rag_score_minimo_efectivo(fila),
             historial_turnos_max=self.historial_turnos_max_efectivo(fila),
-            historial_dias_max=coercionar_historial_dias_max(int(self._cfg.historial_dias_max)),
+            historial_dias_max=self.historial_dias_max_efectivo(fila),
             rag_top_k_inicial=self.rag_top_k_inicial_efectivo(fila),
             rag_mmr_habilitado=self.rag_mmr_habilitado_efectivo(fila),
             rag_mmr_lambda=self.rag_mmr_lambda_efectivo(fila),
@@ -306,6 +358,7 @@ class ServicioAgenteM2Config:
         rag_reranker_top_n_entrada: int | None = None,
         rag_reranker_batch_size: int | None = None,
         historial_turnos_max: int | None = None,
+        historial_dias_max: int | None = None,
     ) -> ConfigAdminM2:
         """Persiste cambios parciales con control optimista de ``version``."""
         fila_bloqueada = await self._repo.obtener_para_actualizar()
@@ -389,14 +442,25 @@ class ServicioAgenteM2Config:
                 raise ValueError(msg)
             fila.rag_reranker_modelo = rm
         if rag_reranker_top_n_entrada is not None:
-            asegurar_rango_parche_numerico("rag_reranker_top_n_entrada", int(rag_reranker_top_n_entrada))
+            asegurar_rango_parche_numerico(
+                "rag_reranker_top_n_entrada", int(rag_reranker_top_n_entrada)
+            )
             fila.rag_reranker_top_n_entrada = int(rag_reranker_top_n_entrada)
         if rag_reranker_batch_size is not None:
-            asegurar_rango_parche_numerico("rag_reranker_batch_size", int(rag_reranker_batch_size))
+            asegurar_rango_parche_numerico(
+                "rag_reranker_batch_size", int(rag_reranker_batch_size)
+            )
             fila.rag_reranker_batch_size = int(rag_reranker_batch_size)
         if historial_turnos_max is not None:
-            asegurar_rango_parche_numerico("historial_turnos_max", int(historial_turnos_max))
+            asegurar_rango_parche_numerico(
+                "historial_turnos_max", int(historial_turnos_max)
+            )
             fila.historial_turnos_max = int(historial_turnos_max)
+        if historial_dias_max is not None:
+            asegurar_rango_parche_numerico(
+                "historial_dias_max", int(historial_dias_max)
+            )
+            fila.historial_dias_max = int(historial_dias_max)
 
         await self._sesion.flush()
         return fila

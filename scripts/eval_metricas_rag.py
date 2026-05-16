@@ -64,7 +64,12 @@ TipoConfigEval = Literal[
     "adaptativo",
 ]
 
-PRESETS_EVAL_TODAS: tuple[TipoConfigEval, ...] = ("baseline", "mmr", "reranker", "combinado")
+PRESETS_EVAL_TODAS: tuple[TipoConfigEval, ...] = (
+    "baseline",
+    "mmr",
+    "reranker",
+    "combinado",
+)
 
 
 def obtener_commit_git(raiz: Path) -> str:
@@ -218,7 +223,9 @@ def ejecutar_fila_factual(
         "archivos_relevantes": relevantes,
         "archivos_por_chunk": archivos_por_chunk,
         _clave_metrica("hit", k): hit_at_k(archivos_por_chunk, relevantes, k),
-        _clave_metrica("precision", k): precision_at_k(archivos_por_chunk, relevantes, k),
+        _clave_metrica("precision", k): precision_at_k(
+            archivos_por_chunk, relevantes, k
+        ),
         _clave_metrica("recall", k): recall_at_k(archivos_por_chunk, relevantes, k),
         "mrr": mrr(archivos_por_chunk, relevantes, k),
         _clave_metrica("ndcg", k): ndcg_at_k(archivos_por_chunk, relevantes, k),
@@ -293,7 +300,14 @@ def lineas_tablas_metricas_reporte(
 ) -> list[str]:
     """Secciones de tablas agregadas + por consulta + apendices (reuso reporte simple y consolidado)."""
     lineas: list[str] = []
-    lineas.extend(["## Tabla agregada (promedio, solo factual)", "", "| metrica | valor |", "| --- | --- |"])
+    lineas.extend(
+        [
+            "## Tabla agregada (promedio, solo factual)",
+            "",
+            "| metrica | valor |",
+            "| --- | --- |",
+        ]
+    )
     if not agregados:
         lineas.append("| (sin datos factuales) | — |")
     else:
@@ -338,7 +352,8 @@ def lineas_tablas_metricas_reporte(
     fallidas = [
         r
         for r in resultados
-        if not r.get("listado_na") and int(r[_clave_metrica("hit", int(r["k_evaluacion"]))]) == 0
+        if not r.get("listado_na")
+        and int(r[_clave_metrica("hit", int(r["k_evaluacion"]))]) == 0
     ]
     lineas.extend(["## Apendice: consultas factuales con hit@k = 0", ""])
     if not fallidas:
@@ -398,7 +413,17 @@ def render_markdown_reporte(
             lineas.append(f"- {n}")
     else:
         lineas.append("- (sin notas adicionales)")
-    lineas.extend(["", "## Versiones (referencia)", "", "```", versiones_cmd.strip() or "(no disponible)", "```", ""])
+    lineas.extend(
+        [
+            "",
+            "## Versiones (referencia)",
+            "",
+            "```",
+            versiones_cmd.strip() or "(no disponible)",
+            "```",
+            "",
+        ]
+    )
 
     lineas.extend(lineas_tablas_metricas_reporte(resultados, agregados))
     return "\n".join(lineas) + "\n"
@@ -406,7 +431,9 @@ def render_markdown_reporte(
 
 def render_markdown_consolidado_todas(
     *,
-    bloques: list[tuple[TipoConfigEval, list[dict[str, Any]], dict[str, float], Configuracion]],
+    bloques: list[
+        tuple[TipoConfigEval, list[dict[str, Any]], dict[str, float], Configuracion]
+    ],
     cfg_contexto: Configuracion,
     versiones_cmd: str,
     commit_git: str,
@@ -578,7 +605,9 @@ def comparar_resultados_jsonl(
     Compara promedios agregados (B - A). Regresion si el delta cae por debajo del umbral
     correspondiente (umbrales tipicamente 0.0 o negativos pequenos para tolerar ruido).
     """
-    umbral_mrr_efectivo = -float(umbral_regresion_mrr) if umbral_regresion_mrr is not None else umbral_mrr
+    umbral_mrr_efectivo = (
+        -float(umbral_regresion_mrr) if umbral_regresion_mrr is not None else umbral_mrr
+    )
 
     a = leer_results_jsonl(ruta_a)
     b = leer_results_jsonl(ruta_b)
@@ -614,10 +643,14 @@ def comparar_resultados_jsonl(
         lineas.append(f"| `{m}` | {va:.4f} | {vb:.4f} | {delta:+.4f} |")
         if m == "mrr" and delta < umbral_mrr_efectivo:
             regresion_critica = True
-            motivos.append(f"MRR: delta {delta:+.4f} < umbral {umbral_mrr_efectivo:.4f}")
+            motivos.append(
+                f"MRR: delta {delta:+.4f} < umbral {umbral_mrr_efectivo:.4f}"
+            )
         elif m.startswith("recall@") and delta < umbral_recall_k:
             regresion_critica = True
-            motivos.append(f"{m}: delta {delta:+.4f} < umbral recall {umbral_recall_k:.4f}")
+            motivos.append(
+                f"{m}: delta {delta:+.4f} < umbral recall {umbral_recall_k:.4f}"
+            )
         elif m.startswith("ndcg@") and delta < umbral_ndcg_k:
             regresion_critica = True
             motivos.append(f"{m}: delta {delta:+.4f} < umbral ndcg {umbral_ndcg_k:.4f}")
@@ -666,7 +699,11 @@ def capturar_versiones_pip() -> str:
             check=False,
         )
         salida = proc.stdout or ""
-        filtrada = [ln for ln in salida.splitlines() if re.search(r"llama-index|qdrant|sentence-transformers", ln, re.I)]
+        filtrada = [
+            ln
+            for ln in salida.splitlines()
+            if re.search(r"llama-index|qdrant|sentence-transformers", ln, re.I)
+        ]
         return "\n".join(filtrada[:40]) if filtrada else salida[:2000]
     except OSError:
         return ""
@@ -675,8 +712,12 @@ def capturar_versiones_pip() -> str:
 def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
     raiz = encontrar_raiz_repo()
     golden_def = raiz / "data" / "eval" / "golden_set_rag.jsonl"
-    p = argparse.ArgumentParser(description="Evaluacion cuantitativa RAG (golden set + metricas).")
-    p.add_argument("--golden", type=Path, default=golden_def, help="Ruta al golden set JSONL.")
+    p = argparse.ArgumentParser(
+        description="Evaluacion cuantitativa RAG (golden set + metricas)."
+    )
+    p.add_argument(
+        "--golden", type=Path, default=golden_def, help="Ruta al golden set JSONL."
+    )
     p.add_argument(
         "--config",
         choices=[
@@ -692,9 +733,21 @@ def parsear_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
         default="baseline",
         help="Etiqueta de experimento; 'todas' ejecuta baseline, mmr, reranker y combinado en serie.",
     )
-    p.add_argument("--collection", type=str, default=None, help="Sobrescribe QDRANT_COLLECTION.")
-    p.add_argument("--k", type=int, default=None, help="Ignorado: se usa k_evaluacion por fila del golden.")
-    p.add_argument("--reporte-out", type=Path, default=None, help="Ruta del reporte Markdown de salida.")
+    p.add_argument(
+        "--collection", type=str, default=None, help="Sobrescribe QDRANT_COLLECTION."
+    )
+    p.add_argument(
+        "--k",
+        type=int,
+        default=None,
+        help="Ignorado: se usa k_evaluacion por fila del golden.",
+    )
+    p.add_argument(
+        "--reporte-out",
+        type=Path,
+        default=None,
+        help="Ruta del reporte Markdown de salida.",
+    )
     p.add_argument(
         "--fail-if-empty",
         action="store_true",
@@ -767,7 +820,9 @@ def main(argv: list[str] | None = None) -> int:
         print(texto)
         return 1 if regresion else 0
 
-    ruta_golden = args.golden if args.golden.is_absolute() else (raiz / args.golden).resolve()
+    ruta_golden = (
+        args.golden if args.golden.is_absolute() else (raiz / args.golden).resolve()
+    )
     schema = cargar_schema(raiz)
     entradas = cargar_golden_jsonl(ruta_golden)
     validar_golden_completo(entradas, schema)
@@ -799,7 +854,9 @@ def main(argv: list[str] | None = None) -> int:
     versiones = capturar_versiones_pip()
 
     if args.config == "todas":
-        bloques: list[tuple[TipoConfigEval, list[dict[str, Any]], dict[str, float], Configuracion]] = []
+        bloques: list[
+            tuple[TipoConfigEval, list[dict[str, Any]], dict[str, float], Configuracion]
+        ] = []
         filas_csv: list[dict[str, Any]] = []
         filas_jsonl: list[dict[str, Any]] = []
         for preset in PRESETS_EVAL_TODAS:
@@ -843,7 +900,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     etiqueta = cast(TipoConfigEval, args.config)
-    resultados, agregados, cfg = _ejecutar_un_preset(etiqueta, entradas, args.collection)
+    resultados, agregados, cfg = _ejecutar_un_preset(
+        etiqueta, entradas, args.collection
+    )
     md = render_markdown_reporte(
         config=etiqueta,
         cfg=cfg,
@@ -858,7 +917,11 @@ def main(argv: list[str] | None = None) -> int:
 
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if args.reporte_out:
-        ruta_md = args.reporte_out if args.reporte_out.is_absolute() else (raiz / args.reporte_out).resolve()
+        ruta_md = (
+            args.reporte_out
+            if args.reporte_out.is_absolute()
+            else (raiz / args.reporte_out).resolve()
+        )
     else:
         ruta_md = raiz / "data" / "eval" / "reportes" / f"eval-{stamp}-{args.config}.md"
     ruta_jsonl = ruta_md.with_suffix(".results.jsonl")

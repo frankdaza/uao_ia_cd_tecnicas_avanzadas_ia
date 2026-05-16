@@ -37,11 +37,11 @@ def componer_mensajes_multi(
     n = len(documentos)
     bloques: list[str] = []
     for idx, doc in enumerate(documentos, start=1):
-        url_txt = doc.source_url.strip() if doc.source_url.strip() else _SIN_URL_ETIQUETA
+        url_txt = (
+            doc.source_url.strip() if doc.source_url.strip() else _SIN_URL_ETIQUETA
+        )
         bloques.append(
-            f"[DOCUMENTO {idx}] titulo: {doc.titulo}\n"
-            f"URL: {url_txt}\n\n"
-            f"{doc.contenido}"
+            f"[DOCUMENTO {idx}] titulo: {doc.titulo}\nURL: {url_txt}\n\n{doc.contenido}"
         )
     sep = "\n\n---\n\n"
     cuerpo_contexto = sep.join(bloques)

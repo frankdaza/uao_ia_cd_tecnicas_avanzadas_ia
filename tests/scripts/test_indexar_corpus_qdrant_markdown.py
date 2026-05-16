@@ -211,7 +211,11 @@ def test_metadata_documental_educacion_inferencia_pediatria() -> None:
     fm: dict = {}
     cuerpo = "# Intro\n\nContenido."
     tipo, _, _, espec, _, _ = _metadata_documental(
-        fm, cuerpo, "educacion-lactancia.md", "Taller de lactancia en pediatria", "educacion"
+        fm,
+        cuerpo,
+        "educacion-lactancia.md",
+        "Taller de lactancia en pediatria",
+        "educacion",
     )
     assert tipo == "educacion"
     assert "Pediatria" in espec
@@ -226,7 +230,10 @@ def test_asegurar_coleccion_dispara_indices_sin_excepcion_memoria(
     reiniciar_cliente_qdrant()
     obtener_configuracion.cache_clear()
     cfg = obtener_configuracion()
-    from src.rag.runtime.qdrant_store import asegurar_coleccion, distancia_desde_settings
+    from src.rag.runtime.qdrant_store import (
+        asegurar_coleccion,
+        distancia_desde_settings,
+    )
 
     cliente = obtener_qdrant_client(cfg)
     asegurar_coleccion(

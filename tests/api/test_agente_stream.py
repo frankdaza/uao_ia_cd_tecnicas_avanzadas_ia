@@ -15,7 +15,11 @@ from langchain_core.language_models.fake_chat_models import FakeListChatModel
 from langchain_core.messages import AIMessage
 from langchain_core.tools import StructuredTool
 
-from src.api.dependencias import obtener_bundle_runtime_agente, obtener_sesion_db, obtener_usuario_actual
+from src.api.dependencias import (
+    obtener_bundle_runtime_agente,
+    obtener_sesion_db,
+    obtener_usuario_actual,
+)
 from src.api.main import crear_app
 from src.agentes.memoria.historial import MemoriaConexionError
 from src.api.esquemas import (
@@ -138,7 +142,9 @@ async def test_agente_stream_emite_eventos_parseables(
     app.state.grafo_agente = grafo
 
     session_id = sesion_id_memoria_langchain(uid)
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as client:
         async with client.stream(
             "POST",
             "/api/agente/stream",
@@ -172,7 +178,9 @@ async def test_agente_stream_emite_eventos_parseables(
 
 
 @pytest.mark.asyncio
-async def test_agente_stream_401_sin_credencial(fastapi_app_sesion_mock: FastAPI) -> None:
+async def test_agente_stream_401_sin_credencial(
+    fastapi_app_sesion_mock: FastAPI,
+) -> None:
     async with AsyncClient(
         transport=ASGITransport(app=fastapi_app_sesion_mock),
         base_url="http://test",
@@ -225,7 +233,9 @@ async def test_agente_stream_403_session_id_no_alineado(
 
     fastapi_app_sesion_mock.state.grafo_agente = grafo
     fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual] = _usuario_fijo
-    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = _bundle_override
+    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = (
+        _bundle_override
+    )
     try:
         sid_a = sesion_id_memoria_langchain(uid_a)
         sid_b = sesion_id_memoria_langchain(uid_b)
@@ -345,7 +355,9 @@ async def test_agente_stream_emite_evento_error_memoria_postgres(
 
     fastapi_app_sesion_mock.state.grafo_agente = grafo
     fastapi_app_sesion_mock.dependency_overrides[obtener_usuario_actual] = _usuario_fijo
-    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = _bundle_override
+    fastapi_app_sesion_mock.dependency_overrides[obtener_bundle_runtime_agente] = (
+        _bundle_override
+    )
     sid = sesion_id_memoria_langchain(uid)
     try:
         async with AsyncClient(

@@ -16,7 +16,9 @@ def limpiar_cache_config() -> None:
     obtener_configuracion.cache_clear()
 
 
-def test_lifespan_warmup_reranker_si_habilitado(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_lifespan_warmup_reranker_si_habilitado(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("RAG_RERANKER_HABILITADO", "1")
     monkeypatch.setenv("RAG_RERANKER_MODELO", "modelo-falso-warmup")
     obtener_configuracion.cache_clear()

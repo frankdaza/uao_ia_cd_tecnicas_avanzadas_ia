@@ -39,7 +39,10 @@ def _sin_tildes(texto: str) -> str:
 @lru_cache(maxsize=1)
 def _cargar_especialidades_canonicas() -> tuple[str, ...]:
     ruta = (
-        Path(__file__).resolve().parents[2] / "data" / "eval" / "especialidades_canonicas.json"
+        Path(__file__).resolve().parents[2]
+        / "data"
+        / "eval"
+        / "especialidades_canonicas.json"
     )
     if not ruta.is_file():
         return ()
@@ -148,4 +151,6 @@ def especialidades_que_contienen(subcadena: str) -> list[str]:
     sub = _normalizar_busqueda(subcadena)
     if len(sub) < 3:
         return []
-    return [e for e in _cargar_especialidades_canonicas() if sub in _normalizar_busqueda(e)]
+    return [
+        e for e in _cargar_especialidades_canonicas() if sub in _normalizar_busqueda(e)
+    ]

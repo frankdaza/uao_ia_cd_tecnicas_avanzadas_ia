@@ -18,7 +18,9 @@ def limpiar_cache_configuracion() -> None:
     obtener_configuracion.cache_clear()
 
 
-def test_aplicar_tracing_no_escribe_si_desactivado(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_aplicar_tracing_no_escribe_si_desactivado(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     for clave in (
         "LANGCHAIN_TRACING_V2",
         "LANGCHAIN_API_KEY",
@@ -34,7 +36,9 @@ def test_aplicar_tracing_no_escribe_si_desactivado(monkeypatch: pytest.MonkeyPat
     assert "LANGCHAIN_API_KEY" not in os.environ
 
 
-def test_aplicar_tracing_no_escribe_si_falta_clave(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_aplicar_tracing_no_escribe_si_falta_clave(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     for clave in (
         "LANGCHAIN_TRACING_V2",
         "LANGCHAIN_API_KEY",
@@ -52,7 +56,9 @@ def test_aplicar_tracing_no_escribe_si_falta_clave(monkeypatch: pytest.MonkeyPat
     assert os.environ.get("LANGCHAIN_TRACING_V2") != "true"
 
 
-def test_aplicar_tracing_escribe_env_cuando_habilitado(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_aplicar_tracing_escribe_env_cuando_habilitado(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     for clave in (
         "LANGCHAIN_TRACING_V2",
         "LANGCHAIN_API_KEY",

@@ -31,6 +31,7 @@ from fastapi import FastAPI, Request
 
 from src.api.dependencias import obtener_sesion_db
 from src.api.main import crear_app
+from tests.stream_mock_agente_m2 import astream_eventos_agente_minimos
 
 
 async def sesion_db_falsa(_request: Request) -> AsyncGenerator[AsyncMock, None]:
@@ -45,14 +46,11 @@ async def sesion_db_falsa(_request: Request) -> AsyncGenerator[AsyncMock, None]:
 
 
 def grafo_agente_minimo_mock() -> MagicMock:
-    """Grafo LangGraph sustituido por un mock que no emite eventos."""
+    """Grafo LangGraph sustituido por un mock con secuencia SSE minima plausible."""
     grafo = MagicMock()
-
-    async def _stream_vacio(*_a: object, **_k: object):
-        if False:
-            yield {}
-
-    grafo.astream_events = MagicMock(side_effect=lambda *a, **k: _stream_vacio())
+    grafo.astream_events = MagicMock(
+        side_effect=lambda *a, **k: astream_eventos_agente_minimos(*a, **k)
+    )
     return grafo
 
 

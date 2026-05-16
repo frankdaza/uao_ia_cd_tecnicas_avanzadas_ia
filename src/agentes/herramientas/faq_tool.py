@@ -154,7 +154,7 @@ class ArgsConsultaFaq(BaseModel):
     consulta: str = Field(
         description=(
             "Texto literal de la consulta actual del usuario (copiar del bloque "
-            "\"Consulta actual del usuario\" del mensaje humano del router), sin resumir "
+            '"Consulta actual del usuario" del mensaje humano del router), sin resumir '
             "ni parafrasear. Si no esta seguro, repita la pregunta del usuario tal cual."
         ),
         min_length=1,
@@ -244,7 +244,9 @@ def invalidar_cache_faqs() -> None:
     _cache_entradas_por_ruta = {}
 
 
-def _cargar_entradas_desde_disco(configuracion: Configuracion | None = None) -> list[FaqEntrada]:
+def _cargar_entradas_desde_disco(
+    configuracion: Configuracion | None = None,
+) -> list[FaqEntrada]:
     global _cache_entradas_por_ruta
     ruta = _resolver_ruta_json(configuracion)
     if not ruta.is_file():
@@ -268,7 +270,9 @@ def _cargar_entradas_desde_disco(configuracion: Configuracion | None = None) -> 
     return entradas
 
 
-def buscar_faq(consulta: str, *, configuracion: Configuracion | None = None) -> FaqRespuesta | None:
+def buscar_faq(
+    consulta: str, *, configuracion: Configuracion | None = None
+) -> FaqRespuesta | None:
     """
     Busca la FAQ con mayor score entre keywords y solapamiento con ``pregunta_canonica``.
 

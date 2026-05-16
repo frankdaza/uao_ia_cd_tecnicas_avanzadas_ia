@@ -11,7 +11,10 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from src.agentes.reglas import coercionar_top_k_final, coercionar_top_k_inicial
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.runtime.recuperador_denso import RecuperadorDenso, SalidaRecuperacionRagDenso
+from src.rag.runtime.recuperador_denso import (
+    RecuperadorDenso,
+    SalidaRecuperacionRagDenso,
+)
 
 
 class ArgsConsultaRagDenso(BaseModel):
@@ -99,7 +102,9 @@ def ejecutar_rag_denso_sync(
         top_k=coercionar_top_k_final(int(top_k)),
         score_minimo=score_minimo,
         top_k_inicial=(
-            coercionar_top_k_inicial(int(top_k_inicial)) if top_k_inicial is not None else None
+            coercionar_top_k_inicial(int(top_k_inicial))
+            if top_k_inicial is not None
+            else None
         ),
         mmr_habilitado=mmr_habilitado,
         mmr_lambda=mmr_lambda,
@@ -202,4 +207,3 @@ def crear_rag_tool(
         args_schema=ArgsConsultaRagDenso,
         infer_schema=False,
     )
-

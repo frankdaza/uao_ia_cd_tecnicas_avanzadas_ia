@@ -20,7 +20,10 @@ from src.api.esquemas_admin import (
     ParcheConfigAdminM2Cuerpo,
     UsuarioAdminVista,
 )
-from src.api.servicios.agente_m2_config import ConflictoVersionConfigAdminError, ServicioAgenteM2Config
+from src.api.servicios.agente_m2_config import (
+    ConflictoVersionConfigAdminError,
+    ServicioAgenteM2Config,
+)
 from src.persistencia.repositorios.usuarios import RepositorioUsuarios
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -89,6 +92,7 @@ async def _construir_estado_config_respuesta(
         rag_reranker_top_n_entrada=svc.rag_reranker_top_n_entrada_efectivo(fila),
         rag_reranker_batch_size=svc.rag_reranker_batch_size_efectivo(fila),
         historial_turnos_max=svc.historial_turnos_max_efectivo(fila),
+        historial_dias_max=svc.historial_dias_max_efectivo(fila),
     )
 
 
@@ -163,14 +167,18 @@ async def listar_usuarios_admin_m2(
         UsuarioAdminVista(
             id=u.id,
             nombre=u.nombre,
-            documento_identidad_enmascarado=_enmascarar_documento_identidad(u.documento_identidad),
+            documento_identidad_enmascarado=_enmascarar_documento_identidad(
+                u.documento_identidad
+            ),
             created_at=u.created_at,
             updated_at=u.updated_at,
             last_login_at=u.last_login_at,
         )
         for u in filas
     ]
-    return ListadoUsuariosAdminRespuesta(items=items, total=total, limit=limit, offset=offset)
+    return ListadoUsuariosAdminRespuesta(
+        items=items, total=total, limit=limit, offset=offset
+    )
 
 
 @router.get(

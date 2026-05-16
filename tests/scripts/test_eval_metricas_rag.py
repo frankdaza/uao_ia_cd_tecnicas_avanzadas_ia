@@ -13,7 +13,10 @@ from scripts.eval_metricas_rag import comparar_resultados_jsonl
 
 def _escribir_jsonl(tmp: Path, nombre: str, filas: list[dict]) -> Path:
     ruta = tmp / nombre
-    ruta.write_text("\n".join(json.dumps(f, ensure_ascii=False) for f in filas) + "\n", encoding="utf-8")
+    ruta.write_text(
+        "\n".join(json.dumps(f, ensure_ascii=False) for f in filas) + "\n",
+        encoding="utf-8",
+    )
     return ruta
 
 
@@ -87,7 +90,13 @@ def test_comparar_ignora_listado_na(tmp_path: Path) -> None:
             "mrr": 0.5,
             "ndcg@5": 0.3,
         },
-        {"qid": "Q9", "tipo": "listado", "k_evaluacion": 5, "listado_na": True, "mrr": None},
+        {
+            "qid": "Q9",
+            "tipo": "listado",
+            "k_evaluacion": 5,
+            "listado_na": True,
+            "mrr": None,
+        },
     ]
     mix_b = [mix_a[0], mix_a[1]]
     pa = _escribir_jsonl(tmp_path, "m1.jsonl", mix_a)
@@ -139,7 +148,9 @@ def test_comparar_umbral_recall_dispara_exit(tmp_path: Path) -> None:
     assert regresion is True
 
 
-def test_config_todas_produce_reporte_y_csv(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_config_todas_produce_reporte_y_csv(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     raiz = tmp_path / "repo"
     (raiz / "data" / "eval" / "reportes").mkdir(parents=True)
     (raiz / "pyproject.toml").write_text("[project]\nname='x'\n", encoding="utf-8")

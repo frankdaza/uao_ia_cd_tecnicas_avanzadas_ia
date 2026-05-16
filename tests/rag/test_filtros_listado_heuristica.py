@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.runtime.filtros_listado_heuristica import extraer_filtros_listado_desde_pregunta
+from src.rag.runtime.filtros_listado_heuristica import (
+    extraer_filtros_listado_desde_pregunta,
+)
 
 
 @pytest.mark.parametrize(
@@ -41,7 +43,9 @@ def test_directorio_por_sede_no_es_catalogo_institucional() -> None:
 
 
 def test_servicios_oncologia_no_lo_sobrescribe_catalogo_ambiguo() -> None:
-    out = extraer_filtros_listado_desde_pregunta("Lista todos los servicios de oncologia")
+    out = extraer_filtros_listado_desde_pregunta(
+        "Lista todos los servicios de oncologia"
+    )
     assert out.get("tipo_pagina") == "servicio"
 
 

@@ -14,4 +14,6 @@ router = APIRouter(tags=["salud"])
 async def verificar_salud() -> RespuestaSalud:
     """Verifica que el servidor está en funcionamiento."""
     cfg = obtener_configuracion()
-    return RespuestaSalud(estado="ok", version="1.0.0", agente_mock_llm=bool(cfg.mock_llm))
+    return RespuestaSalud(
+        estado="ok", version="1.0.0", agente_mock_llm=bool(cfg.mock_llm)
+    )

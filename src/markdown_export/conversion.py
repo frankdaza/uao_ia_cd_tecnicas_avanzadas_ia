@@ -145,12 +145,7 @@ def _texto_fallback_enlace(href: str) -> str:
         return base.capitalize() if len(base) > 1 else netloc or "Enlace"
     ruta = (p.path or "/").strip("/")
     ultimo = ruta.split("/")[-1] if ruta else ""
-    texto = (
-        unquote(ultimo)
-        .replace("-", " ")
-        .replace("_", " ")
-        .strip(". ")
-    )
+    texto = unquote(ultimo).replace("-", " ").replace("_", " ").strip(". ")
     return texto[:120] if texto else "Enlace"
 
 
@@ -164,16 +159,10 @@ def _rellenar_enlaces_sin_texto_visible(soup: BeautifulSoup) -> None:
         texto_visible = a.get_text(strip=True)
         if texto_visible:
             continue
-        if (
-            not href
-            or href.startswith(("#", "javascript:", "mailto:", "tel:"))
-        ):
+        if not href or href.startswith(("#", "javascript:", "mailto:", "tel:")):
             a.decompose()
             continue
-        nuevo = (
-            (a.get("title") or a.get("aria-label") or "")
-            .strip()
-        )
+        nuevo = (a.get("title") or a.get("aria-label") or "").strip()
         if not nuevo:
             nuevo = _texto_fallback_enlace(href)
         nuevo = re.sub(r"\s+", " ", nuevo).strip() or _texto_fallback_enlace(href)
@@ -198,10 +187,7 @@ def _depurar_cuerpo_markdown_kb(markdown_bruto: str) -> str:
         if not si:
             salida.append("")
             continue
-        if (
-            _RE_MD_SOLO_IMG.match(si)
-            or _RE_MD_ANIDA_IMG_LINK.match(si)
-        ):
+        if _RE_MD_SOLO_IMG.match(si) or _RE_MD_ANIDA_IMG_LINK.match(si):
             continue
         salida.append(line)
     texto = "\n".join(salida)

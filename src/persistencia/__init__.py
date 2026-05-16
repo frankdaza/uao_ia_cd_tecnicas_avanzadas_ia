@@ -8,7 +8,10 @@ from src.persistencia.motor import (
     obtener_sesion_db,
     verificar_conexion_inicial,
 )
-from src.persistencia.repositorios import RepositorioUsuarios, sesion_id_memoria_langchain
+from src.persistencia.repositorios import (
+    RepositorioUsuarios,
+    sesion_id_memoria_langchain,
+)
 
 __all__ = [
     "Base",

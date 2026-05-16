@@ -130,6 +130,13 @@ export function Chat() {
     }
   }, [sessionId])
 
+  useEffect(() => {
+    return () => {
+      abortRef.current?.()
+      abortRef.current = null
+    }
+  }, [])
+
   const lanzarConsulta = useCallback(
     (pregunta: string) => {
       if (!sessionId) {
@@ -172,15 +179,14 @@ export function Chat() {
       setTurns((prev) => [...prev, nuevoTurno])
       setIsBusy(true)
 
-      const primerTurno = usarPrimerTurnoRef.current
-      usarPrimerTurnoRef.current = false
+      const primerTurnoActivo = usarPrimerTurnoRef.current
 
       const { abort } = streamAgente(
         '/api/agente/stream',
         {
           session_id: sessionId,
           pregunta: preguntaLimpia,
-          primer_turno: primerTurno,
+          primer_turno: primerTurnoActivo,
         },
         {
           onPensamiento: (herramientaCandidata, razon) => {
@@ -246,11 +252,18 @@ export function Chat() {
             )
           },
           onFinal: (meta) => {
+            if (primerTurnoActivo) {
+              usarPrimerTurnoRef.current = false
+            }
             const sinInfo = respuestaFinalEsSinInformacion(meta.texto)
             setTurns((prev) =>
               prev.map((t) => {
                 if (t.id !== idTurno || !t.assistantMessage) return t
                 const limpiarListado = sinInfo && t.toolUsed === 'listar_estructurado'
+                const contenidoFinal =
+                  t.assistantMessage.content.trim().length > 0
+                    ? t.assistantMessage.content
+                    : meta.texto
                 return {
                   ...t,
                   ...(limpiarListado
@@ -262,6 +275,7 @@ export function Chat() {
                     : {}),
                   assistantMessage: {
                     ...t.assistantMessage,
+                    content: contenidoFinal,
                     isStreaming: false,
                     latencia_ms: meta.latencia_ms,
                     modelo: meta.modelo,

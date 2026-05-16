@@ -74,9 +74,7 @@ def test_asegurar_coleccion_permite_dot_si_mmr_desactivado(
     obtener_configuracion.cache_clear()
     cfg = obtener_configuracion()
     cliente = obtener_qdrant_client()
-    asegurar_coleccion(
-        cliente, "col_dot_sin_mmr", 8, Distance.DOT, configuracion=cfg
-    )
+    asegurar_coleccion(cliente, "col_dot_sin_mmr", 8, Distance.DOT, configuracion=cfg)
 
 
 def test_obtener_vector_store_memoria(

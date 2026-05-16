@@ -266,7 +266,10 @@ class Configuracion(BaseSettings):
         """Modelos OpenAI con dimension de salida fija en la API clasica."""
         if self.embedding_provider != "openai":
             return self
-        if self.embedding_model == "text-embedding-ada-002" and self.embedding_dims != 1536:
+        if (
+            self.embedding_model == "text-embedding-ada-002"
+            and self.embedding_dims != 1536
+        ):
             raise ValueError(
                 "Para text-embedding-ada-002 la dimension de salida es 1536; "
                 "ajusta EMBEDDING_DIMS o el modelo."

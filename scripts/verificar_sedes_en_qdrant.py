@@ -35,12 +35,20 @@ def main() -> int:
         cliente=obtener_qdrant_client(cfg),
         nombre_coleccion=cfg.qdrant_collection,
     )
-    res = rec.listar({"tipo_pagina": "sede"}, limite=max(1, min(args.limite_muestra, 500)))
-    archivos = Counter((it.archivo or "").strip() for it in res.items if (it.archivo or "").strip())
+    res = rec.listar(
+        {"tipo_pagina": "sede"}, limite=max(1, min(args.limite_muestra, 500))
+    )
+    archivos = Counter(
+        (it.archivo or "").strip() for it in res.items if (it.archivo or "").strip()
+    )
     print(f"Coleccion: {cfg.qdrant_collection}")
-    print(f"Total unicos (dedupe URL/nombre+archivo) tipo_pagina=sede: {res.conteo}")
+    print(
+        f"Total deduplicado (scroll listar_estructurado, tipo_pagina=sede): {res.conteo}"
+    )
     if res.muestra_truncada:
-        print(f"(Muestra truncada a {len(res.items)} filas; aumente --limite-muestra para ver mas.)")
+        print(
+            f"(Muestra truncada a {len(res.items)} filas; aumente --limite-muestra para ver mas.)"
+        )
     for arch, k in sorted(archivos.items(), key=lambda x: (-x[1], x[0])):
         print(f"  {k:4d}  {arch}")
     if res.conteo == 0:

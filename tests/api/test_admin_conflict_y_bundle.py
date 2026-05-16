@@ -58,7 +58,9 @@ class _SesionAdminEnMemoria:
 
 
 @pytest.mark.asyncio
-async def test_patch_version_desactualizada_retorna_409(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_patch_version_desactualizada_retorna_409(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "clave-admin-test-123")
     app = crear_app()
     mem = _SesionAdminEnMemoria()
@@ -73,10 +75,15 @@ async def test_patch_version_desactualizada_retorna_409(monkeypatch: pytest.Monk
 
     app.dependency_overrides[obtener_sesion_db] = _sesion_falsa
     try:
-        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
             resp = await client.patch(
                 "/api/admin/config",
-                headers={"X-Admin-Key": "clave-admin-test-123", "Content-Type": "application/json"},
+                headers={
+                    "X-Admin-Key": "clave-admin-test-123",
+                    "Content-Type": "application/json",
+                },
                 json={"version": 1, "rag_mmr_lambda": 0.2},
             )
     finally:
@@ -103,8 +110,13 @@ async def test_patch_rag_mmr_lambda_servicio_bundle_siguiente_lectura(
 
     app.dependency_overrides[obtener_sesion_db] = _sesion_falsa
     try:
-        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-            headers = {"X-Admin-Key": "clave-admin-test-123", "Content-Type": "application/json"}
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            headers = {
+                "X-Admin-Key": "clave-admin-test-123",
+                "Content-Type": "application/json",
+            }
             r1 = await client.patch(
                 "/api/admin/config",
                 headers=headers,

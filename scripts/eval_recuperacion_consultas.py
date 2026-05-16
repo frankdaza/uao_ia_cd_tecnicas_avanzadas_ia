@@ -60,7 +60,9 @@ def cargar_consultas(ruta: Path) -> list[str]:
     salida: list[str] = []
     for i, item in enumerate(raw):
         if not isinstance(item, str) or not item.strip():
-            raise ValueError(f"consultas[{i}]: cada elemento debe ser un string no vacio")
+            raise ValueError(
+                f"consultas[{i}]: cada elemento debe ser un string no vacio"
+            )
         salida.append(item.strip())
     return salida
 
@@ -116,7 +118,9 @@ def _imprimir_bloque_consultas(
 ) -> None:
     vector_store = obtener_vector_store(cfg)
     embeddings = obtener_embeddings(cfg)
-    rec = RecuperadorDenso.desde_configuracion(cfg, vector_store=vector_store, embeddings=embeddings)
+    rec = RecuperadorDenso.desde_configuracion(
+        cfg, vector_store=vector_store, embeddings=embeddings
+    )
     print("")
     print("=" * 72)
     print(f"CONFIG: {etiqueta}")

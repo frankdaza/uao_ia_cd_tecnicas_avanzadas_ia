@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import time
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
@@ -79,7 +78,7 @@ def _espera_reintento_rate_limit(exc: RateLimitError, intento: int) -> float:
     ra = _segundos_retry_after(exc)
     if ra is not None and ra > 0:
         return min(max(ra, 0.5), 120.0)
-    return min((2 ** intento) * 2.5, 45.0)
+    return min((2**intento) * 2.5, 45.0)
 
 
 def _mensaje_limite_velocidad_desde(exc: RateLimitError) -> str:
@@ -128,7 +127,9 @@ def _llamar_con_reintentos_rate_limit(
                 break
             time.sleep(_espera_reintento_rate_limit(exc, intento))
     assert ultima_exc is not None
-    raise OpenAiClienteError(_mensaje_limite_velocidad_desde(ultima_exc)) from ultima_exc
+    raise OpenAiClienteError(
+        _mensaje_limite_velocidad_desde(ultima_exc)
+    ) from ultima_exc
 
 
 def _mensaje_clave_invalida() -> str:
@@ -143,20 +144,6 @@ def _mensaje_conexion() -> str:
         "No se pudo conectar con la API de OpenAI (tiempo de espera o red). "
         "Comprueba tu conexión e inténtalo de nuevo."
     )
-
-
-def _max_completion_tokens_desde_entorno() -> int | None:
-    """Parsea ``OPENAI_MAX_COMPLETION_TOKENS``; valores no positivos o invalidos dan ``None``."""
-    raw = os.environ.get("OPENAI_MAX_COMPLETION_TOKENS")
-    if not raw or not str(raw).strip():
-        return None
-    try:
-        n = int(str(raw).strip())
-    except (TypeError, ValueError):
-        return None
-    if n <= 0:
-        return None
-    return n
 
 
 def _mensaje_error_generico(codigo: str | int | None) -> str:

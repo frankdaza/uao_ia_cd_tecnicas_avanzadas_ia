@@ -13,7 +13,11 @@ import pytest_asyncio
 @pytest.fixture
 def base_url_e2e() -> str:
     """Origen HTTP de la API (docker-compose suele publicar 8000 en el host)."""
-    raw = os.environ.get("E2E_BASE_URL") or os.environ.get("BASE_URL") or "http://127.0.0.1:8000"
+    raw = (
+        os.environ.get("E2E_BASE_URL")
+        or os.environ.get("BASE_URL")
+        or "http://127.0.0.1:8000"
+    )
     return raw.rstrip("/")
 
 
@@ -31,7 +35,9 @@ async def cliente_http_e2e(base_url_e2e: str) -> httpx.AsyncClient:
         except httpx.RequestError as exc:
             pytest.skip(f"No se alcanza la API en {base_url_e2e}: {exc}")
         if r.status_code != 200:
-            pytest.skip(f"GET /api/salud devolvio HTTP {r.status_code} en {base_url_e2e}")
+            pytest.skip(
+                f"GET /api/salud devolvio HTTP {r.status_code} en {base_url_e2e}"
+            )
         yield client
 
 

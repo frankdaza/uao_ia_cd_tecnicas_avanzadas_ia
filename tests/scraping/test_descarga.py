@@ -82,9 +82,7 @@ def test_descargar_pagina_reintento_5xx(
     m_resp_ok.status_code = 200
     m_get = MagicMock(side_effect=[m_resp_error, m_resp_error, m_resp_ok])
     with patch.object(sesion, "get", m_get):
-        r = descargar_pagina(
-            sesion, "https://e/e", USER_AGENT_DEFECTO, 30, 3
-        )
+        r = descargar_pagina(sesion, "https://e/e", USER_AGENT_DEFECTO, 30, 3)
     assert r.status_code == 200
     assert m_sleep.call_count == 2
 
@@ -98,9 +96,7 @@ def test_descargar_pagina_sin_reintento_404(
     m_resp.status_code = 404
     m_get = MagicMock(return_value=m_resp)
     with patch.object(sesion, "get", m_get):
-        r = descargar_pagina(
-            sesion, "https://e/e", USER_AGENT_DEFECTO, 30, 3
-        )
+        r = descargar_pagina(sesion, "https://e/e", USER_AGENT_DEFECTO, 30, 3)
     assert r.status_code == 404
     m_sleep.assert_not_called()
 

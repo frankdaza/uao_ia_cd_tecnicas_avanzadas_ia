@@ -20,7 +20,9 @@ def limpiar_config(monkeypatch: pytest.MonkeyPatch) -> None:
     obtener_configuracion.cache_clear()
 
 
-def test_obtener_embeddings_openai_pasa_modelo_y_dims(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_obtener_embeddings_openai_pasa_modelo_y_dims(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("EMBEDDING_PROVIDER", "openai")
     monkeypatch.setenv("EMBEDDING_MODEL", "text-embedding-3-small")
     monkeypatch.setenv("EMBEDDING_DIMS", "1536")
@@ -34,7 +36,9 @@ def test_obtener_embeddings_openai_pasa_modelo_y_dims(monkeypatch: pytest.Monkey
         assert kwargs["dimensions"] == 1536
 
 
-def test_obtener_embeddings_openai_sin_dimensions_para_ada(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_obtener_embeddings_openai_sin_dimensions_para_ada(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("EMBEDDING_PROVIDER", "openai")
     monkeypatch.setenv("EMBEDDING_MODEL", "text-embedding-ada-002")
     monkeypatch.setenv("EMBEDDING_DIMS", "1536")

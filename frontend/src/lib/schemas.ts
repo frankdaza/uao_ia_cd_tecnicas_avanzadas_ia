@@ -53,7 +53,7 @@ export type EventoPensamiento = z.infer<typeof EventoPensamientoSchema>
 export const EventoHerramientaSchema = z.object({
   tipo: z.literal('herramienta'),
   nombre: z.string(),
-  latencia_ms: z.number().int().nonnegative(),
+  latencia_ms: z.coerce.number().int().nonnegative(),
   faq_match_encontrado: z.boolean().optional(),
   faq_umbral_match: z.number().optional(),
   faq_consulta_ejecutada: z.string().optional(),
@@ -83,7 +83,7 @@ export const EventoFinalAgenteSchema = z.object({
   tipo: z.literal('final'),
   motor: z.string(),
   texto: z.string(),
-  latencia_ms: z.number().int().nonnegative(),
+  latencia_ms: z.coerce.number().int().nonnegative(),
   modelo: z.string(),
   metricas: z.record(z.string(), z.unknown()).nullable().optional(),
 })

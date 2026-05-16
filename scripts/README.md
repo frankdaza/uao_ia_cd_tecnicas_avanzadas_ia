@@ -208,7 +208,7 @@ uv run python -m scripts.indexar_corpus_qdrant \
 
 ## `scripts.eval_recuperacion_consultas`
 
-**Qué hace.** Carga [`config/evaluacion_rag_consultas_ejemplo.json`](config/evaluacion_rag_consultas_ejemplo.json) (o un JSON propio con clave `consultas`) y, salvo `--solo-validar-json`, ejecuta [`RecuperadorDenso`](../src/rag/recuperador_denso.py) contra la colección Qdrant configurada, imprimiendo `score`, `archivo` y `source_url` por consulta. Sirve para comparar **antes / después** de la agrupación si indexaste en colecciones distintas (`--collection` en el indexador y aquí con el mismo nombre).
+**Qué hace.** Carga [`config/evaluacion_rag_consultas_ejemplo.json`](config/evaluacion_rag_consultas_ejemplo.json) (o un JSON propio con clave `consultas`) y, salvo `--solo-validar-json`, ejecuta [`RecuperadorDenso`](../src/rag/runtime/recuperador_denso.py) contra la colección Qdrant configurada, imprimiendo `score`, `archivo` y `source_url` por consulta. Sirve para comparar **antes / después** de la agrupación si indexaste en colecciones distintas (`--collection` en el indexador y aquí con el mismo nombre).
 
 **Ejecución.**
 
@@ -276,7 +276,7 @@ uv run python -m scripts.eval_metricas_rag --config todas --fail-if-empty
 
 **Flags útiles:** `--golden`, `--config baseline|limpio|markdown|mmr|reranker|combinado|adaptativo|todas`, `--collection`, `--reporte-out`, `--fail-if-empty`, `--comparar`, `--umbral-mrr`, `--umbral-recall-k`, `--umbral-ndcg-k`, `--solo-validar-golden`.
 
-**Métricas en código:** [`src/rag/metricas_eval.py`](../src/rag/metricas_eval.py) y pruebas en `tests/rag/test_metricas_eval.py`.
+**Métricas en código:** [`src/rag/evaluacion/metricas_eval.py`](../src/rag/evaluacion/metricas_eval.py) y pruebas en `tests/rag/test_metricas_eval.py`.
 
 ---
 
@@ -449,4 +449,4 @@ Un `PATCH` exitoso aplica en el **siguiente** `POST /api/agente/stream` **sin re
 
 ---
 
-Para la visión general del proyecto y la app Gradio, consulta el [README principal](../README.md) en la raíz del repositorio.
+Para la visión general del proyecto y el frontend React (Módulo 2), consulta el [README principal](../README.md) en la raíz del repositorio.

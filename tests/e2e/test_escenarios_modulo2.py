@@ -42,7 +42,9 @@ async def _consumir_agente_sse(
         },
     ) as respuesta:
         if respuesta.status_code == 503:
-            pytest.skip("Grafo del agente no disponible (HTTP 503). Revise OPENAI_API_KEY o MOCK_LLM=1.")
+            pytest.skip(
+                "Grafo del agente no disponible (HTTP 503). Revise OPENAI_API_KEY o MOCK_LLM=1."
+            )
         if respuesta.status_code == 401:
             pytest.skip("Sesion no autorizada (HTTP 401).")
         assert respuesta.status_code == 200, await respuesta.aread()
@@ -63,7 +65,9 @@ def _herramientas_por_turno(eventos: list[tuple[str, dict[str, Any]]]) -> list[s
 
 def _herramientas_ejecutadas(eventos: list[tuple[str, dict[str, Any]]]) -> list[str]:
     """Solo eventos ``herramienta`` (una entrada por invocacion de tool)."""
-    return [str(p["nombre"]) for e, p in eventos if e == "herramienta" and p.get("nombre")]
+    return [
+        str(p["nombre"]) for e, p in eventos if e == "herramienta" and p.get("nombre")
+    ]
 
 
 async def _salud_mock_llm(client: httpx.AsyncClient) -> bool | None:

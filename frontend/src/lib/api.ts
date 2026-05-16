@@ -26,7 +26,15 @@ export const SESSION_HEADER_NAME = 'X-Session-Id'
 
 const DEFAULT_CREDENTIALS: RequestCredentials = 'include'
 
-class ApiError extends Error {
+type AuthInvalidCallback = () => void
+let authInvalidHandler: AuthInvalidCallback | null = null
+
+/** Registra limpieza de sesión local cuando una petición REST devuelve 401/403 (p. ej. cookie expirada). */
+export function setAuthInvalidHandler(handler: AuthInvalidCallback | null): void {
+  authInvalidHandler = handler
+}
+
+export class ApiError extends Error {
   readonly status: number
   readonly detail: string | undefined
 
@@ -40,6 +48,9 @@ class ApiError extends Error {
 
 async function parseJson<T>(response: Response, schema: { parse: (v: unknown) => T }): Promise<T> {
   if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      authInvalidHandler?.()
+    }
     let detail: string | undefined
     try {
       const body = (await response.json()) as { detail?: string }
@@ -107,5 +118,3 @@ export async function postCerrarSesion(sessionId?: string): Promise<SesionCierre
   })
   return parseJson(res, SesionCierreRespuestaSchema)
 }
-
-export { ApiError }

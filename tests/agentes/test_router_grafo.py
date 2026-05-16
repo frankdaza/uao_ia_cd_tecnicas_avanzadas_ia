@@ -75,6 +75,11 @@ class _ListaRouterFalso:
             self._padre.indice += 1
             return self._padre.respuestas[min(i, len(self._padre.respuestas) - 1)]
 
+        async def ainvoke(
+            self, mensajes: Any, config: Any = None, **kwargs: Any
+        ) -> AIMessage:
+            return self.invoke(mensajes, config=config, **kwargs)
+
 
 class _MemoriaFalsa:
     def __init__(self, historial_previo: list[Any] | None = None) -> None:
@@ -234,14 +239,16 @@ def test_grafo_turno_completo_faq_fake_models(
         herramientas=[faq_t, rag_t, list_t],
     )
     memoria = _MemoriaFalsa()
-    salida = grafo.invoke(
-        {
-            "pregunta": "Cual es el telefono?",
-            "session_id": "user:00000000-0000-4000-8000-000000000001",
-            "primer_turno": True,
-            "usuario": {"nombre": "Laura", "doc_id": "999"},
-        },
-        config={"configurable": {"memoria": memoria}},
+    salida = asyncio.run(
+        grafo.ainvoke(
+            {
+                "pregunta": "Cual es el telefono?",
+                "session_id": "user:00000000-0000-4000-8000-000000000001",
+                "primer_turno": True,
+                "usuario": {"nombre": "Laura", "doc_id": "999"},
+            },
+            config={"configurable": {"memoria": memoria}},
+        )
     )
     assert salida["respuesta_final"] == "Respuesta final del compositor (FAQ)."
     assert salida["tool_decidida"] == "faq_estructurada"
@@ -282,14 +289,16 @@ def test_grafo_rama_rag_y_fuentes_en_estado(
         herramientas=[faq_t, rag_t, list_t],
     )
     memoria = _MemoriaFalsa()
-    salida = grafo.invoke(
-        {
-            "pregunta": "Explique la politica",
-            "session_id": "user:00000000-0000-4000-8000-000000000002",
-            "primer_turno": False,
-            "usuario": {"nombre": "Carlos", "doc_id": "1"},
-        },
-        config={"configurable": {"memoria": memoria}},
+    salida = asyncio.run(
+        grafo.ainvoke(
+            {
+                "pregunta": "Explique la politica",
+                "session_id": "user:00000000-0000-4000-8000-000000000002",
+                "primer_turno": False,
+                "usuario": {"nombre": "Carlos", "doc_id": "1"},
+            },
+            config={"configurable": {"memoria": memoria}},
+        )
     )
     assert salida["tool_decidida"] == "rag_denso"
     assert len(salida.get("fuentes") or []) == 1
@@ -369,16 +378,22 @@ def test_pensamiento_router_incluye_herramienta(
         meta_prompt=_meta_prompt_minimo(),
         herramientas=[faq_t, rag_t, list_t],
     )
-    salida = grafo.invoke(
-        {
-            "pregunta": "Q",
-            "session_id": "user:00000000-0000-4000-8000-000000000004",
-            "primer_turno": False,
-            "usuario": {},
-        },
-        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    salida = asyncio.run(
+        grafo.ainvoke(
+            {
+                "pregunta": "Q",
+                "session_id": "user:00000000-0000-4000-8000-000000000004",
+                "primer_turno": False,
+                "usuario": {},
+            },
+            config={"configurable": {"memoria": _MemoriaFalsa()}},
+        )
     )
-    decisiones = [p for p in salida.get("pensamientos") or [] if p.get("tipo") == "decision_router"]
+    decisiones = [
+        p
+        for p in salida.get("pensamientos") or []
+        if p.get("tipo") == "decision_router"
+    ]
     assert decisiones and decisiones[0].get("herramienta") == "rag_denso"
 
 
@@ -404,6 +419,12 @@ def test_compositor_recibe_nombre_registrado_e_historial_en_system(
         def stream(self, input, config=None, **kwargs):  # noqa: ANN001, ARG002
             captura_mensajes.append(list(input))
             yield from super().stream(input, config=config, **kwargs)
+
+        async def astream(self, input, config=None, **kwargs):  # noqa: ANN001, ARG002
+            """Paridad con ``nodo_componer_respuesta`` (prefiere API async del LLM)."""
+            captura_mensajes.append(list(input))
+            for trozo in self.stream(input, config=config, **kwargs):
+                yield trozo
 
     router_llm = _ListaRouterFalso(
         [
@@ -437,21 +458,27 @@ def test_compositor_recibe_nombre_registrado_e_historial_en_system(
         rag_top_k=5,
         rag_score_minimo=0.25,
     )
-    salida = grafo.invoke(
-        {
-            "pregunta": "Recuerdas lo anterior?",
-            "session_id": "user:00000000-0000-4000-8000-0000000000aa",
-            "primer_turno": False,
-            "usuario": {"nombre": "Alvaro", "doc_id": "1"},
-        },
-        config={"configurable": {"memoria": mem, "runtime_agente": bundle}},
+    salida = asyncio.run(
+        grafo.ainvoke(
+            {
+                "pregunta": "Recuerdas lo anterior?",
+                "session_id": "user:00000000-0000-4000-8000-0000000000aa",
+                "primer_turno": False,
+                "usuario": {"nombre": "Alvaro", "doc_id": "1"},
+            },
+            config={"configurable": {"memoria": mem, "runtime_agente": bundle}},
+        )
     )
     assert salida.get("respuesta_final")
     assert captura_mensajes, "el compositor debio recibir mensajes"
     ultimo = captura_mensajes[-1]
     from langchain_core.messages import SystemMessage
 
-    textos_sistema = [m.content for m in ultimo if isinstance(m, SystemMessage) and isinstance(m.content, str)]
+    textos_sistema = [
+        m.content
+        for m in ultimo
+        if isinstance(m, SystemMessage) and isinstance(m.content, str)
+    ]
     unido = "\n".join(textos_sistema)
     assert "Alvaro" in unido
     assert "Pepe" in unido
@@ -484,10 +511,17 @@ def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
             tools_capturadas.append(list(tools_arg))
 
             class _E:
-                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                def invoke(
+                    self2: Any, mensajes: Any, config: Any = None, **kw: Any
+                ) -> AIMessage:
                     _ = self2, config, kw
                     mensajes_capturados.append(list(mensajes))
                     return self._respuesta
+
+                async def ainvoke(
+                    self2: Any, mensajes: Any, config: Any = None, **kw: Any
+                ) -> AIMessage:
+                    return self2.invoke(mensajes, config=config, **kw)
 
             return _E()
 
@@ -498,13 +532,17 @@ def test_router_system_prompt_incluye_reglas_y_catalogo_herramientas() -> None:
         meta_prompt=meta,
         herramientas=[faq_t, rag_t, list_t],
     )
-    grafo.invoke(
-        {"pregunta": "PBX?", "session_id": "u:1", "primer_turno": True, "usuario": {}},
-        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    asyncio.run(
+        grafo.ainvoke(
+            {"pregunta": "PBX?", "session_id": "u:1", "primer_turno": True, "usuario": {}},
+            config={"configurable": {"memoria": _MemoriaFalsa()}},
+        )
     )
     assert mensajes_capturados
     sys_msgs = [m for m in mensajes_capturados[-1] if isinstance(m, SystemMessage)]
-    texto = sys_msgs[0].content if sys_msgs and isinstance(sys_msgs[0].content, str) else ""
+    texto = (
+        sys_msgs[0].content if sys_msgs and isinstance(sys_msgs[0].content, str) else ""
+    )
     assert "Priorizar FAQ cuando aplique match directo." in texto
     assert "Telefono PBX" in texto
     assert "### Herramienta `faq_estructurada`" in texto
@@ -531,7 +569,9 @@ def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> 
             _ = kwargs
 
             class _E:
-                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                def invoke(
+                    self2: Any, mensajes: Any, config: Any = None, **kw: Any
+                ) -> AIMessage:
                     _ = self2, config, kw
                     for m in mensajes:
                         if isinstance(m, SystemMessage) and isinstance(m.content, str):
@@ -548,6 +588,11 @@ def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> 
                         ],
                     )
 
+                async def ainvoke(
+                    self2: Any, mensajes: Any, config: Any = None, **kw: Any
+                ) -> AIMessage:
+                    return self2.invoke(mensajes, config=config, **kw)
+
             return _E()
 
     grafo = crear_grafo_agente(
@@ -556,9 +601,11 @@ def test_router_system_texto_incluye_solo_reglas_cuando_se_actualiza_lista() -> 
         meta_prompt=meta,
         herramientas=[faq_t, rag_t, list_t],
     )
-    grafo.invoke(
-        {"pregunta": "x", "session_id": "u:1", "primer_turno": False, "usuario": {}},
-        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    asyncio.run(
+        grafo.ainvoke(
+            {"pregunta": "x", "session_id": "u:1", "primer_turno": False, "usuario": {}},
+            config={"configurable": {"memoria": _MemoriaFalsa()}},
+        )
     )
     assert cap and "REGLA_UNICA_ADMIN_SOLO_EN_LISTA." in cap[-1]
 
@@ -574,7 +621,9 @@ def test_grafo_conteo_pediatras_enruta_listar_sin_llm_router(
             _ = tools, kwargs
 
             class _E:
-                def invoke(self2: Any, mensajes: Any, config: Any = None, **kw: Any) -> AIMessage:
+                def invoke(
+                    self2: Any, mensajes: Any, config: Any = None, **kw: Any
+                ) -> AIMessage:
                     _ = self2, mensajes, config, kw
                     raise AssertionError("No se esperaba invocacion al LLM del router")
 
@@ -587,14 +636,16 @@ def test_grafo_conteo_pediatras_enruta_listar_sin_llm_router(
         meta_prompt=_meta_prompt_minimo(),
         herramientas=[faq_t, rag_t, list_t],
     )
-    salida = grafo.invoke(
-        {
-            "pregunta": "¿Cuántos pediatras hay en el directorio médico?",
-            "session_id": "user:00000000-0000-4000-8000-00000000b701",
-            "primer_turno": False,
-            "usuario": {},
-        },
-        config={"configurable": {"memoria": _MemoriaFalsa()}},
+    salida = asyncio.run(
+        grafo.ainvoke(
+            {
+                "pregunta": "¿Cuántos pediatras hay en el directorio médico?",
+                "session_id": "user:00000000-0000-4000-8000-00000000b701",
+                "primer_turno": False,
+                "usuario": {},
+            },
+            config={"configurable": {"memoria": _MemoriaFalsa()}},
+        )
     )
     assert salida.get("tool_decidida") == "listar_estructurado"
     rt = salida.get("resultado_tool") or {}

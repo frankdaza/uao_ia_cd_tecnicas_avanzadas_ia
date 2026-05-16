@@ -96,7 +96,9 @@ def test_recuperador_coleccion_vacia(limpiar_singletons_qdrant: None) -> None:
     assert out.razon == "coleccion_vacia"
 
 
-def test_recuperador_umbral_filtra_y_ordena_desc(limpiar_singletons_qdrant: None) -> None:
+def test_recuperador_umbral_filtra_y_ordena_desc(
+    limpiar_singletons_qdrant: None,
+) -> None:
     cliente = QdrantClient(location=":memory:")
     nombre = "col_rag"
     cliente.create_collection(
@@ -165,7 +167,9 @@ def test_recuperador_umbral_filtra_y_ordena_desc(limpiar_singletons_qdrant: None
     assert "texto alto" in out.respuesta_contexto
 
 
-def test_recuperador_sin_coincidencias_sobre_umbral(limpiar_singletons_qdrant: None) -> None:
+def test_recuperador_sin_coincidencias_sobre_umbral(
+    limpiar_singletons_qdrant: None,
+) -> None:
     cliente = QdrantClient(location=":memory:")
     nombre = "col_umbral"
     cliente.create_collection(

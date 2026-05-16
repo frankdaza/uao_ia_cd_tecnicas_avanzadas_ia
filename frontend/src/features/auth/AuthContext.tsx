@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components -- modulo compartido Provider + hook (patron M2). */
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { z } from 'zod'
-import { postCerrarSesion, postIniciarSesion } from '@/lib/api'
+import { postCerrarSesion, postIniciarSesion, setAuthInvalidHandler } from '@/lib/api'
 import type { SesionPeticion } from '@/lib/schemas'
 import { AUTH_STORAGE_KEY } from './authStorage'
 
@@ -53,6 +53,16 @@ function borrarPersistencia() {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<AuthUsuario | null>(() => leerPersistencia())
+
+  useEffect(() => {
+    setAuthInvalidHandler(() => {
+      borrarPersistencia()
+      setUsuario(null)
+    })
+    return () => {
+      setAuthInvalidHandler(null)
+    }
+  }, [])
 
   const iniciarSesion = useCallback(async (peticion: SesionPeticion) => {
     const res = await postIniciarSesion(peticion)

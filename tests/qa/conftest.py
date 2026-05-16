@@ -11,8 +11,5 @@ import pytest
 def dir_fixtures_markdown() -> Path:
     """Mismo corpus de prueba que ``tests/retrieval/fixtures/markdown``."""
     return (
-        Path(__file__).resolve().parent.parent
-        / "retrieval"
-        / "fixtures"
-        / "markdown"
+        Path(__file__).resolve().parent.parent / "retrieval" / "fixtures" / "markdown"
     )

@@ -139,6 +139,7 @@ services:
     volumes:
       - ./config:/app/config:ro
       - ./data/structured:/app/data/structured:ro
+      - ./data/markdown:/app/data/markdown:ro
     depends_on:
       postgres:
         condition: service_healthy

@@ -28,7 +28,9 @@ class RepositorioUsuarios:
         """Busca por clave primaria ``id``."""
         return await self._sesion.get(Usuario, usuario_id)
 
-    async def obtener_o_crear(self, documento: str, nombre: str) -> tuple[Usuario, bool]:
+    async def obtener_o_crear(
+        self, documento: str, nombre: str
+    ) -> tuple[Usuario, bool]:
         """
         Inserta si no existe; si ya existia, devuelve la fila actual sin
         modificar el nombre.

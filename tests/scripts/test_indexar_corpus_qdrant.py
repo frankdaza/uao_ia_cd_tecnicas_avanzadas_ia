@@ -29,8 +29,7 @@ def proyecto_minimo(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "source_url: https://ejemplo.org/uno\n"
         "seccion: pruebas\n"
         "---\n\n"
-        "# Titulo\n\n"
-        + cuerpo_largo,
+        "# Titulo\n\n" + cuerpo_largo,
         encoding="utf-8",
     )
     (md / "mal_yaml.md").write_text(

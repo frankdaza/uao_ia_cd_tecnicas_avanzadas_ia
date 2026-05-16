@@ -95,7 +95,9 @@ class ConfiguracionCrawler:
     user_agent: str = USER_AGENT_DEFECTO
     timeout: int = 30
     reintentos: int = 3
-    directorio_salida: Path = field(default_factory=lambda: DIRECTORIO_CRUDO_POR_DEFECTO)
+    directorio_salida: Path = field(
+        default_factory=lambda: DIRECTORIO_CRUDO_POR_DEFECTO
+    )
 
 
 @dataclass
@@ -332,7 +334,9 @@ class _ResolucionSlug:
 class Crawler:
     """Rastreo BFS con respecto a robots, persistencia e idempotencia por hash."""
 
-    def __init__(self, config: ConfiguracionCrawler, gestor_robots: GestorRobots) -> None:
+    def __init__(
+        self, config: ConfiguracionCrawler, gestor_robots: GestorRobots
+    ) -> None:
         self._config = config
         self._gestor = gestor_robots
         self._sesion = requests.Session()
@@ -371,10 +375,7 @@ class Crawler:
                 prev = json.loads(ruta_meta.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
                 prev = {}
-            if (
-                prev.get("hash_sha256") == hash_hex
-                and ruta_html.is_file()
-            ):
+            if prev.get("hash_sha256") == hash_hex and ruta_html.is_file():
                 return ruta_html, ruta_meta, False, True
         ct = (resp.headers.get("Content-Type") or "").split(";")[0].strip()
         meta: dict[str, Any] = {

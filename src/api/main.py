@@ -143,7 +143,9 @@ def crear_app() -> FastAPI:
 
     # Servir el frontend React como estáticos en producción
     if _FRONTEND_DIST.exists():
-        app.mount("/", StaticFiles(directory=_FRONTEND_DIST, html=True), name="frontend")
+        app.mount(
+            "/", StaticFiles(directory=_FRONTEND_DIST, html=True), name="frontend"
+        )
 
     return app
 

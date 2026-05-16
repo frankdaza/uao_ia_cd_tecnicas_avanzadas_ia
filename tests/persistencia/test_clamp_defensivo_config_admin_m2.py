@@ -37,6 +37,7 @@ def _fila_con_valor(**kwargs: object) -> ConfigAdminM2:
         ("rag_reranker_top_n_entrada", 100, 50),
         ("rag_reranker_batch_size", 9999, 256),
         ("historial_turnos_max", 5000, 200),
+        ("historial_dias_max", 900, 365),
     ],
 )
 def test_clamp_valor_fuera_de_rango_registra_warning(
@@ -65,6 +66,8 @@ def test_clamp_valor_fuera_de_rango_registra_warning(
         assert svc.rag_reranker_batch_size_efectivo(fila) == int(esperado)
     elif campo_attr == "historial_turnos_max":
         assert svc.historial_turnos_max_efectivo(fila) == int(esperado)
+    elif campo_attr == "historial_dias_max":
+        assert svc.historial_dias_max_efectivo(fila) == int(esperado)
     else:
         raise AssertionError(campo_attr)
 
