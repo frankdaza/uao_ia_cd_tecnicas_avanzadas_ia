@@ -55,7 +55,9 @@ def _elegir_tool_y_consulta(texto_router: str) -> tuple[str, str]:
 class RouterDeterministicoModulo2E2e:
     """Sustituto de ``ChatOpenAI`` del router: ``bind_tools().invoke(...)``."""
 
-    def bind_tools(self, tools: list[StructuredTool], **kwargs: Any) -> RouterDeterministicoModulo2E2e._Enlazado:
+    def bind_tools(
+        self, tools: list[StructuredTool], **kwargs: Any
+    ) -> RouterDeterministicoModulo2E2e._Enlazado:
         _ = kwargs
         return self._Enlazado(tools)
 
@@ -63,7 +65,9 @@ class RouterDeterministicoModulo2E2e:
         def __init__(self, tools: list[StructuredTool]) -> None:
             self._nombres = {t.name for t in tools}
 
-        def invoke(self, mensajes: list[BaseMessage], config: Any = None, **kwargs: Any) -> AIMessage:
+        def invoke(
+            self, mensajes: list[BaseMessage], config: Any = None, **kwargs: Any
+        ) -> AIMessage:
             _ = config, kwargs
             texto = _texto_ultimo_humano(list(mensajes))
             tool, consulta = _elegir_tool_y_consulta(texto)
@@ -81,6 +85,11 @@ class RouterDeterministicoModulo2E2e:
                     }
                 ],
             )
+
+        async def ainvoke(
+            self, mensajes: list[BaseMessage], config: Any = None, **kwargs: Any
+        ) -> AIMessage:
+            return self.invoke(mensajes, config, **kwargs)
 
 
 class CompositorDeterministicoModulo2E2e:
@@ -105,6 +114,13 @@ class CompositorDeterministicoModulo2E2e:
                 c = m.content
                 sistema += c if isinstance(c, str) else str(c)
         return AIMessage(content=self._texto_respuesta(texto, sistema))
+
+    async def ainvoke(self, mensajes: list[BaseMessage], **kwargs: Any) -> AIMessage:
+        return self.invoke(mensajes, **kwargs)
+
+    async def astream(self, mensajes: list[BaseMessage], **kwargs: Any):
+        for chunk in self.stream(mensajes, **kwargs):
+            yield chunk
 
     @staticmethod
     def _texto_respuesta(ultimo_humano: str, _bloque_sistema: str) -> str:

@@ -25,6 +25,15 @@ import yaml
 logger = logging.getLogger(__name__)
 
 
+def _posix_rel_seguro(hijo: Path, raiz: Path) -> str:
+    hr = hijo.resolve()
+    rr = raiz.resolve()
+    try:
+        return hr.relative_to(rr).as_posix()
+    except ValueError:
+        return hr.as_posix()
+
+
 def encontrar_raiz_repo(inicio: Path | None = None) -> Path:
     """Sube directorios hasta hallar ``pyproject.toml``; si no, usa ``cwd``."""
     p = (inicio or Path.cwd()).resolve()
@@ -34,7 +43,9 @@ def encontrar_raiz_repo(inicio: Path | None = None) -> Path:
     return p
 
 
-def parsear_front_matter_yaml(texto_completo: str) -> tuple[dict | None, str, str | None]:
+def parsear_front_matter_yaml(
+    texto_completo: str,
+) -> tuple[dict | None, str, str | None]:
     """
     Parser minimo de front matter entre delimitadores ``---``.
 
@@ -124,7 +135,9 @@ def _cargar_grupos_desde_yaml(data: Any) -> list[GrupoConfig]:
         if not patrones:
             raise ValueError(f"grupos[{i}]: patron_nombre no puede quedar vacio")
         if not gid or not arch or not titulo:
-            raise ValueError(f"grupos[{i}]: id, patron_nombre, archivo_salida y titulo no pueden quedar vacios")
+            raise ValueError(
+                f"grupos[{i}]: id, patron_nombre, archivo_salida y titulo no pueden quedar vacios"
+            )
         suc = str(item.get("source_url_canonica") or "").strip()
         if arch in vistos_salida:
             raise ValueError(f"archivo_salida duplicado en configuracion: {arch}")
@@ -151,7 +164,9 @@ def cargar_configuracion_grupos(ruta: Path) -> tuple[dict[str, Any], list[GrupoC
     return data if isinstance(data, dict) else {}, grupos
 
 
-def _grupo_que_coincide(nombre_archivo: str, grupos: list[GrupoConfig]) -> GrupoConfig | None:
+def _grupo_que_coincide(
+    nombre_archivo: str, grupos: list[GrupoConfig]
+) -> GrupoConfig | None:
     for g in grupos:
         for patron in g.patrones_nombre:
             if fnmatch.fnmatch(nombre_archivo, patron):
@@ -160,7 +175,12 @@ def _grupo_que_coincide(nombre_archivo: str, grupos: list[GrupoConfig]) -> Grupo
 
 
 def _relativo_seguro(ruta: Path, base: Path) -> Path:
-    rel = ruta.resolve().relative_to(base.resolve())
+    hr = ruta.resolve()
+    br = base.resolve()
+    try:
+        rel = hr.relative_to(br)
+    except ValueError:
+        rel = hr
     if any(p == ".." for p in rel.parts):
         raise ValueError("ruta fuera del directorio permitido")
     return rel
@@ -213,8 +233,8 @@ def ejecutar_agrupacion(
     manifest: dict[str, Any] = {
         "version": 1,
         "fecha_agrupacion": date.today().isoformat(),
-        "entrada_posix": entrada.resolve().relative_to(raiz).as_posix(),
-        "salida_posix": salida.resolve().relative_to(raiz).as_posix(),
+        "entrada_posix": _posix_rel_seguro(entrada, raiz),
+        "salida_posix": _posix_rel_seguro(salida, raiz),
         "solo_grupos": solo_grupos,
         "grupos": {},
         "archivos_copiados": [],
@@ -282,7 +302,7 @@ def ejecutar_agrupacion(
             manifest["grupos"][grupo.id] = {
                 "patron_nombre": grupo.patron_nombre_manifest,
                 "archivo_salida": grupo.archivo_salida,
-                "archivos_origen": [p.resolve().relative_to(raiz).as_posix() for p in miembros],
+                "archivos_origen": [_posix_rel_seguro(p, raiz) for p in miembros],
             }
             continue
 
@@ -314,7 +334,7 @@ def ejecutar_agrupacion(
         manifest["grupos"][grupo.id] = {
             "patron_nombre": grupo.patron_nombre_manifest,
             "archivo_salida": grupo.archivo_salida,
-            "archivos_origen": [p.resolve().relative_to(raiz).as_posix() for p in miembros],
+            "archivos_origen": [_posix_rel_seguro(p, raiz) for p in miembros],
         }
 
     if not solo_grupos:
@@ -326,8 +346,8 @@ def ejecutar_agrupacion(
             stats.archivos_copiados += 1
             manifest["archivos_copiados"].append(
                 {
-                    "desde": ruta.resolve().relative_to(raiz).as_posix(),
-                    "hasta": destino.resolve().relative_to(raiz).as_posix(),
+                    "desde": _posix_rel_seguro(ruta, raiz),
+                    "hasta": _posix_rel_seguro(destino, raiz),
                 }
             )
 

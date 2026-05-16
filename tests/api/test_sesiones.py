@@ -28,7 +28,9 @@ async def cliente_api_sesiones(fastapi_app_sesion_mock) -> AsyncClient:
 
 
 @pytest.mark.asyncio
-async def test_post_sesiones_crea_usuario_y_cookie(cliente_api_sesiones: AsyncClient) -> None:
+async def test_post_sesiones_crea_usuario_y_cookie(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     uid = uuid.uuid4()
     usuario = Usuario(id=uid, documento_identidad="999", nombre="Usuario Demo")
     with patch("src.api.routers.sesiones.RepositorioUsuarios") as cls_mock:
@@ -54,7 +56,9 @@ async def test_post_sesiones_crea_usuario_y_cookie(cliente_api_sesiones: AsyncCl
 
 
 @pytest.mark.asyncio
-async def test_post_sesiones_usuario_existente_mismo_id(cliente_api_sesiones: AsyncClient) -> None:
+async def test_post_sesiones_usuario_existente_mismo_id(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     uid = uuid.uuid4()
     usuario = Usuario(id=uid, documento_identidad="888", nombre="Ya Registrado")
     with patch("src.api.routers.sesiones.RepositorioUsuarios") as cls_mock:
@@ -76,13 +80,17 @@ async def test_post_sesiones_usuario_existente_mismo_id(cliente_api_sesiones: As
 
 
 @pytest.mark.asyncio
-async def test_get_historial_sin_credencial_401(cliente_api_sesiones: AsyncClient) -> None:
+async def test_get_historial_sin_credencial_401(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     resp = await cliente_api_sesiones.get("/api/sesiones/actual/historial")
     assert resp.status_code == 401
 
 
 @pytest.mark.asyncio
-async def test_get_historial_session_id_invalido_401(cliente_api_sesiones: AsyncClient) -> None:
+async def test_get_historial_session_id_invalido_401(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     resp = await cliente_api_sesiones.get(
         "/api/sesiones/actual/historial",
         headers={"X-Session-Id": "no-es-un-uuid"},
@@ -91,7 +99,9 @@ async def test_get_historial_session_id_invalido_401(cliente_api_sesiones: Async
 
 
 @pytest.mark.asyncio
-async def test_get_historial_usuario_desconocido_401(cliente_api_sesiones: AsyncClient) -> None:
+async def test_get_historial_usuario_desconocido_401(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     uid = uuid.uuid4()
     sid = sesion_id_memoria_langchain(uid)
     with patch("src.api.dependencias.RepositorioUsuarios") as cls_mock:
@@ -136,7 +146,9 @@ async def test_get_historial_ok_mock_memoria(cliente_api_sesiones: AsyncClient) 
 
 
 @pytest.mark.asyncio
-async def test_post_cerrar_sesion_set_cookie_delete(cliente_api_sesiones: AsyncClient) -> None:
+async def test_post_cerrar_sesion_set_cookie_delete(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     resp = await cliente_api_sesiones.post("/api/sesiones/cerrar")
     assert resp.status_code == 200
     assert resp.json()["ok"] is True
@@ -145,7 +157,9 @@ async def test_post_cerrar_sesion_set_cookie_delete(cliente_api_sesiones: AsyncC
 
 
 @pytest.mark.asyncio
-async def test_openapi_incluye_rutas_sesiones(cliente_api_sesiones: AsyncClient) -> None:
+async def test_openapi_incluye_rutas_sesiones(
+    cliente_api_sesiones: AsyncClient,
+) -> None:
     r = await cliente_api_sesiones.get("/openapi.json")
     assert r.status_code == 200
     rutas = r.json().get("paths", {})

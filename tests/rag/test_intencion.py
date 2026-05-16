@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.intencion import inferir_filtros_tipo_pagina_para_rag, inferir_intencion
+from src.rag.runtime.intencion import (
+    inferir_filtros_tipo_pagina_para_rag,
+    inferir_intencion,
+)
 
 
 @pytest.mark.parametrize(
@@ -40,7 +43,9 @@ def test_inferir_intencion_vacio() -> None:
 
 
 def test_filtros_tipo_pagina_mision() -> None:
-    assert inferir_filtros_tipo_pagina_para_rag("¿Cuál es la misión institucional?") == [
+    assert inferir_filtros_tipo_pagina_para_rag(
+        "¿Cuál es la misión institucional?"
+    ) == [
         "institucional",
     ]
 
@@ -50,7 +55,9 @@ def test_filtros_tipo_pagina_sin_match() -> None:
 
 
 def test_filtros_tipo_pagina_sede() -> None:
-    assert inferir_filtros_tipo_pagina_para_rag("Dame toda la información de tus sedes") == [
+    assert inferir_filtros_tipo_pagina_para_rag(
+        "Dame toda la información de tus sedes"
+    ) == [
         "sede",
     ]
     assert inferir_filtros_tipo_pagina_para_rag("¿Dónde están las sedes?") == ["sede"]

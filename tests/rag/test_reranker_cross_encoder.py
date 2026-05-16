@@ -6,14 +6,16 @@ import logging
 
 import pytest
 
-from src.rag import reranker_cross_encoder as mod
+from src.rag.runtime import reranker_cross_encoder as mod
 
 
 class _CrossEncoderFalso:
     def __init__(self, modelo: str) -> None:
         self.modelo = modelo
 
-    def predict(self, pares: list[list[str]], batch_size: int | None = None, **_kwargs: object) -> list[float]:
+    def predict(
+        self, pares: list[list[str]], batch_size: int | None = None, **_kwargs: object
+    ) -> list[float]:
         return [float(len(p[1])) for p in pares]
 
 
@@ -24,7 +26,9 @@ class _CrossEncoderLotes:
         self.modelo = modelo
         self.batch_sizes: list[int | None] = []
 
-    def predict(self, pares: list[list[str]], batch_size: int | None = None, **_kwargs: object) -> list[float]:
+    def predict(
+        self, pares: list[list[str]], batch_size: int | None = None, **_kwargs: object
+    ) -> list[float]:
         self.batch_sizes.append(batch_size)
         return [float(len(p[1])) for p in pares]
 
@@ -58,7 +62,9 @@ def test_puntuar_respeta_batch_size_en_predict(monkeypatch: pytest.MonkeyPatch) 
     assert enc.batch_sizes == [7]
 
 
-def test_puntuar_descarta_nan_con_warning(caplog: pytest.LogCaptureFixture, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_puntuar_descarta_nan_con_warning(
+    caplog: pytest.LogCaptureFixture, monkeypatch: pytest.MonkeyPatch
+) -> None:
     mod.RerankerCrossEncoder.reiniciar_singletons_prueba()
     monkeypatch.setattr(mod, "_importar_cross_encoder", lambda: _CrossEncoderNaNEnMedio)
     rnk = mod.RerankerCrossEncoder("nan-model")

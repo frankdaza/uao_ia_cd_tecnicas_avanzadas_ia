@@ -1,4 +1,4 @@
-"""Prompt de sistema institucional compartido por el agente M2 y la composicion de mensajes en src/qa."""
+"""Prompt de sistema institucional compartido por el agente M2 y la composicion de mensajes en ``src/laboratorio/qa_legacy``."""
 
 from __future__ import annotations
 

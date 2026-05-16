@@ -4,8 +4,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.qa.documento_contexto import DocumentoContexto
-from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes, componer_mensajes_multi
+from src.laboratorio.qa_legacy.documento_contexto import DocumentoContexto
+from src.laboratorio.qa_legacy.prompt import (
+    PROMPT_SISTEMA_DEFECTO,
+    componer_mensajes,
+    componer_mensajes_multi,
+)
 
 
 def test_prompt_contiene_frase_clave() -> None:
@@ -69,7 +73,11 @@ def test_componer_mensajes_multi_tres_documentos_y_separadores() -> None:
     assert "[DOCUMENTO 3]" in sistema
     assert "CONTEXTO (3 documentos ordenados por relevancia)" in sistema
     assert sistema.count("---") >= 2
-    assert "Cuerpo alpha" in sistema and "Cuerpo beta" in sistema and "Cuerpo gamma" in sistema
+    assert (
+        "Cuerpo alpha" in sistema
+        and "Cuerpo beta" in sistema
+        and "Cuerpo gamma" in sistema
+    )
     assert "sin URL" in sistema
     assert msgs[1]["content"] == "pregunta usuario"
 

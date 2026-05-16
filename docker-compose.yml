@@ -121,6 +121,15 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       QDRANT_URL: http://qdrant:6333
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      # LangSmith / LangChain: el contenedor no monta el `.env` del repo; Compose inyecta desde el `.env` del host (sustitucion ${...}).
+      LANGCHAIN_TRACING_V2: ${LANGCHAIN_TRACING_V2:-}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-}
+      LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY:-}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGCHAIN_PROJECT: ${LANGCHAIN_PROJECT:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-}
+      LANGCHAIN_ENDPOINT: ${LANGCHAIN_ENDPOINT:-}
+      LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-}
       # Panel admin M2 (cabecera X-Admin-Key). Debe coincidir con la entrada en `.env` del host (sin espacios antes del nombre).
       ADMIN_API_KEY: ${ADMIN_API_KEY:-}
       # 1/true: router y compositor sin OpenAI (ver scripts/README.md y tests/e2e/).
@@ -130,6 +139,7 @@ services:
     volumes:
       - ./config:/app/config:ro
       - ./data/structured:/app/data/structured:ro
+      - ./data/markdown:/app/data/markdown:ro
     depends_on:
       postgres:
         condition: service_healthy

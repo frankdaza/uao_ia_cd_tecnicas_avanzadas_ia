@@ -6,7 +6,7 @@ import math
 
 import pytest
 
-from src.rag.metricas_eval import (
+from src.rag.evaluacion.metricas_eval import (
     archivos_desde_chunks_rankeados,
     conjunto_archivos_unicos_en_primeros_k,
     hit_at_k,
@@ -97,9 +97,9 @@ class TestMrr:
         assert mrr(["z.md", "w.md"], REL, k=2) == 0.0
 
     def test_ignora_segundo_relevante(self) -> None:
-        assert mrr(["z.md", "data/markdown/a.md", "data/markdown/b.md"], REL, k=3) == pytest.approx(
-            0.5
-        )
+        assert mrr(
+            ["z.md", "data/markdown/a.md", "data/markdown/b.md"], REL, k=3
+        ) == pytest.approx(0.5)
 
     def test_relevante_fuera_de_k(self) -> None:
         assert mrr(["z.md", "w.md", "data/markdown/a.md"], REL, k=2) == 0.0
@@ -145,7 +145,9 @@ class TestNdcgAtK:
         pytest.param(["a.md"], set(), 2, "b", id="b_relevantes_vacio"),
         pytest.param(["a.md"], {"a.md"}, 0, "c", id="c_k_cero"),
         pytest.param(["x.md", "y.md"], {"a.md"}, 3, "d", id="d_ningun_chunk_relevante"),
-        pytest.param(["a.md", "b.md"], {"a.md", "b.md"}, 2, "e", id="e_todos_chunks_relevantes"),
+        pytest.param(
+            ["a.md", "b.md"], {"a.md", "b.md"}, 2, "e", id="e_todos_chunks_relevantes"
+        ),
         pytest.param(["a.md", "z.md"], {"a.md"}, 2, "f", id="f_mezcla_relevantes_y_no"),
     ],
 )

@@ -11,7 +11,9 @@ src/
   markdown_export/   # conversion crudo -> Markdown con front matter (data/markdown/)
   preprocessing/     # limpieza adicional si hace falta antes del chunking
   knowledge_base/    # scripts de chunking y export del corpus procesado
-  qa/                # prompts, clientes LLM (Ollama/OpenAI), composicion de contexto
+  laboratorio/       # experimentacion y legado fuera del runtime M2 productivo
+    qa_legacy/       # prompts, clientes LLM (Ollama/OpenAI), composicion de contexto
+  qa/                # shim deprecado que reexporta qa_legacy (retiro planificado; ver README)
   agentes/           # M2: router LangGraph, estado, meta_prompt, herramientas, memoria
   rag/               # M2: embeddings, Qdrant, chunking vectorial, recuperador denso
   persistencia/      # M2: motor SQLAlchemy async, modelos, repositorios (usuarios, sesiones)
@@ -24,7 +26,6 @@ src/
       salud.py       # GET /api/salud
       sesiones.py    # M2: POST /api/sesiones, historial, borrar ultimo turno, cerrar sesion
       agente.py      # M2: POST /api/agente/stream (SSE agente)
-  app/               # paquete reservado (sin UI legacy; producto en frontend/)
 config/              # M2: router_meta_prompt.json (sin secretos)
 alembic/             # M2: migraciones esquema app (p. ej. usuarios)
 scripts/

@@ -23,9 +23,9 @@ import logging
 from pathlib import Path
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.embeddings import obtener_embeddings
-from src.rag.qdrant_store import obtener_vector_store, reiniciar_cliente_qdrant
-from src.rag.recuperador_denso import RecuperadorDenso
+from src.rag.runtime.embeddings import obtener_embeddings
+from src.rag.runtime.qdrant_store import obtener_vector_store, reiniciar_cliente_qdrant
+from src.rag.runtime.recuperador_denso import RecuperadorDenso
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +60,9 @@ def cargar_consultas(ruta: Path) -> list[str]:
     salida: list[str] = []
     for i, item in enumerate(raw):
         if not isinstance(item, str) or not item.strip():
-            raise ValueError(f"consultas[{i}]: cada elemento debe ser un string no vacio")
+            raise ValueError(
+                f"consultas[{i}]: cada elemento debe ser un string no vacio"
+            )
         salida.append(item.strip())
     return salida
 
@@ -116,7 +118,9 @@ def _imprimir_bloque_consultas(
 ) -> None:
     vector_store = obtener_vector_store(cfg)
     embeddings = obtener_embeddings(cfg)
-    rec = RecuperadorDenso.desde_configuracion(cfg, vector_store=vector_store, embeddings=embeddings)
+    rec = RecuperadorDenso.desde_configuracion(
+        cfg, vector_store=vector_store, embeddings=embeddings
+    )
     print("")
     print("=" * 72)
     print(f"CONFIG: {etiqueta}")

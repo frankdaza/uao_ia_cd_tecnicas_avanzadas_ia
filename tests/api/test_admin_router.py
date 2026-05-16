@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from datetime import UTC, datetime
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -12,6 +13,7 @@ from httpx import ASGITransport, AsyncClient
 from src.api.configuracion import obtener_configuracion
 from src.api.dependencias import obtener_sesion_db
 from src.api.main import crear_app
+from src.api.routers import admin as admin_router
 from src.persistencia.modelos import ConfigAdminM2
 
 
@@ -24,26 +26,45 @@ def limpiar_cache_config() -> None:
 
 
 @pytest.mark.asyncio
-async def test_admin_config_503_cuando_no_hay_clave(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_admin_config_503_cuando_no_hay_clave(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "")
     obtener_configuracion.cache_clear()
+    # Con env_ignore_empty en Configuracion, '' no pisa valores del .env; la dependencia
+    # admin debe ver clave ausente para esperar 503.
+    monkeypatch.setattr(
+        admin_router,
+        "obtener_configuracion",
+        lambda: SimpleNamespace(admin_api_key=None),
+    )
     app = crear_app()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        resp = await client.get("/api/admin/config", headers={"X-Admin-Key": "cualquiera"})
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as client:
+        resp = await client.get(
+            "/api/admin/config", headers={"X-Admin-Key": "cualquiera"}
+        )
     assert resp.status_code == 503
 
 
 @pytest.mark.asyncio
-async def test_admin_config_401_clave_incorrecta(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_admin_config_401_clave_incorrecta(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "abcd")
     app = crear_app()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as client:
         resp = await client.get("/api/admin/config", headers={"X-Admin-Key": "eeee"})
     assert resp.status_code == 401
 
 
 @pytest.mark.asyncio
-async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_admin_config_200_con_sesion_simulada(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "clave-admin-test-123")
     app = crear_app()
 
@@ -56,7 +77,9 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
 
     app.dependency_overrides[obtener_sesion_db] = _sesion_falsa
     try:
-        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
             resp = await client.get(
                 "/api/admin/config",
                 headers={"X-Admin-Key": "clave-admin-test-123"},
@@ -80,13 +103,18 @@ async def test_admin_config_200_con_sesion_simulada(monkeypatch: pytest.MonkeyPa
     assert cuerpo["rag_reranker_top_n_entrada"] == cfg.rag_reranker_top_n_entrada
     assert cuerpo["rag_reranker_batch_size"] == cfg.rag_reranker_batch_size
     assert cuerpo["historial_turnos_max"] == cfg.historial_turnos_max
+    assert cuerpo["historial_dias_max"] == cfg.historial_dias_max
 
 
 @pytest.mark.asyncio
-async def test_admin_config_401_sin_cabecera_x_admin_key(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_admin_config_401_sin_cabecera_x_admin_key(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("ADMIN_API_KEY", "abc")
     app = crear_app()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as client:
         resp = await client.get("/api/admin/config")
     assert resp.status_code == 401
 
@@ -108,7 +136,9 @@ async def test_admin_usuarios_200_lista_vacia(monkeypatch: pytest.MonkeyPatch) -
             inst = cls_mock.return_value
             inst.contar_total = AsyncMock(return_value=0)
             inst.listar_paginado = AsyncMock(return_value=[])
-            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            async with AsyncClient(
+                transport=ASGITransport(app=app), base_url="http://test"
+            ) as client:
                 resp = await client.get(
                     "/api/admin/usuarios",
                     headers={"X-Admin-Key": "clave-admin-test-123"},
@@ -154,7 +184,9 @@ class _SesionAdminEnMemoria:
 
 
 @pytest.mark.asyncio
-async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_admin_patch_luego_get_misma_sesion_hot_reload(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Tras PATCH, un segundo GET en el mismo proceso observa la temperatura persistida (simulacion en memoria)."""
     monkeypatch.setenv("ADMIN_API_KEY", "clave-admin-test-123")
     app = crear_app()
@@ -165,8 +197,13 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
 
     app.dependency_overrides[obtener_sesion_db] = _sesion_falsa
     try:
-        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-            headers = {"X-Admin-Key": "clave-admin-test-123", "Content-Type": "application/json"}
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            headers = {
+                "X-Admin-Key": "clave-admin-test-123",
+                "Content-Type": "application/json",
+            }
             r1 = await client.patch(
                 "/api/admin/config",
                 headers=headers,
@@ -174,7 +211,9 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             )
             assert r1.status_code == 200
             assert r1.json()["temperatura_router"] == 0.37
-            r2 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
+            r2 = await client.get(
+                "/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"}
+            )
             assert r2.status_code == 200
             assert r2.json()["temperatura_router"] == 0.37
             assert r2.json()["version"] >= 1
@@ -190,7 +229,9 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             assert r3.status_code == 200
             assert r3.json()["rag_top_k"] == 12
             assert r3.json()["rag_score_minimo"] == 0.4
-            r4 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
+            r4 = await client.get(
+                "/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"}
+            )
             assert r4.status_code == 200
             assert r4.json()["rag_top_k"] == 12
             assert r4.json()["rag_score_minimo"] == 0.4
@@ -201,7 +242,9 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             )
             assert r5.status_code == 200
             assert r5.json()["historial_turnos_max"] == 33
-            r6 = await client.get("/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"})
+            r6 = await client.get(
+                "/api/admin/config", headers={"X-Admin-Key": "clave-admin-test-123"}
+            )
             assert r6.status_code == 200
             assert r6.json()["historial_turnos_max"] == 33
             r7 = await client.patch(
@@ -223,7 +266,10 @@ async def test_admin_patch_luego_get_misma_sesion_hot_reload(monkeypatch: pytest
             assert r7.json()["rag_mmr_habilitado"] is False
             assert r7.json()["rag_mmr_lambda"] == 0.72
             assert r7.json()["rag_reranker_habilitado"] is True
-            assert r7.json()["rag_reranker_modelo"] == "cross-encoder/ms-marco-MiniLM-L-6-v2"
+            assert (
+                r7.json()["rag_reranker_modelo"]
+                == "cross-encoder/ms-marco-MiniLM-L-6-v2"
+            )
             assert r7.json()["rag_reranker_top_n_entrada"] == 8
             assert r7.json()["rag_reranker_batch_size"] == 32
             r_bad = await client.patch(

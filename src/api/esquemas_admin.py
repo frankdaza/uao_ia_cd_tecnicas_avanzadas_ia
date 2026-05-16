@@ -8,7 +8,11 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from src.api._limites_rag import LIMITES_RAG, LIMITE_HISTORIAL_TURNOS_MAX
+from src.api._limites_rag import (
+    LIMITES_RAG,
+    LIMITE_HISTORIAL_DIAS_MAX,
+    LIMITE_HISTORIAL_TURNOS_MAX,
+)
 
 _LTK = LIMITES_RAG["rag_top_k"]
 _LSM = LIMITES_RAG["rag_score_minimo"]
@@ -17,6 +21,7 @@ _LML = LIMITES_RAG["rag_mmr_lambda"]
 _LRTE = LIMITES_RAG["rag_reranker_top_n_entrada"]
 _LRBS = LIMITES_RAG["rag_reranker_batch_size"]
 _LHTM = LIMITE_HISTORIAL_TURNOS_MAX
+_LHDM = LIMITE_HISTORIAL_DIAS_MAX
 
 
 class EstadoConfigAdminM2Respuesta(BaseModel):
@@ -24,7 +29,9 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    version: int = Field(ge=0, description="Version optimista para PATCH (0 si no hay fila).")
+    version: int = Field(
+        ge=0, description="Version optimista para PATCH (0 si no hay fila)."
+    )
     updated_at: datetime | None = Field(
         default=None,
         description="Ultima actualizacion de overrides en base de datos, si existe fila.",
@@ -99,6 +106,14 @@ class EstadoConfigAdminM2Respuesta(BaseModel):
             "columna admin o HISTORIAL_TURNOS_MAX en .env."
         ),
     )
+    historial_dias_max: int = Field(
+        ge=int(_LHDM.minimo),
+        le=int(_LHDM.maximo),
+        description=(
+            "Antiguedad maxima en dias de mensajes cargados desde PostgreSQL; "
+            "columna admin o HISTORIAL_DIAS_MAX en .env."
+        ),
+    )
     nota_precedencia: str = Field(
         default=(
             "Valores mostrados son los efectivos al atender peticiones: overrides en "
@@ -128,7 +143,9 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
     model_kwargs_compositor: dict[str, Any] | None = None
     meta_prompt: dict[str, Any] | None = None
     prompt_institucional: str | None = None
-    rag_top_k: int | None = Field(default=None, ge=int(_LTK.minimo), le=int(_LTK.maximo))
+    rag_top_k: int | None = Field(
+        default=None, ge=int(_LTK.minimo), le=int(_LTK.maximo)
+    )
     rag_score_minimo: float | None = Field(
         default=None,
         ge=float(_LSM.minimo),
@@ -140,7 +157,9 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
         le=int(_LTKI.maximo),
     )
     rag_mmr_habilitado: bool | None = None
-    rag_mmr_lambda: float | None = Field(default=None, ge=float(_LML.minimo), le=float(_LML.maximo))
+    rag_mmr_lambda: float | None = Field(
+        default=None, ge=float(_LML.minimo), le=float(_LML.maximo)
+    )
     rag_reranker_habilitado: bool | None = None
     rag_reranker_modelo: str | None = Field(default=None, max_length=256)
     rag_reranker_top_n_entrada: int | None = Field(
@@ -157,6 +176,11 @@ class ParcheConfigAdminM2Cuerpo(BaseModel):
         default=None,
         ge=int(_LHTM.minimo),
         le=int(_LHTM.maximo),
+    )
+    historial_dias_max: int | None = Field(
+        default=None,
+        ge=int(_LHDM.minimo),
+        le=int(_LHDM.maximo),
     )
 
     @field_validator("rag_reranker_modelo")

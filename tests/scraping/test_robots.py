@@ -56,19 +56,19 @@ def test_descargar_texto_robots_lectura_real(m_urlopen: MagicMock) -> None:
 
 def test_puede_descargar_permitido() -> None:
     parser = cargar_robots(leer_lineas_robots_ejemplo(), _URL_ROBOTS)
-    assert parser.can_fetch(
-        USER_AGENT_DEFECTO, "https://valledellili.org/"
-    ) is True
-    assert parser.can_fetch(
-        USER_AGENT_DEFECTO, "https://valledellili.org/guia/intro"
-    ) is True
+    assert parser.can_fetch(USER_AGENT_DEFECTO, "https://valledellili.org/") is True
+    assert (
+        parser.can_fetch(USER_AGENT_DEFECTO, "https://valledellili.org/guia/intro")
+        is True
+    )
 
 
 def test_puede_descargar_denegado() -> None:
     parser = cargar_robots(leer_lineas_robots_ejemplo(), _URL_ROBOTS)
-    assert parser.can_fetch(
-        USER_AGENT_DEFECTO, "https://valledellili.org/admin/secret"
-    ) is False
+    assert (
+        parser.can_fetch(USER_AGENT_DEFECTO, "https://valledellili.org/admin/secret")
+        is False
+    )
 
 
 def test_crawl_delay_declarado_en_fixture() -> None:
@@ -76,16 +76,16 @@ def test_crawl_delay_declarado_en_fixture() -> None:
     d = parser.crawl_delay(USER_AGENT_DEFECTO)
     assert d is not None
     assert float(d) == pytest.approx(3.0)
-    assert crawl_delay_con_defecto(
-        parser, USER_AGENT_DEFECTO, 1.0
-    ) == pytest.approx(3.0)
+    assert crawl_delay_con_defecto(parser, USER_AGENT_DEFECTO, 1.0) == pytest.approx(
+        3.0
+    )
 
 
 def test_crawl_delay_con_defecto_cae_en_uno() -> None:
     parser = cargar_robots("User-agent: *\n".splitlines(), _URL_ROBOTS)
-    assert crawl_delay_con_defecto(
-        parser, USER_AGENT_DEFECTO, 1.0
-    ) == pytest.approx(1.0)
+    assert crawl_delay_con_defecto(parser, USER_AGENT_DEFECTO, 1.0) == pytest.approx(
+        1.0
+    )
 
 
 @patch("src.scraping.robots._descargar_texto_robots", autospec=True)
@@ -123,7 +123,9 @@ def test_carga_perezosa_solo_bajo_lectura(
 def test_gestor_falla_carga_hace_falso_y_delay_uno(
     m_descarga: MagicMock,
 ) -> None:
-    m_descarga.side_effect = HTTPError("https://x/robots.txt", 503, "Servicio", None, None)
+    m_descarga.side_effect = HTTPError(
+        "https://x/robots.txt", 503, "Servicio", None, None
+    )
     g = GestorRobots("https://valledellili.org")
     assert g.puede_descargar("https://valledellili.org/") is False
     assert g.puede_descargar("https://valledellili.org/cualquier/") is False
@@ -154,4 +156,3 @@ def test_gestor_falla_de_red_mockeada_conservador(
     m_descarga.side_effect = exc
     g = GestorRobots("https://valledellili.org")
     assert g.puede_descargar("https://valledellili.org/a") is False
-

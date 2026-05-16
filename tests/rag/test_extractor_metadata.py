@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from src.rag import extractor_metadata as em
+from src.rag.runtime import extractor_metadata as em
 
 
 @dataclass
@@ -18,11 +18,17 @@ class _NodoPrueba:
 
 
 def test_inferir_tipo_ficha_medico() -> None:
-    assert em.inferir_tipo_pagina("directorio-medico", "x/directorio-medico-juan-perez.md") == "ficha_medico"
+    assert (
+        em.inferir_tipo_pagina("directorio-medico", "x/directorio-medico-juan-perez.md")
+        == "ficha_medico"
+    )
 
 
 def test_inferir_tipo_servicio() -> None:
-    assert em.inferir_tipo_pagina("servicios", "servicios-gastroenterologia-pediatrica.md") == "servicio"
+    assert (
+        em.inferir_tipo_pagina("servicios", "servicios-gastroenterologia-pediatrica.md")
+        == "servicio"
+    )
 
 
 def test_inferir_tipo_sede() -> None:
@@ -36,7 +42,10 @@ def test_inferir_tipo_institucional_y_subtipo_mision() -> None:
 
 
 def test_inferir_tipo_educacion() -> None:
-    assert em.inferir_tipo_pagina("educacion", "educacion-lactancia-materna.md") == "educacion"
+    assert (
+        em.inferir_tipo_pagina("educacion", "educacion-lactancia-materna.md")
+        == "educacion"
+    )
 
 
 def test_extraer_nombre_medico_desde_titulo() -> None:
@@ -80,8 +89,12 @@ Mas texto.
 
 
 def test_extraer_sedes_marcas_tequendama_y_av_estacion() -> None:
-    assert "Sede Tequendama" in em.extraer_sedes("Atencion en **Sede Tequendama**.", None)
-    assert "Sede Av. Estación" in em.extraer_sedes("Como llegar a la Sede Av. Estación.", None)
+    assert "Sede Tequendama" in em.extraer_sedes(
+        "Atencion en **Sede Tequendama**.", None
+    )
+    assert "Sede Av. Estación" in em.extraer_sedes(
+        "Como llegar a la Sede Av. Estación.", None
+    )
 
 
 def test_extraer_tags_fm_y_by_tag() -> None:

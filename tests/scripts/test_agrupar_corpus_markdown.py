@@ -14,7 +14,9 @@ def _yaml_config(tmp: Path, grupos: list[dict]) -> Path:
     cfg = tmp / "config" / "test_agrupacion.yaml"
     cfg.parent.mkdir(parents=True)
     cfg.write_text(
-        yaml.safe_dump({"version": 1, "grupos": grupos}, allow_unicode=True, sort_keys=False),
+        yaml.safe_dump(
+            {"version": 1, "grupos": grupos}, allow_unicode=True, sort_keys=False
+        ),
         encoding="utf-8",
     )
     return cfg

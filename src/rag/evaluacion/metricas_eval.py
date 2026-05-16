@@ -30,7 +30,9 @@ def archivos_desde_chunks_rankeados(archivos_por_chunk: list[str], k: int) -> li
     return [_normalizar_ruta(a) for a in archivos_por_chunk[:k]]
 
 
-def conjunto_archivos_unicos_en_primeros_k(archivos_por_chunk: list[str], k: int) -> set[str]:
+def conjunto_archivos_unicos_en_primeros_k(
+    archivos_por_chunk: list[str], k: int
+) -> set[str]:
     """
     Conjunto de archivos distintos entre los primeros ``k`` chunks (orden no importa).
 
@@ -52,7 +54,9 @@ def hit_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -
     return 0
 
 
-def precision_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> float:
+def precision_at_k(
+    archivos_por_chunk: list[str], relevantes: Iterable[str], k: int
+) -> float:
     """
     ``precision@k`` a nivel documento deduplicado: ``|T ∩ R| / k`` donde ``T`` es el
     conjunto de archivos unicos en los primeros ``k`` chunks y ``R`` el ground truth.
@@ -66,7 +70,9 @@ def precision_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: 
     return len(t & rel) / float(k)
 
 
-def recall_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> float:
+def recall_at_k(
+    archivos_por_chunk: list[str], relevantes: Iterable[str], k: int
+) -> float:
     """
     ``recall@k`` a nivel documento: ``|T ∩ R| / |R|`` con ``T`` deduplicado en el top-k.
     Si ``R`` es vacio, retorna 0.0.
@@ -84,13 +90,17 @@ def mrr(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> flo
     0 si no hay acierto en el top-k. El rank es 1-indexado.
     """
     rel = {_normalizar_ruta(r) for r in relevantes}
-    for i, a in enumerate(archivos_desde_chunks_rankeados(archivos_por_chunk, k), start=1):
+    for i, a in enumerate(
+        archivos_desde_chunks_rankeados(archivos_por_chunk, k), start=1
+    ):
         if a in rel:
             return 1.0 / float(i)
     return 0.0
 
 
-def ndcg_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> float:
+def ndcg_at_k(
+    archivos_por_chunk: list[str], relevantes: Iterable[str], k: int
+) -> float:
     """
     ``nDCG@k`` con relevancia binaria por chunk: ganancia 1 si el archivo del chunk
     pertenece a ``R`` en esa posicion. El iDCG asume que las ``k`` primeras ranuras
@@ -103,11 +113,7 @@ def ndcg_at_k(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) 
     if not rel:
         return 0.0
     ranked = archivos_desde_chunks_rankeados(archivos_por_chunk, k)
-    dcg = sum(
-        1.0 / math.log2(i + 2.0)
-        for i, a in enumerate(ranked)
-        if a in rel
-    )
+    dcg = sum(1.0 / math.log2(i + 2.0) for i, a in enumerate(ranked) if a in rel)
     idcg = sum(1.0 / math.log2(i + 2.0) for i in range(k))
     if idcg <= 0.0:
         return 0.0
@@ -127,7 +133,9 @@ def recall_conteo(conteo_devuelto: int, conteo_esperado: int) -> float:
     return min(float(conteo_devuelto), float(conteo_esperado)) / float(conteo_esperado)
 
 
-def hit_at_k_por_chunk(archivos_por_chunk: list[str], relevantes: Iterable[str], k: int) -> int:
+def hit_at_k_por_chunk(
+    archivos_por_chunk: list[str], relevantes: Iterable[str], k: int
+) -> int:
     """
     Metrica auxiliar: mismo criterio que ``hit_at_k`` pero explicita semantica por chunk
     (equivale a ``hit_at_k`` con la misma entrada).

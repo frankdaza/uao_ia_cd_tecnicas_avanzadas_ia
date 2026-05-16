@@ -158,6 +158,8 @@ def candidatos_desde_pares_similitud(
     return salida
 
 
-def pares_desde_candidatos_mmr(candidatos: list[NodeWithScore]) -> list[tuple[float, object]]:
+def pares_desde_candidatos_mmr(
+    candidatos: list[NodeWithScore],
+) -> list[tuple[float, object]]:
     """Convierte la salida de MMR a pares (score, nodo) para ``_salida_desde_pares``."""
     return [(float(c.score), c.node) for c in candidatos]

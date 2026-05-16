@@ -39,7 +39,9 @@ def _escribir_sidecar(
         "profundidad": 0,
         "headers_relevantes": {},
     }
-    ruta.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    ruta.write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def _parse_front_matter(texto: str) -> dict:
@@ -117,7 +119,9 @@ def test_quita_script_style_nav_footer_nav_cookie() -> None:
         body = convertir_html_a_md(p, j).cuerpo.lower()
     assert "window.x" not in body
     assert "aceptar cookies" not in body
-    assert "nav" not in body or "solo esto" in body  # nav tag removed, word nav may appear? Actually "Solo esto" 
+    assert (
+        "nav" not in body or "solo esto" in body
+    )  # nav tag removed, word nav may appear? Actually "Solo esto"
     # nav text "Nav" might still be issue - the nav is removed with content
     assert "pie" not in body  # footer decomposed
 
@@ -176,7 +180,7 @@ def test_extraer_titulo_y_derivar_seccion() -> None:
 
 def test_limpiar_html_destruye_banners() -> None:
     s = BeautifulSoup(
-        "<body><div class=\"cookie-notice\">X</div><p>OK</p></body>",
+        '<body><div class="cookie-notice">X</div><p>OK</p></body>',
         "html.parser",
     )
     limpiar_html(s)
@@ -211,4 +215,3 @@ def test_depurar_kb_quita_linea_solo_imagen() -> None:
     assert "!(" not in sal
     assert "Linea buena" in sal
     assert "[Mas](http://ok)" in sal
-

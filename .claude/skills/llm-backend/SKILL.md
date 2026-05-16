@@ -1,6 +1,6 @@
 ---
 name: llm-backend
-description: LLM en el repo (clientes Ollama/OpenAI en src/qa, agente M2 LangGraph LangChain LlamaIndex Qdrant). Usar al disenar src/qa src/agentes src/rag o integracion con modelos.
+description: LLM en el repo (clientes Ollama/OpenAI en src/laboratorio/qa_legacy, agente M2 LangGraph LangChain LlamaIndex Qdrant). Usar al disenar src/laboratorio/qa_legacy src/agentes src/rag o integracion con modelos.
 ---
 
 # Backend LLM
@@ -17,7 +17,7 @@ El pipeline BM25 + `PipelineQa` **se retiro del arbol de codigo**. El contexto h
 - **Detalle de implementacion**, pruebas con fakes, ingesta e idempotencia: skill **`agente-modulo-2`**.
 - **ADR**: `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md`.
 
-## Clientes y prompts en `src/qa`
+## Clientes y prompts en `src/laboratorio/qa_legacy/`
 
 - **Ollama** y **OpenAI**: modulos `cliente_ollama.py`, `cliente_openai.py`; variables `OLLAMA_BASE_URL`, `OPENAI_API_KEY`, modelos en `.env.example`.
 - **Prompt**: `prompt.py` con `PROMPT_SISTEMA_DEFECTO`, `componer_mensajes` / `componer_mensajes_multi` usando `DocumentoContexto` (sin acoplamiento a recuperadores retirados).

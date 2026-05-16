@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -7,12 +8,21 @@ interface SheetProps {
   open: boolean
   onOpenChange: (v: boolean) => void
   title: string
-  children: React.ReactNode
+  /** Texto accesible breve (Radix DialogDescription); por defecto panel de navegación. */
+  description?: string
+  children: ReactNode
   side?: 'left' | 'right'
 }
 
 /** Panel lateral deslizable (solo móvil) basado en Radix Dialog. */
-export function Sheet({ open, onOpenChange, title, children, side = 'left' }: SheetProps) {
+export function Sheet({
+  open,
+  onOpenChange,
+  title,
+  description = 'Panel lateral de navegación',
+  children,
+  side = 'left',
+}: SheetProps) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -23,7 +33,6 @@ export function Sheet({ open, onOpenChange, title, children, side = 'left' }: Sh
             side === 'left' ? 'left-0 top-0 h-full w-[min(19rem,90vw)]' : 'right-0 top-0 h-full',
             'data-[state=open]:animate-in data-[state=closed]:animate-out fade-in zoom-in slide-in-from-left-2',
           )}
-          aria-describedby={undefined}
         >
           <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] shrink-0">
             <Dialog.Title className="text-sm font-semibold">{title}</Dialog.Title>
@@ -33,6 +42,7 @@ export function Sheet({ open, onOpenChange, title, children, side = 'left' }: Sh
               </Button>
             </Dialog.Close>
           </div>
+          <Dialog.Description className="sr-only">{description}</Dialog.Description>
           <div className="flex-1 min-h-0">{children}</div>
         </Dialog.Content>
       </Dialog.Portal>

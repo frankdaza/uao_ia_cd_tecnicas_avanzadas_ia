@@ -100,7 +100,9 @@ def test_memoria_usuario_persiste_y_ventana_dias() -> None:
     finally:
         try:
             with conn.cursor() as cur:
-                cur.execute("DELETE FROM chat_history WHERE session_id = %s::uuid", (str(uid),))
+                cur.execute(
+                    "DELETE FROM chat_history WHERE session_id = %s::uuid", (str(uid),)
+                )
             conn.commit()
         finally:
             conn.close()
@@ -147,7 +149,9 @@ def test_memoria_usuario_crear_desde_conninfo_cierra() -> None:
     conn = psycopg.connect(sync_url)
     try:
         with conn.cursor() as cur:
-            cur.execute("DELETE FROM chat_history WHERE session_id = %s::uuid", (str(uid),))
+            cur.execute(
+                "DELETE FROM chat_history WHERE session_id = %s::uuid", (str(uid),)
+            )
         conn.commit()
     finally:
         conn.close()

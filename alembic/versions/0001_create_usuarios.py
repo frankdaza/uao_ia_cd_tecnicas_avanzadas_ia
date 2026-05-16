@@ -53,3 +53,4 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     op.drop_table("usuarios")
+    op.execute("DROP EXTENSION IF EXISTS pgcrypto")

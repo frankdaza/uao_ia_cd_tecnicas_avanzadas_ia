@@ -10,8 +10,8 @@ from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
 
 from src.api.configuracion import Configuracion, obtener_configuracion
-from src.rag.qdrant_store import obtener_qdrant_client
-from src.rag.recuperador_listados import RecuperadorListados
+from src.rag.runtime.qdrant_store import obtener_qdrant_client
+from src.rag.runtime.recuperador_listados import RecuperadorListados
 
 
 class ArgsConsultaListados(BaseModel):
@@ -124,10 +124,11 @@ def crear_listar_estructurado_tool(
         name="listar_estructurado",
         description=(
             "Enumera entidades del corpus institucional indexado en Qdrant filtrando por "
-            "metadatos de payload (tipo de pagina, especialidad, sedes). Para un **catalogo de "
-            "sedes** (ubicaciones institucionales) use ``tipo_pagina=\"sede\"`` solo; no pase "
-            "todas las sedes conocidas en el argumento ``sedes`` para significar \"todas las "
-            "sedes\" (eso hace OR sobre menciones en cualquier pagina, p. ej. notas). Usar cuando "
+            "metadatos de payload (tipo de pagina, especialidad, sedes). Si no se pasan "
+            "filtros, se hace un scroll global acotado (ver RecuperadorListados). Para un **catalogo de "
+            'sedes** (ubicaciones institucionales) use ``tipo_pagina="sede"`` solo; no pase '
+            'todas las sedes conocidas en el argumento ``sedes`` para significar "todas las '
+            'sedes" (eso hace OR sobre menciones en cualquier pagina, p. ej. notas). Usar cuando '
             "la consulta pida listar, enumerar o contar conjuntos (p. ej. pediatras por sede) "
             "donde la busqueda semantica top-k no basta. No sustituye a ``rag_denso`` para "
             "preguntas abiertas de texto ni a FAQ determinista."

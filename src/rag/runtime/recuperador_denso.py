@@ -17,6 +17,7 @@ from llama_index.core.vector_stores.types import (
 from pydantic import BaseModel, ConfigDict, Field
 from qdrant_client.http.models import Filter
 
+from src.agentes.reglas import coercionar_top_k_final, coercionar_top_k_inicial
 from src.api.configuracion import Configuracion
 
 if TYPE_CHECKING:
@@ -57,7 +58,9 @@ class FuenteRagDenso(BaseModel):
             "valor del cross-encoder si hubo reranker."
         ),
     )
-    chunk_index: int = Field(ge=0, description="Indice del fragmento dentro del archivo.")
+    chunk_index: int = Field(
+        ge=0, description="Indice del fragmento dentro del archivo."
+    )
     score: float = Field(
         description="Alias retrocompatible de score_final (mismo valor numerico).",
     )
@@ -71,8 +74,9 @@ class SalidaRecuperacionRagDenso(BaseModel):
     ``fuentes`` esta vacia. Valores posibles (snake_case): ``coleccion_vacia`` (sin
     puntos indexados en la consulta sin filtros), ``embeddings_fallo`` (proveedor de
     embeddings indisponible o error), ``qdrant_fallo`` (error al consultar el vector
-    store) y ``qdrant_response_mismatch`` (cardinalidad inconsistente entre nodos y
-    similitudes devueltas por el backend).
+    store), ``qdrant_response_mismatch`` (cardinalidad inconsistente entre nodos y
+    similitudes devueltas por el backend) y ``mmr_sin_candidatos`` (hubo candidatos densos
+    pero MMR o reranker descartaron todos los fragmentos).
     """
 
     respuesta_contexto: str = Field(
@@ -113,9 +117,9 @@ class RecuperadorDenso:
     ) -> None:
         self._vector_store = vector_store
         self._embeddings = embeddings
-        self._top_k = top_k
+        self._top_k = coercionar_top_k_final(int(top_k))
         self._score_minimo = score_minimo
-        self._top_k_inicial = max(1, int(top_k_inicial))
+        self._top_k_inicial = coercionar_top_k_inicial(int(top_k_inicial))
         self._mmr_habilitado = bool(mmr_habilitado)
         self._mmr_lambda = float(mmr_lambda)
         self._reranker_habilitado = bool(reranker_habilitado)
@@ -143,28 +147,44 @@ class RecuperadorDenso:
         reranker_batch_size: int | None = None,
     ) -> RecuperadorDenso:
         """Carga vector store y embeddings desde ``cfg`` salvo que se inyecten."""
-        from src.rag.embeddings import obtener_embeddings
-        from src.rag.qdrant_store import obtener_vector_store
+        from src.rag.runtime.embeddings import obtener_embeddings
+        from src.rag.runtime.qdrant_store import obtener_vector_store
 
         vs = vector_store or obtener_vector_store(cfg)
         emb = embeddings or obtener_embeddings(cfg)
         return cls(
             vector_store=vs,
             embeddings=emb,
-            top_k=int(cfg.rag_top_k if top_k is None else top_k),
-            score_minimo=float(cfg.rag_score_minimo if score_minimo is None else score_minimo),
-            top_k_inicial=int(cfg.rag_top_k_inicial if top_k_inicial is None else top_k_inicial),
-            mmr_habilitado=bool(cfg.rag_mmr_habilitado if mmr_habilitado is None else mmr_habilitado),
+            top_k=coercionar_top_k_final(
+                int(cfg.rag_top_k if top_k is None else top_k)
+            ),
+            score_minimo=float(
+                cfg.rag_score_minimo if score_minimo is None else score_minimo
+            ),
+            top_k_inicial=coercionar_top_k_inicial(
+                int(cfg.rag_top_k_inicial if top_k_inicial is None else top_k_inicial)
+            ),
+            mmr_habilitado=bool(
+                cfg.rag_mmr_habilitado if mmr_habilitado is None else mmr_habilitado
+            ),
             mmr_lambda=float(cfg.rag_mmr_lambda if mmr_lambda is None else mmr_lambda),
             reranker_habilitado=bool(
-                cfg.rag_reranker_habilitado if reranker_habilitado is None else reranker_habilitado
+                cfg.rag_reranker_habilitado
+                if reranker_habilitado is None
+                else reranker_habilitado
             ),
-            reranker_modelo=str(cfg.rag_reranker_modelo if reranker_modelo is None else reranker_modelo).strip(),
+            reranker_modelo=str(
+                cfg.rag_reranker_modelo if reranker_modelo is None else reranker_modelo
+            ).strip(),
             reranker_top_n_entrada=int(
-                cfg.rag_reranker_top_n_entrada if reranker_top_n_entrada is None else reranker_top_n_entrada
+                cfg.rag_reranker_top_n_entrada
+                if reranker_top_n_entrada is None
+                else reranker_top_n_entrada
             ),
             reranker_batch_size=int(
-                cfg.rag_reranker_batch_size if reranker_batch_size is None else reranker_batch_size
+                cfg.rag_reranker_batch_size
+                if reranker_batch_size is None
+                else reranker_batch_size
             ),
         )
 
@@ -173,7 +193,7 @@ class RecuperadorDenso:
 
     def _limite_qdrant(self, top_efectivo: int) -> int:
         """Candidatos pedidos a Qdrant antes de MMR/rerank (retrocompatible si ambos off)."""
-        te = max(1, int(top_efectivo))
+        te = coercionar_top_k_final(int(top_efectivo))
         if not self._mmr_habilitado and not self._reranker_habilitado:
             return te
         n = max(self._top_k_inicial, te)
@@ -213,7 +233,9 @@ class RecuperadorDenso:
         filtros_tipo_pagina: list[str] | None = None,
         query_embedding: list[float],
     ) -> tuple[list[tuple[float, object]], str | None]:
-        k = self._limite_qdrant(self._top_k if top_k is None else max(1, int(top_k)))
+        k = self._limite_qdrant(
+            self._top_k if top_k is None else coercionar_top_k_final(int(top_k))
+        )
         emb_consulta = list(query_embedding)
         filtros_meta = self._filtros_tipo_pagina(filtros_tipo_pagina)
         consulta_vs = VectorStoreQuery(
@@ -298,7 +320,9 @@ class RecuperadorDenso:
         return archivo, titulo, source_url, chunk_index
 
     @staticmethod
-    def _mapa_score_denso_por_nodo(pares: list[tuple[float, object]]) -> dict[int, float]:
+    def _mapa_score_denso_por_nodo(
+        pares: list[tuple[float, object]],
+    ) -> dict[int, float]:
         return {id(nodo): float(sim) for sim, nodo in pares}
 
     def _salida_desde_triples(
@@ -344,7 +368,7 @@ class RecuperadorDenso:
         similitud densa -> reranker sobre prefijo amplio -> MMR final.
         Solo MMR: MMR sobre candidatos densos. Solo reranker: rerank sobre prefijo denso.
         """
-        top_ef = max(1, int(top_efectivo))
+        top_ef = coercionar_top_k_final(int(top_efectivo))
         mapa_denso = self._mapa_score_denso_por_nodo(pares)
         if not pares:
             return []
@@ -354,7 +378,7 @@ class RecuperadorDenso:
 
         from llama_index.core.schema import NodeWithScore
 
-        from src.rag.diversificador_mmr import (
+        from src.rag.runtime.diversificador_mmr import (
             aplicar_mmr,
             candidatos_desde_pares_similitud,
             pares_desde_candidatos_mmr,
@@ -362,10 +386,14 @@ class RecuperadorDenso:
 
         candidatos_ns = candidatos_desde_pares_similitud(pares)
 
-        def triples_desde_pares_similitud(p: list[tuple[float, object]]) -> list[tuple[float, float, object]]:
+        def triples_desde_pares_similitud(
+            p: list[tuple[float, object]],
+        ) -> list[tuple[float, float, object]]:
             return [(float(s), float(s), n) for s, n in p]
 
-        def triples_desde_mmr_nodes(seleccion: list[NodeWithScore]) -> list[tuple[float, float, object]]:
+        def triples_desde_mmr_nodes(
+            seleccion: list[NodeWithScore],
+        ) -> list[tuple[float, float, object]]:
             salida: list[tuple[float, float, object]] = []
             for c in seleccion:
                 n = c.node
@@ -397,23 +425,35 @@ class RecuperadorDenso:
             try:
                 rnk = self._reranker_instancia
                 if rnk is None:
-                    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+                    from src.rag.runtime.reranker_cross_encoder import (
+                        RerankerCrossEncoder,
+                    )
 
                     rnk = RerankerCrossEncoder(self._reranker_modelo)
-                scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
+                scores_r = rnk.puntuar(
+                    consulta_limpia, textos, batch_size=self._reranker_batch_size
+                )
             except Exception as exc:  # noqa: BLE001
                 logger.warning(
                     "Reranker RAG no disponible (%s); se continua solo con similitud densa.",
                     exc,
                 )
-                return triples_desde_pares_similitud(pares_desde_candidatos_mmr(sub)[:top_ef])
+                return triples_desde_pares_similitud(
+                    pares_desde_candidatos_mmr(sub)[:top_ef]
+                )
 
-            pares_sc = [(float(s), c) for s, c in zip(scores_r, sub, strict=True) if s is not None]
+            pares_sc = [
+                (float(s), c)
+                for s, c in zip(scores_r, sub, strict=True)
+                if s is not None
+            ]
             if not pares_sc:
                 logger.warning(
                     "Reranker RAG: todos los scores fueron descartados; se continua con similitud densa."
                 )
-                return triples_desde_pares_similitud(pares_desde_candidatos_mmr(sub)[:top_ef])
+                return triples_desde_pares_similitud(
+                    pares_desde_candidatos_mmr(sub)[:top_ef]
+                )
 
             ordenados = sorted(
                 pares_sc,
@@ -439,10 +479,12 @@ class RecuperadorDenso:
         try:
             rnk = self._reranker_instancia
             if rnk is None:
-                from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+                from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
                 rnk = RerankerCrossEncoder(self._reranker_modelo)
-            scores_r = rnk.puntuar(consulta_limpia, textos, batch_size=self._reranker_batch_size)
+            scores_r = rnk.puntuar(
+                consulta_limpia, textos, batch_size=self._reranker_batch_size
+            )
         except Exception as exc:  # noqa: BLE001
             logger.warning(
                 "Reranker RAG no disponible (%s); se continua con MMR sobre similitud densa.",
@@ -451,7 +493,9 @@ class RecuperadorDenso:
             mmr_sel = mmr_sobre_candidatos(candidatos_ns, k=top_ef)
             return triples_desde_mmr_nodes(mmr_sel)
 
-        pares_sc = [(float(s), c) for s, c in zip(scores_r, sub, strict=True) if s is not None]
+        pares_sc = [
+            (float(s), c) for s, c in zip(scores_r, sub, strict=True) if s is not None
+        ]
         if not pares_sc:
             logger.warning(
                 "Reranker RAG: todos los scores fueron descartados; se continua con MMR sobre similitud densa."
@@ -505,7 +549,9 @@ class RecuperadorDenso:
                 fuentes=[],
             )
 
-        top_efectivo = self._top_k if top_k is None else max(1, int(top_k))
+        top_efectivo = (
+            self._top_k if top_k is None else coercionar_top_k_final(int(top_k))
+        )
 
         tiene_filtros = self._filtros_tipo_pagina(filtros_tipo_pagina) is not None
         if self._coleccion_vacia is True and not tiene_filtros:
@@ -520,7 +566,9 @@ class RecuperadorDenso:
             )
 
         try:
-            query_embedding = list(self._embeddings.get_query_embedding(consulta_limpia))
+            query_embedding = list(
+                self._embeddings.get_query_embedding(consulta_limpia)
+            )
         except Exception as exc:  # noqa: BLE001 — degradacion controlada hacia el agente
             logger.exception(
                 "rag.consultar.embeddings_fallo",
@@ -577,4 +625,10 @@ class RecuperadorDenso:
             top_efectivo,
             query_embedding,
         )
+        if not triples_finales and pares:
+            return SalidaRecuperacionRagDenso(
+                respuesta_contexto=MENSAJE_SIN_RESULTADOS,
+                fuentes=[],
+                razon="mmr_sin_candidatos",
+            )
         return self._salida_desde_triples(triples_finales)

@@ -11,7 +11,7 @@ import requests
 import responses
 from dotenv import load_dotenv
 
-from src.qa.cliente_ollama import (
+from src.laboratorio.qa_legacy.cliente_ollama import (
     NUM_CTX_MAX,
     NUM_CTX_MIN,
     ClienteOllama,

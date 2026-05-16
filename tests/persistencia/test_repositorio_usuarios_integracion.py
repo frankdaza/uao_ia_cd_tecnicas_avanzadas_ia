@@ -75,7 +75,9 @@ def _crear_app_prueba(url_async: str) -> FastAPI:
         sesion: AsyncSession = Depends(obtener_sesion_db),
     ) -> dict[str, str | bool]:
         repo = RepositorioUsuarios(sesion)
-        usuario, ya_existia = await repo.obtener_o_crear(documento, "Nombre integracion")
+        usuario, ya_existia = await repo.obtener_o_crear(
+            documento, "Nombre integracion"
+        )
         return {
             "id": str(usuario.id),
             "ya_existia": ya_existia,
@@ -142,9 +144,7 @@ async def test_obtener_sesion_db_y_repositorio_upsert() -> None:
     try:
         with engine_sync.connect() as conn:
             ultimo = conn.execute(
-                text(
-                    "SELECT last_login_at FROM usuarios WHERE id = CAST(:id AS uuid)"
-                ),
+                text("SELECT last_login_at FROM usuarios WHERE id = CAST(:id AS uuid)"),
                 {"id": uid},
             ).one()
         assert ultimo[0] is not None

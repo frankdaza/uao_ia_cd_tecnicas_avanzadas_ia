@@ -6,12 +6,27 @@ El **producto actual** es un agente conversacional con **memoria en PostgreSQL**
 
 La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume **`POST /api/agente/stream`** (SSE con eventos extendidos: `pensamiento`, `herramienta`, `token`, `fuentes`, `final`, `error`, entre otros). **No** sustituye canales oficiales ni garantiza vigencia de datos.
 
+**UI Gradio retirada:** la interfaz web histórica basada en Gradio ya no forma parte del árbol de código; el historial de implementación permanece en el control de versiones y la narrativa de reemplazo por React y FastAPI está en [doc-002 — Migración frontend React + Vite y backend FastAPI](backlog/docs/doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md).
+
 **Documentación de arquitectura:** [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md). **Resumen del grafo LangGraph** (orden de nodos, tres herramientas, heurísticas y *fallbacks*): [RESUMEN.md](RESUMEN.md).
 
 **Colaboración y tareas:** el flujo con Backlog.md (MCP) y convenciones del repo están en [AGENTS.md](AGENTS.md).
 
+## Nucleo productivo M2 vs laboratorio
+
+| Ámbito | Rutas típicas | Rol |
+| --- | --- | --- |
+| **Nucleo productivo M2** | `src/api/`, `src/agentes/`, [`src/rag/runtime/`](src/rag/runtime/), `src/persistencia/` | Sesión (`POST /api/sesiones`), agente con SSE (`POST /api/agente/stream`), memoria en PostgreSQL, RAG denso en Qdrant y herramientas LangChain enlazadas al grafo. |
+| **Evaluación RAG offline** | [`src/rag/evaluacion/`](src/rag/evaluacion/) | Métricas puras (`metricas_eval`); consumo desde `scripts.eval_metricas_rag` y tests. **No** se invoca desde el grafo en cada turno (ver [doc-003 §1.1](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md)). |
+| **Laboratorio y soporte** | [`src/laboratorio/qa_legacy/`](src/laboratorio/qa_legacy/) (código), [`src/qa/`](src/qa/) (solo shim deprecado), `scripts/`, pruebas bajo `tests/` que no ejercen el grafo M2 | Experimentación, legado del Módulo 1, utilidades reutilizables por tests o scripts; **no** sustituyen al runtime del agente. |
+
+La ruta canónica del laboratorio Q&A es **`src/laboratorio/qa_legacy/`** (consolidada en **TASK-89**). La carpeta **`src/qa/`** conserva solo un **shim** que reexporta símbolos con `DeprecationWarning` hasta **2026-08-01**; **no** forma parte del runtime M2 en producción (**no** participa en **`POST /api/agente/stream`** ni en el grafo LangGraph del agente). El camino productivo de inferencia y persistencia está descrito en [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y en [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+
+**`src/app/`:** no existe en el árbol versionado (retirado con la UI Gradio según [decision-6 — Migración incremental clean enough](backlog/decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md); narrativa de reemplazo en [doc-002](backlog/docs/doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md) e historial en git).
+
 ## Índice
 
+- [Nucleo productivo M2 vs laboratorio](#nucleo-productivo-m2-vs-laboratorio)
 - [Flujo principal (Módulo 2)](#flujo-principal-módulo-2)
 - [Arquitectura del agente (detalle)](#arquitectura-del-agente-detalle)
 - [Resumen del grafo del agente (RESUMEN.md)](RESUMEN.md)
@@ -128,11 +143,12 @@ flowchart LR
 | --- | --- |
 | [`src/api/`](src/api/) | FastAPI (`main`, lifespan), routers (`sesiones`, `agente`, `salud`, `admin`), SSE, esquemas Pydantic, configuración (`configuracion.py`), dependencias. |
 | [`src/agentes/`](src/agentes/) | Grafo LangGraph, estado, meta-prompt, herramientas LangChain, memoria, runtime del agente. |
-| [`src/rag/`](src/rag/) | Embeddings, cliente Qdrant, recuperador denso (`rag_denso`) y listados estructurados sobre Qdrant (`listar_estructurado`). |
+| [`src/rag/runtime/`](src/rag/runtime/) | Embeddings, cliente Qdrant, recuperador denso (`rag_denso`), listados estructurados (`listar_estructurado`), intención, MMR y reranker: código en el **camino caliente** del agente. |
+| [`src/rag/evaluacion/`](src/rag/evaluacion/) | Métricas offline del golden set (`metricas_eval`); uso típico desde `scripts/` y tests, no desde el grafo por petición. |
 | [`src/persistencia/`](src/persistencia/) | Motor SQLAlchemy async, modelos y repositorios (usuarios, sesiones, `config_admin_m2`). |
 | [`src/scraping/`](src/scraping/) | Descarga ética y registro de adquisición hacia `data/raw/`. |
 | [`src/markdown_export/`](src/markdown_export/) | Conversión de crudo a Markdown con front matter. |
-| [`src/qa/`](src/qa/) | Clientes Ollama/OpenAI y utilidades de prompts para laboratorio o piezas reutilizables. |
+| [`src/laboratorio/qa_legacy/`](src/laboratorio/qa_legacy/) | Clientes Ollama/OpenAI y utilidades de prompts para **laboratorio** y pruebas; **fuera** del runtime M2 en `POST /api/agente/stream` (ver [Nucleo productivo M2 vs laboratorio](#nucleo-productivo-m2-vs-laboratorio)). [`src/qa/`](src/qa/) es solo shim deprecado con fecha de retiro en README. |
 | [`frontend/src/`](frontend/src/) | App Vite: `features/` (auth, chat, settings), `components/ui/`, `lib/` (API, SSE, Zod). |
 | [`scripts/`](scripts/) | Scrape, export Markdown, indexación Qdrant; detalle en [scripts/README.md](scripts/README.md). |
 | [`data/raw/`](data/raw/), [`data/markdown/`](data/markdown/), [`data/structured/`](data/structured/) | Crudo, corpus canónico, FAQs JSON. |
@@ -183,7 +199,7 @@ Defina valores en **`.env`** (plantilla **`.env.example`** en la raíz; no commi
 | FAQ | `FAQ_JSON_RELATIVO_RAIZ`, `FAQ_UMBRAL_MATCH` | Ruta al JSON estructurado y umbral de coincidencia. |
 | Meta-prompt del router | `ROUTER_META_PROMPT_PATH` | JSON de configuración sin secretos. |
 | Laboratorio / E2E | `MOCK_LLM` (`0` o `1`) | Modo determinista sin llamadas reales al LLM del router; ver `GET /api/salud` (`agente_mock_llm`). |
-| Ollama (laboratorio local) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Cliente Ollama en `src/qa` para pruebas; no requerido para el agente M2 en `docker compose up` sin servicio Ollama. |
+| Ollama (laboratorio local) | `OLLAMA_BASE_URL`, `MODELO_LLM_DEFECTO` | Cliente Ollama en `src/laboratorio/qa_legacy/` para pruebas; no requerido para el agente M2 en `docker compose up` sin servicio Ollama. |
 
 Los nombres exactos en entorno siguen el mapeo de **pydantic-settings** sobre los campos de `Configuracion` en `src/api/configuracion.py` (típicamente `MAYUSCULAS_CON_GUIONES`).
 
@@ -269,7 +285,7 @@ docker compose up --build -d
 curl -fsS "http://127.0.0.1:${API_PORT:-8000}/api/salud"
 ```
 
-El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. Tras el primer arranque, ejecute la **ingesta** a Qdrant (sección anterior) si la colección está vacía.
+El build multi-stage construye el frontend y lo sirve como estáticos desde FastAPI. El servicio `api` monta `./data/markdown` como solo lectura y la imagen incluye `scripts/`; tras el primer arranque puede ejecutar la **ingesta** dentro del contenedor, por ejemplo `docker compose exec api uv run python -m scripts.indexar_corpus_qdrant`, o indexar desde el host (sección anterior) si la colección está vacía.
 
 Las migraciones **Alembic** (`alembic/`) crean el esquema de aplicación (p. ej. tabla **`usuarios`**). La tabla **`chat_history`** usada por la memoria LangChain **no** se versiona con Alembic: se crea en runtime (`PostgresChatMessageHistory.create_tables` en el lifespan de la API).
 

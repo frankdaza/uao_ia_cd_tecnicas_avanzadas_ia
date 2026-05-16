@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 from llama_index.core.schema import NodeWithScore, TextNode
 
-from src.rag.diversificador_mmr import aplicar_mmr
+from src.rag.runtime.diversificador_mmr import aplicar_mmr
 
 
 def _nodo_con_emb(texto: str, vec: list[float]) -> NodeWithScore:
@@ -24,7 +24,9 @@ def test_mmr_lambda_uno_respeta_orden_por_similitud() -> None:
     for c in pool:
         v = np.asarray(c.node.embedding, dtype=float)
         qn = np.asarray(q, dtype=float)
-        c.score = float(np.dot(v, qn) / (np.linalg.norm(v) * np.linalg.norm(qn) + 1e-12))
+        c.score = float(
+            np.dot(v, qn) / (np.linalg.norm(v) * np.linalg.norm(qn) + 1e-12)
+        )
     pool.sort(key=lambda x: x.score, reverse=True)
     out = aplicar_mmr(pool, q, lambda_mult=1.0, k_final=2)
     assert [c.node.text for c in out] == ["alto", "bajo"]
@@ -39,7 +41,9 @@ def test_mmr_penaliza_casi_duplicados_y_prioriza_diverso() -> None:
     for c in pool:
         emb = np.asarray(c.node.embedding, dtype=float)
         qn = np.asarray(q, dtype=float)
-        c.score = float(np.dot(emb, qn) / (np.linalg.norm(emb) * np.linalg.norm(qn) + 1e-9))
+        c.score = float(
+            np.dot(emb, qn) / (np.linalg.norm(emb) * np.linalg.norm(qn) + 1e-9)
+        )
     pool.sort(key=lambda x: x.score, reverse=True)
     out = aplicar_mmr(pool, q, lambda_mult=0.02, k_final=2)
     textos = {c.node.text for c in out}

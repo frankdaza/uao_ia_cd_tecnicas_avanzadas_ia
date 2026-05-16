@@ -21,7 +21,7 @@ from src.api.factoria_grafo_agente import construir_grafo_agente_mock_llm
 from src.api.main import crear_app
 from src.persistencia.modelos import ConfigAdminM2, Usuario
 from src.persistencia.repositorios.sesiones import sesion_id_memoria_langchain
-from src.rag.qdrant_store import reiniciar_cliente_qdrant
+from src.rag.runtime.qdrant_store import reiniciar_cliente_qdrant
 from tests.conftest import pool_memoria_falso
 
 
@@ -115,12 +115,12 @@ async def test_patch_rag_mmr_lambda_reflejado_en_bundle_del_stream(
             return [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     monkeypatch.setattr(
-        "src.rag.embeddings.obtener_embeddings", lambda _c=None: _EmbFijo()
+        "src.rag.runtime.embeddings.obtener_embeddings", lambda _c=None: _EmbFijo()
     )
 
     from qdrant_client.models import Distance, PointStruct, VectorParams
 
-    from src.rag.qdrant_store import obtener_qdrant_client
+    from src.rag.runtime.qdrant_store import obtener_qdrant_client
 
     cfg = obtener_configuracion()
     cli = obtener_qdrant_client(cfg)
@@ -259,7 +259,7 @@ async def test_stream_reranker_falla_emite_fuentes_sin_codigo_agente_error(
     monkeypatch.setenv("RAG_RERANKER_HABILITADO", "0")
     reiniciar_cliente_qdrant()
     obtener_configuracion.cache_clear()
-    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+    from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
     RerankerCrossEncoder.reiniciar_singletons_prueba()
 
@@ -268,7 +268,7 @@ async def test_stream_reranker_falla_emite_fuentes_sin_codigo_agente_error(
             return [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     monkeypatch.setattr(
-        "src.rag.embeddings.obtener_embeddings", lambda _c=None: _EmbFijo()
+        "src.rag.runtime.embeddings.obtener_embeddings", lambda _c=None: _EmbFijo()
     )
 
     def _cross_encoder_falso() -> type:
@@ -282,13 +282,13 @@ async def test_stream_reranker_falla_emite_fuentes_sin_codigo_agente_error(
         return _CE
 
     monkeypatch.setattr(
-        "src.rag.reranker_cross_encoder._importar_cross_encoder",
+        "src.rag.runtime.reranker_cross_encoder._importar_cross_encoder",
         _cross_encoder_falso,
     )
 
     from qdrant_client.models import Distance, PointStruct, VectorParams
 
-    from src.rag.qdrant_store import obtener_qdrant_client
+    from src.rag.runtime.qdrant_store import obtener_qdrant_client
 
     cfg = obtener_configuracion()
     cli = obtener_qdrant_client(cfg)

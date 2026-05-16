@@ -3,7 +3,7 @@ id: doc-003
 title: Arquitectura operativa del agente conversacional (Modulo 2)
 type: architecture
 created_date: '2026-05-12'
-updated_date: '2026-05-15'
+updated_date: '2026-05-16'
 status: vigente
 modulo: 2
 ---
@@ -18,6 +18,47 @@ Guía para desarrollo, demostración y resolución de problemas del **agente con
 - **Orquestación**: un grafo **LangGraph** decide si invoca herramientas y compone la respuesta; el LLM del router usa tool-calling (`faq_estructurada`, `rag_denso`, `listar_estructurado`). Antes del router se infiere una **intención** heurística (`factual` / `listado` / `conteo`) para enrutar listados sin LLM cuando hay filtros deducibles (ver §4.5).
 - **Memoria**: mensajes persistidos con **LangChain** `PostgresChatMessageHistory` (`langchain-postgres`); el contexto inyectado respeta ventana temporal `HISTORIAL_DIAS_MAX` y tope de turnos `HISTORIAL_TURNOS_MAX` (ver `src/api/configuracion.py`).
 - **RAG**: solo **similitud densa** sobre vectores en **Qdrant**; el corpus canónico vive en `data/markdown/` y alimenta **ingesta** (`scripts.indexar_corpus_qdrant`). Para reducir ruido de plantilla antes de vectorizar, se puede generar un derivado limpio en `data/processed/markdown_limpio/` con `scripts.limpiar_corpus_markdown` y apuntar `--markdown-dir` a esa ruta (detalle en [scripts/README.md](../../scripts/README.md)); en runtime el agente **no** lee Markdown en disco, solo Qdrant.
+
+### 1.1 Límites del núcleo M2 frente a laboratorio y scripts (decision-6)
+
+La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija una migración incremental “clean enough”: **sin** rediseñar FastAPI ni LangGraph, pero **sí** separando `src/rag/` en **`runtime/`** (código importado en cada consulta del agente) y **`evaluacion/`** (métricas puras consumidas por scripts y tests, no por el grafo en el camino caliente). El cuadro siguiente resume el mapa canónico **módulo → categoría**; sirve de cierre narrativo frente al árbol plano previo a TASK-86. Evidencia de imports y regresiones: [doc-005 — Auditoría de imports](doc-005%20-%20Auditoria-Imports-Migracion-Clean-Architecture.md).
+
+```mermaid
+flowchart TB
+  subgraph presentacion [Presentacion HTTP]
+    API["FastAPI src/api"]
+  end
+  subgraph orquestacion [Orquestacion agente M2]
+    AG["LangGraph src/agentes"]
+  end
+  subgraph infra [Infra RAG y datos]
+    RUN["src/rag/runtime"]
+    EVAL["src/rag/evaluacion"]
+    PG[("PostgreSQL persistencia")]
+    QD[("Qdrant corpus")]
+  end
+  subgraph laboratorio [Laboratorio fuera del runtime M2]
+    LEGACY["src/laboratorio/qa_legacy"]
+    QA_SHIM["src/qa shim deprecado"]
+    SCR["scripts"]
+  end
+  API --> AG
+  AG --> RUN
+  AG --> PG
+  RUN --> QD
+  EVAL -.->|"CI scripts tests"| RUN
+```
+
+| Módulo o paquete | Categoría | Rol |
+| --- | --- | --- |
+| `src/api/` | núcleo M2 | Presentación HTTP, SSE, administración y configuración por petición. |
+| `src/agentes/` | núcleo M2 | Grafo LangGraph, herramientas LangChain y ensamblado del runtime del agente. |
+| `src/rag/runtime/` | núcleo M2 | Qdrant, embeddings, recuperadores denso/listado, intención, MMR y reranker en el camino de inferencia. |
+| `src/persistencia/` | infra OLTP | Modelos SQLAlchemy async y repositorios (usuarios, sesiones, `config_admin_m2`). |
+| `src/rag/evaluacion/` | laboratorio | Métricas offline (`metricas_eval`); consumo típico desde `scripts.eval_metricas_rag` y tests, no desde el grafo por turno. |
+| `scripts/` | scripts | Ingesta, evaluación RAG, scrape y export a Markdown. |
+| `src/laboratorio/qa_legacy/` | laboratorio | Clientes LLM y prompts de experimentación; fuera del contrato productivo de `POST /api/agente/stream`. |
+| `src/qa/` | laboratorio | Shim de compatibilidad con aviso deprecación hacia `qa_legacy` (cierre TASK-89); no sustituye al paquete canónico del laboratorio. |
 
 ```mermaid
 flowchart TB
@@ -139,7 +180,7 @@ Más opciones y modo mock: [scripts/README.md](../../scripts/README.md) (secció
 ### 4.4 Chunking semantico y payload enriquecido (TASK-69)
 
 - **Estrategia de fragmentacion**: variable `CHUNK_STRATEGY` en `.env` / `Configuracion`: `sentence` (retrocompatible, `SentenceSplitter` sobre el cuerpo) o `markdown` (`MarkdownNodeParser` con post-fractura por tamano maximo en caracteres). Ver [decision-4](../decisions/decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md).
-- **Payload extendido** en Qdrant (ademas de `archivo`, `titulo`, `source_url`, `seccion`, `chunk_index`, `content_hash`, `id_chunk`, `texto`): `tipo_pagina`, `subtipo`, `especialidad` (lista), `sedes` (lista), `nombre_medico`, `headings_path`, `h1`, `h2`, `h3`, `tags`. Las heuristicas viven en `src/rag/extractor_metadata.py`.
+- **Payload extendido** en Qdrant (ademas de `archivo`, `titulo`, `source_url`, `seccion`, `chunk_index`, `content_hash`, `id_chunk`, `texto`): `tipo_pagina`, `subtipo`, `especialidad` (lista), `sedes` (lista), `nombre_medico`, `headings_path`, `h1`, `h2`, `h3`, `tags`. Las heuristicas viven en `src/rag/runtime/extractor_metadata.py`.
 - **Indices de payload** (`tipo_pagina`, `especialidad`, `sedes`, `seccion`) se crean al asegurar la coleccion; en cliente `:memory:` Qdrant solo emite advertencia (sin efecto).
 - **Migracion**: se recomienda indexar en una **coleccion nueva** (p. ej. `corpus_fvl_v2`) para A/B frente a `corpus_fvl` sin downtime; el runtime del agente sigue leyendo solo `QDRANT_COLLECTION` configurada.
 
@@ -162,11 +203,11 @@ uv run python -m scripts.indexar_corpus_qdrant \
 
 | Etapa | Modulo | Comportamiento |
 | --- | --- | --- |
-| Intencion | `src/rag/intencion.py` | `inferir_intencion` clasifica `factual` / `listado` / `conteo` con regex (prioridad: conteo > listado > factual). Los patrones de conteo usan formas plurales (`cuantos` / `cuantas`) para no confundir con «cuanto cuesta». |
-| Filtros listado | `src/rag/filtros_listado_heuristica.py` | Deduce `tipo_pagina`, `especialidad`, `sedes`, `especialidad_contains` desde texto (sin LLM); especialidades canonicas en `data/eval/especialidades_canonicas.json`. |
-| Scroll Qdrant | `src/rag/recuperador_listados.py` | `RecuperadorListados.listar` arma filtros de payload, deduplica por `source_url` o nombre+archivo y devuelve `muestra_truncada` si aplica. |
+| Intencion | `src/rag/runtime/intencion.py` | `inferir_intencion` clasifica `factual` / `listado` / `conteo` con regex (prioridad: conteo > listado > factual). Los patrones de conteo usan formas plurales (`cuantos` / `cuantas`) para no confundir con «cuanto cuesta». |
+| Filtros listado | `src/rag/runtime/filtros_listado_heuristica.py` | Deduce `tipo_pagina`, `especialidad`, `sedes`, `especialidad_contains` desde texto (sin LLM); especialidades canonicas en `data/eval/especialidades_canonicas.json`. |
+| Scroll Qdrant | `src/rag/runtime/recuperador_listados.py` | `RecuperadorListados.listar` arma filtros de payload, deduplica por `source_url` o nombre+archivo y devuelve `muestra_truncada` si aplica. |
 | Tool | `src/agentes/herramientas/listar_estructurado_tool.py` | `StructuredTool` `listar_estructurado` registrada en el grafo por defecto. |
-| Filtro blando RAG | `src/rag/recuperador_denso.py` | `VectorStoreQuery` con `MetadataFilters` (`tipo_pagina` IN lista) cuando `rag_denso` recibe `filtros_tipo_pagina`; sugerencia automatica para misión/visión institucional. |
+| Filtro blando RAG | `src/rag/runtime/recuperador_denso.py` | `VectorStoreQuery` con `MetadataFilters` (`tipo_pagina` IN lista) cuando `rag_denso` recibe `filtros_tipo_pagina`; sugerencia automatica para misión/visión institucional. |
 | Grafo | `src/agentes/router.py` | Nodo `inferir_intencion` antes de `decidir_tool`; atajo a `listar_estructurado` con argumentos heuristicos cuando la intencion es `listado`/`conteo` y hay filtros. Si el listado devuelve `conteo == 0`, **fallback** a `rag_denso`. |
 
 **Evento SSE `herramienta`**: el payload JSON puede incluir `resultado_listado` (`conteo`, `muestra_truncada`, `filtros_aplicados`, hasta **50** filas de `items` con `nombre`, `especialidad`, `sedes`, `source_url`, `archivo`) para alimentar la tabla del chat cuando `nombre` es `listar_estructurado`.
@@ -230,7 +271,7 @@ flowchart LR
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.
 - **Script**: `uv run python -m scripts.eval_metricas_rag` — validacion local sin red (`--solo-validar-golden`), corrida completa contra Qdrant y reporte Markdown + `*.results.jsonl` en `data/eval/reportes/`.
-- **Metricas** (implementacion pura en `src/rag/metricas_eval.py`): todas operan sobre la lista ordenada de archivos por chunk (`archivos_por_chunk`), pero **no** comparten la misma granularidad; al comparar configuraciones conviene citar la fila correspondiente.
+- **Metricas** (implementacion pura en `src/rag/evaluacion/metricas_eval.py`): todas operan sobre la lista ordenada de archivos por chunk (`archivos_por_chunk`), pero **no** comparten la misma granularidad; al comparar configuraciones conviene citar la fila correspondiente.
 
 | metrica | granularidad | implementacion | comentario |
 | --- | --- | --- | --- |
@@ -312,8 +353,40 @@ uv run pytest tests/e2e/test_escenarios_modulo2.py -v
 4. **Verificar salud**: `GET ${BASE_URL}/api/salud`; comprobar conectividad a Postgres y Qdrant según despliegue; opcionalmente una pregunta con `e2e7001` en entorno mock para confirmar eventos `herramienta` / `fuentes`.
 5. **Frontend**: el chat productivo consume `/api/agente/stream`; el flujo BM25 de `POST /api/qa/stream` queda como legado M1 según evolución del repo.
 
+## 8. Capa de servicio router → grafo (condicional)
+
+Hoy el camino productivo es: **FastAPI** (`src/api/routers/agente.py`) → **factoría del grafo** (p. ej. `src/api/factoria_grafo_agente.py`) → **LangGraph** en `src/agentes/`. La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija que una **capa de servicio delgada** entre el router HTTP y el grafo **solo** tiene sentido si el router empieza a **acumular lógica de negocio**; mientras no pase, puede invocarse la factoría **directamente**. El marco de trade-offs y la “Opción A / clean enough” frente a capas completas está en [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md).
+
+### 8.1 Síntomas disparadores (cuándo extraer un módulo tipo `agente_servicio`)
+
+Se buscan señales **objetivas** (no “por estética de carpetas”). Ejemplos concretos:
+
+1. **Acumulación de lógica en el router**: ramas largas por flags de configuración, ensamblado de estado del grafo, reglas de autorización o cuotas que ya no caben en unas pocas llamadas a dependencias y se leen como “caso de uso” en sí mismo.
+2. **Varios consumidores del mismo flujo**: además de `POST /api/agente/stream`, aparece un **segundo entrypoint** (CLI interna, worker, otro transporte) que debe ejecutar **el mismo** orquestado previo al grafo sin copiar código desde el router.
+3. **Validaciones o normalizaciones complejas en la frontera HTTP**: reglas que mezclan sesión, límites de RAG/memoria, bundles administrativos y coherencia de payload; si crecen y se vuelven difíciles de testear aisladas del grafo, conviene centralizarlas fuera del handler SSE.
+4. **Duplicación de mapping DTO ↔ estado del agente**: construcción repetida de dicts/estructuras para LangGraph, serialización de eventos o adaptación de errores en más de un sitio (router + tests + scripts) con riesgo de divergencia.
+
+Si solo una de estas aparece de forma leve, suele bastar con **extraer funciones** en el mismo paquete `src/api/` o en módulos ya existentes (`dependencias`, configuración) sin crear un paquete `aplicacion/` nuevo.
+
+### 8.2 Anti-patrones (qué no hacer)
+
+- **Scaffolding vacío**: crear `src/aplicacion/` (o muchos archivos “de capa”) sin caso de uso real duplicado; eso **viola** la regla de stop del ADR (ver §8.3).
+- **Duplicar el contrato HTTP/SSE**: mover a “servicio” textos de eventos, códigos o formas de stream que ya son responsabilidad del contrato fijado en la [decision-2](../decisions/decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md); la capa delgada no debe sustituir ni bifurcar la especificación del API.
+- **Reimplementar el grafo**: empujar decisiones de tool-calling o nodos LangGraph al servicio solo para “parecer más limpio”; el motor sigue siendo el grafo en `src/agentes/`.
+
+### 8.3 Regla de stop (decision-6)
+
+Para frenar abstracción prematura, la [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) establece explícitamente:
+
+> Si no hay un segundo consumidor del mismo caso de uso fuera de FastAPI, no crear un paquete `aplicacion/` genérico con más de una docena de archivos vacíos o triviales.
+
+En la práctica: **no** introducir `src/aplicacion/agente_servicio.py` (u homónimo) hasta que haya **dolor medible** (síntomas de §8.1) **o** un segundo consumidor que justifique compartir el mismo orquestado.
+
 ## Referencias internas
 
 - [decision-3 — Arquitectura agente, memoria, RAG, Qdrant (M2)](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
+- [decision-6 — Migración incremental “clean enough” (M2)](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md)
+- [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
+- [doc-005 — Auditoría de imports (migración clean enough)](doc-005%20-%20Auditoria-Imports-Migracion-Clean-Architecture.md)
 - [scripts/README.md — ingesta Qdrant y E2E](../../scripts/README.md)
-- Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/`
+- Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/runtime/`, `src/rag/evaluacion/`

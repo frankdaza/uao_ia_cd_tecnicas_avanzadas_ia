@@ -23,6 +23,7 @@ from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
+from src.api.tracing_langchain import aplicar_tracing_langchain_desde_config
 from src.api.routers import admin, agente, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
@@ -38,7 +39,7 @@ _FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
 def _warmup_reranker(cfg: Configuracion) -> None:
     """Carga el cross-encoder y ejecuta un predict minimo; solo para arranque (thread pool)."""
-    from src.rag.reranker_cross_encoder import RerankerCrossEncoder
+    from src.rag.runtime.reranker_cross_encoder import RerankerCrossEncoder
 
     rnk = RerankerCrossEncoder(str(cfg.rag_reranker_modelo).strip())
     t0 = time.perf_counter()
@@ -55,6 +56,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     motor; no se comparten pools entre procesos.
     """
     cfg = obtener_configuracion()
+    aplicar_tracing_langchain_desde_config(cfg)
     logger.info(
         "Modulo vectorial: embeddings=%s modelo=%s coleccion_qdrant=%s "
         "distancia=%s dims=%s",
@@ -141,7 +143,9 @@ def crear_app() -> FastAPI:
 
     # Servir el frontend React como estáticos en producción
     if _FRONTEND_DIST.exists():
-        app.mount("/", StaticFiles(directory=_FRONTEND_DIST, html=True), name="frontend")
+        app.mount(
+            "/", StaticFiles(directory=_FRONTEND_DIST, html=True), name="frontend"
+        )
 
     return app
 

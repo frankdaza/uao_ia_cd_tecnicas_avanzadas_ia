@@ -12,9 +12,13 @@ from typing import Any
 from pydantic import BaseModel, Field
 from qdrant_client import QdrantClient, models
 
-from src.rag.filtros_listado_heuristica import especialidades_que_contienen
+from src.rag.runtime.filtros_listado_heuristica import especialidades_que_contienen
 
 logger = logging.getLogger(__name__)
+
+# Scroll sin filtro de payload: tope de lotes para no recorrer colecciones enormes en una sola tool-call.
+_LISTADO_SIN_FILTRO_TAM_LOTE: int = 256
+_LISTADO_SIN_FILTRO_MAX_LOTES: int = 32
 
 
 class ItemListado(BaseModel):
@@ -24,13 +28,17 @@ class ItemListado(BaseModel):
     source_url: str = Field(default="", description="URL publica si existe en payload.")
     especialidad: list[str] = Field(default_factory=list)
     sedes: list[str] = Field(default_factory=list)
-    archivo: str = Field(default="", description="Ruta relativa del Markdown de origen.")
+    archivo: str = Field(
+        default="", description="Ruta relativa del Markdown de origen."
+    )
 
 
 class ResultadoListado(BaseModel):
     """Salida estable de :meth:`RecuperadorListados.listar`."""
 
-    conteo: int = Field(ge=0, description="Total de elementos unicos tras deduplicar por URL/nombre.")
+    conteo: int = Field(
+        ge=0, description="Total de elementos unicos tras deduplicar por URL/nombre."
+    )
     items: list[ItemListado] = Field(default_factory=list)
     muestra_truncada: bool = Field(
         description="True si hay mas elementos unicos que la muestra devuelta (limite).",
@@ -95,7 +103,10 @@ def _clave_dedupe(payload: dict[str, Any]) -> str:
 
 
 def _item_desde_payload(payload: dict[str, Any]) -> ItemListado:
-    nombre = str(payload.get("nombre_medico") or payload.get("titulo") or "").strip() or "(sin nombre)"
+    nombre = (
+        str(payload.get("nombre_medico") or payload.get("titulo") or "").strip()
+        or "(sin nombre)"
+    )
     esp = payload.get("especialidad")
     espec_list: list[str] = [str(x) for x in esp] if isinstance(esp, list) else []
     sed = payload.get("sedes")
@@ -133,24 +144,36 @@ class RecuperadorListados:
         """
         limite = max(1, min(int(limite), 500))
         filtro = _construir_filtro(filtros)
-        filtros_aplicados = {k: v for k, v in filtros.items() if v not in (None, "", [], {})}
-        if filtro is None:
-            logger.info("RecuperadorListados: sin condiciones de filtro validas; conteo 0.")
-            return ResultadoListado(
-                conteo=0,
-                items=[],
-                muestra_truncada=False,
-                filtros_aplicados=filtros_aplicados,
-            )
-
+        filtros_aplicados = {
+            k: v for k, v in filtros.items() if v not in (None, "", [], {})
+        }
         vistos: dict[str, ItemListado] = {}
         offset = offset_inicio
+        escaneo_completo = True
+        lotes_sin_filtro = 0
+
+        if filtro is None:
+            logger.warning(
+                "RecuperadorListados: sin filtro de payload; se usa scroll acotado (%s lotes x %s puntos).",
+                _LISTADO_SIN_FILTRO_MAX_LOTES,
+                _LISTADO_SIN_FILTRO_TAM_LOTE,
+            )
+            filtros_aplicados = {
+                **filtros_aplicados,
+                "sin_filtro_payload": True,
+                "max_lotes_scroll": _LISTADO_SIN_FILTRO_MAX_LOTES,
+            }
 
         while True:
+            if filtro is None:
+                if lotes_sin_filtro >= _LISTADO_SIN_FILTRO_MAX_LOTES:
+                    escaneo_completo = False
+                    break
+                lotes_sin_filtro += 1
             puntos, siguiente = self._cliente.scroll(
                 collection_name=self._nombre_coleccion,
                 scroll_filter=filtro,
-                limit=256,
+                limit=_LISTADO_SIN_FILTRO_TAM_LOTE,
                 offset=offset,
                 with_payload=True,
                 with_vectors=False,
@@ -164,12 +187,15 @@ class RecuperadorListados:
             if offset is None or not puntos:
                 break
 
-        items_ordenados = sorted(vistos.values(), key=lambda x: (x.nombre.lower(), x.archivo))
+        items_ordenados = sorted(
+            vistos.values(), key=lambda x: (x.nombre.lower(), x.archivo)
+        )
         total = len(items_ordenados)
         muestra = items_ordenados[:limite]
+        muestra_truncada = total > len(muestra) or not escaneo_completo
         return ResultadoListado(
             conteo=total,
             items=muestra,
-            muestra_truncada=total > len(muestra),
+            muestra_truncada=muestra_truncada,
             filtros_aplicados=filtros_aplicados,
         )

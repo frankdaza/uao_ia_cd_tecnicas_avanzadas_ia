@@ -82,7 +82,11 @@ def inferir_tipo_pagina(seccion: str, nombre_archivo: str) -> str:
         return "revista"
     if base.startswith("eventos-") or base.startswith("evento-") or sec == "eventos":
         return "evento"
-    if base.startswith("programa-") or base.startswith("programas-") or "programa" in sec:
+    if (
+        base.startswith("programa-")
+        or base.startswith("programas-")
+        or "programa" in sec
+    ):
         return "programa"
     if base.startswith("la-fundacion-") or base.startswith("nuestra-fundacion-"):
         return "institucional"

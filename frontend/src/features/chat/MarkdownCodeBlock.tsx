@@ -41,6 +41,7 @@ export function MarkdownCodeBlock({ code, language }: MarkdownCodeBlockProps) {
   return (
     <div
       className="rounded-lg border border-[var(--border)] overflow-x-auto [&_pre]:!m-0 [&_pre]:!bg-transparent"
+      /* Shiki genera HTML escapado; el `code` proviene del Markdown sin rehype-raw. */
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )

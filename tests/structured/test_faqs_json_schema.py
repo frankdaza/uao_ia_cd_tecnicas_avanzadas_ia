@@ -13,7 +13,9 @@ def test_faqs_json_cumple_schema_y_utf8() -> None:
     ruta_datos = RAIZ_PROYECTO / "data" / "structured" / "faqs.json"
     texto_schema = ruta_schema.read_text(encoding="utf-8")
     texto_datos = ruta_datos.read_text(encoding="utf-8")
-    assert "\ufffd" not in texto_datos, "El archivo faqs.json no debe contener caracteres de reemplazo UTF-8."
+    assert "\ufffd" not in texto_datos, (
+        "El archivo faqs.json no debe contener caracteres de reemplazo UTF-8."
+    )
     schema = json.loads(texto_schema)
     datos = json.loads(texto_datos)
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(datos)
@@ -22,7 +24,9 @@ def test_faqs_json_cumple_schema_y_utf8() -> None:
 
 def test_faqs_cubre_intents_contacto_horario_ubicacion() -> None:
     datos = json.loads(
-        (RAIZ_PROYECTO / "data" / "structured" / "faqs.json").read_text(encoding="utf-8")
+        (RAIZ_PROYECTO / "data" / "structured" / "faqs.json").read_text(
+            encoding="utf-8"
+        )
     )
     intents = {f["intent"] for f in datos["faqs"]}
     assert "linea_telefonica_pbx" in intents

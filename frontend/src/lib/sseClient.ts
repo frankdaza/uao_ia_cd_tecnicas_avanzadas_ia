@@ -28,6 +28,27 @@ export type AgenteSseHandlers = {
   onError: (motor: string, mensaje: string, codigo?: string) => void
 }
 
+/** Combina dos AbortSignal en uno solo (fallback si no existe AbortSignal.any). */
+function combinarAbortSignals(a: AbortSignal, b: AbortSignal): AbortSignal {
+  const anyFn = (
+    AbortSignal as unknown as { any?: (signals: AbortSignal[]) => AbortSignal }
+  ).any
+  if (typeof anyFn === 'function') {
+    return anyFn([a, b])
+  }
+  const merged = new AbortController()
+  const abortMerged = () => {
+    if (!merged.signal.aborted) merged.abort()
+  }
+  if (a.aborted || b.aborted) {
+    abortMerged()
+    return merged.signal
+  }
+  a.addEventListener('abort', abortMerged, { once: true })
+  b.addEventListener('abort', abortMerged, { once: true })
+  return merged.signal
+}
+
 /** Normaliza CRLF y CR sueltos a salto de línea Unix (parser SSE). */
 export function normalizarSaltosLineaSse(texto: string): string {
   return texto.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
@@ -74,9 +95,16 @@ export function crearAcumuladorBloqueSse(onPayloadData: (rawJson: string) => voi
   }
 }
 
-function despacharEventoAgente(json: unknown, handlers: AgenteSseHandlers) {
+/** Despacha un evento JSON; retorna true si fue cierre de stream (`final` o `error`). */
+function despacharEventoAgente(json: unknown, handlers: AgenteSseHandlers): boolean {
   const resultado = EventoAgenteSseSchema.safeParse(json)
-  if (!resultado.success) return
+  if (!resultado.success) {
+    if (import.meta.env.DEV) {
+      console.warn('[sseClient] Evento SSE inválido', resultado.error.flatten(), json)
+    }
+    handlers.onError('sistema', 'Evento SSE con formato inesperado', 'sse_parse')
+    return true
+  }
   const evento = resultado.data
   switch (evento.tipo) {
     case 'pensamiento':
@@ -104,14 +132,15 @@ function despacharEventoAgente(json: unknown, handlers: AgenteSseHandlers) {
         modelo: e.modelo,
         metricas: e.metricas ?? null,
       })
-      break
+      return true
     }
     case 'error': {
       const e = evento as EventoErrorAgente
       handlers.onError(e.motor, e.mensaje, e.codigo)
-      break
+      return true
     }
   }
+  return false
 }
 
 /**
@@ -126,19 +155,22 @@ export function streamAgente(
 ): { abort: () => void } {
   const controller = new AbortController()
   const combinedSignal = signal
-    ? AbortSignal.any([signal, controller.signal])
+    ? combinarAbortSignals(signal, controller.signal)
     : controller.signal
 
   void (async () => {
+    let streamTerminal = false
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(AgentePeticionSchema.parse(peticion)),
         signal: combinedSignal,
+        credentials: 'include',
       })
 
       if (!response.ok || !response.body) {
+        streamTerminal = true
         handlers.onError('sistema', `Error HTTP ${response.status}`)
         return
       }
@@ -148,7 +180,9 @@ export function streamAgente(
       const acum = crearAcumuladorBloqueSse((raw) => {
         try {
           const json: unknown = JSON.parse(raw)
-          despacharEventoAgente(json, handlers)
+          if (despacharEventoAgente(json, handlers)) {
+            streamTerminal = true
+          }
         } catch {
           // Payload no JSON (p. ej. keepalive), ignorar
         }
@@ -171,9 +205,19 @@ export function streamAgente(
         acum.pushLinea(buffer)
       }
       acum.finalizar()
+
+      if (!streamTerminal) {
+        handlers.onError(
+          'sistema',
+          'La conexión terminó sin confirmación del servidor (sin evento final).',
+          'stream_cerrado',
+        )
+      }
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return
-      handlers.onError('sistema', err instanceof Error ? err.message : 'Error desconocido')
+      if (!streamTerminal) {
+        handlers.onError('sistema', err instanceof Error ? err.message : 'Error desconocido')
+      }
     }
   })()
 

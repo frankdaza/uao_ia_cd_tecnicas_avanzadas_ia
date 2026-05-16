@@ -34,6 +34,15 @@ from scripts.agrupar_corpus_markdown import (
 logger = logging.getLogger(__name__)
 
 
+def _posix_rel_seguro(hijo: Path, raiz: Path) -> str:
+    hr = hijo.resolve()
+    rr = raiz.resolve()
+    try:
+        return hr.relative_to(rr).as_posix()
+    except ValueError:
+        return hr.as_posix()
+
+
 def extraer_front_matter_literal(
     texto_completo: str,
 ) -> tuple[str | None, str, str | None]:
@@ -87,7 +96,13 @@ class ConfigLimpieza:
 
 
 def _relativo_seguro(ruta: Path, base: Path) -> Path:
-    rel = ruta.resolve().relative_to(base.resolve())
+    hr = ruta.resolve()
+    br = base.resolve()
+    try:
+        rel = hr.relative_to(br)
+    except ValueError:
+        # Entrada fuera del arbol del repo: no hay relative_to estable.
+        rel = hr
     if any(p == ".." for p in rel.parts):
         raise ValueError("ruta fuera del directorio permitido")
     return rel
@@ -415,8 +430,8 @@ def ejecutar_limpieza(
     manifest: dict[str, Any] = {
         "version": cfg.version,
         "fecha_limpieza": datetime.now(timezone.utc).isoformat(),
-        "entrada_posix": entrada.resolve().relative_to(raiz).as_posix(),
-        "salida_posix": salida.resolve().relative_to(raiz).as_posix(),
+        "entrada_posix": _posix_rel_seguro(entrada, raiz),
+        "salida_posix": _posix_rel_seguro(salida, raiz),
         "archivos_leidos": stats.archivos_leidos,
         "archivos_excluidos": stats.archivos_excluidos,
         "archivos_descartados_por_minimo": stats.archivos_descartados_por_minimo,

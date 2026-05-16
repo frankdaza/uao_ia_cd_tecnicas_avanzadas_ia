@@ -9,13 +9,18 @@ from langchain_openai import ChatOpenAI
 from langgraph.graph.state import CompiledStateGraph
 
 from src.agentes.herramientas.faq_tool import crear_faq_tool
-from src.agentes.herramientas.listar_estructurado_tool import crear_listar_estructurado_tool
+from src.agentes.herramientas.listar_estructurado_tool import (
+    crear_listar_estructurado_tool,
+)
 from src.agentes.herramientas.rag_tool import crear_rag_tool
 from src.agentes.llm_deterministico_modulo2 import (
     CompositorDeterministicoModulo2E2e,
     RouterDeterministicoModulo2E2e,
 )
-from src.agentes.meta_prompt import ArchivoMetaPromptAusenteError, cargar_meta_prompt_config
+from src.agentes.meta_prompt import (
+    ArchivoMetaPromptAusenteError,
+    cargar_meta_prompt_config,
+)
 from src.agentes.router import crear_grafo_agente
 from src.api.configuracion import Configuracion
 
@@ -64,7 +69,11 @@ def construir_grafo_agente_produccion(cfg: Configuracion) -> CompiledStateGraph:
         meta_prompt=meta,
         etiqueta_modelo_compositor=modelo_compositor,
     )
-    logger.info("Grafo del agente compilado (router=%s, compositor=%s).", modelo_router, modelo_compositor)
+    logger.info(
+        "Grafo del agente compilado (router=%s, compositor=%s).",
+        modelo_router,
+        modelo_compositor,
+    )
     return grafo
 
 
@@ -93,7 +102,9 @@ def construir_grafo_agente_mock_llm(cfg: Configuracion) -> CompiledStateGraph:
     return grafo
 
 
-def construir_grafo_agente_produccion_o_none(cfg: Configuracion) -> CompiledStateGraph | None:
+def construir_grafo_agente_produccion_o_none(
+    cfg: Configuracion,
+) -> CompiledStateGraph | None:
     """Igual que :func:`construir_grafo_agente_produccion` pero retorna ``None`` ante fallo de arranque."""
     if cfg.mock_llm:
         try:
@@ -102,7 +113,9 @@ def construir_grafo_agente_produccion_o_none(cfg: Configuracion) -> CompiledStat
             logger.error("No se pudo compilar el grafo del agente (MOCK_LLM): %s", exc)
             return None
         except Exception as exc:  # noqa: BLE001
-            logger.exception("Fallo inesperado al compilar el grafo del agente (MOCK_LLM): %s", exc)
+            logger.exception(
+                "Fallo inesperado al compilar el grafo del agente (MOCK_LLM): %s", exc
+            )
             return None
     try:
         return construir_grafo_agente_produccion(cfg)

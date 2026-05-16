@@ -35,9 +35,10 @@ export function SourcesPanel({ chunks }: SourcesPanelProps) {
           const url = typeof c.source_url === 'string' ? c.source_url : ''
           const archivo = typeof c.archivo === 'string' ? c.archivo : ''
           const sc = scoreChunk(c)
+          const idx = typeof c.chunk_index === 'number' && Number.isFinite(c.chunk_index) ? c.chunk_index : i
           return (
             <div
-              key={`${archivo}-${i}`}
+              key={`${archivo || 'sin-archivo'}-${idx}-${i}`}
               className="flex items-start justify-between gap-3 rounded-lg border border-[var(--border)] bg-[var(--color-surface)] px-3 py-2 text-xs"
             >
               <div className="flex flex-col gap-0.5 min-w-0">
