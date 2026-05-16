@@ -19,6 +19,47 @@ Guía para desarrollo, demostración y resolución de problemas del **agente con
 - **Memoria**: mensajes persistidos con **LangChain** `PostgresChatMessageHistory` (`langchain-postgres`); el contexto inyectado respeta ventana temporal `HISTORIAL_DIAS_MAX` y tope de turnos `HISTORIAL_TURNOS_MAX` (ver `src/api/configuracion.py`).
 - **RAG**: solo **similitud densa** sobre vectores en **Qdrant**; el corpus canónico vive en `data/markdown/` y alimenta **ingesta** (`scripts.indexar_corpus_qdrant`). Para reducir ruido de plantilla antes de vectorizar, se puede generar un derivado limpio en `data/processed/markdown_limpio/` con `scripts.limpiar_corpus_markdown` y apuntar `--markdown-dir` a esa ruta (detalle en [scripts/README.md](../../scripts/README.md)); en runtime el agente **no** lee Markdown en disco, solo Qdrant.
 
+### 1.1 Límites del núcleo M2 frente a laboratorio y scripts (decision-6)
+
+La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija una migración incremental “clean enough”: **sin** rediseñar FastAPI ni LangGraph, pero **sí** separando `src/rag/` en **`runtime/`** (código importado en cada consulta del agente) y **`evaluacion/`** (métricas puras consumidas por scripts y tests, no por el grafo en el camino caliente). El cuadro siguiente resume el mapa canónico **módulo → categoría**; sirve de cierre narrativo frente al árbol plano previo a TASK-86. Evidencia de imports y regresiones: [doc-005 — Auditoría de imports](doc-005%20-%20Auditoria-Imports-Migracion-Clean-Architecture.md).
+
+```mermaid
+flowchart TB
+  subgraph presentacion [Presentacion HTTP]
+    API["FastAPI src/api"]
+  end
+  subgraph orquestacion [Orquestacion agente M2]
+    AG["LangGraph src/agentes"]
+  end
+  subgraph infra [Infra RAG y datos]
+    RUN["src/rag/runtime"]
+    EVAL["src/rag/evaluacion"]
+    PG[("PostgreSQL persistencia")]
+    QD[("Qdrant corpus")]
+  end
+  subgraph laboratorio [Laboratorio fuera del runtime M2]
+    LEGACY["src/laboratorio/qa_legacy"]
+    QA_SHIM["src/qa shim deprecado"]
+    SCR["scripts"]
+  end
+  API --> AG
+  AG --> RUN
+  AG --> PG
+  RUN --> QD
+  EVAL -.->|"CI scripts tests"| RUN
+```
+
+| Módulo o paquete | Categoría | Rol |
+| --- | --- | --- |
+| `src/api/` | núcleo M2 | Presentación HTTP, SSE, administración y configuración por petición. |
+| `src/agentes/` | núcleo M2 | Grafo LangGraph, herramientas LangChain y ensamblado del runtime del agente. |
+| `src/rag/runtime/` | núcleo M2 | Qdrant, embeddings, recuperadores denso/listado, intención, MMR y reranker en el camino de inferencia. |
+| `src/persistencia/` | infra OLTP | Modelos SQLAlchemy async y repositorios (usuarios, sesiones, `config_admin_m2`). |
+| `src/rag/evaluacion/` | laboratorio | Métricas offline (`metricas_eval`); consumo típico desde `scripts.eval_metricas_rag` y tests, no desde el grafo por turno. |
+| `scripts/` | scripts | Ingesta, evaluación RAG, scrape y export a Markdown. |
+| `src/laboratorio/qa_legacy/` | laboratorio | Clientes LLM y prompts de experimentación; fuera del contrato productivo de `POST /api/agente/stream`. |
+| `src/qa/` | laboratorio | Shim de compatibilidad con aviso deprecación hacia `qa_legacy` (cierre TASK-89); no sustituye al paquete canónico del laboratorio. |
+
 ```mermaid
 flowchart TB
   subgraph cliente["Cliente"]
@@ -139,7 +180,7 @@ Más opciones y modo mock: [scripts/README.md](../../scripts/README.md) (secció
 ### 4.4 Chunking semantico y payload enriquecido (TASK-69)
 
 - **Estrategia de fragmentacion**: variable `CHUNK_STRATEGY` en `.env` / `Configuracion`: `sentence` (retrocompatible, `SentenceSplitter` sobre el cuerpo) o `markdown` (`MarkdownNodeParser` con post-fractura por tamano maximo en caracteres). Ver [decision-4](../decisions/decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md).
-- **Payload extendido** en Qdrant (ademas de `archivo`, `titulo`, `source_url`, `seccion`, `chunk_index`, `content_hash`, `id_chunk`, `texto`): `tipo_pagina`, `subtipo`, `especialidad` (lista), `sedes` (lista), `nombre_medico`, `headings_path`, `h1`, `h2`, `h3`, `tags`. Las heuristicas viven en `src/rag/extractor_metadata.py`.
+- **Payload extendido** en Qdrant (ademas de `archivo`, `titulo`, `source_url`, `seccion`, `chunk_index`, `content_hash`, `id_chunk`, `texto`): `tipo_pagina`, `subtipo`, `especialidad` (lista), `sedes` (lista), `nombre_medico`, `headings_path`, `h1`, `h2`, `h3`, `tags`. Las heuristicas viven en `src/rag/runtime/extractor_metadata.py`.
 - **Indices de payload** (`tipo_pagina`, `especialidad`, `sedes`, `seccion`) se crean al asegurar la coleccion; en cliente `:memory:` Qdrant solo emite advertencia (sin efecto).
 - **Migracion**: se recomienda indexar en una **coleccion nueva** (p. ej. `corpus_fvl_v2`) para A/B frente a `corpus_fvl` sin downtime; el runtime del agente sigue leyendo solo `QDRANT_COLLECTION` configurada.
 
@@ -162,11 +203,11 @@ uv run python -m scripts.indexar_corpus_qdrant \
 
 | Etapa | Modulo | Comportamiento |
 | --- | --- | --- |
-| Intencion | `src/rag/intencion.py` | `inferir_intencion` clasifica `factual` / `listado` / `conteo` con regex (prioridad: conteo > listado > factual). Los patrones de conteo usan formas plurales (`cuantos` / `cuantas`) para no confundir con «cuanto cuesta». |
-| Filtros listado | `src/rag/filtros_listado_heuristica.py` | Deduce `tipo_pagina`, `especialidad`, `sedes`, `especialidad_contains` desde texto (sin LLM); especialidades canonicas en `data/eval/especialidades_canonicas.json`. |
-| Scroll Qdrant | `src/rag/recuperador_listados.py` | `RecuperadorListados.listar` arma filtros de payload, deduplica por `source_url` o nombre+archivo y devuelve `muestra_truncada` si aplica. |
+| Intencion | `src/rag/runtime/intencion.py` | `inferir_intencion` clasifica `factual` / `listado` / `conteo` con regex (prioridad: conteo > listado > factual). Los patrones de conteo usan formas plurales (`cuantos` / `cuantas`) para no confundir con «cuanto cuesta». |
+| Filtros listado | `src/rag/runtime/filtros_listado_heuristica.py` | Deduce `tipo_pagina`, `especialidad`, `sedes`, `especialidad_contains` desde texto (sin LLM); especialidades canonicas en `data/eval/especialidades_canonicas.json`. |
+| Scroll Qdrant | `src/rag/runtime/recuperador_listados.py` | `RecuperadorListados.listar` arma filtros de payload, deduplica por `source_url` o nombre+archivo y devuelve `muestra_truncada` si aplica. |
 | Tool | `src/agentes/herramientas/listar_estructurado_tool.py` | `StructuredTool` `listar_estructurado` registrada en el grafo por defecto. |
-| Filtro blando RAG | `src/rag/recuperador_denso.py` | `VectorStoreQuery` con `MetadataFilters` (`tipo_pagina` IN lista) cuando `rag_denso` recibe `filtros_tipo_pagina`; sugerencia automatica para misión/visión institucional. |
+| Filtro blando RAG | `src/rag/runtime/recuperador_denso.py` | `VectorStoreQuery` con `MetadataFilters` (`tipo_pagina` IN lista) cuando `rag_denso` recibe `filtros_tipo_pagina`; sugerencia automatica para misión/visión institucional. |
 | Grafo | `src/agentes/router.py` | Nodo `inferir_intencion` antes de `decidir_tool`; atajo a `listar_estructurado` con argumentos heuristicos cuando la intencion es `listado`/`conteo` y hay filtros. Si el listado devuelve `conteo == 0`, **fallback** a `rag_denso`. |
 
 **Evento SSE `herramienta`**: el payload JSON puede incluir `resultado_listado` (`conteo`, `muestra_truncada`, `filtros_aplicados`, hasta **50** filas de `items` con `nombre`, `especialidad`, `sedes`, `source_url`, `archivo`) para alimentar la tabla del chat cuando `nombre` es `listar_estructurado`.
@@ -230,7 +271,7 @@ flowchart LR
 
 - **Golden set versionado**: `data/eval/golden_set_rag.jsonl` con consultas curadas y `archivos_relevantes` como ground truth; **schema** en `data/eval/golden_set.schema.json`.
 - **Script**: `uv run python -m scripts.eval_metricas_rag` — validacion local sin red (`--solo-validar-golden`), corrida completa contra Qdrant y reporte Markdown + `*.results.jsonl` en `data/eval/reportes/`.
-- **Metricas** (implementacion pura en `src/rag/metricas_eval.py`): todas operan sobre la lista ordenada de archivos por chunk (`archivos_por_chunk`), pero **no** comparten la misma granularidad; al comparar configuraciones conviene citar la fila correspondiente.
+- **Metricas** (implementacion pura en `src/rag/evaluacion/metricas_eval.py`): todas operan sobre la lista ordenada de archivos por chunk (`archivos_por_chunk`), pero **no** comparten la misma granularidad; al comparar configuraciones conviene citar la fila correspondiente.
 
 | metrica | granularidad | implementacion | comentario |
 | --- | --- | --- | --- |
@@ -346,5 +387,6 @@ En la práctica: **no** introducir `src/aplicacion/agente_servicio.py` (u homón
 - [decision-3 — Arquitectura agente, memoria, RAG, Qdrant (M2)](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
 - [decision-6 — Migración incremental “clean enough” (M2)](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md)
 - [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
+- [doc-005 — Auditoría de imports (migración clean enough)](doc-005%20-%20Auditoria-Imports-Migracion-Clean-Architecture.md)
 - [scripts/README.md — ingesta Qdrant y E2E](../../scripts/README.md)
-- Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/`
+- Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/runtime/`, `src/rag/evaluacion/`

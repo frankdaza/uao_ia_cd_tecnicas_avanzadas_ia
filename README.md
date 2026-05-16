@@ -16,10 +16,13 @@ La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume
 
 | Ámbito | Rutas típicas | Rol |
 | --- | --- | --- |
-| **Nucleo productivo M2** | `src/api/`, `src/agentes/`, `src/rag/`, `src/persistencia/` | Sesión (`POST /api/sesiones`), agente con SSE (`POST /api/agente/stream`), memoria en PostgreSQL, RAG denso en Qdrant y herramientas LangChain enlazadas al grafo. |
+| **Nucleo productivo M2** | `src/api/`, `src/agentes/`, [`src/rag/runtime/`](src/rag/runtime/), `src/persistencia/` | Sesión (`POST /api/sesiones`), agente con SSE (`POST /api/agente/stream`), memoria en PostgreSQL, RAG denso en Qdrant y herramientas LangChain enlazadas al grafo. |
+| **Evaluación RAG offline** | [`src/rag/evaluacion/`](src/rag/evaluacion/) | Métricas puras (`metricas_eval`); consumo desde `scripts.eval_metricas_rag` y tests. **No** se invoca desde el grafo en cada turno (ver [doc-003 §1.1](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md)). |
 | **Laboratorio y soporte** | [`src/laboratorio/qa_legacy/`](src/laboratorio/qa_legacy/) (código), [`src/qa/`](src/qa/) (solo shim deprecado), `scripts/`, pruebas bajo `tests/` que no ejercen el grafo M2 | Experimentación, legado del Módulo 1, utilidades reutilizables por tests o scripts; **no** sustituyen al runtime del agente. |
 
-La ruta canónica del laboratorio Q&A es **`src/laboratorio/qa_legacy/`**. La carpeta **`src/qa/`** contiene únicamente un **shim** que reexporta símbolos con `DeprecationWarning` hasta **2026-08-01**; **no** forma parte del runtime M2 en producción (**no** participa en **`POST /api/agente/stream`** ni en el grafo LangGraph del agente). El camino productivo de inferencia y persistencia está descrito en [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y en [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+La ruta canónica del laboratorio Q&A es **`src/laboratorio/qa_legacy/`** (consolidada en **TASK-89**). La carpeta **`src/qa/`** conserva solo un **shim** que reexporta símbolos con `DeprecationWarning` hasta **2026-08-01**; **no** forma parte del runtime M2 en producción (**no** participa en **`POST /api/agente/stream`** ni en el grafo LangGraph del agente). El camino productivo de inferencia y persistencia está descrito en [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y en [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+
+**`src/app/`:** no existe en el árbol versionado (retirado con la UI Gradio según [decision-6 — Migración incremental clean enough](backlog/decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md); narrativa de reemplazo en [doc-002](backlog/docs/doc-002%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI.md) e historial en git).
 
 ## Índice
 
@@ -140,7 +143,8 @@ flowchart LR
 | --- | --- |
 | [`src/api/`](src/api/) | FastAPI (`main`, lifespan), routers (`sesiones`, `agente`, `salud`, `admin`), SSE, esquemas Pydantic, configuración (`configuracion.py`), dependencias. |
 | [`src/agentes/`](src/agentes/) | Grafo LangGraph, estado, meta-prompt, herramientas LangChain, memoria, runtime del agente. |
-| [`src/rag/`](src/rag/) | Embeddings, cliente Qdrant, recuperador denso (`rag_denso`) y listados estructurados sobre Qdrant (`listar_estructurado`). |
+| [`src/rag/runtime/`](src/rag/runtime/) | Embeddings, cliente Qdrant, recuperador denso (`rag_denso`), listados estructurados (`listar_estructurado`), intención, MMR y reranker: código en el **camino caliente** del agente. |
+| [`src/rag/evaluacion/`](src/rag/evaluacion/) | Métricas offline del golden set (`metricas_eval`); uso típico desde `scripts/` y tests, no desde el grafo por petición. |
 | [`src/persistencia/`](src/persistencia/) | Motor SQLAlchemy async, modelos y repositorios (usuarios, sesiones, `config_admin_m2`). |
 | [`src/scraping/`](src/scraping/) | Descarga ética y registro de adquisición hacia `data/raw/`. |
 | [`src/markdown_export/`](src/markdown_export/) | Conversión de crudo a Markdown con front matter. |
