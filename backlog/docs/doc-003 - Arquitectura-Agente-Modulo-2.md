@@ -127,6 +127,10 @@ En inferencia **no** participa BM25 ni `data/markdown/` como índice léxico: el
 - Se persisten **preguntas y respuestas** en PostgreSQL para el funcionamiento del chat; tratar el motor como dato personal según políticas del curso o institución.
 - Ajustar retención (`HISTORIAL_DIAS_MAX`, backups, anonimización) según lineamientos; no versionar secretos en `.env` ni en tareas del backlog.
 
+**Historial HTTP (`GET /api/sesiones/actual/historial`)**
+
+- Los mensajes con rol `ai` pueden incluir de forma opcional el objeto **`metadata_turno`**: `motor` (p. ej. `agente`), `herramienta_efectiva`, lista `pensamientos` (trazas resumidas del router y la ejecución de tools), `fuentes` (chunks RAG alineados al evento SSE `fuentes`) y `recortado` si aplica truncado por tamaño al persistir (TASK-94). Los mensajes guardados antes de esa ampliación siguen siendo válidos sin esa clave; el frontend tolera su ausencia.
+
 ## 4. Comandos: desarrollo local y Docker Compose
 
 ### 4.0 Recarga de parametros (`.env` vs panel administrativo)

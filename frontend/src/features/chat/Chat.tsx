@@ -1,15 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ZodError } from 'zod'
 import { toast } from 'sonner'
 import { useAuth } from '@/features/auth/AuthContext'
-import { deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
+import { ApiError, deleteUltimoTurno, getHistorialSesion } from '@/lib/api'
 import { respuestaFinalEsSinInformacion } from '@/lib/agenteRespuesta'
 import { streamAgente } from '@/lib/sseClient'
-import type { HistorialMensaje, ListadoItem, RagChunk, ResultadoListadoSse } from '@/lib/schemas'
+import type { HistorialMensaje, ListadoItem, MetadataTurnoHistorial, RagChunk, ResultadoListadoSse } from '@/lib/schemas'
 import { ListadoItemSchema } from '@/lib/schemas'
-import type { ChatTurn } from './MessageList'
+import type { ChatTurn, RouterThought } from './MessageList'
 import { MessageList } from './MessageList'
 import { ChatInput } from './ChatInput'
 import type { Message } from './MessageBubble'
+
+function routerThoughtsDesdeHistorial(meta: MetadataTurnoHistorial | null | undefined): RouterThought[] {
+  const raw = meta?.pensamientos
+  if (!raw?.length) return []
+  return raw.map((p) => ({
+    herramientaCandidata: String(p.herramienta ?? ''),
+    razon: String(p.razon_breve ?? ''),
+  }))
+}
 
 function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
   const out: ChatTurn[] = []
@@ -29,11 +39,18 @@ function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
       i += 1
       let assistantContent = ''
       let foundAi = false
+      let toolUsed: string | null = null
+      let routerThoughts: RouterThought[] = []
+      let ragSources: RagChunk[] = []
       while (i < mensajes.length) {
         const next = mensajes[i]
         if (next.rol === 'human') break
         if (next.rol === 'ai') {
           assistantContent = next.contenido
+          const meta = next.metadata_turno
+          toolUsed = meta?.herramienta_efectiva ?? null
+          routerThoughts = routerThoughtsDesdeHistorial(meta)
+          ragSources = meta?.fuentes?.length ? [...meta.fuentes] : []
           foundAi = true
           i += 1
           break
@@ -53,9 +70,9 @@ function mapHistorialToTurns(mensajes: HistorialMensaje[]): ChatTurn[] {
         id: `turn-${out.length}-${crypto.randomUUID()}`,
         userMessage: userMessage,
         assistantMessage,
-        ragSources: [],
-        routerThoughts: [],
-        toolUsed: null,
+        ragSources,
+        routerThoughts,
+        toolUsed,
         listadoItems: [],
         listadoConteo: undefined,
         listadoMuestraTruncada: undefined,
@@ -115,11 +132,34 @@ export function Chat() {
         if (cancelado) return
         usarPrimerTurnoRef.current = mensajes.length === 0
         setTurns(mapHistorialToTurns(mensajes))
-      } catch {
+      } catch (error) {
         if (cancelado) return
         usarPrimerTurnoRef.current = false
-        setHistorialError('No se pudo cargar el historial. Puede enviar mensajes, pero no verá conversaciones anteriores.')
-        toast.error('No se pudo cargar el historial de la sesión.')
+        if (import.meta.env.DEV) {
+          console.error('[Chat] Fallo al cargar historial (GET /api/sesiones/actual/historial)', error)
+        }
+        let mensajeBanner =
+          'No se pudo cargar el historial. Puede enviar mensajes, pero no verá conversaciones anteriores.'
+        let mensajeToast = 'No se pudo cargar el historial de la sesión.'
+        if (error instanceof ApiError) {
+          mensajeToast = error.detail?.trim() || mensajeToast
+          if (error.status === 401 || error.status === 403) {
+            mensajeBanner =
+              'Sesión inválida o expirada. Inicie sesión de nuevo para ver el historial anterior.'
+          } else if (error.status >= 500) {
+            mensajeBanner =
+              'Error del servidor al leer el historial. Revise que PostgreSQL (memoria LangChain) esté disponible y los logs del backend.'
+          } else {
+            mensajeBanner = `No se pudo cargar el historial (código ${String(error.status)}). ${error.detail ?? ''}`.trim()
+          }
+        } else if (error instanceof ZodError) {
+          mensajeToast =
+            'La respuesta del historial no coincide con el formato esperado (detalle en consola del navegador).'
+          mensajeBanner =
+            'El servidor devolvió datos de historial en un formato incompatible. Abra la consola (F12) y busque el prefijo [API].'
+        }
+        setHistorialError(mensajeBanner)
+        toast.error(mensajeToast)
       } finally {
         if (!cancelado) setHistorialLoading(false)
       }

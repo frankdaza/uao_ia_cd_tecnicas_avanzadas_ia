@@ -1,6 +1,6 @@
 # Scripts de línea de comandos
 
-Utilidades para descargar el sitio, generar el corpus Markdown e indexar en Qdrant. Todos los comandos asumen que estás en la **raíz del repositorio** (donde están `pyproject.toml`, `src/` y `scripts/`).
+Utilidades para descargar el sitio, generar el corpus Markdown e indexar en Qdrant. Consultas SQL ad hoc (p. ej. verificación de `chat_history` M2) están en `scripts/sql/`. Todos los comandos asumen que estás en la **raíz del repositorio** (donde están `pyproject.toml`, `src/` y `scripts/`).
 
 ## Requisitos comunes
 

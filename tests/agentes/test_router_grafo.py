@@ -257,6 +257,11 @@ def test_grafo_turno_completo_faq_fake_models(
     assert len(memoria.agregar_ai_calls) == 1
     meta = memoria.agregar_ai_calls[0][1] or {}
     assert meta.get("tool") == "faq_estructurada"
+    assert "metadata_turno" in meta
+    mt = meta["metadata_turno"]
+    assert isinstance(mt, dict)
+    assert mt.get("herramienta_efectiva") == "faq_estructurada"
+    assert len(mt.get("pensamientos") or []) >= 1
     tipos = [p["tipo"] for p in salida.get("pensamientos") or []]
     assert "decision_router" in tipos
     assert "ejecucion_tool" in tipos
@@ -303,6 +308,12 @@ def test_grafo_rama_rag_y_fuentes_en_estado(
     assert salida["tool_decidida"] == "rag_denso"
     assert len(salida.get("fuentes") or []) == 1
     assert salida["fuentes"][0].get("archivo") == "politica.md"
+    assert len(memoria.agregar_ai_calls) == 1
+    meta = memoria.agregar_ai_calls[0][1] or {}
+    mt = meta.get("metadata_turno")
+    assert isinstance(mt, dict)
+    assert mt.get("herramienta_efectiva") == "rag_denso"
+    assert len(mt.get("fuentes") or []) == 1
 
 
 def test_astream_events_smoke(

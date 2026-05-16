@@ -58,6 +58,34 @@ class RespuestaInicioSesion(BaseModel):
 RolMensajeHistorial = Literal["human", "ai", "system", "tool"]
 
 
+class MetadataTurnoHistorial(BaseModel):
+    """
+    Metadatos de un turno del agente M2 expuestos en el historial (TASK-94).
+
+    Paridad con eventos SSE: herramienta efectiva, trazas resumidas del router y fuentes RAG.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="allow")
+
+    motor: str = Field(default="agente", description="Motor conversacional (producto: agente).")
+    herramienta_efectiva: str | None = Field(
+        default=None,
+        description="Nombre de tool ejecutada tras el router (p. ej. faq_estructurada, rag_denso).",
+    )
+    pensamientos: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Trazas serializables (tipo, herramienta, razon_breve, ...).",
+    )
+    fuentes: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Chunks RAG devueltos por la tool densa (mismo shape que evento fuentes SSE).",
+    )
+    recortado: bool | None = Field(
+        default=None,
+        description="True si se aplico truncado por tamano al persistir.",
+    )
+
+
 class MensajeHistorialItem(BaseModel):
     """Un mensaje del historial persistido (LangChain) listo para el frontend."""
 
@@ -68,6 +96,10 @@ class MensajeHistorialItem(BaseModel):
     creado_en: datetime | None = Field(
         default=None,
         description="Marca de tiempo si esta disponible en el modelo de persistencia.",
+    )
+    metadata_turno: MetadataTurnoHistorial | None = Field(
+        default=None,
+        description="Solo mensajes ai: metadatos del turno (tool, pensamientos, fuentes Qdrant).",
     )
 
 
@@ -85,6 +117,7 @@ class RespuestaHistorialSesion(BaseModel):
                             "rol": "ai",
                             "contenido": "Hola, ¿en qué puedo ayudarte?",
                             "creado_en": None,
+                            "metadata_turno": None,
                         },
                     ],
                 },

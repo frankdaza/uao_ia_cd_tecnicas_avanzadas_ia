@@ -8,6 +8,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from 'sonner'
 import * as sonner from 'sonner'
 import { Chat } from '@/features/chat/Chat'
+import { ApiError } from '@/lib/api'
+import { ZodError } from 'zod'
 
 const mocks = vi.hoisted(() => ({
   abort: vi.fn(),
@@ -128,5 +130,57 @@ describe('Chat', () => {
     await user.click(detener)
 
     await waitFor(() => expect(mocks.abort).toHaveBeenCalled())
+  })
+
+  it('muestra mensaje específico si el historial falla por sesión (401)', async () => {
+    mocks.getHistorialSesion.mockRejectedValueOnce(
+      new ApiError('Sesion no indicada o invalida.', 401, 'Sesion no indicada o invalida.'),
+    )
+    renderChat()
+    await waitFor(() =>
+      expect(
+        screen.getByText(/Sesión inválida o expirada\. Inicie sesión de nuevo/i),
+      ).toBeInTheDocument(),
+    )
+  })
+
+  it('muestra mensaje específico si el historial falla por contrato Zod', async () => {
+    mocks.getHistorialSesion.mockRejectedValueOnce(
+      new ZodError([{ code: 'custom', path: ['mensajes'], message: 'demo' }]),
+    )
+    renderChat()
+    await waitFor(() =>
+      expect(
+        screen.getByText(/formato incompatible\. Abra la consola \(F12\)/i),
+      ).toBeInTheDocument(),
+    )
+  })
+
+  it('hidrata metadata_turno del historial (tool y panel de razonamiento)', async () => {
+    mocks.getHistorialSesion.mockResolvedValue({
+      mensajes: [
+        { rol: 'human', contenido: '¿PQRS?' },
+        {
+          rol: 'ai',
+          contenido: 'Pasos para PQRS.',
+          metadata_turno: {
+            motor: 'agente',
+            herramienta_efectiva: 'faq_estructurada',
+            pensamientos: [
+              {
+                tipo: 'decision_router',
+                herramienta: 'faq_estructurada',
+                razon_breve: 'Seleccion via tool binding.',
+              },
+            ],
+            fuentes: [],
+          },
+        },
+      ],
+    })
+    renderChat()
+    await waitFor(() => expect(screen.getByText('Pasos para PQRS.')).toBeInTheDocument())
+    expect(screen.getByText('Tool: FAQ')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /razonamiento del router/i })).toBeInTheDocument()
   })
 })

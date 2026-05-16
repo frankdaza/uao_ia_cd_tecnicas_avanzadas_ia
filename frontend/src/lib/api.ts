@@ -3,6 +3,7 @@
  * Para streaming SSE usar sseClient.ts.
  */
 
+import type { ZodType } from 'zod'
 import type {
   HistorialSesionRespuesta,
   Salud,
@@ -46,7 +47,18 @@ export class ApiError extends Error {
   }
 }
 
-async function parseJson<T>(response: Response, schema: { parse: (v: unknown) => T }): Promise<T> {
+type OpcionesParseJson = {
+  /**
+   * Etiqueta para consola cuando el JSON 200 no cumple el esquema (diagnóstico M2 / historial).
+   */
+  contextLabel?: string
+}
+
+async function parseJson<T>(
+  response: Response,
+  schema: ZodType<T>,
+  opciones?: OpcionesParseJson,
+): Promise<T> {
   if (!response.ok) {
     if (response.status === 401 || response.status === 403) {
       authInvalidHandler?.()
@@ -64,8 +76,18 @@ async function parseJson<T>(response: Response, schema: { parse: (v: unknown) =>
       detail,
     )
   }
-  const json = await response.json()
-  return schema.parse(json)
+  const json: unknown = await response.json()
+  const parsed = schema.safeParse(json)
+  if (!parsed.success) {
+    const etiqueta = opciones?.contextLabel ?? response.url
+    console.error(
+      `[API] Respuesta JSON no valida para el esquema (${etiqueta})`,
+      parsed.error.format(),
+      json,
+    )
+    throw parsed.error
+  }
+  return parsed.data
 }
 
 /** Verifica que el servidor esté en funcionamiento. */
@@ -96,7 +118,9 @@ export async function getHistorialSesion(sessionId?: string): Promise<HistorialS
     credentials: DEFAULT_CREDENTIALS,
     headers: sessionId ? { [SESSION_HEADER_NAME]: sessionId } : {},
   })
-  return parseJson(res, HistorialSesionRespuestaSchema)
+  return parseJson(res, HistorialSesionRespuestaSchema, {
+    contextLabel: 'GET /api/sesiones/actual/historial',
+  })
 }
 
 /** Elimina el último turno persistido (human + ai) antes de regenerar en el cliente. */

@@ -137,10 +137,28 @@ export const SesionRespuestaSchema = z.object({
 })
 export type SesionRespuesta = z.infer<typeof SesionRespuestaSchema>
 
+/** Metadatos del turno del agente M2 en GET /api/sesiones/actual/historial (TASK-94). */
+export const MetadataTurnoHistorialSchema = z.object({
+  motor: z.string().optional(),
+  herramienta_efectiva: z.string().nullable().optional(),
+  pensamientos: z.array(z.record(z.string(), z.unknown())).optional(),
+  fuentes: z
+    .array(z.unknown())
+    .nullish()
+    .transform((arr) =>
+      (arr ?? []).map((item) => RagChunkSchema.safeParse(item)).flatMap((r) => (r.success ? [r.data] : [])),
+    ),
+  recortado: z.boolean().nullable().optional(),
+})
+export type MetadataTurnoHistorial = z.infer<typeof MetadataTurnoHistorialSchema>
+
 export const HistorialMensajeSchema = z.object({
   rol: z.enum(['human', 'ai', 'system', 'tool']),
-  contenido: z.string(),
+  /** LangChain puede serializar contenido ausente; el cliente normaliza a cadena vacía. */
+  contenido: z.preprocess((v) => (v === null || v === undefined ? '' : v), z.string()),
   creado_en: z.union([z.string(), z.null()]).optional(),
+  /** FastAPI suele serializar None como JSON null; Zod .optional() no acepta null si la clave existe. */
+  metadata_turno: MetadataTurnoHistorialSchema.nullish(),
 })
 export type HistorialMensaje = z.infer<typeof HistorialMensajeSchema>
 

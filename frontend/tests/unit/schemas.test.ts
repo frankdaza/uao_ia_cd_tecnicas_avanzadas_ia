@@ -69,4 +69,50 @@ describe('Schemas Zod', () => {
     }
     expect(() => HistorialSesionRespuestaSchema.parse(data)).not.toThrow()
   })
+
+  it('acepta historial con metadata_turno null en human (JSON FastAPI)', () => {
+    const data = {
+      mensajes: [
+        { rol: 'human' as const, contenido: 'Hola', creado_en: null, metadata_turno: null },
+        { rol: 'ai' as const, contenido: 'Respuesta', creado_en: null, metadata_turno: null },
+        { rol: 'human' as const, contenido: 'Otra', creado_en: null, metadata_turno: null },
+      ],
+    }
+    const parsed = HistorialSesionRespuestaSchema.parse(data)
+    expect(parsed.mensajes[0].metadata_turno).toBeNull()
+    expect(parsed.mensajes[1].metadata_turno).toBeNull()
+    expect(parsed.mensajes[2].metadata_turno).toBeNull()
+  })
+
+  it('acepta mensaje de historial con contenido null (legacy)', () => {
+    const data = {
+      mensajes: [{ rol: 'human' as const, contenido: null, creado_en: null }],
+    }
+    const parsed = HistorialSesionRespuestaSchema.parse(data)
+    expect(parsed.mensajes[0].contenido).toBe('')
+  })
+
+  it('valida HistorialSesionRespuesta con metadata_turno en mensaje ai', () => {
+    const data = {
+      mensajes: [
+        { rol: 'human' as const, contenido: 'Pregunta', creado_en: null },
+        {
+          rol: 'ai' as const,
+          contenido: 'Respuesta',
+          creado_en: null,
+          metadata_turno: {
+            motor: 'agente',
+            herramienta_efectiva: 'faq_estructurada',
+            pensamientos: [
+              { tipo: 'decision_router', herramienta: 'faq_estructurada', razon_breve: 'Razon.' },
+            ],
+            fuentes: [{ archivo: 'a.md', score: 0.9 }],
+          },
+        },
+      ],
+    }
+    const parsed = HistorialSesionRespuestaSchema.parse(data)
+    expect(parsed.mensajes[1].metadata_turno?.herramienta_efectiva).toBe('faq_estructurada')
+    expect(parsed.mensajes[1].metadata_turno?.fuentes?.[0]?.archivo).toBe('a.md')
+  })
 })

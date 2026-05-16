@@ -17,6 +17,9 @@ from src.agentes.memoria.historial import (
     consultar_max_created_at_chat_pool,
     normalizar_session_id_postgres_langchain,
 )
+from src.agentes.metadata_turno_historial import (
+    normalizar_metadata_turno_desde_additional_kwargs,
+)
 from src.agentes.reglas import construir_limites_historial
 from src.api.dependencias import (
     NOMBRE_COOKIE_SESION,
@@ -27,6 +30,7 @@ from src.api.dependencias import (
 from src.api.servicios.agente_m2_config import ServicioAgenteM2Config
 from src.api.esquemas import (
     MensajeHistorialItem,
+    MetadataTurnoHistorial,
     PeticionInicioSesion,
     RespuestaBorradoUltimoTurno,
     RespuestaCierreSesion,
@@ -56,7 +60,25 @@ def _serializar_mensaje_lc(mensaje: BaseMessage) -> MensajeHistorialItem:
     contenido = (
         mensaje.content if isinstance(mensaje.content, str) else str(mensaje.content)
     )
-    return MensajeHistorialItem(rol=rol, contenido=contenido, creado_en=None)
+    metadata_turno: MetadataTurnoHistorial | None = None
+    if isinstance(mensaje, AIMessage):
+        raw_kw = mensaje.additional_kwargs
+        if isinstance(raw_kw, dict):
+            normalizado = normalizar_metadata_turno_desde_additional_kwargs(raw_kw)
+            if normalizado is not None:
+                try:
+                    metadata_turno = MetadataTurnoHistorial.model_validate(normalizado)
+                except Exception:  # noqa: BLE001 — historial tolerante ante JSON legacy
+                    logger.debug(
+                        "metadata_turno no valido para historial; se omite.",
+                        exc_info=True,
+                    )
+    return MensajeHistorialItem(
+        rol=rol,
+        contenido=contenido,
+        creado_en=None,
+        metadata_turno=metadata_turno,
+    )
 
 
 async def _cargar_mensajes_desde_memoria(
@@ -152,7 +174,12 @@ async def historial_sesion_actual(
     pool: ConnectionPool = Depends(obtener_pool_memoria_psycopg),
     sesion: AsyncSession = Depends(obtener_sesion_db),
 ) -> RespuestaHistorialSesion:
-    """Devuelve mensajes persistidos en orden cronologico para repintar el chat."""
+    """
+    Devuelve mensajes persistidos en orden cronologico para repintar el chat.
+
+    Diagnóstico operativo (tabla ``chat_history`` vs Qdrant): ver
+    ``scripts/sql/verificacion_chat_history_m2.sql``.
+    """
     session_id = sesion_id_memoria_langchain(usuario.id)
     svc = ServicioAgenteM2Config(sesion)
     fila = await svc.obtener_fila()

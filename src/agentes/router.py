@@ -23,6 +23,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from src.agentes.estado import EstadoAgente
+from src.agentes.metadata_turno_historial import construir_metadata_turno_para_persistencia
 from src.agentes.meta_prompt import MetaPromptConfig
 from src.agentes.prompt_institucional import PROMPT_SISTEMA_DEFECTO
 from src.agentes.reglas import (
@@ -773,7 +774,8 @@ def crear_grafo_agente(
         Pasos:
         1. Obtiene memoria desde ``config``.
         2. ``agregar_humano`` con el texto de ``state["pregunta"]``.
-        3. Arma metadata con ``tool`` usada y lista ``fuentes`` (si hubo RAG).
+        3. Arma metadata con ``tool``, ``fuentes`` (legacy) y ``metadata_turno`` (TASK-94:
+           herramienta efectiva, pensamientos, fuentes sanadas).
         4. ``agregar_ai`` con ``respuesta_final`` y esa metadata para el historial LangChain.
         5. Devuelve dict vacio (no muta mas campos del estado del grafo).
         """
@@ -781,9 +783,11 @@ def crear_grafo_agente(
 
         def _persistir() -> None:
             memoria.agregar_humano(state["pregunta"])
+            meta_turno = construir_metadata_turno_para_persistencia(dict(state))
             meta_respuesta: dict[str, Any] = {
                 "tool": state.get("tool_decidida"),
                 "fuentes": state.get("fuentes") or [],
+                "metadata_turno": meta_turno,
             }
             memoria.agregar_ai(
                 state.get("respuesta_final") or "", metadata=meta_respuesta
