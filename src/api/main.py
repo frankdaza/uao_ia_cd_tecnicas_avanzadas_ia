@@ -23,6 +23,7 @@ from src.agentes.memoria.historial import inicializar_esquema_memoria_chat
 from src.api.configuracion import Configuracion, obtener_configuracion
 from src.api.factoria_grafo_agente import construir_grafo_agente_produccion_o_none
 from src.api.middleware_request_id import registrar_request_response
+from src.api.tracing_langchain import aplicar_tracing_langchain_desde_config
 from src.api.routers import admin, agente, salud, sesiones
 from src.persistencia.motor import (
     cerrar_motor_async,
@@ -55,6 +56,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     motor; no se comparten pools entre procesos.
     """
     cfg = obtener_configuracion()
+    aplicar_tracing_langchain_desde_config(cfg)
     logger.info(
         "Modulo vectorial: embeddings=%s modelo=%s coleccion_qdrant=%s "
         "distancia=%s dims=%s",

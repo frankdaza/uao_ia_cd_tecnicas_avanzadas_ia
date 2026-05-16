@@ -135,7 +135,13 @@ async def _generador_eventos_sse(
                         "doc_id": usuario.documento_identidad,
                     },
                 }
-                config = {"configurable": {"memoria": memoria, "runtime_agente": bundle}}
+                config = {
+                    "configurable": {"memoria": memoria, "runtime_agente": bundle},
+                    "metadata": {
+                        # UUID interno de aplicacion (no PII textual); ver decision-5 / TASK-84.
+                        "usuario_id_interno": str(usuario.id),
+                    },
+                }
                 agen = grafo.astream_events(entrada, version="v2", config=config)
                 try:
                     async for ev in agen:

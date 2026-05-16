@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Literal, Self
 from urllib.parse import quote_plus
 
-from pydantic import Field, model_validator
+from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 TipoDistanciaQdrant = Literal["Cosine", "Dot", "Euclid", "Manhattan"]
@@ -25,6 +25,9 @@ class Configuracion(BaseSettings):
         env_file=_RUTA_ENV_REPO,
         env_file_encoding="utf-8",
         extra="ignore",
+        # Docker Compose suele pasar `${VAR:-}` como cadena vacia cuando VAR no esta definida;
+        # sin esto, bool/str opcionales fallan al parsear "" (p. ej. LANGCHAIN_TRACING_V2).
+        env_ignore_empty=True,
     )
 
     allowed_origins: list[str] = [
@@ -221,6 +224,40 @@ class Configuracion(BaseSettings):
         le=1,
         description=(
             "1 activa router y compositor deterministicos sin OpenAI (variable de entorno MOCK_LLM)."
+        ),
+    )
+
+    # --- LangSmith / LangChain tracing (opcional; ver backlog/decisions/decision-5) ---
+    trazas_langchain_activas: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("LANGCHAIN_TRACING_V2", "LANGSMITH_TRACING"),
+        description=(
+            "true activa el export de trazas compatible con LangSmith cuando exista "
+            "LANGCHAIN_API_KEY o LANGSMITH_API_KEY. Reiniciar el proceso tras editar .env."
+        ),
+    )
+    clave_api_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_API_KEY", "LANGSMITH_API_KEY"),
+        description=(
+            "Clave API de LangSmith (no versionar; solo .env). Equivale a LANGSMITH_API_KEY "
+            "en la guia de LangSmith."
+        ),
+    )
+    proyecto_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_PROJECT", "LANGSMITH_PROJECT"),
+        description=(
+            "Nombre de proyecto en LangSmith (p. ej. uao-m2-dev). Alias alternativo: "
+            "LANGSMITH_PROJECT."
+        ),
+    )
+    url_endpoint_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_ENDPOINT", "LANGSMITH_ENDPOINT"),
+        description=(
+            "URL de API LangSmith si aplica region o despliegue self-hosted. "
+            "Alias alternativo: LANGSMITH_ENDPOINT."
         ),
     )
 
