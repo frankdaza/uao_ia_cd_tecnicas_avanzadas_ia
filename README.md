@@ -12,8 +12,18 @@ La interfaz identifica al usuario con **`POST /api/sesiones`** y el chat consume
 
 **Colaboración y tareas:** el flujo con Backlog.md (MCP) y convenciones del repo están en [AGENTS.md](AGENTS.md).
 
+## Nucleo productivo M2 vs laboratorio
+
+| Ámbito | Rutas típicas | Rol |
+| --- | --- | --- |
+| **Nucleo productivo M2** | `src/api/`, `src/agentes/`, `src/rag/`, `src/persistencia/` | Sesión (`POST /api/sesiones`), agente con SSE (`POST /api/agente/stream`), memoria en PostgreSQL, RAG denso en Qdrant y herramientas LangChain enlazadas al grafo. |
+| **Laboratorio y soporte** | `src/qa/`, `scripts/`, pruebas bajo `tests/` que no ejercen el grafo M2 | Experimentación, legado del Módulo 1, utilidades reutilizables por tests o scripts; **no** sustituyen al runtime del agente. |
+
+La carpeta **`src/qa/`** **no** forma parte del runtime M2 en producción: **no** participa en **`POST /api/agente/stream`** ni en el grafo LangGraph del agente. El camino productivo de inferencia y persistencia está descrito en [doc-003 — Arquitectura operativa del agente (Módulo 2)](backlog/docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y en [decision-3 — Agente, memoria PostgreSQL y RAG denso en Qdrant](backlog/decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+
 ## Índice
 
+- [Nucleo productivo M2 vs laboratorio](#nucleo-productivo-m2-vs-laboratorio)
 - [Flujo principal (Módulo 2)](#flujo-principal-módulo-2)
 - [Arquitectura del agente (detalle)](#arquitectura-del-agente-detalle)
 - [Resumen del grafo del agente (RESUMEN.md)](RESUMEN.md)
@@ -134,7 +144,7 @@ flowchart LR
 | [`src/persistencia/`](src/persistencia/) | Motor SQLAlchemy async, modelos y repositorios (usuarios, sesiones, `config_admin_m2`). |
 | [`src/scraping/`](src/scraping/) | Descarga ética y registro de adquisición hacia `data/raw/`. |
 | [`src/markdown_export/`](src/markdown_export/) | Conversión de crudo a Markdown con front matter. |
-| [`src/qa/`](src/qa/) | Clientes Ollama/OpenAI y utilidades de prompts para laboratorio o piezas reutilizables. |
+| [`src/qa/`](src/qa/) | Clientes Ollama/OpenAI y utilidades de prompts para **laboratorio** y pruebas; **fuera** del runtime M2 en `POST /api/agente/stream` (ver [Nucleo productivo M2 vs laboratorio](#nucleo-productivo-m2-vs-laboratorio)). |
 | [`frontend/src/`](frontend/src/) | App Vite: `features/` (auth, chat, settings), `components/ui/`, `lib/` (API, SSE, Zod). |
 | [`scripts/`](scripts/) | Scrape, export Markdown, indexación Qdrant; detalle en [scripts/README.md](scripts/README.md). |
 | [`data/raw/`](data/raw/), [`data/markdown/`](data/markdown/), [`data/structured/`](data/structured/) | Crudo, corpus canónico, FAQs JSON. |

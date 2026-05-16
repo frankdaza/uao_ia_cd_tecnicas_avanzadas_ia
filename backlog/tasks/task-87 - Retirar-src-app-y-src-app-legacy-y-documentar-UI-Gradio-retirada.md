@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:50'
-updated_date: '2026-05-16 17:04'
+updated_date: '2026-05-16 17:05'
 labels:
   - migracion
   - clean-architecture
@@ -25,7 +25,7 @@ documentation:
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
   - backlog/docs/doc-002 - Migracion-Frontend-React-Vite-Backend-FastAPI.md
 priority: medium
-ordinal: 1000
+ordinal: 1.953125
 ---
 
 ## Description

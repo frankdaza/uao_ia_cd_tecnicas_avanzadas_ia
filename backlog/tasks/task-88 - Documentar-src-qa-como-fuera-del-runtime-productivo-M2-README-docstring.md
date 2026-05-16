@@ -1,11 +1,11 @@
 ---
 id: TASK-88
 title: Documentar src/qa/ como fuera del runtime productivo M2 (README + docstring)
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:50'
-updated_date: '2026-05-16 16:50'
+updated_date: '2026-05-16 17:07'
 labels:
   - migracion
   - clean-architecture
@@ -25,7 +25,7 @@ documentation:
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 88000
+ordinal: 1000
 ---
 
 ## Description
@@ -46,10 +46,10 @@ Mover o renombrar `src/qa/` (eso es task-89).
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 README.md incluye seccion explicita "Nucleo productivo M2 vs laboratorio" (o titulo equivalente) que aclara que src/qa no participa en POST /api/agente/stream.
-- [ ] #2 src/qa/__init__.py contiene docstring de paquete que describe rol M1/pruebas y apunta a src/agentes para el agente M2.
-- [ ] #3 No se modifica la logica de negocio dentro de src/qa/*.py (solo docstring de paquete si hace falta).
-- [ ] #4 Enlaces en README a doc-003 y decision-3 para el camino productivo.
+- [x] #1 README.md incluye seccion explicita "Nucleo productivo M2 vs laboratorio" (o titulo equivalente) que aclara que src/qa no participa en POST /api/agente/stream.
+- [x] #2 src/qa/__init__.py contiene docstring de paquete que describe rol M1/pruebas y apunta a src/agentes para el agente M2.
+- [x] #3 No se modifica la logica de negocio dentro de src/qa/*.py (solo docstring de paquete si hace falta).
+- [x] #4 Enlaces en README a doc-003 y decision-3 para el camino productivo.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -68,10 +68,18 @@ Mover o renombrar `src/qa/` (eso es task-89).
 - Alinear wording con decision-6: "no forma parte del runtime M2 en produccion".
 - Evitar duplicar doc-003 completo en README; solo remision y tabla breve.
 - El docstring en `src/qa/__init__.py` debe ser import-safe (sin efectos secundarios).
+
+Revision ortografica en espanol latinoamericano (README y docstring).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se agrego la seccion README "Nucleo productivo M2 vs laboratorio" con tabla nucleo vs laboratorio, afirmacion explicita de que src/qa no participa en POST /api/agente/stream y enlaces a doc-003 y decision-3. Se amplio el docstring del paquete en src/qa/__init__.py (import-safe) apuntando a src/agentes para el agente M2. Se alineo la fila de src/qa en la tabla de estructura del repositorio. Pytest: 376 passed, 9 skipped.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Status Done sin archivar.
-- [ ] #2 Revision ortografica en espanol latinoamericano.
+- [x] #1 Status Done sin archivar.
+- [x] #2 Revision ortografica en espanol latinoamericano.
 <!-- DOD:END -->
