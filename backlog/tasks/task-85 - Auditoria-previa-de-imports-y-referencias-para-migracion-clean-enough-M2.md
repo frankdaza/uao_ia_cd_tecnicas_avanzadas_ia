@@ -1,11 +1,11 @@
 ---
 id: TASK-85
 title: Auditoria previa de imports y referencias para migracion clean-enough M2
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:49'
-updated_date: '2026-05-16 16:50'
+updated_date: '2026-05-16 16:55'
 labels:
   - migracion
   - clean-architecture
@@ -26,8 +26,11 @@ documentation:
     Migracion-Incremental-Clean-Architecture-M2.md
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
+  - backlog/docs/doc-005 - Auditoria-Imports-Migracion-Clean-Architecture.md
+modified_files:
+  - backlog/docs/doc-005 - Auditoria-Imports-Migracion-Clean-Architecture.md
 priority: high
-ordinal: 85000
+ordinal: 7.8125
 ---
 
 ## Description
@@ -57,11 +60,11 @@ Mover archivos, renombrar paquetes o tocar el grafo LangGraph.
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Existe backlog/docs/doc-005 - Auditoria-Imports-Migracion-Clean-Architecture.md con front matter YAML valido (id doc-005, title, type, created_date).
-- [ ] #2 El documento incluye tablas modulo-consumidor para imports hacia src/rag, src/qa y src/app (codigo, tests, scripts, notebooks, CI si aplica).
-- [ ] #3 Se documentan comandos de busqueda reproducibles (rg) y resultados resumidos o pegados en anexo corto.
-- [ ] #4 Se ejecuta uv run pytest en la rama y se registra el resultado baseline (passed/failed y alcance si es parcial).
-- [ ] #5 No se modifica codigo de produccion ni tests salvo correcciones triviales de typos en doc; el foco es inventario.
+- [x] #1 Existe backlog/docs/doc-005 - Auditoria-Imports-Migracion-Clean-Architecture.md con front matter YAML valido (id doc-005, title, type, created_date).
+- [x] #2 El documento incluye tablas modulo-consumidor para imports hacia src/rag, src/qa y src/app (codigo, tests, scripts, notebooks, CI si aplica).
+- [x] #3 Se documentan comandos de busqueda reproducibles (rg) y resultados resumidos o pegados en anexo corto.
+- [x] #4 Se ejecuta uv run pytest en la rama y se registra el resultado baseline (passed/failed y alcance si es parcial).
+- [x] #5 No se modifica codigo de produccion ni tests salvo correcciones triviales de typos en doc; el foco es inventario.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -83,8 +86,14 @@ Mover archivos, renombrar paquetes o tocar el grafo LangGraph.
 - Incluir en el informe una seccion "Riesgos para task-86" (imports dinamicos, string paths, pyproject packages).
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Se creo backlog/docs/doc-005 con front matter valido (id doc-005), tablas por modulo (src.rag, src.qa, src.app) agrupando nucleo M2, scripts, tests y notas sobre backlog/CI; seccion de comandos rg reproducibles; acoplamiento src.rag -> src.api.configuracion e imports diferidos/dinamicos documentados como riesgos para TASK-86. Se ejecuto uv run pytest: 375 passed, 9 skipped, 1 failed (test_admin_router esperaba 503 y recibio 401 sin ADMIN_API_KEY), registrado como baseline. Sin cambios a codigo de produccion ni tests.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Al cierre: status Done sin task_complete ni mover a completed/ salvo pedido explicito.
-- [ ] #2 Sin secretos ni API keys en el documento doc-005 ni en esta tarea.
+- [x] #1 Al cierre: status Done sin task_complete ni mover a completed/ salvo pedido explicito.
+- [x] #2 Sin secretos ni API keys en el documento doc-005 ni en esta tarea.
 <!-- DOD:END -->

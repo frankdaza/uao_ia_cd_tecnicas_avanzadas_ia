@@ -1,11 +1,11 @@
 ---
 id: TASK-86
 title: Reorganizar src/rag/ en runtime/ y evaluacion/ (decision-6)
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:50'
-updated_date: '2026-05-16 16:50'
+updated_date: '2026-05-16 16:55'
 labels:
   - migracion
   - clean-architecture
@@ -27,7 +27,7 @@ documentation:
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
   - backlog/docs/doc-005 - Auditoria-Imports-Migracion-Clean-Architecture.md
 priority: high
-ordinal: 86000
+ordinal: 1000
 ---
 
 ## Description
