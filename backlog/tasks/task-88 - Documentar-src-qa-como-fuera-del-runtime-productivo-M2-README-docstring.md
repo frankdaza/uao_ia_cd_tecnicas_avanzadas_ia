@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-16 16:50'
-updated_date: '2026-05-16 17:07'
+updated_date: '2026-05-16 17:09'
 labels:
   - migracion
   - clean-architecture
@@ -25,7 +25,7 @@ documentation:
   - backlog/docs/doc-004 - Estudio-Migracion-Clean-Architecture.md
   - backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md
 priority: medium
-ordinal: 1000
+ordinal: 0.9765625
 ---
 
 ## Description

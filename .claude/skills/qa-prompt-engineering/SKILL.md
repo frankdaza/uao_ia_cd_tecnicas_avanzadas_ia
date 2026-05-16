@@ -1,6 +1,6 @@
 ---
 name: qa-prompt-engineering
-description: Disena prompts zero-shot y anti-alucinacion para Q&A basado solo en contexto del corpus. Usar al implementar src/qa o al evaluar calidad de respuestas.
+description: Disena prompts zero-shot y anti-alucinacion para Q&A basado solo en contexto del corpus. Usar al implementar src/laboratorio/qa_legacy o al evaluar calidad de respuestas.
 ---
 
 # Prompt engineering (Modulo 1)

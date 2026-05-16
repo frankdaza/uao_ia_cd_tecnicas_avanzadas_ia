@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.qa.documento_contexto import DocumentoContexto
-from src.qa.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes, componer_mensajes_multi
+from src.laboratorio.qa_legacy.documento_contexto import DocumentoContexto
+from src.laboratorio.qa_legacy.prompt import PROMPT_SISTEMA_DEFECTO, componer_mensajes, componer_mensajes_multi
 
 
 def test_prompt_contiene_frase_clave() -> None:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
-from src.qa.cliente_ollama import ClienteOllama, ConfiguracionLlm
+from src.laboratorio.qa_legacy.cliente_ollama import ClienteOllama, ConfiguracionLlm
 
 
 def test_chat_override_num_ctx_en_cuerpo_options() -> None:

@@ -41,7 +41,7 @@ Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | Clientes Ollama/OpenAI en `src/qa`, agente M2 y RAG; ver `agente-modulo-2` |
+| `llm-backend` | Clientes Ollama/OpenAI en `src/laboratorio/qa_legacy`, agente M2 y RAG; ver `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain, LlamaIndex+Qdrant, Postgres |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
 | `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |

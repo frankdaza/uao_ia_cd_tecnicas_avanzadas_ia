@@ -45,7 +45,7 @@ Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar 
 2. **`data/markdown/`**: corpus textual canónico en **Markdown con front matter YAML** (generado desde `raw/`).
 3. **`data/processed/`**: chunks (p. ej. JSONL) derivados de `markdown/` para Q&A.
 
-Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/qa/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
+Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/laboratorio/qa_legacy/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
 
 **Módulo 2 (agente):** `src/persistencia/` → `src/agentes/` (LangGraph + tools + memoria Postgres) → `src/rag/` (Qdrant denso) → `src/api/routers/sesiones.py` / `agente.py` → `frontend/` (`features/auth/`, chat con SSE extendido). Ingesta: `scripts/indexar_corpus_qdrant.py` desde `data/markdown/`. Decisiones: `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` (cuando exista); guía: `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` (cuando exista).
 
@@ -103,7 +103,7 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `markdown-knowledge-base` | `raw/` → `data/markdown/` con front matter |
 | `text-chunking` | `data/markdown/` → `data/processed/` |
 | `qa-prompt-engineering` | Prompts y pruebas (≥20 preguntas) |
-| `llm-backend` | Clientes Ollama/OpenAI en `src/qa`, agente M2 y RAG; ver `agente-modulo-2` |
+| `llm-backend` | Clientes Ollama/OpenAI en `src/laboratorio/qa_legacy`, agente M2 y RAG; ver `agente-modulo-2` |
 | `agente-modulo-2` | Agente M2: LangGraph, LangChain tools/memoria, LlamaIndex+Qdrant, persistencia |
 | `fastapi-sse-api` | Backend HTTP FastAPI + SSE en `src/api/` |
 | `react-vite-qa-ui` | Interfaz React 19 + Vite 8 + shadcn/ui en `frontend/` |

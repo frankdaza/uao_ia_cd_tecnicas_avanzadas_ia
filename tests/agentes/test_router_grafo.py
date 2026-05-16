@@ -603,11 +603,11 @@ def test_grafo_conteo_pediatras_enruta_listar_sin_llm_router(
 
 def test_modulo_prompt_no_carga_legacy_ni_rank_bm25() -> None:
     """Import frio de prompt: no debe arrastrar modulos BM25 eliminados."""
-    sys.modules.pop("src.qa.prompt", None)
+    sys.modules.pop("src.laboratorio.qa_legacy.prompt", None)
     for k in list(sys.modules):
         if k.startswith("src.legacy") or k == "rank_bm25":
             del sys.modules[k]
-    prompt_modulo = importlib.import_module("src.qa.prompt")
+    prompt_modulo = importlib.import_module("src.laboratorio.qa_legacy.prompt")
     assert "No tengo información suficiente" in prompt_modulo.PROMPT_SISTEMA_DEFECTO
     assert not any(m.startswith("src.legacy") for m in sys.modules)
     assert "rank_bm25" not in sys.modules

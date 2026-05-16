@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field, model_validator
 _RAIZ_PROYECTO = Path(__file__).resolve().parents[2]
 _RUTA_JSON_DEFECTO = _RAIZ_PROYECTO / "config" / "router_meta_prompt.json"
 
-# Texto canonico alineado con ``src/qa/prompt.py`` (politica Lili).
+# Texto canonico alineado con ``src/laboratorio/qa_legacy/prompt.py`` (politica Lili).
 _TEXTO_SIN_CONTEXTO_CANONICO = "No tengo información suficiente"
 
 _NOMBRES_HERRAMIENTAS_REQUERIDAS: frozenset[str] = frozenset(

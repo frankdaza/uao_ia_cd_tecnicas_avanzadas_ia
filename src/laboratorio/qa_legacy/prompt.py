@@ -12,7 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from src.agentes import prompt_institucional
-from src.qa.documento_contexto import DocumentoContexto
+from src.laboratorio.qa_legacy.documento_contexto import DocumentoContexto
 
 PROMPT_SISTEMA_DEFECTO: str = prompt_institucional.PROMPT_SISTEMA_DEFECTO
 
