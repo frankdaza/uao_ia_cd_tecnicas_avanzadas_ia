@@ -2,6 +2,42 @@
 Memoria conversacional con ``PostgresChatMessageHistory`` (langchain-postgres).
 
 La tabla ``chat_history`` se crea en runtime con ``create_tables`` (no Alembic).
+
+Flujo resumido (historial + PostgreSQL):
+
+1. **Arranque de la app**: ``inicializar_esquema_memoria_chat`` abre una conexion
+   sync, llama a ``PostgresChatMessageHistory.create_tables`` y asegura la tabla
+   ``chat_history`` (y lo que el esquema de LangChain requiera). No va en
+   migraciones Alembic del dominio de usuarios.
+
+2. **Identificador de sesion**: el producto usa ``user:{uuid}`` (ver
+   ``sesion_id_memoria_langchain``). ``normalizar_session_id_postgres_langchain``
+   lo reduce al UUID en texto porque LangChain valida y persiste ``session_id``
+   como UUID en Postgres.
+
+3. **Por peticion del agente**: el endpoint toma una conexion del pool
+   ``psycopg`` y construye ``MemoriaUsuario``, que envuelve
+   ``PostgresChatMessageHistory`` sobre esa conexion y la tabla por defecto
+   ``chat_history``.
+
+4. **Lectura (ventana)**: ``cargar_ventana`` consulta filas de la sesion con
+   ``created_at`` dentro de los ultimos ``historial_dias_max`` (config), ordena
+   por ``id``, reconstruye mensajes con ``messages_from_dict`` y recorta a los
+   ultimos N turnos humanos con ``aplicar_tope_turnos_ultimos`` (tope tambien
+   acotado por config o por el bundle de runtime del agente).
+
+5. **Escritura (turno)**: al cerrar un turno del grafo, ``agregar_humano`` y
+   ``agregar_ai`` delegan en ``add_messages`` de LangChain, que inserta en
+   ``chat_history`` el JSON del mensaje (humano primero, luego respuesta AI;
+   metadata opcional en ``additional_kwargs`` del AI).
+
+6. **Utilidades HTTP**: ``consultar_max_created_at_chat_pool`` apoya el login
+   (ultimo mensaje); ``borrar_ultimo_turno_en_pool`` elimina hasta las dos
+   filas mas recientes de un intercambio para deshacer el ultimo turno.
+
+La conexion es **sincrona** (``psycopg``); las rutas async del API envuelven
+estas llamadas en ``asyncio.to_thread`` o abren el pool dentro de un bloque
+sync acotado para no bloquear el loop largo.
 """
 
 from __future__ import annotations

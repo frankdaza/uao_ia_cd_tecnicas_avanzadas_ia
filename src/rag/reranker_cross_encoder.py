@@ -1,5 +1,40 @@
 """
-Reranking con cross-encoder (sentence-transformers), carga perezosa y singleton por modelo.
+Reranking de candidatos RAG con **cross-encoder** (``sentence_transformers.CrossEncoder``).
+
+Contexto
+--------
+La recuperación densa (embeddings + Qdrant) devuelve textos ordenados por similitud coseno
+entre vectores de consulta y de fragmentos. Un cross-encoder vuelve a evaluar cada par
+**(consulta, fragmento)** en un solo modelo secuencial, lo que suele correlacionar mejor
+con relevancia que la mera proximidad vectorial, a costa de mayor latencia y RAM.
+
+Este módulo no orquesta el pipeline completo: ``RecuperadorDenso`` (``src/rag/recuperador_denso.py``)
+instancia ``RerankerCrossEncoder`` cuando el reranker está habilitado en configuración. El
+lifespan de FastAPI puede hacer *warmup* del modelo al arrancar (ver ``src/api/main.py``).
+
+Dependencia
+-----------
+Requiere el paquete ``sentence-transformers``. Si no está instalado, la primera carga del
+encoder lanza ``RuntimeError`` con el mensaje definido en ``_MENSAJE_SIN_ST``.
+
+Carga de modelos y concurrencia
+-------------------------------
+- **Carga perezosa**: el peso del modelo no se descarga hasta la primera llamada a ``puntuar``
+  (o hasta el warmup en lifespan).
+- **Singleton por id de modelo**: dentro del proceso, todas las instancias de
+  ``RerankerCrossEncoder`` que comparten el mismo string ``modelo`` reutilizan el mismo
+  objeto ``CrossEncoder`` en memoria (diccionario global ``_modelos_cargados`` protegido
+  con ``threading.Lock``).
+- **Tamaño de lote**: ``puntuar`` delega en ``CrossEncoder.predict`` con ``batch_size``;
+  el valor por defecto local es ``_BATCH_SIZE_PREDETERMINADO`` (16), alineado con
+  ``Configuracion.rag_reranker_batch_size`` cuando el llamador pasa ese valor.
+
+Salida de ``puntuar``
+---------------------
+Devuelve una lista de la misma longitud que ``textos_candidatos``. Cada elemento es un
+``float`` (score; mayor = más relevante) o ``None`` si el modelo devolvió un valor no
+numérico, no finito (NaN/inf) o hubo desajuste de cardinalidad; el recuperador suele
+filtrar ``None`` antes de ordenar. Los problemas se registran con ``logging.warning``.
 """
 
 from __future__ import annotations
@@ -20,6 +55,7 @@ _BATCH_SIZE_PREDETERMINADO: int = 16
 
 
 def _importar_cross_encoder():
+    """Importa ``CrossEncoder`` de forma diferida; falla con mensaje operable si falta el paquete."""
     try:
         from sentence_transformers import CrossEncoder
     except ImportError as exc:
@@ -29,18 +65,33 @@ def _importar_cross_encoder():
 
 class RerankerCrossEncoder:
     """
-    Envoltorio minimo sobre ``CrossEncoder`` con carga perezosa thread-safe.
+    Envoltorio mínimo sobre ``sentence_transformers.CrossEncoder``.
 
-    El modelo se comparte por ``modelo`` dentro del proceso (un singleton por id).
+    Responsabilidades: validar el identificador de modelo, cargar el encoder bajo bloqueo
+    compartido, reutilizar instancias ya cargadas y exponer ``puntuar`` para pares
+    (consulta, candidato) con procesamiento por lotes y tolerancia a salidas anómalas
+    del modelo.
     """
 
     def __init__(self, modelo: str) -> None:
+        """
+        Args:
+            modelo: Nombre o ruta del modelo cross-encoder reconocida por
+                ``sentence_transformers`` (p. ej. un id de Hugging Face). No puede ser
+                cadena vacía ni solo espacios.
+        """
         self._modelo = str(modelo).strip()
         if not self._modelo:
             raise ValueError("modelo del reranker no puede quedar vacio")
         self._encoder: object | None = None
 
     def _obtener_encoder(self) -> object:
+        """
+        Devuelve la instancia ``CrossEncoder``, creándola o tomándola del caché global.
+
+        Doble comprobación bajo ``_lock`` para evitar cargas duplicadas del mismo
+        ``modelo`` en hilos concurrentes.
+        """
         if self._encoder is not None:
             return self._encoder
         with _lock:
@@ -62,13 +113,24 @@ class RerankerCrossEncoder:
         batch_size: int | None = None,
     ) -> list[float | None]:
         """
-        Devuelve un score por cada texto (mayor = mas relevante frente a ``consulta``).
+        Calcula un score de relevancia por candidato respecto a la consulta.
 
-        Usa ``CrossEncoder.predict`` sobre pares (consulta, texto) con ``batch_size`` acotado.
+        Construye pares ``[consulta, texto]`` y llama a ``CrossEncoder.predict`` con el
+        ``batch_size`` indicado (o el predeterminado del módulo si ``batch_size`` es
+        ``None``).
 
-        Si un valor devuelto por el modelo no es un ``float`` finito utilizable, se deja
-        ``None`` en esa posicion (misma longitud que ``textos_candidatos``), se descarta
-        el candidato para ordenacion y se registra un ``warning`` con el indice.
+        Args:
+            consulta: Pregunta o texto de consulta del usuario (primer elemento de cada par).
+            textos_candidatos: Fragmentos recuperados por RAG u otra fuente, en el orden
+                deseado para alinear índices con la salida.
+            batch_size: Tamaño de lote para ``predict``. ``None`` usa
+                ``_BATCH_SIZE_PREDETERMINADO`` (16).
+
+        Returns:
+            Lista paralela a ``textos_candidatos``: ``float`` donde un valor **mayor**
+            suele indicar **mayor relevancia** frente a la consulta (convención típica de
+            cross-encoders de ranking), o ``None`` donde el resultado no sea un número
+            finito, con ``logging.warning`` según el caso.
         """
         if not textos_candidatos:
             return []
@@ -107,6 +169,12 @@ class RerankerCrossEncoder:
 
     @staticmethod
     def reiniciar_singletons_prueba() -> None:
-        """Solo para tests: vacia modelos cacheados en memoria."""
+        """
+        Vacía el caché global de modelos cargados.
+
+        Pensado únicamente para pruebas (p. ej. ``tests/rag/test_reranker_cross_encoder.py``)
+        para aislar casos que mockean ``CrossEncoder`` o verifican una sola carga por modelo.
+        No usar en producción salvo que se entienda el coste de volver a cargar pesos.
+        """
         with _lock:
             _modelos_cargados.clear()

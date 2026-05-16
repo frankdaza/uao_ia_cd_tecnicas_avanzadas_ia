@@ -1,5 +1,10 @@
 """
-Grafo LangGraph (StateGraph) del agente: memoria, tool-calling, composicion Lili y persistencia.
+Grafo LangGraph (StateGraph) del agente conversacional M2.
+
+Define el flujo lineal: cargar memoria -> inferir intencion -> decidir tool (router LLM o
+heuristica) -> ejecutar tool -> componer respuesta institucional -> persistir turno. Las
+funciones privadas preparan prompts, serializan argumentos para trazabilidad y unifican la
+invocacion de RAG con parametros del bundle de runtime.
 """
 
 from __future__ import annotations
@@ -29,7 +34,16 @@ def _argumentos_invocacion_rag_denso(
     args_tool: dict[str, Any],
     bundle: RuntimeAgenteBundle,
 ) -> dict[str, Any]:
-    """Arma la entrada completa de ``rag_denso`` desde el bundle (un solo camino de parametros RAG)."""
+    """
+    Construye el diccionario de argumentos que recibe la tool ``rag_denso`` al invocarse.
+
+    Pasos:
+    1. Lee ``consulta`` y ``filtros_tipo_pagina`` de lo que devolvio el router (si aplica).
+    2. Normaliza ``filtros_tipo_pagina`` a lista o ``None`` (evita tipos inesperados).
+    3. Copia desde ``bundle`` los hiperparametros de recuperacion (top_k, score minimo, MMR,
+       reranker, etc.) para que **toda** la ejecucion RAG use la misma politica configurada
+       en runtime y no dependa de que el modelo las invente en el tool-call.
+    """
     ft = args_tool.get("filtros_tipo_pagina")
     return {
         "consulta": str(args_tool.get("consulta") or ""),
@@ -54,6 +68,15 @@ _NOMBRES_TOOLS_OBLIGATORIAS: frozenset[str] = frozenset(
 
 
 def _texto_mensaje(mensaje: BaseMessage) -> str:
+    """
+    Obtiene el texto legible del ``content`` de un mensaje LangChain.
+
+    Pasos:
+    1. Lee ``mensaje.content``.
+    2. Si ya es ``str``, lo devuelve tal cual.
+    3. Si no (bloques multimodales u otros tipos), lo convierte con ``str(...)`` para poder
+       resumirlo en el historial del router o del compositor.
+    """
     contenido = mensaje.content
     if isinstance(contenido, str):
         return contenido
@@ -61,7 +84,18 @@ def _texto_mensaje(mensaje: BaseMessage) -> str:
 
 
 def _historial_a_texto_router(mensajes: list[BaseMessage], *, max_bloques: int | None = None) -> str:
-    """Resume el historial en texto plano para el mensaje humano del router o el compositor."""
+    """
+    Convierte una lista de mensajes en un bloque de texto etiquetado (usuario / asistente).
+
+    Pasos:
+    1. Si no hay mensajes, devuelve un marcador fijo de sesion vacia.
+    2. Opcionalmente recorta a los ultimos ``max_bloques`` mensajes (ventana); si es ``None``,
+       usa el historial completo recibido.
+    3. Recorre cada mensaje: ``HumanMessage`` -> prefijo ``usuario:``, ``AIMessage`` ->
+       prefijo ``asistente:``; ignora otros roles para este resumen.
+    4. Trunca cada linea a ~1800 caracteres para no inflar prompts.
+    5. Une con saltos de linea; si no quedo ninguna linea util, devuelve el marcador de vacio.
+    """
     if not mensajes:
         return "(sin mensajes previos en esta sesion)"
     ventana = mensajes if max_bloques is None else mensajes[-max_bloques:]
@@ -75,6 +109,16 @@ def _historial_a_texto_router(mensajes: list[BaseMessage], *, max_bloques: int |
 
 
 def _obtener_memoria_desde_config(config: RunnableConfig) -> Any:
+    """
+    Extrae de ``RunnableConfig`` la instancia de memoria de usuario requerida por el grafo.
+
+    Pasos:
+    1. Lee ``config["configurable"]`` (dict) o dict vacio si falta.
+    2. Busca la clave :data:`CLAVE_MEMORIA_EN_CONFIG` (``"memoria"``).
+    3. Si no esta definida, lanza ``ValueError`` con mensaje que indica como invocar el grafo.
+    4. Devuelve el objeto memoria (debe exponer ``cargar_ventana``, ``agregar_humano``,
+       ``agregar_ai`` segun el contrato del proyecto).
+    """
     configurable = config.get("configurable") or {}
     mem = configurable.get(CLAVE_MEMORIA_EN_CONFIG)
     if mem is None:
@@ -87,7 +131,14 @@ def _obtener_memoria_desde_config(config: RunnableConfig) -> Any:
 
 
 def _argumentos_serializables(argumentos: dict[str, Any]) -> dict[str, Any]:
-    """Evita volcar textos enormes en ``pensamientos``."""
+    """
+    Copia argumentos de tool para guardarlos en ``pensamientos`` sin saturar logs ni SSE.
+
+    Pasos:
+    1. Itera clave/valor del dict de argumentos.
+    2. Para cada valor ``str`` mayor a 400 caracteres, trunca y agrega elipsis Unicode.
+    3. Para valores no string, los copia tal cual (listas, numeros, etc.).
+    """
     salida: dict[str, Any] = {}
     for clave, valor in argumentos.items():
         if isinstance(valor, str):
@@ -99,9 +150,14 @@ def _argumentos_serializables(argumentos: dict[str, Any]) -> dict[str, Any]:
 
 def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
     """
-    Arma el system prompt del router: ``system_prompt`` mas bloques derivados del JSON
-    (``reglas_decision`` y definicion pedagogica de ``herramientas``) para que ediciones
-    desde el panel admin surtan efecto sin depender solo del texto base.
+    Arma el mensaje de sistema que ve el LLM del router antes de decidir tool-calls.
+
+    Pasos:
+    1. Parte del ``system_prompt`` base del meta-prompt (JSON admin), sin espacios finales.
+    2. Si hay ``reglas_decision`` no vacias, agrega un bloque con viñetas priorizables.
+    3. Por cada entrada en ``meta.herramientas``, genera un bloque Markdown con nombre,
+       descripcion, criterio ``when_to_use`` y ejemplos opcionales.
+    4. Concatena secciones separadas por ``\\n\\n---\\n\\n`` para delimitar contexto.
     """
     partes: list[str] = [meta.system_prompt.rstrip()]
     lineas_reglas = [r.strip() for r in meta.reglas_decision if isinstance(r, str) and r.strip()]
@@ -129,6 +185,14 @@ def _construir_texto_sistema_router(meta: MetaPromptConfig) -> str:
 
 
 def _descripcion_tool_desde_meta(meta: MetaPromptConfig, nombre_tool: str) -> str | None:
+    """
+    Busca en el meta-prompt la definicion pedagogica de una tool por su ``name``.
+
+    Pasos:
+    1. Recorre ``meta.herramientas`` buscando coincidencia de ``h.name`` con ``nombre_tool``.
+    2. Si encuentra, arma texto con descripcion, criterio de uso y ejemplos (si existen).
+    3. Si no hay coincidencia, devuelve ``None`` (el caller deja la descripcion original de la tool).
+    """
     for h in meta.herramientas:
         if h.name == nombre_tool:
             bloques = [h.description.strip(), f"Criterio de uso: {h.when_to_use.strip()}"]
@@ -143,7 +207,15 @@ def _tools_con_descripciones_de_meta(
     tools: Sequence[StructuredTool],
     meta: MetaPromptConfig,
 ) -> list[StructuredTool]:
-    """Clona tools con ``description`` alineada al meta-prompt (admin / JSON) por nombre."""
+    """
+    Devuelve una lista de tools lista para ``bind_tools``, con textos alineados al JSON.
+
+    Pasos:
+    1. Por cada ``StructuredTool`` de entrada, intenta obtener texto con
+       :func:`_descripcion_tool_desde_meta`.
+    2. Si hay texto, clona la tool con ``model_copy(update={"description": ...})``.
+    3. Si no hay entrada en meta para ese nombre, deja la tool sin modificar.
+    """
     salida: list[StructuredTool] = []
     for t in tools:
         desc = _descripcion_tool_desde_meta(meta, t.name)
@@ -165,6 +237,19 @@ def crear_grafo_agente(
 ) -> CompiledStateGraph:
     """
     Compila el StateGraph del agente con dependencias inyectadas.
+
+    Flujo del grafo (orden de nodos)
+    --------------------------------
+    1. ``cargar_memoria``: lee ventana de historial desde Postgres vía memoria inyectada.
+    2. ``inferir_intencion``: clasifica la pregunta (p. ej. factual vs listado) con heuristica local.
+    3. ``decidir_tool``: o bien fuerza ``listar_estructurado`` con filtros inferidos, o invoca el
+       LLM router con tools enlazadas; si no hay tool_calls, hace fallback a ``rag_denso``.
+    4. ``ejecutar_tool``: invoca la tool elegida; unifica args RAG; puede rebalancear a RAG si
+       listado devuelve conteo cero.
+    5. ``componer_respuesta``: arma system prompt institucional + JSON del resultado de tool y
+       hace streaming (o invoke) con el compositor.
+    6. ``persistir_turno``: guarda turno humano y respuesta del asistente con metadata (tool,
+       fuentes).
 
     Parameters
     ----------
@@ -243,6 +328,16 @@ def crear_grafo_agente(
     )
 
     def _bundle_desde_config(config: RunnableConfig) -> RuntimeAgenteBundle:
+        """
+        Resuelve el ``RuntimeAgenteBundle`` activo para esta invocacion del grafo.
+
+        Pasos:
+        1. Lee ``config["configurable"].get("runtime_agente")``.
+        2. Si es una instancia de :class:`RuntimeAgenteBundle`, la devuelve (permite tests o
+           override por peticion).
+        3. Si no, devuelve ``bundle_defecto`` construido al compilar el grafo (LLMs, meta-prompt,
+           limites RAG desde configuracion).
+        """
         configurable = config.get("configurable") or {}
         rt = configurable.get("runtime_agente")
         if isinstance(rt, RuntimeAgenteBundle):
@@ -250,6 +345,16 @@ def crear_grafo_agente(
         return bundle_defecto
 
     def nodo_cargar_memoria(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Nodo inicial: hidrata el estado con el historial persistido del usuario.
+
+        Pasos:
+        1. Obtiene memoria desde ``config`` (:func:`_obtener_memoria_desde_config`).
+        2. Resuelve ``bundle`` para conocer ``historial_turnos_max``.
+        3. Llama ``memoria.cargar_ventana(turnos_max=...)`` y guarda la lista en
+           ``mensajes_historial``.
+        4. Calcula ``historial_previo_vacio`` (``True`` si no habia mensajes antes de este turno).
+        """
         memoria = _obtener_memoria_desde_config(config)
         bundle_rt = _bundle_desde_config(config)
         mensajes = memoria.cargar_ventana(turnos_max=bundle_rt.historial_turnos_max)
@@ -260,6 +365,15 @@ def crear_grafo_agente(
         }
 
     def nodo_inferir_intencion(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Clasifica la intencion de la pregunta actual sin llamar al LLM del router.
+
+        Pasos:
+        1. Ignora ``config`` (firma uniforme de nodos LangGraph).
+        2. Llama :func:`src.rag.intencion.inferir_intencion` con el texto de ``state["pregunta"]``.
+        3. Escribe el label resultante en ``intencion`` del estado (p. ej. para ramificar decision
+           de tool en el siguiente nodo).
+        """
         _ = config
         from src.rag.intencion import inferir_intencion
 
@@ -267,6 +381,26 @@ def crear_grafo_agente(
         return {"intencion": intencion}
 
     def nodo_decidir_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Elige que tool ejecutar y con que argumentos, usando heuristica o LLM router.
+
+        Pasos:
+        1. Resuelve ``bundle`` y ``meta_prompt``; lee ``pregunta`` e ``intencion`` del estado.
+        2. **Atajo listado/conteo**: si ``intencion`` es ``listado`` o ``conteo``, intenta extraer
+           filtros con heuristica; si hay filtros, fabrica un ``AIMessage`` sintetico con un
+           ``tool_call`` a ``listar_estructurado`` y retorna (sin LLM router).
+        3. **Camino LLM**: construye texto de historial + consulta actual (:func:`_historial_a_texto_router`),
+           system con :func:`_construir_texto_sistema_router`, y mensajes ``SystemMessage`` +
+           ``HumanMessage``.
+        4. Enlaza tools con descripciones del meta-prompt (:func:`_tools_con_descripciones_de_meta`),
+           ``bind_tools`` e ``invoke`` sobre el router.
+        5. Si el router devuelve ``tool_calls``, toma el primero (nombre y args); si no, registra
+           warning y hace **fallback** a ``rag_denso`` con ``consulta`` = pregunta.
+        6. Para ``rag_denso``, si faltan ``filtros_tipo_pagina``, puede sugerirlos con
+           :func:`src.rag.intencion.inferir_filtros_tipo_pagina_para_rag`.
+        7. Arma un dict ``pensamiento`` de tipo ``decision_router`` y devuelve ``mensaje_router``,
+           ``tool_decidida``, ``argumentos_tool`` y ``pensamientos``.
+        """
         bundle = _bundle_desde_config(config)
         meta = bundle.meta_prompt
         pregunta = str(state.get("pregunta") or "")
@@ -349,6 +483,25 @@ def crear_grafo_agente(
         }
 
     def nodo_ejecutar_tool(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Ejecuta la tool seleccionada y normaliza salida, fuentes y trazabilidad.
+
+        Pasos:
+        1. Lee ``tool_decidida`` y ``argumentos_tool``; copia args en ``args_invocacion``.
+        2. **FAQ**: si la consulta en args es vacia o demasiado corta frente a la pregunta del
+           usuario, rellena ``consulta`` con el texto de la pregunta actual.
+        3. Busca la ``StructuredTool`` por nombre; si no existe, devuelve dict de error y sin fuentes.
+        4. **RAG**: si la tool es ``rag_denso``, invoca con :func:`_argumentos_invocacion_rag_denso`
+           (parametros RAG siempre desde ``bundle``); en otro caso ``invoke`` directo con args.
+        5. Ante excepcion, loguea, devuelve error serializable y un pensamiento ``ejecucion_tool``.
+        6. Si la salida no es ``dict``, la envuelve en ``{"resultado": ...}``.
+        7. **Rescate listado vacio**: si era ``listar_estructurado`` y ``conteo`` es 0, ejecuta
+           ``rag_denso`` con la pregunta original y filtros inferidos; actualiza nombre efectivo
+           y opcionalmente ``tool_decidida`` en el estado devuelto.
+        8. Si la tool efectiva fue RAG, extrae la lista ``fuentes`` (solo dicts) para el front.
+        9. Construye pensamiento de ejecucion (incluye metadatos FAQ si aplica) y retorna
+           ``resultado_tool``, ``fuentes`` y ``pensamientos``.
+        """
         bundle = _bundle_desde_config(config)
         nombre_tool = state.get("tool_decidida") or ""
         args = state.get("argumentos_tool") or {}
@@ -433,6 +586,21 @@ def crear_grafo_agente(
         return salida_estado
 
     def nodo_componer_respuesta(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Genera la respuesta final al usuario con el LLM compositor (politica institucional Lili).
+
+        Pasos:
+        1. Resuelve ``bundle`` y datos de ``usuario`` (nombre) desde el estado.
+        2. Decide si corresponde **saludo** obligatorio: primer turno, historial previo vacio y
+           nombre presente; usa ``meta.saludo_template`` con placeholder ``{nombre}``.
+        3. Si es primer turno pero ya habia historial, agrega instruccion de no repetir saludo largo.
+        4. Si hay mensajes previos cargados, agrega bloque de historial reciente en texto plano.
+        5. Serializa ``resultado_tool`` a JSON UTF-8 como ``CONTEXTO DE HERRAMIENTA`` en el system.
+        6. Arma mensajes ``SystemMessage`` + ``HumanMessage`` con la pregunta actual y hace
+           **stream** del compositor, acumulando texto de chunks ``AIMessage`` o bloques tipo texto.
+        7. Si el stream no produjo texto, hace ``invoke`` de respaldo y exige ``AIMessage``.
+        8. Devuelve ``respuesta_final`` como string unico.
+        """
         bundle = _bundle_desde_config(config)
         meta = bundle.meta_prompt
         usuario = state.get("usuario") or {}
@@ -502,6 +670,16 @@ def crear_grafo_agente(
         return {"respuesta_final": texto}
 
     def nodo_persistir_turno(state: EstadoAgente, config: RunnableConfig) -> dict[str, Any]:
+        """
+        Persiste en memoria el turno humano y la respuesta del asistente con metadata.
+
+        Pasos:
+        1. Obtiene memoria desde ``config``.
+        2. ``agregar_humano`` con el texto de ``state["pregunta"]``.
+        3. Arma metadata con ``tool`` usada y lista ``fuentes`` (si hubo RAG).
+        4. ``agregar_ai`` con ``respuesta_final`` y esa metadata para el historial LangChain.
+        5. Devuelve dict vacio (no muta mas campos del estado del grafo).
+        """
         memoria = _obtener_memoria_desde_config(config)
         memoria.agregar_humano(state["pregunta"])
         meta_respuesta: dict[str, Any] = {
