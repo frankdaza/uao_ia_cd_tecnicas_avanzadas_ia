@@ -52,3 +52,79 @@ class RepositorioVinculosTelegram:
         )
         res = await self._sesion.execute(stmt)
         return list(res.scalars().all())
+
+    async def obtener_pendiente_por_caso(self, caso_id: uuid.UUID) -> VinculoTelegram | None:
+        stmt = (
+            select(VinculoTelegram)
+            .where(
+                VinculoTelegram.caso_id == caso_id,
+                VinculoTelegram.vinculado_at.is_(None),
+            )
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def obtener_vinculado_por_caso(self, caso_id: uuid.UUID) -> VinculoTelegram | None:
+        stmt = (
+            select(VinculoTelegram)
+            .where(
+                VinculoTelegram.caso_id == caso_id,
+                VinculoTelegram.vinculado_at.is_not(None),
+            )
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def obtener_pendiente_por_codigo(self, codigo: str) -> VinculoTelegram | None:
+        stmt = (
+            select(VinculoTelegram)
+            .where(
+                VinculoTelegram.codigo_emparejamiento == codigo,
+                VinculoTelegram.vinculado_at.is_(None),
+            )
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def obtener_vinculado_por_chat_id(
+        self,
+        telegram_chat_id: int,
+    ) -> VinculoTelegram | None:
+        stmt = (
+            select(VinculoTelegram)
+            .where(
+                VinculoTelegram.telegram_chat_id == telegram_chat_id,
+                VinculoTelegram.vinculado_at.is_not(None),
+            )
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def actualizar(
+        self,
+        fila: VinculoTelegram,
+        *,
+        telegram_chat_id: int | None = None,
+        codigo_emparejamiento: str | None = None,
+        codigo_expira_at: datetime | None = None,
+        vinculado_at: datetime | None = None,
+        limpiar_codigo: bool = False,
+    ) -> VinculoTelegram:
+        if telegram_chat_id is not None:
+            fila.telegram_chat_id = telegram_chat_id
+        if limpiar_codigo:
+            fila.codigo_emparejamiento = None
+            fila.codigo_expira_at = None
+        else:
+            if codigo_emparejamiento is not None:
+                fila.codigo_emparejamiento = codigo_emparejamiento
+            if codigo_expira_at is not None:
+                fila.codigo_expira_at = codigo_expira_at
+        if vinculado_at is not None:
+            fila.vinculado_at = vinculado_at
+        await self._sesion.flush()
+        return fila

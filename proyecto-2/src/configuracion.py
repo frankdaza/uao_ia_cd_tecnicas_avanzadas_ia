@@ -47,6 +47,19 @@ class Configuracion(BaseSettings):
     qdrant_url: str = Field(default="http://127.0.0.1:6334", validation_alias="QDRANT_URL")
     openai_api_key: str = Field(default="", validation_alias="OPENAI_API_KEY")
     admin_api_key: str = Field(default="", validation_alias="ADMIN_API_KEY")
+    staff_api_key: str = Field(default="", validation_alias="STAFF_API_KEY")
+    taam_codigo_emparejamiento_ttl_horas: int = Field(
+        default=24,
+        ge=1,
+        le=168,
+        validation_alias="TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS",
+    )
+    taam_codigo_longitud: int = Field(
+        default=8,
+        ge=6,
+        le=8,
+        validation_alias="TAAM_CODIGO_LONGITUD",
+    )
     taam_pdf_max_mb: int = Field(
         default=10,
         ge=1,

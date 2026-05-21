@@ -66,6 +66,30 @@ curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
   http://127.0.0.1:8001/api/admin/procedimientos | jq .
 ```
 
+### Casos postoperatorio y emparejamiento Telegram (UC-MVP-02)
+
+Rutas staff bajo `/api/staff/casos` (cabecera **`X-Staff-Key`** = `STAFF_API_KEY`). El emparejamiento lo invoca el webhook Telegram (**TASK-106**) con **`X-Telegram-Bot-Api-Secret-Token`** = `TELEGRAM_WEBHOOK_SECRET`.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/staff/casos` | Alta de caso (`estado=activo`); exige `tipo_procedimiento` con `indexacion_estado=ok` |
+| `GET` | `/api/staff/casos` | Listado (`estado`, `limit`, `offset`); incluye `vinculado_telegram` |
+| `POST` | `/api/staff/casos/{id}/codigo-emparejamiento` | Código 6–8 caracteres, TTL 24 h (`TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`) |
+| `POST` | `/api/telegram/emparejar` | Body: `codigo`, `telegram_chat_id`; respuesta con `mensaje_confirmacion` o error `codigo_expirado` |
+
+Flujo demo: crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
+
+```bash
+export STAFF_API_KEY='cambiar-por-clave-segura'
+export TELEGRAM_WEBHOOK_SECRET='cambiar-por-secreto-webhook'
+
+curl -sS -H "X-Staff-Key: $STAFF_API_KEY" -H "Content-Type: application/json" \
+  -d '{"paciente_doc_id":"CC-1","paciente_nombre":"Paciente Demo","tipo_procedimiento_id":"<uuid-ok>","cirujano_id":"M1","cirujano_nombre":"Dr. Demo","fecha_cirugia":"2026-05-15"}' \
+  http://127.0.0.1:8001/api/staff/casos | jq .
+```
+
+Auth JWT staff (**TASK-105**) sustituirá `X-Staff-Key` en el panel React (**TASK-112**).
+
 ## Docker Compose
 
 ```bash
@@ -103,14 +127,14 @@ El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `STAFF_API_KEY`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 
 ## Estructura
 
 ```
-src/api/              # FastAPI (salud, admin/procedimientos; más routers en tareas M3)
+src/api/              # FastAPI (salud, admin, staff/casos, telegram/emparejar)
 src/ingesta/          # ingesta PDF → Qdrant (LangChain)
 src/rag/              # vector store TAAM
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
@@ -123,8 +147,7 @@ tests/                # API, ingesta, persistencia
 ```
 
 ## Próximas tareas Backlog
-- **TASK-103–106** — Agente, `/chat`, Telegram
+- **TASK-103–106** — Agente, `/chat`, webhook Telegram
 - **TASK-109** — Frontend React
-- **TASK-102** — Casos postoperatorio (requiere `indexacion_estado=ok`)
 
 Casos de uso: [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md).

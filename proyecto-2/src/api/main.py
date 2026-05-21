@@ -15,7 +15,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from src.api.routers import admin_procedimientos, salud
+from src.api.routers import (
+    admin_procedimientos,
+    salud,
+    staff_casos,
+    telegram_emparejar,
+)
 from src.configuracion import obtener_configuracion
 from src.persistencia.modelos import Base
 from src.persistencia.motor import (
@@ -76,6 +81,8 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
 
     app.include_router(salud.router, prefix="/api")
     app.include_router(admin_procedimientos.router, prefix="/api")
+    app.include_router(staff_casos.router, prefix="/api")
+    app.include_router(telegram_emparejar.router, prefix="/api")
     return app
 
 
