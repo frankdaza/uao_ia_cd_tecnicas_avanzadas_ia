@@ -275,7 +275,7 @@ class RecordatorioEnviado(Base):
 
 
 class UsuarioStaff(Base):
-    """Usuario del panel staff (auth en TASK-110)."""
+    """Usuario del panel staff (auth JWT en TASK-105)."""
 
     __tablename__ = "usuarios_staff"
     __table_args__ = (

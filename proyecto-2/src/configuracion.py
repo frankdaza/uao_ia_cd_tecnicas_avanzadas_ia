@@ -47,7 +47,30 @@ class Configuracion(BaseSettings):
     qdrant_url: str = Field(default="http://127.0.0.1:6334", validation_alias="QDRANT_URL")
     openai_api_key: str = Field(default="", validation_alias="OPENAI_API_KEY")
     admin_api_key: str = Field(default="", validation_alias="ADMIN_API_KEY")
-    staff_api_key: str = Field(default="", validation_alias="STAFF_API_KEY")
+    staff_api_key: str = Field(
+        default="",
+        validation_alias="STAFF_API_KEY",
+        description="Deprecado: sustituido por JWT staff (TASK-105).",
+    )
+    staff_jwt_secret: str = Field(default="", validation_alias="STAFF_JWT_SECRET")
+    staff_jwt_expire_horas: float = Field(
+        default=8.0,
+        ge=0.25,
+        le=72.0,
+        validation_alias="STAFF_JWT_EXPIRE_HORAS",
+    )
+    staff_demo_asistente_password: str = Field(
+        default="cambiar-demo-asistente",
+        validation_alias="STAFF_DEMO_ASISTENTE_PASSWORD",
+    )
+    staff_demo_clinico_password: str = Field(
+        default="cambiar-demo-clinico",
+        validation_alias="STAFF_DEMO_CLINICO_PASSWORD",
+    )
+    staff_demo_admin_password: str = Field(
+        default="cambiar-demo-admin",
+        validation_alias="STAFF_DEMO_ADMIN_PASSWORD",
+    )
     taam_codigo_emparejamiento_ttl_horas: int = Field(
         default=24,
         ge=1,

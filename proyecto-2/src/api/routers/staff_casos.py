@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi import status as estado_http
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.dependencias import requerir_clave_staff
+from src.api.dependencias import obtener_staff_actual
 from src.api.esquemas_casos import (
     CasoVista,
     CodigoEmparejamientoRespuesta,
@@ -31,7 +31,7 @@ from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosP
 router = APIRouter(
     prefix="/staff",
     tags=["staff-casos"],
-    dependencies=[Depends(requerir_clave_staff)],
+    dependencies=[Depends(obtener_staff_actual)],
 )
 
 

@@ -19,18 +19,16 @@ def _es_url_sqlite(url: str) -> bool:
 
 
 @lru_cache
-def crear_checkpointer_postgres(cfg: Configuracion | None = None) -> PostgresSaver:
+def crear_checkpointer_postgres(url_sync: str) -> PostgresSaver:
     """
     ``PostgresSaver`` sobre la BD TAAM (tablas propias del checkpointer).
 
     Requiere URL sync ``postgresql+psycopg://`` o ``postgresql://``.
     """
-    conf = cfg or obtener_configuracion()
-    url = conf.url_base_datos_sync()
-    if _es_url_sqlite(url):
+    if _es_url_sqlite(url_sync):
         raise ValueError("PostgresSaver no aplica con SQLite; use crear_checkpointer_para_url.")
     # PostgresSaver espera DSN psycopg (sin prefijo +psycopg en algunas versiones).
-    dsn = url.replace("postgresql+psycopg://", "postgresql://", 1)
+    dsn = url_sync.replace("postgresql+psycopg://", "postgresql://", 1)
     saver = PostgresSaver.from_conn_string(dsn)
     saver.setup()
     return saver
@@ -40,7 +38,8 @@ def crear_checkpointer_para_url(url: str, cfg: Configuracion | None = None) -> B
     """Postgres en produccion; ``MemorySaver`` en tests SQLite."""
     if _es_url_sqlite(url):
         return MemorySaver()
-    return crear_checkpointer_postgres(cfg)
+    conf = cfg or obtener_configuracion()
+    return crear_checkpointer_postgres(conf.url_base_datos_sync())
 
 
 def inicializar_checkpointer_si_aplica(url: str, cfg: Configuracion | None = None) -> None:
@@ -48,7 +47,8 @@ def inicializar_checkpointer_si_aplica(url: str, cfg: Configuracion | None = Non
     if _es_url_sqlite(url):
         return
     try:
-        crear_checkpointer_postgres(cfg)
+        conf = cfg or obtener_configuracion()
+        crear_checkpointer_postgres(conf.url_base_datos_sync())
         logger.info("Checkpointer PostgresSaver TAAM inicializado.")
     except Exception as exc:
         logger.warning(

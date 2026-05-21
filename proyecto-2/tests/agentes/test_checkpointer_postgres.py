@@ -31,7 +31,7 @@ async def test_dos_turnos_persisten_hilo_telegram_123():
     url = cfg.url_base_datos_async()
     motor = crear_motor_async(url)
     factory = crear_session_factory(motor)
-    cp = crear_checkpointer_postgres(cfg)
+    cp = crear_checkpointer_postgres(cfg.url_base_datos_sync())
 
     try:
         await invocar_agente(

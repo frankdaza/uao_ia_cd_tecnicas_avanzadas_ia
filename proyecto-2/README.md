@@ -37,7 +37,7 @@ Health: `GET http://127.0.0.1:8001/api/salud` → `{"estado":"ok","version":"0.1
 
 ### Catálogo de procedimientos (UC-MVP-01)
 
-Rutas bajo `/api/admin/procedimientos` (cabecera **`X-Admin-Key`** = `ADMIN_API_KEY`):
+Rutas bajo `/api/admin/procedimientos`. Acceso: cabecera **`X-Admin-Key`** = `ADMIN_API_KEY` **o** JWT staff con `rol=admin` (`Authorization: Bearer` tras `POST /api/auth/staff/login`):
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
@@ -66,9 +66,42 @@ curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
   http://127.0.0.1:8001/api/admin/procedimientos | jq .
 ```
 
+### Autenticación staff (JWT, TASK-105)
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/auth/staff/login` | Body JSON `email`, `password` → `access_token` (JWT HS256, 8 h por defecto) |
+
+Variables: `STAFF_JWT_SECRET` (obligatoria para auth staff), `STAFF_JWT_EXPIRE_HORAS` (opcional). Contraseñas demo solo en entorno local: `STAFF_DEMO_ASISTENTE_PASSWORD`, `STAFF_DEMO_CLINICO_PASSWORD`, `STAFF_DEMO_ADMIN_PASSWORD`.
+
+Usuarios demo (tras migraciones y semilla):
+
+| Email | Rol |
+|-------|-----|
+| `asistente@demo.taam` | `asistente` |
+| `clinico@demo.taam` | `clinico` |
+| `admin@demo.taam` | `admin` |
+
+```bash
+cd proyecto-2
+export STAFF_JWT_SECRET='cambiar-por-secreto-jwt-min-32-caracteres'
+uv run alembic upgrade head
+uv run python -m scripts.sembrar_usuarios_staff_demo
+
+TOKEN=$(curl -sS -X POST http://127.0.0.1:8001/api/auth/staff/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"asistente@demo.taam","password":"cambiar-demo-asistente"}' | jq -r .access_token)
+
+curl -sS -H "Authorization: Bearer $TOKEN" http://127.0.0.1:8001/api/staff/casos | jq .
+```
+
+**Rate limit** en login: no implementado en MVP; en producción conviene limitar en proxy (nginx/Cloudflare).
+
+`STAFF_API_KEY` / `X-Staff-Key` quedaron **deprecados**; el panel React (**TASK-112**) usará Bearer JWT en memoria de pestaña.
+
 ### Casos postoperatorio y emparejamiento Telegram (UC-MVP-02)
 
-Rutas staff bajo `/api/staff/casos` (cabecera **`X-Staff-Key`** = `STAFF_API_KEY`). El emparejamiento lo invoca el webhook Telegram (**TASK-106**) con **`X-Telegram-Bot-Api-Secret-Token`** = `TELEGRAM_WEBHOOK_SECRET`.
+Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El emparejamiento lo invoca el webhook Telegram (**TASK-106**) con **`X-Telegram-Bot-Api-Secret-Token`** = `TELEGRAM_WEBHOOK_SECRET`.
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
@@ -77,18 +110,7 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`X-Staff-Key`** = `STAFF_API_KEY
 | `POST` | `/api/staff/casos/{id}/codigo-emparejamiento` | Código 6–8 caracteres, TTL 24 h (`TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`) |
 | `POST` | `/api/telegram/emparejar` | Body: `codigo`, `telegram_chat_id`; respuesta con `mensaje_confirmacion` o error `codigo_expirado` |
 
-Flujo demo: crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
-
-```bash
-export STAFF_API_KEY='cambiar-por-clave-segura'
-export TELEGRAM_WEBHOOK_SECRET='cambiar-por-secreto-webhook'
-
-curl -sS -H "X-Staff-Key: $STAFF_API_KEY" -H "Content-Type: application/json" \
-  -d '{"paciente_doc_id":"CC-1","paciente_nombre":"Paciente Demo","tipo_procedimiento_id":"<uuid-ok>","cirujano_id":"M1","cirujano_nombre":"Dr. Demo","fecha_cirugia":"2026-05-15"}' \
-  http://127.0.0.1:8001/api/staff/casos | jq .
-```
-
-Auth JWT staff (**TASK-105**) sustituirá `X-Staff-Key` en el panel React (**TASK-112**).
+Flujo demo: login staff → crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
 
 ## Docker Compose
 
@@ -127,7 +149,7 @@ El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `ADMIN_API_KEY`, `STAFF_API_KEY`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `ADMIN_API_KEY`, `STAFF_JWT_SECRET`, `STAFF_JWT_EXPIRE_HORAS`, `STAFF_DEMO_*_PASSWORD`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 

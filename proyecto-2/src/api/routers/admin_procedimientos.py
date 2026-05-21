@@ -21,7 +21,7 @@ from fastapi import status as estado_http
 from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.dependencias import requerir_clave_admin
+from src.api.dependencias import requerir_acceso_admin
 from src.api.esquemas_procedimientos import (
     ListadoProcedimientosRespuesta,
     MetadataProcedimientoCuerpo,
@@ -44,7 +44,7 @@ from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposPr
 router = APIRouter(
     prefix="/admin",
     tags=["admin-procedimientos"],
-    dependencies=[Depends(requerir_clave_admin)],
+    dependencies=[Depends(requerir_acceso_admin)],
 )
 
 
