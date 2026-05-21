@@ -1,0 +1,31 @@
+{
+  "faqs": [
+    {
+      "id": "taam-dolor-leve",
+      "intent": "dolor_postoperatorio_leve",
+      "keywords": ["dolor", "molestia", "incision", "herida"],
+      "pregunta_canonica": "¿Es normal tener algo de dolor después de la cirugía?",
+      "respuesta": "Es habitual tener molestias leves los primeros días. Si el dolor empeora, no cede con la medicación indicada o aparece fiebre, contacte de inmediato a su equipo tratante o acuda a urgencias.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-medicacion-horario",
+      "intent": "horario_medicacion",
+      "keywords": ["medicamento", "pastilla", "analgesico", "antibiotico", "hora"],
+      "pregunta_canonica": "¿A qué hora debo tomar los medicamentos?",
+      "respuesta": "Siga las indicaciones escritas de su cirujano y las recordatorios del seguimiento. Si no tiene un horario claro, no invente dosis: consulte a su equipo antes de cambiar el tratamiento.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-signos-alarma",
+      "intent": "signos_alarma",
+      "keywords": ["fiebre", "sangrado", "hinchazon", "dificultad", "respirar"],
+      "pregunta_canonica": "¿Cuándo debo acudir a urgencias?",
+      "respuesta": "Acuda a urgencias o llame a emergencias si presenta fiebre alta persistente, sangrado abundante, dificultad para respirar, dolor intenso que no mejora o confusión. Este bot no reemplaza la valoración médica presencial.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    }
+  ]
+}

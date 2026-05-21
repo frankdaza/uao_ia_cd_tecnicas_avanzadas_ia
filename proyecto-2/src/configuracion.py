@@ -81,6 +81,11 @@ class Configuracion(BaseSettings):
         default="text-embedding-3-small",
         validation_alias="EMBEDDING_MODEL",
     )
+    agente_modelo: str = Field(
+        default="openai:gpt-4o-mini",
+        validation_alias="AGENTE_MODELO",
+    )
+    agente_rag_k: int = Field(default=4, ge=1, le=20, validation_alias="AGENTE_RAG_K")
     ingesta_reintentos: int = Field(default=3, ge=1, le=10, validation_alias="INGESTA_REINTENTOS")
     ingesta_backoff_max_seg: float = Field(
         default=30.0,

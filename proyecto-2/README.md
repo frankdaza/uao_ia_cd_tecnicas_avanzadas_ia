@@ -127,7 +127,7 @@ El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `STAFF_API_KEY`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `ADMIN_API_KEY`, `STAFF_API_KEY`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 
@@ -135,6 +135,7 @@ Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por de
 
 ```
 src/api/              # FastAPI (salud, admin, staff/casos, telegram/emparejar)
+src/agentes/          # LangChain create_agent, tools, PostgresSaver, HITL (TASK-103)
 src/ingesta/          # ingesta PDF → Qdrant (LangChain)
 src/rag/              # vector store TAAM
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
@@ -146,8 +147,14 @@ scripts/              # `ingestar_protocolo_pdf.py`, demo (TASK-114)
 tests/                # API, ingesta, persistencia
 ```
 
+## Agente (TASK-103)
+
+Módulo `src/agentes/`: ver [README del agente](src/agentes/README.md). Verificación rubrica: `./scripts/verificar_stack_m3.sh`.
+
+Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`.
+
 ## Próximas tareas Backlog
-- **TASK-103–106** — Agente, `/chat`, webhook Telegram
+- **TASK-104–106** — `/chat`, webhook Telegram
 - **TASK-109** — Frontend React
 
 Casos de uso: [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md).

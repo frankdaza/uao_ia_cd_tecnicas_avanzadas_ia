@@ -21,6 +21,7 @@ from src.api.routers import (
     staff_casos,
     telegram_emparejar,
 )
+from src.agentes.checkpointer import inicializar_checkpointer_si_aplica
 from src.configuracion import obtener_configuracion
 from src.persistencia.modelos import Base
 from src.persistencia.motor import (
@@ -55,6 +56,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     app.state.engine_db = motor
     app.state.session_factory = crear_session_factory(motor)
+    inicializar_checkpointer_si_aplica(url)
     await verificar_conexion_inicial(motor)
     yield
     await cerrar_motor_async(motor)
