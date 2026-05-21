@@ -2,6 +2,7 @@ project_name: "Proyecto Final - Técnicas Avanzadas de IA en Modelos de Lenguaje
 default_status: "To Do"
 statuses: ["To Do", "In Progress", "Done"]
 labels: []
+assignees: ["Frank Daza"]
 date_format: yyyy-mm-dd
 max_column_width: 20
 auto_open_browser: true
