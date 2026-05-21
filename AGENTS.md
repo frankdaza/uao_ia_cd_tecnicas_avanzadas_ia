@@ -34,10 +34,16 @@ You MUST read the overview resource to understand the complete workflow. The inf
 
 Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar o revisar código en el repositorio. Un resumen paralelo para agentes está en **[CLAUDE.md](CLAUDE.md)** (útil cuando el cliente no carga reglas `.mdc` de Cursor).
 
+## Layout del workspace
+
+- **Raíz del repo:** `backlog/`, `data/`, configuración de agentes (`.cursor/`, `.claude/`, `AGENTS.md`, `CLAUDE.md`).
+- **Código ejecutable M2:** [`proyecto-1/`](proyecto-1/) (`src/`, `frontend/`, `scripts/`, `tests/`, Docker, Alembic, `pyproject.toml`).
+- Rutas `data/*` se resuelven con la raíz del **workspace** (`src/rutas_workspace.py`, variable opcional `UAO_WORKSPACE_ROOT`).
+
 ## Entorno
 
-- **Python 3.12.12** (versión exacta): `.python-version` y restricción equivalente en `pyproject.toml`.
-- Dependencias y ejecución solo con **`uv`** (`uv sync`, `uv run`, `uv.lock` versionado). No usar `pip` suelto, Poetry ni Conda como fuente de verdad.
+- **Python 3.12.12** (versión exacta): `proyecto-1/.python-version` y restricción en `proyecto-1/pyproject.toml`.
+- Dependencias y ejecución solo con **`uv`** desde **`proyecto-1/`** (`uv sync`, `uv run`, `uv.lock` versionado). No usar `pip` suelto, Poetry ni Conda como fuente de verdad.
 
 ## Flujo de datos (base documental)
 
@@ -45,9 +51,9 @@ Además del flujo con **Backlog.md** (arriba), usa este contexto al implementar 
 2. **`data/markdown/`**: corpus textual canónico en **Markdown con front matter YAML** (generado desde `raw/`).
 3. **`data/processed/`**: chunks (p. ej. JSONL) derivados de `markdown/` para Q&A.
 
-Código sugerido M1: `src/scraping/` (descarga) → `src/markdown_export/` (conversión a `.md`) → `src/knowledge_base/` (chunking) → `src/laboratorio/qa_legacy/` → `src/api/` (FastAPI + SSE) → `frontend/` (React + Vite).
+Código sugerido M1 (bajo `proyecto-1/`): `src/scraping/` → `src/markdown_export/` → `src/knowledge_base/` → `src/laboratorio/qa_legacy/` → `src/api/` → `frontend/`.
 
-**Módulo 2 (agente):** `src/persistencia/` → `src/agentes/` (LangGraph + tools + memoria Postgres) → `src/rag/` (Qdrant denso) → `src/api/routers/sesiones.py` / `agente.py` → `frontend/` (`features/auth/`, chat con SSE extendido). Ingesta: `scripts/indexar_corpus_qdrant.py` desde `data/markdown/`. Decisiones: `backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md` (cuando exista); guía: `backlog/docs/doc-003 - Arquitectura-Agente-Modulo-2.md` (cuando exista).
+**Módulo 2 (agente):** `proyecto-1/src/persistencia/` → `proyecto-1/src/agentes/` → `proyecto-1/src/rag/` → `proyecto-1/src/api/routers/` → `proyecto-1/frontend/`. Ingesta: `proyecto-1/scripts/indexar_corpus_qdrant.py` desde `data/markdown/` (workspace). Decisiones y guías en `backlog/`.
 
 ## Stack (Módulo 1)
 

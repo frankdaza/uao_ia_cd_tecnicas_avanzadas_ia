@@ -115,6 +115,16 @@ frontend/.cache/
 frontend/coverage/
 frontend/playwright-report/
 frontend/test-results/
+proyecto-1/frontend/.vite/
+proyecto-1/frontend/.cache/
+proyecto-1/frontend/coverage/
+proyecto-1/frontend/playwright-report/
+proyecto-1/frontend/test-results/
+proyecto-1/frontend/node_modules/
+proyecto-1/frontend/dist/
+proyecto-1/.venv/
+proyecto-1/.pytest_cache/
+proyecto-1/.ruff_cache/
 *.tsbuildinfo
 .eslintcache
 

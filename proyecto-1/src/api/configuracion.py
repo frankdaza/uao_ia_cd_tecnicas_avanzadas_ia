@@ -1,0 +1,310 @@
+"""Configuración del backend FastAPI leída desde variables de entorno o `.env`."""
+
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+from typing import Literal, Self
+from urllib.parse import quote_plus
+
+from pydantic import AliasChoices, Field, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+TipoDistanciaQdrant = Literal["Cosine", "Dot", "Euclid", "Manhattan"]
+TipoChunkStrategy = Literal["sentence", "markdown"]
+
+from src.rutas_workspace import encontrar_raiz_proyecto, encontrar_raiz_workspace
+
+# Raiz del proyecto (proyecto-1/) y del workspace (repo con data/).
+_RUTA_RAIZ_PROYECTO = encontrar_raiz_proyecto(Path(__file__).resolve())
+_RUTA_RAIZ_WORKSPACE = encontrar_raiz_workspace(Path(__file__).resolve())
+_RUTA_ENV_REPO = _RUTA_RAIZ_PROYECTO / ".env"
+
+
+class Configuracion(BaseSettings):
+    """Ajustes del servidor API cargados desde el entorno o `.env`."""
+
+    model_config = SettingsConfigDict(
+        env_file=_RUTA_ENV_REPO,
+        env_file_encoding="utf-8",
+        extra="ignore",
+        # Docker Compose suele pasar `${VAR:-}` como cadena vacia cuando VAR no esta definida;
+        # sin esto, bool/str opcionales fallan al parsear "" (p. ej. LANGCHAIN_TRACING_V2).
+        env_ignore_empty=True,
+    )
+
+    allowed_origins: list[str] = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+    api_port: int = 8000
+
+    # Variables del pipeline (compartidas con el resto del proyecto)
+    ollama_base_url: str = "http://localhost:11434"
+    modelo_llm_defecto: str = "llama3.1:8b"
+    openai_api_key: str | None = None
+
+    # --- Modulo 2: PostgreSQL (OLTP + memoria LangChain) ---
+    postgres_host: str = "localhost"
+    postgres_port: int = Field(default=5432, ge=1, le=65535)
+    postgres_db: str = "app"
+    postgres_user: str = "postgres"
+    postgres_password: str = "postgres"
+    # Si se define, tiene prioridad sobre el ensamble con POSTGRES_* (debe usar esquema asyncpg).
+    database_url: str | None = None
+
+    # --- Modulo 2: Qdrant (vectores densos; ver TASK-52) ---
+    qdrant_url: str = Field(
+        default="http://localhost:6333",
+        description=(
+            "URL base del servidor Qdrant (HTTP). Para pruebas unitarias puede "
+            "usarse el literal :memory: para un cliente en memoria del proceso."
+        ),
+    )
+    qdrant_api_key: str | None = Field(
+        default=None,
+        description="Clave API de Qdrant Cloud; opcional en despliegue local.",
+    )
+    qdrant_collection: str = Field(
+        default="corpus_fvl",
+        description="Nombre de la coleccion de vectores del corpus indexado.",
+    )
+    qdrant_distance: TipoDistanciaQdrant = Field(
+        default="Cosine",
+        description=(
+            "Metrica de similitud en Qdrant. Debe coincidir con los valores del "
+            "cliente (Cosine, Dot, Euclid, Manhattan)."
+        ),
+    )
+
+    # --- Modulo 2: embeddings (ingesta + RAG) ---
+    embedding_provider: Literal["openai", "huggingface"] = Field(
+        default="openai",
+        description="Proveedor de embeddings: API OpenAI o modelos locales HuggingFace.",
+    )
+    embedding_model: str = Field(
+        default="text-embedding-3-small",
+        description=(
+            "Nombre del modelo en el proveedor (p. ej. text-embedding-3-small o "
+            "un id de sentence-transformers)."
+        ),
+    )
+    embedding_dims: int = Field(
+        default=1536,
+        ge=8,
+        le=8192,
+        description=(
+            "Dimension del vector denso; debe coincidir con la coleccion Qdrant y "
+            "con el modelo (p. ej. 1536 para text-embedding-3-small por defecto)."
+        ),
+    )
+
+    # --- Modulo 2: chunking (ingesta; scripts/indexar_corpus_qdrant.py) ---
+    chunk_size: int = Field(
+        default=1024,
+        ge=64,
+        le=8192,
+        description=(
+            "Tamaño de fragmento para SentenceSplitter (LlamaIndex). "
+            "Variable de entorno: CHUNK_SIZE. Tras cambiar .env, reiniciar el proceso: "
+            "obtener_configuracion() esta cacheada con lru_cache."
+        ),
+    )
+    chunk_overlap: int = Field(
+        default=128,
+        ge=0,
+        le=2048,
+        description=(
+            "Solapamiento entre fragmentos consecutivos. Variable de entorno: CHUNK_OVERLAP. "
+            "Reiniciar el proceso tras editar .env (ver chunk_size)."
+        ),
+    )
+    chunk_strategy: TipoChunkStrategy = Field(
+        default="sentence",
+        description=(
+            "Estrategia de fragmentacion para ``scripts.indexar_corpus_qdrant``: "
+            "``sentence`` (SentenceSplitter sobre el cuerpo completo, retrocompatible) o "
+            "``markdown`` (MarkdownNodeParser con post-fractura por tamano). "
+            "Variable de entorno: CHUNK_STRATEGY. Reiniciar el proceso tras editar .env "
+            "(``obtener_configuracion`` esta cacheada)."
+        ),
+    )
+
+    # --- Modulo 2: recuperacion densa ---
+    rag_top_k: int = Field(default=5, ge=1, le=50)
+    rag_score_minimo: float = Field(default=0.25, ge=0.0, le=1.0)
+    rag_top_k_inicial: int = Field(
+        default=20,
+        ge=1,
+        le=200,
+        description=(
+            "Candidatos pedidos a Qdrant antes de MMR/rerank (sobrerrecuperacion). "
+            "Variable de entorno: RAG_TOP_K_INICIAL."
+        ),
+    )
+    rag_mmr_habilitado: bool = Field(
+        default=True,
+        description=(
+            "Activa MMR sobre los candidatos recuperados (diversidad). "
+            "Variable de entorno: RAG_MMR_HABILITADO (0/1, true/false)."
+        ),
+    )
+    rag_mmr_lambda: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Trade-off MMR: 1.0 solo relevancia respecto a la consulta; 0.0 maximiza "
+            "diversidad. Variable de entorno: RAG_MMR_LAMBDA."
+        ),
+    )
+    rag_reranker_habilitado: bool = Field(
+        default=False,
+        description=(
+            "Activa reranking con cross-encoder local (sentence-transformers). "
+            "Variable de entorno: RAG_RERANKER_HABILITADO."
+        ),
+    )
+    rag_reranker_modelo: str = Field(
+        default="BAAI/bge-reranker-base",
+        description="Modelo HuggingFace o ruta para CrossEncoder. Env: RAG_RERANKER_MODELO.",
+    )
+    rag_reranker_top_n_entrada: int = Field(
+        default=10,
+        ge=1,
+        le=50,
+        description=(
+            "Cantidad maxima de fragmentos enviados al reranker tras MMR (o por similitud "
+            "si MMR esta desactivado). Env: RAG_RERANKER_TOP_N_ENTRADA."
+        ),
+    )
+    rag_reranker_batch_size: int = Field(
+        default=16,
+        ge=1,
+        le=256,
+        description=(
+            "Tamano de lote para ``CrossEncoder.predict`` del reranker (memoria VRAM/RAM y "
+            "latencia). Env: RAG_RERANKER_BATCH_SIZE. Reiniciar el proceso si se cambia solo en .env."
+        ),
+    )
+
+    # --- Modulo 2: memoria conversacional ---
+    historial_dias_max: int = Field(default=7, ge=1, le=365)
+    historial_turnos_max: int = Field(default=20, ge=1, le=200)
+
+    # --- Modulo 2: FAQ tool ---
+    faq_umbral_match: float = Field(default=0.5, ge=0.0, le=1.0)
+    # Ruta relativa a la raiz del repo o absoluta; usada por la tool determinista FAQ JSON.
+    faq_json_relativo_raiz: str = "data/structured/faqs.json"
+
+    # --- Modulo 2: router LangGraph ---
+    router_meta_prompt_path: str = "config/router_meta_prompt.json"
+    router_llm_model: str = "gpt-4o-mini"
+    compositor_llm_model: str | None = Field(
+        default=None,
+        description="Modelo OpenAI del compositor; si es None se usa ROUTER_LLM_MODEL.",
+    )
+
+    admin_api_key: str | None = Field(
+        default=None,
+        description=(
+            "Clave estatica para rutas /api/admin/*; enviar en cabecera X-Admin-Key. "
+            "Si queda vacia, las rutas admin responden 503."
+        ),
+    )
+
+    openai_base_url: str | None = Field(
+        default=None,
+        description="URL base de la API compatible con OpenAI (opcional).",
+    )
+    openai_timeout_segundos: float = Field(default=180.0, ge=5.0, le=600.0)
+    openai_max_completion_tokens: int | None = Field(default=None, ge=1)
+
+    # --- Modulo 2: E2E / laboratorio sin OpenAI (tokens e2e70xx en la pregunta; ver scripts/README) ---
+    mock_llm: int = Field(
+        default=0,
+        ge=0,
+        le=1,
+        description=(
+            "1 activa router y compositor deterministicos sin OpenAI (variable de entorno MOCK_LLM)."
+        ),
+    )
+
+    # --- LangSmith / LangChain tracing (opcional; ver backlog/decisions/decision-5) ---
+    trazas_langchain_activas: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("LANGCHAIN_TRACING_V2", "LANGSMITH_TRACING"),
+        description=(
+            "true activa el export de trazas compatible con LangSmith cuando exista "
+            "LANGCHAIN_API_KEY o LANGSMITH_API_KEY. Reiniciar el proceso tras editar .env."
+        ),
+    )
+    clave_api_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_API_KEY", "LANGSMITH_API_KEY"),
+        description=(
+            "Clave API de LangSmith (no versionar; solo .env). Equivale a LANGSMITH_API_KEY "
+            "en la guia de LangSmith."
+        ),
+    )
+    proyecto_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_PROJECT", "LANGSMITH_PROJECT"),
+        description=(
+            "Nombre de proyecto en LangSmith (p. ej. uao-m2-dev). Alias alternativo: "
+            "LANGSMITH_PROJECT."
+        ),
+    )
+    url_endpoint_trazas_langchain: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("LANGCHAIN_ENDPOINT", "LANGSMITH_ENDPOINT"),
+        description=(
+            "URL de API LangSmith si aplica region o despliegue self-hosted. "
+            "Alias alternativo: LANGSMITH_ENDPOINT."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def validar_dims_embedding_modelos_openai_fijos(self) -> Self:
+        """Modelos OpenAI con dimension de salida fija en la API clasica."""
+        if self.embedding_provider != "openai":
+            return self
+        if (
+            self.embedding_model == "text-embedding-ada-002"
+            and self.embedding_dims != 1536
+        ):
+            raise ValueError(
+                "Para text-embedding-ada-002 la dimension de salida es 1536; "
+                "ajusta EMBEDDING_DIMS o el modelo."
+            )
+        return self
+
+    def url_base_datos_async(self) -> str:
+        """URL `postgresql+asyncpg://...` lista para `create_async_engine`."""
+        if self.database_url and self.database_url.strip():
+            return self.database_url.strip()
+        usuario = quote_plus(self.postgres_user)
+        clave = quote_plus(self.postgres_password)
+        return (
+            f"postgresql+asyncpg://{usuario}:{clave}"
+            f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
+
+    def url_base_datos_sync(self) -> str:
+        """
+        URL ``postgresql://...`` para ``psycopg`` (memoria LangChain sync).
+
+        Deriva de ``url_base_datos_async`` sustituyendo el driver ``asyncpg``.
+        """
+        url = self.url_base_datos_async()
+        if "+asyncpg" in url:
+            return url.replace("postgresql+asyncpg://", "postgresql://", 1)
+        if "+psycopg" in url:
+            return url.replace("postgresql+psycopg://", "postgresql://", 1)
+        return url
+
+
+@lru_cache
+def obtener_configuracion() -> Configuracion:
+    """Retorna la instancia singleton de la configuración (cacheada)."""
+    return Configuracion()

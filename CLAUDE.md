@@ -4,10 +4,14 @@
 
 Lee y sigue **[AGENTS.md](AGENTS.md)** para el flujo con **Backlog.md** (MCP): cuándo crear, ejecutar y cerrar tareas. **No** archivar tareas (no usar `task_complete` del MCP) salvo que el **usuario** lo pida: al terminar, dejar la tarea en `backlog/tasks/` con `status: Done` (ver `.cursor/rules/backlog-workflow.mdc` y la skill `backlog-md`).
 
+## Layout del workspace
+
+- Código ejecutable en **`proyecto-1/`**; corpus en **`data/`** (raíz); gestión en **`backlog/`**. Ver [`README.md`](README.md) y [`AGENTS.md`](AGENTS.md).
+
 ## Entorno
 
-- **Python 3.12.12** (versión exacta). Archivo `.python-version` y restricción equivalente en `pyproject.toml`.
-- Dependencias y ejecución solo con **`uv`** (`uv sync`, `uv run`, `uv.lock` versionado). No usar `pip` suelto, Poetry ni Conda como fuente de verdad.
+- **Python 3.12.12** (versión exacta). `proyecto-1/.python-version` y `proyecto-1/pyproject.toml`.
+- **`uv`** solo desde **`proyecto-1/`** (`uv sync`, `uv run`). Rutas `data/*`: `src/rutas_workspace.py` / `UAO_WORKSPACE_ROOT`.
 
 ## Stack (actividad Módulo 1)
 
