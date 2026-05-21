@@ -1,6 +1,6 @@
 ---
 id: decision-2
-title: Migración del frontend de Gradio a React 19 + Vite 7 y adición de backend FastAPI + SSE
+title: decision-2 - Migración del frontend de Gradio a React 19 + Vite 7 y adición de backend FastAPI + SSE
 date: '2026-04-30'
 status: accepted
 ---

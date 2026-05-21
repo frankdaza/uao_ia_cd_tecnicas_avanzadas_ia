@@ -1,6 +1,6 @@
 ---
 id: doc-005
-title: Auditoria de imports hacia src/rag, src/qa y src/app (baseline migracion clean-enough M2)
+title: doc-005 - Auditoria de imports hacia src/rag, src/qa y src/app (baseline migracion clean-enough M2)
 type: reference
 created_date: '2026-05-16'
 updated_date: '2026-05-16'

@@ -1,10 +1,11 @@
 ---
 id: TASK-96
 title: 'ADR decision-4: arquitectura M3 TAAM en proyecto-2 (Ruta A, Telegram vía 2)'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:15'
+updated_date: '2026-05-21 22:24'
 labels:
   - modulo-3
   - taam
@@ -19,11 +20,20 @@ references:
     Avanzado y Sistemas Agénticos.md
   - backlog/docs/usecases/Caso de Uso TAAM - Bot Posoperatorio.md
   - proyecto-1/
+  - >-
+    backlog/decisions/decision-7 -
+    Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md
 documentation:
   - .claude/skills/backlog-decisions/SKILL.md
   - backlog/decisions/decision-3 - Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md
+modified_files:
+  - >-
+    backlog/decisions/decision-7 -
+    Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md
+  - backlog/milestones/m-0 - agentic-final-project.md
+  - backlog/docs/usecases/Caso de Uso TAAM - Bot Posoperatorio.md
 priority: high
-ordinal: 2000
+ordinal: 1000
 ---
 
 ## Description
@@ -53,15 +63,27 @@ Incluir al menos: contexto (actores), secuencia Telegram→webhook→`/chat`→a
 
 ## Entregables
 
-- `backlog/decisions/decision-4 - Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md` con front matter estilo Backlog.
+- `backlog/decisions/decision-7 - Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md` con front matter estilo Backlog (`decision-4` reservado a payload Qdrant M2).
 - Enlace desde `backlog/milestones/m-0 - agentic-final-project.md` y nota en plan de casos de uso.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Existe decision-4 con front matter YAML válido (id, title, type, created_date)
-- [ ] #2 El ADR documenta explícitamente Ruta A + Telegram vía 2 y separación proyecto-1 vs proyecto-2
-- [ ] #3 Incluye diagrama mermaid end-to-end y tabla de componentes con rutas de código previstas
-- [ ] #4 Lista herramientas LangChain MVP y criterio de verificación en repo (grep/CI)
-- [ ] #5 Milestone m-0 referencia decision-4 o el doc de casos de uso TAAM
+- [x] #1 Existe decision-4 con front matter YAML válido (id, title, type, created_date)
+- [x] #2 El ADR documenta explícitamente Ruta A + Telegram vía 2 y separación proyecto-1 vs proyecto-2
+- [x] #3 Incluye diagrama mermaid end-to-end y tabla de componentes con rutas de código previstas
+- [x] #4 Lista herramientas LangChain MVP y criterio de verificación en repo (grep/CI)
+- [x] #5 Milestone m-0 referencia decision-4 o el doc de casos de uso TAAM
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Numeracion: decision-4 ya ocupada por Payload Qdrant (task-69). ADR M3 publicado como decision-7.
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Creado backlog/decisions/decision-7 - Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md con contexto, decision (proyecto-2, Ruta A, Telegram via 2, POST /chat, sesiones telegram:{chat_id}), relacion M2, tabla stack LangChain con grep/CI, fuera de MVP, riesgos, diagramas mermaid (contexto, secuencia, despliegue) y tabla de componentes. Actualizados m-0 y nota en Caso de Uso TAAM. Tareas downstream deben enlazar decision-7, no decision-4.
+<!-- SECTION:FINAL_SUMMARY:END -->

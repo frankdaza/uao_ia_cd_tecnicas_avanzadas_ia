@@ -1,6 +1,6 @@
 ---
 id: decision-3
-title: Arquitectura del agente M2 con router LangGraph, memoria PostgreSQL y RAG denso en Qdrant
+title: decision-3 - Arquitectura del agente M2 con router LangGraph, memoria PostgreSQL y RAG denso en Qdrant
 date: '2026-05-12'
 status: accepted
 ---

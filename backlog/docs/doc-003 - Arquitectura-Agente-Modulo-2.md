@@ -1,6 +1,6 @@
 ---
 id: doc-003
-title: Arquitectura operativa del agente conversacional (Modulo 2)
+title: doc-003 - Arquitectura operativa del agente conversacional (Modulo 2)
 type: architecture
 created_date: '2026-05-12'
 updated_date: '2026-05-16'

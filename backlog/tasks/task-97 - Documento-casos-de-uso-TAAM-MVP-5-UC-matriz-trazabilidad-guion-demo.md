@@ -1,10 +1,11 @@
 ---
 id: TASK-97
 title: 'Documento casos de uso TAAM MVP (5 UC, matriz trazabilidad, guion demo)'
-status: To Do
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:15'
+updated_date: '2026-05-21 22:34'
 labels:
   - modulo-3
   - taam
@@ -19,7 +20,7 @@ documentation:
   - .cursor/rules/backlog-docs-format.mdc
   - .claude/skills/backlog-docs/SKILL.md
 priority: high
-ordinal: 2010
+ordinal: 1000
 ---
 
 ## Description

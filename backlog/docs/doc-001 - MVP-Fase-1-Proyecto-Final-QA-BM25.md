@@ -1,6 +1,6 @@
 ---
 id: doc-001
-title: Fase 1 del proyecto final - MVP de Q&A sobre la Fundacion Valle del Lili
+title: doc-001 - Fase 1 del proyecto final - MVP de Q&A sobre la Fundacion Valle del Lili
 type: guide
 created_date: '2026-04-27'
 status: vigente

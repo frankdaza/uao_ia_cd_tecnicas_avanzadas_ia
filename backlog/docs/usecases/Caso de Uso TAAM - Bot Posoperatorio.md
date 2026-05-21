@@ -1,5 +1,9 @@
 # **Bot de la FVL para el seguimiento postoperatorio**
 
+> **Arquitectura M3 (MVP):** Ruta A + Telegram vía 2 en `proyecto-2/`. ADR vigente: [decision-7 — Arquitectura M3 TAAM](../../decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md). Milestone: [m-0](../../milestones/m-0%20-%20agentic-final-project.md). El detalle de 5 UC-MVP y matriz de trazabilidad se formaliza en TASK-97.
+
+---
+
 # **Actores**
 
 1. Pacientes.  

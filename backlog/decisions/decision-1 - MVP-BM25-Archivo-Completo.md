@@ -1,6 +1,6 @@
 ---
 id: decision-1
-title: MVP usa BM25 a nivel archivo (sin chunking ni embeddings)
+title: decision-1 - MVP usa BM25 a nivel archivo (sin chunking ni embeddings)
 date: '2026-04-26'
 status: superseded
 ---

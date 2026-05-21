@@ -1,6 +1,6 @@
 ---
 id: decision-6
-title: Migración incremental hacia una organización tipo Clean Architecture (clean enough) en Módulo 2
+title: decision-6 - Migración incremental hacia una organización tipo Clean Architecture (clean enough) en Módulo 2
 date: '2026-05-16'
 status: accepted
 ---

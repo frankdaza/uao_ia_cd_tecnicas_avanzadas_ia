@@ -1,6 +1,6 @@
 ---
 id: doc-004
-title: Estudio de migración hacia una arquitectura en capas tipo Clean Architecture
+title: doc-004 - Estudio de migración hacia una arquitectura en capas tipo Clean Architecture
 type: architecture
 created_date: '2026-05-16'
 updated_date: '2026-05-16'
