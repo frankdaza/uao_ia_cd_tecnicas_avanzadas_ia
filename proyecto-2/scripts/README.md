@@ -1,3 +1,25 @@
 # Scripts TAAM
 
-Scripts de ingesta, demo y verificacion M3 se agregaran en tareas posteriores (p. ej. TASK-101, TASK-114).
+## Ingesta de protocolos PDF → Qdrant
+
+```bash
+cd proyecto-2
+# Un procedimiento (UUID de tipos_procedimiento)
+uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid>
+
+# Todos con indexacion_estado=pendiente
+uv run python -m scripts.ingestar_protocolo_pdf --todos-pendientes
+
+# Re-indexar aunque ya este en ok (mismo hash)
+uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid> --forzar
+```
+
+**Requisitos:** Postgres TAAM migrado, Qdrant en `QDRANT_URL` (p. ej. `http://127.0.0.1:6334`), `OPENAI_API_KEY` para embeddings.
+
+**Variables:** `TAAM_QDRANT_COLLECTION` (default `taam_protocolos`), `TAAM_CHUNK_SIZE` (800), `TAAM_CHUNK_OVERLAP` (120), `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`.
+
+**Nota:** PDFs escaneados sin OCR suelen producir poco texto; el script marca `indexacion_estado=error` en ese caso.
+
+## Demo (pendiente)
+
+- `sembrar_demo_taam.py` — TASK-114

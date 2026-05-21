@@ -45,8 +45,16 @@ Rutas bajo `/api/admin/procedimientos` (cabecera **`X-Admin-Key`** = `ADMIN_API_
 | `GET` | `/api/admin/procedimientos` | Listado (`limit`, `offset`) |
 | `GET` | `/api/admin/procedimientos/{id}` | Detalle |
 | `PATCH` | `/api/admin/procedimientos/{id}` | Actualizar metadata y/o reemplazar PDF |
+| `POST` | `/api/admin/procedimientos/{id}/reindexar` | Relanza ingesta Qdrant (202) |
 
-Los PDF se guardan en **`data/taam/procedimientos/{uuid}/protocolo.pdf`** (workspace; volumen Docker montado en `/app/data/taam`). Tamaño máximo por defecto: **10 MB** (`TAAM_PDF_MAX_MB`). Tras subir o reemplazar PDF, `indexacion_estado` queda en `pendiente` hasta la ingesta Qdrant (TASK-101).
+Los PDF se guardan en **`data/taam/procedimientos/{uuid}/protocolo.pdf`** (workspace; volumen Docker montado en `/app/data/taam`). Tamaño máximo por defecto: **10 MB** (`TAAM_PDF_MAX_MB`). Tras subir o reemplazar PDF, la API encola ingesta en segundo plano; `indexacion_estado` pasa a `ok` o `error` cuando termina.
+
+### Ingesta PDF → Qdrant (`taam_protocolos`)
+
+- **Stack:** `pdfplumber` + `RecursiveCharacterTextSplitter` (800 / 120) + `OpenAIEmbeddings` + `langchain_qdrant.QdrantVectorStore`.
+- **Colección dedicada** (no `corpus_*` de M2): `TAAM_QDRANT_COLLECTION` (default `taam_protocolos`), REST en host **6334**.
+- **CLI:** `uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid>` o `--todos-pendientes`.
+- **Limitación:** PDF escaneado sin OCR puede quedar sin texto suficiente → `indexacion_estado=error`.
 
 Ejemplo local:
 
@@ -95,7 +103,7 @@ El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `TAAM_PDF_MAX_MB`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 
@@ -103,18 +111,20 @@ Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por de
 
 ```
 src/api/              # FastAPI (salud, admin/procedimientos; más routers en tareas M3)
+src/ingesta/          # ingesta PDF → Qdrant (LangChain)
+src/rag/              # vector store TAAM
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
 src/configuracion.py
 src/rutas_workspace.py
 alembic/versions/     # migraciones OLTP TAAM
 frontend/             # placeholder hasta TASK-109
-scripts/              # ingesta y demo (TASK-101, TASK-114)
-tests/persistencia/   # SQLite + integración Postgres opcional
+scripts/              # `ingestar_protocolo_pdf.py`, demo (TASK-114)
+tests/                # API, ingesta, persistencia
 ```
 
 ## Próximas tareas Backlog
 - **TASK-103–106** — Agente, `/chat`, Telegram
 - **TASK-109** — Frontend React
-- **TASK-101** — Ingesta PDF → Qdrant `taam_protocolos`
+- **TASK-102** — Casos postoperatorio (requiere `indexacion_estado=ok`)
 
 Casos de uso: [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md).

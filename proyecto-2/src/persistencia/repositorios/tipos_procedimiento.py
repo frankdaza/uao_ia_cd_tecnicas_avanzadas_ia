@@ -46,6 +46,21 @@ class RepositorioTiposProcedimiento:
         res = await self._sesion.execute(stmt)
         return res.scalars().first()
 
+    async def listar_por_indexacion(
+        self,
+        estado: str,
+        *,
+        limite: int = 50,
+    ) -> list[TipoProcedimiento]:
+        stmt = (
+            select(TipoProcedimiento)
+            .where(TipoProcedimiento.indexacion_estado == estado)
+            .order_by(TipoProcedimiento.created_at.asc(), TipoProcedimiento.id.asc())
+            .limit(limite)
+        )
+        res = await self._sesion.execute(stmt)
+        return list(res.scalars().all())
+
     async def listar(
         self,
         *,

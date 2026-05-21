@@ -6,7 +6,17 @@ import json
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    Request,
+    UploadFile,
+)
 from fastapi import status as estado_http
 from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,6 +28,7 @@ from src.api.esquemas_procedimientos import (
     MetadataProcedimientoParche,
     ProcedimientoVista,
 )
+from src.api.servicios.ingesta_protocolo import ingesta_protocolo_background
 from src.api.servicios.almacenamiento_pdf import (
     PdfProtocoloInvalidoError,
     guardar_pdf_en_disco,
@@ -83,12 +94,25 @@ def _siguiente_version_vector(actual: int | None) -> int:
     return actual + 1
 
 
+def _encolar_ingesta(
+    request: Request,
+    background: BackgroundTasks,
+    tipo_id: uuid.UUID,
+) -> None:
+    factory = getattr(request.app.state, "session_factory", None)
+    if factory is None:
+        return
+    background.add_task(ingesta_protocolo_background, factory, tipo_id)
+
+
 @router.post(
     "/procedimientos",
     response_model=ProcedimientoVista,
     status_code=estado_http.HTTP_201_CREATED,
 )
 async def crear_procedimiento(
+    request: Request,
+    background: BackgroundTasks,
     sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
     metadata: Annotated[str, Form(..., description="JSON con codigo y nombre")],
     archivo: Annotated[UploadFile, File(..., description="PDF del protocolo")],
@@ -128,6 +152,8 @@ async def crear_procedimiento(
         ruta_pdf=ruta_rel,
         hash_pdf=digest,
     )
+    await sesion.commit()
+    _encolar_ingesta(request, background, fila.id)
     return _a_vista(fila)
 
 
@@ -163,6 +189,8 @@ async def obtener_procedimiento(
 
 @router.patch("/procedimientos/{tipo_id}", response_model=ProcedimientoVista)
 async def actualizar_procedimiento(
+    request: Request,
+    background: BackgroundTasks,
     tipo_id: uuid.UUID,
     sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
     metadata: Annotated[str | None, Form(description="JSON parcial: codigo, nombre")] = None,
@@ -223,4 +251,37 @@ async def actualizar_procedimiento(
         )
 
     await repo.actualizar(fila, **kwargs)
+    if reemplazo_pdf:
+        await sesion.commit()
+        _encolar_ingesta(request, background, fila.id)
+    return _a_vista(fila)
+
+
+@router.post(
+    "/procedimientos/{tipo_id}/reindexar",
+    response_model=ProcedimientoVista,
+    status_code=estado_http.HTTP_202_ACCEPTED,
+)
+async def reindexar_procedimiento(
+    request: Request,
+    background: BackgroundTasks,
+    tipo_id: uuid.UUID,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+) -> ProcedimientoVista:
+    """Relanza ingesta Qdrant (util si fallo previa o tras cambio manual)."""
+    repo = RepositorioTiposProcedimiento(sesion)
+    fila = await repo.obtener_por_id(tipo_id)
+    if fila is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Procedimiento no encontrado.",
+        )
+    if not fila.ruta_pdf:
+        raise HTTPException(
+            status_code=estado_http.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="El procedimiento no tiene PDF asociado.",
+        )
+    await repo.actualizar(fila, indexacion_estado="pendiente")
+    await sesion.commit()
+    _encolar_ingesta(request, background, fila.id)
     return _a_vista(fila)

@@ -53,6 +53,28 @@ class Configuracion(BaseSettings):
         le=50,
         validation_alias="TAAM_PDF_MAX_MB",
     )
+    taam_qdrant_collection: str = Field(
+        default="taam_protocolos",
+        validation_alias="TAAM_QDRANT_COLLECTION",
+    )
+    taam_chunk_size: int = Field(default=800, ge=128, le=8192, validation_alias="TAAM_CHUNK_SIZE")
+    taam_chunk_overlap: int = Field(
+        default=120,
+        ge=0,
+        le=2048,
+        validation_alias="TAAM_CHUNK_OVERLAP",
+    )
+    embedding_model: str = Field(
+        default="text-embedding-3-small",
+        validation_alias="EMBEDDING_MODEL",
+    )
+    ingesta_reintentos: int = Field(default=3, ge=1, le=10, validation_alias="INGESTA_REINTENTOS")
+    ingesta_backoff_max_seg: float = Field(
+        default=30.0,
+        ge=1.0,
+        le=120.0,
+        validation_alias="INGESTA_BACKOFF_MAX_SEG",
+    )
 
     def url_base_datos_async(self) -> str:
         """

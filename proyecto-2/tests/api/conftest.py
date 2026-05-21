@@ -21,23 +21,6 @@ PDF_FIXTURE_MINIMO = (
 CLAVE_ADMIN_TEST = "clave-admin-taam-test"
 
 
-@pytest.fixture(autouse=True)
-def limpiar_cache_config() -> None:
-    obtener_configuracion.cache_clear()
-    yield
-    obtener_configuracion.cache_clear()
-
-
-@pytest.fixture
-def workspace_tmp(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    """Workspace aislado con carpeta data/taam para PDFs de prueba."""
-    raiz = tmp_path / "workspace"
-    (raiz / "data" / "taam").mkdir(parents=True)
-    (raiz / "data" / "markdown").mkdir(parents=True)
-    monkeypatch.setenv("UAO_WORKSPACE_ROOT", str(raiz))
-    obtener_configuracion.cache_clear()
-
-
 @pytest.fixture
 def clave_admin(monkeypatch: pytest.MonkeyPatch) -> str:
     monkeypatch.setenv("ADMIN_API_KEY", CLAVE_ADMIN_TEST)
