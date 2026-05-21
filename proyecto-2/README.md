@@ -35,6 +35,29 @@ uv run uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8001
 
 Health: `GET http://127.0.0.1:8001/api/salud` → `{"estado":"ok","version":"0.1.0","proyecto":"taam"}`.
 
+### Catálogo de procedimientos (UC-MVP-01)
+
+Rutas bajo `/api/admin/procedimientos` (cabecera **`X-Admin-Key`** = `ADMIN_API_KEY`):
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/admin/procedimientos` | Multipart: `metadata` (JSON `codigo`, `nombre`) + `archivo` (PDF) |
+| `GET` | `/api/admin/procedimientos` | Listado (`limit`, `offset`) |
+| `GET` | `/api/admin/procedimientos/{id}` | Detalle |
+| `PATCH` | `/api/admin/procedimientos/{id}` | Actualizar metadata y/o reemplazar PDF |
+
+Los PDF se guardan en **`data/taam/procedimientos/{uuid}/protocolo.pdf`** (workspace; volumen Docker montado en `/app/data/taam`). Tamaño máximo por defecto: **10 MB** (`TAAM_PDF_MAX_MB`). Tras subir o reemplazar PDF, `indexacion_estado` queda en `pendiente` hasta la ingesta Qdrant (TASK-101).
+
+Ejemplo local:
+
+```bash
+export ADMIN_API_KEY='cambiar-por-clave-segura'
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
+  -F 'metadata={"codigo":"cole-lap","nombre":"Colecistectomia laparoscopica"};type=application/json' \
+  -F "archivo=@protocolo.pdf;type=application/pdf" \
+  http://127.0.0.1:8001/api/admin/procedimientos | jq .
+```
+
 ## Docker Compose
 
 ```bash
@@ -72,14 +95,14 @@ El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `ADMIN_API_KEY`, `TAAM_PDF_MAX_MB`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 
 ## Estructura
 
 ```
-src/api/              # FastAPI (salud; más routers en tareas M3)
+src/api/              # FastAPI (salud, admin/procedimientos; más routers en tareas M3)
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
 src/configuracion.py
 src/rutas_workspace.py

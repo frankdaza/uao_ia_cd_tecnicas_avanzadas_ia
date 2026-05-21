@@ -60,3 +60,29 @@ class RepositorioTiposProcedimiento:
         )
         res = await self._sesion.execute(stmt)
         return list(res.scalars().all())
+
+    async def actualizar(
+        self,
+        fila: TipoProcedimiento,
+        *,
+        codigo: str | None = None,
+        nombre: str | None = None,
+        ruta_pdf: str | None = None,
+        hash_pdf: str | None = None,
+        indexacion_estado: str | None = None,
+        qdrant_collection_version: int | None = None,
+    ) -> TipoProcedimiento:
+        if codigo is not None:
+            fila.codigo = codigo
+        if nombre is not None:
+            fila.nombre = nombre
+        if ruta_pdf is not None:
+            fila.ruta_pdf = ruta_pdf
+        if hash_pdf is not None:
+            fila.hash_pdf = hash_pdf
+        if indexacion_estado is not None:
+            fila.indexacion_estado = indexacion_estado
+        if qdrant_collection_version is not None:
+            fila.qdrant_collection_version = qdrant_collection_version
+        await self._sesion.flush()
+        return fila

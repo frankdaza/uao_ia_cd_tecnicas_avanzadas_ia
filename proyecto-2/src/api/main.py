@@ -7,25 +7,76 @@ Desarrollo local:
 
 from __future__ import annotations
 
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncEngine
 
-from src.api.routers import salud
+from src.api.routers import admin_procedimientos, salud
 from src.configuracion import obtener_configuracion
-
-app = FastAPI(
-    title="TAAM API",
-    description="Bot posoperatorio — Modulo 3 (scaffold)",
-    version="0.1.0",
+from src.persistencia.modelos import Base
+from src.persistencia.motor import (
+    cerrar_motor_async,
+    crear_motor_async,
+    crear_session_factory,
+    verificar_conexion_inicial,
 )
 
-cfg = obtener_configuracion()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=cfg.allowed_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-app.include_router(salud.router, prefix="/api")
+def _preparar_metadata_sqlite() -> None:
+    """Quita defaults solo-Postgres para ``create_all`` en SQLite (tests)."""
+    for tabla in Base.metadata.tables.values():
+        for columna in tabla.columns:
+            if columna.server_default is not None and "gen_random_uuid" in str(
+                columna.server_default.arg
+            ):
+                columna.server_default = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Motor async de BD y factoria de sesiones."""
+    cfg = obtener_configuracion()
+    url = app.state.url_bd_override or cfg.url_base_datos_async()
+    motor: AsyncEngine = crear_motor_async(url)
+    if "sqlite" in url:
+        _preparar_metadata_sqlite()
+        async with motor.begin() as conn:
+            await conn.execute(text("PRAGMA foreign_keys=ON"))
+            await conn.run_sync(Base.metadata.create_all)
+
+    app.state.engine_db = motor
+    app.state.session_factory = crear_session_factory(motor)
+    await verificar_conexion_inicial(motor)
+    yield
+    await cerrar_motor_async(motor)
+
+
+def crear_app(*, url_bd: str | None = None) -> FastAPI:
+    """Fabrica la aplicacion (``url_bd`` opcional para tests SQLite)."""
+    cfg = obtener_configuracion()
+    app = FastAPI(
+        title="TAAM API",
+        description="Bot posoperatorio — Modulo 3",
+        version="0.1.0",
+        lifespan=lifespan,
+    )
+    app.state.url_bd_override = url_bd
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=cfg.allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    app.include_router(salud.router, prefix="/api")
+    app.include_router(admin_procedimientos.router, prefix="/api")
+    return app
+
+
+app = crear_app()

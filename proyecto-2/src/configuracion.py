@@ -47,6 +47,12 @@ class Configuracion(BaseSettings):
     qdrant_url: str = Field(default="http://127.0.0.1:6334", validation_alias="QDRANT_URL")
     openai_api_key: str = Field(default="", validation_alias="OPENAI_API_KEY")
     admin_api_key: str = Field(default="", validation_alias="ADMIN_API_KEY")
+    taam_pdf_max_mb: int = Field(
+        default=10,
+        ge=1,
+        le=50,
+        validation_alias="TAAM_PDF_MAX_MB",
+    )
 
     def url_base_datos_async(self) -> str:
         """
