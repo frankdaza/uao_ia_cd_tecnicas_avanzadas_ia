@@ -16,5 +16,25 @@ secrets/
 # Descargas crudas: alto volumen; el corpus de trabajo esta en data/markdown/
 data/raw/
 
+# TAAM: PDFs y protocolos subidos (binarios; rutas en data/taam/procedimientos/)
+data/taam/
+
+# Entornos y caches de herramientas (no aportan al codigo fuente)
+**/.venv/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+**/__pycache__/
+**/.cache/
+**/node_modules/
+**/dist/
+**/.vite/
+**/playwright-report/
+**/test-results/
+**/htmlcov/
+**/coverage/
+
 # Lockfile Python versionado: la lista por defecto de Cursor incluye *.lock
 !uv.lock
+!proyecto-1/uv.lock
+!proyecto-2/uv.lock

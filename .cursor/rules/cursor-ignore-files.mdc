@@ -21,8 +21,10 @@ Documentacion oficial: [Ignore file](https://cursor.com/docs/reference/ignore-fi
 
 - **Secretos**: ademas de `.env` y `secrets/`, hay patrones para `credentials.json`, `secrets.json`, claves PEM, `.aws/credentials`, `id_rsa`, `*.key` (ver `.cursorignore`).
 - **Crudo**: `data/raw/` en ambos archivos ignore.
+- **TAAM (`data/taam/`)**: PDFs y protocolos subidos en runtime (M3); en `.cursorignore` y `.cursorindexingignore`; en `.gitignore` salvo `**/.gitkeep`. El backend TAAM sigue leyendo disco al ejecutar.
 - **Corpus `data/markdown/`**: esta en **`.cursorindexingignore` solamente** para aligerar el indice del IDE; el backend sigue leyendo el corpus en disco en runtime (RAG). **No** esta en `.cursorignore`: el agente Cursor puede referenciar `@` esos `.md` si hace falta. Para bloquear tambien agente y `@`, anadir `data/markdown/` a `.cursorignore` (trade-off fuerte).
 - **Chunks**: `data/processed/` solo en indexacion.
+- **Monorepo Python/Node**: `proyecto-1/` y `proyecto-2/` comparten patrones `**/.venv/`, `**/node_modules/`, caches de test y frontend en ignore de Cursor; `.gitignore` lista rutas explicitas bajo cada `proyecto-*/frontend/`.
 - **Lockfile Python**: `!uv.lock` donde aplica la lista por defecto de Cursor (`*.lock`).
 
 ## Backlog y tareas

@@ -11,7 +11,9 @@
       "Read(/**/*.pem)",
       "Read(/**/.aws/credentials)",
       "Read(/**/id_rsa)",
-      "Read(/**/*.key)"
+      "Read(/**/*.key)",
+      "Read(/data/raw/**)",
+      "Read(/data/taam/**)"
     ]
   }
 }

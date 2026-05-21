@@ -11,7 +11,8 @@ WORKDIR /app
 
 ENV UV_PYTHON_INSTALL_DIR=/app/.uv/python
 
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock alembic.ini ./
+COPY alembic/ ./alembic/
 COPY src/ ./src/
 
 RUN uv sync --frozen --no-dev

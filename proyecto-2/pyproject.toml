@@ -7,14 +7,19 @@ authors = [
 ]
 requires-python = "==3.12.12"
 dependencies = [
+    "alembic>=1.18.4",
+    "asyncpg>=0.31.0",
     "fastapi>=0.136.1",
+    "psycopg[binary]>=3.3.4",
     "pydantic-settings>=2.14.0",
     "python-dotenv>=1.2.2",
+    "sqlalchemy[asyncio]>=2.0.49",
     "uvicorn[standard]>=0.46.0",
 ]
 
 [dependency-groups]
 dev = [
+    "aiosqlite>=0.21.0",
     "httpx>=0.28.1",
     "pytest>=8.0.0",
     "pytest-asyncio>=1.3.0",
@@ -30,3 +35,7 @@ build-backend = "uv_build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "integration_postgres: prueba contra PostgreSQL TAAM real (EJECUTAR_INTEGRACION_POSTGRES=1)",
+]

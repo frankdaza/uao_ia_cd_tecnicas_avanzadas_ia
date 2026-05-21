@@ -12,5 +12,28 @@ data/markdown/
 # Chunks y salidas generadas (JSONL, etc.); no sustituyen a data/markdown/ para RAG
 data/processed/
 
+# TAAM: PDFs locales (el runtime lee disco; no indexar binarios ni arboles grandes)
+data/taam/
+
+# Tareas archivadas: historial versionado; poco util en busqueda semantica del IDE
+backlog/completed/
+
+# Entornos, dependencias y artefactos de build/test
+**/.venv/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+**/__pycache__/
+**/.cache/
+**/node_modules/
+**/dist/
+**/.vite/
+**/playwright-report/
+**/test-results/
+**/htmlcov/
+**/coverage/
+
 # Lockfile Python: incluir en el indice (Cursor ignora *.lock por defecto)
 !uv.lock
+!proyecto-1/uv.lock
+!proyecto-2/uv.lock

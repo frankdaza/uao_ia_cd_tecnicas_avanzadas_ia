@@ -4,7 +4,7 @@
 # M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333
 # TAAM (este archivo): API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335
 #
-# Sin db-init/Alembic hasta TASK-99. El healthcheck solo valida GET /api/salud.
+# Migraciones: `docker compose exec api uv run alembic upgrade head` (ver README).
 
 services:
   postgres:

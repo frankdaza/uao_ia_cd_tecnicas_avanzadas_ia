@@ -109,7 +109,7 @@ node_modules/
 # Almacen de paquetes de pnpm si store-dir apunta dentro del repo (evita miles de archivos UT)
 .pnpm-store/
 
-# Frontend (Vite / Vitest / Playwright / ESLint)
+# Frontend (Vite / Vitest / Playwright / ESLint) — raiz legacy y paquetes por proyecto
 frontend/.vite/
 frontend/.cache/
 frontend/coverage/
@@ -122,9 +122,31 @@ proyecto-1/frontend/playwright-report/
 proyecto-1/frontend/test-results/
 proyecto-1/frontend/node_modules/
 proyecto-1/frontend/dist/
+proyecto-2/frontend/.vite/
+proyecto-2/frontend/.cache/
+proyecto-2/frontend/coverage/
+proyecto-2/frontend/playwright-report/
+proyecto-2/frontend/test-results/
+proyecto-2/frontend/node_modules/
+proyecto-2/frontend/dist/
+
+# Python por proyecto (monorepo: proyecto-1 M2, proyecto-2 TAAM)
 proyecto-1/.venv/
 proyecto-1/.pytest_cache/
 proyecto-1/.ruff_cache/
+proyecto-2/.venv/
+proyecto-2/.pytest_cache/
+proyecto-2/.ruff_cache/
+
+# Cache de uv (local o dentro de contenedores Docker)
+.cache/
+**/.cache/
+
+# TAAM (M3): PDFs de protocolos y artefactos en data/taam/ (runtime; ver decision-7)
+data/taam/**
+!data/taam/
+!data/taam/**/.gitkeep
+
 *.tsbuildinfo
 .eslintcache
 
