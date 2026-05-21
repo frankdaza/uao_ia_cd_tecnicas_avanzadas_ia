@@ -1,14 +1,40 @@
-"""Dependencias FastAPI compartidas (auth admin, sesion DB)."""
+"""Dependencias FastAPI compartidas (auth admin, sesion DB, agente)."""
 
 from __future__ import annotations
 
 import secrets
 from typing import Annotated
 
-from fastapi import Depends, Header, HTTPException
+from fastapi import Depends, Header, HTTPException, Request
 from fastapi import status as estado_http
+from langgraph.checkpoint.base import BaseCheckpointSaver
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.configuracion import obtener_configuracion
+
+
+async def obtener_session_factory_app(
+    request: Request,
+) -> async_sessionmaker[AsyncSession]:
+    """Factoria de sesiones SQLAlchemy creada en el lifespan."""
+    factory = getattr(request.app.state, "session_factory", None)
+    if factory is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Base de datos no inicializada.",
+        )
+    return factory
+
+
+async def obtener_checkpointer_app(request: Request) -> BaseCheckpointSaver:
+    """Checkpointer LangGraph (MemorySaver en tests SQLite)."""
+    checkpointer = getattr(request.app.state, "checkpointer", None)
+    if checkpointer is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memoria del agente no inicializada.",
+        )
+    return checkpointer
 
 
 async def requerir_clave_admin(

@@ -17,11 +17,15 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.api.routers import (
     admin_procedimientos,
+    chat,
     salud,
     staff_casos,
     telegram_emparejar,
 )
-from src.agentes.checkpointer import inicializar_checkpointer_si_aplica
+from src.agentes.checkpointer import (
+    crear_checkpointer_para_url,
+    inicializar_checkpointer_si_aplica,
+)
 from src.configuracion import obtener_configuracion
 from src.persistencia.modelos import Base
 from src.persistencia.motor import (
@@ -56,7 +60,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     app.state.engine_db = motor
     app.state.session_factory = crear_session_factory(motor)
-    inicializar_checkpointer_si_aplica(url)
+    app.state.checkpointer = crear_checkpointer_para_url(url, cfg)
+    inicializar_checkpointer_si_aplica(url, cfg)
     await verificar_conexion_inicial(motor)
     yield
     await cerrar_motor_async(motor)
@@ -85,6 +90,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(admin_procedimientos.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
     app.include_router(telegram_emparejar.router, prefix="/api")
+    app.include_router(chat.router)
     return app
 
 

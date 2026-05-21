@@ -86,6 +86,13 @@ class Configuracion(BaseSettings):
         validation_alias="AGENTE_MODELO",
     )
     agente_rag_k: int = Field(default=4, ge=1, le=20, validation_alias="AGENTE_RAG_K")
+    chat_timeout_seg: float = Field(
+        default=90.0,
+        ge=5.0,
+        le=300.0,
+        validation_alias="CHAT_TIMEOUT_SEG",
+        description="Timeout maximo de un turno POST /chat (agente + LLM).",
+    )
     ingesta_reintentos: int = Field(default=3, ge=1, le=10, validation_alias="INGESTA_REINTENTOS")
     ingesta_backoff_max_seg: float = Field(
         default=30.0,

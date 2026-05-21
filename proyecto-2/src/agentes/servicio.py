@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import re
 from typing import Any
 
 from langchain_core.messages import HumanMessage
@@ -15,7 +17,13 @@ from src.agentes.contexto import (
     establecer_contexto_runtime,
     limpiar_contexto_runtime,
 )
+from src.agentes.tools.esquemas import SeveridadTriage
 from src.agentes.tools.resolver_caso import resumen_caso_para_prompt
+
+_RE_FRAGMENTO_RAG = re.compile(r"^\[(\d+)\]\s*(.+)$", re.MULTILINE)
+_NOMBRE_TOOL_TRIAGE = "clasificar_triage"
+_NOMBRE_TOOL_RAG = "consultar_protocolo_rag"
+_SEVERIDADES_VALIDAS: frozenset[str] = frozenset({"info", "seguimiento", "urgente"})
 
 
 def _config_hilo(session_id: str) -> dict[str, Any]:
@@ -127,3 +135,76 @@ def extraer_texto_respuesta(estado: dict[str, Any]) -> str:
         "Gracias por su mensaje. En este momento no pudimos generar una respuesta; "
         "el equipo de seguimiento lo atendera pronto."
     )
+
+
+def _es_mensaje_tool(msg: object) -> bool:
+    tipo = getattr(msg, "type", None) or getattr(msg, "role", None)
+    return tipo == "tool"
+
+
+def _nombre_tool(msg: object) -> str | None:
+    nombre = getattr(msg, "name", None)
+    return str(nombre) if nombre else None
+
+
+def _parsear_severidad_desde_contenido(contenido: object) -> SeveridadTriage | None:
+    if isinstance(contenido, dict):
+        valor = contenido.get("severidad")
+        if isinstance(valor, str) and valor in _SEVERIDADES_VALIDAS:
+            return valor  # type: ignore[return-value]
+    if hasattr(contenido, "severidad"):
+        valor = getattr(contenido, "severidad", None)
+        if isinstance(valor, str) and valor in _SEVERIDADES_VALIDAS:
+            return valor  # type: ignore[return-value]
+    if isinstance(contenido, str):
+        texto = contenido.strip()
+        if not texto:
+            return None
+        try:
+            datos = json.loads(texto)
+        except json.JSONDecodeError:
+            return None
+        if isinstance(datos, dict):
+            valor = datos.get("severidad")
+            if isinstance(valor, str) and valor in _SEVERIDADES_VALIDAS:
+                return valor  # type: ignore[return-value]
+    return None
+
+
+def extraer_severidad_triage(estado: dict[str, Any]) -> SeveridadTriage | None:
+    """Ultima severidad emitida por ``clasificar_triage`` en el turno."""
+    severidad: SeveridadTriage | None = None
+    for msg in estado.get("messages", []):
+        if not _es_mensaje_tool(msg) or _nombre_tool(msg) != _NOMBRE_TOOL_TRIAGE:
+            continue
+        parsed = _parsear_severidad_desde_contenido(getattr(msg, "content", ""))
+        if parsed is not None:
+            severidad = parsed
+    return severidad
+
+
+def extraer_fuentes_respuesta(
+    estado: dict[str, Any],
+    *,
+    max_fuentes: int = 4,
+) -> list[dict[str, str]]:
+    """Fragmentos RAG del ultimo ``consultar_protocolo_rag`` con formato ``[n] texto``."""
+    for msg in reversed(estado.get("messages", [])):
+        if not _es_mensaje_tool(msg) or _nombre_tool(msg) != _NOMBRE_TOOL_RAG:
+            continue
+        contenido = getattr(msg, "content", "")
+        if not isinstance(contenido, str) or not contenido.strip():
+            continue
+        fuentes: list[dict[str, str]] = []
+        for linea in contenido.splitlines():
+            coincidencia = _RE_FRAGMENTO_RAG.match(linea.strip())
+            if coincidencia:
+                fuentes.append(
+                    {
+                        "titulo": f"Protocolo [{coincidencia.group(1)}]",
+                        "fragmento": coincidencia.group(2).strip(),
+                    }
+                )
+        if fuentes:
+            return fuentes[:max_fuentes]
+    return []

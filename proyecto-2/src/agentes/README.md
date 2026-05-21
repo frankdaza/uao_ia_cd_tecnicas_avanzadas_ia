@@ -11,7 +11,7 @@ Formato canonico: `telegram:{chat_id}`. El checkpointer usa `thread_id` = `sessi
 La tool `escalar_a_equipo` esta configurada en `HumanInTheLoopMiddleware` con `interrupt_on`:
 
 - Antes de persistir la alerta, el grafo queda en estado `__interrupt__`.
-- El endpoint `POST /chat` (TASK-104) debe exponer `requiere_revision_humana: true` y permitir reanudar.
+- El endpoint `POST /chat` expone `requiere_revision_humana: true` cuando hay `__interrupt__`; staff puede reanudar con `continuar_despues_hitl`.
 
 ### Reanudar tras aprobacion (demo / staff)
 
