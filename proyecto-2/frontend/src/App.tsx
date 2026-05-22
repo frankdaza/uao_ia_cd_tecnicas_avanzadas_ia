@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { ThemeProvider } from 'next-themes'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Toaster } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import { AppShell } from '@/components/AppShell'
 import { Button } from '@/components/ui/button'
+import { AdminProcedimientosRoutes } from '@/features/admin-procedimientos/AdminProcedimientosRoutes'
+import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/adminProcedimientosPaths'
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
 import { StaffLoginScreen } from '@/features/auth/StaffLoginScreen'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
@@ -19,7 +21,11 @@ const queryClient = new QueryClient({
   },
 })
 
-function AppRoutes({ path }: { path: string }) {
+function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: string) => void }) {
+  if (esRutaAdminProcedimientos(path)) {
+    return <AdminProcedimientosRoutes path={path} onNavigate={onNavigate} />
+  }
+
   if (path === '/casos' || path.startsWith('/casos/')) {
     return <PlaceholderCasos />
   }
@@ -30,6 +36,21 @@ function AppRoutes({ path }: { path: string }) {
 function AppAuthenticated() {
   const { path, setPath } = useAppPath()
   const { user, signOut } = useAuth()
+  const adminDenegadoRef = useRef(false)
+
+  useEffect(() => {
+    if (!user || user.rol === 'admin') {
+      adminDenegadoRef.current = false
+      return
+    }
+    if (esRutaAdminProcedimientos(path)) {
+      if (!adminDenegadoRef.current) {
+        adminDenegadoRef.current = true
+        toast.error('Solo el rol administrador puede gestionar el catálogo de procedimientos.')
+      }
+      setPath('/')
+    }
+  }, [user, path, setPath])
 
   const headerExtras = user ? (
     <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] max-w-[min(220px,45vw)]">
@@ -52,10 +73,10 @@ function AppAuthenticated() {
 
   return (
     <AppShell
-      sidebar={<SettingsPanel path={path} onNavigate={setPath} />}
+      sidebar={<SettingsPanel path={path} onNavigate={setPath} userRol={user?.rol} />}
       headerExtras={headerExtras}
     >
-      <AppRoutes path={path} />
+      <AppRoutes path={path} onNavigate={setPath} />
     </AppShell>
   )
 }

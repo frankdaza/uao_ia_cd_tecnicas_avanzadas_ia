@@ -46,6 +46,20 @@ Comprobar salud: el pie de página consulta `GET /api/salud` y debe mostrar `pro
 4. Las peticiones autenticadas futuras deben usar `apiFetch` desde `src/lib/api.ts` (cabecera `Authorization: Bearer`).
 5. «Cerrar sesión» borra el token y vuelve a `/login`. Un 401/403 en cualquier `apiFetch` limpia la sesión y muestra un toast.
 
+## Catálogo de procedimientos (admin, UC-MVP-01)
+
+Requiere usuario staff con **`rol=admin`** (p. ej. `admin@demo.taam` tras sembrar demo en el backend).
+
+| Ruta | Descripción |
+| --- | --- |
+| `/admin/procedimientos` | Listado con estado de indexación (`pendiente` / listo / error) |
+| `/admin/procedimientos/nuevo` | Alta multipart: metadata JSON + PDF |
+| `/admin/procedimientos/{uuid}` | Detalle, editar metadatos, reemplazar PDF, reindexar |
+
+- Las peticiones usan `apiFetch` con JWT Bearer (no `X-Admin-Key` en el navegador).
+- Validación en cliente: PDF ≤ 10 MB, nombre de archivo ASCII.
+- Mientras hay indexación `pendiente`, el listado y el detalle refrescan cada 3 s.
+
 ## Scripts
 
 | Comando | Descripción |
@@ -61,9 +75,10 @@ Comprobar salud: el pie de página consulta `GET /api/salud` y debe mostrar `pro
 src/
   components/     AppShell, ThemeToggle, ApiStatusFooter, ui/button|input|label
   features/
-    auth/         AuthContext, StaffLoginScreen (`/login`)
-    settings/     SettingsPanel (navegación)
-    shell/        PlaceholderHome, PlaceholderCasos
+    auth/                 AuthContext, StaffLoginScreen (`/login`)
+    admin-procedimientos/ Catálogo PDF + indexación (`/admin/procedimientos`)
+    settings/             SettingsPanel (navegación)
+    shell/                PlaceholderHome, PlaceholderCasos
   hooks/          useSalud
   lib/            api, authStorage, schemas, cn, useAppPath
   styles/         globals.css (tokens FVL)
@@ -81,3 +96,4 @@ En desarrollo use el **proxy** de Vite; no hace falta configurar CORS en el nave
 
 - **TASK-109** — este scaffold
 - **TASK-110** — login staff JWT y cliente API autenticado (implementado)
+- **TASK-111** — catálogo admin procedimientos y PDF (implementado)

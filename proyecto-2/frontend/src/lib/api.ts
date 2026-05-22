@@ -1,7 +1,20 @@
 import type { ZodType } from 'zod'
+import { formatApiDetail } from './formatApiError'
 import { getAccessToken } from './authStorage'
-import type { Salud, StaffLoginBody, StaffLoginResponse } from './schemas'
-import { SaludSchema, StaffLoginResponseSchema } from './schemas'
+import type {
+  ListadoProcedimientos,
+  Procedimiento,
+  ProcedimientoMetadata,
+  Salud,
+  StaffLoginBody,
+  StaffLoginResponse,
+} from './schemas'
+import {
+  ListadoProcedimientosSchema,
+  ProcedimientoSchema,
+  SaludSchema,
+  StaffLoginResponseSchema,
+} from './schemas'
 
 const BASE = '/api'
 
@@ -32,8 +45,8 @@ async function parseJson<T>(response: Response, schema: ZodType<T>): Promise<T> 
     }
     let detail: string | undefined
     try {
-      const body = (await response.json()) as { detail?: string }
-      detail = typeof body?.detail === 'string' ? body.detail : undefined
+      const body = (await response.json()) as { detail?: unknown }
+      detail = formatApiDetail(body?.detail)
     } catch {
       //
     }
@@ -56,7 +69,11 @@ export async function apiFetch(path: string, init?: RequestInit): Promise<Respon
   if (token) {
     headers.set('Authorization', `Bearer ${token}`)
   }
-  if (init?.body != null && !headers.has('Content-Type')) {
+  if (
+    init?.body != null &&
+    !(init.body instanceof FormData) &&
+    !headers.has('Content-Type')
+  ) {
     headers.set('Content-Type', 'application/json')
   }
   return fetch(`${BASE}${path}`, { ...init, headers })
@@ -76,4 +93,53 @@ export async function postStaffLogin(body: StaffLoginBody): Promise<StaffLoginRe
     body: JSON.stringify(body),
   })
   return parseJson(res, StaffLoginResponseSchema)
+}
+
+/** Listado paginado del catálogo (UC-MVP-01). */
+export async function listAdminProcedimientos(params?: {
+  limit?: number
+  offset?: number
+}): Promise<ListadoProcedimientos> {
+  const qs = new URLSearchParams()
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const query = qs.toString()
+  const res = await apiFetch(`/admin/procedimientos${query ? `?${query}` : ''}`)
+  return parseJson(res, ListadoProcedimientosSchema)
+}
+
+export async function getAdminProcedimiento(id: string): Promise<Procedimiento> {
+  const res = await apiFetch(`/admin/procedimientos/${id}`)
+  return parseJson(res, ProcedimientoSchema)
+}
+
+export async function createAdminProcedimiento(
+  metadata: ProcedimientoMetadata,
+  archivo: File,
+): Promise<Procedimiento> {
+  const form = new FormData()
+  form.append('metadata', JSON.stringify(metadata))
+  form.append('archivo', archivo, archivo.name)
+  const res = await apiFetch('/admin/procedimientos', { method: 'POST', body: form })
+  return parseJson(res, ProcedimientoSchema)
+}
+
+export async function patchAdminProcedimiento(
+  id: string,
+  opts: { metadata?: Partial<ProcedimientoMetadata>; archivo?: File },
+): Promise<Procedimiento> {
+  const form = new FormData()
+  if (opts.metadata && Object.keys(opts.metadata).length > 0) {
+    form.append('metadata', JSON.stringify(opts.metadata))
+  }
+  if (opts.archivo) {
+    form.append('archivo', opts.archivo, opts.archivo.name)
+  }
+  const res = await apiFetch(`/admin/procedimientos/${id}`, { method: 'PATCH', body: form })
+  return parseJson(res, ProcedimientoSchema)
+}
+
+export async function reindexAdminProcedimiento(id: string): Promise<Procedimiento> {
+  const res = await apiFetch(`/admin/procedimientos/${id}/reindexar`, { method: 'POST' })
+  return parseJson(res, ProcedimientoSchema)
 }
