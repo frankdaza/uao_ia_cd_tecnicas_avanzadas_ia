@@ -139,6 +139,25 @@ uv run python -m scripts.configurar_webhook_telegram \
 
 Flujo paciente: `/start CODIGO` (emparejamiento) → mensajes de texto → respuesta del agente en Telegram. `session_id` del checkpointer: `telegram:{chat_id}`. Idempotencia: tabla `telegram_updates_procesados` (migración `0002`).
 
+### Recordatorios proactivos Telegram (UC-MVP-04 / TASK-107)
+
+Recordatorios de medicación/terapia según **plantillas** por `tipo_procedimiento` y **`fecha_cirugia`** del caso. **Sin email** ni agenda hospitalaria en MVP.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/staff/casos/{id}/disparar-recordatorio-prueba` | Envía el siguiente recordatorio pendiente (demo sin esperar el scheduler) |
+
+Al crear un caso (`POST /api/staff/casos`) se insertan plantillas semilla si el tipo no tenía ninguna y se programan filas en `recordatorios_enviados` (`programado_at = fecha_cirugia + offset_horas`).
+
+Job interno (asyncio en el lifespan de FastAPI): cada `RECORDATORIOS_JOB_INTERVAL_SEG` (default 60) busca pendientes con `programado_at <= now()` y envía por la misma Bot API que TASK-106. Si el caso no tiene vínculo Telegram, omite y registra log.
+
+Variables:
+
+- `RECORDATORIOS_JOB_HABILITADO` — `true`/`false` (en tests suele ir en `false`).
+- `RECORDATORIOS_JOB_INTERVAL_SEG` — intervalo del job en segundos.
+
+Placeholders en `texto_plantilla`: `{nombre_paciente}`, `{tipo_procedimiento}`, `{texto_cuidado}`.
+
 ## Docker Compose
 
 ```bash
@@ -204,6 +223,7 @@ Módulo `src/agentes/`: ver [README del agente](src/agentes/README.md). Verifica
 Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`.
 
 ## Próximas tareas Backlog
-- **TASK-107+** — recordatorios, panel staff, frontend React (TASK-109)
+- **TASK-107** — recordatorios Telegram (UC-MVP-04) implementado
+- **TASK-108+** — panel staff alertas, frontend React (TASK-109)
 
 Casos de uso: [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md).

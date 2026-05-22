@@ -116,6 +116,18 @@ class Configuracion(BaseSettings):
         validation_alias="CHAT_TIMEOUT_SEG",
         description="Timeout maximo de un turno POST /chat (agente + LLM).",
     )
+    recordatorios_job_habilitado: bool = Field(
+        default=True,
+        validation_alias="RECORDATORIOS_JOB_HABILITADO",
+        description="Activa el job periodico de recordatorios Telegram (UC-MVP-04).",
+    )
+    recordatorios_job_interval_seg: int = Field(
+        default=60,
+        ge=5,
+        le=3600,
+        validation_alias="RECORDATORIOS_JOB_INTERVAL_SEG",
+        description="Intervalo del job de recordatorios en segundos.",
+    )
     ingesta_reintentos: int = Field(default=3, ge=1, le=10, validation_alias="INGESTA_REINTENTOS")
     ingesta_backoff_max_seg: float = Field(
         default=30.0,

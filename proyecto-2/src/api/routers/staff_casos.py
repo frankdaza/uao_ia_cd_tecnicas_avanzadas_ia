@@ -16,6 +16,11 @@ from src.api.esquemas_casos import (
     CrearCasoCuerpo,
     ListadoCasosRespuesta,
 )
+from src.api.esquemas_recordatorios import DisparoRecordatorioRespuesta
+from src.integracion.recordatorios.servicio import (
+    disparar_recordatorio_prueba,
+    programar_recordatorios_para_caso,
+)
 from src.api.servicios.emparejamiento import (
     EmparejamientoError,
     caso_tiene_vinculo_telegram,
@@ -87,6 +92,7 @@ async def crear_caso(
         notas_especificas=cuerpo.notas_especificas,
         estado="activo",
     )
+    await programar_recordatorios_para_caso(sesion, fila)
     return await _a_vista(sesion, fila)
 
 
@@ -121,4 +127,26 @@ async def generar_codigo_emparejamiento(
         caso_id=resultado.caso_id,
         codigo=resultado.codigo,
         expira_at=resultado.expira_at,
+    )
+
+
+@router.post(
+    "/casos/{caso_id}/disparar-recordatorio-prueba",
+    response_model=DisparoRecordatorioRespuesta,
+)
+async def disparar_recordatorio_prueba_caso(
+    caso_id: uuid.UUID,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+) -> DisparoRecordatorioRespuesta:
+    """
+    Envio manual del siguiente recordatorio pendiente (demo UC-MVP-04).
+
+    No usa email ni otros canales; solo Telegram (TASK-106).
+    """
+    resultado = await disparar_recordatorio_prueba(sesion, caso_id)
+    return DisparoRecordatorioRespuesta(
+        recordatorio_id=resultado.recordatorio_id,
+        enviado=resultado.enviado,
+        mensaje=resultado.mensaje,
+        motivo_omitido=resultado.motivo_omitido,
     )

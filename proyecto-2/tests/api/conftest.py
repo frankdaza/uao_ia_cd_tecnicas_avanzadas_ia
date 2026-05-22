@@ -96,6 +96,13 @@ def cabecera_telegram(secreto_telegram: str) -> dict[str, str]:
     return {"X-Telegram-Bot-Api-Secret-Token": secreto_telegram}
 
 
+@pytest.fixture(autouse=True)
+def recordatorios_job_off_en_tests(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Evita tarea asyncio de recordatorios en la mayoria de pruebas API."""
+    monkeypatch.setenv("RECORDATORIOS_JOB_HABILITADO", "false")
+    obtener_configuracion.cache_clear()
+
+
 @pytest.fixture
 async def app_api(workspace_tmp: None):
     """App FastAPI con BD SQLite en memoria (lifespan activo durante el test)."""

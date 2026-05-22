@@ -7,6 +7,7 @@ Desarrollo local:
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -30,6 +31,7 @@ from src.agentes.checkpointer import (
 )
 from src.configuracion import obtener_configuracion
 from src.persistencia.modelos import Base
+from src.integracion.recordatorios.scheduler import ejecutar_bucle_recordatorios
 from src.persistencia.motor import (
     cerrar_motor_async,
     crear_motor_async,
@@ -65,7 +67,28 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     app.state.checkpointer = crear_checkpointer_para_url(url, cfg)
     inicializar_checkpointer_si_aplica(url, cfg)
     await verificar_conexion_inicial(motor)
+
+    detener_recordatorios = asyncio.Event()
+    tarea_recordatorios: asyncio.Task[None] | None = None
+    if cfg.recordatorios_job_habilitado:
+        tarea_recordatorios = asyncio.create_task(
+            ejecutar_bucle_recordatorios(
+                app.state.session_factory,
+                cfg=cfg,
+                detener=detener_recordatorios,
+            )
+        )
+    app.state.tarea_recordatorios = tarea_recordatorios
+
     yield
+
+    detener_recordatorios.set()
+    if tarea_recordatorios is not None:
+        tarea_recordatorios.cancel()
+        try:
+            await tarea_recordatorios
+        except asyncio.CancelledError:
+            pass
     await cerrar_motor_async(motor)
 
 
