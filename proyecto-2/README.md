@@ -236,6 +236,32 @@ Módulo `src/agentes/`: ver [README del agente](src/agentes/README.md). Verifica
 
 Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`.
 
+## Demo en vivo (TASK-114)
+
+Guion minuto a minuto: [GUION-DEMO-TAAM.md](../backlog/docs/usecases/GUION-DEMO-TAAM.md). Datos ficticios alineados al [caso de uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md) (secciones 9–10).
+
+**Orden recomendado** (sin PHI; contraseñas solo en `.env` local):
+
+```bash
+cd proyecto-2
+docker compose up -d
+cp .env.example .env   # STAFF_JWT_SECRET, TELEGRAM_*, OPENAI_API_KEY si aplica
+export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'
+uv run alembic upgrade head
+uv run python -m scripts.sembrar_demo_taam
+# Opcional: vectores Qdrant para RAG en vivo
+uv run python -m scripts.sembrar_demo_taam --con-ingesta
+uv run uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8001
+```
+
+**Qué deja la semilla:** usuarios `*@demo.taam`, procedimiento `COLE-LAP-001` con PDF en `data/taam/demo/`, casos `PAC-DEMO-001` (vinculado Telegram + alerta urgente + hilo) y `PAC-DEMO-002` (código `DEMO2X` para `/start` en vivo), plantillas de recordatorio.
+
+**FAQs estructuradas:** `data/structured/taam_faqs.json` (tool `faq_postoperatorio`).
+
+**Telegram:** registrar webhook HTTPS (`scripts/configurar_webhook_telegram.py`). En **tests**, el agente se mockea; en la demo en vivo use API real según `.env`.
+
+**Frontend:** `cd frontend && pnpm dev` (puerto 5174). Login demo: `asistente@demo.taam` / `clinico@demo.taam` (ver `.env.example`).
+
 ## Próximas tareas Backlog
 - **TASK-107** — recordatorios Telegram (UC-MVP-04) implementado
 - **TASK-108+** — panel staff alertas, frontend React (TASK-109)

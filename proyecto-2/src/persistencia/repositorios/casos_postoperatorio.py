@@ -46,6 +46,22 @@ class RepositorioCasosPostoperatorio:
     async def obtener_por_id(self, caso_id: uuid.UUID) -> CasoPostoperatorio | None:
         return await self._sesion.get(CasoPostoperatorio, caso_id)
 
+    async def obtener_activo_por_doc_id(
+        self,
+        paciente_doc_id: str,
+    ) -> CasoPostoperatorio | None:
+        stmt = (
+            select(CasoPostoperatorio)
+            .where(
+                CasoPostoperatorio.paciente_doc_id == paciente_doc_id,
+                CasoPostoperatorio.estado == "activo",
+            )
+            .order_by(CasoPostoperatorio.created_at.desc(), CasoPostoperatorio.id.asc())
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
     async def listar(
         self,
         *,

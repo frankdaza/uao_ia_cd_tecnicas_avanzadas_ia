@@ -146,6 +146,8 @@ proyecto-2/.ruff_cache/
 data/taam/**
 !data/taam/
 !data/taam/**/.gitkeep
+!data/taam/demo/
+!data/taam/demo/colecistectomia-protocolo-sintetico.pdf
 
 *.tsbuildinfo
 .eslintcache

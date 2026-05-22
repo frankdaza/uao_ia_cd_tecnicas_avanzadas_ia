@@ -20,6 +20,15 @@ uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid> --forzar
 
 **Nota:** PDFs escaneados sin OCR suelen producir poco texto; el script marca `indexacion_estado=error` en ese caso.
 
-## Demo (pendiente)
+## Demo TAAM (TASK-114)
 
-- `sembrar_demo_taam.py` — TASK-114
+Tras migraciones y `STAFF_JWT_SECRET` en `.env`:
+
+```bash
+cd proyecto-2
+uv run python -m scripts.sembrar_demo_taam
+uv run python -m scripts.sembrar_demo_taam --con-ingesta   # opcional Qdrant
+uv run python -m scripts.sembrar_demo_taam --sin-conversacion
+```
+
+Deja procedimiento `COLE-LAP-001`, casos `PAC-DEMO-001` / `PAC-DEMO-002`, alerta urgente y codigo `DEMO2X`. Guion: [GUION-DEMO-TAAM.md](../../backlog/docs/usecases/GUION-DEMO-TAAM.md).

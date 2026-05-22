@@ -341,7 +341,7 @@ Capacidades del **documento original** (tabla de 8 filas) y del ADR que **no** e
 
 **Roles:** Presentador (laptop + panel), Paciente (teléfono con Telegram), opcional Asistente (segundo dispositivo).
 
-**Pre-requisitos:** `docker compose` TAAM arriba (~8001), `sembrar_demo_taam.py` ejecutado o datos de sección 10; webhook/ngrok configurado; bot Telegram de prueba.
+**Pre-requisitos:** `docker compose` TAAM arriba (~8001), `sembrar_demo_taam.py` ejecutado o datos de sección 10; webhook/ngrok configurado; bot Telegram de prueba. Guion operativo extendido: [GUION-DEMO-TAAM.md](GUION-DEMO-TAAM.md).
 
 | Min | Paso | Qué mostrar | Evidencia esperada |
 | --- | --- | --- | --- |

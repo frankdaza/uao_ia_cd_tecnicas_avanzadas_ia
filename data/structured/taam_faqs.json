@@ -14,7 +14,7 @@
       "intent": "horario_medicacion",
       "keywords": ["medicamento", "pastilla", "analgesico", "antibiotico", "hora"],
       "pregunta_canonica": "¿A qué hora debo tomar los medicamentos?",
-      "respuesta": "Siga las indicaciones escritas de su cirujano y las recordatorios del seguimiento. Si no tiene un horario claro, no invente dosis: consulte a su equipo antes de cambiar el tratamiento.",
+      "respuesta": "Siga las indicaciones escritas de su cirujano y los recordatorios del seguimiento. Si no tiene un horario claro, no invente dosis: consulte a su equipo antes de cambiar el tratamiento.",
       "source_url": "taam/demo",
       "actualizado_el": "2026-05-21"
     },
@@ -24,6 +24,51 @@
       "keywords": ["fiebre", "sangrado", "hinchazon", "dificultad", "respirar"],
       "pregunta_canonica": "¿Cuándo debo acudir a urgencias?",
       "respuesta": "Acuda a urgencias o llame a emergencias si presenta fiebre alta persistente, sangrado abundante, dificultad para respirar, dolor intenso que no mejora o confusión. Este bot no reemplaza la valoración médica presencial.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-caminata-leve",
+      "intent": "caminata_postoperatoria",
+      "keywords": ["caminar", "caminata", "ejercicio", "deambular", "actividad"],
+      "pregunta_canonica": "¿Cuándo puedo retomar caminatas leves?",
+      "respuesta": "En colecistectomía laparoscópica suele permitirse caminatas cortas dentro de casa desde el primer o segundo día, según tolerancia. Evite esfuerzo intenso hasta que su cirujano lo autorice.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-dieta-blanda",
+      "intent": "dieta_postoperatoria",
+      "keywords": ["comer", "dieta", "alimentacion", "alimento", "liquido"],
+      "pregunta_canonica": "¿Qué puedo comer después de la cirugía?",
+      "respuesta": "Inicie con líquidos claros y avance a dieta blanda según tolerancia. Evite alimentos grasos o pesados los primeros días si su protocolo lo indica. Ante náuseas persistentes, contacte a su equipo.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-cuidado-herida",
+      "intent": "cuidado_herida",
+      "keywords": ["herida", "apósito", "curacion", "sutura", "secar"],
+      "pregunta_canonica": "¿Cómo debo cuidar la herida quirúrgica?",
+      "respuesta": "Mantenga el área limpia y seca según las indicaciones de enfermería. No retire apósitos ni suturas por su cuenta. Si observa enrojecimiento marcado, secreción fétida o sangrado abundante, busque valoración urgente.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-fiebre-leve",
+      "intent": "fiebre_postoperatoria",
+      "keywords": ["fiebre", "temperatura", "calentura", "escalofrio"],
+      "pregunta_canonica": "¿Es normal tener un poco de fiebre?",
+      "respuesta": "Una temperatura leve y transitoria puede ocurrir. Fiebre alta persistente, escalofríos o malestar intenso requieren valoración urgente: contacte a su equipo tratante o acuda a urgencias; no espere a que empeore.",
+      "source_url": "taam/demo",
+      "actualizado_el": "2026-05-21"
+    },
+    {
+      "id": "taam-bano-ducha",
+      "intent": "higiene_postoperatoria",
+      "keywords": ["baño", "ducha", "lavar", "higiene"],
+      "pregunta_canonica": "¿Cuándo puedo bañarme o ducharme?",
+      "respuesta": "Siga el protocolo de su cirujano: muchas veces se permite ducha breve con agua tibia evitando frotar la herida los primeros días. No sumerja la incisión hasta autorización explícita.",
       "source_url": "taam/demo",
       "actualizado_el": "2026-05-21"
     }
