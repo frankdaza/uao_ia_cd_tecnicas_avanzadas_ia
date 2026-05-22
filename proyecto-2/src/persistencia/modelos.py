@@ -153,6 +153,19 @@ class VinculoTelegram(Base):
     caso: Mapped[CasoPostoperatorio] = relationship(back_populates="vinculos_telegram")
 
 
+class TelegramUpdateProcesado(Base):
+    """Idempotencia de updates Telegram (TASK-106)."""
+
+    __tablename__ = "telegram_updates_procesados"
+
+    update_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    processed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+
 class AlertaTriage(Base):
     """Alerta de triage para revision del staff (UC-MVP-05)."""
 

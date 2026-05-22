@@ -112,6 +112,33 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El e
 
 Flujo demo: login staff → crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
 
+### Webhook Telegram e integración vía 2 (TASK-106)
+
+Canal canónico según [decision-7](../backlog/decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md). El mismo proceso FastAPI recibe updates, invoca el agente vía servicio interno de `POST /chat` y responde con `sendMessage`.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/integracion/telegram/webhook` | Body: `Update` de Telegram; cabecera **`X-Telegram-Bot-Api-Secret-Token`** = `TELEGRAM_WEBHOOK_SECRET` |
+
+Variables obligatorias para integración activa:
+
+- `TELEGRAM_BOT_TOKEN` — token del bot (@BotFather).
+- `TELEGRAM_WEBHOOK_SECRET` — secret que Telegram envía en cada update (y que usted define al registrar el webhook).
+
+Registrar webhook (URL pública **HTTPS**; en local use ngrok o Cloudflare Tunnel):
+
+```bash
+cd proyecto-2
+export TELEGRAM_BOT_TOKEN='...'
+export TELEGRAM_WEBHOOK_SECRET='...'
+uv run python -m scripts.configurar_webhook_telegram \
+  --url 'https://TU-TUNEL.example/api/integracion/telegram/webhook'
+```
+
+**Polling:** no está implementado en el producto. Sin túnel HTTPS solo puede probarse con `httpx` contra el webhook (tests en `tests/api/test_telegram_webhook.py`) o enviando updates JSON manualmente.
+
+Flujo paciente: `/start CODIGO` (emparejamiento) → mensajes de texto → respuesta del agente en Telegram. `session_id` del checkpointer: `telegram:{chat_id}`. Idempotencia: tabla `telegram_updates_procesados` (migración `0002`).
+
 ## Docker Compose
 
 ```bash
@@ -156,7 +183,8 @@ Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por de
 ## Estructura
 
 ```
-src/api/              # FastAPI (salud, admin, staff/casos, telegram/emparejar)
+src/api/              # FastAPI (salud, admin, staff/casos, telegram, webhook)
+src/integracion/      # Telegram: cliente Bot API, manejador de updates (TASK-106)
 src/agentes/          # LangChain create_agent, tools, PostgresSaver, HITL (TASK-103)
 src/ingesta/          # ingesta PDF → Qdrant (LangChain)
 src/rag/              # vector store TAAM
@@ -176,7 +204,6 @@ Módulo `src/agentes/`: ver [README del agente](src/agentes/README.md). Verifica
 Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`.
 
 ## Próximas tareas Backlog
-- **TASK-104–106** — `/chat`, webhook Telegram
-- **TASK-109** — Frontend React
+- **TASK-107+** — recordatorios, panel staff, frontend React (TASK-109)
 
 Casos de uso: [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md).

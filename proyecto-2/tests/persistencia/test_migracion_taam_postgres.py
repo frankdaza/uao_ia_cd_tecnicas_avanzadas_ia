@@ -24,6 +24,7 @@ TABLAS_ESPERADAS = (
     "tipos_procedimiento",
     "casos_postoperatorio",
     "vinculos_telegram",
+    "telegram_updates_procesados",
     "alertas_triage",
     "plantillas_recordatorio",
     "recordatorios_enviados",

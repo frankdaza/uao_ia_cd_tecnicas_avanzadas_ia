@@ -22,6 +22,7 @@ from src.api.routers import (
     salud,
     staff_casos,
     telegram_emparejar,
+    telegram_webhook,
 )
 from src.agentes.checkpointer import (
     crear_checkpointer_para_url,
@@ -92,6 +93,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(admin_procedimientos.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
     app.include_router(telegram_emparejar.router, prefix="/api")
+    app.include_router(telegram_webhook.router, prefix="/api")
     app.include_router(chat.router)
     return app
 
