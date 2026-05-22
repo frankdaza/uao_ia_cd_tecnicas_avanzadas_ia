@@ -38,6 +38,14 @@ Panel web staff del **Módulo 3 (TAAM)**. Es un proyecto **independiente** del a
 
 Comprobar salud: el pie de página consulta `GET /api/salud` y debe mostrar `proyecto: taam`.
 
+## Inicio de sesión staff (JWT)
+
+1. En el backend, configure `STAFF_JWT_SECRET` y sembre usuarios demo (ver `proyecto-2/.env.example` y `scripts/sembrar_usuarios_staff_demo.py`).
+2. Abra [http://127.0.0.1:5174/login](http://127.0.0.1:5174/login) e ingrese correo y contraseña (p. ej. `asistente@demo.taam` con la contraseña demo del `.env`).
+3. Tras un login correcto, la app redirige a `/` y guarda el JWT en **sessionStorage** (`taam-staff-auth-v1`). La contraseña **no** se persiste.
+4. Las peticiones autenticadas futuras deben usar `apiFetch` desde `src/lib/api.ts` (cabecera `Authorization: Bearer`).
+5. «Cerrar sesión» borra el token y vuelve a `/login`. Un 401/403 en cualquier `apiFetch` limpia la sesión y muestra un toast.
+
 ## Scripts
 
 | Comando | Descripción |
@@ -51,13 +59,13 @@ Comprobar salud: el pie de página consulta `GET /api/salud` y debe mostrar `pro
 
 ```
 src/
-  components/     AppShell, ThemeToggle, ApiStatusFooter, ui/button
+  components/     AppShell, ThemeToggle, ApiStatusFooter, ui/button|input|label
   features/
-    auth/         AuthContext (stub), AuthPlaceholder — login real en TASK-110
+    auth/         AuthContext, StaffLoginScreen (`/login`)
     settings/     SettingsPanel (navegación)
     shell/        PlaceholderHome, PlaceholderCasos
   hooks/          useSalud
-  lib/            api, schemas, cn, useAppPath
+  lib/            api, authStorage, schemas, cn, useAppPath
   styles/         globals.css (tokens FVL)
 ```
 
@@ -72,4 +80,4 @@ En desarrollo use el **proxy** de Vite; no hace falta configurar CORS en el nave
 ## Tareas relacionadas
 
 - **TASK-109** — este scaffold
-- **TASK-110** — login staff JWT y cliente API autenticado
+- **TASK-110** — login staff JWT y cliente API autenticado (implementado)

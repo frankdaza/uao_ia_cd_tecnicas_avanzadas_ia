@@ -2,12 +2,21 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react'
+import { toast } from 'sonner'
+import { postStaffLogin, setAuthInvalidHandler } from '@/lib/api'
+import {
+  clearAuthPersist,
+  readAuthPersist,
+  writeAuthPersist,
+  type StaffAuthPersistV1,
+} from '@/lib/authStorage'
+import type { StaffLoginBody } from '@/lib/schemas'
 
-/** Perfil staff mínimo; TASK-110 completará login JWT. */
 export interface StaffUser {
   email: string
   nombre: string
@@ -16,46 +25,56 @@ export interface StaffUser {
 
 interface AuthContextValue {
   user: StaffUser | null
-  /** Marca sesión de desarrollo hasta existir login real. */
-  setDevSession: (user: StaffUser | null) => void
+  accessToken: string | null
+  signIn: (body: StaffLoginBody) => Promise<void>
   signOut: () => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-const DEV_SESSION_KEY = 'taam-dev-staff-session'
-
-function readDevSession(): StaffUser | null {
-  try {
-    const raw = sessionStorage.getItem(DEV_SESSION_KEY)
-    if (!raw) return null
-    return JSON.parse(raw) as StaffUser
-  } catch {
-    return null
-  }
+function persistToUser(data: StaffAuthPersistV1): StaffUser {
+  return { email: data.email, nombre: data.nombre, rol: data.rol }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<StaffUser | null>(() => readDevSession())
+  const [persist, setPersist] = useState<StaffAuthPersistV1 | null>(() => readAuthPersist())
 
-  const setDevSession = useCallback((next: StaffUser | null) => {
-    setUser(next)
-    try {
-      if (next) {
-        sessionStorage.setItem(DEV_SESSION_KEY, JSON.stringify(next))
-      } else {
-        sessionStorage.removeItem(DEV_SESSION_KEY)
-      }
-    } catch {
-      //
-    }
+  useEffect(() => {
+    setAuthInvalidHandler(() => {
+      clearAuthPersist()
+      setPersist(null)
+      toast.error('La sesión expiró o no es válida. Inicie sesión de nuevo.')
+    })
+    return () => setAuthInvalidHandler(null)
   }, [])
 
-  const signOut = useCallback(() => setDevSession(null), [setDevSession])
+  const signIn = useCallback(async (body: StaffLoginBody) => {
+    const res = await postStaffLogin(body)
+    const next: StaffAuthPersistV1 = {
+      accessToken: res.access_token,
+      email: body.email,
+      nombre: res.nombre,
+      rol: res.rol,
+    }
+    writeAuthPersist(next)
+    setPersist(next)
+  }, [])
 
-  const value = useMemo(
-    () => ({ user, setDevSession, signOut }),
-    [user, setDevSession, signOut],
+  const signOut = useCallback(() => {
+    clearAuthPersist()
+    setPersist(null)
+  }, [])
+
+  const user = persist ? persistToUser(persist) : null
+
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      user,
+      accessToken: persist?.accessToken ?? null,
+      signIn,
+      signOut,
+    }),
+    [user, persist, signIn, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
