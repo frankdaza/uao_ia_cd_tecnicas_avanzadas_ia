@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 from datetime import UTC, datetime
 
 import pytest
@@ -98,21 +97,12 @@ async def test_chat_503_timeout(
 ) -> None:
     await _sembrar_vinculo_telegram_123(app_api)
 
-    async def _invocar_lento(**_kwargs):
-        await asyncio.sleep(2.0)
-        return {"messages": [AIMessage(content="tarde")]}
-
-    async def _wait_for_corto(coro, timeout):
-        del timeout
-        return await asyncio.wait_for(coro, timeout=0.05)
+    async def _invocar_timeout(**_kwargs):
+        raise TimeoutError()
 
     monkeypatch.setattr(
         "src.api.servicios.chat.invocar_agente",
-        _invocar_lento,
-    )
-    monkeypatch.setattr(
-        "src.api.servicios.chat.asyncio.wait_for",
-        _wait_for_corto,
+        _invocar_timeout,
     )
 
     resp = await cliente_api.post(

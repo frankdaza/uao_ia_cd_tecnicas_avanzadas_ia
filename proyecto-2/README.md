@@ -227,8 +227,17 @@ src/rutas_workspace.py
 alembic/versions/     # migraciones OLTP TAAM
 frontend/             # placeholder hasta TASK-109
 scripts/              # `ingestar_protocolo_pdf.py`, demo (TASK-114)
-tests/                # API, ingesta, persistencia
+tests/                # API, ingesta, persistencia (ver tests/README.md)
 ```
+
+## Pruebas automatizadas
+
+```bash
+cd proyecto-2
+uv run pytest
+```
+
+Guía de marcadores, mocks y Postgres opcional: [tests/README.md](tests/README.md). La suite por defecto no requiere `TELEGRAM_BOT_TOKEN` ni OpenAI real.
 
 ## Agente (TASK-103)
 
