@@ -11,6 +11,8 @@ import { StaffLoginScreen } from '@/features/auth/StaffLoginScreen'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
 import { CasosRoutes } from '@/features/casos/CasosRoutes'
 import { esRutaCasos } from '@/features/casos/casosPaths'
+import { SeguimientoRoutes } from '@/features/seguimiento/SeguimientoRoutes'
+import { esRutaSeguimiento } from '@/features/seguimiento/seguimientoPaths'
 import { PlaceholderHome } from '@/features/shell/PlaceholderHome'
 import { useAppPath } from '@/lib/useAppPath'
 
@@ -29,6 +31,10 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
 
   if (esRutaCasos(path)) {
     return <CasosRoutes path={path} onNavigate={onNavigate} />
+  }
+
+  if (esRutaSeguimiento(path)) {
+    return <SeguimientoRoutes path={path} onNavigate={onNavigate} />
   }
 
   return <PlaceholderHome />

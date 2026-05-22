@@ -2,21 +2,30 @@ import type { ZodType } from 'zod'
 import { formatApiDetail } from './formatApiError'
 import { getAccessToken } from './authStorage'
 import type {
+  AlertaTriage,
   Caso,
+  CasoResumenSeguimiento,
   CodigoEmparejamiento,
+  ConversacionCaso,
   CrearCasoBody,
+  ListadoAlertas,
   ListadoCasos,
   ListadoProcedimientos,
   ListadoTiposProcedimientoOpcion,
   Procedimiento,
   ProcedimientoMetadata,
   Salud,
+  SeveridadTriage,
   StaffLoginBody,
   StaffLoginResponse,
 } from './schemas'
 import {
+  AlertaTriageSchema,
+  CasoResumenSeguimientoSchema,
   CasoSchema,
   CodigoEmparejamientoSchema,
+  ConversacionCasoSchema,
+  ListadoAlertasSchema,
   ListadoCasosSchema,
   ListadoProcedimientosSchema,
   ListadoTiposProcedimientoOpcionSchema,
@@ -187,4 +196,44 @@ export async function listStaffCasos(params?: {
 export async function generateCodigoEmparejamiento(casoId: string): Promise<CodigoEmparejamiento> {
   const res = await apiFetch(`/staff/casos/${casoId}/codigo-emparejamiento`, { method: 'POST' })
   return parseJson(res, CodigoEmparejamientoSchema)
+}
+
+/** Bandeja de alertas de triage (UC-MVP-05). */
+export async function listStaffAlertas(params?: {
+  revisado?: boolean
+  severidad?: SeveridadTriage
+  caso_id?: string
+  limit?: number
+  offset?: number
+}): Promise<ListadoAlertas> {
+  const qs = new URLSearchParams()
+  if (params?.revisado != null) qs.set('revisado', String(params.revisado))
+  if (params?.severidad) qs.set('severidad', params.severidad)
+  if (params?.caso_id) qs.set('caso_id', params.caso_id)
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const query = qs.toString()
+  const res = await apiFetch(`/staff/alertas${query ? `?${query}` : ''}`)
+  return parseJson(res, ListadoAlertasSchema)
+}
+
+/** Marca una alerta como revisada (idempotente). */
+export async function markAlertaRevisada(alertaId: string): Promise<AlertaTriage> {
+  const res = await apiFetch(`/staff/alertas/${alertaId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ revisado: true }),
+  })
+  return parseJson(res, AlertaTriageSchema)
+}
+
+/** Historial de conversación paciente-bot por caso. */
+export async function getStaffConversacion(casoId: string): Promise<ConversacionCaso> {
+  const res = await apiFetch(`/staff/casos/${casoId}/conversacion`)
+  return parseJson(res, ConversacionCasoSchema)
+}
+
+/** Resumen operativo del caso para seguimiento. */
+export async function getStaffCasoResumen(casoId: string): Promise<CasoResumenSeguimiento> {
+  const res = await apiFetch(`/staff/casos/${casoId}/resumen`)
+  return parseJson(res, CasoResumenSeguimientoSchema)
 }

@@ -73,6 +73,19 @@ Cualquier usuario staff autenticado (p. ej. `asistente@demo.taam`).
 - Tras crear el caso se genera el código automáticamente (`POST .../codigo-emparejamiento`).
 - Opcional en `.env` del frontend (o `.env.local`): `VITE_TELEGRAM_BOT_USERNAME` (sin `@`) para mostrar enlace `t.me/{bot}?start={CODIGO}`.
 
+## Seguimiento: alertas y conversaciones (clínico, UC-MVP-05)
+
+Cualquier usuario staff autenticado; flujo demo con `clinico@demo.taam` (caso vinculado y alertas sembradas en backend).
+
+| Ruta | Descripción |
+| --- | --- |
+| `/seguimiento` | Bandeja de alertas pendientes (`revisado=false`), filtros por severidad, polling 30 s |
+| `/seguimiento/casos` | Casos activos con badge de alertas pendientes por caso |
+| `/seguimiento/caso/{uuid}` | Resumen, alertas pendientes del caso, hilo conversación (solo lectura), **Marcar revisado** |
+
+- API: `GET/PATCH /api/staff/alertas`, `GET /api/staff/casos/{id}/conversacion`, `GET .../resumen`.
+- Sin responder al paciente desde el panel (control deshabilitado; MVP solo lectura + marcar revisado).
+
 ## Scripts
 
 | Comando | Descripción |
@@ -91,6 +104,7 @@ src/
     auth/                 AuthContext, StaffLoginScreen (`/login`)
     admin-procedimientos/ Catálogo PDF + indexación (`/admin/procedimientos`)
     casos/                Registro casos y código Telegram (`/casos`)
+    seguimiento/          Bandeja alertas y conversación (`/seguimiento`)
     settings/             SettingsPanel (navegación)
     shell/                PlaceholderHome
   hooks/          useSalud
@@ -112,3 +126,4 @@ En desarrollo use el **proxy** de Vite; no hace falta configurar CORS en el nave
 - **TASK-110** — login staff JWT y cliente API autenticado (implementado)
 - **TASK-111** — catálogo admin procedimientos y PDF (implementado)
 - **TASK-112** — registro casos y código emparejamiento (implementado)
+- **TASK-113** — panel seguimiento alertas y conversaciones (implementado)

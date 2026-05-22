@@ -7,11 +7,13 @@ export function useAppPath() {
   const [path, setPathState] = useState(() => window.location.pathname)
 
   const setPath = useCallback((next: string) => {
-    const normalizado = next.startsWith('/') ? next : `/${next}`
-    if (normalizado !== window.location.pathname) {
-      window.history.pushState(null, '', normalizado)
+    const raw = next.startsWith('/') ? next : `/${next}`
+    const url = new URL(raw, window.location.origin)
+    const destino = `${url.pathname}${url.search}`
+    if (destino !== `${window.location.pathname}${window.location.search}`) {
+      window.history.pushState(null, '', destino)
     }
-    setPathState(normalizado)
+    setPathState(url.pathname)
   }, [])
 
   useEffect(() => {

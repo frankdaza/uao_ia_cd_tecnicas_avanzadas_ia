@@ -10,6 +10,7 @@ interface SettingsPanelProps {
 const NAV_ITEMS = [
   { path: '/', label: 'Inicio' },
   { path: '/casos', label: 'Casos' },
+  { path: '/seguimiento', label: 'Seguimiento' },
 ] as const
 
 const NAV_ADMIN = [{ path: '/admin/procedimientos', label: 'Catálogo procedimientos' }] as const
@@ -59,8 +60,8 @@ export function SettingsPanel({ path, onNavigate, userRol }: SettingsPanelProps)
         </>
       ) : null}
       <p className="mt-6 text-[11px] text-[var(--color-text-subtle)] leading-relaxed">
-        Módulo 3 — seguimiento posoperatorio. Registre casos y códigos de emparejamiento Telegram
-        desde <strong>Casos</strong>.
+        Módulo 3 — seguimiento posoperatorio. Registre casos en <strong>Casos</strong>; revise alertas
+        y conversaciones en <strong>Seguimiento</strong>.
       </p>
     </nav>
   )
