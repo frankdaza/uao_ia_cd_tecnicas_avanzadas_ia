@@ -62,6 +62,22 @@ async def tipo_procedimiento_ok(
 
 
 @pytest.mark.asyncio
+async def test_listar_tipos_procedimiento_ok_para_staff(
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    tipo_procedimiento_ok: str,
+) -> None:
+    resp = await cliente_api.get(
+        "/api/staff/tipos-procedimiento",
+        headers=cabecera_staff,
+        params={"indexacion_estado": "ok"},
+    )
+    assert resp.status_code == 200
+    ids = {item["id"] for item in resp.json()["items"]}
+    assert tipo_procedimiento_ok in ids
+
+
+@pytest.mark.asyncio
 async def test_crear_caso_201(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],

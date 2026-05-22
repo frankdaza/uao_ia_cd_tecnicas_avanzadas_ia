@@ -105,6 +105,7 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El e
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
+| `GET` | `/api/staff/tipos-procedimiento` | Tipos con `indexacion_estado=ok` (`id`, `codigo`, `nombre`) para select de alta |
 | `POST` | `/api/staff/casos` | Alta de caso (`estado=activo`); exige `tipo_procedimiento` con `indexacion_estado=ok` |
 | `GET` | `/api/staff/casos` | Listado (`estado`, `limit`, `offset`); incluye `vinculado_telegram` |
 | `POST` | `/api/staff/casos/{id}/codigo-emparejamiento` | Código 6–8 caracteres, TTL 24 h (`TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`) |

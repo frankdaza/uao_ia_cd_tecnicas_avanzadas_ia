@@ -59,8 +59,8 @@ export function SettingsPanel({ path, onNavigate, userRol }: SettingsPanelProps)
         </>
       ) : null}
       <p className="mt-6 text-[11px] text-[var(--color-text-subtle)] leading-relaxed">
-        Módulo 3 — seguimiento posoperatorio. Las pantallas de casos y alertas se añadirán en tareas
-        posteriores.
+        Módulo 3 — seguimiento posoperatorio. Registre casos y códigos de emparejamiento Telegram
+        desde <strong>Casos</strong>.
       </p>
     </nav>
   )

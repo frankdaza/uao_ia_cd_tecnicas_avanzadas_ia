@@ -90,3 +90,21 @@ class ErrorEmparejamientoRespuesta(BaseModel):
 
     error: str
     mensaje_telegram: str
+
+
+class TipoProcedimientoOpcion(BaseModel):
+    """Opcion minima para select de alta de caso (panel staff)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: uuid.UUID
+    codigo: str
+    nombre: str
+
+
+class ListadoTiposProcedimientoOpcionRespuesta(BaseModel):
+    """Tipos de procedimiento filtrados por indexacion (UC-MVP-02)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    items: list[TipoProcedimientoOpcion]

@@ -15,6 +15,8 @@ from src.api.esquemas_casos import (
     CodigoEmparejamientoRespuesta,
     CrearCasoCuerpo,
     ListadoCasosRespuesta,
+    ListadoTiposProcedimientoOpcionRespuesta,
+    TipoProcedimientoOpcion,
 )
 from src.api.esquemas_recordatorios import DisparoRecordatorioRespuesta
 from src.integracion.recordatorios.servicio import (
@@ -32,6 +34,7 @@ from src.configuracion import obtener_configuracion
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.modelos import CasoPostoperatorio
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
+from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
 
 router = APIRouter(
     prefix="/staff",
@@ -65,6 +68,24 @@ def _http_desde_emparejamiento(exc: EmparejamientoError) -> HTTPException:
             "mensaje": exc.mensaje_telegram,
         },
     )
+
+
+@router.get(
+    "/tipos-procedimiento",
+    response_model=ListadoTiposProcedimientoOpcionRespuesta,
+)
+async def listar_tipos_procedimiento_para_alta(
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+    indexacion_estado: Annotated[str, Query(pattern="^(ok)$")] = "ok",
+    limit: Annotated[int, Query(ge=1, le=100)] = 100,
+) -> ListadoTiposProcedimientoOpcionRespuesta:
+    """Tipos indexados disponibles para el select de nuevo caso (cualquier rol staff)."""
+    repo = RepositorioTiposProcedimiento(sesion)
+    filas = await repo.listar_por_indexacion(indexacion_estado, limite=limit)
+    items = [
+        TipoProcedimientoOpcion(id=f.id, codigo=f.codigo, nombre=f.nombre) for f in filas
+    ]
+    return ListadoTiposProcedimientoOpcionRespuesta(items=items)
 
 
 @router.post(

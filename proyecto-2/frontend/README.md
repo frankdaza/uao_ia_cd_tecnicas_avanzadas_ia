@@ -60,6 +60,19 @@ Requiere usuario staff con **`rol=admin`** (p. ej. `admin@demo.taam` tras sembra
 - Validación en cliente: PDF ≤ 10 MB, nombre de archivo ASCII.
 - Mientras hay indexación `pendiente`, el listado y el detalle refrescan cada 3 s.
 
+## Casos postoperatorio y emparejamiento (asistente, UC-MVP-02)
+
+Cualquier usuario staff autenticado (p. ej. `asistente@demo.taam`).
+
+| Ruta | Descripción |
+| --- | --- |
+| `/casos` | Listado de casos activos, indicador Telegram vinculado/pendiente, regenerar código |
+| `/casos/nuevo` | Alta de caso + modal con código de emparejamiento y TTL |
+
+- Select de procedimiento: solo tipos con `indexacion_estado=ok` (`GET /api/staff/tipos-procedimiento`).
+- Tras crear el caso se genera el código automáticamente (`POST .../codigo-emparejamiento`).
+- Opcional en `.env` del frontend (o `.env.local`): `VITE_TELEGRAM_BOT_USERNAME` (sin `@`) para mostrar enlace `t.me/{bot}?start={CODIGO}`.
+
 ## Scripts
 
 | Comando | Descripción |
@@ -77,8 +90,9 @@ src/
   features/
     auth/                 AuthContext, StaffLoginScreen (`/login`)
     admin-procedimientos/ Catálogo PDF + indexación (`/admin/procedimientos`)
+    casos/                Registro casos y código Telegram (`/casos`)
     settings/             SettingsPanel (navegación)
-    shell/                PlaceholderHome, PlaceholderCasos
+    shell/                PlaceholderHome
   hooks/          useSalud
   lib/            api, authStorage, schemas, cn, useAppPath
   styles/         globals.css (tokens FVL)
@@ -97,3 +111,4 @@ En desarrollo use el **proxy** de Vite; no hace falta configurar CORS en el nave
 - **TASK-109** — este scaffold
 - **TASK-110** — login staff JWT y cliente API autenticado (implementado)
 - **TASK-111** — catálogo admin procedimientos y PDF (implementado)
+- **TASK-112** — registro casos y código emparejamiento (implementado)

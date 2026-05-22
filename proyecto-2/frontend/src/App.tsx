@@ -9,7 +9,8 @@ import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/admin
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
 import { StaffLoginScreen } from '@/features/auth/StaffLoginScreen'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
-import { PlaceholderCasos } from '@/features/shell/PlaceholderCasos'
+import { CasosRoutes } from '@/features/casos/CasosRoutes'
+import { esRutaCasos } from '@/features/casos/casosPaths'
 import { PlaceholderHome } from '@/features/shell/PlaceholderHome'
 import { useAppPath } from '@/lib/useAppPath'
 
@@ -26,8 +27,8 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
     return <AdminProcedimientosRoutes path={path} onNavigate={onNavigate} />
   }
 
-  if (path === '/casos' || path.startsWith('/casos/')) {
-    return <PlaceholderCasos />
+  if (esRutaCasos(path)) {
+    return <CasosRoutes path={path} onNavigate={onNavigate} />
   }
 
   return <PlaceholderHome />

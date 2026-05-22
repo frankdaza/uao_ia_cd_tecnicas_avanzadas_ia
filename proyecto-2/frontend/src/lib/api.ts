@@ -2,7 +2,12 @@ import type { ZodType } from 'zod'
 import { formatApiDetail } from './formatApiError'
 import { getAccessToken } from './authStorage'
 import type {
+  Caso,
+  CodigoEmparejamiento,
+  CrearCasoBody,
+  ListadoCasos,
   ListadoProcedimientos,
+  ListadoTiposProcedimientoOpcion,
   Procedimiento,
   ProcedimientoMetadata,
   Salud,
@@ -10,7 +15,11 @@ import type {
   StaffLoginResponse,
 } from './schemas'
 import {
+  CasoSchema,
+  CodigoEmparejamientoSchema,
+  ListadoCasosSchema,
   ListadoProcedimientosSchema,
+  ListadoTiposProcedimientoOpcionSchema,
   ProcedimientoSchema,
   SaludSchema,
   StaffLoginResponseSchema,
@@ -142,4 +151,40 @@ export async function patchAdminProcedimiento(
 export async function reindexAdminProcedimiento(id: string): Promise<Procedimiento> {
   const res = await apiFetch(`/admin/procedimientos/${id}/reindexar`, { method: 'POST' })
   return parseJson(res, ProcedimientoSchema)
+}
+
+/** Tipos indexados para select de nuevo caso (UC-MVP-02). */
+export async function listStaffTiposProcedimiento(): Promise<ListadoTiposProcedimientoOpcion> {
+  const res = await apiFetch('/staff/tipos-procedimiento?indexacion_estado=ok&limit=100')
+  return parseJson(res, ListadoTiposProcedimientoOpcionSchema)
+}
+
+/** Alta de caso postoperatorio. */
+export async function createStaffCaso(body: CrearCasoBody): Promise<Caso> {
+  const res = await apiFetch('/staff/casos', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, CasoSchema)
+}
+
+/** Listado de casos staff. */
+export async function listStaffCasos(params?: {
+  estado?: 'activo' | 'cerrado'
+  limit?: number
+  offset?: number
+}): Promise<ListadoCasos> {
+  const qs = new URLSearchParams()
+  if (params?.estado) qs.set('estado', params.estado)
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const query = qs.toString()
+  const res = await apiFetch(`/staff/casos${query ? `?${query}` : ''}`)
+  return parseJson(res, ListadoCasosSchema)
+}
+
+/** Genera o regenera código de emparejamiento Telegram. */
+export async function generateCodigoEmparejamiento(casoId: string): Promise<CodigoEmparejamiento> {
+  const res = await apiFetch(`/staff/casos/${casoId}/codigo-emparejamiento`, { method: 'POST' })
+  return parseJson(res, CodigoEmparejamientoSchema)
 }
