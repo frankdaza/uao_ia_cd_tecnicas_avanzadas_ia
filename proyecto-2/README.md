@@ -112,6 +112,19 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El e
 
 Flujo demo: login staff → crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
 
+### Seguimiento: alertas y conversaciones (UC-MVP-05 / TASK-108)
+
+Panel staff (consumo desde **TASK-113**). Tag OpenAPI: **`staff-seguimiento`**. Historial desde **checkpointer** LangGraph (`thread_id` = `telegram:{chat_id}`), no tablas del Módulo 2.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `GET` | `/api/staff/alertas` | Bandeja (`revisado`, `severidad`, `caso_id`, `limit`, `offset`); orden urgente → seguimiento → info |
+| `PATCH` | `/api/staff/alertas/{id}` | Body `{ "revisado": true }`; auditoría `revisado_at` + `revisado_staff_id` (idempotente) |
+| `GET` | `/api/staff/casos/{id}/conversacion` | Mensajes human/assistant del hilo; `404` sin vínculo Telegram |
+| `GET` | `/api/staff/casos/{id}/resumen` | Última alerta, conteo mensajes, próximo recordatorio pendiente |
+
+Rol **`asistente`**: `paciente_doc_id` y `telegram_chat_id` enmascarados (últimos 4 caracteres). Migración **`0003_alertas_auditoria`**: índice `(revisado, created_at)` y FK de revisión.
+
 ### Webhook Telegram e integración vía 2 (TASK-106)
 
 Canal canónico según [decision-7](../backlog/decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md). El mismo proceso FastAPI recibe updates, invoca el agente vía servicio interno de `POST /chat` y responde con `sendMessage`.

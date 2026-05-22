@@ -22,6 +22,7 @@ from src.api.routers import (
     chat,
     salud,
     staff_casos,
+    staff_seguimiento,
     telegram_emparejar,
     telegram_webhook,
 )
@@ -115,6 +116,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(auth_staff.router, prefix="/api")
     app.include_router(admin_procedimientos.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
+    app.include_router(staff_seguimiento.router, prefix="/api")
     app.include_router(telegram_emparejar.router, prefix="/api")
     app.include_router(telegram_webhook.router, prefix="/api")
     app.include_router(chat.router)

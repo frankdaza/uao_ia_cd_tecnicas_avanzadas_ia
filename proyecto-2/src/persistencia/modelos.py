@@ -175,6 +175,12 @@ class AlertaTriage(Base):
             f"severidad IN {SEVERIDADES_TRIAGE}",
             name="ck_alertas_triage_severidad",
         ),
+        Index(
+            "ix_alertas_triage_revisado_created_at",
+            "revisado",
+            "created_at",
+        ),
+        Index("ix_alertas_triage_caso_id", "caso_id"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -204,6 +210,11 @@ class AlertaTriage(Base):
         DateTime(timezone=True),
         nullable=True,
     )
+    revisado_staff_id: Mapped[uuid.UUID | None] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("usuarios_staff.id", ondelete="SET NULL"),
+        nullable=True,
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -211,6 +222,10 @@ class AlertaTriage(Base):
     )
 
     caso: Mapped[CasoPostoperatorio] = relationship(back_populates="alertas")
+    revisado_por: Mapped["UsuarioStaff | None"] = relationship(
+        "UsuarioStaff",
+        foreign_keys=[revisado_staff_id],
+    )
 
 
 class PlantillaRecordatorio(Base):
