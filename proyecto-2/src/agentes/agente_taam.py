@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
-
 from langchain.agents import create_agent
 from langchain.agents.middleware import HumanInTheLoopMiddleware
 from langgraph.checkpoint.base import BaseCheckpointSaver
@@ -46,16 +44,3 @@ def construir_agente_taam(
         context_schema=ContextoTaam,
         name="taam_postoperatorio",
     )
-
-
-@lru_cache
-def obtener_agente_cached(
-    url_bd: str,
-    cfg_key: str,
-) -> object:
-    """Cache por URL de BD (tests vs produccion)."""
-    from src.agentes.checkpointer import crear_checkpointer_para_url
-
-    cfg = obtener_configuracion()
-    cp = crear_checkpointer_para_url(url_bd, cfg)
-    return construir_agente_taam(cp, cfg)

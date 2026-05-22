@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlparse, urlunparse
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -163,10 +163,14 @@ class Configuracion(BaseSettings):
     @staticmethod
     def _normalizar_url_async(url: str) -> str:
         if url.startswith("postgres://"):
-            return "postgresql+asyncpg://" + url.removeprefix("postgres://")
-        if url.startswith("postgresql://") and "+asyncpg" not in url:
-            return "postgresql+asyncpg://" + url.removeprefix("postgresql://")
-        return url
+            url = "postgresql+asyncpg://" + url.removeprefix("postgres://")
+        elif url.startswith("postgresql://") and "+asyncpg" not in url:
+            url = "postgresql+asyncpg://" + url.removeprefix("postgresql://")
+        if "sqlite" in url:
+            return url
+        parsed = urlparse(url)
+        sin_query = parsed._replace(query="", fragment="")
+        return urlunparse(sin_query)
 
 
 @lru_cache

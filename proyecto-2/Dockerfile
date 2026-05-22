@@ -14,6 +14,7 @@ ENV UV_PYTHON_INSTALL_DIR=/app/.uv/python
 COPY pyproject.toml uv.lock alembic.ini ./
 COPY alembic/ ./alembic/
 COPY src/ ./src/
+COPY scripts/ ./scripts/
 
 RUN uv sync --frozen --no-dev
 
@@ -22,10 +23,11 @@ ENV UV_CACHE_DIR=/app/.cache/uv
 RUN groupadd --system app \
     && useradd --system --gid app --no-create-home --shell /usr/sbin/nologin app \
     && mkdir -p /home/app /app/.cache/uv \
-    && chown -R app:app /app /home/app
+    && chown -R app:app /app /home/app \
+    && chmod +x /app/scripts/docker_entrypoint.sh
 
 USER app
 
 EXPOSE 8001
 
-CMD ["uv", "run", "uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["/app/scripts/docker_entrypoint.sh"]

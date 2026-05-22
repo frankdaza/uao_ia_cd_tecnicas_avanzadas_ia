@@ -13,6 +13,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from langgraph.checkpoint.memory import MemorySaver
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine
 
@@ -26,11 +27,8 @@ from src.api.routers import (
     telegram_emparejar,
     telegram_webhook,
 )
-from src.agentes.checkpointer import (
-    crear_checkpointer_para_url,
-    inicializar_checkpointer_si_aplica,
-)
-from src.configuracion import obtener_configuracion
+from src.agentes.checkpointer import gestionar_checkpointer_postgres_async
+from src.configuracion import Configuracion, obtener_configuracion
 from src.persistencia.modelos import Base
 from src.integracion.recordatorios.scheduler import ejecutar_bucle_recordatorios
 from src.persistencia.motor import (
@@ -51,22 +49,23 @@ def _preparar_metadata_sqlite() -> None:
                 columna.server_default = None
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Motor async de BD y factoria de sesiones."""
-    cfg = obtener_configuracion()
-    url = app.state.url_bd_override or cfg.url_base_datos_async()
-    motor: AsyncEngine = crear_motor_async(url)
+async def _arrancar_recursos_app(
+    app: FastAPI,
+    *,
+    cfg: Configuracion,
+    url: str,
+    motor: AsyncEngine,
+) -> tuple[asyncio.Event, asyncio.Task[None] | None]:
+    """Motor, sesiones, checkpointer (si SQLite) y job de recordatorios."""
     if "sqlite" in url:
         _preparar_metadata_sqlite()
         async with motor.begin() as conn:
             await conn.execute(text("PRAGMA foreign_keys=ON"))
             await conn.run_sync(Base.metadata.create_all)
+        app.state.checkpointer = MemorySaver()
 
     app.state.engine_db = motor
     app.state.session_factory = crear_session_factory(motor)
-    app.state.checkpointer = crear_checkpointer_para_url(url, cfg)
-    inicializar_checkpointer_si_aplica(url, cfg)
     await verificar_conexion_inicial(motor)
 
     detener_recordatorios = asyncio.Event()
@@ -80,9 +79,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             )
         )
     app.state.tarea_recordatorios = tarea_recordatorios
+    return detener_recordatorios, tarea_recordatorios
 
-    yield
 
+async def _detener_recursos_app(
+    motor: AsyncEngine,
+    detener_recordatorios: asyncio.Event,
+    tarea_recordatorios: asyncio.Task[None] | None,
+) -> None:
     detener_recordatorios.set()
     if tarea_recordatorios is not None:
         tarea_recordatorios.cancel()
@@ -91,6 +95,30 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         except asyncio.CancelledError:
             pass
     await cerrar_motor_async(motor)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Motor async de BD, checkpointer y factoria de sesiones."""
+    cfg = obtener_configuracion()
+    url = app.state.url_bd_override or cfg.url_base_datos_async()
+    motor = crear_motor_async(url)
+
+    if "sqlite" in url:
+        detener, tarea = await _arrancar_recursos_app(app, cfg=cfg, url=url, motor=motor)
+        try:
+            yield
+        finally:
+            await _detener_recursos_app(motor, detener, tarea)
+        return
+
+    async with gestionar_checkpointer_postgres_async(cfg.url_base_datos_sync()) as checkpointer:
+        app.state.checkpointer = checkpointer
+        detener, tarea = await _arrancar_recursos_app(app, cfg=cfg, url=url, motor=motor)
+        try:
+            yield
+        finally:
+            await _detener_recursos_app(motor, detener, tarea)
 
 
 def crear_app(*, url_bd: str | None = None) -> FastAPI:

@@ -8,7 +8,7 @@ PII (enmascarar en listados API staff — TASK-108):
 - casos_postoperatorio.paciente_doc_id, paciente_nombre
 - alertas_triage.mensaje_paciente_ref
 
-Las tablas de PostgresSaver (checkpointer LangChain) no forman parte de esta revision.
+Las tablas de AsyncPostgresSaver (checkpointer LangGraph) no forman parte de esta revision.
 """
 
 from typing import Sequence, Union

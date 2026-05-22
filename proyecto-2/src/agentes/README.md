@@ -1,6 +1,6 @@
 # Agente TAAM (LangChain Ruta A)
 
-Modulo M3: `create_agent`, tools con Pydantic, `PostgresSaver`, `@dynamic_prompt` y `HumanInTheLoopMiddleware`.
+Modulo M3: `create_agent`, tools con Pydantic, `AsyncPostgresSaver`, `@dynamic_prompt` y `HumanInTheLoopMiddleware`.
 
 ## Session ID
 
@@ -38,19 +38,25 @@ estado = await continuar_despues_hitl(
 
 ## Invocacion desde servicios
 
+En **Postgres** (produccion / Docker), use ``AsyncPostgresSaver`` (``ainvoke``, ``aupdate_state``, ``aget_state``):
+
 ```python
-from src.agentes.checkpointer import crear_checkpointer_para_url
+from src.agentes.checkpointer import gestionar_checkpointer_postgres_async
 from src.agentes.servicio import invocar_agente, extraer_texto_respuesta
 
-cp = crear_checkpointer_para_url(cfg.url_base_datos_async())
-estado = await invocar_agente(
-    session_factory=factory,
-    checkpointer=cp,
-    session_id="telegram:123",
-    mensaje="Tengo fiebre alta",
-)
+async with gestionar_checkpointer_postgres_async(cfg.url_base_datos_sync()) as cp:
+    estado = await invocar_agente(
+        session_factory=factory,
+        checkpointer=cp,
+        session_id="telegram:123",
+        mensaje="Tengo fiebre alta",
+    )
 texto = extraer_texto_respuesta(estado)
 ```
+
+El lifespan de FastAPI ya abre el checkpointer async en arranque.
+
+En **tests SQLite**, use `crear_checkpointer_para_url("sqlite+aiosqlite:///:memory:")` (devuelve `MemorySaver`).
 
 ## Verificacion rubrica
 

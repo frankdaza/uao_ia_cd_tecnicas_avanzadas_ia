@@ -46,6 +46,8 @@ services:
 
   api:
     build: .
+    env_file:
+      - .env
     ports:
       - "${API_PORT:-8001}:8001"
     environment:
@@ -54,12 +56,17 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-taam}
-      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-taam}?sslmode=disable
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-taam}
       QDRANT_URL: http://qdrant:6333
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
       ADMIN_API_KEY: ${ADMIN_API_KEY:-}
+      STAFF_JWT_SECRET: ${STAFF_JWT_SECRET:-}
+      STAFF_JWT_EXPIRE_HORAS: ${STAFF_JWT_EXPIRE_HORAS:-8}
+      STAFF_DEMO_ASISTENTE_PASSWORD: ${STAFF_DEMO_ASISTENTE_PASSWORD:-}
+      STAFF_DEMO_CLINICO_PASSWORD: ${STAFF_DEMO_CLINICO_PASSWORD:-}
+      STAFF_DEMO_ADMIN_PASSWORD: ${STAFF_DEMO_ADMIN_PASSWORD:-}
       ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8001","http://127.0.0.1:8001","http://localhost:5174","http://127.0.0.1:5174"]}'
     volumes:
       - ../data/taam:/app/data/taam

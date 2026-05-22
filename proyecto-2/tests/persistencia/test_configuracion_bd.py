@@ -8,7 +8,11 @@ def test_normaliza_postgres_url_compose() -> None:
         _env_file=None,
         database_url="postgres://user:pass@postgres:5432/taam?sslmode=disable",
     )
-    assert cfg.url_base_datos_async().startswith("postgresql+asyncpg://")
+    async_url = cfg.url_base_datos_async()
+    assert async_url.startswith("postgresql+asyncpg://")
+    assert "sslmode" not in async_url
+    assert "?" not in async_url
+    assert async_url.endswith("/taam")
     assert cfg.url_base_datos_sync().startswith("postgresql+psycopg://")
 
 

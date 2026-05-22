@@ -27,7 +27,7 @@ def test_imports_stack():
     from langchain.agents.middleware import HumanInTheLoopMiddleware  # noqa: F401
     from langchain.chat_models import init_chat_model  # noqa: F401
     from langchain.agents.middleware import dynamic_prompt  # noqa: F401
-    from langgraph.checkpoint.postgres import PostgresSaver  # noqa: F401
+    from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver  # noqa: F401
 
     texto_modelo = (AGENTES / "modelo.py").read_text(encoding="utf-8")
     assert "init_chat_model" in texto_modelo

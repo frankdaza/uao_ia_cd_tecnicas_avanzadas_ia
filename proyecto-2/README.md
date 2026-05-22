@@ -181,6 +181,10 @@ cd proyecto-2
 docker compose up --build
 ```
 
+El contenedor **api** ejecuta `alembic upgrade head` al arrancar (script [`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego inicia Uvicorn. No hace falta migrar a mano tras un `docker compose up` con Postgres vacío.
+
+El servicio **api** carga [`proyecto-2/.env`](.env) vía `env_file` en `docker-compose.yml` (incluye `STAFF_JWT_SECRET` y contraseñas demo). Sin `STAFF_JWT_SECRET`, `POST /api/auth/staff/login` responde 503.
+
 ### Puertos por defecto (coexistencia con M2)
 
 | Servicio | proyecto-1 (M2) | proyecto-2 (TAAM) |
@@ -193,23 +197,21 @@ docker compose up --build
 
 Si algún puerto está ocupado, sobreescribir en `.env` (`API_PORT`, `POSTGRES_PUBLISH_PORT`, `QDRANT_REST_PORT`, etc.).
 
-Tras levantar Postgres, aplicar el esquema OLTP antes de usar APIs que lean/escriban casos o alertas:
+Si corres la API **fuera de Docker** contra Postgres en el host (`uv run uvicorn …`), aplica migraciones una vez:
 
 ```bash
 cd proyecto-2
-# Con compose en marcha (Postgres en localhost:15433):
 export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'
 uv run alembic upgrade head
-
-# Dentro del contenedor API:
-docker compose exec api uv run alembic upgrade head
 ```
 
-El healthcheck de la API **no** sustituye las migraciones; solo valida `GET /api/salud`.
+Para forzar migraciones dentro de un contenedor ya levantado: `docker compose exec api uv run alembic upgrade head`.
+
+El healthcheck de la API solo valida `GET /api/salud`; no ejecuta Alembic por sí solo.
 
 ## Variables de entorno
 
-Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://`) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
+Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://` y quita parámetros de query como `sslmode`, que asyncpg no admite) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
 Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `ADMIN_API_KEY`, `STAFF_JWT_SECRET`, `STAFF_JWT_EXPIRE_HORAS`, `STAFF_DEMO_*_PASSWORD`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
@@ -220,7 +222,7 @@ Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por de
 ```
 src/api/              # FastAPI (salud, admin, staff/casos, telegram, webhook)
 src/integracion/      # Telegram: cliente Bot API, manejador de updates (TASK-106)
-src/agentes/          # LangChain create_agent, tools, PostgresSaver, HITL (TASK-103)
+src/agentes/          # LangChain create_agent, tools, AsyncPostgresSaver, HITL (TASK-103)
 src/ingesta/          # ingesta PDF → Qdrant (LangChain)
 src/rag/              # vector store TAAM
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
@@ -255,8 +257,8 @@ Guion minuto a minuto: [GUION-DEMO-TAAM.md](../backlog/docs/usecases/GUION-DEMO-
 
 ```bash
 cd proyecto-2
-docker compose up -d
 cp .env.example .env   # STAFF_JWT_SECRET, TELEGRAM_*, OPENAI_API_KEY si aplica
+docker compose up -d
 export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'
 uv run alembic upgrade head
 uv run python -m scripts.sembrar_demo_taam

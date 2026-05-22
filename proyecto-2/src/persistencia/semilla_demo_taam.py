@@ -13,7 +13,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.agentes.agente_taam import construir_agente_taam
-from src.agentes.checkpointer import crear_checkpointer_postgres
+from src.agentes.checkpointer import gestionar_checkpointer_postgres_async
 from src.api.servicios.almacenamiento_pdf import (
     guardar_pdf_en_disco,
     hash_sha256,
@@ -214,32 +214,32 @@ async def _asegurar_alerta_urgente_caso_a(
 
 
 async def _sembrar_conversacion_caso_a(cfg: Configuracion) -> None:
-    checkpointer = crear_checkpointer_postgres(cfg.url_base_datos_sync())
-    agente = construir_agente_taam(checkpointer)
     session_id = f"telegram:{CHAT_TELEGRAM_CASO_A}"
-    await agente.aupdate_state(
-        {"configurable": {"thread_id": session_id}},
-        {
-            "messages": [
-                HumanMessage(content="¿Cuándo puedo retomar caminatas leves?"),
-                AIMessage(
-                    content=(
-                        "Segun su protocolo, puede iniciar caminatas cortas dentro de casa "
-                        "desde el primer o segundo dia si lo tolera. Ante empeoramiento, "
-                        "contacte a su equipo."
-                    )
-                ),
-                HumanMessage(content="Tengo sangrado abundante en la herida"),
-                AIMessage(
-                    content=(
-                        "Eso puede ser un signo de alarma. Acuda a urgencias o contacte "
-                        "de inmediato a su equipo tratante. Este mensaje fue escalado al "
-                        "personal clinico."
-                    )
-                ),
-            ]
-        },
-    )
+    async with gestionar_checkpointer_postgres_async(cfg.url_base_datos_sync()) as checkpointer:
+        agente = construir_agente_taam(checkpointer)
+        await agente.aupdate_state(
+            {"configurable": {"thread_id": session_id}},
+            {
+                "messages": [
+                    HumanMessage(content="¿Cuándo puedo retomar caminatas leves?"),
+                    AIMessage(
+                        content=(
+                            "Segun su protocolo, puede iniciar caminatas cortas dentro de casa "
+                            "desde el primer o segundo dia si lo tolera. Ante empeoramiento, "
+                            "contacte a su equipo."
+                        )
+                    ),
+                    HumanMessage(content="Tengo sangrado abundante en la herida"),
+                    AIMessage(
+                        content=(
+                            "Eso puede ser un signo de alarma. Acuda a urgencias o contacte "
+                            "de inmediato a su equipo tratante. Este mensaje fue escalado al "
+                            "personal clinico."
+                        )
+                    ),
+                ]
+            },
+        )
 
 
 async def sembrar_demo_taam(
