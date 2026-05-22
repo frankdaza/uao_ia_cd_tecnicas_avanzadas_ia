@@ -359,7 +359,7 @@ uv run pytest tests/e2e/test_escenarios_modulo2.py -v
 
 ## 8. Capa de servicio router → grafo (condicional)
 
-Hoy el camino productivo es: **FastAPI** (`src/api/routers/agente.py`) → **factoría del grafo** (p. ej. `src/api/factoria_grafo_agente.py`) → **LangGraph** en `src/agentes/`. La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija que una **capa de servicio delgada** entre el router HTTP y el grafo **solo** tiene sentido si el router empieza a **acumular lógica de negocio**; mientras no pase, puede invocarse la factoría **directamente**. El marco de trade-offs y la “Opción A / clean enough” frente a capas completas está en [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md).
+Hoy el camino productivo es: **FastAPI** (`src/api/routers/agente.py`) → **factoría del grafo** (p. ej. `src/api/factoria_grafo_agente.py`) → **LangGraph** en `src/agentes/`. La [decision-6](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md) fija que una **capa de servicio delgada** entre el router HTTP y el grafo **solo** tiene sentido si el router empieza a **acumular lógica de negocio**; mientras no pase, puede invocarse la factoría **directamente**. El marco de trade-offs y la “Opción A / clean enough” frente a capas completas está en [doc-006 — Estudio de migración hacia Clean Architecture](doc-006%20-%20Estudio-Migracion-Clean-Architecture.md).
 
 ### 8.1 Síntomas disparadores (cuándo extraer un módulo tipo `agente_servicio`)
 
@@ -390,7 +390,7 @@ En la práctica: **no** introducir `src/aplicacion/agente_servicio.py` (u homón
 
 - [decision-3 — Arquitectura agente, memoria, RAG, Qdrant (M2)](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
 - [decision-6 — Migración incremental “clean enough” (M2)](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md)
-- [doc-004 — Estudio de migración hacia Clean Architecture](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
+- [doc-006 — Estudio de migración hacia Clean Architecture](doc-006%20-%20Estudio-Migracion-Clean-Architecture.md)
 - [doc-005 — Auditoría de imports (migración clean enough)](doc-005%20-%20Auditoria-Imports-Migracion-Clean-Architecture.md)
 - [scripts/README.md — ingesta Qdrant y E2E](../../scripts/README.md)
 - Código: `src/api/routers/agente.py`, `src/api/factoria_grafo_agente.py`, `src/agentes/`, `src/rag/runtime/`, `src/rag/evaluacion/`

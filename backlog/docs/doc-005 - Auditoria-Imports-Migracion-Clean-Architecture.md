@@ -10,7 +10,7 @@ status: vigente
 
 # Auditoria de imports hacia `src/rag`, `src/qa` y `src/app`
 
-Este documento cumple la tarea **TASK-85**: inventario reproducible de quien referencia los paquetes sensibles a la migracion incremental descrita en [decision-6 — Migracion incremental Clean Architecture M2](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md), alineado al estudio [doc-004](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md).
+Este documento cumple la tarea **TASK-85**: inventario reproducible de quien referencia los paquetes sensibles a la migracion incremental descrita en [decision-6 — Migracion incremental Clean Architecture M2](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md), alineado al estudio [doc-006](doc-006%20-%20Estudio-Migracion-Clean-Architecture.md).
 
 ## 1. Resumen
 
@@ -120,5 +120,5 @@ La auditoria de imports **no modifica** ese comportamiento; el fallo queda como 
 ## 9. Referencias
 
 - [doc-003 — Arquitectura operativa del agente M2](doc-003%20-%20Arquitectura-Agente-Modulo-2.md)
-- [doc-004 — Estudio de migracion](doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
+- [doc-006 — Estudio de migracion](doc-006%20-%20Estudio-Migracion-Clean-Architecture.md)
 - [decision-6 — Migracion incremental](../decisions/decision-6%20-%20Migracion-Incremental-Clean-Architecture-M2.md)

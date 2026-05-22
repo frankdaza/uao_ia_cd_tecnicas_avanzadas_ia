@@ -222,7 +222,7 @@ flowchart LR
 ### Mitigacion
 
 - Milestone **m-0** y tareas TASK-98+ con orden de implementacion; ADR [decision-4](decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md) solo para ingesta/chunking, no para arquitectura M3.
-- Documento de casos de uso y `doc-004` (cuando exista) enlazan **decision-7**.
+- Documento de casos de uso y [doc-004 — Arquitectura TAAM](../docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md) enlazan **decision-7**.
 
 ## Referencias
 

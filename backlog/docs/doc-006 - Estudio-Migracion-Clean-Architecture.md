@@ -1,9 +1,9 @@
 ---
-id: doc-004
-title: doc-004 - Estudio de migración hacia una arquitectura en capas tipo Clean Architecture
+id: doc-006
+title: Estudio de migración hacia una arquitectura en capas tipo Clean Architecture (M2)
 type: architecture
 created_date: '2026-05-16'
-updated_date: '2026-05-16'
+updated_date: '2026-05-21'
 status: borrador
 modulo: 2
 ---
@@ -11,6 +11,8 @@ modulo: 2
 # Estudio de migración hacia una arquitectura en capas tipo Clean Architecture
 
 Este documento es un **estudio de viabilidad y organización**: no constituye una decisión adoptada ni sustituye al ADR de stack del Módulo 2. La arquitectura operativa vigente se describe en [doc-003 — Arquitectura operativa del agente (Módulo 2)](doc-003%20-%20Arquitectura-Agente-Modulo-2.md) y las decisiones de producto en [decision-3 — Agente, memoria, RAG y Qdrant](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md).
+
+> **Numeración:** este estudio se publicó originalmente como `doc-004`; se renumeró a **`doc-006`** para reservar `doc-004` al informe de arquitectura TAAM (Módulo 3). Ver [doc-004 — Arquitectura M3 TAAM](doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md).
 
 ## 1. Resumen ejecutivo
 
@@ -148,7 +150,7 @@ No se recomienda borrar claves de `.env.example` sin revisión: algunas alimenta
 
 Sí es útil una **auditoría periódica** de:
 
-- [`src/api/configuracion.py`](../../src/api/configuracion.py) frente a [`.env.example`](../../.env.example) (variables sin uso, duplicados, defaults muertos);
+- [`src/api/configuracion.py`](../../proyecto-1/src/api/configuracion.py) frente a [`.env.example`](../../proyecto-1/.env.example) (variables sin uso, duplicados, defaults muertos);
 - migraciones en `alembic/versions/` y su coherencia con el modelo actual (solo consolidar cuando haya política de squash aprobada por el equipo).
 
 ### 5.4. Otros artefactos
@@ -179,7 +181,7 @@ Si el equipo decide ejecutar cambios estructurales:
 
 - Abrir una **tarea** en `backlog/tasks/` con alcance (solo doc + README, vs refactor de `rag/`, vs extracción de puertos).
 - Actualizar **doc-003** con el diagrama o la tabla de “núcleo vs laboratorio” una vez aplicada la reorganización.
-- Valorar un **ADR nuevo** (`decision-N`) solo si se adopta formalmente un layout de paquetes distinto al actual; este doc-004 permanece como estudio de referencia.
+- Valorar un **ADR nuevo** (`decision-N`) solo si se adopta formalmente un layout de paquetes distinto al actual; este doc-006 permanece como estudio de referencia.
 
 ---
 

@@ -9,8 +9,10 @@ Milestone del **proyecto final agéntico (Módulo 3)**: productizar el asistente
 
 ## Arquitectura de referencia
 
+- **Guía operativa M3 (informe + diagramas):** [doc-004 — Arquitectura TAAM](../docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md)
 - **ADR M3 TAAM (Ruta A, Telegram vía 2):** [decision-7 — Arquitectura M3 TAAM en proyecto-2](../decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md)
 - **Casos de uso TAAM:** [Caso de Uso TAAM — Bot Posoperatorio](../docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md) (5 UC-MVP, matriz de trazabilidad y guion demo 15 min)
-- **Agente M2 (no mezclar runtime):** [decision-3](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
+- **Guion demo:** [GUION-DEMO-TAAM](../docs/usecases/GUION-DEMO-TAAM.md)
+- **Agente M2 (no mezclar runtime):** [decision-3](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md) · [doc-003 — Arquitectura M2](../docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md)
 
 > `decision-4` en este repositorio corresponde al **payload Qdrant / chunking M2**, no a la arquitectura TAAM.
