@@ -2,11 +2,19 @@
 
 from __future__ import annotations
 
+import json
+import logging
+import urllib.error
+import urllib.request
 from functools import lru_cache
 from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+logger = logging.getLogger(__name__)
+
+_AGENTE_DEFAULT = "bot_lili_taam"
 
 _MARCA_WORKSPACE = Path("data") / "markdown"
 _RUTA_ENV = Path(__file__).resolve().parent.parent / ".env"
@@ -32,6 +40,11 @@ class Configuracion(BaseSettings):
     openfang_home: Path = Field(
         default=Path("openfang/data"),
         validation_alias="OPENFANG_HOME",
+    )
+    openfang_agent_id: str = Field(default="", validation_alias="OPENFANG_AGENT_ID")
+    openfang_api_url: str = Field(
+        default="http://127.0.0.1:4200",
+        validation_alias="OPENFANG_API_URL",
     )
     uao_workspace_root: str = Field(default="", validation_alias="UAO_WORKSPACE_ROOT")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
@@ -68,6 +81,38 @@ class Configuracion(BaseSettings):
         if home.is_absolute():
             return home.resolve()
         return (self.raiz_proyecto() / home).resolve()
+
+    def ruta_db_openfang(self) -> Path:
+        """SQLite del kernel OpenFang 0.6.9 bajo ``{OPENFANG_HOME}/data/openfang.db``."""
+        return self.openfang_home_absoluto() / "data" / "openfang.db"
+
+    def resolver_agent_id_openfang(self) -> str:
+        """
+        UUID del agente destino de la ingesta.
+
+        Orden: ``OPENFANG_AGENT_ID``; si no, ``GET /api/status`` buscando ``bot_lili_taam``.
+        """
+        override = self.openfang_agent_id.strip()
+        if override:
+            return override
+        url = f"{self.openfang_api_url.rstrip('/')}/api/status"
+        try:
+            with urllib.request.urlopen(url, timeout=5) as respuesta:
+                datos = json.loads(respuesta.read().decode("utf-8"))
+        except (urllib.error.URLError, json.JSONDecodeError, TimeoutError) as exc:
+            raise ValueError(
+                f"No se pudo resolver el agent_id OpenFang ({_AGENTE_DEFAULT}). "
+                f"Define OPENFANG_AGENT_ID o arranca el daemon. Detalle: {exc}"
+            ) from exc
+        for agente in datos.get("agents", []):
+            if agente.get("name") == _AGENTE_DEFAULT:
+                agent_id = agente.get("id")
+                if isinstance(agent_id, str) and agent_id:
+                    return agent_id
+        raise ValueError(
+            f"Agente '{_AGENTE_DEFAULT}' no encontrado en GET /api/status. "
+            "Ejecuta: openfang agent spawn openfang/agents/bot_lili_taam/agent.toml"
+        )
 
     def exigir_openai_api_key(self) -> str:
         """Devuelve la clave OpenAI o lanza si falta (scripts que llaman a la API)."""

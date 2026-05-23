@@ -144,12 +144,17 @@ export PATH="$HOME/.openfang/bin:$PATH"
 # Entorno Python auxiliar
 uv sync
 
-# Ingesta corpus (cuando este implementado)
-uv run python ingesta/indexar_corpus_openfang.py
+# Vista previa de ingesta (sin escribir en SQLite)
+uv run python ingesta/indexar_corpus_openfang.py --dry-run --limite 5
+
+# Ingesta real (OPENAI_API_KEY; preferible openfang stop o --permitir-db-en-vivo)
+uv run python ingesta/indexar_corpus_openfang.py --solo-markdown --limite 20
 
 # Arranque desarrollo
 ./scripts/arrancar_dev.sh
 ```
+
+Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 
 ## Estructura
 

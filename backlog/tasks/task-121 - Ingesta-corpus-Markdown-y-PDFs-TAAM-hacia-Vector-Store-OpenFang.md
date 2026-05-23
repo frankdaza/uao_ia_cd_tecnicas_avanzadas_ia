@@ -1,11 +1,11 @@
 ---
 id: TASK-121
 title: Ingesta corpus Markdown y PDFs TAAM hacia Vector Store OpenFang
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 05:55'
+updated_date: '2026-05-23 06:31'
 labels:
   - modulo-3
   - taam
@@ -26,6 +26,12 @@ references:
 modified_files:
   - proyecto-3/ingesta/indexar_corpus_openfang.py
   - proyecto-3/ingesta/README.md
+  - proyecto-3/src/ingesta/
+  - proyecto-3/src/configuracion.py
+  - proyecto-3/tests/test_indexar_corpus_openfang.py
+  - proyecto-3/.env.example
+  - proyecto-3/openfang/openfang.toml
+  - proyecto-3/pyproject.toml
 priority: high
 ordinal: 3000
 ---
@@ -42,11 +48,11 @@ ordinal: 3000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 `uv run python ingesta/indexar_corpus_openfang.py --dry-run` lista fuentes y cuenta de chunks sin escribir en OpenFang
-- [ ] #2 Ingesta real inserta chunks con `source_id` estable; segunda ejecución no duplica (idempotencia)
-- [ ] #3 Soporta flags `--solo-markdown`, `--solo-taam-pdf`, `--limite N`
-- [ ] #4 **Negativo:** directorio workspace vacío → exit code distinto de 0 y log `sin_fuentes`
-- [ ] #5 **Edge:** PDF sin texto extraíble se omite con warning, no aborta todo el lote
+- [x] #1 `uv run python ingesta/indexar_corpus_openfang.py --dry-run` lista fuentes y cuenta de chunks sin escribir en OpenFang
+- [x] #2 Ingesta real inserta chunks con `source_id` estable; segunda ejecución no duplica (idempotencia)
+- [x] #3 Soporta flags `--solo-markdown`, `--solo-taam-pdf`, `--limite N`
+- [x] #4 **Negativo:** directorio workspace vacío → exit code distinto de 0 y log `sin_fuentes`
+- [x] #5 **Edge:** PDF sin texto extraíble se omite con warning, no aborta todo el lote
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -62,6 +68,18 @@ ordinal: 3000
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
+## OpenFang 0.6.9 (validado)
+
+| Tema | Detalle |
+| --- | --- |
+| API REST | Solo KV (`GET/PUT /api/memory/agents/{id}/kv/...`); sin POST publico para fragmentos semanticos. |
+| Vector Store | `{OPENFANG_HOME}/data/openfang.db`, tabla `memories`, `scope=semantic`, `source="Document"`. |
+| Embeddings | OpenAI en ingesta Python; BLOB f32 LE (1536 dims con text-embedding-3-small). |
+| Agente | `bot_lili_taam` via `OPENFANG_AGENT_ID` o `GET /api/status`. |
+| Concurrencia | Preferir `openfang stop` o flag `--permitir-db-en-vivo`. |
+
+Modulos: `proyecto-3/src/ingesta/`; CLI `ingesta/indexar_corpus_openfang.py`; tests `tests/test_indexar_corpus_openfang.py`.
+
 ```python
 from pathlib import Path
 from pypdf import PdfReader
@@ -91,9 +109,15 @@ uv run python ingesta/indexar_corpus_openfang.py --solo-markdown
 ```
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Pipeline de ingesta Markdown + PDF TAAM hacia SQLite OpenFang (memories, scope semantic): paquete src/ingesta/, CLI con dry-run/solo-markdown/solo-taam-pdf/limite, idempotencia source_id+content_hash, embeddings OpenAI, KV ingesta:resumen. Tests 9 nuevos + ruff. Sin archivar.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 README ingesta actualizado
-- [ ] #2 Tests mocks pasan con `uv run pytest`
-- [ ] #3 Tarea **Done** sin archivar
+- [x] #1 README ingesta actualizado
+- [x] #2 Tests mocks pasan con `uv run pytest`
+- [x] #3 Tarea **Done** sin archivar
 <!-- DOD:END -->
