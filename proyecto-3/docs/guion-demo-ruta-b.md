@@ -36,7 +36,9 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 - Profesor o publico envia mensaje al **bot Ruta B** desde su telefono.
 - Narrar en tiempo real: Update → bridge OpenFang → RAG memoria → OpenAI → respuesta.
 - Pregunta sugerida: cuidado postoperatorio o medicacion segun protocolo ingerido.
-- Opcional: mostrar mensaje proactivo del Hand (deberia aparecer en ~30 s con el Hand activo).
+- Opcional: mensaje proactivo del Hand (~30 s con Hand activo) **o** disparo manual:
+  `uv run python scripts/disparar_recordatorio_hand.py` (requiere sesion `telegram:{chat_id}` en JSONL).
+- Mostrar auditoria: `tail -n 3 openfang/data/audit/hand_recordatorio.jsonl` (`tipo: hand_recordatorio`).
 
 ## Minuto 12–14 — t-SNE (bonus)
 

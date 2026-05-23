@@ -59,12 +59,25 @@ openfang hand list
 - Solicitud o almacenamiento de foto, audio o video.
 - Creacion de casos clinicos en base de datos (proyecto-2 / OLTP).
 
-## Pruebas estaticas
+## Pruebas (manifesto y UC6)
 
 ```bash
 cd proyecto-3
+# Manifesto HAND.toml, SKILL, playbooks (TASK-123)
 uv run pytest tests/test_hand_taam_lili.py -q
+# Recordatorio postoperatorio: positivo, negativo, edge, auditoria (TASK-124)
+uv run pytest tests/hand/test_recordatorio_postop.py -q
 ```
+
+Disparo manual sin esperar el tick de 30 s:
+
+```bash
+uv run python scripts/disparar_recordatorio_hand.py --solo-simular
+# Con token y sesion Telegram activa:
+uv run python scripts/disparar_recordatorio_hand.py
+```
+
+Auditoria: `{OPENFANG_HOME}/audit/hand_recordatorio.jsonl` (`tipo: hand_recordatorio`).
 
 ## Referencias
 

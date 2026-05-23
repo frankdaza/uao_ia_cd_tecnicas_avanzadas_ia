@@ -164,7 +164,7 @@ Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 
 **Pruebas chat RAG (TASK-122):** checklist manual [`docs/checklist-pruebas-chat-fvl.md`](docs/checklist-pruebas-chat-fvl.md); tests estaticos `uv run pytest tests/test_prompt_bot_lili.py tests/test_checklist_chat_fvl.py tests/test_sincronizar_prompt_agente.py`.
 
-**Pruebas Hand (TASK-123):** manifesto `HAND.toml` + playbooks; `uv run pytest tests/test_hand_taam_lili.py -q`.
+**Pruebas Hand (TASK-123 / TASK-124):** manifesto + UC6 recordatorio; `uv run pytest tests/test_hand_taam_lili.py tests/hand/test_recordatorio_postop.py -q`. Disparo manual: `uv run python scripts/disparar_recordatorio_hand.py --solo-simular`.
 
 ## Estructura
 
@@ -176,6 +176,7 @@ proyecto-3/
   scripts/            # install y arranque
   docs/               # guion demo, telegram-bot-setup, checklist chat FVL
   src/prompts/        # validacion estatica system prompt y HAND.toml
+  src/hand/           # adaptador testeable recordatorio UC6 (TASK-124)
 ```
 
 ## Rubrica Modulo 3 (Ruta B)
