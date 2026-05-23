@@ -21,6 +21,7 @@ MOTIVO_SIN_SESIONES = "sin_sesiones_activas"
 
 from src.guardrails.patrones_mensaje import PATRON_DOSIS, PATRON_FARMACO_CON_DOSIS
 from src.openfang.historial_jsonl import extraer_session_id, iterar_registros_jsonl
+from src.openfang.marcas_tiempo import extraer_marca_tiempo
 
 _PATRON_DOSIS = PATRON_DOSIS
 _PATRON_FARMACO_CON_DOSIS = PATRON_FARMACO_CON_DOSIS
@@ -70,35 +71,6 @@ def _ahora_utc() -> datetime:
     return datetime.now(UTC)
 
 
-def _parsear_marca_tiempo(valor: object) -> datetime | None:
-    if valor is None:
-        return None
-    if isinstance(valor, (int, float)):
-        return datetime.fromtimestamp(float(valor), tz=UTC)
-    if isinstance(valor, str):
-        texto = valor.strip()
-        if not texto:
-            return None
-        if texto.endswith("Z"):
-            texto = texto[:-1] + "+00:00"
-        try:
-            parsed = datetime.fromisoformat(texto)
-        except ValueError:
-            return None
-        if parsed.tzinfo is None:
-            return parsed.replace(tzinfo=UTC)
-        return parsed.astimezone(UTC)
-    return None
-
-
-def _extraer_marca_tiempo(registro: dict) -> datetime | None:
-    for clave in ("ts", "timestamp", "created_at", "time", "at"):
-        parsed = _parsear_marca_tiempo(registro.get(clave))
-        if parsed is not None:
-            return parsed
-    return None
-
-
 def _es_turno_conversacion(registro: dict) -> bool:
     rol = registro.get("role") or registro.get("type") or ""
     if not isinstance(rol, str):
@@ -138,7 +110,7 @@ def listar_sesiones_activas(
         session_id = extraer_session_id(registro)
         if session_id is None or not session_id.startswith(PREFIJO_SESION_TELEGRAM):
             continue
-        marca = _extraer_marca_tiempo(registro) or instante
+        marca = extraer_marca_tiempo(registro) or instante
         prev = ultima_actividad.get(session_id)
         if prev is None or marca > prev:
             ultima_actividad[session_id] = marca

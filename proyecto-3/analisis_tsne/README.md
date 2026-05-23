@@ -22,6 +22,32 @@ OpenFang runtime (JSONL + SQLite FTS5)
 - Conversaciones acumuladas tras pruebas en Telegram (minimo ~20–30 sesiones recomendado para t-SNE estable).
 - Variables en `proyecto-3/.env`: `OPENAI_API_KEY`, `OPENFANG_HOME`, `OPENAI_EMBEDDING_MODEL`.
 
+## Extraccion (`extraer_jsonl.py`)
+
+Lee turnos bajo `OPENFANG_HOME` (JSONL en `sessions/` y opcional `logs/sessions.jsonl`) y complementa con filas episodicas de `data/openfang.db` si existen. Escribe `analisis_tsne/output/sesiones.parquet`.
+
+| Columna | Descripcion |
+| --- | --- |
+| `session_id` | Ej. `telegram:900001` |
+| `turno` | Entero 1..N por sesion (orden temporal) |
+| `rol` | `user`, `assistant` o `system` |
+| `texto` | Contenido del turno |
+| `timestamp` | ISO-8601 UTC |
+| `canal` | Ej. `telegram` |
+
+Flags CLI:
+
+| Flag | Efecto |
+| --- | --- |
+| `--openfang-home` | Override de `OPENFANG_HOME` |
+| `--salida` | Ruta parquet (default `analisis_tsne/output/sesiones.parquet`) |
+| `--incluir-audit` | Incluye `audit/hand_*.jsonl` |
+| `--solo-jsonl` | No consulta SQLite |
+
+Codigos de salida: `0` ok; `1` `sin_datos`; `2` `openfang_home_inexistente`. Si SQLite no aporta datos, el log incluye `fts5_ausente` y el script sigue con JSONL.
+
+Demo sin Telegram: copiar el fixture de tests a runtime (ver [dashboard-openfang.md](../docs/dashboard-openfang.md)).
+
 ## Ejecucion prevista
 
 ```bash
@@ -32,7 +58,7 @@ uv run python analisis_tsne/src/vectorizar.py
 uv run jupyter lab analisis_tsne/notebooks/
 ```
 
-Salidas graficas sugeridas en `analisis_tsne/output/` (gitignored).
+Salidas en `analisis_tsne/output/` (gitignored salvo `.gitkeep`).
 
 ## Interpretacion esperada (informe)
 
