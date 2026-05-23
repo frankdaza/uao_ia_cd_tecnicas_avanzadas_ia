@@ -1,0 +1,19 @@
+[project]
+name = "proyecto-3-taam-openfang"
+version = "0.1.0"
+description = "TAAM Modulo 3 Ruta B: ingesta corpus, analisis t-SNE (auxiliar a OpenFang)"
+readme = "README.md"
+requires-python = "==3.12.12"
+dependencies = [
+    "openai>=1.0.0",
+    "pandas>=2.2.0",
+    "pyyaml>=6.0",
+    "scikit-learn>=1.5.0",
+    "umap-learn>=0.5.6",
+    "plotly>=5.24.0",
+    "jupyterlab>=4.2.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.uv]
+dev-dependencies = []

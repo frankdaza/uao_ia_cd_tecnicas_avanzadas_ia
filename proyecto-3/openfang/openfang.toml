@@ -1,0 +1,39 @@
+# proyecto-3 — configuracion OpenFang (sin secretos)
+# Valores sensibles: TELEGRAM_BOT_TOKEN, OPENAI_API_KEY en .env
+# Documentacion: backlog/decisions/decision-8
+
+# --- Agente corporativo Bot Lili (TAAM) ---
+# [agent]
+# name = "bot_lili_taam"
+# description = "Asistente postoperatorio Fundacion Valle del Lili"
+
+# --- Modelo LLM (OpenAI compatible) ---
+# [model]
+# provider = "openai"
+# model = "${OPENAI_MODEL}"
+# api_key_env = "OPENAI_API_KEY"
+
+# Fallback documentado si falla integracion nativa:
+# [model]
+# provider = "ollama"
+# base_url = "http://127.0.0.1:11434"
+# model = "llama3.2"
+
+# --- Memoria (6 capas — Vector Store + Structured KV) ---
+# [memory]
+# data_dir = "${OPENFANG_HOME}"
+# vector_store_enabled = true
+# structured_kv_enabled = true
+
+# --- Sesiones cross-canal ---
+# session_id_format = "telegram:{chat_id}"
+
+# --- Bridge Telegram ---
+# [bridges.telegram]
+# enabled = true
+# bot_token_env = "TELEGRAM_BOT_TOKEN"
+
+# --- Hands registrados ---
+# [[hands]]
+# name = "taam_lili_hand"
+# path = "hands/taam_lili_hand"
