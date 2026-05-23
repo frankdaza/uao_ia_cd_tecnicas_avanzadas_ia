@@ -150,11 +150,19 @@ uv run python ingesta/indexar_corpus_openfang.py --dry-run --limite 5
 # Ingesta real (OPENAI_API_KEY; preferible openfang stop o --permitir-db-en-vivo)
 uv run python ingesta/indexar_corpus_openfang.py --solo-markdown --limite 20
 
-# Arranque desarrollo
+# Sincronizar prompt Bot Lili (system.md -> agent.toml)
+uv run python scripts/sincronizar_prompt_agente.py
+
+# Verificar memoria semantica tras ingesta
+uv run python scripts/contar_memorias_semanticas.py --exigir-ingesta
+
+# Arranque desarrollo (incluye sincronizacion de prompt)
 ./scripts/arrancar_dev.sh
 ```
 
 Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
+
+**Pruebas chat RAG (TASK-122):** checklist manual [`docs/checklist-pruebas-chat-fvl.md`](docs/checklist-pruebas-chat-fvl.md); tests estaticos `uv run pytest tests/test_prompt_bot_lili.py tests/test_checklist_chat_fvl.py tests/test_sincronizar_prompt_agente.py`.
 
 ## Estructura
 
@@ -164,7 +172,8 @@ proyecto-3/
   ingesta/            # Corpus workspace → memoria OpenFang
   analisis_tsne/      # Extraccion JSONL, embeddings, notebook t-SNE
   scripts/            # install y arranque
-  docs/               # guion demo, telegram-bot-setup
+  docs/               # guion demo, telegram-bot-setup, checklist chat FVL
+  src/prompts/        # validacion estatica del system prompt
 ```
 
 ## Rubrica Modulo 3 (Ruta B)

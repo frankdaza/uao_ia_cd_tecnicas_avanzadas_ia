@@ -44,6 +44,10 @@ AGENT_MANIFEST="${ROOT_DIR}/openfang/agents/bot_lili_taam/agent.toml"
 HAND_DIR="${ROOT_DIR}/openfang/hands/taam_lili_hand"
 
 echo ""
+echo "Sincronizando prompt system.md -> agent.toml..."
+uv run python "${SCRIPT_DIR}/sincronizar_prompt_agente.py"
+
+echo ""
 echo "Registrando agente bot_lili_taam..."
 openfang agent spawn "${AGENT_MANIFEST}" || true
 

@@ -1,10 +1,11 @@
 ---
 id: TASK-123
-title: 'Hand taam lili hand HAND toml real SKILL md final y prompts postop'
-status: To Do
+title: Hand taam lili hand HAND toml real SKILL md final y prompts postop
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 16:48'
 labels:
   - modulo-3
   - taam
@@ -22,7 +23,7 @@ modified_files:
   - proyecto-3/openfang/hands/taam_lili_hand/HAND.toml
   - proyecto-3/openfang/hands/taam_lili_hand/SKILL.md
 priority: high
-ordinal: 1230
+ordinal: 1000
 ---
 
 ## Description
