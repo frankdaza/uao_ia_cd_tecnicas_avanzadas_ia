@@ -1,10 +1,11 @@
 ---
 id: TASK-120
-title: 'Bot Telegram dedicado BotFather comandos base y pruebas en vivo'
-status: To Do
+title: Bot Telegram dedicado BotFather comandos base y pruebas en vivo
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 05:55'
 labels:
   - modulo-3
   - taam
@@ -17,13 +18,15 @@ dependencies:
 references:
   - proyecto-3/docs/telegram-bot-setup.md
   - proyecto-3/openfang/openfang.toml
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
   - proyecto-2/README.md
 modified_files:
   - proyecto-3/docs/telegram-bot-setup.md
   - proyecto-3/README.md
 priority: high
-ordinal: 1200
+ordinal: 2000
 ---
 
 ## Description

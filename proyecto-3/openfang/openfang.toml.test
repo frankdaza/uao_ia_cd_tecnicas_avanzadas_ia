@@ -1,0 +1,6 @@
+api_listen = "127.0.0.1:4201"
+
+[default_model]
+provider = "openai"
+model = "gpt-4o-mini"
+api_key_env = "OPENAI_API_KEY"

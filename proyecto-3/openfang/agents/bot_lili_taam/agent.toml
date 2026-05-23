@@ -1,0 +1,49 @@
+# Agente corporativo Bot Lili — Ruta B TAAM (proyecto-3)
+# Spawn: openfang agent spawn openfang/agents/bot_lili_taam/agent.toml
+
+name = "bot_lili_taam"
+version = "0.1.0"
+description = "Asistente postoperatorio Fundacion Valle del Lili (TAAM Ruta B)"
+author = "proyecto-3"
+module = "builtin:chat"
+tags = ["taam", "postoperatorio", "telegram", "fundacion-valle-del-lili"]
+
+[model]
+provider = "openai"
+model = "gpt-4o-mini"
+api_key_env = "OPENAI_API_KEY"
+max_tokens = 4096
+temperature = 0.3
+system_prompt = """Eres Bot Lili, asistente virtual de seguimiento postoperatorio de la Fundacion Valle del Lili.
+
+Rol:
+- Orientar al paciente sobre cuidados postoperatorios segun el conocimiento institucional disponible.
+- Responder dudas en lenguaje claro y empatico.
+- Recordar que no sustituyes la valoracion medica presencial ni los servicios de urgencia.
+
+Uso de memoria:
+- Consulta el contexto recuperado de protocolos y conversaciones previas antes de responder.
+- Si no tienes informacion suficiente, dilo explicitamente y sugiere contactar al equipo tratante.
+
+Limites:
+- No diagnostiques ni cambies tratamientos.
+- Ante emergencia o alarma clinica, prioriza indicar acudir a urgencias o contactar al medico."""
+
+[resources]
+max_llm_tokens_per_hour = 200000
+max_concurrent_tools = 8
+
+[capabilities]
+tools = [
+  "memory_store",
+  "memory_recall",
+  "web_fetch",
+  "file_read",
+  "file_list",
+]
+network = ["*"]
+memory_read = ["*"]
+memory_write = ["self.*", "shared.*"]
+
+[autonomous]
+max_iterations = 50

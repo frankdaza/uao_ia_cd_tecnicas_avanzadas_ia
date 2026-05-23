@@ -62,9 +62,65 @@ Dashboard local tras `openfang start`: `http://127.0.0.1:4200`
 
 Otros artefactos del mismo release: [v0.6.9 — assets](https://github.com/RightNow-AI/openfang/releases/tag/v0.6.9).
 
-### Fallback Ollama (opcional, solo documentacion)
+### Configuracion OpenFang (`openfang.toml`)
 
-La **Ruta B** prioriza **OpenAI** segun [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md). Si en una version concreta del binario falla la integracion OpenAI nativa, se puede documentar en `openfang/openfang.toml` un proveedor local **Ollama** (`OLLAMA_BASE_URL`, por defecto `http://127.0.0.1:11434`). No es el camino principal de la demo ni se configura en esta tarea.
+El archivo versionado [`openfang/openfang.toml`](openfang/openfang.toml) sigue el esquema **OpenFang 0.6.9**: `[default_model]`, `[memory]`, `[channels.telegram]`. Los secretos van en `.env` (`OPENAI_API_KEY`, `TELEGRAM_BOT_TOKEN`); nunca en el TOML.
+
+| Variable | Rol |
+| --- | --- |
+| `OPENFANG_HOME` | Directorio runtime (SQLite, JSONL). Por defecto `./openfang/data` relativo a `proyecto-3/`. |
+| `OPENAI_API_KEY` | Clave para `[default_model]` (`api_key_env = "OPENAI_API_KEY"`) y embeddings de memoria. |
+| `TELEGRAM_BOT_TOKEN` | Token del bot dedicado Ruta B (`bot_token_env` en `[channels.telegram]`). |
+
+Al arrancar, los scripts copian `openfang/openfang.toml` → `{OPENFANG_HOME}/config.toml` y enlazan `openfang/agents/*` → `{OPENFANG_HOME}/agents/` (el bridge Telegram resuelve `default_agent` desde ahi).
+
+```bash
+cd proyecto-3
+cp .env.example .env
+export PATH="$HOME/.openfang/bin:$PATH"
+set -a && source .env && set +a
+export OPENFANG_HOME="$(pwd)/openfang/data"
+./scripts/validar_openfang_config.sh   # openfang doctor + TOML valido
+./scripts/arrancar_dev.sh              # start + agent spawn + hand install
+```
+
+**Agente y Hand (no van en `openfang.toml`):**
+
+- Agente corporativo: manifest [`openfang/agents/bot_lili_taam/agent.toml`](openfang/agents/bot_lili_taam/agent.toml) → `openfang agent spawn ...`
+- Hand autonomo: [`openfang/hands/taam_lili_hand/`](openfang/hands/taam_lili_hand/) → `openfang hand install` / `openfang hand activate taam_lili_hand`
+
+```mermaid
+flowchart LR
+  paciente[Paciente Telegram]
+  bridge["channels.telegram"]
+  agente[bot_lili_taam]
+  memoria["Memoria OS SQLite + embeddings"]
+  hand[taam_lili_hand cron]
+  openai[OpenAI API]
+
+  paciente --> bridge
+  bridge --> agente
+  agente --> memoria
+  agente --> openai
+  hand --> bridge
+  hand --> agente
+```
+
+**Sesiones:** convencion alineada con Ruta A: `session_id` = `telegram:{chat_id}` (entero del chat de Telegram). OpenFang la asigna en runtime; verificar con `openfang sessions --json` tras un mensaje de prueba (task-120).
+
+### Fallback Ollama (si falla OpenAI nativo en demo)
+
+La **Ruta B** prioriza **OpenAI** segun [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md). Si `openfang start` no conecta con OpenAI, sustituir temporalmente `[default_model]` en `openfang/openfang.toml`:
+
+```toml
+[default_model]
+provider = "ollama"
+model = "llama3.2:latest"
+base_url = "http://127.0.0.1:11434"
+api_key_env = ""
+```
+
+Asegurar `ollama serve` y el modelo descargado. Variable auxiliar en `.env.example`: `OLLAMA_BASE_URL`.
 
 ## Configuracion rapida
 
@@ -105,7 +161,7 @@ proyecto-3/
 | --- | --- |
 | Conocimiento corporativo ingerido | `ingesta/` + logs |
 | `HAND.toml` activo | `openfang/hands/taam_lili_hand/` |
-| Telegram en vivo | bridge en `openfang/openfang.toml` |
+| Telegram en vivo | `[channels.telegram]` en `openfang/openfang.toml` |
 | Bonus t-SNE | `analisis_tsne/notebooks/` |
 
 ## Referencias

@@ -1,23 +1,29 @@
-# Hand personalizado TAAM — Opcion C (Modulo 3 Ruta B)
-# Activacion: openfang hand activate taam_lili_hand
-# Ver: backlog/decisions/decision-8
+# Hand TAAM — minimo TASK-119; ampliar en TASK-123 (SKILL, prompts, guardrails completos)
+# Activacion: openfang hand install ... && openfang hand activate taam_lili_hand
 
-# [hand]
-# name = "taam_lili_hand"
-# version = "0.1.0"
-# description = "Seguimiento postoperatorio Bot Lili: recordatorios y solicitud de evidencias en texto"
+[hand]
+name = "taam_lili_hand"
+version = "0.1.0"
+description = "Seguimiento postoperatorio Bot Lili: recordatorios y solicitud de evidencias en texto"
 
-# [schedule]
-# cron = "0 8 * * *"   # ejemplo: 08:00 diario (ajustar zona horaria en implementacion)
+[schedule]
+# Cada 30 s (demo). El cron de 5 campos no admite sub-minuto; tz IANA para America/Bogota.
+every_secs = 30
+tz = "America/Bogota"
 
-# [capabilities]
-# recordatorio_postoperatorio = true
-# requerir_evidencia_texto = true
+[capabilities]
+recordatorio_postoperatorio = true
+requerir_evidencia_texto = true
 
-# [guardrails]
-# no_diagnostico = true
-# disclaimer_obligatorio = true
-# escalar_palabras_alarma = ["dolor intenso", "fiebre alta", "sangrado", "dificultad respirar"]
+[guardrails]
+no_diagnostico = true
+disclaimer_obligatorio = true
+escalar_palabras_alarma = [
+  "dolor intenso",
+  "fiebre alta",
+  "sangrado",
+  "dificultad respirar",
+]
 
-# [channel]
-# default = "telegram"
+[channel]
+default = "telegram"

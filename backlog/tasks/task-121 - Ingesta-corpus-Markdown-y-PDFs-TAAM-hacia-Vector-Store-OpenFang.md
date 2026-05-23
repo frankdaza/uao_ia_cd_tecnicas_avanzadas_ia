@@ -1,10 +1,11 @@
 ---
 id: TASK-121
-title: 'Ingesta corpus Markdown y PDFs TAAM hacia Vector Store OpenFang'
-status: To Do
+title: Ingesta corpus Markdown y PDFs TAAM hacia Vector Store OpenFang
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 05:55'
 labels:
   - modulo-3
   - taam
@@ -19,12 +20,14 @@ references:
   - proyecto-3/ingesta/README.md
   - data/markdown/
   - data/taam/
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
 modified_files:
   - proyecto-3/ingesta/indexar_corpus_openfang.py
   - proyecto-3/ingesta/README.md
 priority: high
-ordinal: 1210
+ordinal: 3000
 ---
 
 ## Description
