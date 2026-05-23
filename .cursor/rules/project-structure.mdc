@@ -5,7 +5,10 @@ alwaysApply: true
 
 # Estructura de carpetas sugerida
 
+Workspace multi-proyecto: el **codigo ejecutable** vive en **`proyecto-1/`**; **`data/`** y **`backlog/`** en la raiz del repositorio. Resolucion de rutas: `proyecto-1/src/rutas_workspace.py` (`UAO_WORKSPACE_ROOT` opcional).
+
 ```
+proyecto-1/
 src/
   scraping/          # descarga; guardar crudo en data/raw/
   markdown_export/   # conversion crudo -> Markdown con front matter (data/markdown/)
@@ -68,6 +71,12 @@ tests/               # tests Python (pytest)
   qa/
   scraping/
 notebooks/           # opcional, experimentacion
+  pyproject.toml
+  uv.lock
+  Dockerfile
+  docker-compose.yml
+backlog/             # tareas, milestones, ADRs (raiz del repo)
+data/                # corpus compartido (raiz del repo)
 ```
 
 ## Flujo de datos
@@ -84,9 +93,9 @@ El **Modulo 1** (BM25 + Gradio) fue retirado del arbol de codigo; el historial q
 **Modulo 2 (objetivo productivo):**
 
 ```
-Usuario -> frontend/ (login) -> POST /api/sesiones
-        -> frontend/ (chat) -> POST /api/agente/stream (SSE)
-        -> src/api/routers/agente.py -> src/agentes/ (LangGraph)
+Usuario -> proyecto-1/frontend/ (login) -> POST /api/sesiones
+  -> frontend/ (chat) -> POST /api/agente/stream (SSE)
+  -> proyecto-1/src/api/routers/agente.py -> src/agentes/ (LangGraph)
         -> Postgres (usuarios + chat_history) | Qdrant (vectores corpus)
         -> OpenAI API (router / composicion / embeddings segun configuracion)
 ```

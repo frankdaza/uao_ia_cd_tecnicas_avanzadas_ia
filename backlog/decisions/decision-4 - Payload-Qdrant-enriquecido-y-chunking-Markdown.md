@@ -1,6 +1,6 @@
 ---
 id: decision-4
-title: Payload Qdrant enriquecido y chunking Markdown-aware en ingesta
+title: decision-4 - Payload Qdrant enriquecido y chunking Markdown-aware en ingesta
 date: '2026-05-14'
 status: accepted
 ---

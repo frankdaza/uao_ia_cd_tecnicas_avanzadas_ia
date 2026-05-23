@@ -1,13 +1,13 @@
 ---
 id: decision-6
-title: Migración incremental hacia una organización tipo Clean Architecture (clean enough) en Módulo 2
+title: decision-6 - Migración incremental hacia una organización tipo Clean Architecture (clean enough) en Módulo 2
 date: '2026-05-16'
 status: accepted
 ---
 
 ## Contexto
 
-El [doc-004 — Estudio de migración hacia una arquitectura en capas tipo Clean Architecture](../docs/doc-004%20-%20Estudio-Migracion-Clean-Architecture.md) analiza si conviene reorganizar el árbol `src/` hacia capas formales tipo Clean Architecture o hexagonal, frente a mantener la separación actual por carpetas (`src/api/`, `src/agentes/`, `src/rag/`, `src/persistencia/`).
+El [doc-006 — Estudio de migración hacia una arquitectura en capas tipo Clean Architecture](../docs/doc-006%20-%20Estudio-Migracion-Clean-Architecture.md) analiza si conviene reorganizar el árbol `src/` hacia capas formales tipo Clean Architecture o hexagonal, frente a mantener la separación actual por carpetas (`src/api/`, `src/agentes/`, `src/rag/`, `src/persistencia/`).
 
 El **runtime productivo del Módulo 2** queda fijado por la [decision-3 — Arquitectura del agente M2](decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md) (LangGraph + LangChain + LlamaIndex + Qdrant + PostgreSQL) y se describe operativamente en [doc-003 — Arquitectura operativa del agente (Módulo 2)](../docs/doc-003%20-%20Arquitectura-Agente-Modulo-2.md).
 
@@ -101,7 +101,7 @@ Para evitar abstracción prematura en futuras propuestas de profundizar capas:
 
 ## Referencias
 
-- [doc-004 — Estudio de migración hacia una arquitectura en capas tipo Clean Architecture](../docs/doc-004%20-%20Estudio-Migracion-Clean-Architecture.md)
+- [doc-006 — Estudio de migración hacia una arquitectura en capas tipo Clean Architecture](../docs/doc-006%20-%20Estudio-Migracion-Clean-Architecture.md)
 - [decision-3 — Arquitectura del agente M2](decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md)
 - [decision-2 — Migración React + Vite + FastAPI + SSE](decision-2%20-%20Migracion-Frontend-React-Vite-Backend-FastAPI-SSE.md)
 - [decision-4 — Payload Qdrant y chunking Markdown](decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md)

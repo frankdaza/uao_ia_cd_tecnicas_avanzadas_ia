@@ -1,0 +1,165 @@
+# Stack local: API + PostgreSQL 17.9 + Qdrant (Modulo 2). Ollama opcional (perfil legacy).
+#
+# pgweb (UI web liviana para Postgres): http://127.0.0.1:8081 por defecto; puerto del host con PGWEB_PUBLISH_PORT.
+# Conexión interna al servicio postgres (mismas credenciales que POSTGRES_*). Si la contrasena tiene caracteres
+# reservados en URL (@, :, /, etc.), use una contrasena local simple o codifique la URL.
+#
+# Qdrant:
+#   - REST (cliente qdrant-client / LlamaIndex): puerto 6333 en la red interna; se publica en el host segun QDRANT_REST_PORT.
+#   - gRPC: 6334 (misma convencion que la imagen oficial).
+#   - La imagen oficial no incluye curl/wget; el healthcheck abre TCP a 6333.
+#
+# Coleccion de vectores: la crea la ingesta o el lifespan de la API (sin servicio qdrant-init).
+
+services:
+  postgres:
+    image: postgres:17.9-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PUBLISH_PORT:-15432}:5432"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U \"$${POSTGRES_USER:-postgres}\" -d \"$${POSTGRES_DB:-app}\"",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+
+  pgweb:
+    image: sosedoff/pgweb:0.16.2
+    environment:
+      PGWEB_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-app}?sslmode=disable
+    ports:
+      - "127.0.0.1:${PGWEB_PUBLISH_PORT:-8081}:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.18.0
+    ports:
+      - "${QDRANT_REST_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+    volumes:
+      - qdrant-storage:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 25s
+    restart: unless-stopped
+
+  db-init:
+    build: .
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["uv", "run", "alembic", "upgrade", "head"]
+    restart: "no"
+
+  ollama:
+    profiles:
+      - legacy
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    # La imagen oficial no incluye curl/wget; comprobacion TCP al puerto del daemon.
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/11434'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  ollama-init:
+    profiles:
+      - legacy
+    image: ollama/ollama:latest
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - MODELO_LLM_DEFECTO=${MODELO_LLM_DEFECTO:-llama3.1:8b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        set -eu
+        ollama pull "$$MODELO_LLM_DEFECTO"
+    restart: "no"
+
+  api:
+    build: .
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      QDRANT_URL: http://qdrant:6333
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      # LangSmith / LangChain: el contenedor no monta el `.env` del repo; Compose inyecta desde el `.env` del host (sustitucion ${...}).
+      LANGCHAIN_TRACING_V2: ${LANGCHAIN_TRACING_V2:-}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-}
+      LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY:-}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGCHAIN_PROJECT: ${LANGCHAIN_PROJECT:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-}
+      LANGCHAIN_ENDPOINT: ${LANGCHAIN_ENDPOINT:-}
+      LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-}
+      # Panel admin M2 (cabecera X-Admin-Key). Debe coincidir con la entrada en `.env` del host (sin espacios antes del nombre).
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-}
+      # 1/true: router y compositor sin OpenAI (ver scripts/README.md y tests/e2e/).
+      MOCK_LLM: ${MOCK_LLM:-0}
+      # Lista JSON (pydantic-settings). Sobreescribible con variable de entorno (archivo `.env` junto al compose).
+      ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8000","http://127.0.0.1:8000","http://localhost:5173","http://127.0.0.1:5173"]}'
+    volumes:
+      - ./config:/app/config:ro
+      - ../data/structured:/app/data/structured:ro
+      - ../data/markdown:/app/data/markdown:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8000/api/salud || exit 1",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 8
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  ollama-models:
+  postgres-data:
+  qdrant-storage:

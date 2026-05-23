@@ -1,6 +1,6 @@
 ---
 id: doc-002
-title: Migracion del frontend de Gradio a React 19 + Vite 7 y backend FastAPI + SSE
+title: doc-002 - Migracion del frontend de Gradio a React 19 + Vite 7 y backend FastAPI + SSE
 type: architecture
 created_date: '2026-04-30'
 status: vigente

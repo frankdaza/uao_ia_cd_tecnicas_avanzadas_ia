@@ -1,6 +1,6 @@
 ---
 id: decision-5
-title: LangSmith para observabilidad y evaluacion del agente M2
+title: decision-5 - LangSmith para observabilidad y evaluacion del agente M2
 date: '2026-05-15'
 status: proposed
 ---

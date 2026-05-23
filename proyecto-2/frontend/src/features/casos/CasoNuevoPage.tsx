@@ -1,0 +1,244 @@
+import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { ArrowLeft, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  ApiError,
+  createStaffCaso,
+  generateCodigoEmparejamiento,
+  listStaffTiposProcedimiento,
+} from '@/lib/api'
+import { CrearCasoBodySchema } from '@/lib/schemas'
+import type { CodigoEmparejamiento, TipoProcedimientoOpcion } from '@/lib/schemas'
+import { CodigoEmparejamientoModal } from './CodigoEmparejamientoModal'
+
+interface CasoNuevoPageProps {
+  onNavigate: (path: string) => void
+}
+
+function fechaHoyIso(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+/** Formulario de alta de caso y generación de código (UC-MVP-02). */
+export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
+  const qc = useQueryClient()
+  const [tipoId, setTipoId] = useState('')
+  const [pacienteDocId, setPacienteDocId] = useState('')
+  const [pacienteNombre, setPacienteNombre] = useState('')
+  const [cirujanoId, setCirujanoId] = useState('')
+  const [cirujanoNombre, setCirujanoNombre] = useState('')
+  const [fechaCirugia, setFechaCirugia] = useState(fechaHoyIso())
+  const [notas, setNotas] = useState('')
+  const [modalCodigo, setModalCodigo] = useState<{
+    data: CodigoEmparejamiento
+    pacienteNombre: string
+  } | null>(null)
+
+  const tiposQ = useQuery({
+    queryKey: ['staff', 'tipos-procedimiento'],
+    queryFn: listStaffTiposProcedimiento,
+  })
+
+  const crearMut = useMutation({
+    mutationFn: async () => {
+      const body = CrearCasoBodySchema.parse({
+        paciente_doc_id: pacienteDocId.trim(),
+        paciente_nombre: pacienteNombre.trim(),
+        tipo_procedimiento_id: tipoId,
+        cirujano_id: cirujanoId.trim(),
+        cirujano_nombre: cirujanoNombre.trim(),
+        fecha_cirugia: fechaCirugia,
+        notas_especificas: notas.trim() || undefined,
+      })
+      const caso = await createStaffCaso(body)
+      const codigo = await generateCodigoEmparejamiento(caso.id)
+      return { caso, codigo }
+    },
+    onSuccess: async ({ caso, codigo }) => {
+      await qc.invalidateQueries({ queryKey: ['staff', 'casos'] })
+      toast.success('Caso registrado correctamente.')
+      setModalCodigo({ data: codigo, pacienteNombre: caso.paciente_nombre })
+    },
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof ApiError
+          ? (err.detail ?? err.message)
+          : err instanceof Error
+            ? err.message
+            : 'No se pudo registrar el caso.'
+      toast.error(msg)
+    },
+  })
+
+  const bodyPreview = CrearCasoBodySchema.safeParse({
+    paciente_doc_id: pacienteDocId.trim(),
+    paciente_nombre: pacienteNombre.trim(),
+    tipo_procedimiento_id: tipoId || undefined,
+    cirujano_id: cirujanoId.trim(),
+    cirujano_nombre: cirujanoNombre.trim(),
+    fecha_cirugia: fechaCirugia,
+    notas_especificas: notas.trim() || undefined,
+  })
+
+  const puedeEnviar =
+    bodyPreview.success &&
+    tipoId.length > 0 &&
+    (tiposQ.data?.items.length ?? 0) > 0 &&
+    !crearMut.isPending
+
+  const sinTiposIndexados =
+    tiposQ.isSuccess && (tiposQ.data?.items.length ?? 0) === 0 && !tiposQ.isFetching
+
+  return (
+    <div className="mx-auto max-w-lg space-y-6">
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        className="-ml-2"
+        onClick={() => onNavigate('/casos')}
+      >
+        <ArrowLeft className="h-4 w-4" aria-hidden />
+        Volver al listado
+      </Button>
+
+      <div>
+        <h2 className="font-display text-xl font-semibold text-[var(--color-text)]">Nuevo caso</h2>
+        <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+          Registre el caso y obtenga el código para que el paciente vincule Telegram.
+        </p>
+      </div>
+
+      {sinTiposIndexados ? (
+        <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-900 dark:text-amber-200">
+          No hay procedimientos con indexación lista. Un administrador debe cargar el catálogo y
+          esperar estado <strong>listo</strong> antes de registrar casos.
+        </p>
+      ) : null}
+
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (puedeEnviar) crearMut.mutate()
+        }}
+      >
+        <div className="space-y-2">
+          <Label htmlFor="tipo-procedimiento">Tipo de procedimiento</Label>
+          <select
+            id="tipo-procedimiento"
+            className="flex h-10 w-full rounded-md border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--color-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            value={tipoId}
+            onChange={(e) => setTipoId(e.target.value)}
+            disabled={crearMut.isPending || tiposQ.isLoading || sinTiposIndexados}
+            required
+          >
+            <option value="">Seleccione…</option>
+            {(tiposQ.data?.items ?? []).map((t: TipoProcedimientoOpcion) => (
+              <option key={t.id} value={t.id}>
+                {t.codigo} — {t.nombre}
+              </option>
+            ))}
+          </select>
+          {tiposQ.isLoading ? (
+            <p className="text-xs text-[var(--color-text-subtle)]">Cargando procedimientos…</p>
+          ) : null}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="paciente-doc">Documento del paciente</Label>
+          <Input
+            id="paciente-doc"
+            value={pacienteDocId}
+            onChange={(e) => setPacienteDocId(e.target.value)}
+            placeholder="ej. PAC-DEMO-001"
+            autoComplete="off"
+            disabled={crearMut.isPending}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="paciente-nombre">Nombre del paciente</Label>
+          <Input
+            id="paciente-nombre"
+            value={pacienteNombre}
+            onChange={(e) => setPacienteNombre(e.target.value)}
+            placeholder="Nombre completo"
+            disabled={crearMut.isPending}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="cirujano-id">ID del cirujano</Label>
+          <Input
+            id="cirujano-id"
+            value={cirujanoId}
+            onChange={(e) => setCirujanoId(e.target.value)}
+            placeholder="ej. MED-10"
+            disabled={crearMut.isPending}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="cirujano-nombre">Nombre del cirujano</Label>
+          <Input
+            id="cirujano-nombre"
+            value={cirujanoNombre}
+            onChange={(e) => setCirujanoNombre(e.target.value)}
+            disabled={crearMut.isPending}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="fecha-cirugia">Fecha de cirugía</Label>
+          <Input
+            id="fecha-cirugia"
+            type="date"
+            value={fechaCirugia}
+            onChange={(e) => setFechaCirugia(e.target.value)}
+            disabled={crearMut.isPending}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="notas">Notas específicas (opcional)</Label>
+          <textarea
+            id="notas"
+            rows={3}
+            className="flex w-full rounded-md border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--color-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            value={notas}
+            onChange={(e) => setNotas(e.target.value)}
+            disabled={crearMut.isPending}
+            maxLength={8000}
+          />
+        </div>
+
+        <Button type="submit" disabled={!puedeEnviar} className="w-full">
+          {crearMut.isPending ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              Registrando…
+            </>
+          ) : (
+            'Registrar caso y generar código'
+          )}
+        </Button>
+      </form>
+
+      {modalCodigo ? (
+        <CodigoEmparejamientoModal
+          data={modalCodigo.data}
+          pacienteNombre={modalCodigo.pacienteNombre}
+          onClose={() => {
+            setModalCodigo(null)
+            onNavigate('/casos')
+          }}
+        />
+      ) : null}
+    </div>
+  )
+}

@@ -1,0 +1,107 @@
+# Stack local TAAM (proyecto-2): API + PostgreSQL + Qdrant.
+# Puertos por defecto distintos a proyecto-1 (M2) para coexistencia en la misma maquina.
+#
+# pgweb (UI web liviana para Postgres): http://127.0.0.1:8082 por defecto; puerto del host con PGWEB_PUBLISH_PORT.
+# Conexion interna al servicio postgres (mismas credenciales que POSTGRES_*). Si la contrasena tiene caracteres
+# reservados en URL (@, :, /, etc.), use una contrasena local simple o codifique la URL.
+#
+# M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333, pgweb 8081
+# TAAM (este archivo): API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335, pgweb 8082
+#
+# Migraciones: `docker compose exec api uv run alembic upgrade head` (ver README).
+
+services:
+  postgres:
+    image: postgres:17.9-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-taam}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PUBLISH_PORT:-15433}:5432"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U \"$${POSTGRES_USER:-postgres}\" -d \"$${POSTGRES_DB:-taam}\"",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+
+  pgweb:
+    image: sosedoff/pgweb:0.16.2
+    environment:
+      PGWEB_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-taam}?sslmode=disable
+    ports:
+      - "127.0.0.1:${PGWEB_PUBLISH_PORT:-8082}:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.18.0
+    ports:
+      - "${QDRANT_REST_PORT:-6334}:6333"
+      - "${QDRANT_GRPC_PORT:-6335}:6334"
+    volumes:
+      - qdrant-storage:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 25s
+    restart: unless-stopped
+
+  api:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT:-8001}:8001"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-taam}
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-taam}
+      QDRANT_URL: http://qdrant:6333
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-}
+      STAFF_JWT_SECRET: ${STAFF_JWT_SECRET:-}
+      STAFF_JWT_EXPIRE_HORAS: ${STAFF_JWT_EXPIRE_HORAS:-8}
+      STAFF_DEMO_ASISTENTE_PASSWORD: ${STAFF_DEMO_ASISTENTE_PASSWORD:-}
+      STAFF_DEMO_CLINICO_PASSWORD: ${STAFF_DEMO_CLINICO_PASSWORD:-}
+      STAFF_DEMO_ADMIN_PASSWORD: ${STAFF_DEMO_ADMIN_PASSWORD:-}
+      ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8001","http://127.0.0.1:8001","http://localhost:5174","http://127.0.0.1:5174"]}'
+    volumes:
+      - ../data/taam:/app/data/taam
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8001/api/salud || exit 1",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 8
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  qdrant-storage:

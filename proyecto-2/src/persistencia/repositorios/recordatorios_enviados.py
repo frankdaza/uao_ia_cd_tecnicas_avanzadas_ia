@@ -1,0 +1,94 @@
+"""Repositorio de ``recordatorios_enviados``."""
+
+from __future__ import annotations
+
+import uuid
+from datetime import datetime
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.persistencia.modelos import RecordatorioEnviado
+
+
+class RepositorioRecordatoriosEnviados:
+    """Programacion y trazabilidad de recordatorios."""
+
+    def __init__(self, sesion: AsyncSession) -> None:
+        self._sesion = sesion
+
+    async def crear(
+        self,
+        *,
+        caso_id: uuid.UUID,
+        plantilla_id: uuid.UUID,
+        programado_at: datetime,
+        estado: str = "pendiente",
+    ) -> RecordatorioEnviado:
+        fila = RecordatorioEnviado(
+            caso_id=caso_id,
+            plantilla_id=plantilla_id,
+            programado_at=programado_at,
+            estado=estado,
+        )
+        self._sesion.add(fila)
+        await self._sesion.flush()
+        return fila
+
+    async def obtener_por_id(
+        self,
+        recordatorio_id: uuid.UUID,
+    ) -> RecordatorioEnviado | None:
+        return await self._sesion.get(RecordatorioEnviado, recordatorio_id)
+
+    async def listar_pendientes_vencidos(
+        self,
+        *,
+        ahora: datetime,
+        limite: int = 50,
+    ) -> list[RecordatorioEnviado]:
+        stmt = (
+            select(RecordatorioEnviado)
+            .where(
+                RecordatorioEnviado.estado == "pendiente",
+                RecordatorioEnviado.enviado_at.is_(None),
+                RecordatorioEnviado.programado_at <= ahora,
+            )
+            .order_by(RecordatorioEnviado.programado_at.asc())
+            .limit(limite)
+        )
+        res = await self._sesion.execute(stmt)
+        return list(res.scalars().all())
+
+    async def obtener_siguiente_pendiente_caso(
+        self,
+        caso_id: uuid.UUID,
+    ) -> RecordatorioEnviado | None:
+        stmt = (
+            select(RecordatorioEnviado)
+            .where(
+                RecordatorioEnviado.caso_id == caso_id,
+                RecordatorioEnviado.estado == "pendiente",
+                RecordatorioEnviado.enviado_at.is_(None),
+            )
+            .order_by(RecordatorioEnviado.programado_at.asc())
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def marcar_enviado(
+        self,
+        fila: RecordatorioEnviado,
+        *,
+        enviado_at: datetime,
+    ) -> RecordatorioEnviado:
+        fila.estado = "enviado"
+        fila.enviado_at = enviado_at
+        await self._sesion.flush()
+        return fila
+
+    async def marcar_error(self, fila: RecordatorioEnviado) -> RecordatorioEnviado:
+        fila.estado = "error"
+        await self._sesion.flush()
+        return fila
