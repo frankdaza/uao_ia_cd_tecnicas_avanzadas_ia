@@ -1,10 +1,11 @@
 ---
 id: TASK-128
-title: 't-SNE extraccion historial OpenFang JSONL y FTS5 a parquet'
-status: To Do
+title: t-SNE extraccion historial OpenFang JSONL y FTS5 a parquet
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 17:22'
 labels:
   - modulo-3
   - taam
@@ -22,7 +23,7 @@ modified_files:
   - proyecto-3/tests/analisis_tsne/test_extraer_jsonl.py
   - proyecto-3/analisis_tsne/output/.gitkeep
 priority: medium
-ordinal: 1280
+ordinal: 1000
 ---
 
 ## Description

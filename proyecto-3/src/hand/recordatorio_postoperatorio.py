@@ -20,6 +20,7 @@ ARCHIVO_AUDITORIA = "audit/hand_recordatorio.jsonl"
 MOTIVO_SIN_SESIONES = "sin_sesiones_activas"
 
 from src.guardrails.patrones_mensaje import PATRON_DOSIS, PATRON_FARMACO_CON_DOSIS
+from src.openfang.historial_jsonl import extraer_session_id, iterar_registros_jsonl
 
 _PATRON_DOSIS = PATRON_DOSIS
 _PATRON_FARMACO_CON_DOSIS = PATRON_FARMACO_CON_DOSIS
@@ -90,14 +91,6 @@ def _parsear_marca_tiempo(valor: object) -> datetime | None:
     return None
 
 
-def _extraer_session_id(registro: dict) -> str | None:
-    for clave in ("session_id", "sessionId", "session"):
-        valor = registro.get(clave)
-        if isinstance(valor, str) and valor.strip():
-            return valor.strip()
-    return None
-
-
 def _extraer_marca_tiempo(registro: dict) -> datetime | None:
     for clave in ("ts", "timestamp", "created_at", "time", "at"):
         parsed = _parsear_marca_tiempo(registro.get(clave))
@@ -121,28 +114,7 @@ def _chat_id_desde_session_id(session_id: str) -> str | None:
 
 
 def _iterar_registros_jsonl(raiz: Path) -> list[tuple[str, dict]]:
-    if not raiz.is_dir():
-        return []
-    filas: list[tuple[str, dict]] = []
-    for ruta in sorted(raiz.rglob("*.jsonl")):
-        if "hand_recordatorio" in ruta.name or "hand_evidencia" in ruta.name:
-            continue
-        try:
-            contenido = ruta.read_text(encoding="utf-8")
-        except OSError:
-            logger.warning("No se pudo leer JSONL: %s", ruta)
-            continue
-        for linea in contenido.splitlines():
-            linea = linea.strip()
-            if not linea:
-                continue
-            try:
-                registro = json.loads(linea)
-            except json.JSONDecodeError:
-                continue
-            if isinstance(registro, dict):
-                filas.append((str(ruta), registro))
-    return filas
+    return [(str(ruta), registro) for ruta, registro in iterar_registros_jsonl(raiz)]
 
 
 def listar_sesiones_activas(
@@ -163,7 +135,7 @@ def listar_sesiones_activas(
     ultimo_turno: dict[str, datetime] = {}
 
     for _origen, registro in _iterar_registros_jsonl(raiz_openfang):
-        session_id = _extraer_session_id(registro)
+        session_id = extraer_session_id(registro)
         if session_id is None or not session_id.startswith(PREFIJO_SESION_TELEGRAM):
             continue
         marca = _extraer_marca_tiempo(registro) or instante

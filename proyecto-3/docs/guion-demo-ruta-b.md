@@ -22,7 +22,7 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 ## Minuto 2–5 — Memoria e ingesta
 
 - Terminal: ejecutar o mostrar log de ingesta hacia Vector Store / KV.
-- Dashboard OpenFang: indicar donde se ve memoria / sesiones.
+- Dashboard OpenFang: [dashboard-openfang.md](dashboard-openfang.md) (memoria, sesiones, JSONL).
 - Una frase: corpus desde `data/markdown/` y PDFs `data/taam/`.
 
 ## Minuto 5–8 — Hand autonomo
@@ -62,5 +62,5 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 ## Rollback si falla Telegram
 
 1. Mostrar respuesta en dashboard OpenFang (mismo agente).
-2. Mostrar ultimo JSONL de sesion en `OPENFANG_HOME`.
+2. Mostrar ultimo JSONL de sesion en `OPENFANG_HOME` (ver [dashboard-openfang.md](dashboard-openfang.md)).
 3. Explicar pin de version OpenFang y token del bot.

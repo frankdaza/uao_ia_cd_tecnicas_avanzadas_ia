@@ -55,10 +55,10 @@ export PATH="$HOME/.openfang/bin:$PATH"
 openfang sessions --json
 ```
 
-Rutas tipicas de historial (segun `OPENFANG_HOME`, por defecto `proyecto-3/openfang/data/`):
+Rutas tipicas de historial (segun `OPENFANG_HOME`, por defecto `proyecto-3/openfang/data/`). Detalle, `jq` y demo UC4: **[dashboard-openfang.md](dashboard-openfang.md)**.
 
 - SQLite: `openfang/data/data/openfang.db`
-- JSONL de sesiones: buscar bajo `openfang/data/` archivos `*.jsonl` tras conversar en Telegram.
+- JSONL de sesiones: `sessions/{chat_id}.jsonl`, auditoria Hand en `audit/hand_*.jsonl`; `find "$OPENFANG_HOME" -name '*.jsonl'`
 
 ### Extracto anonimizado (pegar debajo)
 

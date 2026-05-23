@@ -106,7 +106,7 @@ flowchart LR
   hand --> agente
 ```
 
-**Sesiones:** convencion alineada con Ruta A: `session_id` = `telegram:{chat_id}` (entero del chat de Telegram). OpenFang la asigna en runtime; verificar con `openfang sessions --json` tras un mensaje de prueba. Ver [`docs/telegram-bot-setup.md`](docs/telegram-bot-setup.md).
+**Sesiones:** convencion alineada con Ruta A: `session_id` = `telegram:{chat_id}` (entero del chat de Telegram). OpenFang la asigna en runtime; verificar con `openfang sessions --json` tras un mensaje de prueba. Ver [`docs/telegram-bot-setup.md`](docs/telegram-bot-setup.md) y seguimiento UC4 en [`docs/dashboard-openfang.md`](docs/dashboard-openfang.md).
 
 **Telegram (BotFather, comandos, prueba en vivo):**
 
@@ -164,6 +164,8 @@ Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 
 **Pruebas chat RAG (TASK-122):** checklist manual [`docs/checklist-pruebas-chat-fvl.md`](docs/checklist-pruebas-chat-fvl.md); tests estaticos `uv run pytest tests/test_prompt_bot_lili.py tests/test_checklist_chat_fvl.py tests/test_sincronizar_prompt_agente.py`.
 
+**Seguimiento UC4 (TASK-127):** guia [`docs/dashboard-openfang.md`](docs/dashboard-openfang.md); `uv run python scripts/consultar_historial_sesion.py --session-id telegram:900001`; tests `uv run pytest tests/test_dashboard_openfang_doc.py tests/openfang/test_historial_jsonl.py -q`.
+
 **Pruebas Hand (TASK-123 / TASK-124 / TASK-125):** manifesto + UC6 recordatorio + UC7 evidencia texto; `uv run pytest tests/test_hand_taam_lili.py tests/hand/test_recordatorio_postop.py tests/hand/test_requerir_evidencia.py -q`. Disparo manual: `uv run python scripts/disparar_recordatorio_hand.py --solo-simular`; evidencia: `uv run python scripts/disparar_evidencia_hand.py --marcar-pendiente CHAT_ID --solo-simular`.
 
 ## Estructura
@@ -174,7 +176,8 @@ proyecto-3/
   ingesta/            # Corpus workspace → memoria OpenFang
   analisis_tsne/      # Extraccion JSONL, embeddings, notebook t-SNE
   scripts/            # install y arranque
-  docs/               # guion demo, telegram-bot-setup, checklist chat FVL
+  docs/               # guion demo, telegram-bot-setup, dashboard-openfang, checklist FVL
+  src/openfang/       # lectura JSONL historial (UC4, TASK-128)
   src/prompts/        # validacion estatica system prompt y HAND.toml
   src/hand/           # adaptadores testeables UC6 recordatorio y UC7 evidencia (TASK-124, TASK-125)
 ```
