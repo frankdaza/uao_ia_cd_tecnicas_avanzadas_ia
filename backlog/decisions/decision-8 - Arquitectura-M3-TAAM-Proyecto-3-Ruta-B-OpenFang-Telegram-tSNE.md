@@ -2,7 +2,7 @@
 id: decision-8
 title: decision-8 - Arquitectura M3 TAAM en proyecto-3 (Ruta B, OpenFang + Telegram + t-SNE)
 date: '2026-05-22'
-status: proposed
+status: accepted
 ---
 
 ## Contexto
