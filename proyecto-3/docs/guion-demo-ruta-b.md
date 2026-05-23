@@ -7,7 +7,8 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 ## Preparacion (antes de entrar al aula)
 
 - [ ] OpenFang instalado y version anotada (`openfang --version`)
-- [ ] `.env` con `OPENAI_API_KEY` y `TELEGRAM_BOT_TOKEN` (bot **distinto** al de `proyecto-2/`)
+- [ ] `.env` con `OPENAI_API_KEY` y `TELEGRAM_BOT_TOKEN` (bot **distinto** al de `proyecto-2/`); ver [telegram-bot-setup.md](telegram-bot-setup.md)
+- [ ] `./scripts/verificar_telegram_bot.sh` → OK con `@username` del bot Ruta B
 - [ ] Corpus ingerido (`uv run python ingesta/indexar_corpus_openfang.py`)
 - [ ] Hand activo: `openfang hand activate taam_lili_hand`
 - [ ] Dashboard accesible: `http://127.0.0.1:4200`

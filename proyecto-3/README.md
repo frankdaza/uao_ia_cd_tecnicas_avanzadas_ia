@@ -20,7 +20,7 @@ Implementacion **paralela** del Bot posoperatorio TAAM usando **[OpenFang](https
 - **SO:** macOS o Linux (x86_64 o arm64). Windows: usar el instalador oficial (`install.ps1` en [openfang.sh](https://openfang.sh/)); fuera del alcance de los scripts de este repo.
 - **Python 3.12.12** + **uv** (solo para ingesta y notebook t-SNE).
 - **OpenAI API** (mismo proveedor que `proyecto-2/` para comparacion entre rutas).
-- **Bot Telegram** dedicado (token distinto al de `proyecto-2/`).
+- **Bot Telegram** dedicado (token distinto al de `proyecto-2/`). Guia: [`docs/telegram-bot-setup.md`](docs/telegram-bot-setup.md).
 
 ## OpenFang (Agent OS)
 
@@ -106,7 +106,14 @@ flowchart LR
   hand --> agente
 ```
 
-**Sesiones:** convencion alineada con Ruta A: `session_id` = `telegram:{chat_id}` (entero del chat de Telegram). OpenFang la asigna en runtime; verificar con `openfang sessions --json` tras un mensaje de prueba (task-120).
+**Sesiones:** convencion alineada con Ruta A: `session_id` = `telegram:{chat_id}` (entero del chat de Telegram). OpenFang la asigna en runtime; verificar con `openfang sessions --json` tras un mensaje de prueba. Ver [`docs/telegram-bot-setup.md`](docs/telegram-bot-setup.md).
+
+**Telegram (BotFather, comandos, prueba en vivo):**
+
+```bash
+./scripts/verificar_telegram_bot.sh   # getMe sin arrancar daemon
+./scripts/arrancar_dev.sh             # bridge polling + agente bot_lili_taam
+```
 
 ### Fallback Ollama (si falla OpenAI nativo en demo)
 
@@ -152,7 +159,7 @@ proyecto-3/
   ingesta/            # Corpus workspace → memoria OpenFang
   analisis_tsne/      # Extraccion JSONL, embeddings, notebook t-SNE
   scripts/            # install y arranque
-  docs/               # guion demo 15 min
+  docs/               # guion demo, telegram-bot-setup
 ```
 
 ## Rubrica Modulo 3 (Ruta B)
