@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 06:31'
+updated_date: '2026-05-23 06:34'
 labels:
   - modulo-3
   - taam
@@ -33,7 +33,7 @@ modified_files:
   - proyecto-3/openfang/openfang.toml
   - proyecto-3/pyproject.toml
 priority: high
-ordinal: 3000
+ordinal: 62.5
 ---
 
 ## Description

@@ -1,10 +1,11 @@
 ---
 id: TASK-122
-title: 'Chat reactivo TAAM RAG memoria OpenFang prompts system y pruebas FVL'
-status: To Do
+title: Chat reactivo TAAM RAG memoria OpenFang prompts system y pruebas FVL
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 06:34'
 labels:
   - modulo-3
   - taam
@@ -17,12 +18,14 @@ dependencies:
 references:
   - proyecto-3/openfang/hands/taam_lili_hand/prompts/system.md
   - backlog/docs/usecases/Caso de Uso TAAM - Bot Posoperatorio.md
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
 modified_files:
   - proyecto-3/openfang/hands/taam_lili_hand/prompts/system.md
   - proyecto-3/docs/checklist-pruebas-chat-fvl.md
 priority: high
-ordinal: 1220
+ordinal: 1000
 ---
 
 ## Description
