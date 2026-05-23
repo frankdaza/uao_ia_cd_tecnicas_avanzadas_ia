@@ -305,7 +305,7 @@ Capacidades del **documento original** (tabla de 8 filas) y del ADR que **no** e
 | 4 | **Intervenir en el chat** (cirujano responde en Telegram) | Panel solo lectura; sin API de envío staff al hilo. |
 | 5 | **Registrar procedimiento por paciente con PDF** | Sustituido por protocolo general + notas de caso (UC-MVP-02). |
 | 6 | **Extracción automática fiel de horarios/dosis desde PDF** | Riesgo aceptado; recordatorios por plantilla + fecha (decision-7). |
-| 7 | **WhatsApp / N8N / OpenFang (Ruta B)** | Curso exige vía 2 en FastAPI. |
+| 7 | **WhatsApp / N8N / OpenFang (Ruta B)** | Curso exige vía 2 en FastAPI. Análisis ampliado: [doc-007 — Evaluacion OpenFang](../doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md). |
 | 8 | **Doble rol cirujano vs asistente en seguimiento** | Unificado en Personal clínico para UC-MVP-05. |
 
 ---

@@ -19,6 +19,7 @@ Guía para desarrollo, demostración y sustentación del **Bot posoperatorio TAA
 | [Caso de Uso TAAM](usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md) | 5 UC-MVP, triage, Fase 2 |
 | [GUION-DEMO-TAAM](usecases/GUION-DEMO-TAAM.md) | Demo 15 min (TASK-114) |
 | [doc-003 — Arquitectura M2](doc-003%20-%20Arquitectura-Agente-Modulo-2.md) | Producto paralelo en `proyecto-1/` (no mezclar runtime) |
+| [doc-007 — Evaluacion OpenFang](doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md) | Estudio Ruta B: ventajas/desventajas, migracion vs mantener proyecto-2 |
 
 > **`decision-4` no es el ADR de arquitectura M3.** En este repositorio `decision-4` describe enriquecimiento de payload Qdrant del corpus M2; la arquitectura TAAM es **`decision-7`**.
 
