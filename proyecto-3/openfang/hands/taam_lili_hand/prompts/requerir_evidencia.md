@@ -49,7 +49,7 @@ Palabras indicio (no exhaustivo): foto, imagen, audio, video, voz, sticker, adju
 
 ## Senales de alarma
 
-Ante **dolor intenso**, **fiebre alta**, **sangrado abundante** o **dificultad respiratoria**, indicar urgencias antes de insistir en la evidencia (escalacion KV `escalado` → TASK-126).
+Ante **dolor intenso**, **fiebre alta**, **sangrado abundante** o **dificultad respiratoria**, indicar urgencias antes de insistir en la evidencia. El adaptador Python (`procesar_respuesta_evidencia`) marca KV `escalado=true` en `kv/hand_escalacion/`.
 
 ## Plantilla (adaptar)
 

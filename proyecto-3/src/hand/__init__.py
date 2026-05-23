@@ -1,5 +1,11 @@
 """Logica testeable de Hands TAAM (Ruta B)."""
 
+from src.guardrails.escalacion_clinica import (
+    debe_escalar,
+    evaluar_entrada_usuario,
+    marcar_escalacion,
+    redactar_mensaje_urgencia,
+)
 from src.hand.recordatorio_postoperatorio import (
     ResultadoRecordatorioPostop,
     SesionActiva,
@@ -31,7 +37,11 @@ __all__ = [
     "ResultadoRecordatorioPostop",
     "ResultadoRequerirEvidencia",
     "SesionActiva",
+    "debe_escalar",
     "debe_cerrar_sin_respuesta",
+    "evaluar_entrada_usuario",
+    "marcar_escalacion",
+    "redactar_mensaje_urgencia",
     "debe_reintentar_evidencia",
     "ejecutar_recordatorio_postop",
     "ejecutar_requerir_evidencia",

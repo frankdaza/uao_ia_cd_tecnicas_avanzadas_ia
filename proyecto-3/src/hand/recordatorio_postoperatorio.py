@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import logging
-import re
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -20,14 +19,10 @@ ARCHIVO_AUDITORIA = "audit/hand_recordatorio.jsonl"
 
 MOTIVO_SIN_SESIONES = "sin_sesiones_activas"
 
-_PATRON_DOSIS = re.compile(
-    r"\d+\s*(?:mg|ml|mcg|gota[s]?|tableta[s]?)\b",
-    re.IGNORECASE,
-)
-_PATRON_FARMACO_CON_DOSIS = re.compile(
-    r"\b(?:ibuprofeno|acetaminofen|paracetamol|naproxeno|tramadol)\b.*\d+",
-    re.IGNORECASE,
-)
+from src.guardrails.patrones_mensaje import PATRON_DOSIS, PATRON_FARMACO_CON_DOSIS
+
+_PATRON_DOSIS = PATRON_DOSIS
+_PATRON_FARMACO_CON_DOSIS = PATRON_FARMACO_CON_DOSIS
 
 _DISCLAIMER_FRAGMENTOS = (
     "no reemplaza",

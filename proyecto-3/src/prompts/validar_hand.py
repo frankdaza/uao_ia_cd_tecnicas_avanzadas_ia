@@ -5,16 +5,11 @@ from __future__ import annotations
 import tomllib
 from pathlib import Path
 
+from src.guardrails.escalacion_clinica import PALABRAS_ALARMA as PALABRAS_ALARMA_CANONICAS
+
 EVERY_SECS_DEMO = 30
 TZ_DEMO = "America/Bogota"
 NOMBRE_HAND = "taam_lili_hand"
-
-PALABRAS_ALARMA_CANONICAS = (
-    "dolor intenso",
-    "fiebre alta",
-    "sangrado abundante",
-    "dificultad respiratoria",
-)
 
 CLAVES_PROMPTS = (
     "recordatorio_postoperatorio",

@@ -1,10 +1,11 @@
 ---
 id: TASK-127
-title: 'Dashboard OpenFang historial sesiones y JSONL UC4 parcial consulta'
-status: To Do
+title: Dashboard OpenFang historial sesiones y JSONL UC4 parcial consulta
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 17:16'
 labels:
   - modulo-3
   - taam
@@ -20,7 +21,7 @@ references:
 modified_files:
   - proyecto-3/docs/dashboard-openfang.md
 priority: medium
-ordinal: 1270
+ordinal: 1000
 ---
 
 ## Description

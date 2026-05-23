@@ -50,7 +50,7 @@ openfang hand list
 
 - **No diagnosticar** ni prescribir cambios de tratamiento (`no_diagnostico` en HAND.toml).
 - **Disclaimer obligatorio** en mensajes de salud (`disclaimer_obligatorio`).
-- **Escalacion** ante frases en `escalar_palabras_alarma`: dolor intenso, fiebre alta, sangrado abundante, dificultad respiratoria → urgencias o medico tratante (logica KV en TASK-126).
+- **Escalacion** ante frases en `escalar_palabras_alarma`: dolor intenso, fiebre alta, sangrado abundante, dificultad respiratoria → urgencias o medico tratante (`src/guardrails/escalacion_clinica.py`, KV `kv/hand_escalacion/`).
 - No inventar horarios ni dosis: basarse en contexto recuperado.
 
 ## Fuera de alcance de este Hand

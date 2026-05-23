@@ -31,7 +31,7 @@ Si la sesion existe pero **no** hay turnos recientes en memoria episodica:
 
 ## Senales de alarma (escalar)
 
-Si el paciente menciona o el contexto sugiere: **dolor intenso**, **fiebre alta**, **sangrado abundante** o **dificultad respiratoria**, priorizar indicar urgencias (lista alineada con `escalar_palabras_alarma` en HAND.toml / TASK-126).
+Si el paciente menciona o el contexto sugiere: **dolor intenso**, **fiebre alta**, **sangrado abundante** o **dificultad respiratoria**, priorizar indicar urgencias (lista alineada con `escalar_palabras_alarma` en HAND.toml y `debe_escalar()` en Python).
 
 ## Plantilla (adaptar)
 

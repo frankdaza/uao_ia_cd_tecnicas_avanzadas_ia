@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from src.guardrails.escalacion_clinica import MOTIVO_ESCALADO_CLINICO, leer_kv_escalacion
 from src.hand.requerir_evidencia import (
     HORAS_ESPERA_RESPUESTA,
     MOTIVO_CIERRE_SIN_RESPUESTA,
@@ -96,6 +97,35 @@ def test_solicitud_positiva_envia_y_deja_pendiente(tmp_path: Path) -> None:
     kv = leer_kv_sesion(tmp_path, _CHAT)
     assert kv.get("ultimo_envio_iso")
     assert kv.get("pendiente_evidencia") is True
+
+
+def test_procesar_evidencia_escala_antes_de_cerrar(tmp_path: Path) -> None:
+    iniciar_pendiente_evidencia(tmp_path, _SESSION, ahora=_AHORA)
+    kv_prev = leer_kv_sesion(tmp_path, _CHAT)
+    kv_prev["ultimo_envio_iso"] = _AHORA.isoformat()
+    from src.hand.requerir_evidencia import escribir_kv_sesion
+
+    escribir_kv_sesion(tmp_path, _CHAT, kv_prev)
+    respuestas: list[str] = []
+
+    resultado = procesar_respuesta_evidencia(
+        _SESSION,
+        "tengo dolor intenso y sangrado abundante",
+        enviar=lambda _c, t: respuestas.append(t),
+        raiz_openfang=tmp_path,
+        registrar_auditoria=False,
+        ahora=_AHORA,
+    )
+    assert resultado.procesado is False
+    assert resultado.motivo == MOTIVO_ESCALADO_CLINICO
+    assert len(respuestas) == 1
+    assert "urgencias" in respuestas[0].lower()
+    kv_evidencia = leer_kv_sesion(tmp_path, _CHAT)
+    assert kv_evidencia.get("pendiente_evidencia") is True
+    kv_escalacion = leer_kv_escalacion(tmp_path, _CHAT)
+    assert kv_escalacion.get("escalado") is True
+    ruta_jsonl = tmp_path / "sessions" / f"{_CHAT}.jsonl"
+    assert not ruta_jsonl.is_file()
 
 
 def test_respuesta_texto_persiste_y_cierra_pendiente(tmp_path: Path) -> None:

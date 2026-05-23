@@ -10,6 +10,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Callable
 
+from src.guardrails.escalacion_clinica import (
+    MOTIVO_ESCALADO_CLINICO,
+    debe_escalar,
+    evaluar_entrada_usuario,
+    redactar_mensaje_urgencia,
+)
+
 logger = logging.getLogger(__name__)
 
 HORAS_ESPERA_RESPUESTA = 24
@@ -430,6 +437,22 @@ def procesar_respuesta_evidencia(
             procesado=False,
             es_multimedia=False,
             motivo="sin_pendiente",
+        )
+
+    if debe_escalar(mensaje):
+        evaluar_entrada_usuario(
+            session_id,
+            mensaje,
+            enviar=enviar,
+            raiz_openfang=raiz,
+            registrar_auditoria=registrar_auditoria,
+            ahora=instante,
+        )
+        return ResultadoProcesarEvidencia(
+            procesado=False,
+            es_multimedia=False,
+            motivo=MOTIVO_ESCALADO_CLINICO,
+            mensaje_respuesta=redactar_mensaje_urgencia(),
         )
 
     if es_indicio_multimedia(mensaje, metadata):
