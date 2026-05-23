@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:18'
-updated_date: '2026-05-22 00:51'
+updated_date: '2026-05-23 05:35'
 labels:
   - modulo-3
   - taam
@@ -41,7 +41,7 @@ modified_files:
   - backlog/docs/usecases/GUION-DEMO-TAAM.md
   - backlog/docs/usecases/Caso de Uso TAAM - Bot Posoperatorio.md
 priority: high
-ordinal: 1000
+ordinal: 4000
 ---
 
 ## Description

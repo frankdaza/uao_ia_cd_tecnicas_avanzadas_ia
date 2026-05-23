@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:18'
-updated_date: '2026-05-22 00:47'
+updated_date: '2026-05-23 05:35'
 labels:
   - modulo-3
   - taam
@@ -43,7 +43,7 @@ modified_files:
     backlog/tasks/task-113 -
     Frontend-TAAM-panel-seguimiento-alertas-y-conversaciones-UC-MVP-05.md
 priority: high
-ordinal: 1000
+ordinal: 5000
 ---
 
 ## Description

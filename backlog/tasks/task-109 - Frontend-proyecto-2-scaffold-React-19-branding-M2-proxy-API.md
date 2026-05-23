@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:17'
-updated_date: '2026-05-22 00:23'
+updated_date: '2026-05-23 05:35'
 labels:
   - modulo-3
   - taam
@@ -30,7 +30,7 @@ modified_files:
   - proyecto-2/frontend/public/favicon.svg
   - proyecto-2/frontend/src/
 priority: high
-ordinal: 1000
+ordinal: 10000
 ---
 
 ## Description

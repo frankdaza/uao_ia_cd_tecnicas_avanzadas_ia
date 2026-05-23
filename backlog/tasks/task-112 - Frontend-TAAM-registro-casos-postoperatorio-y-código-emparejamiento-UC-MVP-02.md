@@ -7,7 +7,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:18'
-updated_date: '2026-05-22 00:39'
+updated_date: '2026-05-23 05:35'
 labels:
   - modulo-3
   - taam
@@ -49,7 +49,7 @@ modified_files:
     backlog/tasks/task-112 -
     Frontend-TAAM-registro-casos-postoperatorio-y-código-emparejamiento-UC-MVP-02.md
 priority: high
-ordinal: 1000
+ordinal: 6000
 ---
 
 ## Description

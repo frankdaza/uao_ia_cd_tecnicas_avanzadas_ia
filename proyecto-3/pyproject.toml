@@ -13,7 +13,24 @@ dependencies = [
     "plotly>=5.24.0",
     "jupyterlab>=4.2.0",
     "python-dotenv>=1.0.0",
+    "pydantic-settings>=2.14.0",
+    "tiktoken>=0.9.0",
+    "pypdf>=5.0.0",
 ]
 
-[tool.uv]
-dev-dependencies = []
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.9.0",
+]
+
+[tool.uv.build-backend]
+module-name = "src"
+module-root = ""
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

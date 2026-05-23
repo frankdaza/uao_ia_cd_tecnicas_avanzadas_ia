@@ -72,6 +72,7 @@ La **Ruta B** prioriza **OpenAI** segun [decision-8](../backlog/decisions/decisi
 cd proyecto-3
 cp .env.example .env
 # Editar OPENAI_API_KEY, TELEGRAM_BOT_TOKEN, OPENFANG_HOME
+# Variables centralizadas en src/configuracion.py (pydantic-settings)
 
 # Instalar OpenFang (una vez)
 ./scripts/instalar_openfang.sh

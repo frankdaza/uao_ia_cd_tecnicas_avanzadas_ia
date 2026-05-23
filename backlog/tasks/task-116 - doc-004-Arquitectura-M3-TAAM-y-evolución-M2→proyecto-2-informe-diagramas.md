@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:18'
-updated_date: '2026-05-22 00:58'
+updated_date: '2026-05-23 05:35'
 labels:
   - modulo-3
   - taam
@@ -27,7 +27,7 @@ documentation:
   - proyecto-2/README.md
   - proyecto-2/scripts/verificar_stack_m3.sh
 priority: medium
-ordinal: 1000
+ordinal: 2000
 ---
 
 ## Description

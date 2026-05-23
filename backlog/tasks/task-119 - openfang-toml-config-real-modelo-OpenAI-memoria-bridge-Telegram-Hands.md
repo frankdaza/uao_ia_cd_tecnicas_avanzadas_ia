@@ -1,10 +1,11 @@
 ---
 id: TASK-119
-title: 'openfang.toml config real modelo OpenAI memoria bridge Telegram Hands'
-status: To Do
+title: openfang.toml config real modelo OpenAI memoria bridge Telegram Hands
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 05:26'
 labels:
   - modulo-3
   - taam
@@ -17,13 +18,15 @@ dependencies:
   - TASK-118
 references:
   - proyecto-3/openfang/openfang.toml
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
   - backlog/docs/doc-007 - Evaluacion-OpenFang-Proyecto-2-TAAM.md
 modified_files:
   - proyecto-3/openfang/openfang.toml
   - proyecto-3/README.md
 priority: high
-ordinal: 1190
+ordinal: 1000
 ---
 
 ## Description

@@ -11,20 +11,14 @@ Uso previsto:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
-
-def resolver_raiz_workspace() -> Path:
-    """Resuelve UAO_WORKSPACE_ROOT o la raiz del monorepo."""
-    if raiz := os.environ.get("UAO_WORKSPACE_ROOT"):
-        return Path(raiz).resolve()
-    # proyecto-3/ingesta -> repo root
-    return Path(__file__).resolve().parents[2]
+from src.configuracion import obtener_configuracion
 
 
 def main() -> None:
-    raiz = resolver_raiz_workspace()
+    cfg = obtener_configuracion()
+    raiz = cfg.raiz_workspace()
     markdown = raiz / "data" / "markdown"
     taam_pdf = raiz / "data" / "taam"
 
@@ -32,6 +26,7 @@ def main() -> None:
     print(f"  Workspace: {raiz}")
     print(f"  Markdown:  {markdown} (existe={markdown.is_dir()})")
     print(f"  TAAM PDF:  {taam_pdf} (existe={taam_pdf.is_dir()})")
+    print(f"  OpenFang:  {cfg.openfang_home_absoluto()}")
     print()
     print("TODO: conectar con CLI/API OpenFang para indexar chunks.")
     raise SystemExit(0)
