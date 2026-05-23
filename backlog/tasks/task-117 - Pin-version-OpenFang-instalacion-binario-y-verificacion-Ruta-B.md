@@ -1,10 +1,11 @@
 ---
 id: TASK-117
 title: 'Pin version OpenFang, instalacion binario y verificacion Ruta B'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 05:17'
 labels:
   - modulo-3
   - taam
@@ -14,15 +15,21 @@ labels:
 milestone: m-1
 dependencies: []
 references:
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
   - backlog/docs/doc-007 - Evaluacion-OpenFang-Proyecto-2-TAAM.md
   - proyecto-3/scripts/instalar_openfang.sh
   - proyecto-3/README.md
+  - 'https://github.com/RightNow-AI/openfang/releases/tag/v0.6.9'
+  - 'https://www.openfang.sh/install'
+  - proyecto-3/.openfang-version
 modified_files:
   - proyecto-3/scripts/instalar_openfang.sh
   - proyecto-3/README.md
+  - proyecto-3/.openfang-version
 priority: high
-ordinal: 1170
+ordinal: 1000
 ---
 
 ## Description
@@ -55,11 +62,12 @@ Solo `proyecto-3/scripts/` y documentación; **no** configurar `openfang.toml` n
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Tras `./scripts/instalar_openfang.sh`, `openfang --version` imprime la versión pinneada documentada en README (misma cadena en ambos)
-- [ ] #2 `openfang start --help` termina con código 0 y muestra subcomandos esperados (`start`, `hand`, etc.)
-- [ ] #3 **Negativo:** si el instalador no tiene red, el script sale con código distinto de 0 y mensaje claro (no deja binario corrupto a medias)
-- [ ] #4 **Alterno:** README documenta paso manual si `curl` falla (descarga directa del release) y variable `OPENFANG_BIN` para override
-- [ ] #5 README incluye subsección **Fallback Ollama**: cuándo usarlo, variables `OLLAMA_BASE_URL`, que Ruta B prioriza OpenAI según decision-8
+- [x] #1 Tras `./scripts/instalar_openfang.sh`, `openfang --version` imprime la versión pinneada documentada en README (misma cadena en ambos)
+- [x] #2 `openfang start --help` termina con código 0 y muestra subcomandos esperados (`start`, `hand`, etc.)
+- [x] #3 **Negativo:** si el instalador no tiene red, el script sale con código distinto de 0 y mensaje claro (no deja binario corrupto a medias)
+- [x] #4 **Alterno:** README documenta paso manual si `curl` falla (descarga directa del release) y variable `OPENFANG_BIN` para override
+- [x] #5 README incluye subsección **Fallback Ollama**: cuándo usarlo, variables `OLLAMA_BASE_URL`, que Ruta B prioriza OpenAI según decision-8
+- [x] #6 #6 Si existe proyecto-3/.openfang-version, --verificar-only falla con mensaje claro si openfang --version no contiene esa version (tolerancia prefijo v)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -75,41 +83,39 @@ Solo `proyecto-3/scripts/` y documentación; **no** configurar `openfang.toml` n
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-Ejemplo esqueleto del script:
+Pin v0.6.9 (GitHub RightNow-AI/openfang). Instalador upstream sin pin: curl -fsSL https://openfang.sh/install | sh (usa latest; solo referencia).
 
+URL pinneada por arquitectura:
+https://github.com/RightNow-AI/openfang/releases/download/v0.6.9/openfang-${TARGET}.tar.gz
+
+Binario: $HOME/.openfang/bin/openfang. Variables: OPENFANG_VERSION, OPENFANG_BIN, OPENFANG_DOWNLOAD_URL (prueba error red).
+
+Esqueleto wrapper:
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-OPENFANG_VERSION="${OPENFANG_VERSION:-0.1.0}"
-INSTALAR_URL="https://releases.openfang.sh/v${OPENFANG_VERSION}/install.sh"
-
-main() {
-  if [[ "${1:-}" == "--verificar-only" ]]; then
-    openfang --version
-    openfang start --help
-    exit 0
-  fi
-  curl -fsSL "${INSTALAR_URL}" | bash
-  openfang --version
-}
-main "$@"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OPENFANG_VERSION="${OPENFANG_VERSION:-$(tr -d ' \r\n' < "${ROOT}/.openfang-version")}"
+# --verificar-only | --force | instalar pinneado
 ```
 
-Fallback Ollama (solo documentación en README):
+Fallback Ollama (solo README): provider ollama en openfang.toml, OLLAMA_BASE_URL; Ruta B prioriza OpenAI.
 
-```markdown
-## Fallback Ollama (opcional)
-Si OpenAI no está disponible, documentar en openfang.toml `provider = "ollama"` y `OLLAMA_BASE_URL`.
-No es el camino principal de la demo Ruta B.
-```
+Riesgo pre-1.0: bump .openfang-version si cambia formato de --version.
 
-**Riesgo:** API del instalador pre-1.0 — si cambia, actualizar URL en el mismo PR y bump del pin.
+Smoke macOS arm64 (2026-05-23): openfang 0.6.9; target aarch64-apple-darwin; idempotente OK; OPENFANG_DOWNLOAD_URL invalido -> exit 1 sin tocar binario.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado pin OpenFang 0.6.9: .openfang-version, instalar_openfang.sh (descarga GitHub pinneada, idempotente, --verificar-only, --force, OPENFANG_BIN/OPENFANG_DOWNLOAD_URL) y README con instalacion manual y fallback Ollama. Probado en Darwin arm64: openfang 0.6.9, start --help OK, caso sin red exit 1.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Script ejecutable (`chmod +x`) y probado en al menos un entorno Unix
-- [ ] #2 Sin secretos ni tokens en el diff
-- [ ] #3 README en español latinoamericano; identificadores y rutas ASCII
-- [ ] #4 Tarea marcada **Done** en Backlog sin invocar `task_complete`
+- [x] #1 Script ejecutable (`chmod +x`) y probado en al menos un entorno Unix
+- [x] #2 Sin secretos ni tokens en el diff
+- [x] #3 README en español latinoamericano; identificadores y rutas ASCII
+- [x] #4 Tarea marcada **Done** en Backlog sin invocar `task_complete`
 <!-- DOD:END -->

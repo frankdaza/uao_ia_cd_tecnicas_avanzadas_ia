@@ -16,10 +16,55 @@ Implementacion **paralela** del Bot posoperatorio TAAM usando **[OpenFang](https
 
 ## Requisitos
 
-- **OpenFang:** instalacion del binario (ver `scripts/instalar_openfang.sh`).
+- **OpenFang** **0.6.9** (binario pinneado; ver [release v0.6.9](https://github.com/RightNow-AI/openfang/releases/tag/v0.6.9) y `.openfang-version`).
+- **SO:** macOS o Linux (x86_64 o arm64). Windows: usar el instalador oficial (`install.ps1` en [openfang.sh](https://openfang.sh/)); fuera del alcance de los scripts de este repo.
 - **Python 3.12.12** + **uv** (solo para ingesta y notebook t-SNE).
 - **OpenAI API** (mismo proveedor que `proyecto-2/` para comparacion entre rutas).
 - **Bot Telegram** dedicado (token distinto al de `proyecto-2/`).
+
+## OpenFang (Agent OS)
+
+Version fijada en el repo: **0.6.9** (archivo [`.openfang-version`](.openfang-version)).
+
+### Instalacion y verificacion
+
+```bash
+cd proyecto-3
+chmod +x scripts/instalar_openfang.sh
+./scripts/instalar_openfang.sh
+
+# Si openfang no esta en PATH en esta sesion:
+export PATH="$HOME/.openfang/bin:$PATH"
+
+# Solo smoke (sin reinstalar):
+./scripts/instalar_openfang.sh --verificar-only
+openfang --version    # debe contener 0.6.9
+openfang start --help
+```
+
+El script instala en `~/.openfang/bin/openfang`. Variables utiles:
+
+| Variable | Uso |
+| --- | --- |
+| `OPENFANG_VERSION` | Override del pin (por defecto lee `.openfang-version`) |
+| `OPENFANG_BIN` | Ruta absoluta al binario para verificacion o ejecucion |
+| `OPENFANG_DOWNLOAD_URL` | Solo pruebas o espejo interno; no usar en produccion |
+
+Dashboard local tras `openfang start`: `http://127.0.0.1:4200`
+
+### Instalacion manual (si falla `curl`)
+
+1. Identificar el target Rust de tu maquina (ej. `aarch64-apple-darwin` en Mac Apple Silicon).
+2. Descargar el tarball del release pinneado, por ejemplo:
+   `https://github.com/RightNow-AI/openfang/releases/download/v0.6.9/openfang-aarch64-apple-darwin.tar.gz`
+3. Extraer y copiar el binario `openfang` a `~/.openfang/bin/` (o cualquier ruta en tu `PATH`).
+4. Verificar: `export OPENFANG_BIN=/ruta/a/openfang` y `./scripts/instalar_openfang.sh --verificar-only`
+
+Otros artefactos del mismo release: [v0.6.9 — assets](https://github.com/RightNow-AI/openfang/releases/tag/v0.6.9).
+
+### Fallback Ollama (opcional, solo documentacion)
+
+La **Ruta B** prioriza **OpenAI** segun [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md). Si en una version concreta del binario falla la integracion OpenAI nativa, se puede documentar en `openfang/openfang.toml` un proveedor local **Ollama** (`OLLAMA_BASE_URL`, por defecto `http://127.0.0.1:11434`). No es el camino principal de la demo ni se configura en esta tarea.
 
 ## Configuracion rapida
 
@@ -30,6 +75,7 @@ cp .env.example .env
 
 # Instalar OpenFang (una vez)
 ./scripts/instalar_openfang.sh
+export PATH="$HOME/.openfang/bin:$PATH"
 
 # Entorno Python auxiliar
 uv sync
@@ -40,8 +86,6 @@ uv run python ingesta/indexar_corpus_openfang.py
 # Arranque desarrollo
 ./scripts/arrancar_dev.sh
 ```
-
-Dashboard OpenFang: `http://127.0.0.1:4200`
 
 ## Estructura
 

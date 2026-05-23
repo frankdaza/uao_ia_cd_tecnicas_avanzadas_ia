@@ -15,6 +15,12 @@ data/processed/
 # TAAM: PDFs locales (el runtime lee disco; no indexar binarios ni arboles grandes)
 data/taam/
 
+# proyecto-3 Ruta B: runtime OpenFang (JSONL/SQLite; el kernel lee disco en ejecucion)
+proyecto-3/openfang/data/
+
+# proyecto-3: artefactos t-SNE generados
+proyecto-3/analisis_tsne/output/
+
 # Tareas archivadas: historial versionado; poco util en busqueda semantica del IDE
 backlog/completed/
 
@@ -37,3 +43,4 @@ backlog/completed/
 !uv.lock
 !proyecto-1/uv.lock
 !proyecto-2/uv.lock
+!proyecto-3/uv.lock

@@ -13,7 +13,8 @@
       "Read(/**/id_rsa)",
       "Read(/**/*.key)",
       "Read(/data/raw/**)",
-      "Read(/data/taam/**)"
+      "Read(/data/taam/**)",
+      "Read(/proyecto-3/openfang/data/**)"
     ]
   }
 }

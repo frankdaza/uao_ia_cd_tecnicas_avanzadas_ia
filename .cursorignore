@@ -5,6 +5,8 @@
 # Secretos y variables de entorno (no commitear valores reales)
 **/.env
 **/.env.*
+!**/.env.example
+!proyecto-3/.env.example
 secrets/
 **/credentials.json
 **/secrets.json
@@ -18,6 +20,12 @@ data/raw/
 
 # TAAM: PDFs y protocolos subidos (binarios; rutas en data/taam/procedimientos/)
 data/taam/
+
+# proyecto-3 Ruta B: runtime OpenFang (SQLite, JSONL sesiones; puede contener PII de demo Telegram)
+proyecto-3/openfang/data/
+
+# proyecto-3: salidas t-SNE (parquet, npy, HTML plotly)
+proyecto-3/analisis_tsne/output/
 
 # Entornos y caches de herramientas (no aportan al codigo fuente)
 **/.venv/
@@ -38,3 +46,4 @@ data/taam/
 !uv.lock
 !proyecto-1/uv.lock
 !proyecto-2/uv.lock
+!proyecto-3/uv.lock
