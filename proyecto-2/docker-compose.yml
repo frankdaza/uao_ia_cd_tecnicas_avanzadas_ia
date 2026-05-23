@@ -1,8 +1,12 @@
 # Stack local TAAM (proyecto-2): API + PostgreSQL + Qdrant.
 # Puertos por defecto distintos a proyecto-1 (M2) para coexistencia en la misma maquina.
 #
-# M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333
-# TAAM (este archivo): API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335
+# pgweb (UI web liviana para Postgres): http://127.0.0.1:8082 por defecto; puerto del host con PGWEB_PUBLISH_PORT.
+# Conexion interna al servicio postgres (mismas credenciales que POSTGRES_*). Si la contrasena tiene caracteres
+# reservados en URL (@, :, /, etc.), use una contrasena local simple o codifique la URL.
+#
+# M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333, pgweb 8081
+# TAAM (este archivo): API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335, pgweb 8082
 #
 # Migraciones: `docker compose exec api uv run alembic upgrade head` (ver README).
 
@@ -27,6 +31,17 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
+    restart: unless-stopped
+
+  pgweb:
+    image: sosedoff/pgweb:0.16.2
+    environment:
+      PGWEB_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-taam}?sslmode=disable
+    ports:
+      - "127.0.0.1:${PGWEB_PUBLISH_PORT:-8082}:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   qdrant:

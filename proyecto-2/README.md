@@ -23,7 +23,160 @@ Aplicación **independiente** del asistente M2 en [`proyecto-1/`](../proyecto-1/
 
 - Python **3.12.12** (exacto)
 - [uv](https://docs.astral.sh/uv/)
-- Docker y Docker Compose (stack local opcional)
+- Docker y Docker Compose (recomendado para Postgres + Qdrant locales)
+- Node.js **22** y **pnpm 11.1.1** si usará el panel React (`frontend/`)
+
+## Guía paso a paso (desarrollo local)
+
+Orden recomendado para dejar API, base de datos, vectores y usuarios demo listos. Los pasos 3–6 asumen Docker; si ejecuta la API con `uv run uvicorn` en el host, use los equivalentes indicados entre paréntesis.
+
+### 1. Entrar al proyecto y copiar variables
+
+```bash
+cd proyecto-2
+cp .env.example .env
+```
+
+Edite `.env` (no commitear). Mínimo para login staff y semillas:
+
+| Variable | Valor sugerido (local) | Notas |
+|----------|------------------------|-------|
+| `STAFF_JWT_SECRET` | Cadena aleatoria ≥ 32 caracteres | Obligatoria; sin ella `POST /api/auth/staff/login` responde **503** |
+| `STAFF_DEMO_ASISTENTE_PASSWORD` | `123456789` | Debe coincidir con la contraseña que usará en login y al sembrar |
+| `STAFF_DEMO_CLINICO_PASSWORD` | `123456789` | Igual para los tres roles demo |
+| `STAFF_DEMO_ADMIN_PASSWORD` | `123456789` | Igual para los tres roles demo |
+| `ADMIN_API_KEY` | Clave larga local (opcional) | Alternativa a JWT para rutas `/api/admin/*` vía cabecera `X-Admin-Key` |
+| `OPENAI_API_KEY` | Su clave | Necesaria para ingesta PDF → embeddings y agente en vivo |
+| `QDRANT_URL` | `http://127.0.0.1:6334` | Con API en host; en Docker Compose la API usa `http://qdrant:6333` internamente |
+
+Plantilla completa: [`.env.example`](.env.example).
+
+### 2. Instalar dependencias Python
+
+```bash
+uv sync
+```
+
+### 3. Levantar infraestructura con Docker Compose
+
+```bash
+docker compose up --build -d
+```
+
+- El servicio **api** ejecuta **`alembic upgrade head`** al arrancar ([`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego Uvicorn en el puerto **8001**.
+- **No** ejecuta la semilla de usuarios ni datos demo; eso es manual (paso 5).
+- Solo infra (sin API): `docker compose up -d postgres qdrant pgweb`.
+
+Comprobar salud: `curl -sS http://127.0.0.1:8001/api/salud | jq .` → `"proyecto":"taam"`.
+
+| Servicio | URL en el host (defecto) |
+|----------|---------------------------|
+| API | http://127.0.0.1:8001/api/salud |
+| pgweb (Postgres) | http://127.0.0.1:8082 — usuario/contraseña/base = `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` (`postgres` / `postgres` / `taam`) |
+| Qdrant dashboard | http://127.0.0.1:6334/dashboard |
+| Qdrant REST | http://127.0.0.1:6334 |
+
+Puertos TAAM vs M2: ver tabla en [Docker Compose](#docker-compose) más abajo.
+
+### 4. Migraciones Alembic (si aplica)
+
+| Escenario | Comando |
+|-----------|---------|
+| Stack con `docker compose up` (API en contenedor) | Ya aplicadas en el arranque del contenedor **api** |
+| API en host + Postgres publicado en **15433** | `export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'` y `uv run alembic upgrade head` |
+| Reaplicar en contenedor ya levantado | `docker compose exec api uv run alembic upgrade head` |
+
+Revisiones en `alembic/versions/`: `0001_inicial_taam`, `0002_telegram_updates_procesados`, `0003_alertas_triage_auditoria`.
+
+### 5. Usuarios y datos de prueba (semillas)
+
+Tras migraciones y con `STAFF_JWT_SECRET` y las tres `STAFF_DEMO_*_PASSWORD` definidas en `.env`:
+
+**Solo usuarios staff** (login JWT; sin casos ni PDF demo):
+
+```bash
+# Con API en Docker:
+docker compose exec api uv run python -m scripts.sembrar_usuarios_staff_demo
+
+# Con API en host:
+uv run python -m scripts.sembrar_usuarios_staff_demo
+```
+
+**Demo completa** (usuarios + procedimiento `COLE-LAP-001` + casos `PAC-DEMO-001` / `PAC-DEMO-002` + alerta + código `DEMO2X` + hilo Telegram ficticio):
+
+```bash
+docker compose exec api uv run python -m scripts.sembrar_demo_taam
+# Opcional: además indexar PDF demo en Qdrant (requiere OPENAI_API_KEY y Qdrant up)
+docker compose exec api uv run python -m scripts.sembrar_demo_taam --con-ingesta
+```
+
+La semilla es **idempotente**: puede repetirse; actualiza contraseñas si cambió las variables `STAFF_DEMO_*` en `.env`.
+
+### 6. Qdrant — colección `taam_protocolos`
+
+- Colección dedicada M3: `TAAM_QDRANT_COLLECTION` (defecto `taam_protocolos`), **no** las colecciones `corpus_*` de M2.
+- Tras subir un PDF por API admin, la ingesta corre en segundo plano; estado en `indexacion_estado` del tipo de procedimiento.
+- **CLI** (un UUID o todos los pendientes):
+
+```bash
+docker compose exec api uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid>
+docker compose exec api uv run python -m scripts.ingestar_protocolo_pdf --todos-pendientes
+```
+
+En host: mismos comandos con `uv run` y `QDRANT_URL=http://127.0.0.1:6334`.
+
+### 7. Panel React (opcional)
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+Abrir http://127.0.0.1:5174/login con cualquier usuario de la tabla siguiente. Detalle de rutas: [`frontend/README.md`](frontend/README.md).
+
+### 8. Verificar login staff
+
+```bash
+curl -sS -X POST http://127.0.0.1:8001/api/auth/staff/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"asistente@demo.taam","password":"123456789"}' | jq .
+```
+
+Debe devolver `access_token` y `rol`. Si falla con 401, vuelva a ejecutar la semilla (paso 5) tras alinear `.env` y contraseñas.
+
+---
+
+## Usuarios de prueba (staff demo)
+
+Creados por `scripts/sembrar_usuarios_staff_demo.py` (o incluidos en `scripts/sembrar_demo_taam.py`). La contraseña en login es la que tenga en `.env` en el momento de sembrar; en entorno local del curso se usa **`123456789`** para los tres.
+
+| Email | Contraseña (login) | Rol | Nombre en sistema | Función en TAAM |
+|-------|-------------------|-----|-------------------|-----------------|
+| `asistente@demo.taam` | `123456789` | `asistente` | Asistente Demo | Registro de casos postoperatorio, generación de código de emparejamiento Telegram (`/casos` en el panel). En API de seguimiento ve **PII enmascarada** (solo últimos 4 caracteres de doc. paciente y `chat_id`). |
+| `clinico@demo.taam` | `123456789` | `clinico` | Clinico Demo | Bandeja de alertas de triage, revisión de conversaciones del bot y resumen del caso (`/seguimiento`). Ve identificadores completos del paciente y Telegram. |
+| `admin@demo.taam` | `123456789` | `admin` | Admin Demo | Catálogo de tipos de procedimiento y PDF (`/admin/procedimientos`), reindexación Qdrant y rutas `/api/admin/*` con JWT `rol=admin` o `X-Admin-Key`. También puede usar rutas staff como los demás roles. |
+
+Variables que alimentan la semilla (deben coincidir con la contraseña de la tabla):
+
+```env
+STAFF_DEMO_ASISTENTE_PASSWORD=123456789
+STAFF_DEMO_CLINICO_PASSWORD=123456789
+STAFF_DEMO_ADMIN_PASSWORD=123456789
+```
+
+**Datos demo adicionales** (solo tras `sembrar_demo_taam`):
+
+| Recurso | Valor | Uso |
+|---------|-------|-----|
+| Procedimiento | `COLE-LAP-001` — Colecistectomía laparoscópica (demo) | Select al crear caso; PDF en `data/taam/demo/` |
+| Caso A | `PAC-DEMO-001` — Ana Ficticia Lopez | Ya vinculado a Telegram `111111111`; alerta **urgente** pendiente; hilo de conversación sembrado |
+| Caso B | `PAC-DEMO-002` — Bruno Ficticio Ruiz | Código de emparejamiento **`DEMO2X`** (TTL 24 h) para probar `/start DEMO2X` en Telegram |
+| Cirujano ficticio | `DOC-DEMO-001` / Dr. Demo TAAM | Metadatos del caso |
+
+**FAQs estructuradas** (tool del agente): `data/structured/taam_faqs.json`.
+
+---
 
 ## Comandos rápidos
 
@@ -74,25 +227,12 @@ curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
 |--------|------|-------------|
 | `POST` | `/api/auth/staff/login` | Body JSON `email`, `password` → `access_token` (JWT HS256, 8 h por defecto) |
 
-Variables: `STAFF_JWT_SECRET` (obligatoria para auth staff), `STAFF_JWT_EXPIRE_HORAS` (opcional). Contraseñas demo solo en entorno local: `STAFF_DEMO_ASISTENTE_PASSWORD`, `STAFF_DEMO_CLINICO_PASSWORD`, `STAFF_DEMO_ADMIN_PASSWORD`.
-
-Usuarios demo (tras migraciones y semilla):
-
-| Email | Rol |
-|-------|-----|
-| `asistente@demo.taam` | `asistente` |
-| `clinico@demo.taam` | `clinico` |
-| `admin@demo.taam` | `admin` |
+Variables: `STAFF_JWT_SECRET` (obligatoria para auth staff), `STAFF_JWT_EXPIRE_HORAS` (opcional). Contraseñas demo: `STAFF_DEMO_*_PASSWORD` (ver [Usuarios de prueba](#usuarios-de-prueba-staff-demo) y [guía paso a paso](#guía-paso-a-paso-desarrollo-local)).
 
 ```bash
-cd proyecto-2
-export STAFF_JWT_SECRET='cambiar-por-secreto-jwt-min-32-caracteres'
-uv run alembic upgrade head
-uv run python -m scripts.sembrar_usuarios_staff_demo
-
 TOKEN=$(curl -sS -X POST http://127.0.0.1:8001/api/auth/staff/login \
   -H 'Content-Type: application/json' \
-  -d '{"email":"asistente@demo.taam","password":"cambiar-demo-asistente"}' | jq -r .access_token)
+  -d '{"email":"clinico@demo.taam","password":"123456789"}' | jq -r .access_token)
 
 curl -sS -H "Authorization: Bearer $TOKEN" http://127.0.0.1:8001/api/staff/casos | jq .
 ```
@@ -176,14 +316,17 @@ Placeholders en `texto_plantilla`: `{nombre_paciente}`, `{tipo_procedimiento}`, 
 
 ## Docker Compose
 
+Resumen de servicios; el flujo completo (`.env`, semillas, Qdrant, usuarios) está en [Guía paso a paso](#guía-paso-a-paso-desarrollo-local).
+
 ```bash
 cd proyecto-2
-docker compose up --build
+docker compose up --build -d    # recomendado en segundo plano
+# docker compose up --build   # primer arranque en primer plano (logs)
 ```
 
-El contenedor **api** ejecuta `alembic upgrade head` al arrancar (script [`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego inicia Uvicorn. No hace falta migrar a mano tras un `docker compose up` con Postgres vacío.
+El contenedor **api** ejecuta `alembic upgrade head` al arrancar ([`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego Uvicorn. **No** ejecuta `sembrar_usuarios_staff_demo` ni `sembrar_demo_taam`; hágalo en el paso 5 de la guía.
 
-El servicio **api** carga [`proyecto-2/.env`](.env) vía `env_file` en `docker-compose.yml` (incluye `STAFF_JWT_SECRET` y contraseñas demo). Sin `STAFF_JWT_SECRET`, `POST /api/auth/staff/login` responde 503.
+El servicio **api** carga [`proyecto-2/.env`](.env) vía `env_file` en `docker-compose.yml` (incluye `STAFF_JWT_SECRET` y `STAFF_DEMO_*_PASSWORD`). Sin `STAFF_JWT_SECRET`, `POST /api/auth/staff/login` responde **503**.
 
 ### Puertos por defecto (coexistencia con M2)
 
@@ -193,21 +336,31 @@ El servicio **api** carga [`proyecto-2/.env`](.env) vía `env_file` en `docker-c
 | Postgres (host) | 15432 | **15433** |
 | Qdrant REST (host) | 6333 | **6334** |
 | Qdrant gRPC (host) | 6334 | **6335** |
+| pgweb (host) | 8081 | **8082** |
 | Vite (dev) | 5173 | **5174** (previsto) |
 
-Si algún puerto está ocupado, sobreescribir en `.env` (`API_PORT`, `POSTGRES_PUBLISH_PORT`, `QDRANT_REST_PORT`, etc.).
+### URLs en el navegador (host TAAM)
 
-Si corres la API **fuera de Docker** contra Postgres en el host (`uv run uvicorn …`), aplica migraciones una vez:
+Tras `docker compose up`, abre estas direcciones desde tu máquina (usa `127.0.0.1` o `localhost`; **no** `0.0.0.0`):
 
-```bash
-cd proyecto-2
-export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'
-uv run alembic upgrade head
-```
+| Servicio | URL |
+|----------|-----|
+| API (salud) | http://127.0.0.1:8001/api/salud |
+| pgweb (Postgres) | http://127.0.0.1:8082 |
+| Qdrant (dashboard) | http://127.0.0.1:6334/dashboard |
+| Qdrant (REST) | http://127.0.0.1:6334 |
 
-Para forzar migraciones dentro de un contenedor ya levantado: `docker compose exec api uv run alembic upgrade head`.
+**Credenciales pgweb:** las mismas que `POSTGRES_USER`, `POSTGRES_PASSWORD` y base `POSTGRES_DB` (`taam` por defecto) del `.env`.
 
-El healthcheck de la API solo valida `GET /api/salud`; no ejecuta Alembic por sí solo.
+**Logs engañosos de los contenedores:** pgweb y Qdrant imprimen URLs internas al arrancar (`http://0.0.0.0:8081/` y `http://localhost:6333/dashboard`). Esos puertos son los del **contenedor**, no los publicados en el host TAAM. Usa siempre la tabla de arriba (8082 y 6334 por defecto).
+
+- **Solo infraestructura:** `docker compose up -d postgres qdrant pgweb` (sin API).
+
+Si algún puerto está ocupado, sobreescribir en `.env` (`API_PORT`, `POSTGRES_PUBLISH_PORT`, `QDRANT_REST_PORT`, `PGWEB_PUBLISH_PORT`, etc.).
+
+API **fuera de Docker** con Postgres en el host: ver pasos 4–5 de la [guía paso a paso](#guía-paso-a-paso-desarrollo-local).
+
+El healthcheck del contenedor **api** solo valida `GET /api/salud`; no ejecuta Alembic ni semillas por sí solo.
 
 ## Variables de entorno
 
@@ -253,27 +406,11 @@ Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RA
 
 Guion minuto a minuto: [GUION-DEMO-TAAM.md](../backlog/docs/usecases/GUION-DEMO-TAAM.md). Datos ficticios alineados al [caso de uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md) (secciones 9–10).
 
-**Orden recomendado** (sin PHI; contraseñas solo en `.env` local):
+**Preparación:** seguir la [guía paso a paso](#guía-paso-a-paso-desarrollo-local) hasta el paso 5 con `sembrar_demo_taam` (y `--con-ingesta` si necesita RAG en vivo). Login panel: usuarios de [Usuarios de prueba](#usuarios-de-prueba-staff-demo) (`123456789`); flujo clínico típico con `clinico@demo.taam` y caso `PAC-DEMO-001`.
 
-```bash
-cd proyecto-2
-cp .env.example .env   # STAFF_JWT_SECRET, TELEGRAM_*, OPENAI_API_KEY si aplica
-docker compose up -d
-export DATABASE_URL='postgresql+asyncpg://postgres:postgres@127.0.0.1:15433/taam'
-uv run alembic upgrade head
-uv run python -m scripts.sembrar_demo_taam
-# Opcional: vectores Qdrant para RAG en vivo
-uv run python -m scripts.sembrar_demo_taam --con-ingesta
-uv run uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8001
-```
+**Telegram:** registrar webhook HTTPS (`scripts/configurar_webhook_telegram.py`). Caso B: `/start DEMO2X`. En **tests**, el agente se mockea; en demo en vivo use API real según `.env`.
 
-**Qué deja la semilla:** usuarios `*@demo.taam`, procedimiento `COLE-LAP-001` con PDF en `data/taam/demo/`, casos `PAC-DEMO-001` (vinculado Telegram + alerta urgente + hilo) y `PAC-DEMO-002` (código `DEMO2X` para `/start` en vivo), plantillas de recordatorio.
-
-**FAQs estructuradas:** `data/structured/taam_faqs.json` (tool `faq_postoperatorio`).
-
-**Telegram:** registrar webhook HTTPS (`scripts/configurar_webhook_telegram.py`). En **tests**, el agente se mockea; en la demo en vivo use API real según `.env`.
-
-**Frontend:** `cd frontend && pnpm dev` (puerto 5174). Login demo: `asistente@demo.taam` / `clinico@demo.taam` (ver `.env.example`).
+**Frontend:** `cd frontend && pnpm dev` → http://127.0.0.1:5174/login .
 
 ## Próximas tareas Backlog
 - **TASK-107** — recordatorios Telegram (UC-MVP-04) implementado

@@ -1,6 +1,6 @@
 ---
 id: doc-006
-title: Estudio de migración hacia una arquitectura en capas tipo Clean Architecture (M2)
+title: doc-006 - Estudio de migración hacia una arquitectura en capas tipo Clean Architecture (M2)
 type: architecture
 created_date: '2026-05-16'
 updated_date: '2026-05-21'

@@ -1,6 +1,6 @@
 ---
 id: doc-004
-title: Arquitectura operativa TAAM (Módulo 3) y evolución M2 → proyecto-2
+title: doc-004 - Arquitectura operativa TAAM (Módulo 3) y evolución M2 → proyecto-2
 type: architecture
 created_date: '2026-05-21'
 updated_date: '2026-05-21'
