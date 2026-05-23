@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 20:00'
+updated_date: '2026-05-23 17:31'
 labels:
   - modulo-3
   - taam
@@ -21,7 +21,9 @@ references:
   - proyecto-3/src/openfang/extraccion_tsne.py
   - proyecto-3/src/openfang/historial_jsonl.py
   - proyecto-3/docs/dashboard-openfang.md
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
 modified_files:
   - proyecto-3/analisis_tsne/src/extraer_jsonl.py
   - proyecto-3/tests/analisis_tsne/test_extraer_jsonl.py
@@ -32,7 +34,7 @@ modified_files:
   - proyecto-3/pyproject.toml
   - proyecto-3/analisis_tsne/README.md
 priority: medium
-ordinal: 1000
+ordinal: 0.48828125
 ---
 
 ## Description
