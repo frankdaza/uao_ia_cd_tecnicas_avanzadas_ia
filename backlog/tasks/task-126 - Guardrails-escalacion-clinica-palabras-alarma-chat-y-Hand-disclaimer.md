@@ -1,10 +1,11 @@
 ---
 id: TASK-126
-title: 'Guardrails escalacion clinica palabras alarma chat y Hand disclaimer'
-status: To Do
+title: Guardrails escalacion clinica palabras alarma chat y Hand disclaimer
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 17:11'
 labels:
   - modulo-3
   - taam
@@ -24,7 +25,7 @@ modified_files:
   - proyecto-3/openfang/hands/taam_lili_hand/prompts/recordatorio_postop.md
   - proyecto-3/tests/guardrails/test_palabras_alarma.py
 priority: high
-ordinal: 1260
+ordinal: 1000
 ---
 
 ## Description

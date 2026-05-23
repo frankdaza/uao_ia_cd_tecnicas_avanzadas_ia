@@ -59,7 +59,7 @@ openfang hand list
 - Solicitud o almacenamiento de foto, audio o video.
 - Creacion de casos clinicos en base de datos (proyecto-2 / OLTP).
 
-## Pruebas (manifesto y UC6)
+## Pruebas (manifesto, UC6 y UC7)
 
 ```bash
 cd proyecto-3
@@ -67,6 +67,8 @@ cd proyecto-3
 uv run pytest tests/test_hand_taam_lili.py -q
 # Recordatorio postoperatorio: positivo, negativo, edge, auditoria (TASK-124)
 uv run pytest tests/hand/test_recordatorio_postop.py -q
+# Evidencia en texto: KV, reintento 24 h, multimedia, auditoria (TASK-125)
+uv run pytest tests/hand/test_requerir_evidencia.py -q
 ```
 
 Disparo manual sin esperar el tick de 30 s:
@@ -75,9 +77,19 @@ Disparo manual sin esperar el tick de 30 s:
 uv run python scripts/disparar_recordatorio_hand.py --solo-simular
 # Con token y sesion Telegram activa:
 uv run python scripts/disparar_recordatorio_hand.py
+# Marcar pendiente UC7 tras recordatorio (demo):
+uv run python scripts/disparar_recordatorio_hand.py --solo-simular --marcar-evidencia
+
+uv run python scripts/disparar_evidencia_hand.py --marcar-pendiente CHAT_ID --solo-simular
+uv run python scripts/disparar_evidencia_hand.py --solo-simular
 ```
 
-Auditoria: `{OPENFANG_HOME}/audit/hand_recordatorio.jsonl` (`tipo: hand_recordatorio`).
+Auditoria:
+
+- `{OPENFANG_HOME}/audit/hand_recordatorio.jsonl` (`tipo: hand_recordatorio`)
+- `{OPENFANG_HOME}/audit/hand_evidencia.jsonl` (`tipo: hand_evidencia`)
+
+KV por sesion (demo): `{OPENFANG_HOME}/kv/hand_evidencia/{chat_id}.json` (`pendiente_evidencia`, reintento maximo 1 tras 24 h).
 
 ## Referencias
 

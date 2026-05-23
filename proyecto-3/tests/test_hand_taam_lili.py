@@ -74,3 +74,12 @@ def test_playbooks_mencionan_disclaimer_y_alarma() -> None:
         assert "no reemplaza" in texto or "medico tratante" in texto
         assert "dolor intenso" in texto
         assert "fiebre alta" in texto
+
+
+def test_playbook_evidencia_menciona_solo_texto_y_24h() -> None:
+    texto = (
+        ruta_hand_dir(_RAIZ) / "prompts" / "requerir_evidencia.md"
+    ).read_text(encoding="utf-8").lower()
+    assert "solo texto" in texto or "solo acepta texto" in texto
+    assert "24" in texto
+    assert "pendiente_evidencia" in texto

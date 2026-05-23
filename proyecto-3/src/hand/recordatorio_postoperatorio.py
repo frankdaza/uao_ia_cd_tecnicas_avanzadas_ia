@@ -130,7 +130,7 @@ def _iterar_registros_jsonl(raiz: Path) -> list[tuple[str, dict]]:
         return []
     filas: list[tuple[str, dict]] = []
     for ruta in sorted(raiz.rglob("*.jsonl")):
-        if "hand_recordatorio" in ruta.name:
+        if "hand_recordatorio" in ruta.name or "hand_evidencia" in ruta.name:
             continue
         try:
             contenido = ruta.read_text(encoding="utf-8")
@@ -263,6 +263,8 @@ def ejecutar_recordatorio_postop(
     fragmentos_por_sesion: Callable[[SesionActiva], list[str]] | None = None,
     registrar_auditoria: bool = True,
     ahora: datetime | None = None,
+    marcar_evidencia_tras_envio: bool = False,
+    accion_evidencia_solicitada: str | None = None,
 ) -> ResultadoRecordatorioPostop:
     """
     Orquesta el envio de recordatorios a sesiones Telegram activas.
@@ -315,6 +317,16 @@ def ejecutar_recordatorio_postop(
         enviados += 1
         session_ids_enviados.append(sesion.session_id)
         detalles.append(f"{sesion.session_id}:enviado")
+        if marcar_evidencia_tras_envio:
+            from src.hand.requerir_evidencia import iniciar_pendiente_evidencia
+
+            iniciar_pendiente_evidencia(
+                raiz,
+                sesion.session_id,
+                accion_solicitada=accion_evidencia_solicitada,
+                ahora=instante,
+            )
+            detalles.append(f"{sesion.session_id}:evidencia_pendiente")
         logger.info(
             "recordatorio_enviado session_id=%s chat_id=%s",
             sesion.session_id,

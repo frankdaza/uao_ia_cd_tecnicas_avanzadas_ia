@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Disparo manual del recordatorio postoperatorio UC6 (adaptador TASK-124)."""
+"""Disparo manual de solicitud de evidencia UC7 (adaptador TASK-125)."""
 
 from __future__ import annotations
 
@@ -16,9 +16,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.configuracion import obtener_configuracion  # noqa: E402
-from src.hand.recordatorio_postoperatorio import (  # noqa: E402
-    ejecutar_recordatorio_postop,
-    ruta_auditoria_hand,
+from src.hand.requerir_evidencia import (  # noqa: E402
+    ejecutar_requerir_evidencia,
+    iniciar_pendiente_evidencia,
+    listar_chat_ids_pendientes,
+    ruta_auditoria_hand_evidencia,
+    session_id_desde_chat_id,
 )
 
 
@@ -34,22 +37,27 @@ def _enviar_telegram(token: str, chat_id: str, texto: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Disparar recordatorio postoperatorio (Hand taam_lili_hand / UC6)"
+        description="Disparar solicitud de evidencia en texto (Hand taam_lili_hand / UC7)"
     )
     parser.add_argument(
         "--solo-simular",
         action="store_true",
-        help="No llama a Telegram; solo lista sesiones y escribe auditoria",
+        help="No llama a Telegram; solo procesa KV pendientes y auditoria",
     )
     parser.add_argument(
-        "--marcar-evidencia",
-        action="store_true",
-        help="Tras cada recordatorio enviado, marca pendiente_evidencia (UC7 demo)",
+        "--marcar-pendiente",
+        metavar="CHAT_ID",
+        help="Marca pendiente_evidencia para un chat antes de ejecutar (demo)",
     )
     args = parser.parse_args()
 
     cfg = obtener_configuracion()
     raiz = cfg.openfang_home_absoluto()
+
+    if args.marcar_pendiente:
+        session_id = session_id_desde_chat_id(args.marcar_pendiente.strip())
+        iniciar_pendiente_evidencia(raiz, session_id)
+        print(f"pendiente marcado: {session_id}")
 
     if args.solo_simular:
 
@@ -62,23 +70,28 @@ def main() -> int:
         def enviar(chat_id: str, texto: str) -> None:
             _enviar_telegram(token, chat_id, texto)
 
+    pendientes = listar_chat_ids_pendientes(raiz)
+    print(f"pendientes={pendientes}")
+
     try:
-        resultado = ejecutar_recordatorio_postop(
+        resultado = ejecutar_requerir_evidencia(
             enviar=enviar,
             raiz_openfang=raiz,
             registrar_auditoria=True,
-            marcar_evidencia_tras_envio=args.marcar_evidencia,
         )
     except urllib.error.URLError as exc:
         print(f"ERROR envio Telegram: {exc}", file=sys.stderr)
         return 1
 
-    audit = ruta_auditoria_hand(raiz)
-    print(f"enviados={resultado.enviados} motivo={resultado.motivo!r}")
+    audit = ruta_auditoria_hand_evidencia(raiz)
+    print(
+        f"enviados={resultado.enviados} cerrados={resultado.cerrados} "
+        f"motivo={resultado.motivo!r}"
+    )
     for detalle in resultado.detalles:
         print(f"  {detalle}")
     print(f"auditoria: {audit}")
-    return 0 if resultado.enviados > 0 or resultado.motivo == "sin_sesiones_activas" else 2
+    return 0
 
 
 if __name__ == "__main__":

@@ -38,7 +38,8 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 - Pregunta sugerida: cuidado postoperatorio o medicacion segun protocolo ingerido.
 - Opcional: mensaje proactivo del Hand (~30 s con Hand activo) **o** disparo manual:
   `uv run python scripts/disparar_recordatorio_hand.py` (requiere sesion `telegram:{chat_id}` en JSONL).
-- Mostrar auditoria: `tail -n 3 openfang/data/audit/hand_recordatorio.jsonl` (`tipo: hand_recordatorio`).
+- UC7 evidencia texto (demo): `uv run python scripts/disparar_recordatorio_hand.py --marcar-evidencia` luego `uv run python scripts/disparar_evidencia_hand.py --solo-simular` (o `--marcar-pendiente CHAT_ID` antes del segundo comando).
+- Mostrar auditoria: `tail -n 3 openfang/data/audit/hand_recordatorio.jsonl` y `hand_evidencia.jsonl`.
 
 ## Minuto 12–14 — t-SNE (bonus)
 

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 18:00'
+updated_date: '2026-05-23 17:06'
 labels:
   - modulo-3
   - taam
@@ -21,7 +21,9 @@ references:
   - proyecto-3/src/hand/recordatorio_postoperatorio.py
   - proyecto-3/scripts/disparar_recordatorio_hand.py
   - backlog/docs/usecases/Caso de Uso TAAM - Bot Posoperatorio.md
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
 modified_files:
   - proyecto-3/openfang/hands/taam_lili_hand/prompts/recordatorio_postop.md
   - proyecto-3/src/hand/recordatorio_postoperatorio.py
@@ -33,7 +35,7 @@ modified_files:
   - proyecto-3/README.md
   - proyecto-3/docs/guion-demo-ruta-b.md
 priority: high
-ordinal: 1000
+ordinal: 7.8125
 ---
 
 ## Description
