@@ -10,7 +10,7 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 - [ ] `.env` con `OPENAI_API_KEY` y `TELEGRAM_BOT_TOKEN` (bot **distinto** al de `proyecto-2/`); ver [telegram-bot-setup.md](telegram-bot-setup.md)
 - [ ] `./scripts/verificar_telegram_bot.sh` → OK con `@username` del bot Ruta B
 - [ ] Corpus ingerido (`uv run python ingesta/indexar_corpus_openfang.py`)
-- [ ] Hand activo: `openfang hand activate taam_lili_hand`
+- [ ] Hand activo: `openfang hand activate taam_lili_hand` (ticks cada **30 s** segun `HAND.toml`; desactivar al terminar la demo)
 - [ ] Dashboard accesible: `http://127.0.0.1:4200`
 - [ ] Pregunta de prueba preparada sobre protocolo FVL
 
@@ -29,14 +29,14 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 
 - Mostrar `openfang/hands/taam_lili_hand/HAND.toml` y `SKILL.md` (guardrails: no diagnostico).
 - Terminal: estado del Hand (`taam_lili_hand` activo).
-- Explicar cron: recordatorio postoperatorio + evidencia en texto.
+- Explicar schedule demo: `every_secs = 30` (recordatorio postoperatorio + evidencia en texto; en produccion futura podria usarse cron matutino segun decision-8).
 
 ## Minuto 8–12 — Prueba de fuego Telegram
 
 - Profesor o publico envia mensaje al **bot Ruta B** desde su telefono.
 - Narrar en tiempo real: Update → bridge OpenFang → RAG memoria → OpenAI → respuesta.
 - Pregunta sugerida: cuidado postoperatorio o medicacion segun protocolo ingerido.
-- Opcional: mostrar mensaje proactivo del Hand si el cron ya disparo.
+- Opcional: mostrar mensaje proactivo del Hand (deberia aparecer en ~30 s con el Hand activo).
 
 ## Minuto 12–14 — t-SNE (bonus)
 

@@ -1,10 +1,11 @@
 ---
 id: TASK-124
-title: 'Hand cron recordatorio postoperatorio UC6 pruebas positivas y negativas'
-status: To Do
+title: Hand cron recordatorio postoperatorio UC6 pruebas positivas y negativas
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-23 16:57'
 labels:
   - modulo-3
   - taam
@@ -22,7 +23,7 @@ modified_files:
   - proyecto-3/openfang/hands/taam_lili_hand/prompts/recordatorio_postop.md
   - proyecto-3/tests/hand/test_recordatorio_postop.py
 priority: high
-ordinal: 1240
+ordinal: 1000
 ---
 
 ## Description

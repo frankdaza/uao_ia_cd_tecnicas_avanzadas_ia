@@ -87,7 +87,7 @@ export OPENFANG_HOME="$(pwd)/openfang/data"
 **Agente y Hand (no van en `openfang.toml`):**
 
 - Agente corporativo: manifest [`openfang/agents/bot_lili_taam/agent.toml`](openfang/agents/bot_lili_taam/agent.toml) → `openfang agent spawn ...`
-- Hand autonomo: [`openfang/hands/taam_lili_hand/`](openfang/hands/taam_lili_hand/) → `openfang hand install` / `openfang hand activate taam_lili_hand`
+- Hand autonomo: [`openfang/hands/taam_lili_hand/`](openfang/hands/taam_lili_hand/) → `openfang hand install` / `openfang hand activate taam_lili_hand` (schedule demo: **`every_secs = 30`** en `HAND.toml`; desactivar fuera de pruebas para no consumir API)
 
 ```mermaid
 flowchart LR
@@ -95,7 +95,7 @@ flowchart LR
   bridge["channels.telegram"]
   agente[bot_lili_taam]
   memoria["Memoria OS SQLite + embeddings"]
-  hand[taam_lili_hand cron]
+  hand[taam_lili_hand every 30s]
   openai[OpenAI API]
 
   paciente --> bridge
@@ -164,6 +164,8 @@ Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 
 **Pruebas chat RAG (TASK-122):** checklist manual [`docs/checklist-pruebas-chat-fvl.md`](docs/checklist-pruebas-chat-fvl.md); tests estaticos `uv run pytest tests/test_prompt_bot_lili.py tests/test_checklist_chat_fvl.py tests/test_sincronizar_prompt_agente.py`.
 
+**Pruebas Hand (TASK-123):** manifesto `HAND.toml` + playbooks; `uv run pytest tests/test_hand_taam_lili.py -q`.
+
 ## Estructura
 
 ```text
@@ -173,7 +175,7 @@ proyecto-3/
   analisis_tsne/      # Extraccion JSONL, embeddings, notebook t-SNE
   scripts/            # install y arranque
   docs/               # guion demo, telegram-bot-setup, checklist chat FVL
-  src/prompts/        # validacion estatica del system prompt
+  src/prompts/        # validacion estatica system prompt y HAND.toml
 ```
 
 ## Rubrica Modulo 3 (Ruta B)

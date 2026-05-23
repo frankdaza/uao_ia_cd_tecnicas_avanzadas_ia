@@ -1,4 +1,4 @@
-# Hand TAAM — minimo TASK-119; ampliar en TASK-123 (SKILL, prompts, guardrails completos)
+# Hand TAAM — manifesto taam_lili_hand (TASK-123)
 # Activacion: openfang hand install ... && openfang hand activate taam_lili_hand
 
 [hand]
@@ -7,7 +7,7 @@ version = "0.1.0"
 description = "Seguimiento postoperatorio Bot Lili: recordatorios y solicitud de evidencias en texto"
 
 [schedule]
-# Cada 30 s (demo). El cron de 5 campos no admite sub-minuto; tz IANA para America/Bogota.
+# Demo/desarrollo: tick cada 30 s (cron de 5 campos no admite sub-minuto).
 every_secs = 30
 tz = "America/Bogota"
 
@@ -15,14 +15,18 @@ tz = "America/Bogota"
 recordatorio_postoperatorio = true
 requerir_evidencia_texto = true
 
+[prompts]
+recordatorio_postoperatorio = "prompts/recordatorio_postop.md"
+requerir_evidencia_texto = "prompts/requerir_evidencia.md"
+
 [guardrails]
 no_diagnostico = true
 disclaimer_obligatorio = true
 escalar_palabras_alarma = [
   "dolor intenso",
   "fiebre alta",
-  "sangrado",
-  "dificultad respirar",
+  "sangrado abundante",
+  "dificultad respiratoria",
 ]
 
 [channel]
