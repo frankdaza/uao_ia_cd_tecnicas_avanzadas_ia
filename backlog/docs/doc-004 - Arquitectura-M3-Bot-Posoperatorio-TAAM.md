@@ -20,6 +20,7 @@ Guía para desarrollo, demostración y sustentación del **Bot posoperatorio TAA
 | [GUION-DEMO-TAAM](usecases/GUION-DEMO-TAAM.md) | Demo 15 min (TASK-114) |
 | [doc-003 — Arquitectura M2](doc-003%20-%20Arquitectura-Agente-Modulo-2.md) | Producto paralelo en `proyecto-1/` (no mezclar runtime) |
 | [doc-007 — Evaluacion OpenFang](doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md) | Estudio Ruta B: ventajas/desventajas, migracion vs mantener proyecto-2 |
+| [doc-008 — Arquitectura Ruta B OpenFang](doc-008%20-%20Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md) | Implementacion paralela en `proyecto-3/` (decision-8) |
 
 > **`decision-4` no es el ADR de arquitectura M3.** En este repositorio `decision-4` describe enriquecimiento de payload Qdrant del corpus M2; la arquitectura TAAM es **`decision-7`**.
 

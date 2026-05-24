@@ -195,6 +195,21 @@ proyecto-3/
   src/hand/           # adaptadores testeables UC6 recordatorio y UC7 evidencia (TASK-124, TASK-125)
 ```
 
+## Ruta A vs Ruta B
+
+Implementacion **paralela** en el mismo workspace; no mezclar runtimes ni tokens Telegram.
+
+| Tema | [`proyecto-2/`](../proyecto-2/) (Ruta A) | `proyecto-3/` (Ruta B) |
+| --- | --- | --- |
+| ADR | [decision-7](../backlog/decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md) | [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md) |
+| Stack | LangChain + FastAPI + Postgres + Qdrant + React staff | OpenFang + Hand + memoria OS + ingesta Python |
+| Telegram | Webhook en API `:8001` | Bridge nativo OpenFang |
+| Panel / OLTP | Si (casos, alertas, emparejamiento) | No (dashboard `:4200` + JSONL) |
+| Demo 15 min | [GUION-DEMO-TAAM](../backlog/docs/usecases/GUION-DEMO-TAAM.md) | [`docs/guion-demo-ruta-b.md`](docs/guion-demo-ruta-b.md) |
+| Guia arquitectura | [doc-004](../backlog/docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md) | [doc-008](../backlog/docs/doc-008%20-%20Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md) |
+
+Detalle ampliado: [doc-008 §2](../backlog/docs/doc-008%20-%20Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md).
+
 ## Rubrica Modulo 3 (Ruta B)
 
 | Entregable | Ubicacion |
@@ -206,6 +221,9 @@ proyecto-3/
 
 ## Referencias
 
-- [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md)
+- [m-1 — Milestone Ruta B](../backlog/milestones/m-1%20-%20taam-ruta-b-openfang.md) (tasks 117–133, cierre documental TASK-133)
+- [decision-8](../backlog/decisions/decision-8%20-%20Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md) · [decision-7 Ruta A](../backlog/decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md)
+- [doc-008 — Arquitectura M3 Ruta B](../backlog/docs/doc-008%20-%20Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md) · [doc-004 Ruta A](../backlog/docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md)
 - [doc-007 — Evaluacion OpenFang](../backlog/docs/doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md)
+- [Guion demo 15 min (Ruta B)](docs/guion-demo-ruta-b.md)
 - [Caso de Uso TAAM](../backlog/docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md)

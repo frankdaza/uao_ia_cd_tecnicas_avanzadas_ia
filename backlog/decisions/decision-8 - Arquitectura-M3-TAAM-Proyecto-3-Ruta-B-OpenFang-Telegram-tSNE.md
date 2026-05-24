@@ -290,6 +290,7 @@ flowchart LR
 
 ## Referencias
 
+- [doc-008 — Arquitectura operativa Ruta B (proyecto-3)](../docs/doc-008%20-%20Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md)
 - [Actividad Modulo 3](../docs/actividades/Actividad%20del%20M%C3%B3dulo%203_%20Productizaci%C3%B3n,%20Despliegue%20Avanzado%20y%20Sistemas%20Ag%C3%A9nticos.md)
 - [Caso de Uso TAAM — Bot Posoperatorio](../docs/usecases/Caso%20de%20Uso%20TAAM%20-%20Bot%20Posoperatorio.md)
 - [doc-004 — Arquitectura TAAM (Ruta A operativa)](../docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md)

@@ -1,11 +1,11 @@
 ---
 id: TASK-133
 title: Documentacion final proyecto-3 README guion demo y doc-008
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-24 17:07'
+updated_date: '2026-05-24 17:14'
 labels:
   - modulo-3
   - taam
@@ -44,11 +44,11 @@ Cierre documental de Ruta B: README operativo, guion demo 15 min con tiempos ver
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 `proyecto-3/README.md`: instalación OpenFang, `uv sync`, `arrancar_dev.sh`, ingesta, Telegram, t-SNE, fallback Ollama
-- [ ] #2 `docs/guion-demo-ruta-b.md`: tabla minuto a minuto (0–15), checklist pre-demo, comandos exactos
-- [ ] #3 `backlog/docs/doc-008 - Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md` con front matter `id: doc-008`, `type: architecture`, diagramas mermaid, mapeo UC, guardrails
-- [ ] #4 Sección comparativa A (`proyecto-2`) vs B (`proyecto-3`) sin contradecir decision-7/8
-- [ ] #5 **Negativo:** ningún secreto ni token en docs; solo placeholders
+- [x] #1 `proyecto-3/README.md`: instalación OpenFang, `uv sync`, `arrancar_dev.sh`, ingesta, Telegram, t-SNE, fallback Ollama
+- [x] #2 `docs/guion-demo-ruta-b.md`: tabla minuto a minuto (0–15), checklist pre-demo, comandos exactos
+- [x] #3 `backlog/docs/doc-008 - Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md` con front matter `id: doc-008`, `type: architecture`, diagramas mermaid, mapeo UC, guardrails
+- [x] #4 Sección comparativa A (`proyecto-2`) vs B (`proyecto-3`) sin contradecir decision-7/8
+- [x] #5 **Negativo:** ningún secreto ni token en docs; solo placeholders
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -63,33 +63,18 @@ Cierre documental de Ruta B: README operativo, guion demo 15 min con tiempos ver
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-Front matter doc-008:
-
-```yaml
----
-id: doc-008
-title: doc-008 - Arquitectura M3 TAAM Ruta B OpenFang Proyecto 3
-type: architecture
-created_date: '2026-05-22'
----
-```
-
-Guion demo (fragmento tabla):
-
-| Min | Actividad |
-| --- | --- |
-| 0-2 | Contexto: paralelo Ruta A vs B, ADR decision-8 |
-| 3-5 | Dashboard OpenFang + memoria 6 capas |
-| 6-8 | Ingesta corpus + RAG en Telegram |
-| 9-11 | Hand cron / evidencia texto |
-| 12-15 | Notebook t-SNE + preguntas |
-
-**Skill:** `backlog-docs`, `backlog-md`.
+Guion: tabla canonica 0-2 / 3-5 / 6-8 / 9-11 / 12-15 (sustituye desfase 0-2 / 2-5 / 5-8 del borrador anterior). Sin tests pytest (decision del equipo).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Creado backlog/docs/doc-008 con arquitectura Ruta B (mermaid, UC, guardrails, comparativa A vs B). README proyecto-3: seccion Ruta A vs B y referencias m-1/doc-008/guion. guion-demo-ruta-b.md: checklist tabular, tabla 15 min con comandos, bloque comandos de referencia. Enlaces cruzados en m-1, decision-8 y doc-004.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 doc-008 y README revisados en español latinoamericano
-- [ ] #2 Enlaces relativos válidos a decision-8 y m-1
-- [ ] #3 Tarea **Done** sin archivar
+- [x] #1 doc-008 y README revisados en español latinoamericano
+- [x] #2 Enlaces relativos válidos a decision-8 y m-1
+- [x] #3 Tarea **Done** sin archivar
 <!-- DOD:END -->
