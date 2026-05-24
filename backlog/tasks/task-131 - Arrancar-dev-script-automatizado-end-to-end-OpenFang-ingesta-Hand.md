@@ -1,11 +1,11 @@
 ---
 id: TASK-131
 title: Arrancar dev script automatizado end-to-end OpenFang ingesta Hand
-status: In Progress
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-24 16:49'
+updated_date: '2026-05-24 16:55'
 labels:
   - modulo-3
   - taam
@@ -23,6 +23,8 @@ references:
 modified_files:
   - proyecto-3/scripts/arrancar_dev.sh
   - proyecto-3/README.md
+  - proyecto-3/docs/guion-demo-ruta-b.md
+  - proyecto-3/tests/test_arrancar_dev.py
 priority: high
 ordinal: 1000
 ---
@@ -37,11 +39,11 @@ Unificar arranque local: validar `.env`, exportar `OPENFANG_HOME`, iniciar OpenF
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 `./scripts/arrancar_dev.sh` completa sin error en entorno con claves válidas
-- [ ] #2 `trap` limpia proceso OpenFang al salir (SIGINT/SIGTERM)
-- [ ] #3 **Negativo:** `.env` ausente → mensaje y exit 1 antes de arrancar binario
-- [ ] #4 **Edge:** flag `--sin-telegram` omite ping al bot
-- [ ] #5 README referencia el script como flujo único de desarrollo
+- [x] #1 `./scripts/arrancar_dev.sh` completa sin error en entorno con claves válidas
+- [x] #2 `trap` limpia proceso OpenFang al salir (SIGINT/SIGTERM)
+- [x] #3 **Negativo:** `.env` ausente → mensaje y exit 1 antes de arrancar binario
+- [x] #4 **Edge:** flag `--sin-telegram` omite ping al bot
+- [x] #5 README referencia el script como flujo único de desarrollo
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -57,32 +59,23 @@ Unificar arranque local: validar `.env`, exportar `OPENFANG_HOME`, iniciar OpenF
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
-trap 'kill ${OF_PID:-} 2>/dev/null || true' EXIT INT TERM
+Flujo: validar .env + OPENAI_API_KEY → validar_openfang_config → openfang start (si hace falta) + loop curl /api/health (30s) → sincronizar prompt → agent spawn → hand install → ingesta --permitir-db-en-vivo → hand activate → verificar_telegram_bot (salvo --sin-telegram).
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$ROOT"
-[[ -f .env ]] || { echo "Falta .env"; exit 1; }
-set -a && source .env && set +a
-export OPENFANG_HOME="${OPENFANG_HOME:-$ROOT/openfang/data}"
+trap limpiar INT TERM: openfang stop solo si INICIAMOS_DAEMON=1; en exito el daemon sigue corriendo.
 
-openfang start &
-OF_PID=$!
-for i in $(seq 1 30); do
-  curl -fsS "http://127.0.0.1:4200/health" >/dev/null 2>&1 && break
-  sleep 1
-done
+Tests: uv run pytest tests/test_arrancar_dev.py -q
 
-uv run python ingesta/indexar_corpus_openfang.py
-openfang hand activate taam_lili_hand
-echo "Listo. Dashboard: http://127.0.0.1:4200"
-```
+E2E manual (AC#1): ./scripts/arrancar_dev.sh y ./scripts/arrancar_dev.sh --sin-telegram con claves reales.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Script arrancar_dev.sh end-to-end: .env obligatorio, healthcheck /api/health, ingesta --permitir-db-en-vivo, hand activate, verificar Telegram opcional (--sin-telegram), trap INT/TERM solo si este script inicio el daemon. Tests pytest (falta .env, contrato estatico). README con flujo unico y guion demo actualizado.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Script ejecutable y probado
-- [ ] #2 Tarea **Done** sin archivar
+- [x] #1 Script ejecutable y probado
+- [x] #2 Tarea **Done** sin archivar
 <!-- DOD:END -->

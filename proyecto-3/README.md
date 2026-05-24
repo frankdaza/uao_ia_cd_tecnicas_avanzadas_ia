@@ -74,15 +74,28 @@ El archivo versionado [`openfang/openfang.toml`](openfang/openfang.toml) sigue e
 
 Al arrancar, los scripts copian `openfang/openfang.toml` → `{OPENFANG_HOME}/config.toml` y enlazan `openfang/agents/*` → `{OPENFANG_HOME}/agents/` (el bridge Telegram resuelve `default_agent` desde ahi).
 
+### Flujo unico de desarrollo
+
+Un solo comando sustituye validacion manual, `openfang start`, ingesta, activacion del Hand y ping Telegram:
+
 ```bash
 cd proyecto-3
-cp .env.example .env
+cp .env.example .env          # una vez: OPENAI_API_KEY, TELEGRAM_BOT_TOKEN
+./scripts/instalar_openfang.sh
 export PATH="$HOME/.openfang/bin:$PATH"
-set -a && source .env && set +a
-export OPENFANG_HOME="$(pwd)/openfang/data"
-./scripts/validar_openfang_config.sh   # openfang doctor + TOML valido
-./scripts/arrancar_dev.sh              # start + agent spawn + hand install
+uv sync
+./scripts/arrancar_dev.sh
 ```
+
+| Flag | Efecto |
+| --- | --- |
+| *(ninguno)* | Arranque completo + `verificar_telegram_bot.sh` (getMe) |
+| `--sin-telegram` | Omite verificacion del bot (util sin token o en CI local) |
+| `--help` | Ayuda de opciones |
+
+El script exige `.env`, hace healthcheck en `GET /api/health`, ejecuta ingesta con `--permitir-db-en-vivo`, activa `taam_lili_hand` y deja el daemon corriendo al terminar con exito. Si lo interrumpes con Ctrl+C y el daemon lo inicio este script, lo detiene. La ingesta completa puede tardar varios minutos y consume API de embeddings.
+
+Validacion solo de TOML (sin daemon): `./scripts/validar_openfang_config.sh`.
 
 **Agente y Hand (no van en `openfang.toml`):**
 
@@ -111,8 +124,8 @@ flowchart LR
 **Telegram (BotFather, comandos, prueba en vivo):**
 
 ```bash
-./scripts/verificar_telegram_bot.sh   # getMe sin arrancar daemon
-./scripts/arrancar_dev.sh             # bridge polling + agente bot_lili_taam
+./scripts/arrancar_dev.sh             # flujo completo (incluye getMe)
+./scripts/verificar_telegram_bot.sh   # solo getMe, sin arrancar el resto
 ```
 
 ### Fallback Ollama (si falla OpenAI nativo en demo)
@@ -137,27 +150,18 @@ cp .env.example .env
 # Editar OPENAI_API_KEY, TELEGRAM_BOT_TOKEN, OPENFANG_HOME
 # Variables centralizadas en src/configuracion.py (pydantic-settings)
 
-# Instalar OpenFang (una vez)
 ./scripts/instalar_openfang.sh
 export PATH="$HOME/.openfang/bin:$PATH"
-
-# Entorno Python auxiliar
 uv sync
+./scripts/arrancar_dev.sh    # flujo unico: ver seccion anterior
+```
 
-# Vista previa de ingesta (sin escribir en SQLite)
+Pasos manuales opcionales (depuracion):
+
+```bash
 uv run python ingesta/indexar_corpus_openfang.py --dry-run --limite 5
-
-# Ingesta real (OPENAI_API_KEY; preferible openfang stop o --permitir-db-en-vivo)
 uv run python ingesta/indexar_corpus_openfang.py --solo-markdown --limite 20
-
-# Sincronizar prompt Bot Lili (system.md -> agent.toml)
-uv run python scripts/sincronizar_prompt_agente.py
-
-# Verificar memoria semantica tras ingesta
 uv run python scripts/contar_memorias_semanticas.py --exigir-ingesta
-
-# Arranque desarrollo (incluye sincronizacion de prompt)
-./scripts/arrancar_dev.sh
 ```
 
 Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
@@ -167,6 +171,8 @@ Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 **Seguimiento UC4 (TASK-127):** guia [`docs/dashboard-openfang.md`](docs/dashboard-openfang.md); `uv run python scripts/consultar_historial_sesion.py --session-id telegram:900001`; tests `uv run pytest tests/test_dashboard_openfang_doc.py tests/openfang/test_historial_jsonl.py -q`.
 
 **Pruebas Hand (TASK-123 / TASK-124 / TASK-125):** manifesto + UC6 recordatorio + UC7 evidencia texto; `uv run pytest tests/test_hand_taam_lili.py tests/hand/test_recordatorio_postop.py tests/hand/test_requerir_evidencia.py -q`. Disparo manual: `uv run python scripts/disparar_recordatorio_hand.py --solo-simular`; evidencia: `uv run python scripts/disparar_evidencia_hand.py --marcar-pendiente CHAT_ID --solo-simular`.
+
+**Arranque dev (TASK-131):** `uv run pytest tests/test_arrancar_dev.py -q` (falta `.env` y contrato del script; E2E con OpenFang es manual).
 
 ## Estructura
 

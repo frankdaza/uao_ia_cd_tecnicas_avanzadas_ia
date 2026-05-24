@@ -8,9 +8,7 @@ Referencia: [decision-8](../../backlog/decisions/decision-8%20-%20Arquitectura-M
 
 - [ ] OpenFang instalado y version anotada (`openfang --version`)
 - [ ] `.env` con `OPENAI_API_KEY` y `TELEGRAM_BOT_TOKEN` (bot **distinto** al de `proyecto-2/`); ver [telegram-bot-setup.md](telegram-bot-setup.md)
-- [ ] `./scripts/verificar_telegram_bot.sh` → OK con `@username` del bot Ruta B
-- [ ] Corpus ingerido (`uv run python ingesta/indexar_corpus_openfang.py`)
-- [ ] Hand activo: `openfang hand activate taam_lili_hand` (ticks cada **30 s** segun `HAND.toml`; desactivar al terminar la demo)
+- [ ] `./scripts/arrancar_dev.sh` (ingesta + Hand activo + getMe; o `./scripts/arrancar_dev.sh --sin-telegram` sin ping)
 - [ ] Dashboard accesible: `http://127.0.0.1:4200`
 - [ ] Pregunta de prueba preparada sobre protocolo FVL
 
