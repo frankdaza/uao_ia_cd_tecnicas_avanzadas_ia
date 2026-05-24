@@ -6,7 +6,6 @@ from pathlib import Path
 
 from src.prompts.validar import (
     extraer_system_prompt_de_agent_toml,
-    leer_prompt_desde_system_md,
     normalizar_prompt,
     reemplazar_system_prompt_en_agent_toml,
     sincronizar_agent_toml_desde_system_md,

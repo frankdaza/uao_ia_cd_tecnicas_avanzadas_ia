@@ -1,10 +1,11 @@
 ---
 id: TASK-133
-title: 'Documentacion final proyecto-3 README guion demo y doc-008'
-status: To Do
+title: Documentacion final proyecto-3 README guion demo y doc-008
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-24 17:07'
 labels:
   - modulo-3
   - taam
@@ -19,14 +20,16 @@ references:
   - proyecto-3/README.md
   - proyecto-3/docs/guion-demo-ruta-b.md
   - backlog/docs/doc-008 - Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md
-  - backlog/decisions/decision-8 - Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
+  - >-
+    backlog/decisions/decision-8 -
+    Arquitectura-M3-TAAM-Proyecto-3-Ruta-B-OpenFang-Telegram-tSNE.md
   - backlog/milestones/m-1 - taam-ruta-b-openfang.md
 modified_files:
   - proyecto-3/README.md
   - proyecto-3/docs/guion-demo-ruta-b.md
   - backlog/docs/doc-008 - Arquitectura-M3-TAAM-Ruta-B-OpenFang-Proyecto-3.md
 priority: high
-ordinal: 1330
+ordinal: 1000
 ---
 
 ## Description

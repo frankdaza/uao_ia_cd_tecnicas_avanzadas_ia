@@ -166,6 +166,13 @@ uv run python scripts/contar_memorias_semanticas.py --exigir-ingesta
 
 Detalle de flags y memoria SQLite: [`ingesta/README.md`](ingesta/README.md).
 
+**Pruebas unitarias (TASK-132):** ingesta, extraccion JSONL, vectorizacion con mocks, guardrails y Hand; sin `OPENAI_API_KEY` real:
+
+```bash
+cd proyecto-3 && uv run pytest -q
+cd proyecto-3 && uv run ruff check src ingesta analisis_tsne tests
+```
+
 **Pruebas chat RAG (TASK-122):** checklist manual [`docs/checklist-pruebas-chat-fvl.md`](docs/checklist-pruebas-chat-fvl.md); tests estaticos `uv run pytest tests/test_prompt_bot_lili.py tests/test_checklist_chat_fvl.py tests/test_sincronizar_prompt_agente.py`.
 
 **Seguimiento UC4 (TASK-127):** guia [`docs/dashboard-openfang.md`](docs/dashboard-openfang.md); `uv run python scripts/consultar_historial_sesion.py --session-id telegram:900001`; tests `uv run pytest tests/test_dashboard_openfang_doc.py tests/openfang/test_historial_jsonl.py -q`.

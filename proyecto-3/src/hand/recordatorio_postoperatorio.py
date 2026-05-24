@@ -9,6 +9,10 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Callable
 
+from src.guardrails.patrones_mensaje import PATRON_DOSIS, PATRON_FARMACO_CON_DOSIS
+from src.openfang.historial_jsonl import extraer_session_id, iterar_registros_jsonl
+from src.openfang.marcas_tiempo import extraer_marca_tiempo
+
 logger = logging.getLogger(__name__)
 
 HORAS_CONTEXTO_RECIENTE = 48
@@ -16,12 +20,7 @@ DIAS_SESION_ACTIVA = 7
 PREFIJO_SESION_TELEGRAM = "telegram:"
 TIPO_AUDITORIA = "hand_recordatorio"
 ARCHIVO_AUDITORIA = "audit/hand_recordatorio.jsonl"
-
 MOTIVO_SIN_SESIONES = "sin_sesiones_activas"
-
-from src.guardrails.patrones_mensaje import PATRON_DOSIS, PATRON_FARMACO_CON_DOSIS
-from src.openfang.historial_jsonl import extraer_session_id, iterar_registros_jsonl
-from src.openfang.marcas_tiempo import extraer_marca_tiempo
 
 _PATRON_DOSIS = PATRON_DOSIS
 _PATRON_FARMACO_CON_DOSIS = PATRON_FARMACO_CON_DOSIS

@@ -182,6 +182,46 @@ def test_dry_run_no_escribe_db(tmp_path: Path) -> None:
     assert count == 0
 
 
+def test_dry_run_no_invoca_urlopen(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """AC #3: dry-run no debe usar urllib (healthcheck OpenFang ni KV)."""
+    raiz = tmp_path / "ws"
+    md = raiz / "data" / "markdown"
+    md.mkdir(parents=True)
+    (md / "uno.md").write_text(
+        "---\ntitle: Uno\n---\n\nContenido de prueba largo.\n" * 50,
+        encoding="utf-8",
+    )
+
+    llamadas: list[str] = []
+
+    def _urlopen_bloqueado(*_args: object, **_kwargs: object) -> object:
+        llamadas.append("urlopen")
+        raise AssertionError("ingesta dry-run no debe usar red")
+
+    monkeypatch.setattr("urllib.request.urlopen", _urlopen_bloqueado)
+
+    class CfgFake:
+        def raiz_workspace(self) -> Path:
+            return raiz
+
+        def ruta_db_openfang(self) -> Path:
+            return tmp_path / "openfang.db"
+
+        def resolver_agent_id_openfang(self) -> str:
+            return "agent-fake"
+
+        openfang_api_url = "http://127.0.0.1:9"
+
+        def exigir_openai_api_key(self) -> str:
+            raise AssertionError("no debe llamar OpenAI en dry-run")
+
+    stats = ejecutar_ingesta(CfgFake(), OpcionesIngesta(dry_run=True, limite=1))
+    assert stats.chunks_planificados > 0
+    assert llamadas == []
+
+
 def test_embedding_a_bytes_roundtrip() -> None:
     vector = [1.0, -2.5, 0.0]
     blob = embedding_a_bytes(vector)
