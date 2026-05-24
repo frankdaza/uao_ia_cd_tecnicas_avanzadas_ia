@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 05:17'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -29,7 +29,7 @@ modified_files:
   - proyecto-3/README.md
   - proyecto-3/.openfang-version
 priority: high
-ordinal: 1000
+ordinal: 17000
 ---
 
 ## Description

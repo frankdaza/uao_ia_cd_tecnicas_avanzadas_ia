@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 16:48'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -34,7 +34,7 @@ modified_files:
   - proyecto-3/tests/test_sincronizar_prompt_agente.py
   - proyecto-3/README.md
 priority: high
-ordinal: 31.25
+ordinal: 22000
 ---
 
 ## Description

@@ -48,6 +48,38 @@ Codigos de salida: `0` ok; `1` `sin_datos`; `2` `openfang_home_inexistente`. Si 
 
 Demo sin Telegram: copiar el fixture de tests a runtime (ver [dashboard-openfang.md](../docs/dashboard-openfang.md)).
 
+## Vectorizacion (`vectorizar.py`)
+
+Lee `analisis_tsne/output/sesiones.parquet` (TASK-128) y genera:
+
+| Artefacto | Descripcion |
+| --- | --- |
+| `vectores.npy` | Matriz `float32` shape `(N, D)` — un vector por unidad |
+| `metadatos.parquet` | N filas alineadas por indice con `vectores.npy` |
+
+Columnas de `metadatos.parquet`: `indice`, `session_id`, `canal`, `turno`, `rol`, `texto`, `modo`, `timestamp`.
+
+**Modo sesion (default):** una fila por `session_id`; el texto embedido concatena turnos como `"{rol}: {texto}"` separados por salto de linea (orden por `turno`).
+
+**Modo turno (`--por-turno`):** un embedding por fila del parquet de sesiones.
+
+Flags CLI:
+
+| Flag | Default | Efecto |
+| --- | --- | --- |
+| `--entrada` | `analisis_tsne/output/sesiones.parquet` | Parquet de entrada |
+| `--salida-vectores` | `.../vectores.npy` | Salida numpy |
+| `--salida-metadatos` | `.../metadatos.parquet` | Metadatos alineados |
+| `--por-turno` | off | Embedding por turno en lugar de por sesion |
+| `--tam-lote` | `32` | Tamano de lote para la API |
+| `--modelo` | `OPENAI_EMBEDDING_MODEL` | Override del modelo |
+
+Codigos de salida: `0` ok; `1` stderr `sin_datos` (parquet vacio o sin textos; **no** llama a la API).
+
+Reintentos: hasta 3 llamadas con backoff exponencial (`1s`, `2s`) ante errores transitorios de la API.
+
+Logica en `src/openfang/vectorizacion_tsne.py`; el script CLI es un envoltorio delgado.
+
 ## Ejecucion prevista
 
 ```bash

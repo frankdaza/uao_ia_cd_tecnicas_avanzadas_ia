@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 17:17'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -43,7 +43,7 @@ modified_files:
   - proyecto-3/scripts/evaluar_guardrail_entrada.py
   - proyecto-3/docs/checklist-pruebas-chat-fvl.md
 priority: high
-ordinal: 1.953125
+ordinal: 25000
 ---
 
 ## Description

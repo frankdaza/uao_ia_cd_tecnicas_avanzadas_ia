@@ -1,10 +1,11 @@
 ---
 id: TASK-130
-title: 't-SNE notebook analisis clusters plotly y interpretacion bonus'
-status: To Do
+title: t-SNE notebook analisis clusters plotly y interpretacion bonus
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-24 16:37'
 labels:
   - modulo-3
   - taam
@@ -22,7 +23,7 @@ modified_files:
   - proyecto-3/analisis_tsne/output/tsne_2d.png
   - proyecto-3/analisis_tsne/output/tsne_3d.html
 priority: medium
-ordinal: 1300
+ordinal: 1000
 ---
 
 ## Description

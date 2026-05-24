@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 06:17'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -31,7 +31,7 @@ modified_files:
   - proyecto-3/tests/test_privacidad.py
   - proyecto-3/tests/test_telegram_bot_doc.py
 priority: high
-ordinal: 125
+ordinal: 20000
 ---
 
 ## Description

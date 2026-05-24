@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 17:31'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -34,7 +34,7 @@ modified_files:
   - proyecto-3/pyproject.toml
   - proyecto-3/analisis_tsne/README.md
 priority: medium
-ordinal: 0.48828125
+ordinal: 29000
 ---
 
 ## Description

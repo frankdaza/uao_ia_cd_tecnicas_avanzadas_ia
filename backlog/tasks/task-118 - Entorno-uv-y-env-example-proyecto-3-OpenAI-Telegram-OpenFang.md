@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 05:35'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -33,7 +33,7 @@ modified_files:
   - proyecto-3/tests/test_configuracion.py
   - proyecto-3/ingesta/indexar_corpus_openfang.py
 priority: high
-ordinal: 500
+ordinal: 18000
 ---
 
 ## Description

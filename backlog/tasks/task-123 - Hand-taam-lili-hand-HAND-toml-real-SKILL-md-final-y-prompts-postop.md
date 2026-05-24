@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
-updated_date: '2026-05-23 16:57'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -32,7 +32,7 @@ modified_files:
   - proyecto-3/README.md
   - proyecto-3/docs/guion-demo-ruta-b.md
 priority: high
-ordinal: 15.625
+ordinal: 23000
 ---
 
 ## Description

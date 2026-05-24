@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:17'
-updated_date: '2026-05-23 05:35'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -44,7 +44,7 @@ modified_files:
     backlog/tasks/task-111 -
     Frontend-TAAM-administración-catálogo-procedimientos-y-PDF-UC-MVP-01.md
 priority: high
-ordinal: 7000
+ordinal: 12000
 ---
 
 ## Description
