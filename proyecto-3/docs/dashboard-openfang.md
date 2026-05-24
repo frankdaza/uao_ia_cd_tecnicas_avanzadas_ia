@@ -172,9 +172,10 @@ Sin directorio runtime, OpenFang puede fallar al persistir sesiones o Hands.
 
 ### Dashboard no carga en `:4200`
 
-- `openfang status` debe indicar **running**.
-- Revisar firewall local; probar `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4200`.
-- Reiniciar: `openfang stop` y `./scripts/arrancar_dev.sh`.
+- Comprobar salud: `curl -fsS http://127.0.0.1:4200/api/health` (o la URL de `OPENFANG_API_URL` en `.env`).
+- Revisar firewall local.
+- Reiniciar: `./scripts/detener_dev.sh` y `./scripts/arrancar_dev.sh`.
+- Si `openfang stop` responde "No running daemon" pero el dashboard carga, el CLI esta usando otro `OPENFANG_HOME` (p. ej. `~/.openfang`). Usa siempre `./scripts/detener_dev.sh` o `source .env` antes de `openfang stop`.
 
 ### No hay archivos JSONL tras chatear
 

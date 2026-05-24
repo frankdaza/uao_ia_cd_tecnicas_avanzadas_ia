@@ -7,6 +7,7 @@ from pathlib import Path
 
 _RAIZ = Path(__file__).resolve().parents[1]
 _SCRIPT = _RAIZ / "scripts" / "arrancar_dev.sh"
+_DETENER = _RAIZ / "scripts" / "detener_dev.sh"
 
 
 def test_falta_env_exit_1(tmp_path: Path) -> None:
@@ -43,13 +44,37 @@ def test_ayuda_menciona_sin_telegram() -> None:
 
 def test_script_contiene_contrato_e2e() -> None:
     texto = _SCRIPT.read_text(encoding="utf-8")
-    assert "trap limpiar INT TERM" in texto
+    assert "trap limpiar INT TERM EXIT" in texto
     assert "--sin-telegram" in texto
     assert "/api/health" in texto
     assert "permitir-db-en-vivo" in texto
     assert "hand activate taam_lili_hand" in texto
     assert "verificar_telegram_bot.sh" in texto
     assert "INICIAMOS_DAEMON" in texto
+    assert "detener_dev.sh" in texto
+    assert 'grep -qi "running"' not in texto
+    assert 'curl -fsS "${HEALTH_URL}"' in texto
+
+
+def test_detener_dev_existe_y_contrato() -> None:
+    assert _DETENER.is_file()
+    texto = _DETENER.read_text(encoding="utf-8")
+    assert "OPENFANG_HOME" in texto
+    assert "hand deactivate taam_lili_hand" in texto
+    assert "openfang stop" in texto
+    assert "/api/health" in texto
+
+
+def test_detener_ayuda() -> None:
+    resultado = subprocess.run(
+        ["bash", str(_DETENER), "--help"],
+        cwd=_RAIZ,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert resultado.returncode == 0
+    assert "detener_dev.sh" in resultado.stdout
 
 
 def test_opcion_desconocida_exit_1() -> None:

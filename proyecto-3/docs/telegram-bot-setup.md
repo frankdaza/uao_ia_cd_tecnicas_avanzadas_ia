@@ -116,7 +116,7 @@ Si OpenFang arranca con token invalido, revisa logs del daemon: deben mencionar 
 - Confirma `openfang status` → running.
 - Confirma `OPENAI_API_KEY` en `.env` (el agente usa OpenAI).
 - No ejecutes `scripts/configurar_webhook_telegram.py` de **proyecto-2** contra este bot (conflicto polling/webhook).
-- Reinicia: `openfang stop` y `./scripts/arrancar_dev.sh`.
+- Reinicia: `./scripts/detener_dev.sh` y `./scripts/arrancar_dev.sh` (no uses `openfang stop` sin `source .env`; ver [dashboard-openfang.md](dashboard-openfang.md)).
 
 ### Polling vs webhook
 

@@ -93,7 +93,26 @@ uv sync
 | `--sin-telegram` | Omite verificacion del bot (util sin token o en CI local) |
 | `--help` | Ayuda de opciones |
 
-El script exige `.env`, hace healthcheck en `GET /api/health`, ejecuta ingesta con `--permitir-db-en-vivo`, activa `taam_lili_hand` y deja el daemon corriendo al terminar con exito. Si lo interrumpes con Ctrl+C y el daemon lo inicio este script, lo detiene. La ingesta completa puede tardar varios minutos y consume API de embeddings.
+El script exige `.env`, hace healthcheck en `GET /api/health`, ejecuta ingesta con `--permitir-db-en-vivo`, activa `taam_lili_hand` y deja el daemon corriendo al terminar con exito. Si lo interrumpes con Ctrl+C **mientras** el script aun ejecuta y el daemon lo inicio aqui, lo detiene. Tras ver `=== Listo ===`, Ctrl+C **no** para el daemon (sigue en segundo plano en el puerto API). La ingesta completa puede tardar varios minutos y consume API de embeddings.
+
+**Detener el entorno dev** (Hand + daemon con el mismo `OPENFANG_HOME` que `.env`):
+
+```bash
+cd proyecto-3
+./scripts/detener_dev.sh
+```
+
+Equivalente manual (si `openfang stop` sin `.env` dice "No running daemon"):
+
+```bash
+cd proyecto-3
+export PATH="$HOME/.openfang/bin:$PATH"
+set -a && source .env && set +a
+[[ "${OPENFANG_HOME}" != /* ]] && OPENFANG_HOME="$(cd "$(pwd)" && cd "${OPENFANG_HOME}" && pwd)"
+export OPENFANG_HOME
+openfang hand deactivate taam_lili_hand 2>/dev/null || true
+openfang stop
+```
 
 Validacion solo de TOML (sin daemon): `./scripts/validar_openfang_config.sh`.
 
@@ -179,7 +198,7 @@ cd proyecto-3 && uv run ruff check src ingesta analisis_tsne tests
 
 **Pruebas Hand (TASK-123 / TASK-124 / TASK-125):** manifesto + UC6 recordatorio + UC7 evidencia texto; `uv run pytest tests/test_hand_taam_lili.py tests/hand/test_recordatorio_postop.py tests/hand/test_requerir_evidencia.py -q`. Disparo manual: `uv run python scripts/disparar_recordatorio_hand.py --solo-simular`; evidencia: `uv run python scripts/disparar_evidencia_hand.py --marcar-pendiente CHAT_ID --solo-simular`.
 
-**Arranque dev (TASK-131):** `uv run pytest tests/test_arrancar_dev.py -q` (falta `.env` y contrato del script; E2E con OpenFang es manual).
+**Arranque dev (TASK-131):** `uv run pytest tests/test_arrancar_dev.py -q` (contrato de `arrancar_dev.sh` y `detener_dev.sh`; E2E con OpenFang es manual).
 
 ## Estructura
 

@@ -10,6 +10,7 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 SIN_TELEGRAM=0
 INICIAMOS_DAEMON=0
+ARRANQUE_COMPLETO=0
 OF_PID=""
 
 mostrar_ayuda() {
@@ -29,14 +30,18 @@ EOF
 }
 
 limpiar() {
-  if [[ "${INICIAMOS_DAEMON}" -eq 1 ]]; then
-    echo ""
-    echo "Interrupcion: deteniendo daemon OpenFang iniciado por este script..."
-    if [[ -n "${OF_PID}" ]] && kill -0 "${OF_PID}" 2>/dev/null; then
-      kill "${OF_PID}" 2>/dev/null || true
-    fi
-    openfang stop 2>/dev/null || true
+  if [[ "${INICIAMOS_DAEMON}" -ne 1 ]] || [[ "${ARRANQUE_COMPLETO}" -eq 1 ]]; then
+    return 0
   fi
+  echo ""
+  echo "Interrupcion: deteniendo daemon OpenFang iniciado por este script..."
+  if [[ -n "${OF_PID}" ]] && kill -0 "${OF_PID}" 2>/dev/null; then
+    kill -TERM "${OF_PID}" 2>/dev/null || true
+    kill -TERM -- "-${OF_PID}" 2>/dev/null || true
+  fi
+  export OPENFANG_HOME
+  openfang hand deactivate taam_lili_hand 2>/dev/null || true
+  openfang stop 2>/dev/null || true
 }
 
 while [[ $# -gt 0 ]]; do
@@ -56,7 +61,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-trap limpiar INT TERM
+trap limpiar INT TERM EXIT
 
 cd "${ROOT_DIR}"
 
@@ -100,8 +105,8 @@ if ! command -v uv >/dev/null 2>&1; then
   exit 1
 fi
 
-if openfang status 2>/dev/null | grep -qi "running"; then
-  echo "Daemon OpenFang ya en ejecucion."
+if curl -fsS "${HEALTH_URL}" >/dev/null 2>&1; then
+  echo "Daemon OpenFang ya responde en ${HEALTH_URL}."
 else
   echo "Iniciando openfang start (dashboard ${API_BASE})..."
   openfang start &
@@ -157,14 +162,18 @@ else
   echo "Omitiendo verificacion Telegram (--sin-telegram)."
 fi
 
+ARRANQUE_COMPLETO=1
+
 echo ""
 echo "=== Listo ==="
 echo "  Dashboard:     ${API_BASE}"
 echo "  Salud API:     curl -fsS ${HEALTH_URL}"
 echo "  Hand activo:   openfang hand deactivate taam_lili_hand   # al terminar demo"
 echo "  Sesiones:      openfang sessions --json"
+echo "  Detener:       ./scripts/detener_dev.sh"
+echo "                 (Ctrl+C solo detiene el daemon si lo inicio este script y aun no termino)"
 if [[ "${INICIAMOS_DAEMON}" -eq 1 ]]; then
-  echo "  Daemon:        en ejecucion (Ctrl+C en este script lo detiene si lo inicio aqui)"
+  echo "  Daemon:        iniciado por este script (en segundo plano; ver detener_dev.sh)"
 else
-  echo "  Daemon:        en ejecucion (reutilizado; no detenido al salir)"
+  echo "  Daemon:        reutilizado (no detenido al salir; usar detener_dev.sh)"
 fi

@@ -35,7 +35,7 @@ Criterios rapidos:
 
 ## Prueba negativa (AC #3 — sin ingesta)
 
-1. Detener OpenFang: `openfang stop` (si aplica).
+1. Detener OpenFang: `./scripts/detener_dev.sh` (o `source .env` + `openfang stop`).
 2. Respaldo: `cp "${OPENFANG_HOME}/data/openfang.db" "${OPENFANG_HOME}/data/openfang.db.bak"`
 3. Base vacia: renombrar o usar copia sin tabla `memories` poblada; o nueva `OPENFANG_HOME` temporal sin ingesta.
 4. Arrancar de nuevo y enviar **FVL-02** (medicacion).
