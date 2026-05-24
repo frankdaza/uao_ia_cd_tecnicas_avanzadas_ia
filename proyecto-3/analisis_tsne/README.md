@@ -80,6 +80,21 @@ Reintentos: hasta 3 llamadas con backoff exponencial (`1s`, `2s`) ante errores t
 
 Logica en `src/openfang/vectorizacion_tsne.py`; el script CLI es un envoltorio delgado.
 
+## Notebook (`analisis_tsne.ipynb`) — TASK-130
+
+Lee `output/vectores.npy` y `output/metadatos.parquet`. Si faltan o hay **menos de 3 sesiones únicas** (`session_id`), el notebook **advierte** y usa el fixture demo `tests/fixtures/tsne_vectores_demo.npy` + `tsne_metadatos_demo.parquet` (textos sintéticos, sin PHI) para generar gráficos de sustentación.
+
+| Salida | Descripcion |
+| --- | --- |
+| `tsne_2d.png` | Scatter 2D estático (Plotly + `kaleido`) |
+| `tsne_3d.html` | Scatter 3D interactivo |
+
+Lógica reutilizable en `src/openfang/reduccion_tsne.py`:
+
+- **KMeans** sobre embeddings (k entre 3 y 5, mejor `silhouette_score`).
+- **t-SNE** 2D y 3D con perplejidad adaptativa (objetivo 5–30; sklearn puede bajar a `n-1` si la muestra es pequeña).
+- Tests: `tests/analisis_tsne/test_reduccion_tsne.py`.
+
 ## Ejecucion prevista
 
 ```bash
@@ -88,9 +103,10 @@ uv sync
 uv run python analisis_tsne/src/extraer_jsonl.py
 uv run python analisis_tsne/src/vectorizar.py
 uv run jupyter lab analisis_tsne/notebooks/
+# o ejecutar todas las celdas de analisis_tsne.ipynb
 ```
 
-Salidas en `analisis_tsne/output/` (gitignored salvo `.gitkeep`).
+Salidas en `analisis_tsne/output/` (gitignored salvo `.gitkeep`): parquet/npy del pipeline, más `tsne_2d.png` y `tsne_3d.html` tras el notebook.
 
 ## Interpretacion esperada (informe)
 

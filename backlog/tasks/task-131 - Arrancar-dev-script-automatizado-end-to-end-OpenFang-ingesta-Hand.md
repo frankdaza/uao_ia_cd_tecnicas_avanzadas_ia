@@ -1,10 +1,11 @@
 ---
 id: TASK-131
-title: 'Arrancar dev script automatizado end-to-end OpenFang ingesta Hand'
-status: To Do
+title: Arrancar dev script automatizado end-to-end OpenFang ingesta Hand
+status: In Progress
 assignee:
   - Frank Daza
 created_date: '2026-05-22 10:00'
+updated_date: '2026-05-24 16:49'
 labels:
   - modulo-3
   - taam
@@ -23,7 +24,7 @@ modified_files:
   - proyecto-3/scripts/arrancar_dev.sh
   - proyecto-3/README.md
 priority: high
-ordinal: 1310
+ordinal: 1000
 ---
 
 ## Description
