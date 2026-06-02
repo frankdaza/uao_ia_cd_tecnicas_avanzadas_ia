@@ -29,12 +29,12 @@ from src.api.esquemas_procedimientos import (
     ProcedimientoVista,
 )
 from src.api.servicios.ingesta_protocolo import ingesta_protocolo_background
-from src.api.servicios.almacenamiento_pdf import (
-    PdfProtocoloInvalidoError,
-    guardar_pdf_en_disco,
+from src.api.servicios.almacenamiento_protocolo import (
+    ArchivoProtocoloInvalidoError,
+    guardar_protocolo_en_disco,
     hash_sha256,
-    http_422_desde_error_pdf,
-    leer_y_validar_pdf,
+    http_422_desde_error_protocolo,
+    leer_y_validar_archivo_protocolo,
     ruta_relativa_protocolo,
 )
 from src.configuracion import obtener_configuracion
@@ -115,7 +115,9 @@ async def crear_procedimiento(
     background: BackgroundTasks,
     sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
     metadata: Annotated[str, Form(..., description="JSON con codigo y nombre")],
-    archivo: Annotated[UploadFile, File(..., description="PDF del protocolo")],
+    archivo: Annotated[
+        UploadFile, File(..., description="Protocolo medico en PDF (.pdf) o Markdown (.md)")
+    ],
 ) -> ProcedimientoVista:
     meta = _parsear_metadata_crear(metadata)
     cfg = obtener_configuracion()
@@ -128,29 +130,31 @@ async def crear_procedimiento(
         )
 
     try:
-        contenido, _ = await leer_y_validar_pdf(archivo, cfg)
-    except PdfProtocoloInvalidoError as exc:
-        raise http_422_desde_error_pdf(exc) from exc
+        contenido, _, formato = await leer_y_validar_archivo_protocolo(archivo, cfg)
+    except ArchivoProtocoloInvalidoError as exc:
+        raise http_422_desde_error_protocolo(exc) from exc
 
     digest = hash_sha256(contenido)
     fila = await repo.crear(
         codigo=meta.codigo,
         nombre=meta.nombre,
         indexacion_estado="pendiente",
+        formato_protocolo=formato,
     )
-    ruta_rel = ruta_relativa_protocolo(fila.id)
+    ruta_rel = ruta_relativa_protocolo(fila.id, formato)
     try:
-        guardar_pdf_en_disco(fila.id, contenido)
+        guardar_protocolo_en_disco(fila.id, contenido, formato)
     except OSError as exc:
         raise HTTPException(
             status_code=estado_http.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="No se pudo guardar el PDF en almacenamiento.",
+            detail="No se pudo guardar el protocolo en almacenamiento.",
         ) from exc
 
     await repo.actualizar(
         fila,
         ruta_pdf=ruta_rel,
         hash_pdf=digest,
+        formato_protocolo=formato,
     )
     await sesion.commit()
     _encolar_ingesta(request, background, fila.id)
@@ -195,7 +199,8 @@ async def actualizar_procedimiento(
     sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
     metadata: Annotated[str | None, Form(description="JSON parcial: codigo, nombre")] = None,
     archivo: Annotated[
-        UploadFile | None, File(description="PDF de reemplazo (opcional)")
+        UploadFile | None,
+        File(description="Protocolo de reemplazo en PDF o Markdown (opcional)"),
     ] = None,
 ) -> ProcedimientoVista:
     meta = _parsear_metadata_parche(metadata)
@@ -223,22 +228,29 @@ async def actualizar_procedimiento(
         if meta.nombre is not None:
             kwargs["nombre"] = meta.nombre
 
-    reemplazo_pdf = archivo is not None and (archivo.filename or "").strip()
-    if reemplazo_pdf:
+    reemplazo_protocolo = archivo is not None and (archivo.filename or "").strip()
+    if reemplazo_protocolo:
         try:
-            contenido, _ = await leer_y_validar_pdf(archivo, cfg)
-        except PdfProtocoloInvalidoError as exc:
-            raise http_422_desde_error_pdf(exc) from exc
+            contenido, _, formato = await leer_y_validar_archivo_protocolo(archivo, cfg)
+        except ArchivoProtocoloInvalidoError as exc:
+            raise http_422_desde_error_protocolo(exc) from exc
         digest = hash_sha256(contenido)
+        ruta_anterior = fila.ruta_pdf
         try:
-            guardar_pdf_en_disco(fila.id, contenido)
+            guardar_protocolo_en_disco(
+                fila.id,
+                contenido,
+                formato,
+                ruta_anterior=ruta_anterior,
+            )
         except OSError as exc:
             raise HTTPException(
                 status_code=estado_http.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="No se pudo guardar el PDF en almacenamiento.",
+                detail="No se pudo guardar el protocolo en almacenamiento.",
             ) from exc
-        kwargs["ruta_pdf"] = ruta_relativa_protocolo(fila.id)
+        kwargs["ruta_pdf"] = ruta_relativa_protocolo(fila.id, formato)
         kwargs["hash_pdf"] = digest
+        kwargs["formato_protocolo"] = formato
         kwargs["indexacion_estado"] = "pendiente"
         kwargs["qdrant_collection_version"] = _siguiente_version_vector(
             fila.qdrant_collection_version
@@ -247,13 +259,15 @@ async def actualizar_procedimiento(
     if not kwargs:
         raise HTTPException(
             status_code=estado_http.HTTP_422_UNPROCESSABLE_CONTENT,
-            detail="Debe enviar metadata y/o archivo PDF para actualizar.",
+            detail="Debe enviar metadata y/o archivo de protocolo para actualizar.",
         )
 
     await repo.actualizar(fila, **kwargs)
-    if reemplazo_pdf:
+    if reemplazo_protocolo:
         await sesion.commit()
         _encolar_ingesta(request, background, fila.id)
+    else:
+        await sesion.commit()
     return _a_vista(fila)
 
 
@@ -279,7 +293,7 @@ async def reindexar_procedimiento(
     if not fila.ruta_pdf:
         raise HTTPException(
             status_code=estado_http.HTTP_422_UNPROCESSABLE_CONTENT,
-            detail="El procedimiento no tiene PDF asociado.",
+            detail="El procedimiento no tiene archivo de protocolo asociado.",
         )
     await repo.actualizar(fila, indexacion_estado="pendiente")
     await sesion.commit()

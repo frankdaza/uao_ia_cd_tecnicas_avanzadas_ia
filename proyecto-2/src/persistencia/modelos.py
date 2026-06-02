@@ -27,6 +27,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 # Valores cerrados documentados en migracion y casos de uso TAAM.
 INDEXACION_ESTADOS = ("pendiente", "ok", "error")
+FORMATOS_PROTOCOLO = ("pdf", "markdown")
 ESTADOS_CASO = ("activo", "cerrado")
 SEVERIDADES_TRIAGE = ("info", "seguimiento", "urgente")
 TIPOS_PLANTILLA = ("medicacion", "terapia", "control")
@@ -47,6 +48,10 @@ class TipoProcedimiento(Base):
             f"indexacion_estado IN {INDEXACION_ESTADOS}",
             name="ck_tipos_procedimiento_indexacion_estado",
         ),
+        CheckConstraint(
+            f"formato_protocolo IN {FORMATOS_PROTOCOLO}",
+            name="ck_tipos_procedimiento_formato_protocolo",
+        ),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -59,6 +64,11 @@ class TipoProcedimiento(Base):
     nombre: Mapped[str] = mapped_column(String(512), nullable=False)
     ruta_pdf: Mapped[str | None] = mapped_column(String(1024), nullable=True)
     hash_pdf: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    formato_protocolo: Mapped[str] = mapped_column(
+        String(16),
+        nullable=False,
+        server_default=text("'pdf'"),
+    )
     qdrant_collection_version: Mapped[int | None] = mapped_column(Integer, nullable=True)
     indexacion_estado: Mapped[str] = mapped_column(
         String(32),

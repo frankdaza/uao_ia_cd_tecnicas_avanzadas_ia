@@ -14,8 +14,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.agentes.agente_taam import construir_agente_taam
 from src.agentes.checkpointer import gestionar_checkpointer_postgres_async
-from src.api.servicios.almacenamiento_pdf import (
-    guardar_pdf_en_disco,
+from src.api.servicios.almacenamiento_protocolo import (
+    guardar_protocolo_en_disco,
     hash_sha256,
     ruta_relativa_protocolo,
 )
@@ -82,18 +82,20 @@ async def _asegurar_tipo_procedimiento_demo(
             codigo=CODIGO_PROCEDIMIENTO_DEMO,
             nombre=NOMBRE_PROCEDIMIENTO_DEMO,
             indexacion_estado="pendiente",
+            formato_protocolo="pdf",
         )
         await sesion.flush()
         mensaje = f"Tipo procedimiento creado: {CODIGO_PROCEDIMIENTO_DEMO}"
     else:
         mensaje = f"Tipo procedimiento actualizado: {CODIGO_PROCEDIMIENTO_DEMO}"
 
-    guardar_pdf_en_disco(fila.id, contenido)
+    guardar_protocolo_en_disco(fila.id, contenido, "pdf")
     await repo.actualizar(
         fila,
         nombre=NOMBRE_PROCEDIMIENTO_DEMO,
-        ruta_pdf=ruta_relativa_protocolo(fila.id),
+        ruta_pdf=ruta_relativa_protocolo(fila.id, "pdf"),
         hash_pdf=digest,
+        formato_protocolo="pdf",
         indexacion_estado="ok",
         qdrant_collection_version=1,
     )

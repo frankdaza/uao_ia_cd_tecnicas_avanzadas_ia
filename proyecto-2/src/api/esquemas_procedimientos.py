@@ -73,6 +73,7 @@ class ProcedimientoVista(BaseModel):
     id: uuid.UUID
     codigo: str
     nombre: str
+    formato_protocolo: str
     indexacion_estado: str
     qdrant_collection_version: int | None = None
     created_at: datetime

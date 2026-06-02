@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 import json
+import uuid
 from types import SimpleNamespace
 
 import pytest
 from httpx import AsyncClient
 from src.api import dependencias as deps_admin
-from src.api.servicios.almacenamiento_pdf import ruta_absoluta_protocolo
+from src.api.servicios.almacenamiento_protocolo import ruta_absoluta_por_formato
 from src.configuracion import obtener_configuracion
-from tests.api.conftest import PDF_FIXTURE_MINIMO
+from tests.api.conftest import MD_FIXTURE_FM_INVALIDO, MD_FIXTURE_MINIMO, PDF_FIXTURE_MINIMO
 
 
 def _multipart_crear(
@@ -41,11 +42,12 @@ async def test_crear_procedimiento_201(
     assert cuerpo["codigo"] == "cole-lap"
     assert cuerpo["nombre"] == "Colecistectomia laparoscopica"
     assert cuerpo["indexacion_estado"] == "pendiente"
+    assert cuerpo["formato_protocolo"] == "pdf"
     assert cuerpo["qdrant_collection_version"] is None
     assert "ruta" not in json.dumps(cuerpo).lower()
 
     tipo_id = cuerpo["id"]
-    ruta = ruta_absoluta_protocolo(tipo_id)
+    ruta = ruta_absoluta_por_formato(tipo_id, "pdf")
     assert ruta.is_file()
     assert ruta.read_bytes().startswith(b"%PDF")
 
@@ -182,6 +184,143 @@ async def test_404_procedimiento_inexistente(
 async def test_admin_401_sin_cabecera(cliente_api: AsyncClient) -> None:
     resp = await cliente_api.get("/api/admin/procedimientos")
     assert resp.status_code == 401
+
+
+def _multipart_crear_md(
+    *,
+    codigo: str = "cole-md",
+    nombre: str = "Protocolo Markdown",
+    contenido: bytes = MD_FIXTURE_MINIMO,
+    nombre_archivo: str = "protocolo.md",
+) -> dict:
+    return {
+        "metadata": (None, json.dumps({"codigo": codigo, "nombre": nombre}), "application/json"),
+        "archivo": (nombre_archivo, contenido, "text/markdown"),
+    }
+
+
+@pytest.mark.asyncio
+async def test_crear_procedimiento_markdown_201(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    resp = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear_md(),
+    )
+    assert resp.status_code == 201
+    cuerpo = resp.json()
+    assert cuerpo["formato_protocolo"] == "markdown"
+    assert cuerpo["indexacion_estado"] == "pendiente"
+
+    tipo_id = cuerpo["id"]
+    ruta_md = ruta_absoluta_por_formato(tipo_id, "markdown")
+    ruta_pdf = ruta_absoluta_por_formato(tipo_id, "pdf")
+    assert ruta_md.is_file()
+    assert not ruta_pdf.is_file()
+    assert b"Cuidados postoperatorios" in ruta_md.read_bytes()
+
+
+@pytest.mark.asyncio
+async def test_422_markdown_front_matter_invalido(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    resp = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear_md(
+            codigo="md-bad-fm",
+            contenido=MD_FIXTURE_FM_INVALIDO,
+        ),
+    )
+    assert resp.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_patch_pdf_a_markdown_elimina_pdf_anterior(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear(codigo="swap-pdf-md"),
+    )
+    tipo_id = crear.json()["id"]
+    ruta_pdf = ruta_absoluta_por_formato(tipo_id, "pdf")
+    assert ruta_pdf.is_file()
+
+    parche = await cliente_api.patch(
+        f"/api/admin/procedimientos/{tipo_id}",
+        headers=cabecera_admin,
+        files={
+            "archivo": ("protocolo.md", MD_FIXTURE_MINIMO, "text/markdown"),
+        },
+    )
+    assert parche.status_code == 200
+    assert parche.json()["formato_protocolo"] == "markdown"
+    assert not ruta_pdf.is_file()
+    assert ruta_absoluta_por_formato(tipo_id, "markdown").is_file()
+
+
+@pytest.mark.asyncio
+async def test_patch_markdown_a_pdf_elimina_md_anterior(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear_md(codigo="swap-md-pdf"),
+    )
+    tipo_id = crear.json()["id"]
+    ruta_md = ruta_absoluta_por_formato(tipo_id, "markdown")
+    assert ruta_md.is_file()
+
+    parche = await cliente_api.patch(
+        f"/api/admin/procedimientos/{tipo_id}",
+        headers=cabecera_admin,
+        files={
+            "archivo": ("protocolo.pdf", PDF_FIXTURE_MINIMO, "application/pdf"),
+        },
+    )
+    assert parche.status_code == 200
+    assert parche.json()["formato_protocolo"] == "pdf"
+    assert not ruta_md.is_file()
+    assert ruta_absoluta_por_formato(tipo_id, "pdf").is_file()
+
+
+@pytest.mark.asyncio
+async def test_reindexar_sin_archivo_422(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+    app_api,
+) -> None:
+    from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
+
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear(codigo="sin-archivo-reidx"),
+    )
+    tipo_id = uuid.UUID(crear.json()["id"])
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo = RepositorioTiposProcedimiento(sesion)
+        fila = await repo.obtener_por_id(tipo_id)
+        assert fila is not None
+        fila.ruta_pdf = None
+        await sesion.flush()
+        await sesion.commit()
+
+    reindex = await cliente_api.post(
+        f"/api/admin/procedimientos/{tipo_id}/reindexar",
+        headers=cabecera_admin,
+    )
+    assert reindex.status_code == 422
+    assert "protocolo" in reindex.json()["detail"].lower()
 
 
 @pytest.mark.asyncio

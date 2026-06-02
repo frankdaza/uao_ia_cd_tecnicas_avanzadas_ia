@@ -24,6 +24,7 @@ class RepositorioTiposProcedimiento:
         ruta_pdf: str | None = None,
         hash_pdf: str | None = None,
         indexacion_estado: str = "pendiente",
+        formato_protocolo: str = "pdf",
         qdrant_collection_version: int | None = None,
     ) -> TipoProcedimiento:
         fila = TipoProcedimiento(
@@ -31,6 +32,7 @@ class RepositorioTiposProcedimiento:
             nombre=nombre,
             ruta_pdf=ruta_pdf,
             hash_pdf=hash_pdf,
+            formato_protocolo=formato_protocolo,
             indexacion_estado=indexacion_estado,
             qdrant_collection_version=qdrant_collection_version,
         )
@@ -84,6 +86,7 @@ class RepositorioTiposProcedimiento:
         nombre: str | None = None,
         ruta_pdf: str | None = None,
         hash_pdf: str | None = None,
+        formato_protocolo: str | None = None,
         indexacion_estado: str | None = None,
         qdrant_collection_version: int | None = None,
     ) -> TipoProcedimiento:
@@ -95,6 +98,8 @@ class RepositorioTiposProcedimiento:
             fila.ruta_pdf = ruta_pdf
         if hash_pdf is not None:
             fila.hash_pdf = hash_pdf
+        if formato_protocolo is not None:
+            fila.formato_protocolo = formato_protocolo
         if indexacion_estado is not None:
             fila.indexacion_estado = indexacion_estado
         if qdrant_collection_version is not None:

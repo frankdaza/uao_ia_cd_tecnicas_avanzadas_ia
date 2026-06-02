@@ -3,11 +3,11 @@ id: TASK-134
 title: >-
   Backend TAAM: catálogo acepta protocolos médicos PDF y Markdown (UC-MVP-01
   dual-format)
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 01:47'
-updated_date: '2026-06-02 01:47'
+updated_date: '2026-06-02 01:54'
 labels:
   - modulo-3
   - taam
@@ -57,7 +57,7 @@ modified_files:
   - proyecto-2/README.md
   - proyecto-2/scripts/README.md
 priority: high
-ordinal: 13400
+ordinal: 1000
 ---
 
 ## Description
@@ -122,19 +122,19 @@ UI (TASK-135), OCR, extensión .markdown, preview MD en API.
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Migración Alembic 0004 con formato_protocolo default pdf; alembic upgrade head OK en Docker y host; demo existente sigue indexando PDF sin intervención
-- [ ] #2 uv add pyyaml en proyecto-2/pyproject.toml y uv.lock versionado
-- [ ] #3 POST con .md válido → 201, formato_protocolo=markdown, archivo en protocolo.md, ruta_pdf apunta a .md, indexacion_estado=pendiente
-- [ ] #4 POST con PDF → regresión idéntica a TASK-100 (formato_protocolo=pdf); mismos códigos HTTP y validaciones que antes
-- [ ] #5 Un mismo procedimiento nunca almacena .pdf y .md a la vez tras PATCH de reemplazo (solo el formato activo en disco)
-- [ ] #6 PATCH reemplaza PDF↔MD: actualiza formato/ruta/hash, incrementa versión vectorial, elimina archivo del formato anterior, encola ingesta
-- [ ] #7 Ingesta lee ruta desde fila.ruta_pdf (test que guarda .md y verifica que no intenta abrir protocolo.pdf hardcodeado)
-- [ ] #8 Ingesta MD y PDF dejan indexacion_estado=ok cuando el contenido es válido; consultar_protocolo_rag recupera fragmentos de ambos formatos en tests
-- [ ] #9 MD con front matter YAML inválido → 422 en POST (sin fila creada)
-- [ ] #10 MD con cuerpo vacío post-FM → indexacion_estado=error tras ingesta con mensaje en español (no 422 post-201)
-- [ ] #11 POST .../reindexar funciona con protocolos PDF y MD; mensaje genérico sin archivo de protocolo si falta ruta_pdf
-- [ ] #12 uv run pytest pasa en tests/api/ y tests/ingesta/ incluyendo suite de regresión PDF completa
-- [ ] #13 proyecto-2/README.md y scripts/README.md documentan PDF o Markdown como formatos equivalentes, con ejemplos curl para ambos
+- [x] #1 Migración Alembic 0004 con formato_protocolo default pdf; alembic upgrade head OK en Docker y host; demo existente sigue indexando PDF sin intervención
+- [x] #2 uv add pyyaml en proyecto-2/pyproject.toml y uv.lock versionado
+- [x] #3 POST con .md válido → 201, formato_protocolo=markdown, archivo en protocolo.md, ruta_pdf apunta a .md, indexacion_estado=pendiente
+- [x] #4 POST con PDF → regresión idéntica a TASK-100 (formato_protocolo=pdf); mismos códigos HTTP y validaciones que antes
+- [x] #5 Un mismo procedimiento nunca almacena .pdf y .md a la vez tras PATCH de reemplazo (solo el formato activo en disco)
+- [x] #6 PATCH reemplaza PDF↔MD: actualiza formato/ruta/hash, incrementa versión vectorial, elimina archivo del formato anterior, encola ingesta
+- [x] #7 Ingesta lee ruta desde fila.ruta_pdf (test que guarda .md y verifica que no intenta abrir protocolo.pdf hardcodeado)
+- [x] #8 Ingesta MD y PDF dejan indexacion_estado=ok cuando el contenido es válido; consultar_protocolo_rag recupera fragmentos de ambos formatos en tests
+- [x] #9 MD con front matter YAML inválido → 422 en POST (sin fila creada)
+- [x] #10 MD con cuerpo vacío post-FM → indexacion_estado=error tras ingesta con mensaje en español (no 422 post-201)
+- [x] #11 POST .../reindexar funciona con protocolos PDF y MD; mensaje genérico sin archivo de protocolo si falta ruta_pdf
+- [x] #12 uv run pytest pasa en tests/api/ y tests/ingesta/ incluyendo suite de regresión PDF completa
+- [x] #13 proyecto-2/README.md y scripts/README.md documentan PDF o Markdown como formatos equivalentes, con ejemplos curl para ambos
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -233,11 +233,19 @@ idioma: es
 Repita las indicaciones de su equipo tratante.
 """ + b"Texto util del protocolo. " * 20
 ```
+
+Implementacion dual-format completada: almacenamiento_protocolo, extractores pdf/md, protocolo_ingesta con ruta desde fila.ruta_pdf, migracion 0004, pyyaml, router admin y tests (58 passed en tests/api + tests/ingesta).
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+El catalogo admin TAAM acepta protocolos en PDF y Markdown con simetria completa: columna formato_protocolo (Alembic 0004), almacenamiento en protocolo.pdf o protocolo.md, PATCH con limpieza del archivo anterior, ingesta Qdrant via extractores y ruta persistida en BD. Regresion PDF intacta; documentacion y curl en proyecto-2/README.md y scripts/README.md.
+<!-- SECTION:FINAL_SUMMARY:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Migración aplicada en entorno Docker documentado en README
-- [ ] #2 Cero regresiones tests PDF
-- [ ] #3 Tarea en Backlog con status Done al cerrar; no usar task_complete salvo pedido explícito del usuario
+- [x] #1 Migración aplicada en entorno Docker documentado en README
+- [x] #2 Cero regresiones tests PDF
+- [x] #3 Tarea en Backlog con status Done al cerrar; no usar task_complete salvo pedido explícito del usuario
 <!-- DOD:END -->

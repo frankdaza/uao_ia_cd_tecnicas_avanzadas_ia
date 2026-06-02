@@ -8,7 +8,7 @@
 # M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333, pgweb 8081
 # TAAM (este archivo): frontend Vite 5174, API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335, pgweb 8082
 #
-# Migraciones: `docker compose exec api uv run alembic upgrade head` (ver README).
+# Migraciones automaticas en arranque del api; semilla demo opt-in: TAAM_SEMBRAR_DEMO_* (ver README).
 
 services:
   postgres:
@@ -83,6 +83,8 @@ services:
       STAFF_DEMO_CLINICO_PASSWORD: ${STAFF_DEMO_CLINICO_PASSWORD:-}
       STAFF_DEMO_ADMIN_PASSWORD: ${STAFF_DEMO_ADMIN_PASSWORD:-}
       ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8001","http://127.0.0.1:8001","http://localhost:5174","http://127.0.0.1:5174"]}'
+      TAAM_SEMBRAR_DEMO_HABILITADO: ${TAAM_SEMBRAR_DEMO_HABILITADO:-true}
+      TAAM_SEMBRAR_DEMO_CON_INGESTA: ${TAAM_SEMBRAR_DEMO_CON_INGESTA:-true}
     volumes:
       - ../data/taam:/app/data/taam
     depends_on:

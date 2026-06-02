@@ -27,3 +27,9 @@ def test_ensambla_url_desde_postgres_star() -> None:
     )
     url = cfg.url_base_datos_async()
     assert "postgresql+asyncpg://postgres:secret@127.0.0.1:15433/taam" == url
+
+
+def test_defaults_sembrar_demo() -> None:
+    cfg = Configuracion(_env_file=None)
+    assert cfg.taam_sembrar_demo_habilitado is False
+    assert cfg.taam_sembrar_demo_con_ingesta is True

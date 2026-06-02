@@ -18,6 +18,28 @@ PDF_FIXTURE_MINIMO = (
     b"%%EOF\n"
 )
 
+MD_FIXTURE_MINIMO = (
+    b"""---
+titulo: Protocolo demo colecistectomia
+idioma: es
+---
+## Cuidados postoperatorios
+Repita las indicaciones de su equipo tratante.
+"""
+    + b"Texto util del protocolo. " * 20
+)
+
+MD_FIXTURE_FM_INVALIDO = b"""---
+titulo: [no-es-yaml-valido
+---
+Cuerpo.
+"""
+
+MD_FIXTURE_CUERPO_VACIO = b"""---
+titulo: Vacio
+---
+"""
+
 CLAVE_ADMIN_TEST = "clave-admin-taam-test"
 SECRETO_TELEGRAM_TEST = "secreto-telegram-taam-test"
 JWT_SECRETO_STAFF_TEST = "jwt-secreto-staff-taam-test-32bytes-min"

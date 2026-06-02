@@ -116,6 +116,16 @@ class Configuracion(BaseSettings):
         validation_alias="CHAT_TIMEOUT_SEG",
         description="Timeout maximo de un turno POST /chat (agente + LLM).",
     )
+    taam_sembrar_demo_habilitado: bool = Field(
+        default=False,
+        validation_alias="TAAM_SEMBRAR_DEMO_HABILITADO",
+        description="En Docker entrypoint: ejecuta sembrar_demo_taam tras migraciones.",
+    )
+    taam_sembrar_demo_con_ingesta: bool = Field(
+        default=True,
+        validation_alias="TAAM_SEMBRAR_DEMO_CON_INGESTA",
+        description="Con semilla demo: indexa COLE-LAP-001 en Qdrant (--con-ingesta).",
+    )
     recordatorios_job_habilitado: bool = Field(
         default=True,
         validation_alias="RECORDATORIOS_JOB_HABILITADO",

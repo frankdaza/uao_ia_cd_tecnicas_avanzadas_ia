@@ -16,7 +16,7 @@ import sys
 import uuid
 
 from src.configuracion import obtener_configuracion
-from src.ingesta.protocolo_pdf import ingestar_pendientes, ingestar_tipo_procedimiento
+from src.ingesta.protocolo_ingesta import ingestar_pendientes, ingestar_tipo_procedimiento
 from src.persistencia.motor import crear_motor_async, crear_session_factory
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -25,7 +25,10 @@ logger = logging.getLogger(__name__)
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Ingesta PDF de protocolos TAAM a Qdrant (LangChain + RecursiveCharacterTextSplitter)."
+        description=(
+            "Ingesta protocolos TAAM (PDF o Markdown) a Qdrant "
+            "(LangChain + RecursiveCharacterTextSplitter)."
+        )
     )
     grupo = parser.add_mutually_exclusive_group(required=True)
     grupo.add_argument("--tipo-id", type=uuid.UUID, help="UUID del tipo_procedimiento.")

@@ -11,7 +11,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.configuracion import Configuracion, obtener_configuracion
-from src.ingesta.protocolo_pdf import (
+from src.ingesta.protocolo_ingesta import (
     ResultadoIngesta,
     debe_omitir_ingesta,
     dividir_en_chunks,
@@ -21,6 +21,7 @@ from src.ingesta.protocolo_pdf import (
 )
 from src.persistencia.modelos import TipoProcedimiento
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
+from tests.api.conftest import PDF_FIXTURE_MINIMO
 
 
 @pytest.fixture
@@ -48,6 +49,7 @@ def test_debe_omitir_ingesta_cuando_ok() -> None:
     fila = TipoProcedimiento(
         codigo="x",
         nombre="y",
+        formato_protocolo="pdf",
         indexacion_estado="ok",
         hash_pdf="abc",
         ruta_pdf="data/taam/procedimientos/x/protocolo.pdf",
@@ -143,7 +145,7 @@ async def test_ingestar_pdf_con_mock_qdrant(
     ]
 
     monkeypatch.setattr(
-        "src.ingesta.protocolo_pdf.extraer_documentos_desde_pdf",
+        "src.ingesta.protocolo_ingesta.extraer_documentos_desde_pdf",
         lambda _ruta: (docs_fake, 1),
     )
 
@@ -156,27 +158,32 @@ async def test_ingestar_pdf_con_mock_qdrant(
         factory = app.state.session_factory
         async with factory() as sesion:
             repo = RepositorioTiposProcedimiento(sesion)
-            fila = await repo.crear(codigo="ing-1", nombre="Ingesta prueba")
+            fila = await repo.crear(
+                codigo="ing-1",
+                nombre="Ingesta prueba",
+                formato_protocolo="pdf",
+            )
             await sesion.flush()
-            guardar_pdf_en_disco(fila.id, b"%PDF-1.4 fake")
+            guardar_pdf_en_disco(fila.id, PDF_FIXTURE_MINIMO)
             await repo.actualizar(
                 fila,
                 ruta_pdf=f"data/taam/procedimientos/{fila.id}/protocolo.pdf",
                 hash_pdf="hash123",
                 indexacion_estado="pendiente",
+                formato_protocolo="pdf",
             )
             await sesion.commit()
 
             with patch(
-                "src.ingesta.protocolo_pdf.crear_vector_store",
+                "src.ingesta.protocolo_ingesta.crear_vector_store",
                 return_value=vector_store,
             ):
                 with patch(
-                    "src.ingesta.protocolo_pdf.obtener_cliente_qdrant",
+                    "src.ingesta.protocolo_ingesta.obtener_cliente_qdrant",
                     return_value=cliente,
                 ):
                     with patch(
-                        "src.ingesta.protocolo_pdf.ingestar_chunks_en_qdrant",
+                        "src.ingesta.protocolo_ingesta.ingestar_chunks_en_qdrant",
                     ) as mock_upsert:
                         res = await ingestar_tipo_procedimiento(
                             sesion,

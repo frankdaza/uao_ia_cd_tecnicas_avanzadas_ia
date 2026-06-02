@@ -8,7 +8,7 @@ import uuid
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from src.configuracion import obtener_configuracion
-from src.ingesta.protocolo_pdf import ejecutar_ingesta_en_sesion_nueva
+from src.ingesta.protocolo_ingesta import ejecutar_ingesta_en_sesion_nueva
 
 logger = logging.getLogger(__name__)
 

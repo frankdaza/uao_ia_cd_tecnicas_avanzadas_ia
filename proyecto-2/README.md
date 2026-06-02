@@ -66,7 +66,7 @@ docker compose up --build -d
 ```
 
 - El servicio **api** ejecuta **`alembic upgrade head`** al arrancar ([`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego Uvicorn en el puerto **8001**.
-- **No** ejecuta la semilla de usuarios ni datos demo; eso es manual (paso 5).
+- La semilla demo (`sembrar_demo_taam`) es **opt-in** con `TAAM_SEMBRAR_DEMO_HABILITADO=true` en `.env` (paso 5); por defecto no se ejecuta.
 - Solo infra (sin API): `docker compose up -d postgres qdrant pgweb`.
 
 Comprobar salud: `curl -sS http://127.0.0.1:8001/api/salud | jq .` → `"proyecto":"taam"`.
@@ -94,6 +94,17 @@ Revisiones en `alembic/versions/`: `0001_inicial_taam`, `0002_telegram_updates_p
 
 Tras migraciones y con `STAFF_JWT_SECRET` y las tres `STAFF_DEMO_*_PASSWORD` definidas en `.env`:
 
+| Escenario | Qué hacer |
+|-----------|-----------|
+| Compose con semilla automática | En `.env`: `TAAM_SEMBRAR_DEMO_HABILITADO=true` (+ `OPENAI_API_KEY` si no desactivas ingesta; ver abajo). Tras `docker compose up`, el entrypoint ejecuta `sembrar_demo_taam`. |
+| Compose sin semilla automática (default) | Dejar `TAAM_SEMBRAR_DEMO_HABILITADO=false` y usar los comandos manuales de esta sección. |
+| Re-sembrar sin reiniciar | `docker compose exec api uv run python -m scripts.sembrar_demo_taam` (opcional `--con-ingesta`) |
+
+**Variables de semilla en arranque Docker** (ver [`.env.example`](.env.example)):
+
+- `TAAM_SEMBRAR_DEMO_HABILITADO` — `false` por defecto; `true` activa la semilla tras Alembic.
+- `TAAM_SEMBRAR_DEMO_CON_INGESTA` — `true` por defecto cuando la semilla está activa: equivale a `--con-ingesta` (Qdrant + `OPENAI_API_KEY`). Poner `false` para sembrar sin indexar.
+
 **Solo usuarios staff** (login JWT; sin casos ni PDF demo):
 
 ```bash
@@ -108,8 +119,16 @@ uv run python -m scripts.sembrar_usuarios_staff_demo
 
 ```bash
 docker compose exec api uv run python -m scripts.sembrar_demo_taam
-# Opcional: además indexar PDF demo en Qdrant (requiere OPENAI_API_KEY y Qdrant up)
+# Indexar PDF demo en Qdrant (por defecto si TAAM_SEMBRAR_DEMO_CON_INGESTA=true en entrypoint)
 docker compose exec api uv run python -m scripts.sembrar_demo_taam --con-ingesta
+```
+
+Equivalente en `.env` para el arranque automático:
+
+```env
+TAAM_SEMBRAR_DEMO_HABILITADO=true
+OPENAI_API_KEY=sk-...
+# TAAM_SEMBRAR_DEMO_CON_INGESTA=false   # solo si no quieres ingesta al arrancar
 ```
 
 La semilla es **idempotente**: puede repetirse; actualiza contraseñas si cambió las variables `STAFF_DEMO_*` en `.env`.
@@ -198,28 +217,43 @@ Rutas bajo `/api/admin/procedimientos`. Acceso: cabecera **`X-Admin-Key`** = `AD
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| `POST` | `/api/admin/procedimientos` | Multipart: `metadata` (JSON `codigo`, `nombre`) + `archivo` (PDF) |
-| `GET` | `/api/admin/procedimientos` | Listado (`limit`, `offset`) |
+| `POST` | `/api/admin/procedimientos` | Multipart: `metadata` (JSON `codigo`, `nombre`) + `archivo` (PDF `.pdf` o Markdown `.md`) |
+| `GET` | `/api/admin/procedimientos` | Listado (`limit`, `offset`); incluye `formato_protocolo` (`pdf` \| `markdown`) |
 | `GET` | `/api/admin/procedimientos/{id}` | Detalle |
-| `PATCH` | `/api/admin/procedimientos/{id}` | Actualizar metadata y/o reemplazar PDF |
+| `PATCH` | `/api/admin/procedimientos/{id}` | Actualizar metadata y/o reemplazar protocolo (PDF ↔ Markdown) |
 | `POST` | `/api/admin/procedimientos/{id}/reindexar` | Relanza ingesta Qdrant (202) |
 
-Los PDF se guardan en **`data/taam/procedimientos/{uuid}/protocolo.pdf`** (workspace; volumen Docker montado en `/app/data/taam`). Tamaño máximo por defecto: **10 MB** (`TAAM_PDF_MAX_MB`). Tras subir o reemplazar PDF, la API encola ingesta en segundo plano; `indexacion_estado` pasa a `ok` o `error` cuando termina.
+Cada procedimiento tiene **un solo archivo activo** en disco:
 
-### Ingesta PDF → Qdrant (`taam_protocolos`)
+- PDF: `data/taam/procedimientos/{uuid}/protocolo.pdf`
+- Markdown: `data/taam/procedimientos/{uuid}/protocolo.md`
 
-- **Stack:** `pdfplumber` + `RecursiveCharacterTextSplitter` (800 / 120) + `OpenAIEmbeddings` + `langchain_qdrant.QdrantVectorStore`.
+(Volumen Docker montado en `/app/data/taam`.) Tamaño máximo por defecto: **10 MB** (`TAAM_PDF_MAX_MB`; aplica a PDF y Markdown). Tras subir o reemplazar, la API encola ingesta en segundo plano; `indexacion_estado` pasa a `ok` o `error` cuando termina.
+
+Migración **`0004_formato_protocolo_taam`**: columna `formato_protocolo` (default `pdf` para filas existentes). Aplicar con `alembic upgrade head` en host o `docker compose exec api uv run alembic upgrade head`.
+
+### Ingesta protocolo → Qdrant (`taam_protocolos`)
+
+- **Stack:** `pdfplumber` (PDF) o lectura UTF-8 con front matter YAML opcional (Markdown) + `RecursiveCharacterTextSplitter` (800 / 120) + `OpenAIEmbeddings` + `langchain_qdrant.QdrantVectorStore`.
 - **Colección dedicada** (no `corpus_*` de M2): `TAAM_QDRANT_COLLECTION` (default `taam_protocolos`), REST en host **6334**.
-- **CLI:** `uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid>` o `--todos-pendientes`.
-- **Limitación:** PDF escaneado sin OCR puede quedar sin texto suficiente → `indexacion_estado=error`.
+- **CLI:** `uv run python -m scripts.ingestar_protocolo_pdf --tipo-id <uuid>` o `--todos-pendientes` (acepta ambos formatos según `formato_protocolo` en BD).
+- **Limitación:** PDF escaneado sin OCR o Markdown con cuerpo vacío tras el front matter → `indexacion_estado=error`.
 
-Ejemplo local:
+Ejemplos locales:
 
 ```bash
 export ADMIN_API_KEY='cambiar-por-clave-segura'
+
+# PDF
 curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
   -F 'metadata={"codigo":"cole-lap","nombre":"Colecistectomia laparoscopica"};type=application/json' \
   -F "archivo=@protocolo.pdf;type=application/pdf" \
+  http://127.0.0.1:8001/api/admin/procedimientos | jq .
+
+# Markdown
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
+  -F 'metadata={"codigo":"cole-lap-md","nombre":"Colecistectomia (MD)"};type=application/json' \
+  -F "archivo=@protocolo.md;type=text/markdown" \
   http://127.0.0.1:8001/api/admin/procedimientos | jq .
 ```
 
@@ -326,7 +360,7 @@ docker compose up --build -d    # recomendado en segundo plano
 # docker compose up --build   # primer arranque en primer plano (logs)
 ```
 
-El contenedor **api** ejecuta `alembic upgrade head` al arrancar ([`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego Uvicorn. **No** ejecuta `sembrar_usuarios_staff_demo` ni `sembrar_demo_taam`; hágalo en el paso 5 de la guía.
+El contenedor **api** ejecuta `alembic upgrade head` al arrancar ([`scripts/docker_entrypoint.sh`](scripts/docker_entrypoint.sh)) y luego Uvicorn. Opcionalmente ejecuta `sembrar_demo_taam` si `TAAM_SEMBRAR_DEMO_HABILITADO=true` (paso 5). **No** ejecuta `sembrar_usuarios_staff_demo` por separado (la demo completa ya incluye usuarios staff).
 
 El servicio **api** carga [`proyecto-2/.env`](.env) vía `env_file` en `docker-compose.yml` (incluye `STAFF_JWT_SECRET` y `STAFF_DEMO_*_PASSWORD`). Sin `STAFF_JWT_SECRET`, `POST /api/auth/staff/login` responde **503**.
 
