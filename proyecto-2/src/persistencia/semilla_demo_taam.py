@@ -22,6 +22,7 @@ from src.api.servicios.almacenamiento_protocolo import (
 from src.configuracion import Configuracion
 from src.integracion.recordatorios.servicio import programar_recordatorios_para_caso
 from src.integracion.recordatorios.semilla_plantillas import asegurar_plantillas_defecto
+from src.persistencia.demo_ids import CHAT_TELEGRAM_CASO_A, CHAT_TELEGRAM_CASO_B
 from src.persistencia.modelos import AlertaTriage, CasoPostoperatorio
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
@@ -38,8 +39,6 @@ RUTA_PDF_DEMO_REL = "data/taam/demo/colecistectomia-protocolo-sintetico.pdf"
 CIRUJANO_ID_DEMO = "DOC-DEMO-001"
 CIRUJANO_NOMBRE_DEMO = "Dr. Demo TAAM"
 
-CHAT_TELEGRAM_CASO_A = 111111111
-CHAT_TELEGRAM_CASO_B = 222222222
 CODIGO_EMPAREJAMIENTO_CASO_B = "DEMO2X"
 
 PACIENTE_DOC_A = "PAC-DEMO-001"

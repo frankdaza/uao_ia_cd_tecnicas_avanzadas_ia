@@ -9,8 +9,12 @@ from unittest.mock import AsyncMock
 import pytest
 from httpx import AsyncClient
 
-from src.integracion.recordatorios.servicio import procesar_recordatorios_pendientes
+from src.integracion.recordatorios.servicio import (
+    disparar_recordatorio_prueba,
+    procesar_recordatorios_pendientes,
+)
 from src.integracion.telegram.cliente import ClienteTelegram
+from src.persistencia.demo_ids import CHAT_TELEGRAM_CASO_A
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.plantillas_recordatorio import (
     RepositorioPlantillasRecordatorio,
@@ -220,6 +224,107 @@ async def test_disparar_recordatorio_prueba_envia_con_vinculo(
     assert cuerpo["enviado"] is True
     assert len(enviados) == 1
     assert "Paciente Demo A" in enviados[0]
+
+
+@pytest.mark.asyncio
+async def test_job_omite_chat_id_demo_ficticio(
+    app_api,
+    tipo_procedimiento_ok: str,
+) -> None:
+    factory = app_api.state.session_factory
+    tipo_id = uuid.UUID(tipo_procedimiento_ok)
+
+    async with factory() as sesion:
+        repo_casos = RepositorioCasosPostoperatorio(sesion)
+        caso = await repo_casos.crear(
+            paciente_doc_id="CC-REC-DEMO-CHAT",
+            paciente_nombre="Paciente Demo Chat",
+            tipo_procedimiento_id=tipo_id,
+            cirujano_id="MED-REC",
+            cirujano_nombre="Dr. Demo",
+            fecha_cirugia=date.today() - timedelta(days=2),
+            estado="activo",
+        )
+        repo_v = RepositorioVinculosTelegram(sesion)
+        await repo_v.crear(
+            caso_id=caso.id,
+            telegram_chat_id=CHAT_TELEGRAM_CASO_A,
+            vinculado_at=datetime.now(UTC),
+        )
+        repo_pl = RepositorioPlantillasRecordatorio(sesion)
+        await repo_pl.crear(
+            tipo_procedimiento_id=tipo_id,
+            tipo="medicacion",
+            offset_horas_desde_cirugia=0,
+            texto_plantilla="Hola {nombre_paciente}, {tipo_procedimiento}: {texto_cuidado}",
+        )
+        plantilla = (await repo_pl.listar_por_tipo(tipo_id))[0]
+        repo_rec = RepositorioRecordatoriosEnviados(sesion)
+        await repo_rec.crear(
+            caso_id=caso.id,
+            plantilla_id=plantilla.id,
+            programado_at=datetime.now(UTC) - timedelta(hours=1),
+        )
+        await sesion.commit()
+
+    cliente_mock = AsyncMock(spec=ClienteTelegram)
+
+    cantidad = await procesar_recordatorios_pendientes(
+        factory,
+        cliente_telegram=cliente_mock,
+    )
+    assert cantidad == 0
+    cliente_mock.enviar_mensaje.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_disparar_recordatorio_omite_chat_demo_ficticio(
+    app_api,
+    tipo_procedimiento_ok: str,
+) -> None:
+    factory = app_api.state.session_factory
+    tipo_id = uuid.UUID(tipo_procedimiento_ok)
+
+    async with factory() as sesion:
+        repo_casos = RepositorioCasosPostoperatorio(sesion)
+        caso = await repo_casos.crear(
+            paciente_doc_id="CC-REC-DEMO-DISPARO",
+            paciente_nombre="Paciente Demo Disparo",
+            tipo_procedimiento_id=tipo_id,
+            cirujano_id="MED-REC",
+            cirujano_nombre="Dr. Demo",
+            fecha_cirugia=date.today(),
+            estado="activo",
+        )
+        repo_v = RepositorioVinculosTelegram(sesion)
+        await repo_v.crear(
+            caso_id=caso.id,
+            telegram_chat_id=CHAT_TELEGRAM_CASO_A,
+            vinculado_at=datetime.now(UTC),
+        )
+        repo_pl = RepositorioPlantillasRecordatorio(sesion)
+        await repo_pl.crear(
+            tipo_procedimiento_id=tipo_id,
+            tipo="medicacion",
+            offset_horas_desde_cirugia=24,
+            texto_plantilla="Hola {nombre_paciente}, {tipo_procedimiento}: {texto_cuidado}",
+        )
+        plantilla = (await repo_pl.listar_por_tipo(tipo_id))[0]
+        repo_rec = RepositorioRecordatoriosEnviados(sesion)
+        await repo_rec.crear(
+            caso_id=caso.id,
+            plantilla_id=plantilla.id,
+            programado_at=datetime.now(UTC) + timedelta(hours=1),
+        )
+        await sesion.commit()
+        caso_id = caso.id
+
+    async with factory() as sesion:
+        resultado = await disparar_recordatorio_prueba(sesion, caso_id)
+        await sesion.commit()
+
+    assert resultado.enviado is False
+    assert resultado.motivo_omitido == "chat_demo_ficticio"
 
 
 @pytest.mark.asyncio

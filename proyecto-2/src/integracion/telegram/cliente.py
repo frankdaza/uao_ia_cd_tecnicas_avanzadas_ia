@@ -8,6 +8,7 @@ from typing import Any
 import httpx
 
 from src.configuracion import Configuracion, obtener_configuracion
+from src.integracion.telegram.errores import TelegramEnvioError
 
 logger = logging.getLogger(__name__)
 
@@ -74,12 +75,14 @@ class ClienteTelegram:
     ) -> None:
         resp = await cliente.post(url, json=payload)
         if resp.status_code >= 400:
+            cuerpo = resp.text[:500]
             logger.error(
-                "telegram_sendMessage_fallo status=%s body=%s",
+                "telegram_sendMessage_fallo status=%s body=%s chat_id=%s",
                 resp.status_code,
-                resp.text[:500],
+                cuerpo,
+                payload.get("chat_id"),
             )
-            resp.raise_for_status()
+            raise TelegramEnvioError(resp.status_code, cuerpo)
 
     async def aclose(self) -> None:
         if self._cliente_propio and self._cliente_http is not None:

@@ -19,6 +19,8 @@ from src.integracion.recordatorios.semilla_plantillas import (
     texto_cuidado_para_plantilla,
 )
 from src.integracion.telegram.cliente import ClienteTelegram
+from src.integracion.telegram.errores import TelegramEnvioError, es_error_envio_esperado
+from src.persistencia.demo_ids import es_chat_id_demo_ficticio
 from src.persistencia.modelos import CasoPostoperatorio, RecordatorioEnviado
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.plantillas_recordatorio import (
@@ -219,6 +221,23 @@ async def _enviar_recordatorio(
     tipo = await repo_tipos.obtener_por_id(caso.tipo_procedimiento_id)
     nombre_tipo = tipo.nombre if tipo is not None else "su procedimiento"
 
+    if es_chat_id_demo_ficticio(vinculo.telegram_chat_id):
+        logger.info(
+            "recordatorio_omitido_chat_demo caso_id=%s recordatorio_id=%s chat_id=%s",
+            caso.id,
+            recordatorio.id,
+            vinculo.telegram_chat_id,
+        )
+        return ResultadoEnvioRecordatorio(
+            recordatorio_id=recordatorio.id,
+            enviado=False,
+            motivo_omitido="chat_demo_ficticio",
+            mensaje=(
+                "El chat_id de la semilla demo no es valido en Telegram; "
+                "empareje un chat real o use disparar-recordatorio-prueba tras /start."
+            ),
+        )
+
     texto = renderizar_texto_plantilla(
         plantilla.texto_plantilla,
         nombre_paciente=caso.paciente_nombre,
@@ -228,6 +247,30 @@ async def _enviar_recordatorio(
 
     try:
         await cliente.enviar_mensaje(vinculo.telegram_chat_id, texto)
+    except TelegramEnvioError as exc:
+        if es_error_envio_esperado(exc.cuerpo):
+            logger.warning(
+                "recordatorio_envio_fallo recordatorio_id=%s chat_id=%s status=%s",
+                recordatorio.id,
+                vinculo.telegram_chat_id,
+                exc.status_code,
+            )
+        else:
+            logger.error(
+                "recordatorio_envio_fallo recordatorio_id=%s chat_id=%s status=%s body=%s",
+                recordatorio.id,
+                vinculo.telegram_chat_id,
+                exc.status_code,
+                exc.cuerpo[:200],
+            )
+        repo_rec = RepositorioRecordatoriosEnviados(sesion)
+        await repo_rec.marcar_error(recordatorio)
+        return ResultadoEnvioRecordatorio(
+            recordatorio_id=recordatorio.id,
+            enviado=False,
+            motivo_omitido="error_telegram",
+            mensaje="No se pudo enviar el mensaje por Telegram.",
+        )
     except Exception:
         logger.exception(
             "recordatorio_envio_fallo recordatorio_id=%s chat_id=%s",

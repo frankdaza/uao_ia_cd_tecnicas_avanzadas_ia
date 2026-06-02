@@ -38,7 +38,7 @@ La Fundación Valle del Lili necesita **acompañar pacientes en postoperatorio**
 | Agente | **Ruta A**: `create_agent` + tools con esquemas Pydantic + `HumanInTheLoopMiddleware` en severidad `urgente` |
 | Memoria conversacional | `PostgresSaver` (checkpointer); `thread_id` = `session_id` = `telegram:{chat_id}` |
 | Identidad paciente ↔ chat | OLTP: `vinculos_telegram` + código de emparejamiento (TTL) |
-| RAG | PDFs de protocolo en `data/taam/` → chunks → colección Qdrant **`taam_protocolos`** (host **6334**) |
+| RAG | Protocolos PDF o Markdown en `data/taam/` (subida admin) → chunks → colección Qdrant **`taam_protocolos`** (host **6334**); única ingesta vectorial TAAM |
 | Panel staff | React en `proyecto-2/frontend/` (JWT Bearer); catálogo, casos, alertas, conversación |
 | Recordatorios | Job asyncio en lifespan; plantillas por tipo de procedimiento; solo Telegram |
 
@@ -56,12 +56,15 @@ Ambos proyectos comparten el **workspace** (`data/` en la raíz) vía `src/rutas
 | **Memoria LLM** | `PostgresChatMessageHistory` (langchain-postgres) | **`PostgresSaver`** checkpointer (mismo motor TAAM, tablas distintas) |
 | **Qdrant** | Colecciones `corpus_*`, REST host **6333** | Colección **`taam_protocolos`**, REST host **6334** |
 | **RAG runtime** | LlamaIndex recuperador denso | LangChain `QdrantVectorStore` + tool `consultar_protocolo_rag` |
-| **Corpus ingesta** | `data/markdown/` (+ opcional `processed/`) | `data/taam/procedimientos/{uuid}/protocolo.pdf` |
-| **FAQs** | `data/structured/` (M2) | `data/structured/taam_faqs.json` |
+| **Corpus ingesta (Qdrant)** | `data/markdown/` (+ opcional `processed/`) → `corpus_*` | Solo protocolos en `data/taam/procedimientos/{uuid}/` (PDF o `.md` vía admin) → `taam_protocolos` |
+| **FAQs** | `data/structured/` (M2) | `data/structured/taam_faqs.json` (tool JSON; sin Qdrant) |
+| **Prompts agente** | Según M2 | Código en `src/agentes/prompts.py` + `@dynamic_prompt` (sin Qdrant) |
 | **Auth panel** | Cookie sesión DocId + `X-Session-Id` | **JWT** staff (`POST /api/auth/staff/login`) |
 | **API HTTP (dev)** | **8000** | **8001** |
 | **Frontend Vite** | **5173** | **5174** |
 | **ADR principal** | [decision-3](../decisions/decision-3%20-%20Arquitectura-Agente-Memoria-RAG-Qdrant-M2.md) | [decision-7](../decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md) |
+
+> **Alcance Qdrant en TAAM:** única ingesta vectorial = protocolos subidos al catálogo admin. No se indexan `data/markdown/` de M2, FAQs ni prompts del agente. Detalle operativo: [`proyecto-2/README.md`](../../proyecto-2/README.md#datos-y-qdrant-alcance).
 
 ## 3. Vista end-to-end (runtime)
 

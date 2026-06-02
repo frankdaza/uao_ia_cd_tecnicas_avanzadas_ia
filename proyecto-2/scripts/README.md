@@ -1,5 +1,7 @@
 # Scripts TAAM
 
+Los scripts de este directorio operan sobre el stack TAAM (`proyecto-2/`). **No** incluyen ingesta del corpus M2 (`data/markdown/` → `corpus_*` en `proyecto-1`); la única ingesta vectorial aquí es la de protocolos subidos al catálogo admin.
+
 ## Ingesta de protocolos (PDF o Markdown) → Qdrant
 
 El CLI historico `ingestar_protocolo_pdf` indexa segun `formato_protocolo` y `ruta_pdf` en BD (`.pdf` o `.md`).

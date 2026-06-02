@@ -43,7 +43,7 @@ El producto **M2** sigue en `proyecto-1/` con router **LangGraph**, memoria `lan
 | Reutilizar (patrones / infra compartida) | No portar a proyecto-2 |
 | --- | --- |
 | Resolucion de rutas `data/*` via workspace root | Grafo LangGraph `proyecto-1/src/agentes/router.py` y nodos asociados |
-| Convencion Markdown + front matter en `data/markdown/` (si aplica ingesta cruzada) | Endpoints M2: `POST /api/agente/stream`, sesiones DocId del frontend M2 |
+| Convencion Markdown + front matter (patron M2 en `data/markdown/`; **TAAM no indexa** ese corpus en Qdrant) | Endpoints M2: `POST /api/agente/stream`, sesiones DocId del frontend M2 |
 | Separacion OLTP (Postgres) vs vectores (Qdrant) | `PostgresChatMessageHistory` / tablas `chat_history` de M2 sin prefijo TAAM |
 | Payload enriquecido e indices Qdrant ([decision-4](decision-4%20-%20Payload-Qdrant-enriquecido-y-chunking-Markdown.md)) en **ingesta TAAM** de PDFs | LlamaIndex como runtime del agente M3 (RAG via **LangChain vector stores**) |
 | Docker compose en paralelo (puertos documentados: M2 ~8000, TAAM ~8001) | Checkpointer M2 en las mismas tablas que TAAM |

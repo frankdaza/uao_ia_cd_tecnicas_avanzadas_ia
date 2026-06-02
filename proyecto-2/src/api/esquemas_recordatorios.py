@@ -16,7 +16,7 @@ class DisparoRecordatorioRespuesta(BaseModel):
     motivo_omitido: str | None = Field(
         default=None,
         description=(
-            "sin_vinculo_telegram, sin_recordatorios_pendientes, caso_inexistente, "
-            "error_telegram, etc."
+            "sin_vinculo_telegram, chat_demo_ficticio, sin_recordatorios_pendientes, "
+            "caso_inexistente, error_telegram, etc."
         ),
     )

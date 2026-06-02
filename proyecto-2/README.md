@@ -17,9 +17,23 @@ Aplicación **independiente** del asistente M2 en [`proyecto-1/`](../proyecto-1/
 | Postgres OLTP | `app` en `:15432` (tablas `usuarios`, `config_admin_m2`, …) | Base **`taam`** en `:15433` (tablas `tipos_procedimiento`, `casos_postoperatorio`, `vinculos_telegram`, `alertas_triage`, …). **No compartir** `DATABASE_URL` con M2. |
 | Qdrant | Instancias y colecciones M2 | Instancias y colección `taam_protocolos` dedicadas |
 | Frontend | React en `proyecto-1/frontend/` | React nuevo en `proyecto-2/frontend/` (TASK-109) |
-| Corpus | `data/markdown/`, `data/structured/` | PDFs y datos en `data/taam/` |
+| Ingesta vectorial (Qdrant) | `data/markdown/` → colecciones `corpus_*` | Protocolos en `data/taam/procedimientos/` (subida admin) → `taam_protocolos` |
+| Datos estructurados / prompts | Según M2 | FAQs: `data/structured/taam_faqs.json`; prompts: código en `src/agentes/` (sin Qdrant) |
 
 **No** importar código de `proyecto-1` en runtime; solo compartir el workspace (`data/` en la raíz del repo) vía `src/rutas_workspace.py`.
+
+## Datos y Qdrant (alcance)
+
+En **proyecto-2** la única ingesta vectorial es la de **protocolos médicos** (PDF o Markdown) asociados a un `tipo_procedimiento`, subidos o reemplazados desde el panel o la API admin (`/api/admin/procedimientos`). Los chunks van a la colección `TAAM_QDRANT_COLLECTION` (defecto `taam_protocolos`) en una instancia Qdrant distinta de la de M2 (puerto host **6334** por defecto).
+
+**No** se indexan en Qdrant:
+
+- Prompts del agente (`src/agentes/prompts.py`, middleware `@dynamic_prompt` y contexto OLTP en runtime).
+- FAQs postoperatorias (`data/structured/taam_faqs.json`; tool determinista, sin embeddings).
+- Corpus institucional M2 (`data/markdown/`, colecciones `corpus_*` de `proyecto-1`).
+- Historial conversacional, casos, vínculos Telegram, alertas de triage ni plantillas de recordatorios (Postgres OLTP o checkpointer).
+
+La semilla demo con `--con-ingesta` o `TAAM_SEMBRAR_DEMO_CON_INGESTA=true` indexa solo el PDF de `COLE-LAP-001` en `data/taam/demo/`, no el corpus M2. No hay script `indexar_corpus_qdrant` en este proyecto.
 
 ## Requisitos
 
@@ -135,8 +149,10 @@ La semilla es **idempotente**: puede repetirse; actualiza contraseñas si cambi�
 
 ### 6. Qdrant — colección `taam_protocolos`
 
+Única vía de ingesta vectorial en este proyecto (ver [Datos y Qdrant (alcance)](#datos-y-qdrant-alcance)).
+
 - Colección dedicada M3: `TAAM_QDRANT_COLLECTION` (defecto `taam_protocolos`), **no** las colecciones `corpus_*` de M2.
-- Tras subir un PDF por API admin, la ingesta corre en segundo plano; estado en `indexacion_estado` del tipo de procedimiento.
+- Tras subir un protocolo (PDF o Markdown) por API admin, la ingesta corre en segundo plano; estado en `indexacion_estado` del tipo de procedimiento.
 - **CLI** (un UUID o todos los pendientes):
 
 ```bash
@@ -191,11 +207,11 @@ STAFF_DEMO_ADMIN_PASSWORD=123456789
 | Recurso | Valor | Uso |
 |---------|-------|-----|
 | Procedimiento | `COLE-LAP-001` — Colecistectomía laparoscópica (demo) | Select al crear caso; PDF en `data/taam/demo/` |
-| Caso A | `PAC-DEMO-001` — Ana Ficticia Lopez | Ya vinculado a Telegram `111111111`; alerta **urgente** pendiente; hilo de conversación sembrado |
-| Caso B | `PAC-DEMO-002` — Bruno Ficticio Ruiz | Código de emparejamiento **`DEMO2X`** (TTL 24 h) para probar `/start DEMO2X` en Telegram |
+| Caso A | `PAC-DEMO-001` — Ana Ficticia Lopez | Vinculado a `chat_id` **ficticio** `111111111` (solo panel/seguimiento); alerta **urgente** pendiente; hilo sembrado. Para Telegram real, empareje con `/start` y un `chat_id` válido |
+| Caso B | `PAC-DEMO-002` — Bruno Ficticio Ruiz | Código de emparejamiento **`DEMO2X`** (TTL 24 h) para probar `/start DEMO2X` en Telegram (`222222222` es placeholder hasta emparejar) |
 | Cirujano ficticio | `DOC-DEMO-001` / Dr. Demo TAAM | Metadatos del caso |
 
-**FAQs estructuradas** (tool del agente): `data/structured/taam_faqs.json`.
+**FAQs estructuradas** (tool del agente): `data/structured/taam_faqs.json`. Búsqueda determinista en JSON; **no** se embeden en Qdrant.
 
 ---
 
@@ -233,6 +249,8 @@ Cada procedimiento tiene **un solo archivo activo** en disco:
 Migración **`0004_formato_protocolo_taam`**: columna `formato_protocolo` (default `pdf` para filas existentes). Aplicar con `alembic upgrade head` en host o `docker compose exec api uv run alembic upgrade head`.
 
 ### Ingesta protocolo → Qdrant (`taam_protocolos`)
+
+Única vía de ingesta vectorial en TAAM; no aplica a prompts, FAQs ni `data/markdown/` de M2.
 
 - **Stack:** `pdfplumber` (PDF) o lectura UTF-8 con front matter YAML opcional (Markdown) + `RecursiveCharacterTextSplitter` (800 / 120) + `OpenAIEmbeddings` + `langchain_qdrant.QdrantVectorStore`.
 - **Colección dedicada** (no `corpus_*` de M2): `TAAM_QDRANT_COLLECTION` (default `taam_protocolos`), REST en host **6334**.
@@ -341,12 +359,14 @@ Recordatorios de medicación/terapia según **plantillas** por `tipo_procedimien
 
 Al crear un caso (`POST /api/staff/casos`) se insertan plantillas semilla si el tipo no tenía ninguna y se programan filas en `recordatorios_enviados` (`programado_at = fecha_cirugia + offset_horas`).
 
-Job interno (asyncio en el lifespan de FastAPI): cada `RECORDATORIOS_JOB_INTERVAL_SEG` (default 60) busca pendientes con `programado_at <= now()` y envía por la misma Bot API que TASK-106. Si el caso no tiene vínculo Telegram, omite y registra log.
+Job interno (asyncio en el lifespan de FastAPI): cada `RECORDATORIOS_JOB_INTERVAL_SEG` (default 60) busca pendientes con `programado_at <= now()` y envía por la misma Bot API que TASK-106. Si el caso no tiene vínculo Telegram, omite y registra log. Los `chat_id` de semilla demo (`111111111`, `222222222`) **no** se envían a Telegram (evita `400 chat not found` en Docker local).
 
-Variables:
+Variables (ver también `.env.example`):
 
-- `RECORDATORIOS_JOB_HABILITADO` — `true`/`false` (en tests suele ir en `false`).
+- `RECORDATORIOS_JOB_HABILITADO` — `true`/`false`; en tests y en Compose por defecto `false` salvo que lo active en `.env`.
 - `RECORDATORIOS_JOB_INTERVAL_SEG` — intervalo del job en segundos.
+
+Si un `TELEGRAM_BOT_TOKEN` real quedó expuesto en logs (p. ej. traceback con URL del bot), revóquelo en @BotFather y actualice `.env`.
 
 Placeholders en `texto_plantilla`: `{nombre_paciente}`, `{tipo_procedimiento}`, `{texto_cuidado}`.
 
@@ -412,7 +432,7 @@ Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por de
 src/api/              # FastAPI (salud, admin, staff/casos, telegram, webhook)
 src/integracion/      # Telegram: cliente Bot API, manejador de updates (TASK-106)
 src/agentes/          # LangChain create_agent, tools, AsyncPostgresSaver, HITL (TASK-103)
-src/ingesta/          # ingesta PDF → Qdrant (LangChain)
+src/ingesta/          # ingesta protocolo PDF o Markdown → Qdrant (LangChain)
 src/rag/              # vector store TAAM
 src/persistencia/     # modelos SQLAlchemy, motor async, repositorios (TASK-99)
 src/configuracion.py

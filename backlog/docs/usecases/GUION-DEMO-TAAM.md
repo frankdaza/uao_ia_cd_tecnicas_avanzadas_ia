@@ -12,7 +12,7 @@ Guion operativo extendido para la demo en vivo del Modulo 3. Resumen de casos de
 |------|------------------------|-----|
 | Stack Docker TAAM | `cd proyecto-2 && docker compose up -d` | API `:8001`, Postgres `:15433`, Qdrant `:6334` |
 | Migraciones | `uv run alembic upgrade head` | Sin error |
-| `.env` local | Copiar desde `.env.example`; **no** commitear secretos | `STAFF_JWT_SECRET`, `TELEGRAM_*`, `OPENAI_API_KEY` si usa RAG real |
+| `.env` local | Copiar desde `.env.example`; **no** commitear secretos | `STAFF_JWT_SECRET`, `TELEGRAM_*`, `OPENAI_API_KEY` si usa RAG real; `RECORDATORIOS_JOB_HABILITADO=false` si no prueba recordatorios en vivo |
 | Semilla demo | `uv run python -m scripts.sembrar_demo_taam` | Mensaje «Demo TAAM listo» |
 | Ingesta RAG (opcional) | `uv run python -m scripts.sembrar_demo_taam --con-ingesta` | Requiere Qdrant + `OPENAI_API_KEY` |
 | Webhook HTTPS | `uv run python -m scripts.configurar_webhook_telegram --url https://TU-TUNEL/.../api/integracion/telegram/webhook` | Telegram entrega updates |
@@ -34,8 +34,8 @@ Guion operativo extendido para la demo en vivo del Modulo 3. Resumen de casos de
 | Entidad | Valor demo |
 |---------|------------|
 | Procedimiento | `COLE-LAP-001` — Colecistectomia laparoscopica (ficticio) |
-| Caso A | `PAC-DEMO-001` — Ana Ficticia Lopez (Telegram ya vinculado `111111111`) |
-| Caso B | `PAC-DEMO-002` — Bruno Ficticio Ruiz (codigo pendiente `DEMO2X`) |
+| Caso A | `PAC-DEMO-001` — Ana Ficticia Lopez (`chat_id` ficticio `111111111` en BD para seguimiento; Telegram real tras `/start` + emparejamiento) |
+| Caso B | `PAC-DEMO-002` — Bruno Ficticio Ruiz (codigo pendiente `DEMO2X`; placeholder `222222222` hasta emparejar) |
 | PDF protocolo | `data/taam/demo/colecistectomia-protocolo-sintetico.pdf` |
 
 ---

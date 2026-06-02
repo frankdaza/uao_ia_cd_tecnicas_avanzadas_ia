@@ -46,6 +46,7 @@ Levanta Postgres con `docker compose up -d` desde `proyecto-2/` antes de esa cor
 | `STAFF_JWT_SECRET`, `STAFF_DEMO_*_PASSWORD` | Login staff en API tests |
 | `ADMIN_API_KEY` | Cabecera admin |
 | `RECORDATORIOS_JOB_HABILITADO` | Autouse `false` en `tests/api/conftest.py` |
+| `chat_id` demo `111111111` / `222222222` | El servicio de recordatorios los omite (no llama a Bot API) |
 | `OPENAI_API_KEY` | Solo ingesta: `sk-test-falso` vía monkeypatch |
 
 **No** se necesita `TELEGRAM_BOT_TOKEN` para que pase la suite por defecto: el cliente Telegram se parchea con `mensajes_telegram_enviados` en `test_telegram_webhook.py`.
@@ -75,7 +76,7 @@ Agente (tools sin LLM): `tests/agentes/conftest.py` — `caso_vinculado_telegram
 
 - **Agente:** `monkeypatch.setattr("src.api.servicios.chat.invocar_agente", ...)` devuelve `AIMessage` sin API.
 - **Telegram:** parche de `ClienteTelegram.enviar_mensaje`.
-- **Qdrant:** `QdrantClient(":memory:")` en tests de ingesta.
+- **Qdrant:** `QdrantClient(":memory:")` en tests de ingesta (solo pipeline de protocolos admin; sin corpus M2 ni prompts).
 
 ## Regresión M3 (coexistencia con `proyecto-1`)
 

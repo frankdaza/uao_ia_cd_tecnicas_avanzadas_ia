@@ -14,6 +14,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
+# Marca de raiz del workspace (heredado de proyecto-1); no implica ingesta TAAM a Qdrant.
 _MARCA_WORKSPACE = Path("data") / "markdown"
 
 
@@ -32,7 +33,8 @@ def encontrar_raiz_workspace(inicio: Path | None = None) -> Path:
 
     Orden: variable ``UAO_WORKSPACE_ROOT``; si el padre del proyecto tiene
     ``data/markdown``, ese padre; si el proyecto tiene ``data/markdown``, el proyecto;
-    si no, la raiz del proyecto.
+    si no, la raiz del proyecto. La carpeta ``data/markdown`` solo detecta la raiz;
+    TAAM no indexa ese corpus en Qdrant (solo protocolos en ``data/taam/``).
     """
     override = os.environ.get("UAO_WORKSPACE_ROOT", "").strip()
     if override:
