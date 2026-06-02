@@ -10,8 +10,10 @@ import type {
   CrearCasoBody,
   ListadoAlertas,
   ListadoCasos,
+  ListadoMedicos,
   ListadoProcedimientos,
   ListadoTiposProcedimientoOpcion,
+  Medico,
   Procedimiento,
   ProcedimientoMetadata,
   Salud,
@@ -27,8 +29,10 @@ import {
   ConversacionCasoSchema,
   ListadoAlertasSchema,
   ListadoCasosSchema,
+  ListadoMedicosSchema,
   ListadoProcedimientosSchema,
   ListadoTiposProcedimientoOpcionSchema,
+  MedicoSchema,
   ProcedimientoSchema,
   SaludSchema,
   StaffLoginResponseSchema,
@@ -160,6 +164,78 @@ export async function patchAdminProcedimiento(
 export async function reindexAdminProcedimiento(id: string): Promise<Procedimiento> {
   const res = await apiFetch(`/admin/procedimientos/${id}/reindexar`, { method: 'POST' })
   return parseJson(res, ProcedimientoSchema)
+}
+
+async function assertOkResponse(response: Response): Promise<void> {
+  if (response.ok) return
+  if (response.status === 401 || response.status === 403) {
+    authInvalidHandler?.()
+  }
+  let detail: string | undefined
+  try {
+    const body = (await response.json()) as { detail?: unknown }
+    detail = formatApiDetail(body?.detail)
+  } catch {
+    //
+  }
+  throw new ApiError(
+    detail ?? `Error del servidor: ${response.status}`,
+    response.status,
+    detail,
+  )
+}
+
+/** Listado paginado del catálogo de médicos (admin). */
+export async function listarMedicos(params?: {
+  limit?: number
+  offset?: number
+  activo?: boolean
+}): Promise<ListadoMedicos> {
+  const qs = new URLSearchParams()
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  if (params?.activo != null) qs.set('activo', String(params.activo))
+  const query = qs.toString()
+  const res = await apiFetch(`/admin/medicos${query ? `?${query}` : ''}`)
+  return parseJson(res, ListadoMedicosSchema)
+}
+
+export async function obtenerMedico(id: string): Promise<Medico> {
+  const res = await apiFetch(`/admin/medicos/${id}`)
+  return parseJson(res, MedicoSchema)
+}
+
+export async function crearMedico(body: {
+  codigo_registro: string
+  nombre_completo: string
+  especialidad?: string
+}): Promise<Medico> {
+  const res = await apiFetch('/admin/medicos', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, MedicoSchema)
+}
+
+export async function actualizarMedico(
+  id: string,
+  body: {
+    codigo_registro?: string
+    nombre_completo?: string
+    especialidad?: string | null
+  },
+): Promise<Medico> {
+  const res = await apiFetch(`/admin/medicos/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, MedicoSchema)
+}
+
+/** Desactiva un médico (soft delete, 204 sin cuerpo). */
+export async function desactivarMedico(id: string): Promise<void> {
+  const res = await apiFetch(`/admin/medicos/${id}`, { method: 'DELETE' })
+  await assertOkResponse(res)
 }
 
 /** Tipos indexados para select de nuevo caso (UC-MVP-02). */

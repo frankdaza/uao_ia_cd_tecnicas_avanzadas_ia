@@ -91,6 +91,7 @@ Código sugerido M1 (bajo `proyecto-1/`): `src/scraping/` → `src/markdown_expo
 | `backlog-workflow.mdc` | Cierre con Backlog MCP: `Done` sin archivar; `task_complete` solo si el usuario lo pide |
 | `backlog-docs-format.mdc` | Naming `doc-<N>` y front matter YAML en `backlog/docs/**/*.md` (estilo Backlog.md upstream) |
 | `cursor-ignore-files.mdc` | Ignores: secretos ampliados, `data/raw/`; corpus `data/markdown/` solo en indice; limites agente/MCP/terminal y backlog sin claves |
+| `codegraph.mdc` | CodeGraph MCP: parametros por tool; `codegraph_context` exige **`task`**, no `query`/`path` |
 
 ### Indexación e ignores (Cursor y Claude Code)
 
@@ -117,3 +118,4 @@ Mismo contenido en ambas carpetas; al editar una skill, mantén la otra alineada
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentacion en `backlog/docs/` (prefijo `doc-<N>` y YAML `id`/`title`/`type`/`created_date`) |
 | `cursor-ignore-files` | Ignores, secretos, indice vs runtime (`data/markdown/`), alinear con `.claude/settings.json` |
+| `codegraph-mcp` | MCP CodeGraph: contrato de parametros; skill espejo si Claude Code no carga `codegraph.mdc` |

@@ -53,10 +53,11 @@ Instrucciones reutilizables en **`.claude/skills/`** (espejo de `.cursor/skills/
 | `backlog-md` | Tareas Backlog: estado `Done` sin completar o archivar; archivo manual |
 | `backlog-docs` | Documentación en `backlog/docs/` |
 | `cursor-ignore-files` | Ignores, secretos, índice vs runtime (`data/markdown/`), alinear con `.claude/settings.json` |
+| `codegraph-mcp` | MCP CodeGraph: `codegraph_context` exige **`task`** (no `query`/`path`); ver también `codegraph.mdc` en Cursor |
 
 ## Reglas de Cursor
 
-Convenciones adicionales en **`.cursor/rules/`** (archivos `.mdc`). Claude Code no las carga automáticamente; este archivo resume lo esencial. Incluyen **`agente-modulo-2.mdc`** (globs acotados al código del agente M2). La regla **`backlog-docs-format.mdc`** aplica cuando se editan **`backlog/docs/**/*.md`** (naming y YAML de documentación del proyecto). La regla **`cursor-ignore-files.mdc`** describe `.cursorignore`, `.cursorindexingignore` y el alcance frente a Claude Code.
+Convenciones adicionales en **`.cursor/rules/`** (archivos `.mdc`). Claude Code no las carga automáticamente; este archivo resume lo esencial. Incluyen **`agente-modulo-2.mdc`** (globs acotados al código del agente M2). La regla **`backlog-docs-format.mdc`** aplica cuando se editan **`backlog/docs/**/*.md`** (naming y YAML de documentación del proyecto). La regla **`cursor-ignore-files.mdc`** describe `.cursorignore`, `.cursorindexingignore` y el alcance frente a Claude Code. Para CodeGraph MCP usar la skill **`codegraph-mcp`** o leer **`codegraph.mdc`**: `codegraph_context` solo acepta el parámetro **`task`** (string no vacío), no `query` ni `path`.
 
 ## Indexación, ignores y Claude Code
 

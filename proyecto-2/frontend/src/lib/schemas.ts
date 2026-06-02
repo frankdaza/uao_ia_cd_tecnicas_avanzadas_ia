@@ -48,6 +48,26 @@ export const ListadoProcedimientosSchema = z.object({
 
 export type ListadoProcedimientos = z.infer<typeof ListadoProcedimientosSchema>
 
+/** Recurso del catálogo de médicos (GET/POST/PATCH/DELETE admin). */
+export const MedicoSchema = z.object({
+  id: z.uuid(),
+  codigo_registro: z.string(),
+  nombre_completo: z.string(),
+  especialidad: z.string().nullable(),
+  activo: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+})
+
+export type Medico = z.infer<typeof MedicoSchema>
+
+export const ListadoMedicosSchema = z.object({
+  items: z.array(MedicoSchema),
+  total: z.number().int().nonnegative(),
+})
+
+export type ListadoMedicos = z.infer<typeof ListadoMedicosSchema>
+
 /** Metadata del campo form ``metadata`` en multipart. */
 export const ProcedimientoMetadataSchema = z.object({
   codigo: z

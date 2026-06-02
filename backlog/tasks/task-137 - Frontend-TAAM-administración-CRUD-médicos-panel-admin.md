@@ -1,11 +1,11 @@
 ---
 id: TASK-137
 title: 'Frontend TAAM: administración CRUD médicos (panel admin)'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 05:06'
-updated_date: '2026-06-02 05:06'
+updated_date: '2026-06-02 05:43'
 labels:
   - modulo-3
   - taam
@@ -40,7 +40,7 @@ modified_files:
   - proyecto-2/frontend/src/lib/schemas.ts
   - proyecto-2/frontend/README.md
 priority: high
-ordinal: 13700
+ordinal: 1000
 ---
 
 ## Description
@@ -79,14 +79,14 @@ Feature `features/admin-medicos/` con listado, alta y detalle/edición de médic
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Listado en /admin/medicos muestra médicos del GET paginado con columnas código, nombre, especialidad y estado activo
-- [ ] #2 Alta en /admin/medicos/nuevo con POST válido muestra toast de éxito y redirige al listado o detalle
-- [ ] #3 Detalle permite PATCH de nombre, especialidad y código; errores 409/422 en toast con detail del backend
-- [ ] #4 Desactivar médico (DELETE) pide confirmación; 409 por casos activos muestra mensaje claro en español
-- [ ] #5 Rutas /admin/medicos* solo accesibles con user.rol === admin; otros roles redirigen a / con toast
-- [ ] #6 Validación cliente: codigo_registro ASCII [A-Za-z0-9._-]+; campos requeridos en alta
-- [ ] #7 pnpm run build y pnpm run lint en proyecto-2/frontend/ terminan con código 0
-- [ ] #8 frontend/README.md documenta rutas y credencial admin@demo.taam
+- [x] #1 Listado en /admin/medicos muestra médicos del GET paginado con columnas código, nombre, especialidad y estado activo
+- [x] #2 Alta en /admin/medicos/nuevo con POST válido muestra toast de éxito y redirige al listado o detalle
+- [x] #3 Detalle permite PATCH de nombre, especialidad y código; errores 409/422 en toast con detail del backend
+- [x] #4 Desactivar médico (DELETE) pide confirmación; 409 por casos activos muestra mensaje claro en español
+- [x] #5 Rutas /admin/medicos* solo accesibles con user.rol === admin; otros roles redirigen a / con toast
+- [x] #6 Validación cliente: codigo_registro ASCII [A-Za-z0-9._-]+; campos requeridos en alta
+- [x] #7 pnpm run build y pnpm run lint en proyecto-2/frontend/ terminan con código 0
+- [x] #8 frontend/README.md documenta rutas y credencial admin@demo.taam
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -172,10 +172,16 @@ Mostrar «Activo» / «Inactivo» con variantes de Badge (mismo estilo que index
 - **DRY:** no duplicar lógica de guard admin; unificar chequeo de rutas admin.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Feature admin-medicos en proyecto-2/frontend: rutas /admin/medicos* (listado, alta, detalle/PATCH/DELETE), cliente API JSON con JWT, guard RBAC en App.tsx, ítem Médicos en sidebar admin, validación codigo_registro ASCII. pnpm lint y build OK.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 pnpm run build y pnpm run lint en proyecto-2/frontend/ con código 0
-- [ ] #2 Ítem «Médicos» visible solo en sidebar cuando userRol === admin
-- [ ] #3 Ninguna petición del navegador usa X-Admin-Key; solo Bearer JWT
-- [ ] #4 frontend/README.md actualizado con rutas /admin/medicos*
+- [x] #1 pnpm run build y pnpm run lint en proyecto-2/frontend/ con código 0
+- [x] #2 Ítem «Médicos» visible solo en sidebar cuando userRol === admin
+- [x] #3 Ninguna petición del navegador usa X-Admin-Key; solo Bearer JWT
+- [x] #4 frontend/README.md actualizado con rutas /admin/medicos*
 <!-- DOD:END -->

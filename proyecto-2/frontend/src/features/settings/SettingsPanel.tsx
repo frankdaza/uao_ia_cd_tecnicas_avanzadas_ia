@@ -13,7 +13,10 @@ const NAV_ITEMS = [
   { path: '/seguimiento', label: 'Seguimiento' },
 ] as const
 
-const NAV_ADMIN = [{ path: '/admin/procedimientos', label: 'Catálogo procedimientos' }] as const
+const NAV_ADMIN = [
+  { path: '/admin/procedimientos', label: 'Catálogo procedimientos' },
+  { path: '/admin/medicos', label: 'Médicos' },
+] as const
 
 /** Barra lateral: navegación placeholder del panel staff. */
 export function SettingsPanel({ path, onNavigate, userRol }: SettingsPanelProps) {

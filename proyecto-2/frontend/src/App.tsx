@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { toast, Toaster } from 'sonner'
 import { AppShell } from '@/components/AppShell'
 import { Button } from '@/components/ui/button'
+import { AdminMedicosRoutes } from '@/features/admin-medicos/AdminMedicosRoutes'
+import { esRutaAdminMedicos } from '@/features/admin-medicos/adminMedicosPaths'
 import { AdminProcedimientosRoutes } from '@/features/admin-procedimientos/AdminProcedimientosRoutes'
 import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/adminProcedimientosPaths'
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
@@ -29,6 +31,10 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
     return <AdminProcedimientosRoutes path={path} onNavigate={onNavigate} />
   }
 
+  if (esRutaAdminMedicos(path)) {
+    return <AdminMedicosRoutes path={path} onNavigate={onNavigate} />
+  }
+
   if (esRutaCasos(path)) {
     return <CasosRoutes path={path} onNavigate={onNavigate} />
   }
@@ -50,10 +56,10 @@ function AppAuthenticated() {
       adminDenegadoRef.current = false
       return
     }
-    if (esRutaAdminProcedimientos(path)) {
+    if (esRutaAdminProcedimientos(path) || esRutaAdminMedicos(path)) {
       if (!adminDenegadoRef.current) {
         adminDenegadoRef.current = true
-        toast.error('Solo el rol administrador puede gestionar el catálogo de procedimientos.')
+        toast.error('Solo el rol administrador puede acceder a esta sección.')
       }
       setPath('/')
     }

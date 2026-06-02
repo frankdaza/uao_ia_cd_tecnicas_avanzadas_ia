@@ -7,29 +7,90 @@ alwaysApply: true
 
 This project has a CodeGraph MCP server (`codegraph_*` tools) configured. CodeGraph is a tree-sitter-parsed knowledge graph of every symbol, edge, and file. Reads are sub-millisecond and return structural information grep cannot.
 
+**Antes de `CallMcpTool`:** revisar el contrato de parámetros abajo. El error `task must be a non-empty string` casi siempre significa que se llamó `codegraph_context` con `query` o `path` en lugar de `task`.
+
+### Contrato de parámetros (obligatorio)
+
+| Tool | Requerido | Opcional |
+| --- | --- | --- |
+| `codegraph_context` | **`task`** (string no vacío: tarea, bug o feature) | `maxNodes`, `includeCode`, `projectPath` |
+| `codegraph_search` | **`query`** (nombre o fragmento de símbolo) | `kind`, `limit`, `projectPath` |
+| `codegraph_explore` | **`query`** (nombres de símbolos/archivos; no prosa larga) | `maxFiles`, `projectPath` |
+| `codegraph_files` | (ninguno) | **`path`**, `pattern`, `format`, `maxDepth`, `includeMetadata`, `projectPath` |
+| `codegraph_node` | **`symbol`** | `includeCode`, `projectPath` |
+| `codegraph_callers` / `codegraph_callees` | **`symbol`** | `limit`, `projectPath` |
+| `codegraph_impact` | **`symbol`** | `depth`, `projectPath` |
+| `codegraph_trace` | **`from`**, **`to`** | `projectPath` |
+| `codegraph_status` | (ninguno) | `projectPath` |
+
+**`projectPath`:** raíz de **otro** proyecto con `.codegraph/` indexado. **No** sustituye un subdirectorio del monorepo (p. ej. `proyecto-2/frontend`).
+
+**Monorepo (`proyecto-1/`, `proyecto-2/`, `proyecto-3/`):** el índice está en la raíz del workspace. Para acotar: incluir el subproyecto en **`task`**, o usar `codegraph_files` con **`path`**: `"proyecto-2/frontend"`.
+
+### Anti-patrones
+
+- **No** pasar `query` ni `path` a `codegraph_context` → `task must be a non-empty string`.
+- **No** usar `path` en `codegraph_context` para filtrar carpetas → `codegraph_files` o mencionar `proyecto-N` en `task`.
+- **No** confundir `projectPath` (otro repo) con `path` (subdirectorio en el índice actual).
+- **No** usar frases largas en `codegraph_explore` → `codegraph_search` primero, luego `explore` con nombres concretos.
+
+### Recetas (argumentos MCP)
+
+Arquitectura o contexto de tarea (`codegraph_context`):
+
+```json
+{ "task": "CRUD admin medicos TAAM en proyecto-2: API FastAPI y frontend React" }
+```
+
+Incorrecto (provoca el error habitual):
+
+```json
+{ "query": "admin medicos", "path": "proyecto-2/frontend" }
+```
+
+Solo árbol de archivos bajo un directorio (`codegraph_files`):
+
+```json
+{ "path": "proyecto-2/frontend", "format": "tree" }
+```
+
+### Errores conocidos
+
+| Mensaje | Causa | Acción |
+| --- | --- | --- |
+| `task must be a non-empty string` | `codegraph_context` sin `task`, o con `query`/`path` | Reintentar solo con `task` |
+| not initialized | Sin índice local en `.codegraph/` | Preguntar al usuario si ejecutar `codegraph init -i` en la raíz del repo |
+
 ### When to prefer codegraph over native search
 
 Use codegraph for **structural** questions — what calls what, what would break, where is X defined, what is X's signature. Use native grep/read only for **literal text** queries (string contents, comments, log messages) or after you already have a specific file open.
 
-| Question | Tool |
-|---|---|
-| "Where is X defined?" / "Find symbol named X" | `codegraph_search` |
-| "What calls function Y?" | `codegraph_callers` |
-| "What does Y call?" | `codegraph_callees` |
-| "How does X reach/become Y? / trace the flow from X to Y" | `codegraph_trace` (one call = the whole path, incl. callback/React/JSX dynamic hops) |
-| "What would break if I changed Z?" | `codegraph_impact` |
-| "Show me Y's signature / source / docstring" | `codegraph_node` |
-| "Give me focused context for a task/area" | `codegraph_context` |
-| "See several related symbols' source at once" | `codegraph_explore` |
-| "What files exist under path/" | `codegraph_files` |
-| "Is the index healthy?" | `codegraph_status` |
+| Question | Tool | Parámetro clave |
+| --- | --- | --- |
+| "Where is X defined?" / "Find symbol named X" | `codegraph_search` | `query` |
+| "What calls function Y?" | `codegraph_callers` | `symbol` |
+| "What does Y call?" | `codegraph_callees` | `symbol` |
+| "How does X reach/become Y? / trace the flow from X to Y" | `codegraph_trace` | `from`, `to` |
+| "What would break if I changed Z?" | `codegraph_impact` | `symbol` |
+| "Show me Y's signature / source / docstring" | `codegraph_node` | `symbol` |
+| "Give me focused context for a task/area" | `codegraph_context` | **`task`** |
+| "See several related symbols' source at once" | `codegraph_explore` | `query` |
+| "What files exist under path/" | `codegraph_files` | `path` |
+| "Is the index healthy?" | `codegraph_status` | — |
+
+### Flujo recomendado
+
+1. `codegraph_context` con **`task`** descriptivo (incluir `proyecto-N` si aplica).
+2. Si hace falta código: `codegraph_explore` con **`query`** = nombres devueltos en el paso 1.
+3. Si hace falta acotar carpetas: `codegraph_files` con **`path`**, no mezclar con `context`.
+4. Flujo entre dos símbolos: `codegraph_trace` (`from` → `to`), luego un solo `codegraph_explore` si hace falta ver cuerpos.
 
 ### Rules of thumb
 
-- **Answer directly — don't delegate exploration.** For "how does X work" / architecture questions, answer with 2-3 codegraph calls: `codegraph_context` first, then ONE `codegraph_explore` for the source of the symbols it surfaces. For a specific **flow** ("how does X reach Y") start with `codegraph_trace` from→to — one call returns the whole path with dynamic hops bridged — then ONE `codegraph_explore` for the bodies; don't rebuild the path with `codegraph_search` + `codegraph_callers`. Codegraph IS the pre-built index, so spawning a separate file-reading sub-task/agent — or running a grep + read loop — repeats work codegraph already did and costs more for the same answer.
+- **Answer directly — don't delegate exploration.** For "how does X work" / architecture questions, answer with 2-3 codegraph calls: `codegraph_context` with **`task`** first, then ONE `codegraph_explore` for the source of the symbols it surfaces. For a specific **flow** ("how does X reach Y") start with `codegraph_trace` `from`→`to` — one call returns the whole path with dynamic hops bridged — then ONE `codegraph_explore` for the bodies; don't rebuild the path with `codegraph_search` + `codegraph_callers`. Codegraph IS the pre-built index, so spawning a separate file-reading sub-task/agent — or running a grep + read loop — repeats work codegraph already did and costs more for the same answer.
 - **Trust codegraph results.** They come from a full AST parse. Do NOT re-verify them with grep — that's slower, less accurate, and wastes context.
 - **Don't grep first** when looking up a symbol by name. `codegraph_search` is faster and returns kind + location + signature in one call.
-- **Don't chain `codegraph_search` + `codegraph_node`** when you just want context — `codegraph_context` is one call.
+- **Don't chain `codegraph_search` + `codegraph_node`** when you just want context — `codegraph_context` is one call (with **`task`**, not `query`).
 - **Don't loop `codegraph_node` over many symbols** — one `codegraph_explore` call returns several symbols' source grouped in a single capped call, while each separate node/Read call re-reads the whole context and costs far more.
 - **Index lag**: the file watcher debounces ~500ms behind writes; don't re-query immediately after editing a file in the same turn.
 

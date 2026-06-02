@@ -61,6 +61,20 @@ Requiere usuario staff con **`rol=admin`** (p. ej. `admin@demo.taam` tras sembra
 - El listado y el detalle muestran badge de formato (`formato_protocolo`) además del estado de indexación.
 - Mientras hay indexación `pendiente`, el listado y el detalle refrescan cada 3 s.
 
+## Catálogo de médicos (admin)
+
+Requiere usuario staff con **`rol=admin`** (p. ej. **`admin@demo.taam`** y la contraseña demo del `.env` del backend, tras `scripts/sembrar_usuarios_staff_demo.py`).
+
+| Ruta | Descripción |
+| --- | --- |
+| `/admin/medicos` | Listado paginado: código, nombre, especialidad, estado activo, fecha de alta |
+| `/admin/medicos/nuevo` | Alta JSON (`codigo_registro`, `nombre_completo`, `especialidad` opcional) |
+| `/admin/medicos/{uuid}` | Detalle, editar datos (`PATCH`), desactivar (`DELETE` con confirmación) |
+
+- Las peticiones usan `apiFetch` con JWT Bearer (no `X-Admin-Key` en el navegador).
+- Validación en cliente: `codigo_registro` ASCII `[A-Za-z0-9._-]+`; campos obligatorios en alta.
+- Si el médico tiene casos postoperatorio activos, la desactivación responde 409 y el panel muestra un mensaje claro en español.
+
 ## Casos postoperatorio y emparejamiento (asistente, UC-MVP-02)
 
 Cualquier usuario staff autenticado (p. ej. `asistente@demo.taam`).
@@ -104,6 +118,7 @@ src/
   features/
     auth/                 AuthContext, StaffLoginScreen (`/login`)
     admin-procedimientos/ Catálogo protocolo PDF/Markdown + indexación (`/admin/procedimientos`)
+    admin-medicos/          Catálogo médicos/cirujanos (`/admin/medicos`)
     casos/                Registro casos y código Telegram (`/casos`)
     seguimiento/          Bandeja alertas y conversación (`/seguimiento`)
     settings/             SettingsPanel (navegación)
