@@ -1,4 +1,4 @@
-# Stack local TAAM (proyecto-2): API + PostgreSQL + Qdrant.
+# Stack local TAAM (proyecto-2): frontend Vite + API + PostgreSQL + Qdrant.
 # Puertos por defecto distintos a proyecto-1 (M2) para coexistencia en la misma maquina.
 #
 # pgweb (UI web liviana para Postgres): http://127.0.0.1:8082 por defecto; puerto del host con PGWEB_PUBLISH_PORT.
@@ -6,7 +6,7 @@
 # reservados en URL (@, :, /, etc.), use una contrasena local simple o codifique la URL.
 #
 # M2 (referencia): API 8000, Postgres host 15432, Qdrant REST 6333, pgweb 8081
-# TAAM (este archivo): API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335, pgweb 8082
+# TAAM (este archivo): frontend Vite 5174, API 8001, Postgres host 15433, Qdrant REST 6334, gRPC 6335, pgweb 8082
 #
 # Migraciones: `docker compose exec api uv run alembic upgrade head` (ver README).
 
@@ -102,6 +102,22 @@ services:
       start_period: 20s
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "${FRONTEND_PORT:-5174}:5174"
+    environment:
+      API_PROXY_TARGET: http://api:8001
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   postgres-data:
   qdrant-storage:
+  frontend-node-modules:
