@@ -1,11 +1,11 @@
 ---
 id: TASK-136
 title: 'Backend TAAM: catálogo CRUD médicos (admin)'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 05:05'
-updated_date: '2026-06-02 05:05'
+updated_date: '2026-06-02 05:39'
 labels:
   - modulo-3
   - taam
@@ -38,7 +38,7 @@ modified_files:
   - proyecto-2/tests/api/test_admin_medicos.py
   - proyecto-2/README.md
 priority: high
-ordinal: 13600
+ordinal: 1000
 ---
 
 ## Description
@@ -79,14 +79,14 @@ Prefijo `/api/admin/medicos`, auth `Depends(requerir_acceso_admin)`.
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Migración Alembic `0005_*` crea tabla `medicos` con índice único en `codigo_registro` y aplica con `uv run alembic upgrade head` en entorno TAAM
-- [ ] #2 POST /api/admin/medicos con JSON válido crea fila y responde 201 con MedicoVista; código duplicado responde 409
-- [ ] #3 GET listado paginado devuelve `items` y `total`; filtro `activo` opcional funciona
-- [ ] #4 GET/PATCH por UUID devuelven 404 si no existe; PATCH actualiza `updated_at`
-- [ ] #5 DELETE desactiva médico (activo=false); si existe caso_postoperatorio activo con mismo cirujano_id responde 409
-- [ ] #6 Endpoints sin JWT admin ni X-Admin-Key válida responden 401/403 según patrón existente
-- [ ] #7 Semilla demo incluye upsert idempotente DOC-DEMO-001 alineado con casos demo
-- [ ] #8 Tests en proyecto-2/tests/api/test_admin_medicos.py pasan con uv run pytest
+- [x] #1 Migración Alembic `0005_*` crea tabla `medicos` con índice único en `codigo_registro` y aplica con `uv run alembic upgrade head` en entorno TAAM
+- [x] #2 POST /api/admin/medicos con JSON válido crea fila y responde 201 con MedicoVista; código duplicado responde 409
+- [x] #3 GET listado paginado devuelve `items` y `total`; filtro `activo` opcional funciona
+- [x] #4 GET/PATCH por UUID devuelven 404 si no existe; PATCH actualiza `updated_at`
+- [x] #5 DELETE desactiva médico (activo=false); si existe caso_postoperatorio activo con mismo cirujano_id responde 409
+- [x] #6 Endpoints sin JWT admin ni X-Admin-Key válida responden 401/403 según patrón existente
+- [x] #7 Semilla demo incluye upsert idempotente DOC-DEMO-001 alineado con casos demo
+- [x] #8 Tests en proyecto-2/tests/api/test_admin_medicos.py pasan con uv run pytest
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -177,10 +177,16 @@ En notas de revisión: `downgrade()` debe eliminar tabla `medicos`; documentar e
 Usar JWT con claims `rol=admin` o cabecera `X-Admin-Key` según fixture existente en `tests/api/conftest.py` o `test_admin_procedimientos.py`.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implementado catálogo OLTP de médicos: migración `0005_medicos`, modelo `Medico`, `RepositorioMedicos`, esquemas Pydantic, router `/api/admin/medicos` (CRUD JSON con baja lógica y 409 si caso activo), registro en `main.py`, semilla demo `DOC-DEMO-001`, tests `test_admin_medicos.py` (10 passed) y documentación en README.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Router `/api/admin/medicos` registrado en `src/api/main.py` con lifespan DB existente
-- [ ] #2 `uv run pytest` en `proyecto-2/` pasa incluyendo `tests/api/test_admin_medicos.py`
-- [ ] #3 `proyecto-2/README.md` documenta endpoints JSON, auth admin y tabla medicos
-- [ ] #4 Sin secretos en código ni en notas de tarea; migración Alembic versionada en repo
+- [x] #1 Router `/api/admin/medicos` registrado en `src/api/main.py` con lifespan DB existente
+- [x] #2 `uv run pytest` en `proyecto-2/` pasa incluyendo `tests/api/test_admin_medicos.py`
+- [x] #3 `proyecto-2/README.md` documenta endpoints JSON, auth admin y tabla medicos
+- [x] #4 Sin secretos en código ni en notas de tarea; migración Alembic versionada en repo
 <!-- DOD:END -->

@@ -18,6 +18,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.api.routers import (
+    admin_medicos,
     admin_procedimientos,
     auth_staff,
     chat,
@@ -143,6 +144,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(salud.router, prefix="/api")
     app.include_router(auth_staff.router, prefix="/api")
     app.include_router(admin_procedimientos.router, prefix="/api")
+    app.include_router(admin_medicos.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
     app.include_router(staff_seguimiento.router, prefix="/api")
     app.include_router(telegram_emparejar.router, prefix="/api")

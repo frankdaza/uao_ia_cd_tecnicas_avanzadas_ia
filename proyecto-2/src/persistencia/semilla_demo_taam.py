@@ -26,6 +26,7 @@ from src.persistencia.demo_ids import CHAT_TELEGRAM_CASO_A, CHAT_TELEGRAM_CASO_B
 from src.persistencia.modelos import AlertaTriage, CasoPostoperatorio
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
+from src.persistencia.repositorios.medicos import RepositorioMedicos
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
 from src.persistencia.semilla_staff_demo import sembrar_usuarios_staff_demo
@@ -38,6 +39,7 @@ NOMBRE_PROCEDIMIENTO_DEMO = "Colecistectomia laparoscopica (demo)"
 RUTA_PDF_DEMO_REL = "data/taam/demo/colecistectomia-protocolo-sintetico.pdf"
 CIRUJANO_ID_DEMO = "DOC-DEMO-001"
 CIRUJANO_NOMBRE_DEMO = "Dr. Demo TAAM"
+ESPECIALIDAD_MEDICO_DEMO = "Cirugia general (demo)"
 
 CODIGO_EMPAREJAMIENTO_CASO_B = "DEMO2X"
 
@@ -66,6 +68,35 @@ def _ruta_pdf_demo_fuente() -> Path:
             "Verifique data/taam/demo/colecistectomia-protocolo-sintetico.pdf en el workspace."
         )
     return ruta
+
+
+async def _asegurar_medico_demo(sesion: AsyncSession) -> str:
+    """Upsert idempotente del cirujano demo (alineado con casos ``cirujano_id``)."""
+    repo = RepositorioMedicos(sesion)
+    fila = await repo.obtener_por_codigo(CIRUJANO_ID_DEMO)
+    if fila is None:
+        await repo.crear(
+            codigo_registro=CIRUJANO_ID_DEMO,
+            nombre_completo=CIRUJANO_NOMBRE_DEMO,
+            especialidad=ESPECIALIDAD_MEDICO_DEMO,
+        )
+        return f"Medico demo creado: {CIRUJANO_ID_DEMO}"
+    cambios = False
+    if fila.nombre_completo != CIRUJANO_NOMBRE_DEMO:
+        cambios = True
+    if fila.especialidad != ESPECIALIDAD_MEDICO_DEMO:
+        cambios = True
+    if not fila.activo:
+        cambios = True
+    if cambios:
+        await repo.actualizar(
+            fila,
+            nombre_completo=CIRUJANO_NOMBRE_DEMO,
+            especialidad=ESPECIALIDAD_MEDICO_DEMO,
+            activo=True,
+        )
+        return f"Medico demo actualizado: {CIRUJANO_ID_DEMO}"
+    return f"Medico demo ya existente: {CIRUJANO_ID_DEMO}"
 
 
 async def _asegurar_tipo_procedimiento_demo(
@@ -262,6 +293,8 @@ async def sembrar_demo_taam(
 
         tipo_id, msg_tipo = await _asegurar_tipo_procedimiento_demo(sesion)
         mensajes.append(msg_tipo)
+
+        mensajes.append(await _asegurar_medico_demo(sesion))
 
         caso_a = await _asegurar_caso_demo(
             sesion,

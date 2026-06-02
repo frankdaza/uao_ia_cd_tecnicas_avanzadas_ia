@@ -87,6 +87,39 @@ class TipoProcedimiento(Base):
     )
 
 
+class Medico(Base):
+    """Catalogo de medicos/cirujanos (admin, sin Qdrant)."""
+
+    __tablename__ = "medicos"
+    __table_args__ = (Index("ix_medicos_activo", "activo"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        server_default=text("gen_random_uuid()"),
+    )
+    codigo_registro: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
+    nombre_completo: Mapped[str] = mapped_column(String(512), nullable=False)
+    especialidad: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    activo: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        server_default=text("true"),
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+
 class CasoPostoperatorio(Base):
     """Caso quirurgico de un paciente (UC-MVP-02)."""
 

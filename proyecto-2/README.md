@@ -248,6 +248,33 @@ Cada procedimiento tiene **un solo archivo activo** en disco:
 
 Migración **`0004_formato_protocolo_taam`**: columna `formato_protocolo` (default `pdf` para filas existentes). Aplicar con `alembic upgrade head` en host o `docker compose exec api uv run alembic upgrade head`.
 
+### Catálogo de médicos (admin)
+
+Rutas bajo `/api/admin/medicos`. Misma autenticación que procedimientos: **`X-Admin-Key`** o JWT staff con `rol=admin`. Sin Qdrant ni archivos; solo metadatos en Postgres (`medicos`).
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `POST` | `/api/admin/medicos` | JSON: `codigo_registro`, `nombre_completo`, `especialidad` (opcional) → 201 |
+| `GET` | `/api/admin/medicos` | Listado paginado `{ items, total }`; query `limit`, `offset`, `activo` (opcional) |
+| `GET` | `/api/admin/medicos/{id}` | Detalle por UUID |
+| `PATCH` | `/api/admin/medicos/{id}` | JSON parcial; 409 si `codigo_registro` duplicado |
+| `DELETE` | `/api/admin/medicos/{id}` | Baja lógica (`activo=false`); 409 si hay caso **activo** con `cirujano_id` = `codigo_registro` |
+
+`codigo_registro` es ASCII `[A-Za-z0-9._-]+` (alineado con `cirujano_id` en casos). La semilla demo crea `DOC-DEMO-001` / Dr. Demo TAAM.
+
+Migración **`0005_medicos`**: tabla `medicos`. Aplicar con `alembic upgrade head`.
+
+```bash
+export ADMIN_API_KEY='cambiar-por-clave-segura'
+
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" -H "Content-Type: application/json" \
+  -d '{"codigo_registro":"DOC-001","nombre_completo":"Dra. Ejemplo","especialidad":"Cirugia"}' \
+  http://127.0.0.1:8001/api/admin/medicos | jq .
+
+curl -sS -H "X-Admin-Key: $ADMIN_API_KEY" \
+  "http://127.0.0.1:8001/api/admin/medicos?limit=20&activo=true" | jq .
+```
+
 ### Ingesta protocolo → Qdrant (`taam_protocolos`)
 
 Única vía de ingesta vectorial en TAAM; no aplica a prompts, FAQs ni `data/markdown/` de M2.
