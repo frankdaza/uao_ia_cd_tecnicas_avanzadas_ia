@@ -7,7 +7,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:17'
-updated_date: '2026-05-22 00:16'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -19,7 +19,7 @@ dependencies:
   - TASK-105
   - TASK-102
 priority: high
-ordinal: 1000
+ordinal: 5000
 ---
 
 ## Description

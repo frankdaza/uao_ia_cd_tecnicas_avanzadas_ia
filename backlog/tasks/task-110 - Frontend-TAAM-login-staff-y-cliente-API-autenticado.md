@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:17'
-updated_date: '2026-05-22 00:28'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -32,7 +32,7 @@ modified_files:
   - proyecto-2/frontend/src/components/ui/input.tsx
   - proyecto-2/frontend/src/components/ui/label.tsx
 priority: high
-ordinal: 1000
+ordinal: 11000
 ---
 
 ## Description

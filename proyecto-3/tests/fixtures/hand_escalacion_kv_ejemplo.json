@@ -1,0 +1,9 @@
+{
+  "escalado_reciente": {
+    "escalado": true,
+    "session_id": "telegram:800001",
+    "frase_detectada": "fiebre alta",
+    "ultimo_disparo_iso": "2026-05-23T16:00:00+00:00",
+    "texto_entrada_truncado": "tengo fiebre alta desde ayer"
+  }
+}

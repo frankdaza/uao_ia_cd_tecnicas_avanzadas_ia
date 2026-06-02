@@ -1,0 +1,17 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Datos runtime OpenFang (SQLite, JSONL, logs)
+openfang/data/*
+!openfang/data/.gitkeep
+
+# Salidas analitica
+analisis_tsne/output/
+analisis_tsne/output/**/*.parquet
+analisis_tsne/output/**/*.csv
+*.ipynb_checkpoints/

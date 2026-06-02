@@ -22,10 +22,13 @@ Documentacion oficial: [Ignore file](https://cursor.com/docs/reference/ignore-fi
 - **Secretos**: ademas de `.env` y `secrets/`, hay patrones para `credentials.json`, `secrets.json`, claves PEM, `.aws/credentials`, `id_rsa`, `*.key` (ver `.cursorignore`).
 - **Crudo**: `data/raw/` en ambos archivos ignore.
 - **TAAM (`data/taam/`)**: PDFs y protocolos subidos en runtime (M3); en `.cursorignore` y `.cursorindexingignore`; en `.gitignore` salvo `**/.gitkeep`. El backend TAAM sigue leyendo disco al ejecutar.
+- **proyecto-3 Ruta B (`proyecto-3/openfang/data/`)**: runtime OpenFang (SQLite, JSONL de sesiones; puede contener PII de demo Telegram); en `.cursorignore`, `.cursorindexingignore` y `Read(/proyecto-3/openfang/data/**)` en Claude Code. No ignorar `proyecto-3/openfang/hands/` ni `openfang.toml` (config versionada).
+- **proyecto-3 t-SNE (`proyecto-3/analisis_tsne/output/`)**: parquet, embeddings y graficos generados; en `.cursorignore` y `.cursorindexingignore`; gitignore local y raiz de caches Python para `proyecto-3/`.
+- **Plantillas `.env.example`**: excepcion `!**/.env.example` en `.cursorignore` (el patron `**/.env.*` las bloqueaba); valores reales siguen en `.env` ignorado.
 - **Corpus `data/markdown/`**: esta en **`.cursorindexingignore` solamente** para aligerar el indice del IDE; el backend sigue leyendo el corpus en disco en runtime (RAG). **No** esta en `.cursorignore`: el agente Cursor puede referenciar `@` esos `.md` si hace falta. Para bloquear tambien agente y `@`, anadir `data/markdown/` a `.cursorignore` (trade-off fuerte).
 - **Chunks**: `data/processed/` solo en indexacion.
-- **Monorepo Python/Node**: `proyecto-1/` y `proyecto-2/` comparten patrones `**/.venv/`, `**/node_modules/`, caches de test y frontend en ignore de Cursor; `.gitignore` lista rutas explicitas bajo cada `proyecto-*/frontend/`.
-- **Lockfile Python**: `!uv.lock` donde aplica la lista por defecto de Cursor (`*.lock`).
+- **Monorepo Python/Node**: `proyecto-1/`, `proyecto-2/` y `proyecto-3/` comparten patrones `**/.venv/`, `**/node_modules/`, caches de test; `.gitignore` lista rutas explicitas bajo cada `proyecto-*/` (frontend en p1/p2).
+- **Lockfile Python**: `!uv.lock` y `!proyecto-*/uv.lock` donde aplica la lista por defecto de Cursor (`*.lock`).
 
 ## Backlog y tareas
 

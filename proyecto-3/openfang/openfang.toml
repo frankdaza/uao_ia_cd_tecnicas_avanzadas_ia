@@ -1,0 +1,25 @@
+# proyecto-3 — OpenFang 0.6.9 (sin secretos)
+# Copiar a OPENFANG_HOME/config.toml al arrancar (ver scripts/arrancar_dev.sh)
+# Secretos: OPENAI_API_KEY, TELEGRAM_BOT_TOKEN en proyecto-3/.env
+# ADR: backlog/decisions/decision-8
+
+api_listen = "127.0.0.1:4200"
+
+[default_model]
+provider = "openai"
+model = "gpt-4o-mini"
+api_key_env = "OPENAI_API_KEY"
+
+[memory]
+decay_rate = 0.05
+# sqlite_path por defecto: {data_dir}/openfang.db bajo OPENFANG_HOME
+
+[embedding]
+provider = "openai"
+model = "text-embedding-3-small"
+api_key_env = "OPENAI_API_KEY"
+
+[channels.telegram]
+bot_token_env = "TELEGRAM_BOT_TOKEN"
+default_agent = "bot_lili_taam"
+allowed_users = []

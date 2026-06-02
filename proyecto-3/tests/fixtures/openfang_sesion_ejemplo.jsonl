@@ -1,0 +1,3 @@
+{"session_id": "telegram:900001", "role": "user", "content": "Hola Bot Lili", "ts": "2026-05-23T14:00:00+00:00"}
+{"session_id": "telegram:900001", "role": "assistant", "content": "Hola, en que puedo ayudarte con tu recuperacion?", "ts": "2026-05-23T14:00:05+00:00"}
+{"session_id": "telegram:900002", "role": "system", "content": "sesion antigua", "ts": "2026-01-01T10:00:00+00:00"}

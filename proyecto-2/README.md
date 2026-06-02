@@ -4,6 +4,8 @@ Aplicación **independiente** del asistente M2 en [`proyecto-1/`](../proyecto-1/
 
 **Documentación de arquitectura (informe M3):** [doc-004 — Arquitectura TAAM](../backlog/docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md) (diagramas, tabla M2 vs M3, matriz rubrica LangChain).
 
+**Estudio OpenFang (Ruta B):** [doc-007 — Evaluacion OpenFang vs TAAM](../backlog/docs/doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md) (viabilidad de migracion; recomendacion: mantener proyecto-2 en MVP).
+
 **Milestone:** [m-0 — Agentic Final Project](../backlog/milestones/m-0%20-%20agentic-final-project.md).
 
 ## Relación con proyecto-1

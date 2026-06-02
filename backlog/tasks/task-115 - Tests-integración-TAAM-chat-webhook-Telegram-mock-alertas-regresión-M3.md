@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Frank Daza
 created_date: '2026-05-21 22:18'
-updated_date: '2026-05-22 00:55'
+updated_date: '2026-05-24 16:36'
 labels:
   - modulo-3
   - taam
@@ -32,7 +32,7 @@ modified_files:
   - proyecto-2/tests/api/test_chat.py
   - proyecto-2/README.md
 priority: high
-ordinal: 1000
+ordinal: 16000
 ---
 
 ## Description

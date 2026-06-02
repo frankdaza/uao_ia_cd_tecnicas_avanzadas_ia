@@ -1,0 +1,44 @@
+[project]
+name = "proyecto-3-taam-openfang"
+version = "0.1.0"
+description = "TAAM Modulo 3 Ruta B: ingesta corpus, analisis t-SNE (auxiliar a OpenFang)"
+readme = "README.md"
+requires-python = "==3.12.12"
+dependencies = [
+    "openai>=1.0.0",
+    "pandas>=2.2.0",
+    "pyyaml>=6.0",
+    "scikit-learn>=1.5.0",
+    "umap-learn>=0.5.6",
+    "plotly>=5.24.0",
+    "jupyterlab>=4.2.0",
+    "python-dotenv>=1.0.0",
+    "pydantic-settings>=2.14.0",
+    "tiktoken>=0.9.0",
+    "pypdf>=5.0.0",
+    "pyarrow>=18.0.0",
+    "kaleido>=1.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.9.0",
+]
+
+[tool.uv.build-backend]
+module-name = "src"
+module-root = ""
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "ingesta", "analisis_tsne/src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = ["analisis_tsne/notebooks"]

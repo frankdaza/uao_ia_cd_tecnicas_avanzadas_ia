@@ -137,6 +137,9 @@ proyecto-1/.ruff_cache/
 proyecto-2/.venv/
 proyecto-2/.pytest_cache/
 proyecto-2/.ruff_cache/
+proyecto-3/.venv/
+proyecto-3/.pytest_cache/
+proyecto-3/.ruff_cache/
 
 # Cache de uv (local o dentro de contenedores Docker)
 .cache/

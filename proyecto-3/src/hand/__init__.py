@@ -1,0 +1,61 @@
+"""Logica testeable de Hands TAAM (Ruta B)."""
+
+from src.guardrails.escalacion_clinica import (
+    debe_escalar,
+    evaluar_entrada_usuario,
+    marcar_escalacion,
+    redactar_mensaje_urgencia,
+)
+from src.hand.recordatorio_postoperatorio import (
+    ResultadoRecordatorioPostop,
+    SesionActiva,
+    ejecutar_recordatorio_postop,
+    listar_sesiones_activas,
+    redactar_mensaje_recordatorio,
+    registrar_auditoria_hand_recordatorio,
+    validar_mensaje_recordatorio,
+)
+from src.hand.requerir_evidencia import (
+    ResultadoProcesarEvidencia,
+    ResultadoRequerirEvidencia,
+    debe_cerrar_sin_respuesta,
+    debe_reintentar_evidencia,
+    ejecutar_requerir_evidencia,
+    es_indicio_multimedia,
+    iniciar_pendiente_evidencia,
+    listar_chat_ids_pendientes,
+    persistir_turno_evidencia,
+    procesar_respuesta_evidencia,
+    redactar_rechazo_multimedia,
+    redactar_solicitud_evidencia,
+    registrar_auditoria_hand_evidencia,
+    validar_mensaje_solicitud_evidencia,
+)
+
+__all__ = [
+    "ResultadoProcesarEvidencia",
+    "ResultadoRecordatorioPostop",
+    "ResultadoRequerirEvidencia",
+    "SesionActiva",
+    "debe_escalar",
+    "debe_cerrar_sin_respuesta",
+    "evaluar_entrada_usuario",
+    "marcar_escalacion",
+    "redactar_mensaje_urgencia",
+    "debe_reintentar_evidencia",
+    "ejecutar_recordatorio_postop",
+    "ejecutar_requerir_evidencia",
+    "es_indicio_multimedia",
+    "iniciar_pendiente_evidencia",
+    "listar_chat_ids_pendientes",
+    "listar_sesiones_activas",
+    "persistir_turno_evidencia",
+    "procesar_respuesta_evidencia",
+    "redactar_mensaje_recordatorio",
+    "redactar_rechazo_multimedia",
+    "redactar_solicitud_evidencia",
+    "registrar_auditoria_hand_evidencia",
+    "registrar_auditoria_hand_recordatorio",
+    "validar_mensaje_recordatorio",
+    "validar_mensaje_solicitud_evidencia",
+]
