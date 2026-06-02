@@ -14,15 +14,15 @@ import {
 import type { Procedimiento } from '@/lib/schemas'
 import { ProcedimientoMetadataSchema } from '@/lib/schemas'
 import { formatFechaAlta } from '@/lib/formatFecha'
-import { IndexacionEstadoBadge } from './indexacionEstado'
-import { PdfDropZone } from './PdfDropZone'
+import { FormatoProtocoloBadge, IndexacionEstadoBadge } from './indexacionEstado'
+import { ProtocolFileDropZone } from './ProtocolFileDropZone'
 
 interface ProcedimientoDetallePageProps {
   id: string
   onNavigate: (path: string) => void
 }
 
-/** Detalle, edición de metadatos, reemplazo de PDF y reindexación. */
+/** Detalle, edición de metadatos, reemplazo de protocolo y reindexación. */
 export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetallePageProps) {
   const qc = useQueryClient()
   const q = useQuery({
@@ -32,21 +32,27 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
       query.state.data?.indexacion_estado === 'pendiente' ? 3000 : false,
   })
 
-  const [pdfReemplazo, setPdfReemplazo] = useState<File | null>(null)
+  const [protocoloReemplazo, setProtocoloReemplazo] = useState<File | null>(null)
 
-  const mutPdf = useMutation({
+  const mutProtocolo = useMutation({
     mutationFn: async () => {
-      if (!pdfReemplazo) throw new Error('Seleccione un PDF.')
-      return patchAdminProcedimiento(id, { archivo: pdfReemplazo })
+      if (!protocoloReemplazo) {
+        throw new Error('Seleccione un archivo de protocolo (PDF o Markdown).')
+      }
+      return patchAdminProcedimiento(id, { archivo: protocoloReemplazo })
     },
     onSuccess: async () => {
-      toast.success('PDF reemplazado. Indexación en curso.')
-      setPdfReemplazo(null)
+      toast.success('Protocolo reemplazado. Indexación en curso.')
+      setProtocoloReemplazo(null)
       await qc.invalidateQueries({ queryKey: ['admin', 'procedimientos'] })
       await qc.invalidateQueries({ queryKey: ['admin', 'procedimientos', id] })
     },
     onError: (err: unknown) => {
-      toast.error(err instanceof ApiError ? (err.detail ?? err.message) : 'Error al subir PDF.')
+      toast.error(
+        err instanceof ApiError
+          ? (err.detail ?? err.message)
+          : 'Error al subir el protocolo.',
+      )
     },
   })
 
@@ -96,6 +102,7 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
         <h2 className="font-display text-xl font-semibold text-[var(--color-text)]">{fila.nombre}</h2>
         <p className="font-mono text-sm text-[var(--color-text-muted)]">{fila.codigo}</p>
         <div className="flex flex-wrap items-center gap-3">
+          <FormatoProtocoloBadge formato={fila.formato_protocolo} />
           <IndexacionEstadoBadge estado={fila.indexacion_estado} />
           {fila.indexacion_estado === 'pendiente' ? (
             <span className="flex items-center gap-1 text-xs text-[var(--color-text-muted)]">
@@ -117,21 +124,24 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
       />
 
       <section className="space-y-4 rounded-lg border border-[var(--border)] p-4">
-        <h3 className="text-sm font-semibold text-[var(--color-text)]">Reemplazar PDF</h3>
+        <h3 className="text-sm font-semibold text-[var(--color-text)]">
+          Reemplazar protocolo (PDF o Markdown)
+        </h3>
         <p className="text-xs text-[var(--color-text-muted)]">
           Al subir un nuevo protocolo se reinicia la indexación y se incrementa la versión vector.
+          Puede cambiar entre PDF y Markdown.
         </p>
-        <PdfDropZone
-          file={pdfReemplazo}
-          onFileChange={setPdfReemplazo}
-          disabled={mutPdf.isPending}
+        <ProtocolFileDropZone
+          file={protocoloReemplazo}
+          onFileChange={setProtocoloReemplazo}
+          disabled={mutProtocolo.isPending}
         />
         <Button
           type="button"
-          disabled={!pdfReemplazo || mutPdf.isPending}
-          onClick={() => mutPdf.mutate()}
+          disabled={!protocoloReemplazo || mutProtocolo.isPending}
+          onClick={() => mutProtocolo.mutate()}
         >
-          {mutPdf.isPending ? 'Subiendo…' : 'Reemplazar PDF'}
+          {mutProtocolo.isPending ? 'Subiendo…' : 'Reemplazar protocolo'}
         </Button>
       </section>
 

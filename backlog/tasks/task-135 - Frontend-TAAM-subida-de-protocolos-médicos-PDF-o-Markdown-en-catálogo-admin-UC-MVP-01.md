@@ -3,11 +3,11 @@ id: TASK-135
 title: >-
   Frontend TAAM: subida de protocolos médicos PDF o Markdown en catálogo admin
   (UC-MVP-01)
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 01:47'
-updated_date: '2026-06-02 01:48'
+updated_date: '2026-06-02 02:14'
 labels:
   - modulo-3
   - taam
@@ -33,7 +33,6 @@ documentation:
 modified_files:
   - proyecto-2/frontend/src/lib/schemas.ts
   - proyecto-2/frontend/src/lib/procedimientosValidacion.ts
-  - proyecto-2/frontend/src/lib/api.ts
   - >-
     proyecto-2/frontend/src/features/admin-procedimientos/ProtocolFileDropZone.tsx
   - >-
@@ -45,7 +44,7 @@ modified_files:
   - proyecto-2/frontend/src/features/admin-procedimientos/indexacionEstado.tsx
   - proyecto-2/frontend/README.md
 priority: high
-ordinal: 13500
+ordinal: 1000
 ---
 
 ## Description
@@ -91,16 +90,16 @@ Preview Markdown renderizado, editor in-browser, cambios backend, extensión `.m
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 /admin/procedimientos/nuevo: copy y zona de subida indican PDF o Markdown (no solo PDF); accept incluye ambas extensiones y MIME relevantes
-- [ ] #2 Alta con Markdown exitosa: toast español, badge Markdown, polling de indexación igual que PDF
-- [ ] #3 Alta con PDF exitosa: regresión completa TASK-111 (mismos toasts, polling, badges)
-- [ ] #4 Detalle: reemplazo cruzado PDF↔MD; tras refetch muestra formato_protocolo correcto
-- [ ] #5 Listado: columna o badge de formato por fila
-- [ ] #6 Drag-and-drop de .md con type vacío o application/octet-stream no rechazado en cliente
-- [ ] #7 Errores 422 backend visibles en toast con detail en español
-- [ ] #8 Rutas /admin/procedimientos siguen restringidas a rol=admin
-- [ ] #9 pnpm run build y pnpm run lint en proyecto-2/frontend/ terminan con código 0
-- [ ] #10 proyecto-2/frontend/README.md actualizado con PDF y Markdown como formatos equivalentes
+- [x] #1 /admin/procedimientos/nuevo: copy y zona de subida indican PDF o Markdown (no solo PDF); accept incluye ambas extensiones y MIME relevantes
+- [x] #2 Alta con Markdown exitosa: toast español, badge Markdown, polling de indexación igual que PDF
+- [x] #3 Alta con PDF exitosa: regresión completa TASK-111 (mismos toasts, polling, badges)
+- [x] #4 Detalle: reemplazo cruzado PDF↔MD; tras refetch muestra formato_protocolo correcto
+- [x] #5 Listado: columna o badge de formato por fila
+- [x] #6 Drag-and-drop de .md con type vacío o application/octet-stream no rechazado en cliente
+- [x] #7 Errores 422 backend visibles en toast con detail en español
+- [x] #8 Rutas /admin/procedimientos siguen restringidas a rol=admin
+- [x] #9 pnpm run build y pnpm run lint en proyecto-2/frontend/ terminan con código 0
+- [x] #10 proyecto-2/frontend/README.md actualizado con PDF y Markdown como formatos equivalentes
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -182,9 +181,15 @@ export const ProcedimientoSchema = z.object({
 **Demo:** login `admin@demo.taam` tras sembrar backend.
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Frontend admin UC-MVP-01: ProtocolFileDropZone acepta PDF y .md con validarArchivoProtocolo; ProcedimientoSchema incluye formato_protocolo; badges PDF/Markdown en listado y detalle; copy y reemplazo cruzado de formatos; README actualizado. pnpm build y lint OK.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Feature admin-procedimientos soporta ambos formatos sin imports desde proyecto-1/frontend
-- [ ] #2 README frontend documenta PDF y Markdown
-- [ ] #3 Tarea cerrada con status Done; no usar task_complete automático
+- [x] #1 Feature admin-procedimientos soporta ambos formatos sin imports desde proyecto-1/frontend
+- [x] #2 README frontend documenta PDF y Markdown
+- [x] #3 Tarea cerrada con status Done; no usar task_complete automático
 <!-- DOD:END -->

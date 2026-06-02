@@ -32,6 +32,7 @@ export const ProcedimientoSchema = z.object({
   id: z.uuid(),
   codigo: z.string(),
   nombre: z.string(),
+  formato_protocolo: z.enum(['pdf', 'markdown']),
   indexacion_estado: z.enum(['pendiente', 'ok', 'error']),
   qdrant_collection_version: z.number().int().nullable(),
   created_at: z.string(),

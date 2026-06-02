@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { ApiError, listAdminProcedimientos } from '@/lib/api'
 import type { Procedimiento } from '@/lib/schemas'
 import { formatFechaAlta } from '@/lib/formatFecha'
-import { IndexacionEstadoBadge } from './indexacionEstado'
+import { FormatoProtocoloBadge, IndexacionEstadoBadge } from './indexacionEstado'
 
 interface ProcedimientosListPageProps {
   onNavigate: (path: string) => void
@@ -30,7 +30,7 @@ export function ProcedimientosListPage({ onNavigate }: ProcedimientosListPagePro
             Catálogo de procedimientos
           </h2>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            Protocolos PDF e indexación en Qdrant para el agente TAAM.
+            Protocolos médicos en PDF o Markdown e indexación en Qdrant para el agente TAAM.
           </p>
         </div>
         <Button type="button" onClick={() => onNavigate('/admin/procedimientos/nuevo')}>
@@ -66,11 +66,12 @@ export function ProcedimientosListPage({ onNavigate }: ProcedimientosListPagePro
 
       {q.data && q.data.items.length > 0 ? (
         <div className="overflow-x-auto rounded-lg border border-[var(--border)]">
-          <table className="w-full min-w-[720px] text-left text-sm">
+          <table className="w-full min-w-[800px] text-left text-sm">
             <thead className="bg-[var(--color-surface)] text-xs uppercase tracking-wide text-[var(--color-text-subtle)]">
               <tr>
                 <th className="px-4 py-3 font-medium">Código</th>
                 <th className="px-4 py-3 font-medium">Nombre</th>
+                <th className="px-4 py-3 font-medium">Formato</th>
                 <th className="px-4 py-3 font-medium">Versión vector</th>
                 <th className="px-4 py-3 font-medium">Indexación</th>
                 <th className="px-4 py-3 font-medium">Alta</th>
@@ -82,6 +83,9 @@ export function ProcedimientosListPage({ onNavigate }: ProcedimientosListPagePro
                 <tr key={row.id} className="hover:bg-[var(--accent)]/40">
                   <td className="px-4 py-3 font-mono text-xs">{row.codigo}</td>
                   <td className="px-4 py-3">{row.nombre}</td>
+                  <td className="px-4 py-3">
+                    <FormatoProtocoloBadge formato={row.formato_protocolo} />
+                  </td>
                   <td className="px-4 py-3 text-[var(--color-text-muted)]">
                     {row.qdrant_collection_version ?? '—'}
                   </td>

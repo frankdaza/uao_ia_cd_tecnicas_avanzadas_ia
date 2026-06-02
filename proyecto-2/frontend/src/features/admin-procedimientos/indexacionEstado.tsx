@@ -40,3 +40,38 @@ export function IndexacionEstadoBadge({
     </span>
   )
 }
+
+const FORMATO_CONFIG: Record<
+  Procedimiento['formato_protocolo'],
+  { label: string; className: string }
+> = {
+  pdf: {
+    label: 'PDF',
+    className: 'bg-slate-500/15 text-slate-900 dark:text-slate-200 border-slate-500/30',
+  },
+  markdown: {
+    label: 'Markdown',
+    className: 'bg-violet-500/15 text-violet-900 dark:text-violet-200 border-violet-500/30',
+  },
+}
+
+export function FormatoProtocoloBadge({
+  formato,
+  className,
+}: {
+  formato: Procedimiento['formato_protocolo']
+  className?: string
+}) {
+  const cfg = FORMATO_CONFIG[formato]
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium',
+        cfg.className,
+        className,
+      )}
+    >
+      {cfg.label}
+    </span>
+  )
+}

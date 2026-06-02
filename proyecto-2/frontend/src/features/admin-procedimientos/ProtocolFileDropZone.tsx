@@ -1,16 +1,23 @@
 import { useCallback, useState, type DragEvent } from 'react'
 import { FileText, Upload } from 'lucide-react'
 import { cn } from '@/lib/cn'
-import { PDF_MAX_BYTES, validarArchivoPdf } from '@/lib/procedimientosValidacion'
+import { PROTOCOLO_MAX_BYTES, validarArchivoProtocolo } from '@/lib/procedimientosValidacion'
 
-interface PdfDropZoneProps {
+const ACCEPT_PROTOCOL =
+  '.pdf,.md,application/pdf,text/markdown,text/x-markdown,text/plain,application/octet-stream'
+
+interface ProtocolFileDropZoneProps {
   file: File | null
   onFileChange: (file: File | null) => void
   disabled?: boolean
 }
 
-/** Zona drag-and-drop para seleccionar un PDF de protocolo. */
-export function PdfDropZone({ file, onFileChange, disabled }: PdfDropZoneProps) {
+/** Zona drag-and-drop para protocolo médico en PDF o Markdown (.md). */
+export function ProtocolFileDropZone({
+  file,
+  onFileChange,
+  disabled,
+}: ProtocolFileDropZoneProps) {
   const [dragOver, setDragOver] = useState(false)
   const [errorLocal, setErrorLocal] = useState<string | null>(null)
 
@@ -21,9 +28,9 @@ export function PdfDropZone({ file, onFileChange, disabled }: PdfDropZoneProps) 
         onFileChange(null)
         return
       }
-      const err = validarArchivoPdf(next)
-      if (err) {
-        setErrorLocal(err)
+      const resultado = validarArchivoProtocolo(next)
+      if (!resultado.ok) {
+        setErrorLocal(resultado.error)
         onFileChange(null)
         return
       }
@@ -62,7 +69,7 @@ export function PdfDropZone({ file, onFileChange, disabled }: PdfDropZoneProps) 
             <FileText className="h-10 w-10 text-[var(--primary)]" aria-hidden />
             <p className="text-sm font-medium text-[var(--color-text)]">{file.name}</p>
             <p className="text-xs text-[var(--color-text-muted)]">
-              {(file.size / 1024).toFixed(1)} KB — máximo {PDF_MAX_BYTES / (1024 * 1024)} MB
+              {(file.size / 1024).toFixed(1)} KB — máximo {PROTOCOLO_MAX_BYTES / (1024 * 1024)} MB
             </p>
             <button
               type="button"
@@ -76,12 +83,12 @@ export function PdfDropZone({ file, onFileChange, disabled }: PdfDropZoneProps) 
           <>
             <Upload className="h-10 w-10 text-[var(--color-text-subtle)]" aria-hidden />
             <p className="text-sm text-[var(--color-text)]">
-              Arrastre el PDF aquí o{' '}
+              Arrastre el protocolo aquí o{' '}
               <label className="cursor-pointer font-medium text-[var(--primary)] hover:underline">
                 seleccione un archivo
                 <input
                   type="file"
-                  accept="application/pdf"
+                  accept={ACCEPT_PROTOCOL}
                   className="sr-only"
                   disabled={disabled}
                   onChange={(e) => {
@@ -93,7 +100,7 @@ export function PdfDropZone({ file, onFileChange, disabled }: PdfDropZoneProps) 
               </label>
             </p>
             <p className="text-xs text-[var(--color-text-subtle)]">
-              PDF, nombre ASCII, hasta {PDF_MAX_BYTES / (1024 * 1024)} MB
+              PDF o Markdown (.md), nombre ASCII, hasta {PROTOCOLO_MAX_BYTES / (1024 * 1024)} MB
             </p>
           </>
         )}

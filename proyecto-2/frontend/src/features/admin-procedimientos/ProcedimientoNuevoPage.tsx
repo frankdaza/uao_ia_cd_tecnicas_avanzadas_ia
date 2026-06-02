@@ -7,26 +7,26 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ApiError, createAdminProcedimiento } from '@/lib/api'
 import { ProcedimientoMetadataSchema } from '@/lib/schemas'
-import { PdfDropZone } from './PdfDropZone'
+import { ProtocolFileDropZone } from './ProtocolFileDropZone'
 
 interface ProcedimientoNuevoPageProps {
   onNavigate: (path: string) => void
 }
 
-/** Alta de procedimiento con PDF (multipart). */
+/** Alta de procedimiento con protocolo PDF o Markdown (multipart). */
 export function ProcedimientoNuevoPage({ onNavigate }: ProcedimientoNuevoPageProps) {
   const qc = useQueryClient()
   const [codigo, setCodigo] = useState('')
   const [nombre, setNombre] = useState('')
-  const [pdf, setPdf] = useState<File | null>(null)
+  const [protocolo, setProtocolo] = useState<File | null>(null)
 
   const mut = useMutation({
     mutationFn: async () => {
       const meta = ProcedimientoMetadataSchema.parse({ codigo: codigo.trim(), nombre: nombre.trim() })
-      if (!pdf) {
-        throw new Error('Seleccione un archivo PDF.')
+      if (!protocolo) {
+        throw new Error('Seleccione un archivo de protocolo (PDF o Markdown).')
       }
-      return createAdminProcedimiento(meta, pdf)
+      return createAdminProcedimiento(meta, protocolo)
     },
     onSuccess: async (creado) => {
       toast.success('Procedimiento creado. La indexación puede tardar unos segundos.')
@@ -48,7 +48,7 @@ export function ProcedimientoNuevoPage({ onNavigate }: ProcedimientoNuevoPagePro
     codigo: codigo.trim(),
     nombre: nombre.trim(),
   })
-  const puedeEnviar = metaPreview.success && pdf != null && !mut.isPending
+  const puedeEnviar = metaPreview.success && protocolo != null && !mut.isPending
 
   return (
     <div className="mx-auto max-w-lg space-y-6">
@@ -68,7 +68,7 @@ export function ProcedimientoNuevoPage({ onNavigate }: ProcedimientoNuevoPagePro
           Nuevo procedimiento
         </h2>
         <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-          Registre el código, nombre y el PDF del protocolo general.
+          Registre el código, nombre y el protocolo general en PDF o Markdown.
         </p>
       </div>
 
@@ -106,8 +106,12 @@ export function ProcedimientoNuevoPage({ onNavigate }: ProcedimientoNuevoPagePro
         </div>
 
         <div className="space-y-2">
-          <Label>Protocolo PDF</Label>
-          <PdfDropZone file={pdf} onFileChange={setPdf} disabled={mut.isPending} />
+          <Label>Protocolo (PDF o Markdown)</Label>
+          <ProtocolFileDropZone
+            file={protocolo}
+            onFileChange={setProtocolo}
+            disabled={mut.isPending}
+          />
         </div>
 
         {!metaPreview.success && (codigo || nombre) ? (

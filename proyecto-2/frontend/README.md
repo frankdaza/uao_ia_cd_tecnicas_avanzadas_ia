@@ -52,12 +52,13 @@ Requiere usuario staff con **`rol=admin`** (p. ej. `admin@demo.taam` tras sembra
 
 | Ruta | Descripción |
 | --- | --- |
-| `/admin/procedimientos` | Listado con estado de indexación (`pendiente` / listo / error) |
-| `/admin/procedimientos/nuevo` | Alta multipart: metadata JSON + PDF |
-| `/admin/procedimientos/{uuid}` | Detalle, editar metadatos, reemplazar PDF, reindexar |
+| `/admin/procedimientos` | Listado con formato (PDF / Markdown) y estado de indexación |
+| `/admin/procedimientos/nuevo` | Alta multipart: metadata JSON + protocolo PDF o `.md` |
+| `/admin/procedimientos/{uuid}` | Detalle, editar metadatos, reemplazar protocolo, reindexar |
 
 - Las peticiones usan `apiFetch` con JWT Bearer (no `X-Admin-Key` en el navegador).
-- Validación en cliente: PDF ≤ 10 MB, nombre de archivo ASCII.
+- Validación en cliente: PDF o Markdown (`.md`) ≤ 10 MB, nombre de archivo ASCII; mismos MIME que el backend.
+- El listado y el detalle muestran badge de formato (`formato_protocolo`) además del estado de indexación.
 - Mientras hay indexación `pendiente`, el listado y el detalle refrescan cada 3 s.
 
 ## Casos postoperatorio y emparejamiento (asistente, UC-MVP-02)
@@ -102,7 +103,7 @@ src/
   components/     AppShell, ThemeToggle, ApiStatusFooter, ui/button|input|label
   features/
     auth/                 AuthContext, StaffLoginScreen (`/login`)
-    admin-procedimientos/ Catálogo PDF + indexación (`/admin/procedimientos`)
+    admin-procedimientos/ Catálogo protocolo PDF/Markdown + indexación (`/admin/procedimientos`)
     casos/                Registro casos y código Telegram (`/casos`)
     seguimiento/          Bandeja alertas y conversación (`/seguimiento`)
     settings/             SettingsPanel (navegación)
@@ -125,5 +126,6 @@ En desarrollo use el **proxy** de Vite; no hace falta configurar CORS en el nave
 - **TASK-109** — este scaffold
 - **TASK-110** — login staff JWT y cliente API autenticado (implementado)
 - **TASK-111** — catálogo admin procedimientos y PDF (implementado)
+- **TASK-135** — catálogo admin: protocolos PDF o Markdown equivalentes (implementado)
 - **TASK-112** — registro casos y código emparejamiento (implementado)
 - **TASK-113** — panel seguimiento alertas y conversaciones (implementado)
