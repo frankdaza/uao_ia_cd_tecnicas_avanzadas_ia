@@ -1,11 +1,11 @@
 ---
 id: TASK-138
 title: 'Backend TAAM: opciones de médicos para staff y validación en alta de caso'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 06:12'
-updated_date: '2026-06-02 06:12'
+updated_date: '2026-06-02 06:20'
 labels:
   - modulo-3
   - taam
@@ -78,14 +78,14 @@ Semilla demo: `DOC-DEMO-001` / Dr. Demo TAAM (TASK-136).
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 GET /api/staff/medicos con JWT staff válido devuelve 200 y items solo con activo=true, orden estable (nombre_completo ASC)
-- [ ] #2 Cada ítem incluye codigo_registro, nombre_completo y especialidad (nullable)
-- [ ] #3 Sin token staff responde 401/403 según patrón existente en rutas staff
-- [ ] #4 POST /api/staff/casos con cirujano_id inexistente o médico inactivo responde 422 con detail en español
-- [ ] #5 POST con cirujano_id válido pero cirujano_nombre distinto al catálogo responde 422
-- [ ] #6 POST con par válido crea caso y programa recordatorios sin regresión UC-MVP-02
-- [ ] #7 Tests en proyecto-2/tests/api/test_staff_medicos.py (o ampliación test_staff_casos) cubren listado, 422 y happy path
-- [ ] #8 proyecto-2/README.md documenta GET /api/staff/medicos en tabla API staff
+- [x] #1 GET /api/staff/medicos con JWT staff válido devuelve 200 y items solo con activo=true, orden estable (nombre_completo ASC)
+- [x] #2 Cada ítem incluye codigo_registro, nombre_completo y especialidad (nullable)
+- [x] #3 Sin token staff responde 401/403 según patrón existente en rutas staff
+- [x] #4 POST /api/staff/casos con cirujano_id inexistente o médico inactivo responde 422 con detail en español
+- [x] #5 POST con cirujano_id válido pero cirujano_nombre distinto al catálogo responde 422
+- [x] #6 POST con par válido crea caso y programa recordatorios sin regresión UC-MVP-02
+- [x] #7 Tests en proyecto-2/tests/api/test_staff_medicos.py (o ampliación test_staff_casos) cubren listado, 422 y happy path
+- [x] #8 proyecto-2/README.md documenta GET /api/staff/medicos en tabla API staff
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -199,9 +199,15 @@ No usar `requerir_acceso_admin`. Cualquier rol staff con JWT válido puede lista
 **Bloqueante:** TASK-136 (tabla `medicos`, `RepositorioMedicos`). **Consumidor:** TASK-139 (frontend).
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Backend TAAM: GET /api/staff/medicos (solo activos, orden nombre_completo ASC) para cualquier JWT staff; validación en POST /api/staff/casos vía validar_cirujano_en_catalogo en casos_staff.py. Esquemas MedicoOpcion/ListadoMedicosOpcionRespuesta; tests test_staff_medicos.py; fixtures medico_activo_catalogo; README actualizado. pytest tests/api/test_staff_medicos.py test_staff_casos.py test_admin_medicos.py test_recordatorios.py test_staff_seguimiento.py en verde.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Sin migraciones Alembic nuevas
-- [ ] #2 uv run pytest en tests API TAAM afectados en verde
-- [ ] #3 Sin regresión en test_admin_medicos.py
+- [x] #1 Sin migraciones Alembic nuevas
+- [x] #2 uv run pytest en tests API TAAM afectados en verde
+- [x] #3 Sin regresión en test_admin_medicos.py
 <!-- DOD:END -->

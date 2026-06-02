@@ -95,6 +95,21 @@ export const ListadoTiposProcedimientoOpcionSchema = z.object({
 
 export type ListadoTiposProcedimientoOpcion = z.infer<typeof ListadoTiposProcedimientoOpcionSchema>
 
+/** Opción mínima de médico para combobox de nuevo caso (GET /api/staff/medicos). */
+export const MedicoOpcionSchema = z.object({
+  codigo_registro: z.string(),
+  nombre_completo: z.string(),
+  especialidad: z.string().nullable(),
+})
+
+export type MedicoOpcion = z.infer<typeof MedicoOpcionSchema>
+
+export const ListadoMedicosOpcionSchema = z.object({
+  items: z.array(MedicoOpcionSchema),
+})
+
+export type ListadoMedicosOpcion = z.infer<typeof ListadoMedicosOpcionSchema>
+
 /** Cuerpo de POST /api/staff/casos (UC-MVP-02). */
 export const CrearCasoBodySchema = z.object({
   paciente_doc_id: z.string().min(1).max(128),

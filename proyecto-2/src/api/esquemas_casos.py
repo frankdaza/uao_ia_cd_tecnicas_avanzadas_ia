@@ -108,3 +108,21 @@ class ListadoTiposProcedimientoOpcionRespuesta(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     items: list[TipoProcedimientoOpcion]
+
+
+class MedicoOpcion(BaseModel):
+    """Opcion minima de medico/cirujano para select de alta de caso (panel staff)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    codigo_registro: str
+    nombre_completo: str
+    especialidad: str | None
+
+
+class ListadoMedicosOpcionRespuesta(BaseModel):
+    """Medicos activos del catalogo para alta de caso (TASK-138)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    items: list[MedicoOpcion]

@@ -12,6 +12,7 @@ import type {
   ListadoCasos,
   ListadoMedicos,
   ListadoProcedimientos,
+  ListadoMedicosOpcion,
   ListadoTiposProcedimientoOpcion,
   Medico,
   Procedimiento,
@@ -31,6 +32,7 @@ import {
   ListadoCasosSchema,
   ListadoMedicosSchema,
   ListadoProcedimientosSchema,
+  ListadoMedicosOpcionSchema,
   ListadoTiposProcedimientoOpcionSchema,
   MedicoSchema,
   ProcedimientoSchema,
@@ -242,6 +244,12 @@ export async function desactivarMedico(id: string): Promise<void> {
 export async function listStaffTiposProcedimiento(): Promise<ListadoTiposProcedimientoOpcion> {
   const res = await apiFetch('/staff/tipos-procedimiento?indexacion_estado=ok&limit=100')
   return parseJson(res, ListadoTiposProcedimientoOpcionSchema)
+}
+
+/** Médicos activos del catálogo para combobox de cirujano (GET /api/staff/medicos). */
+export async function listStaffMedicos(): Promise<ListadoMedicosOpcion> {
+  const res = await apiFetch('/staff/medicos')
+  return parseJson(res, ListadoMedicosOpcionSchema)
 }
 
 /** Alta de caso postoperatorio. */

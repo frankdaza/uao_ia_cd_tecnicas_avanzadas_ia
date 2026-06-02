@@ -15,9 +15,12 @@ from src.api.esquemas_casos import (
     CodigoEmparejamientoRespuesta,
     CrearCasoCuerpo,
     ListadoCasosRespuesta,
+    ListadoMedicosOpcionRespuesta,
     ListadoTiposProcedimientoOpcionRespuesta,
+    MedicoOpcion,
     TipoProcedimientoOpcion,
 )
+from src.api.servicios.casos_staff import validar_cirujano_en_catalogo
 from src.api.esquemas_recordatorios import DisparoRecordatorioRespuesta
 from src.integracion.recordatorios.servicio import (
     disparar_recordatorio_prueba,
@@ -34,6 +37,7 @@ from src.configuracion import obtener_configuracion
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.modelos import CasoPostoperatorio
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
+from src.persistencia.repositorios.medicos import RepositorioMedicos
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
 
 router = APIRouter(
@@ -88,6 +92,27 @@ async def listar_tipos_procedimiento_para_alta(
     return ListadoTiposProcedimientoOpcionRespuesta(items=items)
 
 
+@router.get("/medicos", response_model=ListadoMedicosOpcionRespuesta)
+async def listar_medicos_para_alta(
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+    limit: Annotated[int, Query(ge=1, le=100)] = 100,
+) -> ListadoMedicosOpcionRespuesta:
+    """Medicos activos del catalogo para el select de nuevo caso (cualquier rol staff)."""
+    repo = RepositorioMedicos(sesion)
+    filas = await repo.listar(limite=limit, offset=0, activo=True)
+    filas_ordenadas = sorted(filas, key=lambda f: f.nombre_completo.casefold())
+    return ListadoMedicosOpcionRespuesta(
+        items=[
+            MedicoOpcion(
+                codigo_registro=f.codigo_registro,
+                nombre_completo=f.nombre_completo,
+                especialidad=f.especialidad,
+            )
+            for f in filas_ordenadas
+        ]
+    )
+
+
 @router.post(
     "/casos",
     response_model=CasoVista,
@@ -101,6 +126,12 @@ async def crear_caso(
         await validar_tipo_procedimiento_indexado(sesion, cuerpo.tipo_procedimiento_id)
     except EmparejamientoError as exc:
         raise _http_desde_emparejamiento(exc) from exc
+
+    await validar_cirujano_en_catalogo(
+        sesion,
+        cuerpo.cirujano_id,
+        cuerpo.cirujano_nombre,
+    )
 
     repo = RepositorioCasosPostoperatorio(sesion)
     fila = await repo.crear(

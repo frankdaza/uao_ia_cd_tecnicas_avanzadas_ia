@@ -5,15 +5,18 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useAuth } from '@/features/auth/AuthContext'
 import {
   ApiError,
   createStaffCaso,
   generateCodigoEmparejamiento,
+  listStaffMedicos,
   listStaffTiposProcedimiento,
 } from '@/lib/api'
 import { CrearCasoBodySchema } from '@/lib/schemas'
-import type { CodigoEmparejamiento, TipoProcedimientoOpcion } from '@/lib/schemas'
+import type { CodigoEmparejamiento, MedicoOpcion, TipoProcedimientoOpcion } from '@/lib/schemas'
 import { CodigoEmparejamientoModal } from './CodigoEmparejamientoModal'
+import { MedicoCombobox } from './MedicoCombobox'
 
 interface CasoNuevoPageProps {
   onNavigate: (path: string) => void
@@ -25,12 +28,12 @@ function fechaHoyIso(): string {
 
 /** Formulario de alta de caso y generación de código (UC-MVP-02). */
 export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
+  const { user } = useAuth()
   const qc = useQueryClient()
   const [tipoId, setTipoId] = useState('')
   const [pacienteDocId, setPacienteDocId] = useState('')
   const [pacienteNombre, setPacienteNombre] = useState('')
-  const [cirujanoId, setCirujanoId] = useState('')
-  const [cirujanoNombre, setCirujanoNombre] = useState('')
+  const [medicoSeleccionado, setMedicoSeleccionado] = useState<MedicoOpcion | null>(null)
   const [fechaCirugia, setFechaCirugia] = useState(fechaHoyIso())
   const [notas, setNotas] = useState('')
   const [modalCodigo, setModalCodigo] = useState<{
@@ -43,14 +46,22 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
     queryFn: listStaffTiposProcedimiento,
   })
 
+  const medicosQ = useQuery({
+    queryKey: ['staff', 'medicos'],
+    queryFn: listStaffMedicos,
+  })
+
   const crearMut = useMutation({
     mutationFn: async () => {
+      if (!medicoSeleccionado) {
+        throw new Error('Seleccione un cirujano del catálogo.')
+      }
       const body = CrearCasoBodySchema.parse({
         paciente_doc_id: pacienteDocId.trim(),
         paciente_nombre: pacienteNombre.trim(),
         tipo_procedimiento_id: tipoId,
-        cirujano_id: cirujanoId.trim(),
-        cirujano_nombre: cirujanoNombre.trim(),
+        cirujano_id: medicoSeleccionado.codigo_registro,
+        cirujano_nombre: medicoSeleccionado.nombre_completo,
         fecha_cirugia: fechaCirugia,
         notas_especificas: notas.trim() || undefined,
       })
@@ -78,20 +89,25 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
     paciente_doc_id: pacienteDocId.trim(),
     paciente_nombre: pacienteNombre.trim(),
     tipo_procedimiento_id: tipoId || undefined,
-    cirujano_id: cirujanoId.trim(),
-    cirujano_nombre: cirujanoNombre.trim(),
+    cirujano_id: medicoSeleccionado?.codigo_registro ?? '',
+    cirujano_nombre: medicoSeleccionado?.nombre_completo ?? '',
     fecha_cirugia: fechaCirugia,
     notas_especificas: notas.trim() || undefined,
   })
 
+  const sinTiposIndexados =
+    tiposQ.isSuccess && (tiposQ.data?.items.length ?? 0) === 0 && !tiposQ.isFetching
+
+  const sinMedicosActivos =
+    medicosQ.isSuccess && (medicosQ.data?.items.length ?? 0) === 0 && !medicosQ.isFetching
+
   const puedeEnviar =
     bodyPreview.success &&
     tipoId.length > 0 &&
+    medicoSeleccionado != null &&
     (tiposQ.data?.items.length ?? 0) > 0 &&
+    (medicosQ.data?.items.length ?? 0) > 0 &&
     !crearMut.isPending
-
-  const sinTiposIndexados =
-    tiposQ.isSuccess && (tiposQ.data?.items.length ?? 0) === 0 && !tiposQ.isFetching
 
   return (
     <div className="mx-auto max-w-lg space-y-6">
@@ -117,6 +133,27 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
         <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-900 dark:text-amber-200">
           No hay procedimientos con indexación lista. Un administrador debe cargar el catálogo y
           esperar estado <strong>listo</strong> antes de registrar casos.
+        </p>
+      ) : null}
+
+      {sinMedicosActivos ? (
+        <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-900 dark:text-amber-200">
+          No hay médicos activos en el catálogo.
+          {user?.rol === 'admin' ? (
+            <>
+              {' '}
+              <Button
+                type="button"
+                variant="link"
+                className="h-auto p-0 text-amber-900 underline dark:text-amber-200"
+                onClick={() => onNavigate('/admin/medicos')}
+              >
+                Gestionar médicos
+              </Button>
+            </>
+          ) : (
+            ' Solicite a un administrador que registre médicos.'
+          )}
         </p>
       ) : null}
 
@@ -173,24 +210,20 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="cirujano-id">ID del cirujano</Label>
-          <Input
-            id="cirujano-id"
-            value={cirujanoId}
-            onChange={(e) => setCirujanoId(e.target.value)}
-            placeholder="ej. MED-10"
-            disabled={crearMut.isPending}
+          <Label htmlFor="cirujano-combobox">Cirujano</Label>
+          <MedicoCombobox
+            id="cirujano-combobox"
+            value={medicoSeleccionado}
+            onChange={setMedicoSeleccionado}
+            items={medicosQ.data?.items ?? []}
+            disabled={crearMut.isPending || sinMedicosActivos}
+            isLoading={medicosQ.isLoading}
           />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="cirujano-nombre">Nombre del cirujano</Label>
-          <Input
-            id="cirujano-nombre"
-            value={cirujanoNombre}
-            onChange={(e) => setCirujanoNombre(e.target.value)}
-            disabled={crearMut.isPending}
-          />
+          {medicosQ.isError ? (
+            <p className="text-xs text-[var(--destructive)]">
+              No se pudo cargar el catálogo de médicos. Intente de nuevo.
+            </p>
+          ) : null}
         </div>
 
         <div className="space-y-2">

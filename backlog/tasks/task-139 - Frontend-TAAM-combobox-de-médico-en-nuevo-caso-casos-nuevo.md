@@ -1,11 +1,11 @@
 ---
 id: TASK-139
 title: 'Frontend TAAM: combobox de médico en nuevo caso (/casos/nuevo)'
-status: To Do
+status: Done
 assignee:
   - Frank Daza
 created_date: '2026-06-02 06:12'
-updated_date: '2026-06-02 06:13'
+updated_date: '2026-06-02 06:28'
 labels:
   - modulo-3
   - taam
@@ -28,13 +28,16 @@ documentation:
 modified_files:
   - proyecto-2/frontend/src/features/casos/CasoNuevoPage.tsx
   - proyecto-2/frontend/src/features/casos/MedicoCombobox.tsx
+  - proyecto-2/frontend/src/features/casos/medicoComboboxUtils.ts
+  - proyecto-2/frontend/src/components/ui/popover.tsx
+  - proyecto-2/frontend/src/components/ui/command.tsx
   - proyecto-2/frontend/src/lib/api.ts
   - proyecto-2/frontend/src/lib/schemas.ts
   - proyecto-2/frontend/package.json
   - proyecto-2/frontend/pnpm-lock.yaml
   - proyecto-2/frontend/README.md
 priority: high
-ordinal: 2000
+ordinal: 1000
 ---
 
 ## Description
@@ -73,14 +76,14 @@ Reemplazar los dos inputs por un **combobox con filtro** que:
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 En /casos/nuevo no existen inputs visibles cirujano-id ni cirujano-nombre
-- [ ] #2 Combobox permite filtrar por nombre, codigo_registro o especialidad (case-insensitive)
-- [ ] #3 Etiqueta de opción: nombre completo y especialidad; selección obligatoria para habilitar envío
-- [ ] #4 Tras registrar caso, listados muestran el mismo cirujano_nombre denormalizado
-- [ ] #5 Si GET /staff/medicos devuelve items vacío, mensaje en español con enlace /admin/medicos solo para rol admin
-- [ ] #6 Errores 422 del backend se muestran en toast con formatApiError
-- [ ] #7 pnpm run lint y pnpm run build en proyecto-2/frontend terminan con código 0
-- [ ] #8 frontend/README.md actualizado en sección UC-MVP-02 / casos
+- [x] #1 En /casos/nuevo no existen inputs visibles cirujano-id ni cirujano-nombre
+- [x] #2 Combobox permite filtrar por nombre, codigo_registro o especialidad (case-insensitive)
+- [x] #3 Etiqueta de opción: nombre completo y especialidad; selección obligatoria para habilitar envío
+- [x] #4 Tras registrar caso, listados muestran el mismo cirujano_nombre denormalizado
+- [x] #5 Si GET /staff/medicos devuelve items vacío, mensaje en español con enlace /admin/medicos solo para rol admin
+- [x] #6 Errores 422 del backend se muestran en toast con formatApiError
+- [x] #7 pnpm run lint y pnpm run build en proyecto-2/frontend terminan con código 0
+- [x] #8 frontend/README.md actualizado en sección UC-MVP-02 / casos
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -193,9 +196,15 @@ export async function listStaffMedicos(): Promise<ListadoMedicosOpcion> {
 **Bloqueante:** TASK-138 (endpoint staff). **Relacionadas:** TASK-112 (pantalla base), TASK-137 (catálogo admin).
 <!-- SECTION:NOTES:END -->
 
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Reemplazados los inputs manuales de cirujano en /casos/nuevo por MedicoCombobox (Popover + cmdk) que consume GET /api/staff/medicos. Schemas MedicoOpcion/ListadoMedicosOpcion, listStaffMedicos en api.ts, mensaje de catálogo vacío con enlace admin condicional, envío con codigo_registro y nombre_completo. pnpm lint y build OK.
+<!-- SECTION:FINAL_SUMMARY:END -->
+
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Sin console.log ni estado muerto de cirujanoId/cirujanoNombre
-- [ ] #2 Componente MedicoCombobox aislado; CasoNuevoPage legible
-- [ ] #3 No se usa listarMedicos de admin en flujo de casos
+- [x] #1 Sin console.log ni estado muerto de cirujanoId/cirujanoNombre
+- [x] #2 Componente MedicoCombobox aislado; CasoNuevoPage legible
+- [x] #3 No se usa listarMedicos de admin en flujo de casos
 <!-- DOD:END -->

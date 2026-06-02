@@ -14,13 +14,19 @@ from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosT
 from tests.api.conftest import PDF_FIXTURE_MINIMO
 
 
-def _cuerpo_caso(*, tipo_id: str, doc_id: str = "CC-9001") -> dict:
+def _cuerpo_caso(
+    *,
+    tipo_id: str,
+    doc_id: str = "CC-9001",
+    cirujano_id: str,
+    cirujano_nombre: str,
+) -> dict:
     return {
         "paciente_doc_id": doc_id,
         "paciente_nombre": "Paciente Demo A",
         "tipo_procedimiento_id": tipo_id,
-        "cirujano_id": "MED-10",
-        "cirujano_nombre": "Dr. Cirujano Demo",
+        "cirujano_id": cirujano_id,
+        "cirujano_nombre": cirujano_nombre,
         "fecha_cirugia": "2026-05-15",
         "notas_especificas": "Sin alergias conocidas",
     }
@@ -82,11 +88,17 @@ async def test_crear_caso_201(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     resp = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert resp.status_code == 201
     cuerpo = resp.json()
@@ -101,6 +113,7 @@ async def test_crear_caso_procedimiento_no_indexado_422(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     cabecera_admin: dict[str, str],
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
     crear = await cliente_api.post(
         "/api/admin/procedimientos",
@@ -115,10 +128,15 @@ async def test_crear_caso_procedimiento_no_indexado_422(
         },
     )
     tipo_id = crear.json()["id"]
+    med = medico_activo_catalogo
     resp = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_id),
+        json=_cuerpo_caso(
+            tipo_id=tipo_id,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert resp.status_code == 422
     assert resp.json()["detail"]["error"] == "procedimiento_no_indexado"
@@ -130,11 +148,17 @@ async def test_listar_casos_con_vinculo(
     cabecera_staff: dict[str, str],
     cabecera_telegram: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     caso_id = crear.json()["id"]
     gen = await cliente_api.post(
@@ -165,11 +189,17 @@ async def test_flujo_codigo_y_emparejar(
     cabecera_staff: dict[str, str],
     cabecera_telegram: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     caso_id = crear.json()["id"]
 
@@ -200,12 +230,20 @@ async def test_emparejar_chat_duplicado_409(
     cabecera_staff: dict[str, str],
     cabecera_telegram: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
+
     async def _caso_con_codigo(doc_id: str) -> str:
         crear = await cliente_api.post(
             "/api/staff/casos",
             headers=cabecera_staff,
-            json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok, doc_id=doc_id),
+            json=_cuerpo_caso(
+                tipo_id=tipo_procedimiento_ok,
+                doc_id=doc_id,
+                cirujano_id=med["codigo_registro"],
+                cirujano_nombre=med["nombre_completo"],
+            ),
         )
         cid = crear.json()["id"]
         gen = await cliente_api.post(
@@ -240,11 +278,17 @@ async def test_codigo_expirado_400(
     cabecera_staff: dict[str, str],
     cabecera_telegram: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     caso_id = crear.json()["id"]
     gen = await cliente_api.post(

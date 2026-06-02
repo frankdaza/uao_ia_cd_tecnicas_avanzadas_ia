@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import uuid
 from pathlib import Path
 
 import pytest
+from httpx import AsyncClient
 
 from src.configuracion import obtener_configuracion
 
@@ -104,6 +106,31 @@ async def token_staff_asistente(
 @pytest.fixture
 def cabecera_staff(token_staff_asistente: str) -> dict[str, str]:
     return {"Authorization": f"Bearer {token_staff_asistente}"}
+
+
+@pytest.fixture
+async def medico_activo_catalogo(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> dict[str, str | None]:
+    """Medico activo en catalogo para alta de caso via API staff."""
+    codigo = f"DOC-TST-{uuid.uuid4().hex[:6].upper()}"
+    nombre = "Dr. Catalogo Staff Test"
+    resp = await cliente_api.post(
+        "/api/admin/medicos",
+        headers=cabecera_admin,
+        json={
+            "codigo_registro": codigo,
+            "nombre_completo": nombre,
+            "especialidad": "Cirugia general",
+        },
+    )
+    assert resp.status_code == 201, resp.text
+    return {
+        "codigo_registro": codigo,
+        "nombre_completo": nombre,
+        "especialidad": "Cirugia general",
+    }
 
 
 @pytest.fixture

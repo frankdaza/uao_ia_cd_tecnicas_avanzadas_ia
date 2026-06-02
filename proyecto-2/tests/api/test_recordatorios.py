@@ -70,11 +70,17 @@ async def test_crear_caso_genera_plantillas_y_recordatorios(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     resp = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert resp.status_code == 201
     caso_id = uuid.UUID(resp.json()["id"])
@@ -161,11 +167,18 @@ async def test_disparar_recordatorio_prueba_sin_vinculo(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok, doc_id="CC-REC-SIN-TG"),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-REC-SIN-TG",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert crear.status_code == 201
     caso_id = crear.json()["id"]
@@ -186,12 +199,19 @@ async def test_disparar_recordatorio_prueba_envia_con_vinculo(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok, doc_id="CC-REC-CON-TG"),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-REC-CON-TG",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert crear.status_code == 201
     caso_id = uuid.UUID(crear.json()["id"])

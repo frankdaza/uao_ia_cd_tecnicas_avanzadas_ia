@@ -85,6 +85,7 @@ Cualquier usuario staff autenticado (p. ej. `asistente@demo.taam`).
 | `/casos/nuevo` | Alta de caso + modal con código de emparejamiento y TTL |
 
 - Select de procedimiento: solo tipos con `indexacion_estado=ok` (`GET /api/staff/tipos-procedimiento`).
+- Combobox de cirujano: médicos activos del catálogo (`GET /api/staff/medicos`); filtro por nombre, código o especialidad; al registrar se envían `cirujano_id` = `codigo_registro` y `cirujano_nombre` = `nombre_completo`. Si el catálogo está vacío, mensaje en español y enlace a `/admin/medicos` solo para `rol=admin`.
 - Tras crear el caso se genera el código automáticamente (`POST .../codigo-emparejamiento`).
 - Opcional en `.env` del frontend (o `.env.local`): `VITE_TELEGRAM_BOT_USERNAME` (sin `@`) para mostrar enlace `t.me/{bot}?start={CODIGO}`.
 

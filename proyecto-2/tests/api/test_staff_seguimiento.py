@@ -60,13 +60,20 @@ async def _crear_caso_y_vinculo(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
     *,
     chat_id: int = 88001,
 ) -> uuid.UUID:
+    med = medico_activo_catalogo
     resp = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok, doc_id="CC-SEGUIMIENTO"),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-SEGUIMIENTO",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert resp.status_code == 201
     caso_id = uuid.UUID(resp.json()["id"])
@@ -118,9 +125,14 @@ async def test_listar_alertas_no_revisadas(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
     caso_id = await _crear_caso_y_vinculo(
-        app_api, cliente_api, cabecera_staff, tipo_procedimiento_ok
+        app_api,
+        cliente_api,
+        cabecera_staff,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
     )
     alerta_id = await _crear_alerta_pendiente(app_api, caso_id)
 
@@ -145,9 +157,15 @@ async def test_patch_marcar_revisado_idempotente(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
     caso_id = await _crear_caso_y_vinculo(
-        app_api, cliente_api, cabecera_staff, tipo_procedimiento_ok, chat_id=88002
+        app_api,
+        cliente_api,
+        cabecera_staff,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=88002,
     )
     alerta_id = await _crear_alerta_pendiente(app_api, caso_id)
 
@@ -189,6 +207,7 @@ async def test_conversacion_caso_con_hilo(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
     chat_id = 88003
     caso_id = await _crear_caso_y_vinculo(
@@ -196,6 +215,7 @@ async def test_conversacion_caso_con_hilo(
         cliente_api,
         cabecera_staff,
         tipo_procedimiento_ok,
+        medico_activo_catalogo,
         chat_id=chat_id,
     )
     await _sembrar_hilo_conversacion(app_api, chat_id)
@@ -219,11 +239,18 @@ async def test_conversacion_sin_vinculo_404(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
+    med = medico_activo_catalogo
     crear = await cliente_api.post(
         "/api/staff/casos",
         headers=cabecera_staff,
-        json=_cuerpo_caso(tipo_id=tipo_procedimiento_ok, doc_id="CC-SIN-TG"),
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-SIN-TG",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
     )
     assert crear.status_code == 201
     caso_id = crear.json()["id"]
@@ -241,6 +268,7 @@ async def test_resumen_caso(
     cliente_api: AsyncClient,
     cabecera_staff: dict[str, str],
     tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
 ) -> None:
     chat_id = 88004
     caso_id = await _crear_caso_y_vinculo(
@@ -248,6 +276,7 @@ async def test_resumen_caso(
         cliente_api,
         cabecera_staff,
         tipo_procedimiento_ok,
+        medico_activo_catalogo,
         chat_id=chat_id,
     )
     await _sembrar_hilo_conversacion(app_api, chat_id)

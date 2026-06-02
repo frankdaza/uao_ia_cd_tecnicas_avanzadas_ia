@@ -329,7 +329,8 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El e
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | `GET` | `/api/staff/tipos-procedimiento` | Tipos con `indexacion_estado=ok` (`id`, `codigo`, `nombre`) para select de alta |
-| `POST` | `/api/staff/casos` | Alta de caso (`estado=activo`); exige `tipo_procedimiento` con `indexacion_estado=ok` |
+| `GET` | `/api/staff/medicos` | Medicos activos del catalogo (`codigo_registro`, `nombre_completo`, `especialidad`) para select de cirujano; `limit` 1–100 (default 100) |
+| `POST` | `/api/staff/casos` | Alta de caso (`estado=activo`); exige `tipo_procedimiento` con `indexacion_estado=ok` y par `cirujano_id`/`cirujano_nombre` alineado con el catalogo |
 | `GET` | `/api/staff/casos` | Listado (`estado`, `limit`, `offset`); incluye `vinculado_telegram` |
 | `POST` | `/api/staff/casos/{id}/codigo-emparejamiento` | Código 6–8 caracteres, TTL 24 h (`TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`) |
 | `POST` | `/api/telegram/emparejar` | Body: `codigo`, `telegram_chat_id`; respuesta con `mensaje_confirmacion` o error `codigo_expirado` |
