@@ -82,7 +82,7 @@ export function CodigoEmparejamientoModal({
               href={deepLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--color-primary)] underline break-all"
+              className="text-[var(--color-accent)] underline break-all hover:text-[var(--color-accent-light)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
               {deepLink}
             </a>
