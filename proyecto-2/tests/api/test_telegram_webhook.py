@@ -117,8 +117,11 @@ async def test_start_codigo_valido_empareja(
     assert resp.json()["ok"] is True
     assert len(mensajes_telegram_enviados) == 1
     _, texto = mensajes_telegram_enviados[0]
+    assert "Lili" in texto
     assert "vinculado correctamente" in texto.lower()
     assert "Ana" in texto
+    assert "Dr. Telegram" in texto
+    assert "Procedimiento start" in texto
 
 
 @pytest.mark.asyncio

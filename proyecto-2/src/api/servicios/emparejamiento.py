@@ -68,6 +68,24 @@ def generar_codigo_emparejamiento(longitud: int) -> str:
     return "".join(secrets.choice(_ALFABETO_CODIGO) for _ in range(longitud))
 
 
+def _mensaje_confirmacion_emparejamiento(
+    *,
+    nombre_paciente: str,
+    nombre_procedimiento: str,
+    cirujano_nombre: str,
+) -> str:
+    """Texto de bienvenida Lili tras vincular Telegram al caso."""
+    return (
+        f"Hola, {nombre_paciente}. Soy Lili, la asistente agéntica de la "
+        f"Fundación Valle del Lili (FVL).\n\n"
+        f"Tu seguimiento postoperatorio quedó vinculado correctamente. "
+        f"Corresponde a tu cirugía de {nombre_procedimiento}, a cargo de "
+        f"{cirujano_nombre}.\n\n"
+        f"Estoy aquí para acompañarte en tu recuperación. Escríbeme cuando "
+        f"tengas dudas sobre tu proceso postoperatorio."
+    )
+
+
 async def validar_tipo_procedimiento_indexado(
     sesion: AsyncSession,
     tipo_procedimiento_id: uuid.UUID,
@@ -217,13 +235,18 @@ async def emparejar_codigo(
         limpiar_codigo=True,
     )
 
-    nombre = caso.paciente_nombre.strip() or "paciente"
+    repo_tipos = RepositorioTiposProcedimiento(sesion)
+    tipo = await repo_tipos.obtener_por_id(caso.tipo_procedimiento_id)
+    nombre_paciente = caso.paciente_nombre.strip() or "paciente"
+    nombre_procedimiento = tipo.nombre if tipo is not None else "tu procedimiento"
+    cirujano = caso.cirujano_nombre.strip() or "tu equipo tratante"
     return ResultadoEmparejar(
         caso_id=caso.id,
         vinculado_at=ahora,
-        mensaje_confirmacion=(
-            f"Hola, {nombre}. Su seguimiento postoperatorio quedo vinculado correctamente. "
-            "Puede escribir sus dudas cuando lo necesite."
+        mensaje_confirmacion=_mensaje_confirmacion_emparejamiento(
+            nombre_paciente=nombre_paciente,
+            nombre_procedimiento=nombre_procedimiento,
+            cirujano_nombre=cirujano,
         ),
     )
 
