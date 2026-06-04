@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.configuracion import Configuracion, obtener_configuracion
 from src.integracion.recordatorios.programacion import (
-    calcular_programado_at,
+    calcular_programado_at_por_intervalo,
     renderizar_texto_plantilla,
 )
 from src.integracion.recordatorios.semilla_plantillas import (
@@ -22,6 +22,7 @@ from src.integracion.telegram.cliente import ClienteTelegram
 from src.integracion.telegram.errores import TelegramEnvioError, es_error_envio_esperado
 from src.persistencia.demo_ids import es_chat_id_demo_ficticio
 from src.persistencia.modelos import CasoPostoperatorio, RecordatorioEnviado
+from src.persistencia.repositorios.config_operativa_taam import RepositorioConfigOperativaTaam
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.plantillas_recordatorio import (
     RepositorioPlantillasRecordatorio,
@@ -33,6 +34,14 @@ from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposPr
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
 
 logger = logging.getLogger(__name__)
+
+
+async def _interval_seg_efectivo(sesion: AsyncSession) -> int:
+    repo_cfg = RepositorioConfigOperativaTaam(sesion)
+    fila = await repo_cfg.obtener()
+    if fila is not None:
+        return fila.recordatorios_job_interval_seg
+    return obtener_configuracion().recordatorios_job_interval_seg
 
 
 def _en_utc(valor: datetime) -> datetime:
@@ -49,6 +58,14 @@ class ResultadoEnvioRecordatorio:
     motivo_omitido: str | None = None
 
 
+@dataclass(frozen=True)
+class ResultadoCicloRecordatorios:
+    """Metricas de un ciclo del job periodico (observabilidad)."""
+
+    pendientes_vencidos: int
+    enviados: int
+
+
 async def programar_recordatorios_para_caso(
     sesion: AsyncSession,
     caso: CasoPostoperatorio,
@@ -61,13 +78,19 @@ async def programar_recordatorios_para_caso(
     await asegurar_plantillas_defecto(sesion, caso.tipo_procedimiento_id)
     repo_plantillas = RepositorioPlantillasRecordatorio(sesion)
     repo_recordatorios = RepositorioRecordatoriosEnviados(sesion)
-    plantillas = await repo_plantillas.listar_por_tipo(caso.tipo_procedimiento_id)
+    plantillas = sorted(
+        await repo_plantillas.listar_por_tipo(caso.tipo_procedimiento_id),
+        key=lambda p: p.offset_horas_desde_cirugia,
+    )
+    interval_seg = await _interval_seg_efectivo(sesion)
+    ancla = datetime.now(UTC)
 
     programados: list[RecordatorioEnviado] = []
-    for plantilla in plantillas:
-        programado_at = calcular_programado_at(
-            caso.fecha_cirugia,
-            plantilla.offset_horas_desde_cirugia,
+    for indice, plantilla in enumerate(plantillas):
+        programado_at = calcular_programado_at_por_intervalo(
+            ancla,
+            indice,
+            interval_seg,
         )
         fila = await repo_recordatorios.crear(
             caso_id=caso.id,
@@ -78,14 +101,60 @@ async def programar_recordatorios_para_caso(
     return programados
 
 
+async def reprogramar_recordatorios_pendientes(
+    session_factory: async_sessionmaker[AsyncSession],
+    *,
+    interval_seg: int,
+) -> int:
+    """
+    Reasigna ``programado_at`` de todos los pendientes según el intervalo del panel admin.
+
+    Reinicia la cadena desde ``now`` por caso (medicación → terapia → control).
+    """
+    ancla = datetime.now(UTC)
+    reprogramados = 0
+
+    async with session_factory() as sesion:
+        repo_rec = RepositorioRecordatoriosEnviados(sesion)
+        repo_pl = RepositorioPlantillasRecordatorio(sesion)
+        pendientes = await repo_rec.listar_pendientes_sin_enviar()
+
+        por_caso: dict[uuid.UUID, list[RecordatorioEnviado]] = {}
+        for fila in pendientes:
+            por_caso.setdefault(fila.caso_id, []).append(fila)
+
+        for filas_caso in por_caso.values():
+            ordenadas: list[tuple[int, RecordatorioEnviado]] = []
+            for fila in filas_caso:
+                plantilla = await repo_pl.obtener_por_id(fila.plantilla_id)
+                offset = plantilla.offset_horas_desde_cirugia if plantilla else 0
+                ordenadas.append((offset, fila))
+            ordenadas.sort(key=lambda t: t[0])
+
+            for indice, (_, fila) in enumerate(ordenadas):
+                nuevo = calcular_programado_at_por_intervalo(ancla, indice, interval_seg)
+                await repo_rec.actualizar_programado_at(fila, programado_at=nuevo)
+                reprogramados += 1
+
+        await sesion.commit()
+
+    if reprogramados:
+        logger.info(
+            "recordatorios_reprogramados cantidad=%s interval_seg=%s",
+            reprogramados,
+            interval_seg,
+        )
+    return reprogramados
+
+
 async def procesar_recordatorios_pendientes(
     session_factory: async_sessionmaker[AsyncSession],
     *,
     cfg: Configuracion | None = None,
     cliente_telegram: ClienteTelegram | None = None,
-) -> int:
+) -> ResultadoCicloRecordatorios:
     """
-    Busca recordatorios vencidos y pendientes; devuelve cantidad enviada con exito.
+    Busca recordatorios vencidos y pendientes; devuelve metricas del ciclo.
 
     Sin email ni otros canales (solo Telegram Bot API, TASK-106).
     """
@@ -108,7 +177,10 @@ async def procesar_recordatorios_pendientes(
                 enviados += 1
         await sesion.commit()
 
-    return enviados
+    return ResultadoCicloRecordatorios(
+        pendientes_vencidos=len(pendientes),
+        enviados=enviados,
+    )
 
 
 async def disparar_recordatorio_prueba(

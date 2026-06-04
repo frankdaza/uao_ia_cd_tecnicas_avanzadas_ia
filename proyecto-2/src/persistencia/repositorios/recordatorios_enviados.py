@@ -77,6 +77,33 @@ class RepositorioRecordatoriosEnviados:
         res = await self._sesion.execute(stmt)
         return res.scalars().first()
 
+    async def listar_pendientes_sin_enviar(
+        self,
+        *,
+        limite: int = 500,
+    ) -> list[RecordatorioEnviado]:
+        stmt = (
+            select(RecordatorioEnviado)
+            .where(
+                RecordatorioEnviado.estado == "pendiente",
+                RecordatorioEnviado.enviado_at.is_(None),
+            )
+            .order_by(RecordatorioEnviado.caso_id.asc(), RecordatorioEnviado.programado_at.asc())
+            .limit(limite)
+        )
+        res = await self._sesion.execute(stmt)
+        return list(res.scalars().all())
+
+    async def actualizar_programado_at(
+        self,
+        fila: RecordatorioEnviado,
+        *,
+        programado_at: datetime,
+    ) -> RecordatorioEnviado:
+        fila.programado_at = programado_at
+        await self._sesion.flush()
+        return fila
+
     async def marcar_enviado(
         self,
         fila: RecordatorioEnviado,

@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, Loader2, MessageSquareOff } from 'lucide-react'
+import { ArrowLeft, BellRing, Loader2, MessageSquareOff } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   ApiError,
+  dispararRecordatorioPrueba,
   getStaffCasoResumen,
   getStaffConversacion,
   listStaffAlertas,
@@ -42,6 +43,26 @@ export function CasoSeguimientoDetallePage({ casoId, onNavigate }: CasoSeguimien
   const alertasCasoQ = useQuery({
     queryKey: ['staff', 'alertas', 'caso', casoId],
     queryFn: () => listStaffAlertas({ revisado: false, caso_id: casoId, limit: 20 }),
+  })
+
+  const recordatorioPruebaMut = useMutation({
+    mutationFn: () => dispararRecordatorioPrueba(casoId),
+    onSuccess: (data) => {
+      if (data.enviado) {
+        toast.success('Recordatorio enviado por Telegram.')
+      } else {
+        const detalle = data.mensaje ?? data.motivo_omitido ?? 'No se pudo enviar.'
+        toast.warning(detalle)
+      }
+      void qc.invalidateQueries({ queryKey: ['staff', 'resumen', casoId] })
+    },
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof ApiError
+          ? (err.detail ?? err.message)
+          : 'No se pudo disparar el recordatorio de prueba.'
+      toast.error(msg)
+    },
   })
 
   const marcarMut = useMutation({
@@ -120,6 +141,34 @@ export function CasoSeguimientoDetallePage({ casoId, onNavigate }: CasoSeguimien
               </div>
             ) : null}
           </dl>
+          <div className="pt-2 border-t border-[var(--border)]">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={
+                !resumenQ.data.vinculado_telegram || recordatorioPruebaMut.isPending
+              }
+              title={
+                resumenQ.data.vinculado_telegram
+                  ? 'Envía el siguiente recordatorio pendiente sin esperar la fecha programada'
+                  : 'Empareje Telegram antes de enviar un recordatorio de prueba'
+              }
+              onClick={() => recordatorioPruebaMut.mutate()}
+            >
+              {recordatorioPruebaMut.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <BellRing className="h-4 w-4 shrink-0" aria-hidden />
+              )}
+              {recordatorioPruebaMut.isPending ? 'Enviando…' : 'Enviar recordatorio de prueba'}
+            </Button>
+            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+              No sustituye al job automático: solo dispara el siguiente pendiente para validar
+              Telegram. Los envíos programados usan el intervalo del panel admin (medicación, terapia
+              y control espaciados N, 2N y 3N segundos desde el alta del caso).
+            </p>
+          </div>
         </section>
       ) : null}
 

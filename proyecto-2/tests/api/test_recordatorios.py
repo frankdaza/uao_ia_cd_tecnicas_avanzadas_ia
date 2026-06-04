@@ -5,10 +5,12 @@ from __future__ import annotations
 import uuid
 from datetime import UTC, date, datetime, timedelta
 from unittest.mock import AsyncMock
-
 import pytest
 from httpx import AsyncClient
 
+from src.integracion.recordatorios.programacion import (
+    calcular_programado_at_por_intervalo,
+)
 from src.integracion.recordatorios.servicio import (
     disparar_recordatorio_prueba,
     procesar_recordatorios_pendientes,
@@ -28,40 +30,10 @@ from tests.api.conftest import PDF_FIXTURE_MINIMO
 from tests.api.test_staff_casos import _cuerpo_caso
 
 
-@pytest.fixture
-async def tipo_procedimiento_ok(
-    app_api,
-    cliente_api: AsyncClient,
-    cabecera_admin: dict[str, str],
-) -> str:
-    import json
-
-    crear = await cliente_api.post(
-        "/api/admin/procedimientos",
-        headers=cabecera_admin,
-        files={
-            "metadata": (
-                None,
-                json.dumps(
-                    {"codigo": f"rec-{uuid.uuid4().hex[:6]}", "nombre": "Procedimiento Recordatorio"}
-                ),
-                "application/json",
-            ),
-            "archivo": ("protocolo.pdf", PDF_FIXTURE_MINIMO, "application/pdf"),
-        },
-    )
-    assert crear.status_code == 201
-    tipo_id = uuid.UUID(crear.json()["id"])
-
-    factory = app_api.state.session_factory
-    async with factory() as sesion:
-        repo = RepositorioTiposProcedimiento(sesion)
-        fila = await repo.obtener_por_id(tipo_id)
-        assert fila is not None
-        await repo.actualizar(fila, indexacion_estado="ok")
-        await sesion.commit()
-
-    return str(tipo_id)
+def _en_utc(valor: datetime) -> datetime:
+    if valor.tzinfo is None:
+        return valor.replace(tzinfo=UTC)
+    return valor.astimezone(UTC)
 
 
 @pytest.mark.asyncio
@@ -100,6 +72,54 @@ async def test_crear_caso_genera_plantillas_y_recordatorios(
         assert stmt_caso is not None
         siguiente = await repo_rec.obtener_siguiente_pendiente_caso(caso_id)
         assert siguiente is not None
+
+
+@pytest.mark.asyncio
+async def test_programado_at_por_intervalo_plantillas_semilla(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+) -> None:
+    """Plantillas MVP: espaciadas por recordatorios_job_interval_seg (orden por offset)."""
+    med = medico_activo_catalogo
+    snapshot = await app_api.state.recordatorios_job.leer()
+    interval_seg = snapshot.interval_seg
+    ancla = datetime.now(UTC)
+
+    resp = await cliente_api.post(
+        "/api/staff/casos",
+        headers=cabecera_staff,
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-REC-INTERVALO",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
+    )
+    assert resp.status_code == 201
+    caso_id = uuid.UUID(resp.json()["id"])
+
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo_rec = RepositorioRecordatoriosEnviados(sesion)
+        pendientes_todos = await repo_rec.listar_pendientes_vencidos(
+            ahora=datetime(2099, 1, 1, tzinfo=UTC),
+        )
+        todos = sorted(
+            [r for r in pendientes_todos if r.caso_id == caso_id],
+            key=lambda r: r.programado_at,
+        )
+        assert len(todos) == 3
+        for indice, fila in enumerate(todos):
+            prog = _en_utc(fila.programado_at)
+            esperado = calcular_programado_at_por_intervalo(ancla, indice, interval_seg)
+            delta = abs((prog - esperado).total_seconds())
+            assert delta < 15, f"programado_at fuera de tolerancia: {prog} vs {esperado}"
+
+        vencidos = await repo_rec.listar_pendientes_vencidos(ahora=ancla)
+        assert not [r for r in vencidos if r.caso_id == caso_id]
 
 
 @pytest.mark.asyncio
@@ -152,11 +172,12 @@ async def test_job_envia_recordatorio_vencido(
     cliente_mock = AsyncMock(spec=ClienteTelegram)
     cliente_mock.enviar_mensaje = _capturar
 
-    cantidad = await procesar_recordatorios_pendientes(
+    resultado = await procesar_recordatorios_pendientes(
         factory,
         cliente_telegram=cliente_mock,
     )
-    assert cantidad == 1
+    assert resultado.enviados == 1
+    assert resultado.pendientes_vencidos == 1
     assert len(enviados_capturados) == 1
     assert enviados_capturados[0][0] == chat_id
     assert "Paciente Recordatorio" in enviados_capturados[0][1]
@@ -289,11 +310,12 @@ async def test_job_omite_chat_id_demo_ficticio(
 
     cliente_mock = AsyncMock(spec=ClienteTelegram)
 
-    cantidad = await procesar_recordatorios_pendientes(
+    resultado = await procesar_recordatorios_pendientes(
         factory,
         cliente_telegram=cliente_mock,
     )
-    assert cantidad == 0
+    assert resultado.enviados == 0
+    assert resultado.pendientes_vencidos == 1
     cliente_mock.enviar_mensaje.assert_not_called()
 
 

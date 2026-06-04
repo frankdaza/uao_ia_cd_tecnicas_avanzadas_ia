@@ -20,6 +20,9 @@ import type {
   Salud,
   SeveridadTriage,
   StaffLoginBody,
+  DisparoRecordatorioRespuesta,
+  RecordatoriosJobConfig,
+  RecordatoriosJobConfigParche,
   StaffLoginResponse,
 } from './schemas'
 import {
@@ -37,6 +40,8 @@ import {
   MedicoSchema,
   ProcedimientoSchema,
   SaludSchema,
+  DisparoRecordatorioRespuestaSchema,
+  RecordatoriosJobConfigSchema,
   StaffLoginResponseSchema,
 } from './schemas'
 
@@ -247,6 +252,23 @@ export async function desactivarMedico(id: string): Promise<void> {
   await assertOkResponse(res)
 }
 
+/** Estado del job periodico de recordatorios Telegram (solo admin). */
+export async function fetchRecordatoriosJobConfig(): Promise<RecordatoriosJobConfig> {
+  const res = await apiFetch('/admin/recordatorios-job')
+  return parseJson(res, RecordatoriosJobConfigSchema)
+}
+
+/** Actualiza el job de recordatorios en caliente (solo admin). */
+export async function patchRecordatoriosJobConfig(
+  body: RecordatoriosJobConfigParche,
+): Promise<RecordatoriosJobConfig> {
+  const res = await apiFetch('/admin/recordatorios-job', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, RecordatoriosJobConfigSchema)
+}
+
 /** Tipos indexados para select de nuevo caso (UC-MVP-02). */
 export async function listStaffTiposProcedimiento(): Promise<ListadoTiposProcedimientoOpcion> {
   const res = await apiFetch('/staff/tipos-procedimiento?indexacion_estado=ok&limit=100')
@@ -327,4 +349,14 @@ export async function getStaffConversacion(casoId: string): Promise<Conversacion
 export async function getStaffCasoResumen(casoId: string): Promise<CasoResumenSeguimiento> {
   const res = await apiFetch(`/staff/casos/${casoId}/resumen`)
   return parseJson(res, CasoResumenSeguimientoSchema)
+}
+
+/** Envía el siguiente recordatorio pendiente sin esperar programado_at (demo UC-MVP-04). */
+export async function dispararRecordatorioPrueba(
+  casoId: string,
+): Promise<DisparoRecordatorioRespuesta> {
+  const res = await apiFetch(`/staff/casos/${casoId}/disparar-recordatorio-prueba`, {
+    method: 'POST',
+  })
+  return parseJson(res, DisparoRecordatorioRespuestaSchema)
 }

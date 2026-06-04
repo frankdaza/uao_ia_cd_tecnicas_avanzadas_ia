@@ -371,3 +371,35 @@ class UsuarioStaff(Base):
         server_default=func.now(),
         nullable=False,
     )
+
+
+class ConfigOperativaTaam(Base):
+    """
+    Fila singleton (id=1) con parametros operativos editables desde el panel admin.
+
+    Los valores iniciales provienen de variables de entorno al primer arranque;
+    los cambios posteriores se persisten aqui y se aplican en caliente al job asyncio.
+    """
+
+    __tablename__ = "config_operativa_taam"
+    __table_args__ = (
+        CheckConstraint("id = 1", name="ck_config_operativa_taam_singleton"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    recordatorios_job_habilitado: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        server_default=text("false"),
+    )
+    recordatorios_job_interval_seg: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        server_default=text("60"),
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )

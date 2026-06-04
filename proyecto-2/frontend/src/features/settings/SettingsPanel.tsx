@@ -16,6 +16,7 @@ const NAV_ITEMS = [
 const NAV_ADMIN = [
   { path: '/admin/procedimientos', label: 'Catálogo procedimientos' },
   { path: '/admin/medicos', label: 'Médicos' },
+  { path: '/admin/recordatorios', label: 'Recordatorios programados' },
 ] as const
 
 /** Barra lateral: navegación placeholder del panel staff. */

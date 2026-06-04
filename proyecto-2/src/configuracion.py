@@ -5,6 +5,7 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 from urllib.parse import quote_plus, urlparse, urlunparse
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -138,6 +139,14 @@ class Configuracion(BaseSettings):
         validation_alias="RECORDATORIOS_JOB_INTERVAL_SEG",
         description="Intervalo del job de recordatorios en segundos.",
     )
+    taam_zona_horaria: str = Field(
+        default="America/Bogota",
+        validation_alias="TAAM_ZONA_HORARIA",
+        description=(
+            "Zona IANA para anclar fecha_cirugia y offsets de recordatorios "
+            "(medianoche local + horas)."
+        ),
+    )
     ingesta_reintentos: int = Field(default=3, ge=1, le=10, validation_alias="INGESTA_REINTENTOS")
     ingesta_backoff_max_seg: float = Field(
         default=30.0,
@@ -145,6 +154,15 @@ class Configuracion(BaseSettings):
         le=120.0,
         validation_alias="INGESTA_BACKOFF_MAX_SEG",
     )
+
+    def zona_horaria_recordatorios(self) -> ZoneInfo:
+        """Zona para programar recordatorios (UC-MVP-04)."""
+        try:
+            return ZoneInfo(self.taam_zona_horaria)
+        except ZoneInfoNotFoundError as exc:
+            raise ValueError(
+                f"TAAM_ZONA_HORARIA invalida: {self.taam_zona_horaria!r}"
+            ) from exc
 
     def url_base_datos_async(self) -> str:
         """

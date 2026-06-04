@@ -20,6 +20,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from src.api.routers import (
     admin_medicos,
     admin_procedimientos,
+    admin_recordatorios_job,
     auth_staff,
     chat,
     salud,
@@ -31,6 +32,7 @@ from src.api.routers import (
 from src.agentes.checkpointer import gestionar_checkpointer_postgres_async
 from src.configuracion import Configuracion, obtener_configuracion
 from src.persistencia.modelos import Base
+from src.integracion.recordatorios.estado_job import inicializar_recordatorios_job_estado
 from src.integracion.recordatorios.scheduler import ejecutar_bucle_recordatorios
 from src.persistencia.motor import (
     cerrar_motor_async,
@@ -69,16 +71,19 @@ async def _arrancar_recursos_app(
     app.state.session_factory = crear_session_factory(motor)
     await verificar_conexion_inicial(motor)
 
+    app.state.recordatorios_job = await inicializar_recordatorios_job_estado(
+        app.state.session_factory,
+        cfg,
+    )
+
     detener_recordatorios = asyncio.Event()
-    tarea_recordatorios: asyncio.Task[None] | None = None
-    if cfg.recordatorios_job_habilitado:
-        tarea_recordatorios = asyncio.create_task(
-            ejecutar_bucle_recordatorios(
-                app.state.session_factory,
-                cfg=cfg,
-                detener=detener_recordatorios,
-            )
+    tarea_recordatorios = asyncio.create_task(
+        ejecutar_bucle_recordatorios(
+            app.state.session_factory,
+            estado_job=app.state.recordatorios_job,
+            detener=detener_recordatorios,
         )
+    )
     app.state.tarea_recordatorios = tarea_recordatorios
     return detener_recordatorios, tarea_recordatorios
 
@@ -145,6 +150,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(auth_staff.router, prefix="/api")
     app.include_router(admin_procedimientos.router, prefix="/api")
     app.include_router(admin_medicos.router, prefix="/api")
+    app.include_router(admin_recordatorios_job.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
     app.include_router(staff_seguimiento.router, prefix="/api")
     app.include_router(telegram_emparejar.router, prefix="/api")

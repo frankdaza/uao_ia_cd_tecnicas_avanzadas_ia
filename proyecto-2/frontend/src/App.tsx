@@ -8,6 +8,8 @@ import { AdminMedicosRoutes } from '@/features/admin-medicos/AdminMedicosRoutes'
 import { esRutaAdminMedicos } from '@/features/admin-medicos/adminMedicosPaths'
 import { AdminProcedimientosRoutes } from '@/features/admin-procedimientos/AdminProcedimientosRoutes'
 import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/adminProcedimientosPaths'
+import { AdminRecordatoriosRoutes } from '@/features/admin-recordatorios/AdminRecordatoriosRoutes'
+import { esRutaAdminRecordatorios } from '@/features/admin-recordatorios/adminRecordatoriosPaths'
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
 import { StaffLoginScreen } from '@/features/auth/StaffLoginScreen'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
@@ -29,6 +31,10 @@ const queryClient = new QueryClient({
 function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: string) => void }) {
   if (esRutaAdminProcedimientos(path)) {
     return <AdminProcedimientosRoutes path={path} onNavigate={onNavigate} />
+  }
+
+  if (esRutaAdminRecordatorios(path)) {
+    return <AdminRecordatoriosRoutes />
   }
 
   if (esRutaAdminMedicos(path)) {
@@ -56,7 +62,11 @@ function AppAuthenticated() {
       adminDenegadoRef.current = false
       return
     }
-    if (esRutaAdminProcedimientos(path) || esRutaAdminMedicos(path)) {
+    if (
+      esRutaAdminProcedimientos(path) ||
+      esRutaAdminMedicos(path) ||
+      esRutaAdminRecordatorios(path)
+    ) {
       if (!adminDenegadoRef.current) {
         adminDenegadoRef.current = true
         toast.error('Solo el rol administrador puede acceder a esta sección.')

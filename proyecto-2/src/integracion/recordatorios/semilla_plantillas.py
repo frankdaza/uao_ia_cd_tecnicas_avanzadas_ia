@@ -11,7 +11,8 @@ from src.persistencia.repositorios.plantillas_recordatorio import (
     RepositorioPlantillasRecordatorio,
 )
 
-# Offsets en horas desde medianoche UTC del dia de cirugia.
+# Offsets en horas: solo definen el orden de envio (medicacion, terapia, control).
+# El espaciado temporal lo define recordatorios_job_interval_seg (panel admin).
 _PLANTILLAS_DEFECTO: tuple[tuple[str, int, str, str], ...] = (
     (
         "medicacion",

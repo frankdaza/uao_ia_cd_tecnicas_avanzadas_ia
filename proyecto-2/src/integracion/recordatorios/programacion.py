@@ -3,25 +3,40 @@
 from __future__ import annotations
 
 from datetime import UTC, date, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 
 def calcular_programado_at(
     fecha_cirugia: date,
     offset_horas_desde_cirugia: int,
+    *,
+    zona: ZoneInfo,
 ) -> datetime:
     """
-    ``programado_at`` = medianoche UTC de ``fecha_cirugia`` + offset en horas.
+    ``programado_at`` = medianoche en ``zona`` del dia de cirugia + offset en horas.
 
-    La fecha de cirugia es un ``date`` sin zona; se ancla a UTC para comparar
-    con ``datetime.now(UTC)`` en el job y en tests.
+    Se persiste en UTC (timestamptz) para comparar con ``datetime.now(UTC)`` en el job.
     """
     inicio_dia = datetime(
         fecha_cirugia.year,
         fecha_cirugia.month,
         fecha_cirugia.day,
-        tzinfo=UTC,
+        tzinfo=zona,
     )
-    return inicio_dia + timedelta(hours=offset_horas_desde_cirugia)
+    return (inicio_dia + timedelta(hours=offset_horas_desde_cirugia)).astimezone(UTC)
+
+
+def calcular_programado_at_por_intervalo(
+    ancla_utc: datetime,
+    indice_orden: int,
+    interval_seg: int,
+) -> datetime:
+    """
+    ``programado_at`` para la plantilla en posición ``indice_orden`` (0-based).
+
+    Espaciado: ``ancla + interval_seg * (indice_orden + 1)`` segundos (panel admin).
+    """
+    return ancla_utc + timedelta(seconds=interval_seg * (indice_orden + 1))
 
 
 def renderizar_texto_plantilla(

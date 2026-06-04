@@ -382,20 +382,28 @@ Flujo paciente: `/start CODIGO` (emparejamiento) → mensajes de texto → respu
 
 ### Recordatorios proactivos Telegram (UC-MVP-04 / TASK-107)
 
-Recordatorios de medicación/terapia según **plantillas** por `tipo_procedimiento` y **`fecha_cirugia`** del caso. **Sin email** ni agenda hospitalaria en MVP.
+Recordatorios de medicación/terapia/control según **plantillas** por `tipo_procedimiento`, espaciados por **`recordatorios_job_interval_seg`** (panel admin). **Sin email** ni agenda hospitalaria en MVP. La `fecha_cirugia` del caso es informativa en el panel; no define el calendario de envío.
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | `POST` | `/api/staff/casos/{id}/disparar-recordatorio-prueba` | Envía el siguiente recordatorio pendiente (demo sin esperar el scheduler) |
 
-Al crear un caso (`POST /api/staff/casos`) se insertan plantillas semilla si el tipo no tenía ninguna y se programan filas en `recordatorios_enviados` (`programado_at = fecha_cirugia + offset_horas`).
+Al crear un caso (`POST /api/staff/casos`) se insertan plantillas semilla si el tipo no tenía ninguna y se programan filas en `recordatorios_enviados`: orden medicación → terapia → control (por `offset_horas_desde_cirugia` de la plantilla) con `programado_at = now + interval_seg × (1, 2, 3)` en UTC. Al cambiar el intervalo en el panel, los pendientes se reprograman con la misma regla.
 
-Job interno (asyncio en el lifespan de FastAPI): cada `RECORDATORIOS_JOB_INTERVAL_SEG` (default 60) busca pendientes con `programado_at <= now()` y envía por la misma Bot API que TASK-106. Si el caso no tiene vínculo Telegram, omite y registra log. Los `chat_id` de semilla demo (`111111111`, `222222222`) **no** se envían a Telegram (evita `400 chat not found` en Docker local).
+Job interno (asyncio en el lifespan de FastAPI): cada `interval_seg` segundos lee la configuración efectiva (`config_operativa_taam`) y, si está habilitado, envía pendientes con `programado_at <= now()` por la misma Bot API que TASK-106. Sin vínculo Telegram, omite y registra log. Los `chat_id` de semilla demo (`111111111`, `222222222`) **no** se envían a Telegram (evita `400 chat not found` en Docker local).
 
-Variables (ver también `.env.example`):
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `GET` | `/api/admin/recordatorios-job` | Estado del job (habilitado, intervalo, `updated_at`) — solo admin |
+| `PATCH` | `/api/admin/recordatorios-job` | Actualización en caliente sin reiniciar Uvicorn — solo admin |
+
+En el frontend: menú **Administración → Recordatorios programados** (`/admin/recordatorios`, rol `admin`).
+
+Variables de entorno (ver `.env.example`): valores **iniciales** al crear la fila singleton en el primer arranque; después prevalece lo guardado en BD o desde el panel.
 
 - `RECORDATORIOS_JOB_HABILITADO` — `true`/`false`; en tests y en Compose por defecto `false` salvo que lo active en `.env`.
-- `RECORDATORIOS_JOB_INTERVAL_SEG` — intervalo del job en segundos.
+- `RECORDATORIOS_JOB_INTERVAL_SEG` — intervalo en segundos entre recordatorios del mismo caso y entre ciclos del job (5–3600); valor inicial al crear la fila singleton.
+- `TAAM_ZONA_HORARIA` — zona para formatear fechas en el frontend (default `America/Bogota`); no programa envíos en el MVP actual.
 
 Si un `TELEGRAM_BOT_TOKEN` real quedó expuesto en logs (p. ej. traceback con URL del bot), revóquelo en @BotFather y actualice `.env`.
 

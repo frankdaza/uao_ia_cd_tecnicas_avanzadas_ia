@@ -177,3 +177,45 @@ async def cliente_api(
         base_url="http://test",
     ) as client:
         yield client
+
+
+@pytest.fixture
+async def tipo_procedimiento_ok(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> str:
+    """Tipo de procedimiento con indexacion ok (compartido por tests staff/recordatorios)."""
+    import json
+
+    from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
+
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files={
+            "metadata": (
+                None,
+                json.dumps(
+                    {
+                        "codigo": f"rec-{uuid.uuid4().hex[:6]}",
+                        "nombre": "Procedimiento Recordatorio",
+                    }
+                ),
+                "application/json",
+            ),
+            "archivo": ("protocolo.pdf", PDF_FIXTURE_MINIMO, "application/pdf"),
+        },
+    )
+    assert crear.status_code == 201
+    tipo_id = uuid.UUID(crear.json()["id"])
+
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo = RepositorioTiposProcedimiento(sesion)
+        fila = await repo.obtener_por_id(tipo_id)
+        assert fila is not None
+        await repo.actualizar(fila, indexacion_estado="ok")
+        await sesion.commit()
+
+    return str(tipo_id)

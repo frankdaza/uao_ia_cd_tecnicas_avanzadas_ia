@@ -219,3 +219,27 @@ export const CasoResumenSeguimientoSchema = z.object({
 })
 
 export type CasoResumenSeguimiento = z.infer<typeof CasoResumenSeguimientoSchema>
+
+/** Configuracion del job periodico de recordatorios (admin). */
+export const RecordatoriosJobConfigSchema = z.object({
+  habilitado: z.boolean(),
+  interval_seg: z.number().int().min(5).max(3600),
+  updated_at: z.string().nullable(),
+})
+
+export type RecordatoriosJobConfig = z.infer<typeof RecordatoriosJobConfigSchema>
+
+export type RecordatoriosJobConfigParche = {
+  habilitado?: boolean
+  interval_seg?: number
+}
+
+/** Resultado de POST .../disparar-recordatorio-prueba (demo UC-MVP-04). */
+export const DisparoRecordatorioRespuestaSchema = z.object({
+  recordatorio_id: z.uuid().nullable(),
+  enviado: z.boolean(),
+  mensaje: z.string().nullable(),
+  motivo_omitido: z.string().nullable(),
+})
+
+export type DisparoRecordatorioRespuesta = z.infer<typeof DisparoRecordatorioRespuestaSchema>
