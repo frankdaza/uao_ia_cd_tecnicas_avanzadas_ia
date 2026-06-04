@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 @plugin "tailwindcss-animate";
 
 /* Tokens FVL — misma línea visual que M2 (proyecto-1); solo variables, sin UI de negocio. */
