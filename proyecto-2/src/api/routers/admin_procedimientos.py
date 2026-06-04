@@ -18,6 +18,7 @@ from fastapi import (
     UploadFile,
 )
 from fastapi import status as estado_http
+from fastapi.responses import FileResponse
 from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -31,12 +32,16 @@ from src.api.esquemas_procedimientos import (
 from src.api.servicios.ingesta_protocolo import ingesta_protocolo_background
 from src.api.servicios.almacenamiento_protocolo import (
     ArchivoProtocoloInvalidoError,
+    FormatoProtocolo,
     guardar_protocolo_en_disco,
     hash_sha256,
     http_422_desde_error_protocolo,
     leer_y_validar_archivo_protocolo,
+    media_type_y_nombre_protocolo,
     ruta_relativa_protocolo,
+    validar_ruta_protocolo_en_directorio,
 )
+from src.ingesta.protocolo_ingesta import resolver_ruta_archivo_protocolo
 from src.configuracion import obtener_configuracion
 from src.persistencia.motor import obtener_sesion_db
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
@@ -189,6 +194,49 @@ async def obtener_procedimiento(
             detail="Procedimiento no encontrado.",
         )
     return _a_vista(fila)
+
+
+@router.get("/procedimientos/{tipo_id}/protocolo")
+async def descargar_protocolo_procedimiento(
+    tipo_id: uuid.UUID,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+) -> FileResponse:
+    """Sirve el protocolo almacenado (PDF o Markdown) para vista previa en el panel admin."""
+    repo = RepositorioTiposProcedimiento(sesion)
+    fila = await repo.obtener_por_id(tipo_id)
+    if fila is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Procedimiento no encontrado.",
+        )
+    if not fila.ruta_pdf:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="El procedimiento no tiene archivo de protocolo asociado.",
+        )
+    try:
+        ruta = resolver_ruta_archivo_protocolo(fila)
+        validar_ruta_protocolo_en_directorio(tipo_id, ruta)
+    except (ValueError, ArchivoProtocoloInvalidoError) as exc:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
+    if not ruta.is_file():
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Archivo de protocolo no encontrado en almacenamiento.",
+        )
+    formato: FormatoProtocolo = (
+        "markdown" if fila.formato_protocolo == "markdown" else "pdf"
+    )
+    media_type, nombre = media_type_y_nombre_protocolo(formato)
+    return FileResponse(
+        path=ruta,
+        media_type=media_type,
+        filename=nombre,
+        content_disposition_type="inline",
+    )
 
 
 @router.patch("/procedimientos/{tipo_id}", response_model=ProcedimientoVista)

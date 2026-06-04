@@ -16,6 +16,7 @@ import { ProcedimientoMetadataSchema } from '@/lib/schemas'
 import { formatFechaAlta } from '@/lib/formatFecha'
 import { FormatoProtocoloBadge, IndexacionEstadoBadge } from './indexacionEstado'
 import { ProtocolFileDropZone } from './ProtocolFileDropZone'
+import { ProtocoloViewer } from './ProtocoloViewer'
 
 interface ProcedimientoDetallePageProps {
   id: string
@@ -46,6 +47,7 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
       setProtocoloReemplazo(null)
       await qc.invalidateQueries({ queryKey: ['admin', 'procedimientos'] })
       await qc.invalidateQueries({ queryKey: ['admin', 'procedimientos', id] })
+      await qc.invalidateQueries({ queryKey: ['admin', 'procedimientos', id, 'protocolo'] })
     },
     onError: (err: unknown) => {
       toast.error(
@@ -86,7 +88,7 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
   const fila = q.data
 
   return (
-    <div className="mx-auto max-w-lg space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       <Button
         type="button"
         variant="ghost"
@@ -116,6 +118,13 @@ export function ProcedimientoDetallePage({ id, onNavigate }: ProcedimientoDetall
           </span>
         </div>
       </header>
+
+      <section className="space-y-3 rounded-lg border border-[var(--border)] p-4">
+        <h3 className="text-sm font-semibold text-[var(--color-text)]">
+          Vista previa del protocolo
+        </h3>
+        <ProtocoloViewer id={id} formato={fila.formato_protocolo} />
+      </section>
 
       <DetalleMetadataForm
         key={`${fila.id}-${fila.codigo}-${fila.nombre}`}

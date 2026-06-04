@@ -204,3 +204,24 @@ def http_422_desde_error_protocolo(exc: ArchivoProtocoloInvalidoError) -> HTTPEx
 def http_422_desde_error_pdf(exc: ArchivoProtocoloInvalidoError) -> HTTPException:
     """Alias de compatibilidad con imports legacy."""
     return http_422_desde_error_protocolo(exc)
+
+
+def prefijo_directorio_protocolo(tipo_id: uuid.UUID) -> Path:
+    """Directorio canonico del procedimiento bajo ``data/taam/procedimientos/{id}/``."""
+    return resolver_ruta_workspace(f"data/taam/procedimientos/{tipo_id}")
+
+
+def validar_ruta_protocolo_en_directorio(tipo_id: uuid.UUID, ruta: Path) -> None:
+    """Evita servir archivos fuera del directorio del procedimiento."""
+    base = prefijo_directorio_protocolo(tipo_id).resolve()
+    resuelta = ruta.resolve()
+    if base not in resuelta.parents and resuelta != base:
+        raise ArchivoProtocoloInvalidoError(
+            "La ruta del protocolo no pertenece al directorio del procedimiento."
+        )
+
+
+def media_type_y_nombre_protocolo(formato: FormatoProtocolo) -> tuple[str, str]:
+    if formato == "pdf":
+        return "application/pdf", "protocolo.pdf"
+    return "text/markdown; charset=utf-8", "protocolo.md"

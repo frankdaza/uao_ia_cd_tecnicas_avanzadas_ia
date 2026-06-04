@@ -54,7 +54,9 @@ Requiere usuario staff con **`rol=admin`** (p. ej. `admin@demo.taam` tras sembra
 | --- | --- |
 | `/admin/procedimientos` | Listado con formato (PDF / Markdown) y estado de indexación |
 | `/admin/procedimientos/nuevo` | Alta multipart: metadata JSON + protocolo PDF o `.md` |
-| `/admin/procedimientos/{uuid}` | Detalle, editar metadatos, reemplazar protocolo, reindexar |
+| `/admin/procedimientos/{uuid}` | Detalle con vista previa del protocolo (PDF/Markdown), editar metadatos, reemplazar protocolo, reindexar |
+
+- Vista previa: `GET /api/admin/procedimientos/{uuid}/protocolo` (binario inline con JWT admin).
 
 - Las peticiones usan `apiFetch` con JWT Bearer (no `X-Admin-Key` en el navegador).
 - Validación en cliente: PDF o Markdown (`.md`) ≤ 10 MB, nombre de archivo ASCII; mismos MIME que el backend.

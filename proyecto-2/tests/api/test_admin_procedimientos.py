@@ -349,3 +349,122 @@ async def test_admin_503_sin_clave_configurada(
                 headers={"X-Admin-Key": "cualquiera"},
             )
     assert resp.status_code == 503
+
+
+@pytest.mark.asyncio
+async def test_get_protocolo_pdf_200(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear(codigo="get-proto-pdf"),
+    )
+    assert crear.status_code == 201
+    tipo_id = crear.json()["id"]
+
+    resp = await cliente_api.get(
+        f"/api/admin/procedimientos/{tipo_id}/protocolo",
+        headers=cabecera_admin,
+    )
+    assert resp.status_code == 200
+    assert "application/pdf" in resp.headers.get("content-type", "")
+    assert resp.content.startswith(b"%PDF")
+
+
+@pytest.mark.asyncio
+async def test_get_protocolo_markdown_200(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear_md(codigo="get-proto-md"),
+    )
+    assert crear.status_code == 201
+    tipo_id = crear.json()["id"]
+
+    resp = await cliente_api.get(
+        f"/api/admin/procedimientos/{tipo_id}/protocolo",
+        headers=cabecera_admin,
+    )
+    assert resp.status_code == 200
+    assert "text/markdown" in resp.headers.get("content-type", "")
+    assert b"Cuidados postoperatorios" in resp.content
+
+
+@pytest.mark.asyncio
+async def test_get_protocolo_procedimiento_inexistente_404(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+) -> None:
+    resp = await cliente_api.get(
+        "/api/admin/procedimientos/00000000-0000-0000-0000-000000000099/protocolo",
+        headers=cabecera_admin,
+    )
+    assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_get_protocolo_sin_archivo_404(
+    cliente_api: AsyncClient,
+    cabecera_admin: dict[str, str],
+    app_api,
+) -> None:
+    from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
+
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear(codigo="get-proto-sin-arch"),
+    )
+    tipo_id = uuid.UUID(crear.json()["id"])
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo = RepositorioTiposProcedimiento(sesion)
+        fila = await repo.obtener_por_id(tipo_id)
+        assert fila is not None
+        fila.ruta_pdf = None
+        await sesion.flush()
+        await sesion.commit()
+
+    resp = await cliente_api.get(
+        f"/api/admin/procedimientos/{tipo_id}/protocolo",
+        headers=cabecera_admin,
+    )
+    assert resp.status_code == 404
+    assert "protocolo" in resp.json()["detail"].lower()
+
+
+@pytest.mark.asyncio
+async def test_asistente_no_puede_get_protocolo_403(
+    cliente_api: AsyncClient,
+    usuarios_staff_sembrados: None,
+    cabecera_admin: dict[str, str],
+) -> None:
+    from tests.api.conftest import (
+        EMAIL_ASISTENTE_DEMO,
+        PASSWORD_STAFF_ASISTENTE_TEST,
+    )
+
+    crear = await cliente_api.post(
+        "/api/admin/procedimientos",
+        headers=cabecera_admin,
+        files=_multipart_crear(codigo="rbac-get-proto"),
+    )
+    tipo_id = crear.json()["id"]
+
+    login = await cliente_api.post(
+        "/api/auth/staff/login",
+        json={"email": EMAIL_ASISTENTE_DEMO, "password": PASSWORD_STAFF_ASISTENTE_TEST},
+    )
+    assert login.status_code == 200
+    token = login.json()["access_token"]
+
+    resp = await cliente_api.get(
+        f"/api/admin/procedimientos/{tipo_id}/protocolo",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert resp.status_code == 403

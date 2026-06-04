@@ -125,3 +125,52 @@ samp {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-subtle);
 }
+
+/* Vista previa Markdown — catálogo admin procedimientos */
+.protocolo-markdown h1,
+.protocolo-markdown h2,
+.protocolo-markdown h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  color: var(--color-text);
+}
+.protocolo-markdown h1 {
+  font-size: 1.25rem;
+}
+.protocolo-markdown h2 {
+  font-size: 1.125rem;
+}
+.protocolo-markdown p,
+.protocolo-markdown li {
+  color: var(--color-text);
+}
+.protocolo-markdown ul,
+.protocolo-markdown ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+.protocolo-markdown a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+.protocolo-markdown pre {
+  overflow-x: auto;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+}
+.protocolo-markdown code {
+  font-size: 0.875em;
+}
+.protocolo-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+}
+.protocolo-markdown th,
+.protocolo-markdown td {
+  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.5rem;
+}

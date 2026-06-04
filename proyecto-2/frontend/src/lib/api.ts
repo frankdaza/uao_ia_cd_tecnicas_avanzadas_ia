@@ -168,6 +168,13 @@ export async function reindexAdminProcedimiento(id: string): Promise<Procedimien
   return parseJson(res, ProcedimientoSchema)
 }
 
+/** Binario del protocolo almacenado (PDF o Markdown) para vista previa admin. */
+export async function fetchAdminProcedimientoProtocolo(id: string): Promise<Blob> {
+  const res = await apiFetch(`/admin/procedimientos/${id}/protocolo`)
+  await assertOkResponse(res)
+  return res.blob()
+}
+
 async function assertOkResponse(response: Response): Promise<void> {
   if (response.ok) return
   if (response.status === 401 || response.status === 403) {
