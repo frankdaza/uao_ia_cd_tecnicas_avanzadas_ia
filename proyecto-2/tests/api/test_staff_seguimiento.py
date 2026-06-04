@@ -295,6 +295,35 @@ async def test_resumen_caso(
 
 
 @pytest.mark.asyncio
+async def test_reanudar_hitl_sin_pendiente(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+) -> None:
+    chat_id = 88005
+    caso_id = await _crear_caso_y_vinculo(
+        app_api,
+        cliente_api,
+        cabecera_staff,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=chat_id,
+    )
+
+    resp = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/reanudar-hitl",
+        headers=cabecera_staff,
+        json={"decision": "approve"},
+    )
+    assert resp.status_code == 200
+    cuerpo = resp.json()
+    assert cuerpo["reanudado"] is False
+    assert cuerpo["session_id"] == f"telegram:{chat_id}"
+
+
+@pytest.mark.asyncio
 async def test_openapi_tag_staff_seguimiento(cliente_api: AsyncClient) -> None:
     resp = await cliente_api.get("/openapi.json")
     assert resp.status_code == 200

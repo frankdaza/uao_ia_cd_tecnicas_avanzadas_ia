@@ -9,9 +9,15 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi import status as estado_http
 from langgraph.checkpoint.base import BaseCheckpointSaver
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from src.api.dependencias import obtener_checkpointer_app, obtener_staff_actual
+from src.agentes.agente_taam import construir_agente_taam
+from src.agentes.servicio import continuar_despues_hitl, requiere_revision_humana
+from src.api.dependencias import (
+    obtener_checkpointer_app,
+    obtener_session_factory_app,
+    obtener_staff_actual,
+)
 from src.api.esquemas_seguimiento import (
     AlertaTriageVista,
     CasoResumenSeguimientoRespuesta,
@@ -19,6 +25,8 @@ from src.api.esquemas_seguimiento import (
     ListadoAlertasRespuesta,
     MarcarAlertaRevisadaCuerpo,
     MensajeConversacionVista,
+    ReanudarHitlCuerpo,
+    ReanudarHitlRespuesta,
 )
 from src.api.privacidad_staff import enmascarar_chat_id_telegram
 from src.api.servicios.historial_conversacion import listar_mensajes_hilo
@@ -150,6 +158,68 @@ async def obtener_conversacion_caso(
             staff.rol,
         ),
         mensajes=mensajes,
+    )
+
+
+@router.post(
+    "/casos/{caso_id}/reanudar-hitl",
+    response_model=ReanudarHitlRespuesta,
+)
+async def reanudar_hitl_caso(
+    caso_id: uuid.UUID,
+    cuerpo: ReanudarHitlCuerpo,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+    session_factory: Annotated[
+        async_sessionmaker[AsyncSession],
+        Depends(obtener_session_factory_app),
+    ],
+    checkpointer: Annotated[BaseCheckpointSaver, Depends(obtener_checkpointer_app)],
+) -> ReanudarHitlRespuesta:
+    """
+    Reanuda el grafo tras interrupcion HITL en ``escalar_a_equipo`` (approve/reject).
+
+    Si no hay interrupcion pendiente, responde ``reanudado=false`` sin error.
+    """
+    repo_casos = RepositorioCasosPostoperatorio(sesion)
+    caso = await repo_casos.obtener_por_id(caso_id)
+    if caso is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Caso no encontrado.",
+        )
+
+    repo_vinculos = RepositorioVinculosTelegram(sesion)
+    vinculo = await repo_vinculos.obtener_vinculado_por_caso(caso_id)
+    if vinculo is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="El caso no tiene vinculo Telegram activo.",
+        )
+
+    session_id = f"telegram:{vinculo.telegram_chat_id}"
+    agente = construir_agente_taam(checkpointer)
+    snap = await agente.aget_state({"configurable": {"thread_id": session_id}})
+    if snap is None or not snap.next:
+        return ReanudarHitlRespuesta(
+            caso_id=caso_id,
+            session_id=session_id,
+            decision=cuerpo.decision,
+            requiere_revision_humana=False,
+            reanudado=False,
+        )
+
+    estado = await continuar_despues_hitl(
+        session_factory=session_factory,
+        checkpointer=checkpointer,
+        session_id=session_id,
+        decision=cuerpo.decision,
+    )
+    return ReanudarHitlRespuesta(
+        caso_id=caso_id,
+        session_id=session_id,
+        decision=cuerpo.decision,
+        requiere_revision_humana=requiere_revision_humana(estado),
+        reanudado=True,
     )
 
 

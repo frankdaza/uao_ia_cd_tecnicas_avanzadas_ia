@@ -15,6 +15,25 @@ class MarcarAlertaRevisadaCuerpo(BaseModel):
     revisado: Literal[True] = True
 
 
+class ReanudarHitlCuerpo(BaseModel):
+    """Decision staff sobre escalamiento pendiente (HITL ``escalar_a_equipo``)."""
+
+    decision: Literal["approve", "reject"] = Field(
+        default="approve",
+        description="approve ejecuta la tool y crea alerta; reject la descarta.",
+    )
+
+
+class ReanudarHitlRespuesta(BaseModel):
+    caso_id: uuid.UUID
+    session_id: str
+    decision: Literal["approve", "reject"]
+    requiere_revision_humana: bool = False
+    reanudado: bool = Field(
+        description="False si no habia interrupcion pendiente en el hilo.",
+    )
+
+
 class MensajeConversacionVista(BaseModel):
     """Mensaje humano o del asistente en el hilo Telegram."""
 

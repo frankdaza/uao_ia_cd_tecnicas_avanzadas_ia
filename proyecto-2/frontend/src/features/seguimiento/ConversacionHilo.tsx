@@ -1,5 +1,6 @@
 import type { MensajeConversacion } from '@/lib/schemas'
 import { cn } from '@/lib/cn'
+import { MensajeMarkdown } from './MensajeMarkdown'
 
 interface ConversacionHiloProps {
   mensajes: MensajeConversacion[]
@@ -28,7 +29,8 @@ export function ConversacionHilo({ mensajes }: ConversacionHiloProps) {
           >
             <div
               className={cn(
-                'max-w-[85%] rounded-lg px-3 py-2 text-sm whitespace-pre-wrap',
+                'max-w-[85%] rounded-lg px-3 py-2 text-sm',
+                esPaciente && 'whitespace-pre-wrap',
                 esPaciente
                   ? 'bg-[var(--color-primary)]/15 text-[var(--color-text)]'
                   : 'bg-[var(--color-surface)] text-[var(--color-text)]',
@@ -37,7 +39,7 @@ export function ConversacionHilo({ mensajes }: ConversacionHiloProps) {
               <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-[var(--color-text-subtle)]">
                 {esPaciente ? 'Paciente' : 'Bot TAAM'}
               </p>
-              {msg.contenido}
+              {esPaciente ? msg.contenido : <MensajeMarkdown>{msg.contenido}</MensajeMarkdown>}
             </div>
           </div>
         )

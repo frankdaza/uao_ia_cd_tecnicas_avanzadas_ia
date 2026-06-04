@@ -19,7 +19,11 @@ _INSTRUCCIONES_BASE = (
     "Si una herramienta falla, responde con cortesia que el equipo revisara su consulta. "
     "Si no hay resultados de protocolo, indique consultar al equipo tratante. "
     "Cuando ``clasificar_triage`` devuelva severidad ``urgente``, debe llamar "
-    "``escalar_a_equipo`` antes de cerrar la respuesta."
+    "``escalar_a_equipo`` antes de cerrar la respuesta. "
+    "Formatea las respuestas al paciente en Markdown simple: secciones con ###, "
+    "listas con guion (-) y enfasis con **negrita**. "
+    "Si una viñeta tiene subpuntos (fases o subitems), indenta cada subitem con "
+    "dos espacios bajo el guion (``  -``)."
 )
 
 

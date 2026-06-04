@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from typing import Any
 
@@ -24,6 +25,9 @@ _RE_FRAGMENTO_RAG = re.compile(r"^\[(\d+)\]\s*(.+)$", re.MULTILINE)
 _NOMBRE_TOOL_TRIAGE = "clasificar_triage"
 _NOMBRE_TOOL_RAG = "consultar_protocolo_rag"
 _SEVERIDADES_VALIDAS: frozenset[str] = frozenset({"info", "seguimiento", "urgente"})
+_DECISIONES_HITL: frozenset[str] = frozenset({"approve", "reject"})
+
+logger = logging.getLogger(__name__)
 
 
 def _config_hilo(session_id: str) -> dict[str, Any]:
@@ -48,6 +52,45 @@ async def _construir_contexto_invoke(
     return ctx
 
 
+def _normalizar_decision_hitl(decision: str) -> str:
+    valor = decision.strip().lower()
+    if valor not in _DECISIONES_HITL:
+        raise ValueError(f"decision HITL invalida: {decision!r}")
+    return valor
+
+
+async def reanudar_hitl_si_pendiente(
+    agente: object,
+    *,
+    session_id: str,
+    contexto: ContextoTaam,
+    decision: str = "reject",
+) -> dict[str, Any] | None:
+    """
+    Si el hilo tiene nodos pendientes (p. ej. HITL en ``escalar_a_equipo``), reanuda el grafo.
+
+    Evita enviar un ``HumanMessage`` nuevo sobre un ``tool_call`` sin ``ToolMessage``,
+    que OpenAI rechaza con 400.
+    """
+    config = _config_hilo(session_id)
+    snap = await agente.aget_state(config)  # type: ignore[attr-defined]
+    if snap is None or not snap.next:
+        return None
+
+    decision_norm = _normalizar_decision_hitl(decision)
+    logger.info(
+        "hitl_reanudacion session_id=%s decision=%s",
+        session_id,
+        decision_norm,
+    )
+    comando = Command(resume={"decisions": [{"type": decision_norm}]})
+    return await agente.ainvoke(  # type: ignore[attr-defined]
+        comando,
+        config=config,
+        context=contexto,
+    )
+
+
 async def invocar_agente(
     *,
     session_factory: async_sessionmaker[AsyncSession],
@@ -67,10 +110,17 @@ async def invocar_agente(
             contexto = await _construir_contexto_invoke(sesion, session_id)
 
         agente = construir_agente_taam(checkpointer)
+        config = _config_hilo(session_id)
+        await reanudar_hitl_si_pendiente(
+            agente,
+            session_id=session_id,
+            contexto=contexto,
+            decision="reject",
+        )
         entrada = {"messages": [HumanMessage(content=mensaje)]}
         return await agente.ainvoke(
             entrada,
-            config=_config_hilo(session_id),
+            config=config,
             context=contexto,
         )
     finally:
@@ -89,6 +139,7 @@ async def continuar_despues_hitl(
 
     ``decision``: ``approve`` o ``reject`` segun documentacion LangChain HITL.
     """
+    decision_norm = _normalizar_decision_hitl(decision)
     establecer_contexto_runtime(
         session_id=session_id,
         session_factory=session_factory,
@@ -98,7 +149,7 @@ async def continuar_despues_hitl(
             contexto = await _construir_contexto_invoke(sesion, session_id)
 
         agente = construir_agente_taam(checkpointer)
-        comando = Command(resume={"decisions": [{"type": decision}]})
+        comando = Command(resume={"decisions": [{"type": decision_norm}]})
         return await agente.ainvoke(
             comando,
             config=_config_hilo(session_id),

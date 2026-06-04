@@ -347,6 +347,9 @@ Panel staff (consumo desde **TASK-113**). Tag OpenAPI: **`staff-seguimiento`**. 
 | `PATCH` | `/api/staff/alertas/{id}` | Body `{ "revisado": true }`; auditoría `revisado_at` + `revisado_staff_id` (idempotente) |
 | `GET` | `/api/staff/casos/{id}/conversacion` | Mensajes human/assistant del hilo; `404` sin vínculo Telegram |
 | `GET` | `/api/staff/casos/{id}/resumen` | Última alerta, conteo mensajes, próximo recordatorio pendiente |
+| `POST` | `/api/staff/casos/{id}/reanudar-hitl` | Body `{ "decision": "approve" \| "reject" }`; cierra interrupción HITL en `escalar_a_equipo` (`reanudado: false` si no había pendiente) |
+
+Si el paciente escribe de nuevo en Telegram tras un escalamiento sin aprobación staff, el backend reanuda el hilo con `reject` automáticamente antes del turno (evita error OpenAI por `tool_call` huérfano). Ver [`src/agentes/README.md`](src/agentes/README.md).
 
 Rol **`asistente`**: `paciente_doc_id` y `telegram_chat_id` enmascarados (últimos 4 caracteres). Migración **`0003_alertas_auditoria`**: índice `(revisado, created_at)` y FK de revisión.
 

@@ -174,3 +174,64 @@ samp {
   border: 1px solid var(--color-border);
   padding: 0.35rem 0.5rem;
 }
+
+/* Markdown en burbujas del hilo de seguimiento (bot TAAM) */
+.mensaje-markdown h1,
+.mensaje-markdown h2,
+.mensaje-markdown h3 {
+  font-weight: 600;
+  margin-top: 0.75em;
+  margin-bottom: 0.35em;
+  color: var(--color-text);
+}
+.mensaje-markdown h3 {
+  font-size: 0.9375rem;
+}
+.mensaje-markdown p,
+.mensaje-markdown li {
+  color: var(--color-text);
+  margin: 0.25em 0;
+}
+.mensaje-markdown ul,
+.mensaje-markdown ol {
+  margin: 0.35em 0;
+  padding-left: 1.25em;
+}
+.mensaje-markdown ul ul,
+.mensaje-markdown ol ol,
+.mensaje-markdown ul ol,
+.mensaje-markdown ol ul {
+  margin-top: 0.25em;
+  margin-bottom: 0.15em;
+  padding-left: 1.15em;
+}
+.mensaje-markdown li > p {
+  margin: 0.15em 0;
+}
+.mensaje-markdown li::marker {
+  color: var(--color-text-subtle);
+}
+.mensaje-markdown strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+.mensaje-markdown a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+.mensaje-markdown pre {
+  overflow-x: auto;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+  font-size: 0.8125rem;
+}
+.mensaje-markdown code {
+  font-size: 0.875em;
+}
+.mensaje-markdown > :first-child {
+  margin-top: 0;
+}
+.mensaje-markdown > :last-child {
+  margin-bottom: 0;
+}

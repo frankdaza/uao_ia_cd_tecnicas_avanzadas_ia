@@ -172,4 +172,8 @@ async def _manejar_mensaje_chat(
             f"{texto_respuesta}\n\n"
             "Un miembro del equipo clinico revisara su consulta pronto."
         )
-    await cliente.enviar_mensaje(chat_id, texto_respuesta or _MENSAJE_TIMEOUT)
+    await cliente.enviar_mensaje(
+        chat_id,
+        texto_respuesta or _MENSAJE_TIMEOUT,
+        formatear_markdown=bool(texto_respuesta),
+    )

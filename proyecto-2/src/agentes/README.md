@@ -11,7 +11,9 @@ Formato canonico: `telegram:{chat_id}`. El checkpointer usa `thread_id` = `sessi
 La tool `escalar_a_equipo` esta configurada en `HumanInTheLoopMiddleware` con `interrupt_on`:
 
 - Antes de persistir la alerta, el grafo queda en estado `__interrupt__`.
-- El endpoint `POST /chat` expone `requiere_revision_humana: true` cuando hay `__interrupt__`; staff puede reanudar con `continuar_despues_hitl`.
+- El endpoint `POST /chat` expone `requiere_revision_humana: true` cuando hay `__interrupt__`.
+- **Nuevo mensaje del paciente (Telegram):** `invocar_agente` llama a `reanudar_hitl_si_pendiente(..., decision="reject")` si el hilo tiene `state.next` pendiente. Así se evita el error OpenAI 400 por `tool_call_id` sin respuesta cuando el paciente escribe de nuevo sin que staff haya aprobado el escalamiento.
+- **Staff:** `POST /api/staff/casos/{caso_id}/reanudar-hitl` con body `{"decision": "approve"|"reject"}` o `continuar_despues_hitl` desde Python.
 
 ### Reanudar tras aprobacion (demo / staff)
 
@@ -35,6 +37,16 @@ estado = await continuar_despues_hitl(
 2. El modelo intenta `escalar_a_equipo` → **interrupcion HITL**.
 3. Staff o script de demo llama `continuar_despues_hitl(..., decision="approve")`.
 4. La alerta queda visible en API staff (TASK-108).
+
+### Si el paciente ve timeout tras un escalamiento
+
+Suele deberse a un hilo bloqueado en HITL (historial con `tool_calls` sin `ToolMessage`). Tras el fix anterior, el **siguiente** mensaje del paciente reanuda con `reject` y el bot vuelve a responder.
+
+Desbloqueo manual sin esperar otro mensaje:
+
+- API staff: `POST /api/staff/casos/{uuid}/reanudar-hitl` con `{"decision": "approve"}` o `"reject"`.
+- Script: `continuar_despues_hitl(session_id="telegram:{chat_id}", decision=...)`.
+- Ultimo recurso: borrar el checkpoint del `thread_id` en Postgres o usar otro chat Telegram (`/start CODIGO`).
 
 ## Invocacion desde servicios
 

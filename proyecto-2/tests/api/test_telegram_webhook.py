@@ -37,7 +37,13 @@ def _update_mensaje(
 def mensajes_telegram_enviados(monkeypatch: pytest.MonkeyPatch) -> list[tuple[int, str]]:
     enviados: list[tuple[int, str]] = []
 
-    async def _capturar(self, chat_id: int, texto: str) -> None:  # noqa: ANN001
+    async def _capturar(  # noqa: ANN001
+        self,
+        chat_id: int,
+        texto: str,
+        *,
+        formatear_markdown: bool = False,
+    ) -> None:
         enviados.append((chat_id, texto))
 
     monkeypatch.setattr(

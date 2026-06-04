@@ -9,6 +9,10 @@ import httpx
 
 from src.configuracion import Configuracion, obtener_configuracion
 from src.integracion.telegram.errores import TelegramEnvioError
+from src.integracion.telegram.formateo import (
+    es_markdown_probable,
+    markdown_a_html_telegram,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -42,38 +46,79 @@ class ClienteTelegram:
             return None
         return f"https://api.telegram.org/bot{token}/sendMessage"
 
-    async def enviar_mensaje(self, chat_id: int, texto: str) -> None:
+    async def enviar_mensaje(
+        self,
+        chat_id: int,
+        texto: str,
+        *,
+        formatear_markdown: bool = False,
+    ) -> None:
         """Envia texto al chat; no lanza si falta token (solo log en dev/tests)."""
         url = self._url_send_message()
-        cuerpo = truncar_texto_telegram(texto)
         if not url:
             logger.warning(
                 "telegram_send_omitido chat_id=%s (TELEGRAM_BOT_TOKEN vacio)",
                 chat_id,
             )
             return
-        if not cuerpo:
+
+        texto_plano = truncar_texto_telegram(texto)
+        if not texto_plano:
             return
 
-        payload: dict[str, Any] = {
-            "chat_id": chat_id,
-            "text": cuerpo,
-        }
+        usar_html = formatear_markdown and es_markdown_probable(texto)
+        if usar_html:
+            cuerpo = truncar_texto_telegram(markdown_a_html_telegram(texto))
+            payload: dict[str, Any] = {
+                "chat_id": chat_id,
+                "text": cuerpo,
+                "parse_mode": "HTML",
+            }
+        else:
+            payload = {
+                "chat_id": chat_id,
+                "text": texto_plano,
+            }
 
         if self._cliente_http is not None:
-            await self._enviar_con_cliente(self._cliente_http, url, payload)
+            await self._enviar_payload(
+                self._cliente_http,
+                url,
+                payload,
+                texto_plano=texto_plano,
+                reintentar_plano=usar_html,
+            )
             return
 
         async with httpx.AsyncClient(timeout=30.0) as cliente:
-            await self._enviar_con_cliente(cliente, url, payload)
+            await self._enviar_payload(
+                cliente,
+                url,
+                payload,
+                texto_plano=texto_plano,
+                reintentar_plano=usar_html,
+            )
 
-    async def _enviar_con_cliente(
+    async def _enviar_payload(
         self,
         cliente: httpx.AsyncClient,
         url: str,
         payload: dict[str, Any],
+        *,
+        texto_plano: str,
+        reintentar_plano: bool,
     ) -> None:
         resp = await cliente.post(url, json=payload)
+        if resp.status_code == 400 and reintentar_plano and payload.get("parse_mode"):
+            logger.warning(
+                "telegram_sendMessage_html_fallo chat_id=%s; reintento texto plano",
+                payload.get("chat_id"),
+            )
+            payload_plano: dict[str, Any] = {
+                "chat_id": payload["chat_id"],
+                "text": texto_plano,
+            }
+            resp = await cliente.post(url, json=payload_plano)
         if resp.status_code >= 400:
             cuerpo = resp.text[:500]
             logger.error(
