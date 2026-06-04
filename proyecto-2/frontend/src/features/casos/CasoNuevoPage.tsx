@@ -17,6 +17,7 @@ import { CrearCasoBodySchema } from '@/lib/schemas'
 import type { CodigoEmparejamiento, MedicoOpcion, TipoProcedimientoOpcion } from '@/lib/schemas'
 import { CodigoEmparejamientoModal } from './CodigoEmparejamientoModal'
 import { MedicoCombobox } from './MedicoCombobox'
+import { TipoProcedimientoCombobox } from './TipoProcedimientoCombobox'
 
 interface CasoNuevoPageProps {
   onNavigate: (path: string) => void
@@ -30,7 +31,7 @@ function fechaHoyIso(): string {
 export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
   const { user } = useAuth()
   const qc = useQueryClient()
-  const [tipoId, setTipoId] = useState('')
+  const [tipoSeleccionado, setTipoSeleccionado] = useState<TipoProcedimientoOpcion | null>(null)
   const [pacienteDocId, setPacienteDocId] = useState('')
   const [pacienteNombre, setPacienteNombre] = useState('')
   const [medicoSeleccionado, setMedicoSeleccionado] = useState<MedicoOpcion | null>(null)
@@ -53,13 +54,16 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
 
   const crearMut = useMutation({
     mutationFn: async () => {
+      if (!tipoSeleccionado) {
+        throw new Error('Seleccione un tipo de procedimiento del catálogo.')
+      }
       if (!medicoSeleccionado) {
         throw new Error('Seleccione un cirujano del catálogo.')
       }
       const body = CrearCasoBodySchema.parse({
         paciente_doc_id: pacienteDocId.trim(),
         paciente_nombre: pacienteNombre.trim(),
-        tipo_procedimiento_id: tipoId,
+        tipo_procedimiento_id: tipoSeleccionado.id,
         cirujano_id: medicoSeleccionado.codigo_registro,
         cirujano_nombre: medicoSeleccionado.nombre_completo,
         fecha_cirugia: fechaCirugia,
@@ -88,7 +92,7 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
   const bodyPreview = CrearCasoBodySchema.safeParse({
     paciente_doc_id: pacienteDocId.trim(),
     paciente_nombre: pacienteNombre.trim(),
-    tipo_procedimiento_id: tipoId || undefined,
+    tipo_procedimiento_id: tipoSeleccionado?.id,
     cirujano_id: medicoSeleccionado?.codigo_registro ?? '',
     cirujano_nombre: medicoSeleccionado?.nombre_completo ?? '',
     fecha_cirugia: fechaCirugia,
@@ -103,7 +107,7 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
 
   const puedeEnviar =
     bodyPreview.success &&
-    tipoId.length > 0 &&
+    tipoSeleccionado != null &&
     medicoSeleccionado != null &&
     (tiposQ.data?.items.length ?? 0) > 0 &&
     (medicosQ.data?.items.length ?? 0) > 0 &&
@@ -165,24 +169,19 @@ export function CasoNuevoPage({ onNavigate }: CasoNuevoPageProps) {
         }}
       >
         <div className="space-y-2">
-          <Label htmlFor="tipo-procedimiento">Tipo de procedimiento</Label>
-          <select
-            id="tipo-procedimiento"
-            className="flex h-10 w-full rounded-md border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--color-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-            value={tipoId}
-            onChange={(e) => setTipoId(e.target.value)}
-            disabled={crearMut.isPending || tiposQ.isLoading || sinTiposIndexados}
-            required
-          >
-            <option value="">Seleccione…</option>
-            {(tiposQ.data?.items ?? []).map((t: TipoProcedimientoOpcion) => (
-              <option key={t.id} value={t.id}>
-                {t.codigo} — {t.nombre}
-              </option>
-            ))}
-          </select>
-          {tiposQ.isLoading ? (
-            <p className="text-xs text-[var(--color-text-subtle)]">Cargando procedimientos…</p>
+          <Label htmlFor="tipo-procedimiento-combobox">Tipo de procedimiento</Label>
+          <TipoProcedimientoCombobox
+            id="tipo-procedimiento-combobox"
+            value={tipoSeleccionado}
+            onChange={setTipoSeleccionado}
+            items={tiposQ.data?.items ?? []}
+            disabled={crearMut.isPending || sinTiposIndexados}
+            isLoading={tiposQ.isLoading}
+          />
+          {tiposQ.isError ? (
+            <p className="text-xs text-[var(--destructive)]">
+              No se pudo cargar el catálogo de procedimientos. Intente de nuevo.
+            </p>
           ) : null}
         </div>
 
