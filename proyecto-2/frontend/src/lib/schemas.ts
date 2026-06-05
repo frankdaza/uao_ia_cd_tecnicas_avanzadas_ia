@@ -288,3 +288,98 @@ export const DisparoRecordatorioRespuestaSchema = z.object({
 })
 
 export type DisparoRecordatorioRespuesta = z.infer<typeof DisparoRecordatorioRespuestaSchema>
+
+/** Conteo de alertas por severidad (dashboard). */
+export const ConteoPorSeveridadSchema = z.object({
+  info: z.number().int().nonnegative(),
+  seguimiento: z.number().int().nonnegative(),
+  urgente: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
+})
+
+export type ConteoPorSeveridad = z.infer<typeof ConteoPorSeveridadSchema>
+
+export const KpiAlertasSchema = z.object({
+  pendientes: ConteoPorSeveridadSchema,
+  revisadas_ultimas_24h: z.number().int().nonnegative(),
+})
+
+export type KpiAlertas = z.infer<typeof KpiAlertasSchema>
+
+export const KpiCasosSchema = z.object({
+  activos: z.number().int().nonnegative(),
+  cerrados: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
+  con_telegram_vinculado: z.number().int().nonnegative(),
+})
+
+export type KpiCasos = z.infer<typeof KpiCasosSchema>
+
+export const KpiRecordatoriosSchema = z.object({
+  pendientes_vencidos: z.number().int().nonnegative(),
+  enviados_ultimas_24h: z.number().int().nonnegative(),
+  con_error: z.number().int().nonnegative(),
+})
+
+export type KpiRecordatorios = z.infer<typeof KpiRecordatoriosSchema>
+
+export const PuntoSerieAlertasSchema = z.object({
+  fecha: z.string(),
+  cantidad: z.number().int().nonnegative(),
+})
+
+export type PuntoSerieAlertas = z.infer<typeof PuntoSerieAlertasSchema>
+
+export const ResumenDashboardStaffSchema = z.object({
+  generado_en: z.string(),
+  alertas: KpiAlertasSchema,
+  casos: KpiCasosSchema,
+  recordatorios: KpiRecordatoriosSchema,
+  serie_alertas_7d: z.array(PuntoSerieAlertasSchema),
+  alertas_recientes: z.array(AlertaTriageSchema),
+})
+
+export type ResumenDashboardStaff = z.infer<typeof ResumenDashboardStaffSchema>
+
+export const KpiMedicosAdminSchema = z.object({
+  total: z.number().int().nonnegative(),
+  activos: z.number().int().nonnegative(),
+})
+
+export type KpiMedicosAdmin = z.infer<typeof KpiMedicosAdminSchema>
+
+export const KpiProcedimientosAdminSchema = z.object({
+  pendiente: z.number().int().nonnegative(),
+  ok: z.number().int().nonnegative(),
+  error: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
+})
+
+export type KpiProcedimientosAdmin = z.infer<typeof KpiProcedimientosAdminSchema>
+
+export const ConfigOperativaDashboardSchema = z.object({
+  recordatorios_job_habilitado: z.boolean(),
+  recordatorios_job_interval_seg: z.number().int(),
+  agente_hitl_habilitado: z.boolean(),
+  config_updated_at: z.string().nullable(),
+})
+
+export type ConfigOperativaDashboard = z.infer<typeof ConfigOperativaDashboardSchema>
+
+export const TelegramWebhookDashboardSchema = z.object({
+  configurado: z.boolean(),
+  pending_update_count: z.number().int().nullable().optional(),
+  last_error_message: z.string().nullable().optional(),
+})
+
+export type TelegramWebhookDashboard = z.infer<typeof TelegramWebhookDashboardSchema>
+
+export const ResumenDashboardAdminSchema = z.object({
+  generado_en: z.string(),
+  medicos: KpiMedicosAdminSchema,
+  procedimientos: KpiProcedimientosAdminSchema,
+  config_operativa: ConfigOperativaDashboardSchema,
+  telegram_webhook: TelegramWebhookDashboardSchema,
+})
+
+export type ResumenDashboardAdmin = z.infer<typeof ResumenDashboardAdminSchema>

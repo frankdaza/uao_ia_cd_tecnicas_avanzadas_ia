@@ -21,7 +21,7 @@ import { CasosRoutes } from '@/features/casos/CasosRoutes'
 import { esRutaCasos } from '@/features/casos/casosPaths'
 import { SeguimientoRoutes } from '@/features/seguimiento/SeguimientoRoutes'
 import { esRutaSeguimiento } from '@/features/seguimiento/seguimientoPaths'
-import { PlaceholderHome } from '@/features/shell/PlaceholderHome'
+import { DashboardHome } from '@/features/dashboard/DashboardHome'
 import { useAppPath } from '@/lib/useAppPath'
 
 const LOGIN_PATH = '/login'
@@ -61,7 +61,7 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
     return <SeguimientoRoutes path={path} onNavigate={onNavigate} />
   }
 
-  return <PlaceholderHome />
+  return <DashboardHome onNavigate={onNavigate} />
 }
 
 function AppAuthenticated() {

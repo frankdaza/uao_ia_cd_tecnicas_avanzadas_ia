@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import date
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.persistencia.modelos import CasoPostoperatorio
@@ -82,3 +82,10 @@ class RepositorioCasosPostoperatorio:
         )
         res = await self._sesion.execute(stmt)
         return list(res.scalars().all())
+
+    async def contar_por_estado(self) -> dict[str, int]:
+        stmt = select(CasoPostoperatorio.estado, func.count()).group_by(
+            CasoPostoperatorio.estado
+        )
+        res = await self._sesion.execute(stmt)
+        return {str(estado): int(cnt) for estado, cnt in res.all()}

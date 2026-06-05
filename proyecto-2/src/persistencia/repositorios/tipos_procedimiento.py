@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.persistencia.modelos import TipoProcedimiento
@@ -106,3 +106,11 @@ class RepositorioTiposProcedimiento:
             fila.qdrant_collection_version = qdrant_collection_version
         await self._sesion.flush()
         return fila
+
+    async def contar_por_indexacion_estado(self) -> dict[str, int]:
+        stmt = select(
+            TipoProcedimiento.indexacion_estado,
+            func.count(),
+        ).group_by(TipoProcedimiento.indexacion_estado)
+        res = await self._sesion.execute(stmt)
+        return {str(estado): int(cnt) for estado, cnt in res.all()}

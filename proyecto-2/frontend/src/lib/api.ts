@@ -22,6 +22,8 @@ import type {
   SeveridadTriage,
   StaffLoginBody,
   DisparoRecordatorioRespuesta,
+  ResumenDashboardStaff,
+  ResumenDashboardAdmin,
   AgenteHitlConfig,
   AgenteHitlConfigParche,
   RecordatoriosJobConfig,
@@ -48,6 +50,8 @@ import {
   ProcedimientoSchema,
   SaludSchema,
   DisparoRecordatorioRespuestaSchema,
+  ResumenDashboardStaffSchema,
+  ResumenDashboardAdminSchema,
   AgenteHitlConfigSchema,
   RecordatoriosJobConfigSchema,
   StaffLoginResponseSchema,
@@ -399,6 +403,18 @@ export async function getStaffConversacion(casoId: string): Promise<Conversacion
 export async function getStaffCasoResumen(casoId: string): Promise<CasoResumenSeguimiento> {
   const res = await apiFetch(`/staff/casos/${casoId}/resumen`)
   return parseJson(res, CasoResumenSeguimientoSchema)
+}
+
+/** KPIs operativos del panel de inicio (staff). */
+export async function getStaffDashboard(): Promise<ResumenDashboardStaff> {
+  const res = await apiFetch('/staff/dashboard/resumen')
+  return parseJson(res, ResumenDashboardStaffSchema)
+}
+
+/** Metricas de sistema del panel de inicio (admin). */
+export async function getAdminDashboard(): Promise<ResumenDashboardAdmin> {
+  const res = await apiFetch('/admin/dashboard/resumen')
+  return parseJson(res, ResumenDashboardAdminSchema)
 }
 
 /** Envía el siguiente recordatorio pendiente sin esperar programado_at (demo UC-MVP-04). */

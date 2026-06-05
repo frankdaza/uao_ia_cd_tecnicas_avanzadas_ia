@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.persistencia.modelos import VinculoTelegram
@@ -152,3 +152,15 @@ class RepositorioVinculosTelegram:
             fila.desvinculado_at = desvinculado_at
         await self._sesion.flush()
         return fila
+
+    async def contar_activos(self) -> int:
+        stmt = (
+            select(func.count())
+            .select_from(VinculoTelegram)
+            .where(
+                VinculoTelegram.vinculado_at.is_not(None),
+                VinculoTelegram.desvinculado_at.is_(None),
+            )
+        )
+        res = await self._sesion.execute(stmt)
+        return int(res.scalar_one())

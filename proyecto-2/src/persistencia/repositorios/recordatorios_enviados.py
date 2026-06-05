@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.persistencia.modelos import RecordatorioEnviado
@@ -119,3 +119,36 @@ class RepositorioRecordatoriosEnviados:
         fila.estado = "error"
         await self._sesion.flush()
         return fila
+
+    async def contar_por_estado(self) -> dict[str, int]:
+        stmt = select(RecordatorioEnviado.estado, func.count()).group_by(
+            RecordatorioEnviado.estado
+        )
+        res = await self._sesion.execute(stmt)
+        return {str(estado): int(cnt) for estado, cnt in res.all()}
+
+    async def contar_pendientes_vencidos(self, *, ahora: datetime) -> int:
+        stmt = (
+            select(func.count())
+            .select_from(RecordatorioEnviado)
+            .where(
+                RecordatorioEnviado.estado == "pendiente",
+                RecordatorioEnviado.enviado_at.is_(None),
+                RecordatorioEnviado.programado_at <= ahora,
+            )
+        )
+        res = await self._sesion.execute(stmt)
+        return int(res.scalar_one())
+
+    async def contar_enviados_desde(self, desde: datetime) -> int:
+        stmt = (
+            select(func.count())
+            .select_from(RecordatorioEnviado)
+            .where(
+                RecordatorioEnviado.estado == "enviado",
+                RecordatorioEnviado.enviado_at.is_not(None),
+                RecordatorioEnviado.enviado_at >= desde,
+            )
+        )
+        res = await self._sesion.execute(stmt)
+        return int(res.scalar_one())
