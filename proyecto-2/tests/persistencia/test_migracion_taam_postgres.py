@@ -71,7 +71,12 @@ def test_alembic_upgrade_crea_esquema_taam() -> None:
         for tabla in TABLAS_ESPERADAS:
             assert insp.has_table(tabla), f"Falta tabla {tabla}"
         uniques = {uc["name"] for uc in insp.get_unique_constraints("vinculos_telegram")}
-        assert "uq_vinculos_telegram_chat_id" in uniques
+        assert "uq_vinculos_telegram_chat_id" not in uniques
+        indices = {idx["name"]: idx for idx in insp.get_indexes("vinculos_telegram")}
+        idx_activo = indices.get("uq_vinculos_telegram_chat_id_activo")
+        assert idx_activo is not None
+        assert idx_activo.get("unique") is True
+        assert "telegram_chat_id" in idx_activo.get("column_names", [])
     except OperationalError as exc:
         pytest.skip(
             "Postgres TAAM no alcanzable con la URL de integracion actual: "

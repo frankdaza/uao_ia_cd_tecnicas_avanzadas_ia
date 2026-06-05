@@ -136,16 +136,15 @@ async def obtener_conversacion_caso(
         )
 
     repo_vinculos = RepositorioVinculosTelegram(sesion)
-    vinculo = await repo_vinculos.obtener_vinculado_por_caso(caso_id)
-    if vinculo is None:
+    vinculo_activo = await repo_vinculos.obtener_vinculado_por_caso(caso_id)
+    hilo = vinculo_activo or await repo_vinculos.obtener_ultimo_hilo_telegram_por_caso(caso_id)
+    if hilo is None:
         raise HTTPException(
             status_code=estado_http.HTTP_404_NOT_FOUND,
-            detail=(
-                "El caso no tiene vinculo Telegram activo; no hay conversacion que mostrar."
-            ),
+            detail="El caso no tiene historial de conversacion por Telegram.",
         )
 
-    session_id = f"telegram:{vinculo.telegram_chat_id}"
+    session_id = f"telegram:{hilo.telegram_chat_id}"
     mensajes: list[MensajeConversacionVista] = await listar_mensajes_hilo(
         checkpointer,
         session_id,
@@ -154,7 +153,7 @@ async def obtener_conversacion_caso(
         caso_id=caso_id,
         session_id=session_id,
         telegram_chat_id_enmascarado=enmascarar_chat_id_telegram(
-            vinculo.telegram_chat_id,
+            hilo.telegram_chat_id,
             staff.rol,
         ),
         mensajes=mensajes,

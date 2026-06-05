@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import secrets
 import uuid
 from dataclasses import dataclass
@@ -10,12 +11,16 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.configuracion import Configuracion
+from src.integracion.telegram.cliente import ClienteTelegram
+from src.integracion.telegram.errores import TelegramEnvioError
+from src.persistencia.demo_ids import es_chat_id_demo_ficticio
 from src.persistencia.modelos import CasoPostoperatorio, VinculoTelegram
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
 
 _ALFABETO_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+logger = logging.getLogger(__name__)
 
 
 def _en_utc(valor: datetime | None) -> datetime | None:
@@ -57,6 +62,12 @@ class ResultadoEmparejar:
     mensaje_confirmacion: str
 
 
+@dataclass(frozen=True)
+class ResultadoDesvincular:
+    caso_id: uuid.UUID
+    notificado_telegram: bool
+
+
 def chat_id_placeholder(caso_id: uuid.UUID) -> int:
     """Identificador negativo estable hasta que el paciente empareje."""
     fragmento = int.from_bytes(caso_id.bytes[:8], "big", signed=False)
@@ -66,6 +77,16 @@ def chat_id_placeholder(caso_id: uuid.UUID) -> int:
 def generar_codigo_emparejamiento(longitud: int) -> str:
     longitud = max(6, min(8, longitud))
     return "".join(secrets.choice(_ALFABETO_CODIGO) for _ in range(longitud))
+
+
+def _mensaje_desvinculacion_telegram(*, nombre_paciente: str) -> str:
+    """Aviso al paciente cuando el staff desvincula el dispositivo."""
+    return (
+        f"Hola, {nombre_paciente}. Su dispositivo de Telegram dejo de estar vinculado "
+        f"al seguimiento postoperatorio en la plataforma TAAM. Ya no podra usar el bot "
+        f"Lili con este enlace. Si necesita reactivar el acompanamiento, solicite un "
+        f"codigo nuevo a su equipo de salud."
+    )
 
 
 def _mensaje_confirmacion_emparejamiento(
@@ -249,6 +270,92 @@ async def emparejar_codigo(
             cirujano_nombre=cirujano,
         ),
     )
+
+
+async def desvincular_telegram_de_caso(
+    sesion: AsyncSession,
+    caso_id: uuid.UUID,
+    cfg: Configuracion,
+    *,
+    cliente_telegram: ClienteTelegram | None = None,
+) -> ResultadoDesvincular:
+    """Marca el vinculo activo como desvinculado y notifica al paciente (best-effort)."""
+    repo_casos = RepositorioCasosPostoperatorio(sesion)
+    repo_vinculos = RepositorioVinculosTelegram(sesion)
+
+    caso = await repo_casos.obtener_por_id(caso_id)
+    if caso is None:
+        raise EmparejamientoError(
+            codigo_error="caso_inexistente",
+            mensaje_telegram="Caso no encontrado.",
+            status_http=404,
+        )
+    if caso.estado != "activo":
+        raise EmparejamientoError(
+            codigo_error="caso_no_activo",
+            mensaje_telegram="Este caso ya no esta activo.",
+            status_http=422,
+        )
+
+    vinculo = await repo_vinculos.obtener_vinculado_por_caso(caso_id)
+    if vinculo is None:
+        raise EmparejamientoError(
+            codigo_error="caso_sin_vinculo_telegram",
+            mensaje_telegram=(
+                "Este caso no tiene un dispositivo Telegram vinculado actualmente."
+            ),
+            status_http=422,
+        )
+
+    chat_id = vinculo.telegram_chat_id
+    nombre = caso.paciente_nombre.strip() or "paciente"
+    ahora = datetime.now(UTC)
+
+    await repo_vinculos.actualizar(
+        vinculo,
+        desvinculado_at=ahora,
+        limpiar_codigo=True,
+    )
+
+    notificado = await _notificar_desvinculacion_telegram(
+        cfg,
+        chat_id=chat_id,
+        nombre_paciente=nombre,
+        cliente_telegram=cliente_telegram,
+    )
+    return ResultadoDesvincular(caso_id=caso_id, notificado_telegram=notificado)
+
+
+async def _notificar_desvinculacion_telegram(
+    cfg: Configuracion,
+    *,
+    chat_id: int,
+    nombre_paciente: str,
+    cliente_telegram: ClienteTelegram | None,
+) -> bool:
+    if es_chat_id_demo_ficticio(chat_id) or chat_id < 0:
+        return False
+    if not (cfg.telegram_bot_token or "").strip():
+        return False
+
+    mensaje = _mensaje_desvinculacion_telegram(nombre_paciente=nombre_paciente)
+    cliente = cliente_telegram or ClienteTelegram(cfg)
+    try:
+        await cliente.enviar_mensaje(chat_id, mensaje)
+    except TelegramEnvioError as exc:
+        logger.warning(
+            "desvincular_telegram_notificacion_fallo caso chat_id=%s status=%s",
+            chat_id,
+            exc.status_code,
+        )
+        return False
+    except Exception:
+        logger.exception(
+            "desvincular_telegram_notificacion_fallo caso chat_id=%s",
+            chat_id,
+        )
+        return False
+    return True
 
 
 async def caso_tiene_vinculo_telegram(

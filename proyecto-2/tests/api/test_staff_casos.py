@@ -5,10 +5,15 @@ from __future__ import annotations
 import json
 import uuid
 from datetime import UTC, datetime, timedelta
+from unittest.mock import AsyncMock
 
 import pytest
 from httpx import AsyncClient
+from langchain_core.messages import AIMessage, HumanMessage
 
+from src.agentes.agente_taam import construir_agente_taam
+from src.integracion.telegram.cliente import ClienteTelegram
+from src.configuracion import obtener_configuracion
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
 from tests.api.conftest import PDF_FIXTURE_MINIMO
@@ -316,3 +321,261 @@ async def test_codigo_expirado_400(
     assert resp.status_code == 400
     assert resp.json()["error"] == "codigo_expirado"
     assert "mensaje_telegram" in resp.json()
+
+
+async def _caso_vinculado_por_emparejar(
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    cabecera_telegram: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+    *,
+    chat_id: int = 555100,
+    doc_id: str = "CC-DESV",
+) -> str:
+    med = medico_activo_catalogo
+    crear = await cliente_api.post(
+        "/api/staff/casos",
+        headers=cabecera_staff,
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id=doc_id,
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
+    )
+    caso_id = crear.json()["id"]
+    gen = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/codigo-emparejamiento",
+        headers=cabecera_staff,
+    )
+    codigo = gen.json()["codigo"]
+    emp = await cliente_api.post(
+        "/api/telegram/emparejar",
+        headers=cabecera_telegram,
+        json={"codigo": codigo, "telegram_chat_id": chat_id},
+    )
+    assert emp.status_code == 200
+    return caso_id
+
+
+@pytest.mark.asyncio
+async def test_desvincular_telegram_admin_notifica_y_regenera_codigo(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    cabecera_staff_admin: dict[str, str],
+    cabecera_telegram: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    caso_id = await _caso_vinculado_por_emparejar(
+        cliente_api,
+        cabecera_staff,
+        cabecera_telegram,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=555101,
+    )
+
+    mensajes_enviados: list[str] = []
+
+    async def _capturar(
+        self,
+        chat_id: int,
+        texto: str,
+        **kwargs: object,
+    ) -> None:
+        mensajes_enviados.append(texto)
+
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "123456:ABC-test-token")
+    obtener_configuracion.cache_clear()
+    monkeypatch.setattr(ClienteTelegram, "enviar_mensaje", _capturar)
+
+    des = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/desvincular-telegram",
+        headers=cabecera_staff_admin,
+    )
+    assert des.status_code == 200
+    cuerpo = des.json()
+    assert cuerpo["notificado_telegram"] is True
+    assert cuerpo["caso"]["vinculado_telegram"] is False
+    assert len(mensajes_enviados) == 1
+    assert "dejo de estar vinculado" in mensajes_enviados[0].lower()
+
+    regen = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/codigo-emparejamiento",
+        headers=cabecera_staff,
+    )
+    assert regen.status_code == 200
+
+    emp2 = await cliente_api.post(
+        "/api/telegram/emparejar",
+        headers=cabecera_telegram,
+        json={"codigo": regen.json()["codigo"], "telegram_chat_id": 555101},
+    )
+    assert emp2.status_code == 200
+    assert emp2.json()["caso_id"] == caso_id
+
+
+@pytest.mark.asyncio
+async def test_reemparejar_mismo_chat_tras_desvincular(
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    cabecera_staff_admin: dict[str, str],
+    cabecera_telegram: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+) -> None:
+    chat_id = 555104
+    caso_id = await _caso_vinculado_por_emparejar(
+        cliente_api,
+        cabecera_staff,
+        cabecera_telegram,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=chat_id,
+        doc_id="CC-REEMP",
+    )
+    des = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/desvincular-telegram",
+        headers=cabecera_staff_admin,
+    )
+    assert des.status_code == 200
+    assert des.json()["caso"]["vinculado_telegram"] is False
+
+    regen = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/codigo-emparejamiento",
+        headers=cabecera_staff,
+    )
+    assert regen.status_code == 200
+
+    emp = await cliente_api.post(
+        "/api/telegram/emparejar",
+        headers=cabecera_telegram,
+        json={"codigo": regen.json()["codigo"], "telegram_chat_id": chat_id},
+    )
+    assert emp.status_code == 200
+
+    lista = await cliente_api.get(
+        "/api/staff/casos",
+        headers=cabecera_staff,
+        params={"estado": "activo", "limit": 50, "offset": 0},
+    )
+    assert lista.status_code == 200
+    fila = next(i for i in lista.json()["items"] if i["id"] == caso_id)
+    assert fila["vinculado_telegram"] is True
+
+
+@pytest.mark.asyncio
+async def test_desvincular_telegram_403_rol_asistente(
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    cabecera_telegram: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+) -> None:
+    caso_id = await _caso_vinculado_por_emparejar(
+        cliente_api,
+        cabecera_staff,
+        cabecera_telegram,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=555103,
+    )
+    resp = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/desvincular-telegram",
+        headers=cabecera_staff,
+    )
+    assert resp.status_code == 403
+
+
+@pytest.mark.asyncio
+async def test_desvincular_telegram_422_sin_vinculo(
+    cliente_api: AsyncClient,
+    cabecera_staff_admin: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+) -> None:
+    med = medico_activo_catalogo
+    crear = await cliente_api.post(
+        "/api/staff/casos",
+        headers=cabecera_staff_admin,
+        json=_cuerpo_caso(
+            tipo_id=tipo_procedimiento_ok,
+            doc_id="CC-SIN-VINC",
+            cirujano_id=med["codigo_registro"],
+            cirujano_nombre=med["nombre_completo"],
+        ),
+    )
+    caso_id = crear.json()["id"]
+    resp = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/desvincular-telegram",
+        headers=cabecera_staff_admin,
+    )
+    assert resp.status_code == 422
+    assert resp.json()["detail"]["error"] == "caso_sin_vinculo_telegram"
+
+
+@pytest.mark.asyncio
+async def test_conversacion_y_resumen_tras_desvincular(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    cabecera_staff_admin: dict[str, str],
+    cabecera_telegram: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    chat_id = 555104
+    caso_id = await _caso_vinculado_por_emparejar(
+        cliente_api,
+        cabecera_staff,
+        cabecera_telegram,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=chat_id,
+        doc_id="CC-HIST",
+    )
+
+    checkpointer = app_api.state.checkpointer
+    agente = construir_agente_taam(checkpointer)
+    await agente.aupdate_state(
+        {"configurable": {"thread_id": f"telegram:{chat_id}"}},
+        {
+            "messages": [
+                HumanMessage(content="Tengo dolor"),
+                AIMessage(content="Consulte a su equipo si empeora."),
+            ]
+        },
+    )
+
+    monkeypatch.setattr(
+        ClienteTelegram,
+        "enviar_mensaje",
+        AsyncMock(),
+    )
+
+    des = await cliente_api.post(
+        f"/api/staff/casos/{caso_id}/desvincular-telegram",
+        headers=cabecera_staff_admin,
+    )
+    assert des.status_code == 200
+
+    conv = await cliente_api.get(
+        f"/api/staff/casos/{caso_id}/conversacion",
+        headers=cabecera_staff,
+    )
+    assert conv.status_code == 200
+    assert len(conv.json()["mensajes"]) >= 2
+
+    resumen = await cliente_api.get(
+        f"/api/staff/casos/{caso_id}/resumen",
+        headers=cabecera_staff,
+    )
+    assert resumen.status_code == 200
+    data = resumen.json()
+    assert data["vinculado_telegram"] is False
+    assert data["conteo_mensajes"] >= 2

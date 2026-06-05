@@ -333,9 +333,10 @@ Rutas staff bajo `/api/staff/casos` (cabecera **`Authorization: Bearer`**). El e
 | `POST` | `/api/staff/casos` | Alta de caso (`estado=activo`); exige `tipo_procedimiento` con `indexacion_estado=ok` y par `cirujano_id`/`cirujano_nombre` alineado con el catalogo |
 | `GET` | `/api/staff/casos` | Listado (`estado`, `limit`, `offset`); incluye `vinculado_telegram` |
 | `POST` | `/api/staff/casos/{id}/codigo-emparejamiento` | Código 6–8 caracteres, TTL 24 h (`TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`) |
+| `POST` | `/api/staff/casos/{id}/desvincular-telegram` | Solo **`rol=admin`**: soft-unlink (`desvinculado_at`), notifica al paciente por Telegram (best-effort) y responde `{ caso, notificado_telegram }` |
 | `POST` | `/api/telegram/emparejar` | Body: `codigo`, `telegram_chat_id`; respuesta con `mensaje_confirmacion` o error `codigo_expirado` |
 
-Flujo demo: login staff → crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**.
+Flujo demo: login staff → crear caso → generar código → en Telegram `/start CODIGO` (webhook llama `emparejar`) → listado muestra **Vinculado Telegram: sí**. Tras desvincular (admin), el paciente deja de usar el bot hasta un código nuevo; puede **re-emparejar el mismo dispositivo** con `/start CODIGO` (índice único parcial en `telegram_chat_id`). El historial en **Seguimiento** sigue consultable vía el último `telegram_chat_id` archivado. Migraciones **`0007_vinculos_desvinculado_at`**, **`0008_vinculos_chat_id_parcial`**.
 
 ### Seguimiento: alertas y conversaciones (UC-MVP-05 / TASK-108)
 
@@ -345,7 +346,7 @@ Panel staff (consumo desde **TASK-113**). Tag OpenAPI: **`staff-seguimiento`**. 
 |--------|------|-------------|
 | `GET` | `/api/staff/alertas` | Bandeja (`revisado`, `severidad`, `caso_id`, `limit`, `offset`); orden urgente → seguimiento → info |
 | `PATCH` | `/api/staff/alertas/{id}` | Body `{ "revisado": true }`; auditoría `revisado_at` + `revisado_staff_id` (idempotente) |
-| `GET` | `/api/staff/casos/{id}/conversacion` | Mensajes human/assistant del hilo; `404` sin vínculo Telegram |
+| `GET` | `/api/staff/casos/{id}/conversacion` | Mensajes human/assistant del hilo; usa vínculo activo o el último hilo histórico (`404` solo si nunca hubo chat) |
 | `GET` | `/api/staff/casos/{id}/resumen` | Última alerta, conteo mensajes, próximo recordatorio pendiente |
 | `POST` | `/api/staff/casos/{id}/reanudar-hitl` | Body `{ "decision": "approve" \| "reject" }`; cierra interrupción HITL en `escalar_a_equipo` (`reanudado: false` si no había pendiente) |
 

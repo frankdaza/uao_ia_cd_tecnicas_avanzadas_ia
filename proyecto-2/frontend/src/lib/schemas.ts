@@ -158,6 +158,14 @@ export const CodigoEmparejamientoSchema = z.object({
 
 export type CodigoEmparejamiento = z.infer<typeof CodigoEmparejamientoSchema>
 
+/** Respuesta de POST .../desvincular-telegram (solo admin). */
+export const DesvincularTelegramSchema = z.object({
+  caso: CasoSchema,
+  notificado_telegram: z.boolean(),
+})
+
+export type DesvincularTelegram = z.infer<typeof DesvincularTelegramSchema>
+
 /** Severidad de triage (UC-MVP-05). */
 export const SeveridadTriageSchema = z.enum(['info', 'seguimiento', 'urgente'])
 export type SeveridadTriage = z.infer<typeof SeveridadTriageSchema>

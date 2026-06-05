@@ -9,11 +9,12 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi import status as estado_http
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.dependencias import obtener_staff_actual
+from src.api.dependencias import obtener_staff_actual, requerir_rol_staff
 from src.api.esquemas_casos import (
     CasoVista,
     CodigoEmparejamientoRespuesta,
     CrearCasoCuerpo,
+    DesvincularTelegramRespuesta,
     ListadoCasosRespuesta,
     ListadoMedicosOpcionRespuesta,
     ListadoTiposProcedimientoOpcionRespuesta,
@@ -30,6 +31,7 @@ from src.api.servicios.emparejamiento import (
     EmparejamientoError,
     caso_tiene_vinculo_telegram,
     codigo_pendiente_activo,
+    desvincular_telegram_de_caso,
     generar_codigo_para_caso,
     validar_tipo_procedimiento_indexado,
 )
@@ -179,6 +181,31 @@ async def generar_codigo_emparejamiento(
         caso_id=resultado.caso_id,
         codigo=resultado.codigo,
         expira_at=resultado.expira_at,
+    )
+
+
+@router.post(
+    "/casos/{caso_id}/desvincular-telegram",
+    response_model=DesvincularTelegramRespuesta,
+    dependencies=[Depends(requerir_rol_staff("admin"))],
+)
+async def desvincular_telegram_caso(
+    caso_id: uuid.UUID,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+) -> DesvincularTelegramRespuesta:
+    """Quita el vinculo Telegram activo, conserva historial y notifica al paciente."""
+    cfg = obtener_configuracion()
+    try:
+        resultado = await desvincular_telegram_de_caso(sesion, caso_id, cfg)
+    except EmparejamientoError as exc:
+        raise _http_desde_emparejamiento(exc) from exc
+
+    repo = RepositorioCasosPostoperatorio(sesion)
+    fila = await repo.obtener_por_id(caso_id)
+    assert fila is not None
+    return DesvincularTelegramRespuesta(
+        caso=await _a_vista(sesion, fila),
+        notificado_telegram=resultado.notificado_telegram,
     )
 
 

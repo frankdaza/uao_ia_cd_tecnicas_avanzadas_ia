@@ -45,16 +45,17 @@ async def _resumen_desde_caso(
     staff: UsuarioStaff,
 ) -> CasoResumenSeguimientoRespuesta:
     repo_vinculos = RepositorioVinculosTelegram(sesion)
-    vinculo = await repo_vinculos.obtener_vinculado_por_caso(caso.id)
+    vinculo_activo = await repo_vinculos.obtener_vinculado_por_caso(caso.id)
+    hilo = vinculo_activo or await repo_vinculos.obtener_ultimo_hilo_telegram_por_caso(caso.id)
 
     conteo = 0
     chat_enmascarado: str | None = None
-    if vinculo is not None:
-        session_id = f"telegram:{vinculo.telegram_chat_id}"
+    if hilo is not None:
+        session_id = f"telegram:{hilo.telegram_chat_id}"
         mensajes = await listar_mensajes_hilo(checkpointer, session_id)
         conteo = contar_mensajes_hilo(mensajes)
         chat_enmascarado = enmascarar_chat_id_telegram(
-            vinculo.telegram_chat_id,
+            hilo.telegram_chat_id,
             staff.rol,
         )
 
@@ -73,7 +74,7 @@ async def _resumen_desde_caso(
         proximo_recordatorio_at=proximo.programado_at if proximo else None,
         proximo_recordatorio_estado=proximo.estado if proximo else None,
         telegram_chat_id_enmascarado=chat_enmascarado,
-        vinculado_telegram=vinculo is not None,
+        vinculado_telegram=vinculo_activo is not None,
     )
 
 

@@ -59,6 +59,7 @@ class RepositorioVinculosTelegram:
             .where(
                 VinculoTelegram.caso_id == caso_id,
                 VinculoTelegram.vinculado_at.is_(None),
+                VinculoTelegram.desvinculado_at.is_(None),
             )
             .limit(1)
         )
@@ -71,7 +72,25 @@ class RepositorioVinculosTelegram:
             .where(
                 VinculoTelegram.caso_id == caso_id,
                 VinculoTelegram.vinculado_at.is_not(None),
+                VinculoTelegram.desvinculado_at.is_(None),
             )
+            .limit(1)
+        )
+        res = await self._sesion.execute(stmt)
+        return res.scalars().first()
+
+    async def obtener_ultimo_hilo_telegram_por_caso(
+        self,
+        caso_id: uuid.UUID,
+    ) -> VinculoTelegram | None:
+        """Ultimo vinculo con chat real (activo o desvinculado) para historial staff."""
+        stmt = (
+            select(VinculoTelegram)
+            .where(
+                VinculoTelegram.caso_id == caso_id,
+                VinculoTelegram.vinculado_at.is_not(None),
+            )
+            .order_by(VinculoTelegram.vinculado_at.desc())
             .limit(1)
         )
         res = await self._sesion.execute(stmt)
@@ -83,6 +102,7 @@ class RepositorioVinculosTelegram:
             .where(
                 VinculoTelegram.codigo_emparejamiento == codigo,
                 VinculoTelegram.vinculado_at.is_(None),
+                VinculoTelegram.desvinculado_at.is_(None),
             )
             .limit(1)
         )
@@ -98,6 +118,7 @@ class RepositorioVinculosTelegram:
             .where(
                 VinculoTelegram.telegram_chat_id == telegram_chat_id,
                 VinculoTelegram.vinculado_at.is_not(None),
+                VinculoTelegram.desvinculado_at.is_(None),
             )
             .limit(1)
         )
@@ -112,6 +133,7 @@ class RepositorioVinculosTelegram:
         codigo_emparejamiento: str | None = None,
         codigo_expira_at: datetime | None = None,
         vinculado_at: datetime | None = None,
+        desvinculado_at: datetime | None = None,
         limpiar_codigo: bool = False,
     ) -> VinculoTelegram:
         if telegram_chat_id is not None:
@@ -126,5 +148,7 @@ class RepositorioVinculosTelegram:
                 fila.codigo_expira_at = codigo_expira_at
         if vinculado_at is not None:
             fila.vinculado_at = vinculado_at
+        if desvinculado_at is not None:
+            fila.desvinculado_at = desvinculado_at
         await self._sesion.flush()
         return fila

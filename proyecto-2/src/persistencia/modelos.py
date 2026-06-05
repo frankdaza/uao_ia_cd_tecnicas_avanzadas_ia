@@ -170,6 +170,15 @@ class VinculoTelegram(Base):
     """Emparejamiento paciente Telegram ↔ caso activo (UC-MVP-02)."""
 
     __tablename__ = "vinculos_telegram"
+    __table_args__ = (
+        Index(
+            "uq_vinculos_telegram_chat_id_activo",
+            "telegram_chat_id",
+            unique=True,
+            postgresql_where=text("desvinculado_at IS NULL"),
+            sqlite_where=text("desvinculado_at IS NULL"),
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True),
@@ -182,13 +191,17 @@ class VinculoTelegram(Base):
         ForeignKey("casos_postoperatorio.id", ondelete="CASCADE"),
         nullable=False,
     )
-    telegram_chat_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
+    telegram_chat_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     codigo_emparejamiento: Mapped[str | None] = mapped_column(String(32), nullable=True)
     codigo_expira_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
     )
     vinculado_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+    desvinculado_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
     )

@@ -6,6 +6,7 @@ import type {
   Caso,
   CasoResumenSeguimiento,
   CodigoEmparejamiento,
+  DesvincularTelegram,
   ConversacionCaso,
   CrearCasoBody,
   ListadoAlertas,
@@ -33,6 +34,7 @@ import {
   CasoResumenSeguimientoSchema,
   CasoSchema,
   CodigoEmparejamientoSchema,
+  DesvincularTelegramSchema,
   ConversacionCasoSchema,
   ListadoAlertasSchema,
   ListadoCasosSchema,
@@ -331,6 +333,12 @@ export async function listStaffCasos(params?: {
 export async function generateCodigoEmparejamiento(casoId: string): Promise<CodigoEmparejamiento> {
   const res = await apiFetch(`/staff/casos/${casoId}/codigo-emparejamiento`, { method: 'POST' })
   return parseJson(res, CodigoEmparejamientoSchema)
+}
+
+/** Desvincula el dispositivo Telegram activo del caso (solo rol admin). */
+export async function desvincularTelegramCaso(casoId: string): Promise<DesvincularTelegram> {
+  const res = await apiFetch(`/staff/casos/${casoId}/desvincular-telegram`, { method: 'POST' })
+  return parseJson(res, DesvincularTelegramSchema)
 }
 
 /** Bandeja de alertas de triage (UC-MVP-05). */

@@ -109,6 +109,24 @@ def cabecera_staff(token_staff_asistente: str) -> dict[str, str]:
 
 
 @pytest.fixture
+async def token_staff_admin(
+    cliente_api: AsyncClient,
+    usuarios_staff_sembrados: None,  # noqa: ARG001
+) -> str:
+    resp = await cliente_api.post(
+        "/api/auth/staff/login",
+        json={"email": EMAIL_ADMIN_DEMO, "password": PASSWORD_STAFF_ADMIN_TEST},
+    )
+    assert resp.status_code == 200, resp.text
+    return resp.json()["access_token"]
+
+
+@pytest.fixture
+def cabecera_staff_admin(token_staff_admin: str) -> dict[str, str]:
+    return {"Authorization": f"Bearer {token_staff_admin}"}
+
+
+@pytest.fixture
 async def medico_activo_catalogo(
     cliente_api: AsyncClient,
     cabecera_admin: dict[str, str],

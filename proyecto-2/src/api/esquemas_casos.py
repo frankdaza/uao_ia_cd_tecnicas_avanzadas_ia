@@ -70,6 +70,13 @@ class CodigoEmparejamientoRespuesta(BaseModel):
     expira_at: datetime
 
 
+class DesvincularTelegramRespuesta(BaseModel):
+    """Resultado de desvincular el dispositivo Telegram de un caso (solo admin)."""
+
+    caso: CasoVista
+    notificado_telegram: bool
+
+
 class EmparejarTelegramCuerpo(BaseModel):
     """Cuerpo del endpoint interno de emparejamiento."""
 
