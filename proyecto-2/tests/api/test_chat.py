@@ -8,6 +8,7 @@ import pytest
 from httpx import AsyncClient
 from langchain_core.messages import AIMessage
 
+from src.agentes.guardrails_alcance import MENSAJE_FUERA_DE_ALCANCE, ResultadoAlcance
 from src.agentes.servicio import extraer_fuentes_respuesta, extraer_severidad_triage
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
@@ -72,6 +73,96 @@ async def test_chat_200_respuesta_mock(
     assert cuerpo["respuesta"].strip()
     assert cuerpo["requiere_revision_humana"] is False
     assert cuerpo["error"] is None
+
+
+@pytest.mark.asyncio
+async def test_chat_rechaza_python_heuristica_sin_ainvoke(
+    cliente_api: AsyncClient,
+    app_api,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Integracion real del guardrail (sin mockear evaluar_alcance_consulta)."""
+    await _sembrar_vinculo_telegram_123(app_api)
+
+    agente_ainvoke_llamado = False
+
+    def _construir_agente_espiado(checkpointer):
+        from src.agentes.agente_taam import construir_agente_taam
+
+        agente = construir_agente_taam(checkpointer)
+        original_ainvoke = agente.ainvoke
+
+        async def _ainvoke_espiado(*args, **kwargs):
+            nonlocal agente_ainvoke_llamado
+            agente_ainvoke_llamado = True
+            return await original_ainvoke(*args, **kwargs)
+
+        agente.ainvoke = _ainvoke_espiado  # type: ignore[method-assign]
+        return agente
+
+    monkeypatch.setattr(
+        "src.agentes.servicio.construir_agente_taam",
+        _construir_agente_espiado,
+    )
+
+    resp = await cliente_api.post(
+        "/chat",
+        json={
+            "session_id": "telegram:123",
+            "mensaje": "¿Cómo hago un hola mundo en Python?",
+        },
+    )
+    assert resp.status_code == 200
+    assert resp.json()["respuesta"] == MENSAJE_FUERA_DE_ALCANCE
+    assert agente_ainvoke_llamado is False
+
+
+@pytest.mark.asyncio
+async def test_chat_rechaza_fuera_alcance_sin_ainvoke_agente(
+    cliente_api: AsyncClient,
+    app_api,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    await _sembrar_vinculo_telegram_123(app_api)
+
+    agente_ainvoke_llamado = False
+
+    async def _alcance_fuera(_mensaje: str, _cfg=None) -> ResultadoAlcance:
+        return ResultadoAlcance(en_alcance=False, motivo="test_fuera")
+
+    def _construir_agente_espiado(checkpointer):
+        from src.agentes.agente_taam import construir_agente_taam
+
+        agente = construir_agente_taam(checkpointer)
+        original_ainvoke = agente.ainvoke
+
+        async def _ainvoke_espiado(*args, **kwargs):
+            nonlocal agente_ainvoke_llamado
+            agente_ainvoke_llamado = True
+            return await original_ainvoke(*args, **kwargs)
+
+        agente.ainvoke = _ainvoke_espiado  # type: ignore[method-assign]
+        return agente
+
+    monkeypatch.setattr(
+        "src.agentes.servicio.evaluar_alcance_consulta",
+        _alcance_fuera,
+    )
+    monkeypatch.setattr(
+        "src.agentes.servicio.construir_agente_taam",
+        _construir_agente_espiado,
+    )
+
+    resp = await cliente_api.post(
+        "/chat",
+        json={
+            "session_id": "telegram:123",
+            "mensaje": "¿Cómo hago un hola mundo en Python?",
+        },
+    )
+    assert resp.status_code == 200
+    assert resp.json()["respuesta"] == MENSAJE_FUERA_DE_ALCANCE
+    assert agente_ainvoke_llamado is False
 
 
 @pytest.mark.asyncio

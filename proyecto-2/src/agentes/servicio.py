@@ -7,7 +7,7 @@ import logging
 import re
 from typing import Any
 
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.types import Command
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -18,8 +18,13 @@ from src.agentes.contexto import (
     establecer_contexto_runtime,
     limpiar_contexto_runtime,
 )
+from src.agentes.guardrails_alcance import (
+    MENSAJE_FUERA_DE_ALCANCE,
+    evaluar_alcance_consulta,
+)
 from src.agentes.tools.esquemas import SeveridadTriage
 from src.agentes.tools.resolver_caso import resumen_caso_para_prompt
+from src.configuracion import obtener_configuracion
 
 _RE_FRAGMENTO_RAG = re.compile(r"^\[(\d+)\]\s*(.+)$", re.MULTILINE)
 _NOMBRE_TOOL_TRIAGE = "clasificar_triage"
@@ -57,6 +62,25 @@ def _normalizar_decision_hitl(decision: str) -> str:
     if valor not in _DECISIONES_HITL:
         raise ValueError(f"decision HITL invalida: {decision!r}")
     return valor
+
+
+async def _persistir_rechazo_alcance(
+    agente: object,
+    *,
+    config: dict[str, Any],
+    mensaje: str,
+) -> dict[str, Any]:
+    """Registra turno humano + rechazo fijo en el checkpointer sin invocar el LLM del agente."""
+    snap = await agente.aget_state(config)  # type: ignore[attr-defined]
+    previos: list[object] = []
+    if snap is not None and snap.values:
+        previos = list(snap.values.get("messages", []))
+    nuevos = previos + [
+        HumanMessage(content=mensaje),
+        AIMessage(content=MENSAJE_FUERA_DE_ALCANCE),
+    ]
+    await agente.aupdate_state(config, {"messages": nuevos})  # type: ignore[attr-defined]
+    return {"messages": nuevos}
 
 
 async def reanudar_hitl_si_pendiente(
@@ -109,6 +133,7 @@ async def invocar_agente(
         async with session_factory() as sesion:
             contexto = await _construir_contexto_invoke(sesion, session_id)
 
+        conf = obtener_configuracion()
         agente = construir_agente_taam(checkpointer)
         config = _config_hilo(session_id)
         await reanudar_hitl_si_pendiente(
@@ -117,6 +142,18 @@ async def invocar_agente(
             contexto=contexto,
             decision="reject",
         )
+        alcance = await evaluar_alcance_consulta(mensaje, conf)
+        if not alcance.en_alcance:
+            logger.info(
+                "guardrail_fuera_alcance session_id=%s motivo=%s",
+                session_id,
+                alcance.motivo,
+            )
+            return await _persistir_rechazo_alcance(
+                agente,
+                config=config,
+                mensaje=mensaje,
+            )
         entrada = {"messages": [HumanMessage(content=mensaje)]}
         return await agente.ainvoke(
             entrada,

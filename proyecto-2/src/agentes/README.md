@@ -48,6 +48,16 @@ Desbloqueo manual sin esperar otro mensaje:
 - Script: `continuar_despues_hitl(session_id="telegram:{chat_id}", decision=...)`.
 - Ultimo recurso: borrar el checkpoint del `thread_id` en Postgres o usar otro chat Telegram (`/start CODIGO`).
 
+## Guardrails de alcance (postoperatorio)
+
+Con `AGENTE_GUARDRAILS_HABILITADO=true` (defecto), cada mensaje del paciente pasa por `evaluar_alcance_consulta` en `guardrails_alcance.py` **antes** del LLM del agente:
+
+1. Heurísticas rápidas (p. ej. programación → rechazo; fiebre/herida → permitir).
+2. Si el mensaje es dudoso y hay `OPENAI_API_KEY`, un clasificador LLM estructurado decide.
+3. Fuera de alcance: se persiste en el checkpointer el mensaje fijo `MENSAJE_FUERA_DE_ALCANCE` sin ejecutar tools ni `ainvoke` completo.
+
+Desactivar en tests locales: `AGENTE_GUARDRAILS_HABILITADO=false`.
+
 ## Invocacion desde servicios
 
 En **Postgres** (produccion / Docker), use ``AsyncPostgresSaver`` (``ainvoke``, ``aupdate_state``, ``aget_state``):

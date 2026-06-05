@@ -110,6 +110,16 @@ class Configuracion(BaseSettings):
         validation_alias="AGENTE_MODELO",
     )
     agente_rag_k: int = Field(default=4, ge=1, le=20, validation_alias="AGENTE_RAG_K")
+    agente_guardrails_habilitado: bool = Field(
+        default=True,
+        validation_alias="AGENTE_GUARDRAILS_HABILITADO",
+        description="Activa filtro de alcance postoperatorio antes del agente (Lili Bot).",
+    )
+    agente_guardrail_modelo: str = Field(
+        default="",
+        validation_alias="AGENTE_GUARDRAIL_MODELO",
+        description="Modelo para clasificar alcance; vacio usa AGENTE_MODELO.",
+    )
     chat_timeout_seg: float = Field(
         default=90.0,
         ge=5.0,

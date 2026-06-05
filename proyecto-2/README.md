@@ -461,7 +461,7 @@ El healthcheck del contenedor **api** solo valida `GET /api/salud`; no ejecuta A
 
 Plantilla: [`.env.example`](.env.example). Base de datos: `DATABASE_URL` (compose suele usar `postgres://…`; el backend lo normaliza a `postgresql+asyncpg://` y quita parámetros de query como `sslmode`, que asyncpg no admite) o bien `POSTGRES_HOST`, `POSTGRES_PORT` (defecto **15433**), `POSTGRES_DB` (`taam`), `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `ADMIN_API_KEY`, `STAFF_JWT_SECRET`, `STAFF_JWT_EXPIRE_HORAS`, `STAFF_DEMO_*_PASSWORD`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
+Otras variables M3: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `QDRANT_URL`, `OPENAI_API_KEY`, `AGENTE_MODELO`, `AGENTE_RAG_K`, `AGENTE_GUARDRAILS_HABILITADO`, `AGENTE_GUARDRAIL_MODELO`, `ADMIN_API_KEY`, `STAFF_JWT_SECRET`, `STAFF_JWT_EXPIRE_HORAS`, `STAFF_DEMO_*_PASSWORD`, `TAAM_CODIGO_EMPAREJAMIENTO_TTL_HORAS`, `TAAM_CODIGO_LONGITUD`, `TAAM_PDF_MAX_MB`, `TAAM_QDRANT_COLLECTION`, `TAAM_CHUNK_SIZE`, `TAAM_CHUNK_OVERLAP`, `EMBEDDING_MODEL`, `INGESTA_REINTENTOS`, `INGESTA_BACKOFF_MAX_SEG`, `ALLOWED_ORIGINS`.
 
 Opcional: `UAO_WORKSPACE_ROOT` apunta al directorio que contiene `data/` (por defecto se infiere como el padre de `proyecto-2/`).
 
@@ -495,7 +495,9 @@ Guía de marcadores, mocks y Postgres opcional: [tests/README.md](tests/README.m
 
 Módulo `src/agentes/`: ver [README del agente](src/agentes/README.md). Verificación rubrica: `./scripts/verificar_stack_m3.sh`.
 
-Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`.
+Variables opcionales: `AGENTE_MODELO` (defecto `openai:gpt-4o-mini`), `AGENTE_RAG_K`, `AGENTE_GUARDRAILS_HABILITADO` (defecto `true`), `AGENTE_GUARDRAIL_MODELO` (vacío = mismo que `AGENTE_MODELO`).
+
+**Alcance del bot (Lili):** antes de cada turno, un guardrail híbrido (heurísticas + clasificador LLM en mensajes dudosos) rechaza preguntas ajenas al seguimiento postoperatorio (programación, finanzas, deportes, etc.) con un mensaje fijo. Las consultas clínicas y saludos breves siguen al agente con tools y RAG. Ver `src/agentes/guardrails_alcance.py`.
 
 ## Demo en vivo (TASK-114)
 
