@@ -120,6 +120,14 @@ class Configuracion(BaseSettings):
         validation_alias="AGENTE_GUARDRAIL_MODELO",
         description="Modelo para clasificar alcance; vacio usa AGENTE_MODELO.",
     )
+    agente_hitl_escalar_habilitado: bool = Field(
+        default=False,
+        validation_alias="AGENTE_HITL_ESCALAR_HABILITADO",
+        description=(
+            "Si true, escalar_a_equipo requiere approve/reject staff (HITL). "
+            "Si false, la alerta se persiste de inmediato."
+        ),
+    )
     chat_timeout_seg: float = Field(
         default=90.0,
         ge=5.0,

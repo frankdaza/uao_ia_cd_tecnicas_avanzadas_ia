@@ -13,6 +13,7 @@ from langgraph.types import Command
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.agentes.agente_taam import construir_agente_taam
+from src.agentes.estado_hitl import hitl_escalar_habilitado_efectivo
 from src.agentes.contexto import (
     ContextoTaam,
     establecer_contexto_runtime,
@@ -134,14 +135,20 @@ async def invocar_agente(
             contexto = await _construir_contexto_invoke(sesion, session_id)
 
         conf = obtener_configuracion()
-        agente = construir_agente_taam(checkpointer)
-        config = _config_hilo(session_id)
-        await reanudar_hitl_si_pendiente(
-            agente,
-            session_id=session_id,
-            contexto=contexto,
-            decision="reject",
+        hitl_habilitado = await hitl_escalar_habilitado_efectivo()
+        agente = construir_agente_taam(
+            checkpointer,
+            cfg=conf,
+            hitl_escalar_habilitado=hitl_habilitado,
         )
+        config = _config_hilo(session_id)
+        if hitl_habilitado:
+            await reanudar_hitl_si_pendiente(
+                agente,
+                session_id=session_id,
+                contexto=contexto,
+                decision="reject",
+            )
         alcance = await evaluar_alcance_consulta(mensaje, conf)
         if not alcance.en_alcance:
             logger.info(
@@ -185,7 +192,12 @@ async def continuar_despues_hitl(
         async with session_factory() as sesion:
             contexto = await _construir_contexto_invoke(sesion, session_id)
 
-        agente = construir_agente_taam(checkpointer)
+        hitl_habilitado = await hitl_escalar_habilitado_efectivo()
+        agente = construir_agente_taam(
+            checkpointer,
+            cfg=obtener_configuracion(),
+            hitl_escalar_habilitado=hitl_habilitado,
+        )
         comando = Command(resume={"decisions": [{"type": decision_norm}]})
         return await agente.ainvoke(
             comando,

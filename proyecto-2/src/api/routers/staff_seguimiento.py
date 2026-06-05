@@ -12,7 +12,9 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.agentes.agente_taam import construir_agente_taam
+from src.agentes.estado_hitl import hitl_escalar_habilitado_efectivo
 from src.agentes.servicio import continuar_despues_hitl, requiere_revision_humana
+from src.configuracion import obtener_configuracion
 from src.api.dependencias import (
     obtener_checkpointer_app,
     obtener_session_factory_app,
@@ -196,7 +198,12 @@ async def reanudar_hitl_caso(
         )
 
     session_id = f"telegram:{vinculo.telegram_chat_id}"
-    agente = construir_agente_taam(checkpointer)
+    hitl_habilitado = await hitl_escalar_habilitado_efectivo()
+    agente = construir_agente_taam(
+        checkpointer,
+        cfg=obtener_configuracion(),
+        hitl_escalar_habilitado=hitl_habilitado,
+    )
     snap = await agente.aget_state({"configurable": {"thread_id": session_id}})
     if snap is None or not snap.next:
         return ReanudarHitlRespuesta(

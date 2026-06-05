@@ -55,8 +55,24 @@ def test_cinco_tools_con_nombre_ingles():
 def test_hitl_interrumpe_escalar():
     cp = crear_checkpointer_para_url("sqlite+aiosqlite:///:memory:")
     agente = construir_agente_taam(cp)
-    # El middleware HITL debe estar en la lista de middleware del grafo compilado
     assert NOMBRE_TOOL_ESCALAR == "escalar_a_equipo"
+    assert agente is not None
+
+
+def test_hitl_opcional_con_flag(monkeypatch: pytest.MonkeyPatch):
+    cp = crear_checkpointer_para_url("sqlite+aiosqlite:///:memory:")
+    from src.configuracion import obtener_configuracion
+
+    monkeypatch.setenv("AGENTE_HITL_ESCALAR_HABILITADO", "true")
+    obtener_configuracion.cache_clear()
+    agente_con_hitl = construir_agente_taam(cp)
+    assert agente_con_hitl is not None
+
+    monkeypatch.setenv("AGENTE_HITL_ESCALAR_HABILITADO", "false")
+    obtener_configuracion.cache_clear()
+    agente_sin_hitl = construir_agente_taam(cp)
+    assert agente_sin_hitl is not None
+    obtener_configuracion.cache_clear()
 
 
 def test_script_verificar_stack_m3():

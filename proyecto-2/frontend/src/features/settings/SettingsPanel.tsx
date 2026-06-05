@@ -17,6 +17,7 @@ const NAV_ADMIN = [
   { path: '/admin/procedimientos', label: 'Catálogo procedimientos' },
   { path: '/admin/medicos', label: 'Médicos' },
   { path: '/admin/recordatorios', label: 'Recordatorios programados' },
+  { path: '/admin/agente-hitl', label: 'Escalamiento clínico (HITL)' },
   { path: '/admin/telegram', label: 'Webhook Telegram' },
 ] as const
 

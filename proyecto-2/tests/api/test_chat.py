@@ -76,6 +76,60 @@ async def test_chat_200_respuesta_mock(
 
 
 @pytest.mark.asyncio
+async def test_chat_crea_alerta_urgente_sin_escalar(
+    cliente_api: AsyncClient,
+    app_api,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Tras el turno, asegurar_alerta_desde_turno persiste alerta si solo hubo clasificacion."""
+    await _sembrar_vinculo_telegram_123(app_api)
+    mensaje = "Tengo mucho sangrado, creo que se me abrio la herida"
+
+    async def _invocar_mock(**_kwargs):
+        from langchain_core.messages import ToolMessage
+
+        return {
+            "messages": [
+                ToolMessage(
+                    content='{"severidad": "urgente", "rationale": "Sangrado detectado."}',
+                    name="clasificar_triage",
+                    tool_call_id="1",
+                ),
+            ]
+        }
+
+    monkeypatch.setattr(
+        "src.api.servicios.chat.invocar_agente",
+        _invocar_mock,
+    )
+
+    resp = await cliente_api.post(
+        "/chat",
+        json={
+            "session_id": "telegram:123",
+            "mensaje": mensaje,
+            "metadata": {"canal": "telegram", "update_id": 100},
+        },
+    )
+    assert resp.status_code == 200
+    cuerpo = resp.json()
+    assert cuerpo["severidad_triage"] == "urgente"
+    assert cuerpo["requiere_revision_humana"] is False
+
+    from sqlalchemy import select
+
+    from src.persistencia.modelos import AlertaTriage
+
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        res = await sesion.execute(select(AlertaTriage))
+        filas = list(res.scalars().all())
+    assert len(filas) == 1
+    assert filas[0].severidad == "urgente"
+    assert filas[0].mensaje_paciente_ref == mensaje
+
+
+@pytest.mark.asyncio
 async def test_chat_rechaza_python_heuristica_sin_ainvoke(
     cliente_api: AsyncClient,
     app_api,
@@ -86,10 +140,14 @@ async def test_chat_rechaza_python_heuristica_sin_ainvoke(
 
     agente_ainvoke_llamado = False
 
-    def _construir_agente_espiado(checkpointer):
+    def _construir_agente_espiado(checkpointer, cfg=None, hitl_escalar_habilitado=None):
         from src.agentes.agente_taam import construir_agente_taam
 
-        agente = construir_agente_taam(checkpointer)
+        agente = construir_agente_taam(
+            checkpointer,
+            cfg=cfg,
+            hitl_escalar_habilitado=hitl_escalar_habilitado,
+        )
         original_ainvoke = agente.ainvoke
 
         async def _ainvoke_espiado(*args, **kwargs):
@@ -130,10 +188,14 @@ async def test_chat_rechaza_fuera_alcance_sin_ainvoke_agente(
     async def _alcance_fuera(_mensaje: str, _cfg=None) -> ResultadoAlcance:
         return ResultadoAlcance(en_alcance=False, motivo="test_fuera")
 
-    def _construir_agente_espiado(checkpointer):
+    def _construir_agente_espiado(checkpointer, cfg=None, hitl_escalar_habilitado=None):
         from src.agentes.agente_taam import construir_agente_taam
 
-        agente = construir_agente_taam(checkpointer)
+        agente = construir_agente_taam(
+            checkpointer,
+            cfg=cfg,
+            hitl_escalar_habilitado=hitl_escalar_habilitado,
+        )
         original_ainvoke = agente.ainvoke
 
         async def _ainvoke_espiado(*args, **kwargs):

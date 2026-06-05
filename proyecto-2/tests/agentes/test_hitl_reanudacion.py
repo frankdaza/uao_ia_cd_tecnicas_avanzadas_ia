@@ -51,6 +51,10 @@ async def test_reanudar_hitl_si_pendiente_envia_command() -> None:
 
 @pytest.mark.asyncio
 async def test_invocar_agente_reanuda_antes_de_human_message() -> None:
+    from src.agentes.estado_hitl import AgenteHitlEstado, registrar_agente_hitl_runtime
+
+    registrar_agente_hitl_runtime(AgenteHitlEstado(habilitado=True))
+
     invocaciones: list[object] = []
 
     class AgenteMock:
@@ -92,3 +96,4 @@ async def test_invocar_agente_reanuda_antes_de_human_message() -> None:
     assert "messages" in invocaciones[1]
     assert isinstance(invocaciones[1]["messages"][0], HumanMessage)
     assert estado["messages"][0].content == "Respuesta tras reanudar."
+    registrar_agente_hitl_runtime(None)

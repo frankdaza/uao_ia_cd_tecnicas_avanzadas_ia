@@ -43,6 +43,7 @@ class RepositorioConfigOperativaTaam:
             recordatorios_job_interval_seg=_acotar_intervalo_seg(
                 cfg.recordatorios_job_interval_seg
             ),
+            agente_hitl_escalar_habilitado=cfg.agente_hitl_escalar_habilitado,
             updated_at=datetime.now(UTC),
         )
         self._sesion.add(fila)
@@ -62,6 +63,19 @@ class RepositorioConfigOperativaTaam:
             fila.recordatorios_job_habilitado = habilitado
         if interval_seg is not None:
             fila.recordatorios_job_interval_seg = _acotar_intervalo_seg(interval_seg)
+        fila.updated_at = datetime.now(UTC)
+        await self._sesion.flush()
+        return fila
+
+    async def actualizar_agente_hitl(
+        self,
+        *,
+        habilitado: bool,
+    ) -> ConfigOperativaTaam:
+        fila = await self.obtener_para_actualizar()
+        if fila is None:
+            raise ValueError("config_operativa_taam no inicializada")
+        fila.agente_hitl_escalar_habilitado = habilitado
         fila.updated_at = datetime.now(UTC)
         await self._sesion.flush()
         return fila

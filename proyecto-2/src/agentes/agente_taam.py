@@ -18,29 +18,40 @@ NOMBRE_TOOL_ESCALAR = "escalar_a_equipo"
 def construir_agente_taam(
     checkpointer: BaseCheckpointSaver,
     cfg: Configuracion | None = None,
+    *,
+    hitl_escalar_habilitado: bool | None = None,
 ):
     """
-    Agente LangChain con tools estrictas, prompt dinamico y HITL en escalamiento.
+    Agente LangChain con tools estrictas, prompt dinamico y HITL opcional en escalamiento.
 
-    ``HumanInTheLoopMiddleware`` interrumpe antes de ejecutar ``escalar_a_equipo``
-    (severidad urgente / red flags UC-MVP-03).
+    Con ``hitl_escalar_habilitado=true``, ``HumanInTheLoopMiddleware`` interrumpe
+    antes de ejecutar ``escalar_a_equipo`` (UC-MVP-03). Por defecto el escalamiento
+    persiste la alerta sin interrupcion.
     """
     conf = cfg or obtener_configuracion()
+    usar_hitl = (
+        conf.agente_hitl_escalar_habilitado
+        if hitl_escalar_habilitado is None
+        else hitl_escalar_habilitado
+    )
     modelo = crear_modelo_agente(conf)
     tools = crear_tools_taam()
-    hitl = HumanInTheLoopMiddleware(
-        interrupt_on={
-            NOMBRE_TOOL_ESCALAR: {
-                "allowed_decisions": ["approve", "reject"],
+    middleware: list = [prompt_dinamico_taam]
+    if usar_hitl:
+        hitl = HumanInTheLoopMiddleware(
+            interrupt_on={
+                NOMBRE_TOOL_ESCALAR: {
+                    "allowed_decisions": ["approve", "reject"],
+                },
             },
-        },
-        description_prefix="Escalamiento clinico pendiente de aprobacion",
-    )
+            description_prefix="Escalamiento clinico pendiente de aprobacion",
+        )
+        middleware.append(hitl)
     return create_agent(
         modelo,
         tools=tools,
         checkpointer=checkpointer,
-        middleware=[prompt_dinamico_taam, hitl],
+        middleware=middleware,
         context_schema=ContextoTaam,
         name="taam_postoperatorio",
     )

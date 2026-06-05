@@ -8,6 +8,8 @@ import { AdminMedicosRoutes } from '@/features/admin-medicos/AdminMedicosRoutes'
 import { esRutaAdminMedicos } from '@/features/admin-medicos/adminMedicosPaths'
 import { AdminProcedimientosRoutes } from '@/features/admin-procedimientos/AdminProcedimientosRoutes'
 import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/adminProcedimientosPaths'
+import { AdminAgenteHitlRoutes } from '@/features/admin-agente-hitl/AdminAgenteHitlRoutes'
+import { esRutaAdminAgenteHitl } from '@/features/admin-agente-hitl/adminAgenteHitlPaths'
 import { AdminRecordatoriosRoutes } from '@/features/admin-recordatorios/AdminRecordatoriosRoutes'
 import { esRutaAdminRecordatorios } from '@/features/admin-recordatorios/adminRecordatoriosPaths'
 import { AdminTelegramRoutes } from '@/features/admin-telegram/AdminTelegramRoutes'
@@ -37,6 +39,10 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
 
   if (esRutaAdminRecordatorios(path)) {
     return <AdminRecordatoriosRoutes />
+  }
+
+  if (esRutaAdminAgenteHitl(path)) {
+    return <AdminAgenteHitlRoutes />
   }
 
   if (esRutaAdminTelegram(path)) {
@@ -72,6 +78,7 @@ function AppAuthenticated() {
       esRutaAdminProcedimientos(path) ||
       esRutaAdminMedicos(path) ||
       esRutaAdminRecordatorios(path) ||
+      esRutaAdminAgenteHitl(path) ||
       esRutaAdminTelegram(path)
     ) {
       if (!adminDenegadoRef.current) {

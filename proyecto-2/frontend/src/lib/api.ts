@@ -22,6 +22,8 @@ import type {
   SeveridadTriage,
   StaffLoginBody,
   DisparoRecordatorioRespuesta,
+  AgenteHitlConfig,
+  AgenteHitlConfigParche,
   RecordatoriosJobConfig,
   RecordatoriosJobConfigParche,
   StaffLoginResponse,
@@ -46,6 +48,7 @@ import {
   ProcedimientoSchema,
   SaludSchema,
   DisparoRecordatorioRespuestaSchema,
+  AgenteHitlConfigSchema,
   RecordatoriosJobConfigSchema,
   StaffLoginResponseSchema,
   TelegramWebhookEstadoSchema,
@@ -274,6 +277,23 @@ export async function patchRecordatoriosJobConfig(
     body: JSON.stringify(body),
   })
   return parseJson(res, RecordatoriosJobConfigSchema)
+}
+
+/** Estado del HITL de escalamiento del agente (solo admin). */
+export async function fetchAgenteHitlConfig(): Promise<AgenteHitlConfig> {
+  const res = await apiFetch('/admin/agente-hitl')
+  return parseJson(res, AgenteHitlConfigSchema)
+}
+
+/** Actualiza el HITL del agente en caliente (solo admin). */
+export async function patchAgenteHitlConfig(
+  body: AgenteHitlConfigParche,
+): Promise<AgenteHitlConfig> {
+  const res = await apiFetch('/admin/agente-hitl', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, AgenteHitlConfigSchema)
 }
 
 /** Estado del webhook registrado en Telegram (solo admin). */

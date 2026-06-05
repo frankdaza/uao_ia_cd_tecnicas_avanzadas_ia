@@ -242,6 +242,18 @@ export type RecordatoriosJobConfigParche = {
   interval_seg?: number
 }
 
+/** Configuracion HITL del agente (admin). */
+export const AgenteHitlConfigSchema = z.object({
+  habilitado: z.boolean(),
+  updated_at: z.string().nullable(),
+})
+
+export type AgenteHitlConfig = z.infer<typeof AgenteHitlConfigSchema>
+
+export type AgenteHitlConfigParche = {
+  habilitado: boolean
+}
+
 /** Estado del webhook segun getWebhookInfo (admin). */
 export const TelegramWebhookEstadoSchema = z.object({
   url: z.string(),

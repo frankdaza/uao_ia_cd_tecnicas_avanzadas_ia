@@ -9,7 +9,10 @@ from src.agentes.tools.esquemas import EntradaClasificarTriage, SalidaClasificar
 _RED_FLAGS = (
     "fiebre alta",
     "fiebre",
+    "mucho sangrado",
     "sangrado abundante",
+    "se abrio la herida",
+    "herida abierta",
     "sangrado",
     "dificultad para respirar",
     "no puedo respirar",

@@ -19,6 +19,10 @@ from src.agentes.servicio import (
     requiere_revision_humana,
 )
 from src.api.esquemas_chat import ChatPeticion, ChatRespuesta, FuenteChat
+from src.api.servicios.alertas_triage_auto import (
+    asegurar_alerta_desde_turno,
+    resolver_severidad_turno,
+)
 from src.configuracion import Configuracion, obtener_configuracion
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
 
@@ -118,10 +122,20 @@ async def procesar_turno_chat(
             detail=_MENSAJE_TIMEOUT,
         )
 
+    await asegurar_alerta_desde_turno(
+        session_factory=session_factory,
+        session_id=peticion.session_id,
+        mensaje_paciente=peticion.mensaje,
+        estado=estado,
+    )
+
     fuentes_raw = extraer_fuentes_respuesta(estado, max_fuentes=conf.agente_rag_k)
+    severidad = extraer_severidad_triage(estado)
+    if severidad is None:
+        severidad, _ = resolver_severidad_turno(estado, peticion.mensaje)
     return ChatRespuesta(
         respuesta=extraer_texto_respuesta(estado),
-        severidad_triage=extraer_severidad_triage(estado),
+        severidad_triage=severidad,
         requiere_revision_humana=requiere_revision_humana(estado),
         fuentes=[FuenteChat(**f) for f in fuentes_raw],
         error=None,

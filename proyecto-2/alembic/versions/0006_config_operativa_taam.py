@@ -35,6 +35,12 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column(
+            "agente_hitl_escalar_habilitado",
+            sa.Boolean(),
+            server_default=sa.text("false"),
+            nullable=False,
+        ),
+        sa.Column(
             "updated_at",
             sa.DateTime(timezone=True),
             server_default=sa.text("now()"),

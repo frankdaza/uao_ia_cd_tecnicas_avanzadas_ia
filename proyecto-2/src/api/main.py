@@ -17,7 +17,12 @@ from langgraph.checkpoint.memory import MemorySaver
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine
 
+from src.agentes.estado_hitl import (
+    inicializar_agente_hitl_estado,
+    registrar_agente_hitl_runtime,
+)
 from src.api.routers import (
+    admin_agente_hitl,
     admin_medicos,
     admin_procedimientos,
     admin_recordatorios_job,
@@ -76,6 +81,11 @@ async def _arrancar_recursos_app(
         app.state.session_factory,
         cfg,
     )
+    app.state.agente_hitl = await inicializar_agente_hitl_estado(
+        app.state.session_factory,
+        cfg,
+    )
+    registrar_agente_hitl_runtime(app.state.agente_hitl)
 
     detener_recordatorios = asyncio.Event()
     tarea_recordatorios = asyncio.create_task(
@@ -152,6 +162,7 @@ def crear_app(*, url_bd: str | None = None) -> FastAPI:
     app.include_router(admin_procedimientos.router, prefix="/api")
     app.include_router(admin_medicos.router, prefix="/api")
     app.include_router(admin_recordatorios_job.router, prefix="/api")
+    app.include_router(admin_agente_hitl.router, prefix="/api")
     app.include_router(admin_telegram_webhook.router, prefix="/api")
     app.include_router(staff_casos.router, prefix="/api")
     app.include_router(staff_seguimiento.router, prefix="/api")

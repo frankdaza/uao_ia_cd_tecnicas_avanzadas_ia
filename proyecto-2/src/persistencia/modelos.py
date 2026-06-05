@@ -410,6 +410,11 @@ class ConfigOperativaTaam(Base):
         nullable=False,
         server_default=text("60"),
     )
+    agente_hitl_escalar_habilitado: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        server_default=text("false"),
+    )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
