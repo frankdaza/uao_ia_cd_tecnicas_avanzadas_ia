@@ -10,6 +10,8 @@ import { AdminProcedimientosRoutes } from '@/features/admin-procedimientos/Admin
 import { esRutaAdminProcedimientos } from '@/features/admin-procedimientos/adminProcedimientosPaths'
 import { AdminRecordatoriosRoutes } from '@/features/admin-recordatorios/AdminRecordatoriosRoutes'
 import { esRutaAdminRecordatorios } from '@/features/admin-recordatorios/adminRecordatoriosPaths'
+import { AdminTelegramRoutes } from '@/features/admin-telegram/AdminTelegramRoutes'
+import { esRutaAdminTelegram } from '@/features/admin-telegram/adminTelegramPaths'
 import { AuthProvider, useAuth } from '@/features/auth/AuthContext'
 import { StaffLoginScreen } from '@/features/auth/StaffLoginScreen'
 import { SettingsPanel } from '@/features/settings/SettingsPanel'
@@ -35,6 +37,10 @@ function AppRoutes({ path, onNavigate }: { path: string; onNavigate: (path: stri
 
   if (esRutaAdminRecordatorios(path)) {
     return <AdminRecordatoriosRoutes />
+  }
+
+  if (esRutaAdminTelegram(path)) {
+    return <AdminTelegramRoutes />
   }
 
   if (esRutaAdminMedicos(path)) {
@@ -65,7 +71,8 @@ function AppAuthenticated() {
     if (
       esRutaAdminProcedimientos(path) ||
       esRutaAdminMedicos(path) ||
-      esRutaAdminRecordatorios(path)
+      esRutaAdminRecordatorios(path) ||
+      esRutaAdminTelegram(path)
     ) {
       if (!adminDenegadoRef.current) {
         adminDenegadoRef.current = true

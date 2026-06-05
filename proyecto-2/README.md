@@ -368,6 +368,9 @@ Variables obligatorias para integración activa:
 
 Registrar webhook (URL pública **HTTPS**; en local use ngrok o Cloudflare Tunnel):
 
+1. **Panel admin (recomendado):** inicie sesión con rol **admin** → barra lateral **Administración** → **Webhook Telegram** (`/admin/telegram`). Pegue la URL del túnel (debe terminar en `/api/integracion/telegram/webhook`) y pulse **Registrar webhook**. La pantalla consulta el estado actual con `getWebhookInfo` de Telegram.
+2. **CLI** (misma operación, útil en CI o sin UI):
+
 ```bash
 cd proyecto-2
 export TELEGRAM_BOT_TOKEN='...'
@@ -375,6 +378,8 @@ export TELEGRAM_WEBHOOK_SECRET='...'
 uv run python -m scripts.configurar_webhook_telegram \
   --url 'https://TU-TUNEL.example/api/integracion/telegram/webhook'
 ```
+
+API admin (JWT `rol=admin` o `X-Admin-Key`): `GET` / `POST` `/api/admin/telegram-webhook`.
 
 **Polling:** no está implementado en el producto. Sin túnel HTTPS solo puede probarse con `httpx` contra el webhook (tests en `tests/api/test_telegram_webhook.py`) o enviando updates JSON manualmente.
 
@@ -505,7 +510,7 @@ Guion minuto a minuto: [GUION-DEMO-TAAM.md](../backlog/docs/usecases/GUION-DEMO-
 
 **Preparación:** seguir la [guía paso a paso](#guía-paso-a-paso-desarrollo-local) hasta el paso 5 con `sembrar_demo_taam` (y `--con-ingesta` si necesita RAG en vivo). Login panel: usuarios de [Usuarios de prueba](#usuarios-de-prueba-staff-demo) (`123456789`); flujo clínico típico con `clinico@demo.taam` y caso `PAC-DEMO-001`.
 
-**Telegram:** registrar webhook HTTPS (`scripts/configurar_webhook_telegram.py`). Caso B: `/start DEMO2X`. En **tests**, el agente se mockea; en demo en vivo use API real según `.env`.
+**Telegram:** registrar webhook HTTPS (panel **Administración → Webhook Telegram** o `scripts/configurar_webhook_telegram.py`). Caso B: `/start DEMO2X`. En **tests**, el agente se mockea; en demo en vivo use API real según `.env`.
 
 **Frontend:** `cd frontend && pnpm dev` → http://127.0.0.1:5174/login .
 

@@ -234,6 +234,31 @@ export type RecordatoriosJobConfigParche = {
   interval_seg?: number
 }
 
+/** Estado del webhook segun getWebhookInfo (admin). */
+export const TelegramWebhookEstadoSchema = z.object({
+  url: z.string(),
+  configurado: z.boolean(),
+  pending_update_count: z.number().int().min(0),
+  last_error_message: z.string().nullable(),
+  last_error_date: z.number().int().nullable(),
+})
+
+export type TelegramWebhookEstado = z.infer<typeof TelegramWebhookEstadoSchema>
+
+export const TelegramWebhookRegistrarRespuestaSchema = z.object({
+  ok: z.boolean(),
+  url: z.string(),
+})
+
+export type TelegramWebhookRegistrarRespuesta = z.infer<
+  typeof TelegramWebhookRegistrarRespuestaSchema
+>
+
+export type TelegramWebhookRegistrarCuerpo = {
+  url: string
+  drop_pending_updates?: boolean
+}
+
 /** Resultado de POST .../disparar-recordatorio-prueba (demo UC-MVP-04). */
 export const DisparoRecordatorioRespuestaSchema = z.object({
   recordatorio_id: z.uuid().nullable(),

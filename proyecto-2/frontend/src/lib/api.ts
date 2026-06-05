@@ -24,6 +24,9 @@ import type {
   RecordatoriosJobConfig,
   RecordatoriosJobConfigParche,
   StaffLoginResponse,
+  TelegramWebhookEstado,
+  TelegramWebhookRegistrarCuerpo,
+  TelegramWebhookRegistrarRespuesta,
 } from './schemas'
 import {
   AlertaTriageSchema,
@@ -43,6 +46,8 @@ import {
   DisparoRecordatorioRespuestaSchema,
   RecordatoriosJobConfigSchema,
   StaffLoginResponseSchema,
+  TelegramWebhookEstadoSchema,
+  TelegramWebhookRegistrarRespuestaSchema,
 } from './schemas'
 
 const BASE = '/api'
@@ -267,6 +272,23 @@ export async function patchRecordatoriosJobConfig(
     body: JSON.stringify(body),
   })
   return parseJson(res, RecordatoriosJobConfigSchema)
+}
+
+/** Estado del webhook registrado en Telegram (solo admin). */
+export async function fetchTelegramWebhookEstado(): Promise<TelegramWebhookEstado> {
+  const res = await apiFetch('/admin/telegram-webhook')
+  return parseJson(res, TelegramWebhookEstadoSchema)
+}
+
+/** Registra la URL del webhook en Telegram (setWebhook, solo admin). */
+export async function registrarTelegramWebhook(
+  body: TelegramWebhookRegistrarCuerpo,
+): Promise<TelegramWebhookRegistrarRespuesta> {
+  const res = await apiFetch('/admin/telegram-webhook', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  return parseJson(res, TelegramWebhookRegistrarRespuestaSchema)
 }
 
 /** Tipos indexados para select de nuevo caso (UC-MVP-02). */
