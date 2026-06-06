@@ -6,7 +6,8 @@ from datetime import UTC, datetime
 
 import pytest
 from httpx import AsyncClient
-from langchain_core.messages import AIMessage
+from sqlalchemy import select
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
@@ -268,3 +269,161 @@ async def test_idempotencia_update_id(
         assert resp.status_code == 200
 
     assert len(mensajes_telegram_enviados) == 1
+
+
+def _update_foto(
+    *,
+    update_id: int,
+    chat_id: int,
+    caption: str = "Herida con sangre",
+) -> dict:
+    return {
+        "update_id": update_id,
+        "message": {
+            "message_id": update_id * 10 + 1,
+            "date": 1_700_000_000,
+            "chat": {"id": chat_id, "type": "private"},
+            "from": {"id": chat_id, "is_bot": False, "first_name": "Paciente"},
+            "photo": [
+                {
+                    "file_id": "foto-small",
+                    "file_unique_id": "uniq-s",
+                    "width": 90,
+                    "height": 90,
+                    "file_size": 1000,
+                },
+                {
+                    "file_id": "foto-large",
+                    "file_unique_id": "uniq-l",
+                    "width": 800,
+                    "height": 600,
+                    "file_size": 40000,
+                },
+            ],
+            "caption": caption,
+        },
+    }
+
+
+@pytest.mark.asyncio
+async def test_mensaje_foto_vinculado_descarga_y_responde(
+    cliente_api: AsyncClient,
+    app_api,
+    cabecera_telegram: dict[str, str],
+    mensajes_telegram_enviados: list[tuple[int, str]],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    from datetime import date
+
+    from src import rutas_workspace
+    from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
+    from src.persistencia.repositorios.tipos_procedimiento import RepositorioTiposProcedimiento
+
+    monkeypatch.setattr(
+        rutas_workspace,
+        "resolver_ruta_workspace",
+        lambda rel: tmp_path / rel,
+    )
+
+    chat_id = 555666
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo_t = RepositorioTiposProcedimiento(sesion)
+        tipo = await repo_t.crear(codigo="tg-foto", nombre="Proc foto")
+        repo_c = RepositorioCasosPostoperatorio(sesion)
+        caso = await repo_c.crear(
+            paciente_doc_id="CC-TG-FOTO",
+            paciente_nombre="Paciente Foto",
+            tipo_procedimiento_id=tipo.id,
+            cirujano_id="DOC-FOTO",
+            cirujano_nombre="Dr. Foto",
+            fecha_cirugia=date(2026, 6, 1),
+        )
+        repo_v = RepositorioVinculosTelegram(sesion)
+        await repo_v.crear(
+            caso_id=caso.id,
+            telegram_chat_id=chat_id,
+            vinculado_at=datetime.now(UTC),
+        )
+        await sesion.commit()
+
+    async def _descargar_mock(self, file_id: str) -> bytes:
+        assert file_id == "foto-large"
+        return b"\xff\xd8\xff\xe0" + b"\x00" * 200
+
+    monkeypatch.setattr(
+        "src.integracion.telegram.cliente.ClienteTelegram.descargar_por_file_id",
+        _descargar_mock,
+    )
+
+    caption_urgente = (
+        "Se me abrió la herida y estoy sangrando abundantemente, ayuda!"
+    )
+
+    async def _invocar_mock(**kwargs):
+        assert caption_urgente in kwargs.get("mensaje", "")
+        assert kwargs.get("adjuntos_meta") is not None
+        return {
+            "messages": [
+                HumanMessage(content="Tengo dolor"),
+                ToolMessage(
+                    content='{"alerta_id": "vieja", "mensaje": "ok"}',
+                    name="escalar_a_equipo",
+                    tool_call_id="1",
+                ),
+                AIMessage(content="Seguimiento"),
+                HumanMessage(content=caption_urgente),
+                AIMessage(
+                    content=(
+                        "### Atencion Urgente\n"
+                        "Aplique presion y acuda a urgencias si persiste."
+                    ),
+                ),
+            ]
+        }
+
+    monkeypatch.setattr(
+        "src.api.servicios.chat.invocar_agente",
+        _invocar_mock,
+    )
+
+    resp = await cliente_api.post(
+        RUTA_WEBHOOK,
+        headers=cabecera_telegram,
+        json=_update_foto(
+            update_id=501,
+            chat_id=chat_id,
+            caption=caption_urgente,
+        ),
+    )
+    assert resp.status_code == 200
+    assert len(mensajes_telegram_enviados) == 1
+    texto_enviado = mensajes_telegram_enviados[0][1].lower()
+    assert "recibimos su imagen" in texto_enviado
+    assert "presion" in texto_enviado or "urgencias" in texto_enviado
+
+    async with factory() as sesion:
+        from src.persistencia.repositorios.adjuntos_mensaje import RepositorioAdjuntosMensaje
+
+        repo_adj = RepositorioAdjuntosMensaje(sesion)
+        filas = await repo_adj.listar_por_caso(caso.id)
+        assert len(filas) == 1
+        assert filas[0].tipo == "imagen"
+        assert filas[0].caption == caption_urgente
+
+        from src.persistencia.modelos import AlertaTriage
+
+        res_alertas = await sesion.execute(select(AlertaTriage))
+        alertas = list(res_alertas.scalars().all())
+        assert len(alertas) == 1
+        assert alertas[0].severidad == "urgente"
+        assert alertas[0].mensaje_paciente_ref == caption_urgente
+
+        from src.persistencia.modelos import AlertaAdjunto
+
+        res_vinculo = await sesion.execute(select(AlertaAdjunto))
+        vinculos = list(res_vinculo.scalars().all())
+        assert len(vinculos) == 1
+        assert vinculos[0].adjunto_id == filas[0].id
+        assert vinculos[0].alerta_id == alertas[0].id

@@ -10,10 +10,13 @@ from fastapi import HTTPException, status as estado_http
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from src.agentes.contexto import parsear_session_telegram
+from src.agentes.contexto import (
+    establecer_adjuntos_turno_runtime,
+    limpiar_adjuntos_turno_runtime,
+    parsear_session_telegram,
+)
 from src.agentes.servicio import (
     extraer_fuentes_respuesta,
-    extraer_severidad_triage,
     extraer_texto_respuesta,
     invocar_agente,
     requiere_revision_humana,
@@ -91,6 +94,19 @@ async def procesar_turno_chat(
         peticion.metadata.canal if peticion.metadata else None,
     )
 
+    adjunto_ids = (
+        list(peticion.metadata.adjunto_ids)
+        if peticion.metadata and peticion.metadata.adjunto_ids
+        else []
+    )
+    adjuntos_meta = (
+        [{"id": str(aid), "tipo": "multimedia"} for aid in adjunto_ids]
+        if adjunto_ids
+        else None
+    )
+    if adjunto_ids:
+        establecer_adjuntos_turno_runtime(adjunto_ids)
+
     try:
         estado: dict[str, Any] = await asyncio.wait_for(
             invocar_agente(
@@ -98,6 +114,7 @@ async def procesar_turno_chat(
                 checkpointer=checkpointer,
                 session_id=peticion.session_id,
                 mensaje=peticion.mensaje,
+                adjuntos_meta=adjuntos_meta,
             ),
             timeout=conf.chat_timeout_seg,
         )
@@ -122,17 +139,18 @@ async def procesar_turno_chat(
             detail=_MENSAJE_TIMEOUT,
         )
 
-    await asegurar_alerta_desde_turno(
-        session_factory=session_factory,
-        session_id=peticion.session_id,
-        mensaje_paciente=peticion.mensaje,
-        estado=estado,
-    )
+    try:
+        await asegurar_alerta_desde_turno(
+            session_factory=session_factory,
+            session_id=peticion.session_id,
+            mensaje_paciente=peticion.mensaje,
+            estado=estado,
+        )
+    finally:
+        limpiar_adjuntos_turno_runtime()
 
     fuentes_raw = extraer_fuentes_respuesta(estado, max_fuentes=conf.agente_rag_k)
-    severidad = extraer_severidad_triage(estado)
-    if severidad is None:
-        severidad, _ = resolver_severidad_turno(estado, peticion.mensaje)
+    severidad, _ = resolver_severidad_turno(estado, peticion.mensaje)
     return ChatRespuesta(
         respuesta=extraer_texto_respuesta(estado),
         severidad_triage=severidad,

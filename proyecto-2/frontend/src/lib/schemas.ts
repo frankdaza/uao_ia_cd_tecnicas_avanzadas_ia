@@ -171,6 +171,16 @@ export const SeveridadTriageSchema = z.enum(['info', 'seguimiento', 'urgente'])
 export type SeveridadTriage = z.infer<typeof SeveridadTriageSchema>
 
 /** Alerta en bandeja staff (GET/PATCH /api/staff/alertas). */
+export const AdjuntoMensajeSchema = z.object({
+  id: z.uuid(),
+  tipo: z.enum(['imagen', 'video', 'audio']),
+  mime_type: z.string(),
+  caption: z.string().nullable(),
+  url: z.string(),
+})
+
+export type AdjuntoMensaje = z.infer<typeof AdjuntoMensajeSchema>
+
 export const AlertaTriageSchema = z.object({
   id: z.uuid(),
   caso_id: z.uuid(),
@@ -183,6 +193,7 @@ export const AlertaTriageSchema = z.object({
   revisado_at: z.string().nullable(),
   revisado_staff_id: z.uuid().nullable(),
   created_at: z.string(),
+  adjuntos: z.array(AdjuntoMensajeSchema).default([]),
 })
 
 export type AlertaTriage = z.infer<typeof AlertaTriageSchema>
@@ -200,6 +211,7 @@ export const MensajeConversacionSchema = z.object({
   rol: z.enum(['human', 'assistant']),
   contenido: z.string(),
   indice: z.number().int(),
+  adjuntos: z.array(AdjuntoMensajeSchema).default([]),
 })
 
 export type MensajeConversacion = z.infer<typeof MensajeConversacionSchema>
@@ -219,6 +231,7 @@ export const CasoResumenSeguimientoSchema = z.object({
   ultima_severidad: SeveridadTriageSchema.nullable(),
   ultima_alerta_resumen: z.string().nullable(),
   ultima_alerta_created_at: z.string().nullable(),
+  ultima_alerta_adjuntos: z.array(AdjuntoMensajeSchema).default([]),
   conteo_mensajes: z.number().int(),
   proximo_recordatorio_at: z.string().nullable(),
   proximo_recordatorio_estado: z.string().nullable(),

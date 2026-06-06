@@ -34,12 +34,23 @@ class ReanudarHitlRespuesta(BaseModel):
     )
 
 
+class AdjuntoMensajeVista(BaseModel):
+    """Adjunto multimedia de un mensaje del paciente."""
+
+    id: uuid.UUID
+    tipo: Literal["imagen", "video", "audio"]
+    mime_type: str
+    caption: str | None = None
+    url: str = Field(description="Ruta autenticada GET /api/staff/adjuntos/{id}")
+
+
 class MensajeConversacionVista(BaseModel):
     """Mensaje humano o del asistente en el hilo Telegram."""
 
     rol: Literal["human", "assistant"]
     contenido: str
     indice: int = Field(ge=0, description="Orden de aparicion en el hilo")
+    adjuntos: list[AdjuntoMensajeVista] = Field(default_factory=list)
 
 
 class ConversacionCasoRespuesta(BaseModel):
@@ -61,6 +72,7 @@ class AlertaTriageVista(BaseModel):
     revisado_at: datetime | None
     revisado_staff_id: uuid.UUID | None
     created_at: datetime
+    adjuntos: list[AdjuntoMensajeVista] = Field(default_factory=list)
 
 
 class ListadoAlertasRespuesta(BaseModel):
@@ -74,6 +86,7 @@ class CasoResumenSeguimientoRespuesta(BaseModel):
     ultima_severidad: str | None = None
     ultima_alerta_resumen: str | None = None
     ultima_alerta_created_at: datetime | None = None
+    ultima_alerta_adjuntos: list[AdjuntoMensajeVista] = Field(default_factory=list)
     conteo_mensajes: int = 0
     proximo_recordatorio_at: datetime | None = None
     proximo_recordatorio_estado: str | None = None

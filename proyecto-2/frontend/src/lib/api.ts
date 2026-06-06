@@ -394,6 +394,18 @@ export async function markAlertaRevisada(alertaId: string): Promise<AlertaTriage
 }
 
 /** Historial de conversación paciente-bot por caso. */
+/** Descarga binaria de un adjunto staff (imagen, video o audio). */
+export async function fetchStaffAdjuntoBlob(adjuntoId: string): Promise<Blob> {
+  const res = await apiFetch(`/staff/adjuntos/${adjuntoId}`)
+  if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      authInvalidHandler?.()
+    }
+    throw new ApiError(`Error al cargar adjunto: ${res.status}`, res.status)
+  }
+  return res.blob()
+}
+
 export async function getStaffConversacion(casoId: string): Promise<ConversacionCaso> {
   const res = await apiFetch(`/staff/casos/${casoId}/conversacion`)
   return parseJson(res, ConversacionCasoSchema)

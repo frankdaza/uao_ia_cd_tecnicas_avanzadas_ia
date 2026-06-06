@@ -46,6 +46,18 @@ def test_clasificar_triage_mucho_sangrado():
     assert salida.severidad == "urgente"
 
 
+def test_clasificar_triage_caption_sangrando_abundantemente():
+    salida = clasificar_triage.invoke(
+        {
+            "sintomas_descritos": (
+                "Se me abrió la herida y estoy sangrando abundantemente, ayuda!"
+            ),
+        }
+    )
+    assert salida.severidad == "urgente"
+    assert salida.rationale
+
+
 @pytest.mark.asyncio
 async def test_escalar_a_equipo_crea_alerta(
     factory_sqlite,

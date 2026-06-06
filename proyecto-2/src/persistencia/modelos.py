@@ -33,6 +33,7 @@ SEVERIDADES_TRIAGE = ("info", "seguimiento", "urgente")
 TIPOS_PLANTILLA = ("medicacion", "terapia", "control")
 ESTADOS_RECORDATORIO = ("pendiente", "enviado", "cancelado", "error")
 ROLES_STAFF = ("asistente", "clinico", "admin")
+TIPOS_ADJUNTO_MENSAJE = ("imagen", "video", "audio")
 
 
 class Base(DeclarativeBase):
@@ -164,6 +165,7 @@ class CasoPostoperatorio(Base):
     vinculos_telegram: Mapped[list[VinculoTelegram]] = relationship(back_populates="caso")
     alertas: Mapped[list[AlertaTriage]] = relationship(back_populates="caso")
     recordatorios: Mapped[list[RecordatorioEnviado]] = relationship(back_populates="caso")
+    adjuntos_mensaje: Mapped[list["AdjuntoMensaje"]] = relationship(back_populates="caso")
 
 
 class VinculoTelegram(Base):
@@ -281,6 +283,76 @@ class AlertaTriage(Base):
     revisado_por: Mapped["UsuarioStaff | None"] = relationship(
         "UsuarioStaff",
         foreign_keys=[revisado_staff_id],
+    )
+    adjuntos: Mapped[list["AdjuntoMensaje"]] = relationship(
+        secondary="alertas_adjuntos",
+        back_populates="alertas",
+    )
+
+
+class AdjuntoMensaje(Base):
+    """Archivo multimedia recibido por Telegram (imagen, video o audio)."""
+
+    __tablename__ = "adjuntos_mensaje"
+    __table_args__ = (
+        CheckConstraint(
+            f"tipo IN {TIPOS_ADJUNTO_MENSAJE}",
+            name="ck_adjuntos_mensaje_tipo",
+        ),
+        Index("ix_adjuntos_mensaje_caso_indice", "caso_id", "indice_hilo"),
+        Index(
+            "ix_adjuntos_mensaje_telegram_msg",
+            "caso_id",
+            "telegram_message_id",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        server_default=text("gen_random_uuid()"),
+    )
+    caso_id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("casos_postoperatorio.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    telegram_message_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    telegram_file_id: Mapped[str] = mapped_column(String(256), nullable=False)
+    tipo: Mapped[str] = mapped_column(String(16), nullable=False)
+    mime_type: Mapped[str] = mapped_column(String(128), nullable=False)
+    tamano_bytes: Mapped[int] = mapped_column(Integer, nullable=False)
+    ruta_relativa: Mapped[str] = mapped_column(String(1024), nullable=False)
+    caption: Mapped[str | None] = mapped_column(Text, nullable=True)
+    indice_hilo: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    caso: Mapped[CasoPostoperatorio] = relationship(back_populates="adjuntos_mensaje")
+    alertas: Mapped[list[AlertaTriage]] = relationship(
+        secondary="alertas_adjuntos",
+        back_populates="adjuntos",
+    )
+
+
+class AlertaAdjunto(Base):
+    """Vinculo entre alerta de triage y adjuntos del turno que la genero."""
+
+    __tablename__ = "alertas_adjuntos"
+
+    alerta_id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("alertas_triage.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    adjunto_id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("adjuntos_mensaje.id", ondelete="CASCADE"),
+        primary_key=True,
     )
 
 

@@ -1,5 +1,6 @@
 import type { MensajeConversacion } from '@/lib/schemas'
 import { cn } from '@/lib/cn'
+import { ListaAdjuntosMensaje } from './AdjuntoMensajeVista'
 import { MensajeMarkdown } from './MensajeMarkdown'
 
 interface ConversacionHiloProps {
@@ -39,7 +40,16 @@ export function ConversacionHilo({ mensajes }: ConversacionHiloProps) {
               <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-[var(--color-text-subtle)]">
                 {esPaciente ? 'Paciente' : 'Bot TAAM'}
               </p>
-              {esPaciente ? msg.contenido : <MensajeMarkdown>{msg.contenido}</MensajeMarkdown>}
+              {msg.contenido ? (
+                esPaciente ? (
+                  <p className="whitespace-pre-wrap">{msg.contenido}</p>
+                ) : (
+                  <MensajeMarkdown>{msg.contenido}</MensajeMarkdown>
+                )
+              ) : null}
+              {msg.adjuntos.length > 0 ? (
+                <ListaAdjuntosMensaje adjuntos={msg.adjuntos} className="mt-2" />
+              ) : null}
             </div>
           </div>
         )

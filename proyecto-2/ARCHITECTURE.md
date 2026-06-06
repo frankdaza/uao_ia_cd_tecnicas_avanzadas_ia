@@ -748,7 +748,7 @@ Demo en vivo: [GUION-DEMO-TAAM.md](../backlog/docs/usecases/GUION-DEMO-TAAM.md).
 | N8N, WhatsApp, polling Telegram | No implementado (decision-7) |
 | RBAC granular por rol clínico | Tres roles básicos; sin matriz completa |
 | Recordatorios por email / agenda hospitalaria | No hay SMTP ni integración HIS |
-| Evidencias multimedia en Telegram | Solo texto |
+| Evidencias multimedia en Telegram | Imagen (JPEG/PNG/WebP), video MP4 y audio (OGG/MP3); almacenamiento en `data/taam/adjuntos/`; panel staff con descarga autenticada; sin analisis vision |
 | Intervención del cirujano en el hilo | No |
 | OCR en PDF escaneado | `indexacion_estado=error` sin texto extraíble |
 | Rate limit en login staff | Mejora documentada para proxy reverso |

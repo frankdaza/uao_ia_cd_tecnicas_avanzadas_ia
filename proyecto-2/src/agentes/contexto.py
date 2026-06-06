@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import uuid
 from contextvars import ContextVar
 from dataclasses import dataclass
 from typing import TypedDict
@@ -14,6 +15,10 @@ _PATRON_SESSION = re.compile(r"^telegram:(\d+)$")
 _session_id: ContextVar[str | None] = ContextVar("taam_session_id", default=None)
 _session_factory: ContextVar[async_sessionmaker[AsyncSession] | None] = ContextVar(
     "taam_session_factory",
+    default=None,
+)
+_adjuntos_turno: ContextVar[list[uuid.UUID] | None] = ContextVar(
+    "taam_adjuntos_turno",
     default=None,
 )
 
@@ -47,6 +52,19 @@ def establecer_contexto_runtime(
 def limpiar_contexto_runtime() -> None:
     _session_id.set(None)
     _session_factory.set(None)
+
+
+def limpiar_adjuntos_turno_runtime() -> None:
+    _adjuntos_turno.set(None)
+
+
+def establecer_adjuntos_turno_runtime(adjunto_ids: list[uuid.UUID]) -> None:
+    """IDs de adjuntos del turno actual (para vincular a alertas)."""
+    _adjuntos_turno.set(list(adjunto_ids))
+
+
+def obtener_adjuntos_turno_runtime() -> list[uuid.UUID]:
+    return list(_adjuntos_turno.get() or [])
 
 
 def obtener_session_id_runtime() -> str:

@@ -7,13 +7,19 @@ import uuid
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.esquemas_seguimiento import AlertaTriageVista, CasoResumenSeguimientoRespuesta
+from src.api.esquemas_seguimiento import (
+    AdjuntoMensajeVista,
+    AlertaTriageVista,
+    CasoResumenSeguimientoRespuesta,
+)
 from src.api.privacidad_staff import enmascarar_chat_id_telegram, enmascarar_valor_sensible
 from src.api.servicios.historial_conversacion import (
     contar_mensajes_hilo,
     listar_mensajes_hilo,
 )
+from src.api.servicios.vistas_adjuntos import adjunto_a_vista
 from src.persistencia.modelos import AlertaTriage, CasoPostoperatorio, UsuarioStaff
+from src.persistencia.repositorios.adjuntos_mensaje import RepositorioAdjuntosMensaje
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.recordatorios_enviados import (
@@ -52,7 +58,12 @@ async def _resumen_desde_caso(
     chat_enmascarado: str | None = None
     if hilo is not None:
         session_id = f"telegram:{hilo.telegram_chat_id}"
-        mensajes = await listar_mensajes_hilo(checkpointer, session_id)
+        mensajes = await listar_mensajes_hilo(
+            checkpointer,
+            session_id,
+            caso_id=caso.id,
+            sesion_db=sesion,
+        )
         conteo = contar_mensajes_hilo(mensajes)
         chat_enmascarado = enmascarar_chat_id_telegram(
             hilo.telegram_chat_id,
@@ -62,6 +73,12 @@ async def _resumen_desde_caso(
     repo_alertas = RepositorioAlertasTriage(sesion)
     ultima = await repo_alertas.obtener_ultima_por_caso(caso.id)
 
+    ultima_adjuntos: list[AdjuntoMensajeVista] = []
+    if ultima is not None:
+        repo_adj = RepositorioAdjuntosMensaje(sesion)
+        filas_adj = await repo_adj.listar_por_alerta(ultima.id)
+        ultima_adjuntos = [adjunto_a_vista(a) for a in filas_adj]
+
     repo_recordatorios = RepositorioRecordatoriosEnviados(sesion)
     proximo = await repo_recordatorios.obtener_siguiente_pendiente_caso(caso.id)
 
@@ -70,6 +87,7 @@ async def _resumen_desde_caso(
         ultima_severidad=ultima.severidad if ultima else None,
         ultima_alerta_resumen=ultima.resumen if ultima else None,
         ultima_alerta_created_at=ultima.created_at if ultima else None,
+        ultima_alerta_adjuntos=ultima_adjuntos,
         conteo_mensajes=conteo,
         proximo_recordatorio_at=proximo.programado_at if proximo else None,
         proximo_recordatorio_estado=proximo.estado if proximo else None,
@@ -83,6 +101,7 @@ def alerta_a_vista(
     caso: CasoPostoperatorio,
     *,
     rol_staff: str,
+    adjuntos: list[AdjuntoMensajeVista] | None = None,
 ) -> AlertaTriageVista:
     return AlertaTriageVista(
         id=alerta.id,
@@ -96,4 +115,5 @@ def alerta_a_vista(
         revisado_at=alerta.revisado_at,
         revisado_staff_id=alerta.revisado_staff_id,
         created_at=alerta.created_at,
+        adjuntos=adjuntos or [],
     )

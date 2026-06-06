@@ -116,12 +116,25 @@ async def reanudar_hitl_si_pendiente(
     )
 
 
+def _construir_human_message(
+    mensaje: str,
+    adjuntos_meta: list[dict[str, str]] | None,
+) -> HumanMessage:
+    if adjuntos_meta:
+        return HumanMessage(
+            content=mensaje,
+            additional_kwargs={"adjuntos": adjuntos_meta},
+        )
+    return HumanMessage(content=mensaje)
+
+
 async def invocar_agente(
     *,
     session_factory: async_sessionmaker[AsyncSession],
     checkpointer: BaseCheckpointSaver,
     session_id: str,
     mensaje: str,
+    adjuntos_meta: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """
     Un turno del agente. Devuelve el estado del grafo (incluye ``__interrupt__`` si HITL).
@@ -161,7 +174,9 @@ async def invocar_agente(
                 config=config,
                 mensaje=mensaje,
             )
-        entrada = {"messages": [HumanMessage(content=mensaje)]}
+        entrada = {
+            "messages": [_construir_human_message(mensaje, adjuntos_meta)],
+        }
         return await agente.ainvoke(
             entrada,
             config=config,
@@ -237,6 +252,53 @@ def extraer_texto_respuesta(estado: dict[str, Any]) -> str:
     )
 
 
+def _es_mensaje_human(msg: object) -> bool:
+    tipo = getattr(msg, "type", None) or getattr(msg, "role", None)
+    return tipo in ("human", "user")
+
+
+def _contenido_human(msg: object) -> str:
+    contenido = getattr(msg, "content", "")
+    if isinstance(contenido, str):
+        return contenido.strip()
+    return ""
+
+
+def mensajes_turno_actual(
+    estado: dict[str, Any],
+    mensaje_paciente: str,
+) -> list[object]:
+    """
+    Mensajes del turno en curso: desde el HumanMessage del paciente hasta el final.
+
+    Busca el ultimo human cuyo contenido coincide con ``mensaje_paciente``; si no hay
+    coincidencia exacta, usa el ultimo HumanMessage del hilo.
+    """
+    mensajes = list(estado.get("messages", []))
+    if not mensajes:
+        return []
+
+    ref = mensaje_paciente.strip()
+    inicio = 0
+    if ref:
+        for i in range(len(mensajes) - 1, -1, -1):
+            msg = mensajes[i]
+            if _es_mensaje_human(msg) and _contenido_human(msg) == ref:
+                inicio = i
+                break
+        else:
+            for i in range(len(mensajes) - 1, -1, -1):
+                if _es_mensaje_human(mensajes[i]):
+                    inicio = i
+                    break
+    else:
+        for i in range(len(mensajes) - 1, -1, -1):
+            if _es_mensaje_human(mensajes[i]):
+                inicio = i
+                break
+    return mensajes[inicio:]
+
+
 def _es_mensaje_tool(msg: object) -> bool:
     tipo = getattr(msg, "type", None) or getattr(msg, "role", None)
     return tipo == "tool"
@@ -271,10 +333,19 @@ def _parsear_severidad_desde_contenido(contenido: object) -> SeveridadTriage | N
     return None
 
 
-def extraer_severidad_triage(estado: dict[str, Any]) -> SeveridadTriage | None:
-    """Ultima severidad emitida por ``clasificar_triage`` en el turno."""
+def extraer_severidad_triage(
+    estado: dict[str, Any],
+    *,
+    mensaje_paciente: str | None = None,
+) -> SeveridadTriage | None:
+    """Ultima severidad emitida por ``clasificar_triage`` en el turno actual."""
+    mensajes = (
+        mensajes_turno_actual(estado, mensaje_paciente)
+        if mensaje_paciente is not None
+        else list(estado.get("messages", []))
+    )
     severidad: SeveridadTriage | None = None
-    for msg in estado.get("messages", []):
+    for msg in mensajes:
         if not _es_mensaje_tool(msg) or _nombre_tool(msg) != _NOMBRE_TOOL_TRIAGE:
             continue
         parsed = _parsear_severidad_desde_contenido(getattr(msg, "content", ""))

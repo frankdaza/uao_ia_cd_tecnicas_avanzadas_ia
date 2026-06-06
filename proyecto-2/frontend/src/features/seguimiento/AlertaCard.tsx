@@ -4,6 +4,7 @@ import { formatFechaAlta } from '@/lib/formatFecha'
 import type { AlertaTriage } from '@/lib/schemas'
 import { cn } from '@/lib/cn'
 import { casoSeguimientoPath } from './seguimientoPaths'
+import { ListaAdjuntosMensaje } from './AdjuntoMensajeVista'
 import { SeveridadBadge } from './SeveridadBadge'
 import { severidadCardClass } from './severidadStyles'
 
@@ -46,6 +47,9 @@ export function AlertaCard({
         <p className="mt-1 text-xs italic text-[var(--color-text-muted)]">
           Ref. paciente: {alerta.mensaje_paciente_ref}
         </p>
+      ) : null}
+      {alerta.adjuntos.length > 0 ? (
+        <ListaAdjuntosMensaje adjuntos={alerta.adjuntos} compacto className="mt-3" />
       ) : null}
       <div className="mt-4 flex flex-wrap gap-2">
         <Button

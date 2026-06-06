@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import unicodedata
+
 from langchain_core.tools import tool
 
 from src.agentes.tools.esquemas import EntradaClasificarTriage, SalidaClasificarTriage
@@ -11,7 +13,12 @@ _RED_FLAGS = (
     "fiebre",
     "mucho sangrado",
     "sangrado abundante",
+    "sangrando abundantemente",
+    "estoy sangrando",
+    "sangrando",
+    "se me abrio",
     "se abrio la herida",
+    "abrio la herida",
     "herida abierta",
     "sangrado",
     "dificultad para respirar",
@@ -34,8 +41,15 @@ _SEGUIMIENTO = (
 )
 
 
-def _clasificar_heuristica(texto: str) -> SalidaClasificarTriage:
+def _normalizar_texto_triage(texto: str) -> str:
+    """Minusculas y sin tildes para coincidencia robusta en espanol."""
     t = texto.lower()
+    descompuesto = unicodedata.normalize("NFKD", t)
+    return "".join(c for c in descompuesto if not unicodedata.combining(c))
+
+
+def _clasificar_heuristica(texto: str) -> SalidaClasificarTriage:
+    t = _normalizar_texto_triage(texto)
     for frase in _RED_FLAGS:
         if frase in t:
             return SalidaClasificarTriage(

@@ -28,6 +28,15 @@ class ChatMetadata(BaseModel):
         description="Identificador del update Telegram para correlacion en logs.",
         ge=1,
     )
+    telegram_message_id: int | None = Field(
+        default=None,
+        description="message_id del mensaje Telegram (multimedia).",
+        ge=1,
+    )
+    adjunto_ids: list[uuid.UUID] | None = Field(
+        default=None,
+        description="Adjuntos persistidos en el turno actual.",
+    )
 
 
 class ChatPeticion(BaseModel):

@@ -12,6 +12,11 @@ from src.agentes.contexto import (
 )
 from src.agentes.tools.esquemas import EntradaEscalarEquipo, SalidaEscalarEquipo
 from src.agentes.tools.resolver_caso import resolver_caso_activo_por_session
+from src.agentes.contexto import obtener_adjuntos_turno_runtime
+from src.api.servicios.vincular_adjuntos_alerta import (
+    enriquecer_resumen_con_adjuntos,
+    vincular_adjuntos_turno_a_alerta,
+)
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 
 logger = logging.getLogger(__name__)
@@ -41,16 +46,19 @@ async def escalar_a_equipo(
 
         try:
             repo = RepositorioAlertasTriage(sesion)
+            hay_adjuntos = bool(obtener_adjuntos_turno_runtime())
+            resumen_final = enriquecer_resumen_con_adjuntos(resumen, hay_adjuntos)[:1024]
             fila = await repo.crear(
                 caso_id=ctx.caso_id,
                 severidad=severidad,
-                resumen=resumen[:1024],
+                resumen=resumen_final,
                 mensaje_paciente_ref=mensaje_paciente_ref,
                 tool_trace_json={
                     "session_id": session_id,
                     "tool": "escalar_a_equipo",
                 },
             )
+            await vincular_adjuntos_turno_a_alerta(sesion, fila.id)
             await sesion.commit()
             return SalidaEscalarEquipo(
                 alerta_id=str(fila.id),

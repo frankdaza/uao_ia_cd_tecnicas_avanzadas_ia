@@ -90,6 +90,13 @@ class Configuracion(BaseSettings):
         le=50,
         validation_alias="TAAM_PDF_MAX_MB",
     )
+    taam_adjunto_max_mb: int = Field(
+        default=20,
+        ge=1,
+        le=50,
+        validation_alias="TAAM_ADJUNTO_MAX_MB",
+        description="Tamano maximo de adjuntos Telegram (imagen, video, audio).",
+    )
     taam_qdrant_collection: str = Field(
         default="taam_protocolos",
         validation_alias="TAAM_QDRANT_COLLECTION",

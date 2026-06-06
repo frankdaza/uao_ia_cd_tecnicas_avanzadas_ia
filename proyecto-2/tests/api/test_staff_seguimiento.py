@@ -324,6 +324,114 @@ async def test_reanudar_hitl_sin_pendiente(
 
 
 @pytest.mark.asyncio
+async def test_conversacion_con_adjuntos_y_descarga(
+    app_api,
+    cliente_api: AsyncClient,
+    cabecera_staff: dict[str, str],
+    tipo_procedimiento_ok: str,
+    medico_activo_catalogo: dict[str, str | None],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    from src import rutas_workspace
+    from src.integracion.telegram.almacenamiento_adjuntos import guardar_adjunto_en_disco
+    from src.configuracion import obtener_configuracion
+    from src.persistencia.repositorios.adjuntos_mensaje import RepositorioAdjuntosMensaje
+    from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
+
+    monkeypatch.setattr(
+        rutas_workspace,
+        "resolver_ruta_workspace",
+        lambda rel: tmp_path / rel,
+    )
+
+    chat_id = 88006
+    caso_id = await _crear_caso_y_vinculo(
+        app_api,
+        cliente_api,
+        cabecera_staff,
+        tipo_procedimiento_ok,
+        medico_activo_catalogo,
+        chat_id=chat_id,
+    )
+
+    cfg = obtener_configuracion()
+    guardado = guardar_adjunto_en_disco(
+        caso_id=caso_id,
+        contenido=b"\xff\xd8\xff\xe0" + b"\x00" * 100,
+        mime_type="image/jpeg",
+        cfg=cfg,
+    )
+
+    factory = app_api.state.session_factory
+    async with factory() as sesion:
+        repo_adj = RepositorioAdjuntosMensaje(sesion)
+        adj = await repo_adj.crear(
+            caso_id=caso_id,
+            telegram_message_id=99,
+            telegram_file_id="file-demo",
+            tipo="imagen",
+            mime_type=guardado.mime_type,
+            tamano_bytes=guardado.tamano_bytes,
+            ruta_relativa=guardado.ruta_relativa,
+            indice_hilo=0,
+            caption="Foto herida",
+        )
+        repo_alertas = RepositorioAlertasTriage(sesion)
+        alerta = await repo_alertas.crear(
+            caso_id=caso_id,
+            severidad="urgente",
+            resumen="Con imagen",
+            mensaje_paciente_ref="foto",
+        )
+        await repo_adj.vincular_a_alerta(alerta.id, [adj.id])
+        await sesion.commit()
+        adjunto_id = adj.id
+        alerta_id = alerta.id
+
+    checkpointer = app_api.state.checkpointer
+    agente = construir_agente_taam(checkpointer)
+    await agente.aupdate_state(
+        {"configurable": {"thread_id": f"telegram:{chat_id}"}},
+        {
+            "messages": [
+                HumanMessage(
+                    content="[El paciente envio una imagen]",
+                    additional_kwargs={"adjuntos": [{"id": str(adjunto_id), "tipo": "imagen"}]},
+                ),
+                AIMessage(content="Revise la imagen con el equipo."),
+            ]
+        },
+    )
+
+    conv = await cliente_api.get(
+        f"/api/staff/casos/{caso_id}/conversacion",
+        headers=cabecera_staff,
+    )
+    assert conv.status_code == 200
+    mensajes = conv.json()["mensajes"]
+    assert len(mensajes) == 2
+    assert len(mensajes[0]["adjuntos"]) == 1
+    assert mensajes[0]["adjuntos"][0]["tipo"] == "imagen"
+
+    alertas = await cliente_api.get(
+        "/api/staff/alertas",
+        headers=cabecera_staff,
+        params={"caso_id": str(caso_id), "revisado": "false"},
+    )
+    item = next(i for i in alertas.json()["items"] if i["id"] == str(alerta_id))
+    assert len(item["adjuntos"]) == 1
+
+    descarga = await cliente_api.get(
+        f"/api/staff/adjuntos/{adjunto_id}",
+        headers=cabecera_staff,
+    )
+    assert descarga.status_code == 200
+    assert descarga.headers["content-type"].startswith("image/jpeg")
+    assert len(descarga.content) > 0
+
+
+@pytest.mark.asyncio
 async def test_openapi_tag_staff_seguimiento(cliente_api: AsyncClient) -> None:
     resp = await cliente_api.get("/openapi.json")
     assert resp.status_code == 200

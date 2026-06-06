@@ -40,11 +40,18 @@ class ClienteTelegram:
         self._cliente_http = cliente_http
         self._cliente_propio = cliente_http is None
 
-    def _url_send_message(self) -> str | None:
+    def _token(self) -> str | None:
         token = (self._cfg.telegram_bot_token or "").strip()
+        return token or None
+
+    def _url_api(self, metodo: str) -> str | None:
+        token = self._token()
         if not token:
             return None
-        return f"https://api.telegram.org/bot{token}/sendMessage"
+        return f"https://api.telegram.org/bot{token}/{metodo}"
+
+    def _url_send_message(self) -> str | None:
+        return self._url_api("sendMessage")
 
     async def enviar_mensaje(
         self,
@@ -128,6 +135,52 @@ class ClienteTelegram:
                 payload.get("chat_id"),
             )
             raise TelegramEnvioError(resp.status_code, cuerpo)
+
+    async def obtener_ruta_archivo(self, file_id: str) -> str:
+        """Llama ``getFile`` y retorna ``file_path`` relativo de Telegram."""
+        url = self._url_api("getFile")
+        if not url:
+            raise TelegramEnvioError(0, "TELEGRAM_BOT_TOKEN vacio")
+
+        async def _pedir(cliente: httpx.AsyncClient) -> str:
+            resp = await cliente.post(url, json={"file_id": file_id})
+            if resp.status_code >= 400:
+                cuerpo = resp.text[:500]
+                raise TelegramEnvioError(resp.status_code, cuerpo)
+            datos = resp.json()
+            resultado = datos.get("result") if isinstance(datos, dict) else None
+            ruta = resultado.get("file_path") if isinstance(resultado, dict) else None
+            if not isinstance(ruta, str) or not ruta.strip():
+                raise TelegramEnvioError(resp.status_code, "getFile sin file_path")
+            return ruta.strip()
+
+        if self._cliente_http is not None:
+            return await _pedir(self._cliente_http)
+        async with httpx.AsyncClient(timeout=60.0) as cliente:
+            return await _pedir(cliente)
+
+    async def descargar_archivo(self, file_path: str) -> bytes:
+        """Descarga bytes desde ``https://api.telegram.org/file/bot<token>/<file_path>``."""
+        token = self._token()
+        if not token:
+            raise TelegramEnvioError(0, "TELEGRAM_BOT_TOKEN vacio")
+        url = f"https://api.telegram.org/file/bot{token}/{file_path.lstrip('/')}"
+
+        async def _descargar(cliente: httpx.AsyncClient) -> bytes:
+            resp = await cliente.get(url)
+            if resp.status_code >= 400:
+                raise TelegramEnvioError(resp.status_code, resp.text[:500])
+            return resp.content
+
+        if self._cliente_http is not None:
+            return await _descargar(self._cliente_http)
+        async with httpx.AsyncClient(timeout=120.0) as cliente:
+            return await _descargar(cliente)
+
+    async def descargar_por_file_id(self, file_id: str) -> bytes:
+        """Conveniencia: ``getFile`` + descarga."""
+        ruta = await self.obtener_ruta_archivo(file_id)
+        return await self.descargar_archivo(ruta)
 
     async def aclose(self) -> None:
         if self._cliente_propio and self._cliente_http is not None:

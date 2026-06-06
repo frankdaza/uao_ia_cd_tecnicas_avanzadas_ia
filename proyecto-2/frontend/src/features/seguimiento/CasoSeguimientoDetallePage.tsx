@@ -13,6 +13,7 @@ import {
 import { formatFechaAlta } from '@/lib/formatFecha'
 import type { AlertaTriage } from '@/lib/schemas'
 import { AlertaCard } from './AlertaCard'
+import { ListaAdjuntosMensaje } from './AdjuntoMensajeVista'
 import { ConversacionHilo } from './ConversacionHilo'
 import { SeveridadBadge } from './SeveridadBadge'
 import { SEGUIMIENTO_PATH } from './seguimientoPaths'
@@ -127,6 +128,14 @@ export function CasoSeguimientoDetallePage({ casoId, onNavigate }: CasoSeguimien
                     </time>
                   ) : null}
                 </dd>
+                {resumenQ.data.ultima_alerta_adjuntos.length > 0 ? (
+                  <dd className="mt-2 sm:col-span-2">
+                    <ListaAdjuntosMensaje
+                      adjuntos={resumenQ.data.ultima_alerta_adjuntos}
+                      compacto
+                    />
+                  </dd>
+                ) : null}
               </div>
             ) : null}
             {resumenQ.data.proximo_recordatorio_at ? (

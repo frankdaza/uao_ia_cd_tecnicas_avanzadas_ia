@@ -8,6 +8,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi import status as estado_http
+from fastapi.responses import FileResponse
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -35,6 +36,12 @@ from src.api.servicios.historial_conversacion import listar_mensajes_hilo
 from src.api.servicios.seguimiento_caso import alerta_a_vista, obtener_resumen_caso
 from src.persistencia.modelos import UsuarioStaff
 from src.persistencia.motor import obtener_sesion_db
+from src.api.servicios.vistas_adjuntos import adjunto_a_vista
+from src.integracion.telegram.almacenamiento_adjuntos import (
+    AdjuntoTelegramInvalidoError,
+    resolver_ruta_segura_adjunto,
+)
+from src.persistencia.repositorios.adjuntos_mensaje import RepositorioAdjuntosMensaje
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 from src.persistencia.repositorios.casos_postoperatorio import RepositorioCasosPostoperatorio
 from src.persistencia.repositorios.vinculos_telegram import RepositorioVinculosTelegram
@@ -69,12 +76,18 @@ async def listar_alertas_triage(
         offset=offset,
     )
     repo_casos = RepositorioCasosPostoperatorio(sesion)
+    repo_adjuntos = RepositorioAdjuntosMensaje(sesion)
+    alerta_ids = [a.id for a in filas]
+    adjuntos_map = await repo_adjuntos.listar_por_alertas(alerta_ids)
     items: list[AlertaTriageVista] = []
     for alerta in filas:
         caso = await repo_casos.obtener_por_id(alerta.caso_id)
         if caso is None:
             continue
-        items.append(alerta_a_vista(alerta, caso, rol_staff=staff.rol))
+        vistas_adj = [adjunto_a_vista(a) for a in adjuntos_map.get(alerta.id, [])]
+        items.append(
+            alerta_a_vista(alerta, caso, rol_staff=staff.rol, adjuntos=vistas_adj),
+        )
     return ListadoAlertasRespuesta(items=items, limit=limit, offset=offset)
 
 
@@ -115,7 +128,44 @@ async def marcar_alerta_revisada(
             status_code=estado_http.HTTP_404_NOT_FOUND,
             detail="Caso asociado a la alerta no encontrado.",
         )
-    return alerta_a_vista(alerta, caso, rol_staff=staff.rol)
+    repo_adjuntos = RepositorioAdjuntosMensaje(sesion)
+    filas_adj = await repo_adjuntos.listar_por_alerta(alerta.id)
+    return alerta_a_vista(
+        alerta,
+        caso,
+        rol_staff=staff.rol,
+        adjuntos=[adjunto_a_vista(a) for a in filas_adj],
+    )
+
+
+@router.get("/adjuntos/{adjunto_id}")
+async def obtener_adjunto_staff(
+    adjunto_id: uuid.UUID,
+    sesion: Annotated[AsyncSession, Depends(obtener_sesion_db)],
+    staff: Annotated[UsuarioStaff, Depends(obtener_staff_actual)],
+) -> FileResponse:
+    """Sirve un adjunto multimedia del caso (solo staff autenticado)."""
+    del staff
+    repo = RepositorioAdjuntosMensaje(sesion)
+    fila = await repo.obtener_por_id(adjunto_id)
+    if fila is None:
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Adjunto no encontrado.",
+        )
+    try:
+        ruta = resolver_ruta_segura_adjunto(fila.ruta_relativa)
+    except (AdjuntoTelegramInvalidoError, FileNotFoundError):
+        raise HTTPException(
+            status_code=estado_http.HTTP_404_NOT_FOUND,
+            detail="Archivo de adjunto no disponible.",
+        ) from None
+    return FileResponse(
+        path=ruta,
+        media_type=fila.mime_type,
+        filename=ruta.name,
+        content_disposition_type="inline",
+    )
 
 
 @router.get(
@@ -150,6 +200,8 @@ async def obtener_conversacion_caso(
     mensajes: list[MensajeConversacionVista] = await listar_mensajes_hilo(
         checkpointer,
         session_id,
+        caso_id=caso_id,
+        sesion_db=sesion,
     )
     return ConversacionCasoRespuesta(
         caso_id=caso_id,

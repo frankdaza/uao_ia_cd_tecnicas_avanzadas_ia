@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "/Users/knarf/Projects/uao_ia_cd_tecnicas_avanzadas_ia"
+      ]
+    }
+  }
+}

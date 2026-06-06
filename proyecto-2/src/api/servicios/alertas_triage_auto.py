@@ -13,11 +13,20 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.agentes.agente_taam import NOMBRE_TOOL_ESCALAR
 from src.agentes.estado_hitl import hitl_escalar_habilitado_efectivo
-from src.agentes.servicio import extraer_severidad_triage, requiere_revision_humana
+from src.agentes.servicio import (
+    extraer_severidad_triage,
+    mensajes_turno_actual,
+    requiere_revision_humana,
+)
 from src.agentes.tools.clasificar_triage import clasificar_triage
 from src.agentes.tools.esquemas import SeveridadTriage
 from src.agentes.tools.resolver_caso import resolver_caso_activo_por_session
 from src.persistencia.modelos import AlertaTriage
+from src.agentes.contexto import obtener_adjuntos_turno_runtime
+from src.api.servicios.vincular_adjuntos_alerta import (
+    enriquecer_resumen_con_adjuntos,
+    vincular_adjuntos_turno_a_alerta,
+)
 from src.persistencia.repositorios.alertas_triage import RepositorioAlertasTriage
 
 logger = logging.getLogger(__name__)
@@ -26,6 +35,11 @@ _SEVERIDADES_CON_ALERTA: frozenset[str] = frozenset({"urgente", "seguimiento"})
 _VENTANA_DEDUPE_MIN = 5
 _MAX_REF = 1024
 _NOMBRE_TOOL_TRIAGE = "clasificar_triage"
+_ORDEN_SEVERIDAD: dict[SeveridadTriage, int] = {
+    "info": 0,
+    "seguimiento": 1,
+    "urgente": 2,
+}
 
 
 def _es_mensaje_tool(msg: object) -> bool:
@@ -52,9 +66,13 @@ def _parsear_json_tool(contenido: object) -> dict[str, Any] | None:
     return None
 
 
-def escalar_creo_alerta_en_turno(estado: dict[str, Any]) -> bool:
-    """True si ``escalar_a_equipo`` ya persistio una alerta en este turno."""
-    for msg in estado.get("messages", []):
+def escalar_creo_alerta_en_turno(
+    estado: dict[str, Any],
+    mensaje_paciente: str,
+) -> bool:
+    """True si ``escalar_a_equipo`` ya persistio una alerta en el turno actual."""
+    mensajes = mensajes_turno_actual(estado, mensaje_paciente)
+    for msg in mensajes:
         if not _es_mensaje_tool(msg) or _nombre_tool(msg) != NOMBRE_TOOL_ESCALAR:
             continue
         datos = _parsear_json_tool(getattr(msg, "content", ""))
@@ -63,8 +81,8 @@ def escalar_creo_alerta_en_turno(estado: dict[str, Any]) -> bool:
     return False
 
 
-def _rationale_desde_estado(estado: dict[str, Any]) -> str:
-    for msg in estado.get("messages", []):
+def _rationale_desde_mensajes(mensajes: list[object]) -> str:
+    for msg in mensajes:
         if not _es_mensaje_tool(msg) or _nombre_tool(msg) != _NOMBRE_TOOL_TRIAGE:
             continue
         datos = _parsear_json_tool(getattr(msg, "content", ""))
@@ -75,23 +93,44 @@ def _rationale_desde_estado(estado: dict[str, Any]) -> str:
     return ""
 
 
+def _severidad_mas_alta(
+    a: SeveridadTriage,
+    b: SeveridadTriage,
+) -> SeveridadTriage:
+    return a if _ORDEN_SEVERIDAD[a] >= _ORDEN_SEVERIDAD[b] else b
+
+
 def resolver_severidad_turno(
     estado: dict[str, Any],
     mensaje_paciente: str,
 ) -> tuple[SeveridadTriage | None, str]:
-    """Severidad del turno: tools del agente o heuristica sobre el mensaje."""
-    severidad = extraer_severidad_triage(estado)
-    rationale = _rationale_desde_estado(estado) if severidad else ""
-    if severidad is not None:
-        return severidad, rationale or f"Triage {severidad}."
+    """
+    Severidad del turno: maximo entre ``clasificar_triage`` del turno y heuristica.
 
-    salida = clasificar_triage.invoke(
+    La heuristica siempre se evalua sobre el mensaje actual del paciente para no
+    heredar clasificaciones de turnos anteriores del hilo.
+    """
+    turno = mensajes_turno_actual(estado, mensaje_paciente)
+    severidad_tool = extraer_severidad_triage(
+        {"messages": turno},
+        mensaje_paciente=mensaje_paciente,
+    )
+    rationale_tool = _rationale_desde_mensajes(turno) if severidad_tool else ""
+
+    salida_heur = clasificar_triage.invoke(
         {
             "sintomas_descritos": mensaje_paciente,
             "mensaje_paciente": mensaje_paciente,
         }
     )
-    return salida.severidad, salida.rationale
+
+    if severidad_tool is None:
+        return salida_heur.severidad, salida_heur.rationale
+
+    severidad_final = _severidad_mas_alta(severidad_tool, salida_heur.severidad)
+    if severidad_final == severidad_tool:
+        return severidad_final, rationale_tool or f"Triage {severidad_final}."
+    return severidad_final, salida_heur.rationale
 
 
 async def _existe_alerta_duplicada(
@@ -127,7 +166,7 @@ async def asegurar_alerta_desde_turno(
     """
     if await hitl_escalar_habilitado_efectivo() and requiere_revision_humana(estado):
         return None
-    if escalar_creo_alerta_en_turno(estado):
+    if escalar_creo_alerta_en_turno(estado, mensaje_paciente):
         return None
 
     severidad, rationale = resolver_severidad_turno(estado, mensaje_paciente)
@@ -148,7 +187,11 @@ async def asegurar_alerta_desde_turno(
             return None
 
         repo = RepositorioAlertasTriage(sesion)
-        resumen = (rationale or f"Sintoma reportado ({severidad})")[:1024]
+        hay_adjuntos = bool(obtener_adjuntos_turno_runtime())
+        resumen = enriquecer_resumen_con_adjuntos(
+            (rationale or f"Sintoma reportado ({severidad})"),
+            hay_adjuntos,
+        )[:1024]
         try:
             fila = await repo.crear(
                 caso_id=ctx.caso_id,
@@ -160,6 +203,7 @@ async def asegurar_alerta_desde_turno(
                     "session_id": session_id,
                 },
             )
+            await vincular_adjuntos_turno_a_alerta(sesion, fila.id)
             await sesion.commit()
             logger.info(
                 "auto_alerta_creada session_id=%s caso_id=%s alerta_id=%s severidad=%s",
