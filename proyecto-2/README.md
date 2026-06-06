@@ -2,6 +2,8 @@
 
 Aplicación **independiente** del asistente M2 en [`proyecto-1/`](../proyecto-1/). Implementa el MVP **TAAM** según [decision-7](../backlog/decisions/decision-7%20-%20Arquitectura-M3-TAAM-Proyecto-2-Telegram-Ruta-A.md) (Ruta A LangChain, Telegram vía 2, `POST /chat`).
 
+**Arquitectura detallada:** [ARCHITECTURE.md](ARCHITECTURE.md) (componentes, stack, datos, API por rol, diagramas de secuencia paciente/staff).
+
 **Documentación de arquitectura (informe M3):** [doc-004 — Arquitectura TAAM](../backlog/docs/doc-004%20-%20Arquitectura-M3-Bot-Posoperatorio-TAAM.md) (diagramas, tabla M2 vs M3, matriz rubrica LangChain).
 
 **Estudio OpenFang (Ruta B):** [doc-007 — Evaluacion OpenFang vs TAAM](../backlog/docs/doc-007%20-%20Evaluacion-OpenFang-Proyecto-2-TAAM.md) (viabilidad de migracion; recomendacion: mantener proyecto-2 en MVP).
